@@ -1,6 +1,9 @@
 import "./index.css";
 import "./tailwind.css";
 import "react-toastify/dist/ReactToastify.min.css";
+import "./assets/FontAwesomePro/css/fontawesome.min.css";
+import "./assets/FontAwesomePro/css/solid.min.css";
+import "./assets/FontAwesomePro/css/regular.min.css";
 
 import { ThemeProvider } from "@material-tailwind/react";
 import React from "react";

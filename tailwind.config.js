@@ -11,6 +11,9 @@ module.exports = withMT({
   ],
 
   theme: {
+    fontFamily: {
+      inter: ["Inter"],
+    },
     extend: {},
   },
   plugins: [],
