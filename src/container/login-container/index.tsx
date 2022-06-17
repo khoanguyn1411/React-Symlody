@@ -1,10 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Input } from "@material-tailwind/react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { FormItem } from "@/components";
+import { imgLogin } from "@/assets/images";
+import { Button, FormItem, Input } from "@/components";
 import { useAppDispatch } from "@/features";
 import { loginAsync } from "@/features/reducers";
 
@@ -34,42 +34,76 @@ export const LoginContainer: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center p-4">
-      <div className="p-4 border shadow-md w-80 rounded-md">
-        <form
-          className="flex flex-col justify-start"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <FormItem label="Email" isRequired error={errors.email?.message}>
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { value, onChange } }) => (
-                <Input label="Email" value={value} onChange={onChange} />
-              )}
-            />
-          </FormItem>
-
-          <FormItem
-            label="Password"
-            isRequired
-            error={errors.password?.message}
+    <div className="flex">
+      <div className="flex min-h-full h-[100vh] flex-[1.7]">
+        <div className="flex items-center justify-center w-full bg-primary-blur-blue">
+          <img
+            src={imgLogin.loginBanner}
+            alt="Login banner"
+            className="w-[70%]"
+          />
+        </div>
+      </div>
+      <div className="relative flex items-center justify-center flex-1 min-w-[400px]">
+        <img
+          src={imgLogin.loginTopRightCorner}
+          alt="loginTopRightCorner"
+          className="absolute top-0 right-0 z-[-10] w-[30%] "
+        />
+        <div className="w-[60%] h-[fit-content] ">
+          <h1 className="text-3xl font-bold uppercase text-primary-blue">
+            Đăng nhập
+          </h1>
+          <form
+            className="flex flex-col mt-6"
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { value, onChange } }) => (
-                <Input
-                  label="Password"
-                  type="password"
-                  value={value}
-                  onChange={onChange}
-                />
-              )}
-            />
-          </FormItem>
-          <Button onClick={handleSubmit(onSubmit)}>Login</Button>
-        </form>
+            <FormItem label="Email" isRequired error={errors.email?.message}>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { value, onChange } }) => (
+                  <Input
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Nhập email..."
+                  />
+                )}
+              />
+            </FormItem>
+
+            <FormItem
+              label="Mật khẩu"
+              isRequired
+              error={errors.password?.message}
+            >
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { value, onChange } }) => (
+                  <Input
+                    type="password"
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Nhập mật khẩu..."
+                  />
+                )}
+              />
+            </FormItem>
+            <Link
+              className="font-medium underline text-primary-red-orange w-[fit-content]"
+              to="#"
+            >
+              Quên mật khẩu?
+            </Link>
+            <Button
+              className="mt-4 bg-primary-blue"
+              onClick={handleSubmit(onSubmit)}
+            >
+              Đăng nhập
+            </Button>
+          </form>
+        </div>
       </div>
     </div>
   );

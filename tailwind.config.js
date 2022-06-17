@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-var-requires */ /* eslint-disable prettier/prettier */
 const withMT = require("@material-tailwind/react/utils/withMT");
 
 module.exports = withMT({
@@ -17,6 +17,10 @@ module.exports = withMT({
     extend: {
       colors: {
         primary: {
+          "blur-blue": "#E9F2F2",
+          "blue": "#007EA4",
+          "black": "#455A64",
+          "red-orange": "#F07167",
           25: "#fef7ee",
           40: "#fcf2e5",
           50: "#ffefdd",
