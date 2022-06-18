@@ -17,10 +17,11 @@ module.exports = withMT({
     extend: {
       colors: {
         primary: {
-          "blur-blue": "#E9F2F2",
+          "blur-blue": "#F2FBFB",
           "blue": "#007EA4",
           "black": "#455A64",
           "red-orange": "#F07167",
+          "grey": "#D0D1D1",
           25: "#fef7ee",
           40: "#fcf2e5",
           50: "#ffefdd",

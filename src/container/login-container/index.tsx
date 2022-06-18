@@ -34,23 +34,23 @@ export const LoginContainer: React.FC = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="flex min-h-full h-[100vh] flex-[1.7]">
+    <div className="grid grid-cols-3">
+      <div className="flex h-screen col-span-2">
         <div className="flex items-center justify-center w-full bg-primary-blur-blue">
           <img
             src={imgLogin.loginBanner}
             alt="Login banner"
-            className="w-[70%]"
+            className="w-5/6"
           />
         </div>
       </div>
-      <div className="relative flex items-center justify-center flex-1 min-w-[400px]">
+      <div className="relative flex items-center justify-center col-span-1 min-w-[400px]">
         <img
           src={imgLogin.loginTopRightCorner}
           alt="loginTopRightCorner"
-          className="absolute top-0 right-0 z-[-10] w-[30%] "
+          className="absolute top-0 right-0 w-1/3 -z-10"
         />
-        <div className="w-[60%] h-[fit-content] ">
+        <div className="w-3/5 h-fit ">
           <h1 className="text-3xl font-bold uppercase text-primary-blue">
             Đăng nhập
           </h1>
@@ -91,7 +91,7 @@ export const LoginContainer: React.FC = () => {
               />
             </FormItem>
             <Link
-              className="font-medium underline text-primary-red-orange w-[fit-content]"
+              className="font-medium underline text-primary-red-orange w-fit"
               to="#"
             >
               Quên mật khẩu?
