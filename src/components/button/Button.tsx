@@ -15,7 +15,7 @@ export const Button: FunctionComponent<TProps> = ({
   return (
     <ButtonMeterial
       color="blue-grey"
-      className={`rounded-lg py-2 normal-case text-[1rem] font-bold text-white ${className}`}
+      className={`rounded-lg hover:bg-primary-900 hover:transition-all transition-all py-2 normal-case text-[1rem] font-bold text-white ${className}`}
       onClick={onClick}
     >
       {children}

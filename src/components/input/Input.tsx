@@ -19,7 +19,7 @@ export const Input: FunctionComponent<TProps> = ({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="w-full p-2 mt-2 border-[1.5px] border-primary-grey rounded-md"
+      className="w-full p-2 mt-2 outline-none border-[1.5px] border-[#D0D1D1] rounded-md"
     />
   );
 };

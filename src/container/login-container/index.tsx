@@ -34,9 +34,9 @@ export const LoginContainer: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-3">
-      <div className="flex h-screen col-span-2">
-        <div className="flex items-center justify-center w-full bg-primary-blur-blue">
+    <div className="grid grid-cols-2">
+      <div className="flex h-screen col-span-1">
+        <div className="flex items-center justify-center w-full bg-primary-50">
           <img
             src={imgLogin.loginBanner}
             alt="Login banner"
@@ -48,10 +48,10 @@ export const LoginContainer: React.FC = () => {
         <img
           src={imgLogin.loginTopRightCorner}
           alt="loginTopRightCorner"
-          className="absolute top-0 right-0 w-1/3 -z-10"
+          className="absolute top-0 right-0 w-1/4 -z-10"
         />
-        <div className="w-3/5 h-fit ">
-          <h1 className="text-3xl font-bold uppercase text-primary-blue">
+        <div className="w-1/2 h-fit ">
+          <h1 className="text-3xl font-bold uppercase text-primary-800">
             Đăng nhập
           </h1>
           <form
@@ -66,7 +66,7 @@ export const LoginContainer: React.FC = () => {
                   <Input
                     value={value}
                     onChange={onChange}
-                    placeholder="Nhập email..."
+                    placeholder="Email"
                   />
                 )}
               />
@@ -85,23 +85,23 @@ export const LoginContainer: React.FC = () => {
                     type="password"
                     value={value}
                     onChange={onChange}
-                    placeholder="Nhập mật khẩu..."
+                    placeholder="Mật khẩu"
                   />
                 )}
               />
             </FormItem>
-            <Link
-              className="font-medium underline text-primary-red-orange w-fit"
-              to="#"
-            >
-              Quên mật khẩu?
-            </Link>
             <Button
-              className="mt-4 bg-primary-blue"
+              className="mt-4 bg-primary-800"
               onClick={handleSubmit(onSubmit)}
             >
               Đăng nhập
             </Button>
+            <Link
+              className="self-center mt-4 font-medium underline text-primary-800 w-fit"
+              to="#"
+            >
+              Quên mật khẩu?
+            </Link>
           </form>
         </div>
       </div>

@@ -25,11 +25,11 @@ export const FormItem: React.FC<IFormItemProps> = ({
   return (
     <div
       className={classNames({
-        "mb-4": !isNoSpace,
+        "mb-5": !isNoSpace,
         hidden: isHidden,
       })}
     >
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-1">
         {label && (
           <label
             htmlFor="title"
