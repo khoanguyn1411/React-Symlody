@@ -7,12 +7,12 @@ import { Api } from "../api-core";
 import { returnResponse } from "../api-utilities";
 import * as Types from "./types";
 
-const prefix = API_URL + "/auth";
+const prefix = API_URL + "/api";
 
 const api: ApisauceInstance = Api.getInstance();
 
 const routes = {
-  login: () => `${prefix}/login`,
+  login: () => `${prefix}/login/`,
   geProfile: () => `${prefix}/me`,
 };
 
@@ -22,7 +22,7 @@ export const AuthApi = {
     password: string
   ): Promise<Types.RequestLoginResult> {
     const url = routes.login();
-
+    console.log(url, "--url");
     const result: ApiResponse<{ token: string }> = await api.post(url, {
       email,
       password,
