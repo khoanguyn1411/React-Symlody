@@ -1,5 +1,5 @@
 import { Button as ButtonMeterial } from "@material-tailwind/react";
-import React, { FunctionComponent, ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 type TProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
@@ -7,7 +7,7 @@ type TProps = {
   children: ReactNode;
 };
 
-export const Button: FunctionComponent<TProps> = ({
+export const Button: React.FC<TProps> = ({
   onClick,
   className = "",
   children,

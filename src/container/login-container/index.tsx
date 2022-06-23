@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { imgLogin } from "@/assets/images";
@@ -11,9 +11,17 @@ import { loginAsync } from "@/features/reducers";
 import { schema } from "./schema";
 import { IFormLoginValue } from "./type";
 
+type TStateLocation = {
+  path?: string;
+};
+
 export const LoginContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const stateLocation: TStateLocation = location?.state;
+  const pathLocation = stateLocation?.path;
 
   const {
     control,
@@ -29,7 +37,7 @@ export const LoginContainer: React.FC = () => {
       toast.error("Đăng nhập thất bại");
       return;
     }
-    navigate("/");
+    navigate(pathLocation || "/");
     toast.success("Đăng nhập thành công");
   };
 

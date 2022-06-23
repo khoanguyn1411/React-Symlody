@@ -1,5 +1,3 @@
-import { FunctionComponent } from "react";
-
 type TProps = {
   type?: string;
   value: string;
@@ -7,9 +5,9 @@ type TProps = {
   placeholder?: string;
 };
 
-export const Input: FunctionComponent<TProps> = ({
+export const Input: React.FC<TProps> = ({
   type,
-  value,
+  value = "",
   onChange,
   placeholder,
 }) => {

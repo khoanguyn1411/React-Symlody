@@ -2,17 +2,40 @@ import "./App.css";
 
 import { BrowserRouter, Route } from "react-router-dom";
 
-import { HomeContainer, LoginContainer } from "@/container";
+import { RequiredAuth } from "@/container";
 
-import { CustomRoute } from "./routes";
+import { CustomRoute, routesConfigs } from "./routes";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <CustomRoute>
-          <Route path="/" element={<HomeContainer />} />
-          <Route path="/login" element={<LoginContainer />} />
+          {routesConfigs.privateRoutes.map((route, index) => {
+            const Component = route.component;
+            return (
+              <Route
+                path={route.path}
+                key={`privateRoute_${index}`}
+                element={
+                  <RequiredAuth>
+                    <Component />
+                  </RequiredAuth>
+                }
+              />
+            );
+          })}
+
+          {routesConfigs.publicRoutes.map((route, index) => {
+            const Component = route.component;
+            return (
+              <Route
+                path={route.path}
+                key={`publicRoute_${index}`}
+                element={<Component />}
+              />
+            );
+          })}
         </CustomRoute>
       </BrowserRouter>
     </div>

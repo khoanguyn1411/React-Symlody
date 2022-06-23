@@ -1,3 +1,3 @@
-export * from "./button/Button";
+export * from "./button";
 export * from "./form-item";
-export * from "./input/Input";
+export * from "./input";
