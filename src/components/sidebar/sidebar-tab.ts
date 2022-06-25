@@ -4,7 +4,7 @@ const tabsSidebar: ITabSidebar[] = [
   {
     icon: "fas fa-home",
     title: "Trang chủ",
-    to: "/dashboard",
+    to: "/",
   },
   {
     icon: "fas fa-users",

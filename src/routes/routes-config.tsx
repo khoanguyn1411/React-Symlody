@@ -1,9 +1,4 @@
-import {
-  DashboardContainer,
-  HomeContainer,
-  LoginContainer,
-  MemberContainer,
-} from "@/container";
+import { HomeContainer, LoginContainer, MemberContainer } from "@/container";
 
 interface IRoutes {
   path: string;
@@ -15,10 +10,6 @@ const privateRoutes: IRoutes[] = [
   {
     path: "/",
     component: HomeContainer,
-  },
-  {
-    path: "/dashboard",
-    component: DashboardContainer,
   },
   {
     path: "/member",
