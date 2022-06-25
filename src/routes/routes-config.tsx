@@ -1,8 +1,14 @@
-import { HomeContainer, LoginContainer } from "@/container";
+import {
+  DashboardContainer,
+  HomeContainer,
+  LoginContainer,
+  MemberContainer,
+} from "@/container";
 
 interface IRoutes {
   path: string;
   component: React.FC;
+  layout?: React.FC;
 }
 
 const privateRoutes: IRoutes[] = [
@@ -10,12 +16,21 @@ const privateRoutes: IRoutes[] = [
     path: "/",
     component: HomeContainer,
   },
+  {
+    path: "/dashboard",
+    component: DashboardContainer,
+  },
+  {
+    path: "/member",
+    component: MemberContainer,
+  },
 ];
 
 const publicRoutes: IRoutes[] = [
   {
     path: "/login",
     component: LoginContainer,
+    layout: null,
   },
 ];
 

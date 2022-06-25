@@ -1,25 +1,31 @@
 import "./App.css";
 
+import { Fragment } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import { RequiredAuth } from "@/container";
 
+import { MainLayout } from "./components";
 import { CustomRoute, routesConfigs } from "./routes";
 
 function App() {
   return (
-    <div className="App">
+    <div className="text-[#455A64]">
       <BrowserRouter>
         <CustomRoute>
           {routesConfigs.privateRoutes.map((route, index) => {
             const Component = route.component;
+            const Layout: any =
+              route.layout !== null ? route.layout || MainLayout : Fragment;
             return (
               <Route
                 path={route.path}
                 key={`privateRoute_${index}`}
                 element={
                   <RequiredAuth>
-                    <Component />
+                    <Layout>
+                      <Component />
+                    </Layout>
                   </RequiredAuth>
                 }
               />
@@ -28,11 +34,17 @@ function App() {
 
           {routesConfigs.publicRoutes.map((route, index) => {
             const Component = route.component;
+            const Layout: any =
+              route.layout !== null ? route.layout || MainLayout : Fragment;
             return (
               <Route
                 path={route.path}
                 key={`publicRoute_${index}`}
-                element={<Component />}
+                element={
+                  <Layout>
+                    <Component />
+                  </Layout>
+                }
               />
             );
           })}
