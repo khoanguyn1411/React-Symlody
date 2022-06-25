@@ -17,6 +17,7 @@ function App() {
             const Component = route.component;
             const Layout: any =
               route.layout !== null ? route.layout || MainLayout : Fragment;
+
             return (
               <Route
                 path={route.path}
@@ -36,6 +37,7 @@ function App() {
             const Component = route.component;
             const Layout: any =
               route.layout !== null ? route.layout || MainLayout : Fragment;
+
             return (
               <Route
                 path={route.path}
