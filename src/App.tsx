@@ -10,7 +10,7 @@ import { CustomRoute, routesConfigs } from "./routes";
 
 function App() {
   return (
-    <div className="text-[#455A64]">
+    <div>
       <BrowserRouter>
         <CustomRoute>
           {routesConfigs.privateRoutes.map((route, index) => {

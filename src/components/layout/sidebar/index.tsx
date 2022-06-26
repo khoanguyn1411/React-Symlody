@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -12,12 +13,17 @@ export const Sidebar: React.FC<TProps> = ({ className }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const tabsSidebar = getTabsSidebar();
-  const handleSwitchTab = (path: string) => {
+  const handleSwitchTab = (path: string) => () => {
     navigate(path);
   };
   return (
-    <div className={className}>
-      <div className="flex flex-col items-center w-full px-6 py-4">
+    <div
+      className={classNames(
+        "fixed hidden overflow-auto border-r border-gray-200 -mt-header xl:block w-sidebar",
+        className
+      )}
+    >
+      <div className={"h-screen flex flex-col items-center px-6 py-4"}>
         <div className="w-12 h-12 rounded-full bg-primary-500"></div>
         <div className="w-full mt-8">
           {tabsSidebar.map((tab, index) => (
@@ -25,9 +31,7 @@ export const Sidebar: React.FC<TProps> = ({ className }) => {
               key={index}
               tab={tab}
               isActive={tab.to === location.pathname}
-              onClick={() => {
-                handleSwitchTab(tab.to);
-              }}
+              onClick={handleSwitchTab(tab.to)}
             />
           ))}
         </div>
