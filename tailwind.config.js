@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */ /* eslint-disable prettier/prettier */
 const withMT = require("@material-tailwind/react/utils/withMT");
 
+const SIDE_BAR_WIDTH = 256 //can be changed
+const HEADER_HEIGHT = 56 //can be changed
+
+const toPx = (n) => `${n}px`;
+
 module.exports = withMT({
   // important: true,
   // purge: [],
@@ -77,6 +82,15 @@ module.exports = withMT({
           900: "#1f0000",
         },
       },
+      height: {
+        header: `var(--header-height, ${toPx(HEADER_HEIGHT)})`, // headerHeight
+      },
+      width: {
+        sidebar: toPx(SIDE_BAR_WIDTH),
+      },
+      padding: {
+        sidebar: toPx(SIDE_BAR_WIDTH), //paddingLeft: sidebar
+      }
     },
   },
   plugins: [],
