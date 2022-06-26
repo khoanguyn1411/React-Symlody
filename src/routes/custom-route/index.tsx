@@ -32,7 +32,6 @@ export const CustomRoute: React.FC<TProps> = ({ children }) => {
   return (
     <>
       {progress && <TopBarProgress />}
-
       <Routes>{children}</Routes>
     </>
   );
