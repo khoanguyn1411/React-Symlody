@@ -1,16 +1,16 @@
 import classNames from "classnames";
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { SidebarItem } from "./sidebar-item";
 import { getTabsSidebar } from "./sidebar-tab";
 
 type TProps = {
   className?: string;
+  pageKey: string;
 };
 
-export const Sidebar: React.FC<TProps> = ({ className }) => {
-  const location = useLocation();
+export const Sidebar: React.FC<TProps> = ({ className, pageKey }) => {
   const navigate = useNavigate();
   const tabsSidebar = getTabsSidebar();
   const handleSwitchTab = (path: string) => () => {
@@ -30,7 +30,7 @@ export const Sidebar: React.FC<TProps> = ({ className }) => {
             <SidebarItem
               key={index}
               tab={tab}
-              isActive={tab.to === location.pathname}
+              isActive={pageKey === tab.pageActive}
               onClick={handleSwitchTab(tab.to)}
             />
           ))}
