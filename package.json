@@ -19,6 +19,7 @@
     "apisauce": "^2.1.5",
     "autoprefixer": "^9",
     "classnames": "^2.3.1",
+    "pm2": "^5.2.0",
     "postcss": "^7",
     "prettier": "^2.6.2",
     "react": "^18.1.0",
@@ -43,8 +44,10 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint --fix .",
-    "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc"
-  },
+    "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc",
+    "pm2:start": "pm2 start ./ecosystem.config.js --env production ; pm2 status",
+    "pm2:reload": "pm2 reload ./ecosystem.config.js --env production ; pm2 status"
+    },
   "lint-staged": {
     "./src/**/*.{js,jsx,ts,tsx}": [
       "yarn lint",
