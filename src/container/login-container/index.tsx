@@ -105,7 +105,7 @@ export const LoginContainer: React.FC = () => {
               Đăng nhập
             </Button>
             <Link
-              className="self-center mt-4 font-medium underline text-primary-800 w-fit"
+              className="self-center mt-4 font-medium underline text-primary-800 hover:text-primary-900 transition-all duration-300 w-fit"
               to="#"
             >
               Quên mật khẩu?
