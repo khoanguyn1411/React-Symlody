@@ -20,12 +20,14 @@ jobs:
     - name: Deploy using ssh
       uses: appleboy/ssh-action@master
       with:
+        command: |
+          cd ${{ secrets.PROJECT_DIR }}
+          ls
         host: ${{ secrets.SSH_SERVER }}
         key: ${{ secrets.PRIVATE_KEY }}
+        user: root
         port: 22
         script: |
-          ssh ${{ secrets.SSH_SERVER }} 
-          cd ${{ secrets.PROJECT_DIR }}
           git pull origin release
           yarn
           yarn build
