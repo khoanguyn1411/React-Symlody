@@ -24,7 +24,7 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
         script: |
-          ssh $SSH_SERVER 
+          ssh ${{ secrets.SSH_SERVER }} 
           cd ${{ secrets.PROJECT_DIR }}
           git pull origin release
           yarn
