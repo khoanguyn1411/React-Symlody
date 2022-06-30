@@ -24,7 +24,7 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
         script: |
-          ssh $SSH_SERVER "export PATH=/home/ubuntu/.nvm/versions/node/v14.18.1/bin:/usr/bin:/bin
+          ssh $SSH_SERVER 
           cd ${{ secrets.PROJECT_DIR }}
           git pull origin release
           yarn
