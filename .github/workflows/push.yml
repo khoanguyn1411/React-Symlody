@@ -27,11 +27,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: SSH Remote Commands
-      uses: appleboy/ssh-action@v0.1.4
+      uses: appleboy/ssh-action@master
       with:
         key: ${{ secrets.PRIVATE_KEY }}
         host: root@103.142.139.104
         username: root
+        port: 22
         script: |
           cd ${{ secrets.PROJECT_DIR }}
           git pull origin release
