@@ -29,9 +29,10 @@ jobs:
     - name: SSH Remote Commands
       uses: appleboy/ssh-action@v0.1.4
       with:
-        key: ${{ secrets.PRIVATE_KEY }}
+        # key: ${{ secrets.PRIVATE_KEY }}
         host: root@103.142.139.104
         username: root
+        password: Halo@@123
         port: 22
         script: |
           cd ${{ secrets.PROJECT_DIR }}
