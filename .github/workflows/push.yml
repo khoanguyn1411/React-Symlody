@@ -29,8 +29,8 @@ jobs:
     - name: SSH Remote Commands
       uses: appleboy/ssh-action@master
       with:
+        host: ${{ secrets.SSH_SERVER }}
         key: ${{ secrets.PRIVATE_KEY }}
-        host: root@103.142.139.104
         username: root
         port: 22
         script: |
