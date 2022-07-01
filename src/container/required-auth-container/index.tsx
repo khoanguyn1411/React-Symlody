@@ -10,7 +10,7 @@ type TProps = {
 export const RequiredAuth: React.FC<TProps> = ({ children }) => {
   const isAuth = localStorage.getItem(APP_CONSTANTS.AUTH);
   const location = useLocation();
-  return isAuth ? (
+  return !isAuth ? (
     <>{children}</>
   ) : (
     <Navigate to="/login" replace state={{ path: location.pathname }} />

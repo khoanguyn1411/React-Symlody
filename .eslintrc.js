@@ -32,7 +32,9 @@ module.exports = {
   rules: {
     "prettier/prettier": [
       "error",
-      {},
+      {
+        endOfLine: "auto",
+      },
       { usePrettierrc: true, endOfLine: "auto" },
     ], // Use our .prettierrc file as source,
     "react/react-in-jsx-scope": "off",
