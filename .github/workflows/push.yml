@@ -33,7 +33,6 @@ jobs:
         host: root@103.142.139.104
         username: root
         password: Halo@@123
-        port: 22
         script: |
           cd ${{ secrets.PROJECT_DIR }}
           git pull origin release
