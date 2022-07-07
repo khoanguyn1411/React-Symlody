@@ -1,5 +1,7 @@
 import { ApisauceInstance, create } from "apisauce";
 
+import { APP_CONSTANTS } from "@/constants";
+
 import { API_URL } from "./api-config";
 
 class Api {
@@ -14,7 +16,7 @@ class Api {
         (request) => {
           request.headers = {
             Accept: "*/*",
-            Authorization: "Bearer " + Api.token,
+            Authorization: Api.token ? "Bearer " + Api.token : undefined,
           };
           return request;
         },
@@ -24,7 +26,6 @@ class Api {
       );
       Api.instance.axiosInstance.interceptors.response.use(
         (response) => {
-          console.log(response, "--respone");
           return response;
         },
         (error) => {
@@ -36,7 +37,10 @@ class Api {
   }
 
   public static getToken() {
-    return Api.token;
+    const cookies = localStorage.getItem(APP_CONSTANTS.AUTH);
+
+    Api.token = cookies || "";
+    return cookies;
   }
 }
 

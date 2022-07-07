@@ -17,6 +17,7 @@
     "@types/react-helmet": "^6.1.5",
     "@types/react-redux": "^7.1.24",
     "@types/redux": "^3.6.0",
+    "animate.css": "^4.1.1",
     "apisauce": "^2.1.5",
     "autoprefixer": "^9",
     "classnames": "^2.3.1",
@@ -49,7 +50,7 @@
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc",
     "pm2:start": "pm2 start ./ecosystem.config.js --env production ; pm2 status",
     "pm2:reload": "pm2 reload ./ecosystem.config.js --env production ; pm2 status"
-    },
+  },
   "lint-staged": {
     "./src/**/*.{js,jsx,ts,tsx}": [
       "yarn lint",

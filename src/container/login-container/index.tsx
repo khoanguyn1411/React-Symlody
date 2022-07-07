@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { imgLogin } from "@/assets/images";
 import { Button, FormItem, Input } from "@/components";
 import { useAppDispatch } from "@/features";
-import { loginAsync } from "@/features/reducers";
+import { loginAsync, setIsAuth } from "@/features/reducers";
 
 import { schema } from "./schema";
 import { IFormLoginValue } from "./type";
@@ -37,6 +37,8 @@ export const LoginContainer: React.FC = () => {
       toast.error("Đăng nhập thất bại");
       return;
     }
+
+    dispatch(setIsAuth(true));
     navigate(pathLocation || "/");
     toast.success("Đăng nhập thành công");
   };

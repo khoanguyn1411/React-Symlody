@@ -13,18 +13,17 @@ const api: ApisauceInstance = Api.getInstance();
 
 const routes = {
   login: () => `${prefix}/login/`,
-  geProfile: () => `${prefix}/me`,
+  geProfile: () => `${prefix}/login/`,
 };
 
 export const AuthApi = {
   async login(
-    email: string,
+    username: string,
     password: string
   ): Promise<Types.RequestLoginResult> {
     const url = routes.login();
-    console.log(url, "--url");
-    const result: ApiResponse<{ token: string }> = await api.post(url, {
-      email,
+    const result: ApiResponse<Types.RespondResult> = await api.post(url, {
+      username,
       password,
     });
 

@@ -1,15 +1,14 @@
 import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
-import { APP_CONSTANTS } from "@/constants";
-
 type TProps = {
   children: ReactNode;
+  isAuth: boolean;
 };
 
-export const RequiredAuth: React.FC<TProps> = ({ children }) => {
-  const isAuth = localStorage.getItem(APP_CONSTANTS.AUTH);
+export const RequiredAuth: React.FC<TProps> = ({ children, isAuth }) => {
   const location = useLocation();
+
   return !isAuth ? (
     <>{children}</>
   ) : (

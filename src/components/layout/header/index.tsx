@@ -30,7 +30,7 @@ export const Header: React.FC<TProps> = ({ className }) => {
 
         <div className="flex items-center">
           <div className="mr-4 bg-green-300 rounded-full w-9 h-9"></div>
-          <div className="flex flex-col mb-[2px]">
+          <div className="flex flex-col">
             <div className="flex cursor-pointer">
               <h1 className="font-bold">Đặng Khánh Linh</h1>
               <span className="ml-4">

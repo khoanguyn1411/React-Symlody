@@ -2,24 +2,17 @@ import React, { ReactNode } from "react";
 
 import { Page_Key } from "@/routes";
 
-import { Head } from "../head";
 import { Header } from "../header";
 import { Sidebar } from "../sidebar";
 
 type TProps = {
   children: ReactNode;
   pageKey: Page_Key;
-  pageTitle: string;
 };
 
-export const MainLayout: React.FC<TProps> = ({
-  children,
-  pageKey,
-  pageTitle,
-}) => {
+export const MainLayout: React.FC<TProps> = ({ children, pageKey }) => {
   return (
     <>
-      <Head pageTitle={pageTitle} />
       <Header />
       <Sidebar pageKey={pageKey} />
       <div className="transition-all duration-300 xl:pl-sidebar">

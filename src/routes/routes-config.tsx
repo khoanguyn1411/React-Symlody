@@ -30,7 +30,7 @@ const publicRoutes: IRoutes[] = [
     component: LoginContainer,
     // layout: null,
     pageKey: null,
-    pageTitle: null,
+    pageTitle: "Đăng nhập",
   },
 ];
 

@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { AuthApi, RequestLoginResult } from "@/api";
+import { AuthApi, RequestGetProfileResult, RequestLoginResult } from "@/api";
 import { APP_CONSTANTS } from "@/constants";
 import { RootState } from "@/features/store";
 import { IUser } from "@/features/types";
@@ -8,11 +8,13 @@ import { IUser } from "@/features/types";
 export type AuthState = {
   pending: boolean;
   user: IUser;
+  isAuth: boolean;
 };
 
 const initialState: AuthState = {
   pending: false,
   user: null,
+  isAuth: false,
 };
 
 export const loginAsync = createAsyncThunk(
@@ -24,15 +26,15 @@ export const loginAsync = createAsyncThunk(
     );
 
     if (result.kind === "ok") {
-      localStorage.setItem(APP_CONSTANTS.AUTH, result.result.token);
+      localStorage.setItem(APP_CONSTANTS.AUTH, result.result.access);
       return true;
     }
     return false;
   }
 );
 
-export const getMeAsync = createAsyncThunk("auth/getMe", async () => {
-  const result = await AuthApi.getProfile();
+export const getMeAsync = createAsyncThunk("auth/login/me", async () => {
+  const result: RequestGetProfileResult = await AuthApi.getProfile();
   if (result.kind === "ok") {
     return result.result;
   }
@@ -43,7 +45,11 @@ export const getMeAsync = createAsyncThunk("auth/getMe", async () => {
 export const authSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    setIsAuth: (state, action: PayloadAction<boolean>) => {
+      state.isAuth = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getMeAsync.pending, (state) => {
@@ -60,4 +66,7 @@ export const authSlice = createSlice({
   },
 });
 export const authStore = (state: RootState) => state.user;
+
+export const { setIsAuth } = authSlice.actions;
+
 export default authSlice.reducer;

@@ -2,12 +2,17 @@ import { IUser } from "@/features";
 
 import { GeneralApiProblem } from "../api-problem";
 
+export type RespondResult = {
+  access: string;
+  token_type: string;
+  expires_in: string;
+  refresh: string;
+};
+
 export type RequestLoginResult =
   | {
       kind: `ok`;
-      result: {
-        token: string;
-      };
+      result: RespondResult;
     }
   | GeneralApiProblem;
 
