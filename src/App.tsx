@@ -30,7 +30,7 @@ function App() {
               path={route.path}
               key={`publicRoute_${index}`}
               element={
-                isAuth ? (
+                !isAuth ? (
                   <MainLayout pageKey={route.pageKey}>
                     <Component />
                   </MainLayout>

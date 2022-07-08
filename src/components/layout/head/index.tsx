@@ -8,7 +8,7 @@ type Props = {
 };
 export const Head: React.FC<Props> = ({ pageTitle }) => {
   const title = pageTitle ? `${pageTitle} | ${APP_NAME}` : APP_NAME;
-  const description = "Symphony Software with Powerful for Club";
+  const description = "Symphony Software `with Powerful for Club";
 
   return (
     <Helmet>
