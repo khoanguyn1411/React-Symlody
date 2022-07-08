@@ -101,7 +101,7 @@ export const LoginContainer: React.FC = () => {
               />
             </FormItem>
             <Button
-              className="mt-4 bg-primary-800"
+              className="mt-4 text-default bg-primary-800"
               onClick={handleSubmit(onSubmit)}
             >
               Đăng nhập

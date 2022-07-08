@@ -1,4 +1,4 @@
-import { Button as ButtonMeterial } from "@material-tailwind/react";
+import { Button as ButtonMaterial } from "@material-tailwind/react";
 import React, { ReactNode } from "react";
 
 type TProps = {
@@ -13,12 +13,12 @@ export const Button: React.FC<TProps> = ({
   children,
 }) => {
   return (
-    <ButtonMeterial
+    <ButtonMaterial
       color="blue-grey"
-      className={`rounded-lg hover:bg-primary-900 hover:transition-all transition-all py-2 normal-case text-[1rem] font-bold text-white ${className}`}
+      className={`rounded-lg hover:bg-primary-900 transition-all py-2 normal-case font-bold text-white ${className}`}
       onClick={onClick}
     >
       {children}
-    </ButtonMeterial>
+    </ButtonMaterial>
   );
 };

@@ -9,7 +9,7 @@ export const Header: React.FC<TProps> = ({ className }) => {
   return (
     <header
       className={classNames(
-        "flex items-center justify-between px-4 h-header sticky top-0 ml-0 xl:ml-sidebar text-white bg-primary-800",
+        "flex items-center justify-between px-default h-header sticky z-10 top-0 ml-0 xl:ml-sidebar text-white bg-primary-800",
         className
       )}
     >

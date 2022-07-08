@@ -4,6 +4,8 @@ const withMT = require("@material-tailwind/react/utils/withMT");
 const SIDE_BAR_WIDTH = 256 //can be changed
 const HEADER_HEIGHT = 56 //can be changed
 
+const DEFAULT_PADDING = 20 //1rem - can be changed
+
 const toPx = (n) => `${n}px`;
 
 module.exports = withMT({
@@ -21,6 +23,9 @@ module.exports = withMT({
       inter: ["Inter"],
     },
     extend: {
+      fontSize: {
+        default: toPx(14)
+      },
       colors: {
         primary: {
           50: "#E2F6F8",
@@ -103,11 +108,12 @@ module.exports = withMT({
       },
       padding: {
         sidebar: toPx(SIDE_BAR_WIDTH), //paddingLeft: sidebar
+        default: toPx(DEFAULT_PADDING)
       },
       margin: {
         sidebar: toPx(SIDE_BAR_WIDTH), //paddingLeft: sidebar
         header: toPx(HEADER_HEIGHT)
-      }
+      },
     },
   },
   plugins: [],

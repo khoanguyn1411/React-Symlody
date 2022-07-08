@@ -12,12 +12,12 @@ type TProps = {
 
 export const MainLayout: React.FC<TProps> = ({ children, pageKey }) => {
   return (
-    <>
+    <div className="min-h-screen bg-grey-50">
       <Header />
       <Sidebar pageKey={pageKey} />
       <div className="transition-all duration-300 xl:pl-sidebar">
-        <main className="bg-gray-50">{children}</main>
+        <main>{children}</main>
       </div>
-    </>
+    </div>
   );
 };

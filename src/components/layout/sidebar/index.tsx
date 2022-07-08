@@ -19,7 +19,7 @@ export const Sidebar: React.FC<TProps> = ({ className, pageKey }) => {
   return (
     <div
       className={classNames(
-        "fixed hidden overflow-auto border-r border-gray-200 -mt-header xl:block w-sidebar",
+        "fixed hidden overflow-auto border-r border-gray-200 bg-white -mt-header xl:block w-sidebar",
         className
       )}
     >
