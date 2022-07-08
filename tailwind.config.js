@@ -108,7 +108,8 @@ module.exports = withMT({
       },
       padding: {
         sidebar: toPx(SIDE_BAR_WIDTH), //paddingLeft: sidebar
-        default: toPx(DEFAULT_PADDING)
+        default: toPx(DEFAULT_PADDING),
+        "18": toPx(72)
       },
       margin: {
         sidebar: toPx(SIDE_BAR_WIDTH), //paddingLeft: sidebar

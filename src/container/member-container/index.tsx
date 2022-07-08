@@ -29,7 +29,9 @@ export const MemberContainer: React.FC = () => {
         <div className="mt-3 bg-white border border-gray-200 rounded-lg">
           <table className="w-full">
             <tr>
-              <th className="w-2/5 py-2 font-semibold">Họ và tên</th>
+              <th className="w-2/5 py-2 font-semibold text-left pl-18">
+                Họ và tên
+              </th>
               <th className="w-1/5 py-2 font-semibold text-left">Ban</th>
               <th className="w-1/5 py-2 font-semibold text-left">Ngày sinh</th>
               <th className="w-1/5 py-2 font-semibold text-left">Vị trí</th>
