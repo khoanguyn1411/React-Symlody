@@ -3,19 +3,20 @@ import React from "react";
 
 type TProps = {
   className?: string;
+  isCompactSidebar: boolean;
 };
 
-export const Header: React.FC<TProps> = ({ className }) => {
+export const Header: React.FC<TProps> = ({ isCompactSidebar }) => {
   return (
     <header
       className={classNames(
-        "flex items-center justify-between px-4 h-header sticky top-0 ml-0 xl:ml-sidebar text-white bg-primary-800",
-        className
+        "flex items-center justify-between px-4 h-header sticky top-0 mx-0 transition-margin  duration-300  border-b border-gray-200",
+        isCompactSidebar ? "xl:ml-sidebar-compact " : "xl:ml-sidebar ="
       )}
     >
       <div className="relative w-2/3 mr-5">
         <input
-          className="w-full px-2 py-1 text-black outline-none rounded-md"
+          className="w-full px-2 py-1 text-black bg-gray-200 outline-none rounded-md"
           placeholder="Tìm kiếm tài sản, sự kiện,..."
         />
         <span className="absolute top-0 bottom-0 flex items-center text-sm text-black cursor-pointer right-3">

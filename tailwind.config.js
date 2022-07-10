@@ -2,6 +2,8 @@
 const withMT = require("@material-tailwind/react/utils/withMT");
 
 const SIDE_BAR_WIDTH = 256 //can be changed
+const SIDE_BAR_COMPACT_WIDTH = 72 //can be changed
+
 const HEADER_HEIGHT = 56 //can be changed
 
 const toPx = (n) => `${n}px`;
@@ -95,18 +97,29 @@ module.exports = withMT({
           900: "#111827",
         },
       },
+      transitionProperty: {
+        height: "height",
+        width: "width",
+        margin: "margin"
+      },
       height: {
         header: `var(--header-height, ${toPx(HEADER_HEIGHT)})`, // headerHeight
       },
       width: {
         sidebar: toPx(SIDE_BAR_WIDTH),
+        "sidebar-compact": toPx(SIDE_BAR_COMPACT_WIDTH),
+        header: `calc(100vw - ${toPx(SIDE_BAR_WIDTH)})`,
+        "header-compact": `calc(100vw - ${toPx(SIDE_BAR_COMPACT_WIDTH)})`
       },
       padding: {
         sidebar: toPx(SIDE_BAR_WIDTH), //paddingLeft: sidebar
+        "sidebar-compact": toPx(SIDE_BAR_COMPACT_WIDTH)
       },
       margin: {
         sidebar: toPx(SIDE_BAR_WIDTH), //paddingLeft: sidebar
-        header: toPx(HEADER_HEIGHT)
+        header: toPx(HEADER_HEIGHT),
+        "sidebar-compact": toPx(SIDE_BAR_COMPACT_WIDTH)
+
       }
     },
   },
