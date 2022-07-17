@@ -1,7 +1,6 @@
-import { Switch } from "@material-tailwind/react";
 import React, { useState } from "react";
 
-import { Button, Dropdown, Select } from "@/components";
+import { Button, Dropdown } from "@/components";
 
 export const MemberContainer: React.FC = () => {
   const handleCreateMember = () => {
@@ -9,16 +8,46 @@ export const MemberContainer: React.FC = () => {
   };
 
   const [selectedValue, setSelectedValue] = useState<string>(null);
+  const list = [
+    {
+      no: 1,
+      name: "Khoa",
+      email: "1031@gmail.com",
+      ban: "Su kien",
+      date: "14/11/2001",
+      position: "Leader",
+    },
+    {
+      no: 1,
+      name: "Khoa",
+      ban: "Su kien",
+      email: "1031@gmail.com",
+      date: "14/11/2001",
+      position: "Leader",
+    },
+    {
+      no: 1,
+      name: "Khoa",
+      ban: "Su kien",
+      email: "1031@gmail.com",
+      date: "14/11/2001",
+      position: "Leader",
+    },
+    {
+      no: 1,
+      name: "Khoa",
+      ban: "Su kien",
+      email: "1031@gmail.com",
+      date: "14/11/2001",
+      position: "Leader",
+    },
+  ];
 
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
         <h1>Quản lý thành viên</h1>
         <div className="flex items-center">
-          <div className="mr-5">
-            <Switch></Switch>
-          </div>
-          <h1 className="mr-4">Đã lưu trữ</h1>
           <Button
             className="px-3 py-2 text-default bg-primary-800"
             onClick={handleCreateMember}
@@ -32,60 +61,35 @@ export const MemberContainer: React.FC = () => {
           <table className="w-full">
             <tbody>
               <tr>
-                <td className="w-2/5 py-2 font-semibold text-left pl-18">
-                  Họ và tên
+                <td className="py-2 font-semibold text-center w-14">STT</td>
+                <td className="py-2 pr-6 font-semibold text-left">Họ và tên</td>
+                <td className="py-2 font-semibold text-left">Ban</td>
+                <td className="py-2 pr-6 font-semibold text-left">Ngày sinh</td>
+                <td className="py-2 font-semibold text-left pr-default">
+                  Vị trí
                 </td>
-                <td className="w-1/5 py-2 font-semibold text-left">Ban</td>
-                <td className="w-1/5 py-2 font-semibold text-left">
-                  Ngày sinh
-                </td>
-                <td className="w-1/5 py-2 font-semibold text-left">Vị trí</td>
               </tr>
-
-              <tr className="text-left border-t border-gray-200">
-                <td className="w-2/5 py-2 font-normal px-default">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
-                    <div>
-                      <h1 className="font-semibold">Anh Khoa</h1>
-                      <h1 className="text-sm">anhkhoa@gmail.com</h1>
+              {list.map((item, index) => (
+                <tr className="text-left border-t border-gray-200" key={index}>
+                  <td className="py-2 font-normal text-center w-14">
+                    {item.no}
+                  </td>
+                  <td className="w-auto py-2 pr-6 font-normal">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
+                      <div>
+                        <h1 className="font-semibold">{item.name}</h1>
+                        <h1 className="text-sm">{item.email}</h1>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td className="w-1/5 py-2 font-normal">Sự kiện</td>
-                <td className="w-1/5 py-2 font-normal">11/01/1999</td>
-                <td className="w-1/5 py-2 font-normal">Leader</td>
-              </tr>
-
-              <tr className="text-left border-t border-gray-200">
-                <td className="w-2/5 py-2 font-normal px-default">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
-                    <div>
-                      <h1 className="font-semibold">Anh Khoa</h1>
-                      <h1 className="text-sm">anhkhoa@gmail.com</h1>
-                    </div>
-                  </div>
-                </td>
-                <td className="w-1/5 py-2 font-normal">Sự kiện</td>
-                <td className="w-1/5 py-2 font-normal">11/01/1999</td>
-                <td className="w-1/5 py-2 font-normal">Leader</td>
-              </tr>
-
-              <tr className="text-left border-t border-gray-200">
-                <td className="w-2/5 py-2 font-normal px-default">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
-                    <div>
-                      <h1 className="font-semibold">Anh Khoa</h1>
-                      <h1 className="text-sm">anhkhoa@gmail.com</h1>
-                    </div>
-                  </div>
-                </td>
-                <td className="w-1/5 py-2 font-normal">Sự kiện</td>
-                <td className="w-1/5 py-2 font-normal">11/01/1999</td>
-                <td className="w-1/5 py-2 font-normal">Leader</td>
-              </tr>
+                  </td>
+                  <td className="py-2 pr-6 font-normal w-1/10">{item.ban}</td>
+                  <td className="py-2 pr-6 font-normal w-1/10">{item.date}</td>
+                  <td className="py-2 font-normal w-1/10 pr-default">
+                    {item.position}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -98,8 +102,6 @@ export const MemberContainer: React.FC = () => {
           placeHolder="Chọn ngày"
           widthClass="w-60"
         ></Dropdown>
-
-        {/* <Select label="Test" data={["asfasf", "SDfdsjfhsu", "sdfsdf"]} /> */}
       </div>
     </div>
   );

@@ -114,7 +114,8 @@ module.exports = withMT({
         sidebar: toPx(SIDE_BAR_WIDTH),
         "sidebar-compact": toPx(SIDE_BAR_COMPACT_WIDTH),
         header: `calc(100vw - ${toPx(SIDE_BAR_WIDTH)})`,
-        "header-compact": `calc(100vw - ${toPx(SIDE_BAR_COMPACT_WIDTH)})`
+        "header-compact": `calc(100vw - ${toPx(SIDE_BAR_COMPACT_WIDTH)})`,
+        "1/10": "10%"
       },
       padding: {
         sidebar: toPx(SIDE_BAR_WIDTH), //paddingLeft: sidebar
