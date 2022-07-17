@@ -20,11 +20,18 @@ export const Dropdown: React.FC<TProps> = ({
   setSelectedValue,
   placeHolder,
 }) => {
+  const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const handleSetSelected = (item: string) => {
-    return () => setSelectedValue(item);
+    return () => {
+      setSelectedValue(item);
+      setIsOpenDropdown(false);
+    };
   };
   return (
-    <Menu>
+    <Menu
+      open={isOpenDropdown}
+      handler={() => setIsOpenDropdown(!isOpenDropdown)}
+    >
       <MenuHandler>
         <button
           placeholder="SD"
@@ -36,7 +43,7 @@ export const Dropdown: React.FC<TProps> = ({
               className={classNames(
                 "fas fa-angle-down duration-300 transition-transform text-base",
                 {
-                  "transform -rotate-180": true,
+                  "transform -rotate-180": isOpenDropdown,
                 }
               )}
             />
