@@ -1,7 +1,7 @@
 import { Switch } from "@material-tailwind/react";
 import React, { useState } from "react";
 
-import { Button, Dropdown } from "@/components";
+import { Button, Dropdown, Select } from "@/components";
 
 export const MemberContainer: React.FC = () => {
   const handleCreateMember = () => {
@@ -90,13 +90,16 @@ export const MemberContainer: React.FC = () => {
           </table>
         </div>
       </div>
-      <div className="flex items-center justify-center w-full">
+      <div className="flex items-center justify-center w-full gap-5">
         <Dropdown
           data={["asfasf", "SDfdsjfhsu", "sdfsdf"]}
           setSelectedValue={setSelectedValue}
           selectedValue={selectedValue}
           placeHolder="Chọn ngày"
+          widthClass="w-60"
         ></Dropdown>
+
+        {/* <Select label="Test" data={["asfasf", "SDfdsjfhsu", "sdfsdf"]} /> */}
       </div>
     </div>
   );

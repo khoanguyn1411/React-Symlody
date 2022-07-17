@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { imgLogin } from "@/assets/images";
-import { Button, FormItem, Input } from "@/components";
+import { Button, FormItem, Input, Select } from "@/components";
 import { useAppDispatch } from "@/features";
 import { loginAsync, setIsAuth } from "@/features/reducers";
 
