@@ -11,7 +11,7 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar }) => {
     <header
       className={classNames(
         "flex items-center bg-white z-10 justify-end px-4 h-header sticky top-0 mx-0 transition-margin  duration-300  border-b border-gray-200",
-        isCompactSidebar ? "xl:ml-sidebar-compact " : "xl:ml-sidebar ="
+        isCompactSidebar ? "xl:ml-sidebar-compact " : "xl:ml-sidebar"
       )}
     >
       <div className="relative w-full mr-6 xl:w-1/3 min-w-max transition-all">

@@ -1,17 +1,19 @@
 import { Switch } from "@material-tailwind/react";
-import React from "react";
+import React, { useState } from "react";
 
-import { Button } from "@/components";
+import { Button, Dropdown } from "@/components";
 
 export const MemberContainer: React.FC = () => {
   const handleCreateMember = () => {
     /// Create member here
   };
 
+  const [selectedValue, setSelectedValue] = useState<string>(null);
+
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
-        <h1>Quản lý tdành viên</h1>
+        <h1>Quản lý thành viên</h1>
         <div className="flex items-center">
           <div className="mr-5">
             <Switch></Switch>
@@ -87,6 +89,14 @@ export const MemberContainer: React.FC = () => {
             </tbody>
           </table>
         </div>
+      </div>
+      <div className="flex items-center justify-center w-full">
+        <Dropdown
+          data={["asfasf", "SDfdsjfhsu", "sdfsdf"]}
+          setSelectedValue={setSelectedValue}
+          selectedValue={selectedValue}
+          placeHolder="Chọn ngày"
+        ></Dropdown>
       </div>
     </div>
   );
