@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { imgLogin } from "@/assets/images";
-import { Button, FormItem, Input } from "@/components";
+import { Button, Dropdown, FormItem, Input, Select } from "@/components";
 import { useAppDispatch } from "@/features";
 import { loginAsync, setIsAuth } from "@/features/reducers";
 
@@ -100,6 +100,26 @@ export const LoginContainer: React.FC = () => {
                 )}
               />
             </FormItem>
+
+            <FormItem
+              label="Test select"
+              isRequired
+              error={errors.testSelect?.message}
+            >
+              <Controller
+                control={control}
+                name="testSelect"
+                render={({ field: { value, onChange } }) => (
+                  <Select
+                    list={["12312", "Ko21312", "kkasds"]}
+                    value={value}
+                    onChange={onChange}
+                    placeHolder="Chọn ngày"
+                  />
+                )}
+              />
+            </FormItem>
+
             <Button
               className="mt-4 text-default bg-primary-800"
               onClick={handleSubmit(onSubmit)}

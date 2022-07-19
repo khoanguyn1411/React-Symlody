@@ -5,4 +5,5 @@ export const schema = yup.object().shape({
     .email("Trường này phải là email")
     .required("Email được yêu cầu"),
   password: yup.string().required("Mật khẩu được yêu cầu"),
+  testSelect: yup.string().required(),
 });
