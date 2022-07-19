@@ -35,7 +35,7 @@ export const Modal: React.FC<TProps> = ({
             <i className="fas fa-angle-double-right"></i>
           </span>
         </h1>
-        <div className="p-5">{children}</div>
+        <div className="p-5 overflow-auto">{children}</div>
       </div>
     </div>
   );
