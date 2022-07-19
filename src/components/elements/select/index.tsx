@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { FunctionComponent, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 type TProps = {
   list: number[] | string[];
@@ -8,7 +8,7 @@ type TProps = {
   placeHolder?: string;
 };
 
-export const Select: FunctionComponent<TProps> = ({
+export const Select: React.FC<TProps> = ({
   list,
   value,
   onChange,

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
-import { Button, Dropdown } from "@/components";
+import { Button, Dropdown, Modal } from "@/components";
 
 export const MemberContainer: React.FC = () => {
+  const [selectedValue, setSelectedValue] = useState<string>(null);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const handleCreateMember = () => {
-    /// Create member here
+    setIsOpenModal(true);
   };
 
-  const [selectedValue, setSelectedValue] = useState<string>(null);
   const list = [
     {
       no: 1,
@@ -102,6 +103,14 @@ export const MemberContainer: React.FC = () => {
           placeHolder="Chọn ngày"
           widthClass="w-60"
         ></Dropdown>
+      </div>
+
+      <div>
+        {isOpenModal && (
+          <Modal triggerClose={setIsOpenModal} title="Test modal" size="lg">
+            Demo
+          </Modal>
+        )}
       </div>
     </div>
   );
