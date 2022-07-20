@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
-import { Button, Dropdown, Modal } from "@/components";
+import { Button, Dropdown, FormItem, Input, Modal } from "@/components";
+import { useModal } from "@/hooks";
 
 export const MemberContainer: React.FC = () => {
   const [selectedValue, setSelectedValue] = useState<string>(null);
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const { isShowing, toggle } = useModal();
   const handleCreateMember = () => {
-    setIsOpenModal(true);
+    toggle();
   };
 
   const list = [
@@ -106,11 +107,9 @@ export const MemberContainer: React.FC = () => {
       </div>
 
       <div>
-        {isOpenModal && (
-          <Modal triggerClose={setIsOpenModal} title="Test modal" size="lg">
-            Demo
-          </Modal>
-        )}
+        <Modal toggle={toggle} title="Test modal" size="lg" isOpen={isShowing}>
+          Test modal
+        </Modal>
       </div>
     </div>
   );
