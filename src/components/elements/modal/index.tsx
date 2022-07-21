@@ -11,7 +11,6 @@ type TProps = {
   isOpen: boolean;
   toggle: () => void;
 };
-// Test computer 6
 export const Modal: React.FC<TProps> = ({
   children,
   size,
