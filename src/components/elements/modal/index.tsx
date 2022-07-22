@@ -49,11 +49,11 @@ export const Modal: React.FC<TProps> = ({
           "bg-white flex rounded-sm relative flex-col p-0 max-h-[90vh]"
         )}
       >
-        <h1 className="w-full p-3 text-lg font-bold text-center uppercase border-b-2 text-primary-800 border-primary-800">
+        <h1 className="w-full px-5 py-3 text-2xl font-bold text-center uppercase border-b-2 text-primary-800 border-primary-800">
           {title}
           <span
             aria-hidden="true"
-            className="absolute right-0 mr-3 text-black cursor-pointer"
+            className="absolute right-0 mr-5 text-black cursor-pointer"
             onClick={toggle}
           >
             <i className="fas fa-times"></i>
@@ -61,9 +61,9 @@ export const Modal: React.FC<TProps> = ({
         </h1>
       </DialogHeader>
       <DialogBody>
-        <div className="flex flex-col overflow-auto">{children}</div>
+        <div className="flex flex-col px-5 overflow-auto">{children}</div>
       </DialogBody>
-      <DialogFooter>{footerElements}</DialogFooter>
+      <DialogFooter className="px-5">{footerElements}</DialogFooter>
     </Dialog>
   );
 };
