@@ -3,74 +3,67 @@ import {
   MenuHandler,
   MenuItem,
   MenuList,
-  Select,
 } from "@material-tailwind/react";
 import classNames from "classnames";
-import React, { useState } from "react";
+import React from "react";
+
+type TMenuProps = {
+  key: string;
+  prefix?: JSX.Element;
+  suffix?: JSX.Element;
+};
 
 type TProps = {
-  data: string[];
-  selectedValue: string;
-  setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+  menus: TMenuProps[];
   placeHolder?: string;
-  className?: string;
-  widthClass?: string;
+  widthContainer?: string;
+  placement?:
+    | "top"
+    | "bottom"
+    | "left"
+    | "right"
+    | "bottom-start"
+    | "bottom-end";
+  children: React.ReactNode;
+  onClickMenu: (key: string) => void;
 };
 
 export const Dropdown: React.FC<TProps> = ({
-  data,
-  selectedValue,
-  setSelectedValue,
-  placeHolder,
-  className,
-  widthClass,
+  menus,
+  widthContainer,
+  placement = "bottom-start",
+  children,
+  onClickMenu,
 }) => {
-  const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
-  const handleSetSelected = (item: string) => {
-    return () => {
-      setSelectedValue(item);
-      setIsOpenDropdown(false);
-    };
+  const handleClickMenu = (key: string) => () => {
+    onClickMenu && onClickMenu(key);
   };
+
   return (
-    <div className={classNames(className, widthClass)}>
-      <Menu
-        open={isOpenDropdown}
-        handler={() => setIsOpenDropdown(!isOpenDropdown)}
+    <Menu placement={placement}>
+      <MenuHandler>
+        <div className="cursor-pointer">{children}</div>
+      </MenuHandler>
+      <MenuList
+        className={classNames(
+          ` rounded-md shadow-none bg-white border px-0 py-2`,
+          widthContainer
+        )}
       >
-        <MenuHandler>
-          <button
-            placeholder="SD"
-            className="flex justify-between w-full p-2 bg-white border border-primary-800 rounded-md"
+        {menus.map((item: TMenuProps, index: number) => (
+          <MenuItem
+            key={index}
+            onClick={handleClickMenu(item.key)}
+            className={classNames(
+              "rounded-none bg-white w-full hover:bg-gray-100 text-black hover:text-primary-800 transition-all duration-300"
+            )}
           >
-            {selectedValue ?? placeHolder}{" "}
-            <span>
-              <i
-                className={classNames(
-                  "fas fa-angle-down duration-300 transition-transform text-base",
-                  {
-                    "transform -rotate-180": isOpenDropdown,
-                  }
-                )}
-              />
-            </span>
-          </button>
-        </MenuHandler>
-        <MenuList className={classNames(`p-0 rounded-none`, widthClass)}>
-          {data.map((item: string, index: number) => (
-            <MenuItem
-              key={index}
-              onClick={handleSetSelected(item)}
-              className={classNames(
-                "rounded-none hover:bg-primary-100",
-                item === selectedValue && "bg-primary-200"
-              )}
-            >
-              {item}
-            </MenuItem>
-          ))}
-        </MenuList>
-      </Menu>
-    </div>
+            {item.prefix}
+            {item.key}
+            {item.suffix}
+          </MenuItem>
+        ))}
+      </MenuList>
+    </Menu>
   );
 };
