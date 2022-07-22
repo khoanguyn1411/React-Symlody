@@ -24,7 +24,6 @@ function App() {
     <AppProvider>
       <CustomRoute>
         {routesConfigs.privateRoutes.map((route, index) => {
-          const Component = route.component;
           return (
             <Route
               path={route.path}
@@ -32,7 +31,7 @@ function App() {
               element={
                 !isAuth ? (
                   <MainLayout pageKey={route.pageKey}>
-                    <Component />
+                    {route.component}
                   </MainLayout>
                 ) : (
                   <Navigate
@@ -47,14 +46,13 @@ function App() {
         })}
 
         {routesConfigs.publicRoutes.map((route, index) => {
-          const Component = route.component;
           return (
             <Route
               path={route.path}
               key={`publicRoute_${index}`}
               element={
                 isAuth ? (
-                  <Component />
+                  <>{route.component}</>
                 ) : (
                   <Navigate
                     to="/"

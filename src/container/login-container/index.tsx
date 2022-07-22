@@ -3,7 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { imgLogin } from "@/assets/images";
+import { images } from "@/assets/images";
 import { Button, FormItem, Input } from "@/components";
 import { useAppDispatch } from "@/features";
 import { loginAsync, setIsAuth } from "@/features/reducers";
@@ -47,16 +47,12 @@ export const LoginContainer: React.FC = () => {
     <div className="grid grid-cols-2">
       <div className="flex h-screen col-span-1">
         <div className="flex items-center justify-center w-full bg-primary-50">
-          <img
-            src={imgLogin.loginBanner}
-            alt="Login banner"
-            className="w-5/6"
-          />
+          <img src={images.loginBanner} alt="Login banner" className="w-5/6" />
         </div>
       </div>
       <div className="relative flex items-center justify-center col-span-1 min-w-[400px]">
         <img
-          src={imgLogin.loginTopRightCorner}
+          src={images.loginTopRightCorner}
           alt="loginTopRightCorner"
           className="absolute top-0 right-0 w-1/4 -z-10"
         />

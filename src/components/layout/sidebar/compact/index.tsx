@@ -19,7 +19,7 @@ export const CompactSidebar: React.FC<Props> = ({
         aria-hidden="true"
         onClick={setIsCompact}
         className={classNames(
-          "absolute  bottom-4",
+          "absolute  bottom-1/2",
           "flex items-center justify-center",
           " w-6 h-6 text-sm  bg-white rounded-full shadow transition-all duration-300 hover:bg-gray-50 cursor-pointer",
           isCompactSidebar ? "-right-4" : "-right-3"
