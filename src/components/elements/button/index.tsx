@@ -1,4 +1,5 @@
 import { Button as ButtonMaterial } from "@material-tailwind/react";
+import classNames from "classnames";
 import React, { ReactNode } from "react";
 
 type TProps = {
@@ -15,7 +16,10 @@ export const Button: React.FC<TProps> = ({
   return (
     <ButtonMaterial
       color="blue-grey"
-      className={`rounded-lg hover:bg-primary-900 transition-all py-2 normal-case font-bold text-white ${className}`}
+      className={classNames(
+        "rounded-lg transition-all py-2 normal-case font-bold text-white",
+        className
+      )}
       onClick={onClick}
     >
       {children}

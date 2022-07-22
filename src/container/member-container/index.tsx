@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
 
 import { Button, Dropdown, FormItem, Input, Modal } from "@/components";
 import { useModal } from "@/hooks";
 
+import { schema } from "./schema";
+import { TFormMemberInfo } from "./type";
+
 export const MemberContainer: React.FC = () => {
-  const [selectedValue, setSelectedValue] = useState<string>(null);
-  const { isShowing, toggle } = useModal();
+  const { isShowing, setShow, setHidden } = useModal();
+
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<TFormMemberInfo>({ resolver: yupResolver(schema) });
+
   const handleCreateMember = () => {
-    toggle();
+    console.log("Seomthing");
   };
 
   const list = [
@@ -51,8 +62,8 @@ export const MemberContainer: React.FC = () => {
         <h1>Quản lý thành viên</h1>
         <div className="flex items-center">
           <Button
-            className="px-3 py-2 text-default bg-primary-800"
-            onClick={handleCreateMember}
+            className="px-3 py-2 text-default bg-primary-800 hover:bg-primary-800"
+            onClick={setShow}
           >
             Tạo mới
           </Button>
@@ -110,22 +121,160 @@ export const MemberContainer: React.FC = () => {
 
       <div>
         <Modal
-          footerElements={
-            <Button
-              className="bg-primary-800"
-              onClick={() => {
-                console.log("Do something");
-              }}
-            >
-              Thêm thành viên
-            </Button>
-          }
-          toggle={toggle}
-          title="Test modal"
+          toggle={{ setShow, setHidden }}
+          title="Tạo thành viên"
           size="lg"
           isOpen={isShowing}
+          handleEvent={{
+            title: "Thêm thành viên",
+            event: handleSubmit(handleCreateMember),
+          }}
         >
-          Test modal
+          <FormItem
+            label="Họ và tên"
+            isRequired
+            error={errors.fullName?.message}
+          >
+            <Controller
+              control={control}
+              name="fullName"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  value={value}
+                  onChange={onChange}
+                  placeholder="Họ và tên"
+                />
+              )}
+            />
+          </FormItem>
+
+          <FormItem label="Giới tính" isRequired error={errors.gender?.message}>
+            <Controller
+              control={control}
+              name="gender"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  value={value}
+                  onChange={onChange}
+                  placeholder="Giới tính"
+                />
+              )}
+            />
+          </FormItem>
+
+          <FormItem
+            label="Ngày sinh"
+            isRequired
+            error={errors.birthday?.message}
+          >
+            <Controller
+              control={control}
+              name="birthday"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  value={value}
+                  onChange={onChange}
+                  placeholder="Ngày sinh"
+                />
+              )}
+            />
+          </FormItem>
+
+          <FormItem label="Ban" isRequired error={errors.department?.message}>
+            <Controller
+              control={control}
+              name="department"
+              render={({ field: { value, onChange } }) => (
+                <Input value={value} onChange={onChange} placeholder="Ban" />
+              )}
+            />
+          </FormItem>
+
+          <FormItem label="Vị trí" isRequired error={errors.role?.message}>
+            <Controller
+              control={control}
+              name="role"
+              render={({ field: { value, onChange } }) => (
+                <Input value={value} onChange={onChange} placeholder="Vị trí" />
+              )}
+            />
+          </FormItem>
+
+          <FormItem label="Lớp" isRequired error={errors.class?.message}>
+            <Controller
+              control={control}
+              name="class"
+              render={({ field: { value, onChange } }) => (
+                <Input value={value} onChange={onChange} placeholder="Lớp" />
+              )}
+            />
+          </FormItem>
+
+          <FormItem label="MSSV" isRequired error={errors.id?.message}>
+            <Controller
+              control={control}
+              name="id"
+              render={({ field: { value, onChange } }) => (
+                <Input value={value} onChange={onChange} placeholder="MSSV" />
+              )}
+            />
+          </FormItem>
+
+          <FormItem label="Email" isRequired error={errors.email?.message}>
+            <Controller
+              control={control}
+              name="email"
+              render={({ field: { value, onChange } }) => (
+                <Input value={value} onChange={onChange} placeholder="Email" />
+              )}
+            />
+          </FormItem>
+
+          <FormItem
+            label="Số điện thoại"
+            isRequired
+            error={errors.phone?.message}
+          >
+            <Controller
+              control={control}
+              name="phone"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  value={value}
+                  onChange={onChange}
+                  placeholder="Số điện thoại"
+                />
+              )}
+            />
+          </FormItem>
+
+          <FormItem label="Địa chỉ" isRequired error={errors.address?.message}>
+            <Controller
+              control={control}
+              name="address"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  value={value}
+                  onChange={onChange}
+                  placeholder="Địa chỉ"
+                />
+              )}
+            />
+          </FormItem>
+
+          <FormItem label="Quê quán" isRequired error={errors.home?.message}>
+            <Controller
+              control={control}
+              name="home"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  value={value}
+                  onChange={onChange}
+                  placeholder="Quê quán"
+                />
+              )}
+            />
+          </FormItem>
         </Modal>
       </div>
     </div>

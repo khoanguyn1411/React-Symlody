@@ -4,6 +4,7 @@ import {
   MenuItem,
   MenuList,
 } from "@material-tailwind/react";
+import { placement } from "@material-tailwind/react/types/components/menu";
 import classNames from "classnames";
 import React from "react";
 
@@ -17,13 +18,7 @@ type TProps = {
   menus: TMenuProps[];
   placeHolder?: string;
   widthContainer?: string;
-  placement?:
-    | "top"
-    | "bottom"
-    | "left"
-    | "right"
-    | "bottom-start"
-    | "bottom-end";
+  placement?: placement;
   children: React.ReactNode;
   onClickMenu: (key: string) => void;
 };
