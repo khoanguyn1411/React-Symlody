@@ -107,17 +107,6 @@ export const MemberContainer: React.FC = () => {
           </table>
         </div>
       </div>
-      <div className="flex items-center justify-center w-full gap-5">
-        <Dropdown
-          menus={[{ key: "THANG 1" }, { key: "Thang 2" }]}
-          onClickMenu={(key: string) => {
-            console.log(key);
-          }}
-          widthContainer="w-56"
-        >
-          <div>Chon ngay</div>
-        </Dropdown>
-      </div>
 
       <div>
         <Modal
