@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */ /* eslint-disable prettier/prettier */
 const withMT = require("@material-tailwind/react/utils/withMT");
 
-const SIDE_BAR_WIDTH = 256 //can be changed
-const SIDE_BAR_COMPACT_WIDTH = 72 //can be changed
+const SIDE_BAR_WIDTH = 256; //can be changed
+const SIDE_BAR_COMPACT_WIDTH = 72; //can be changed
 
-const HEADER_HEIGHT = 56 //can be changed
+const HEADER_HEIGHT = 56; //can be changed
 
-const DEFAULT_PADDING = 20 //1rem - can be changed
+const DEFAULT_PADDING = 20; //1rem - can be changed
+
+const DEFAULT_MODAL_MIN_WIDTH = 360;
 
 const toPx = (n) => `${n}px`;
 
@@ -26,7 +28,7 @@ module.exports = withMT({
     },
     extend: {
       fontSize: {
-        default: toPx(14)
+        default: toPx(14),
       },
       colors: {
         primary: {
@@ -105,7 +107,7 @@ module.exports = withMT({
       transitionProperty: {
         height: "height",
         width: "width",
-        margin: "margin"
+        margin: "margin",
       },
       height: {
         header: `var(--header-height, ${toPx(HEADER_HEIGHT)})`, // headerHeight
@@ -114,20 +116,23 @@ module.exports = withMT({
         sidebar: toPx(SIDE_BAR_WIDTH),
         "sidebar-compact": toPx(SIDE_BAR_COMPACT_WIDTH),
         header: `calc(100vw - ${toPx(SIDE_BAR_WIDTH)})`,
-        "header-compact": `calc(100vw - ${toPx(SIDE_BAR_COMPACT_WIDTH)})`
+        "header-compact": `calc(100vw - ${toPx(SIDE_BAR_COMPACT_WIDTH)})`,
+        "1/10": "10%",
       },
       padding: {
         sidebar: toPx(SIDE_BAR_WIDTH), //paddingLeft: sidebar
         "sidebar-compact": toPx(SIDE_BAR_COMPACT_WIDTH),
         default: toPx(DEFAULT_PADDING),
-        "18": toPx(72)
+        18: toPx(72),
       },
       margin: {
         sidebar: toPx(SIDE_BAR_WIDTH), //paddingLeft: sidebar
         header: toPx(HEADER_HEIGHT),
-        "sidebar-compact": toPx(SIDE_BAR_COMPACT_WIDTH)
-
-      }
+        "sidebar-compact": toPx(SIDE_BAR_COMPACT_WIDTH),
+      },
+      minWidth: {
+        modal: toPx(DEFAULT_MODAL_MIN_WIDTH),
+      },
     },
   },
   plugins: [],
