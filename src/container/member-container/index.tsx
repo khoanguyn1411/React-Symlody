@@ -107,7 +107,22 @@ export const MemberContainer: React.FC = () => {
       </div>
 
       <div>
-        <Modal toggle={toggle} title="Test modal" size="lg" isOpen={isShowing}>
+        <Modal
+          footerElements={
+            <Button
+              className="bg-primary-800"
+              onClick={() => {
+                console.log("Do something");
+              }}
+            >
+              Thêm thành viên
+            </Button>
+          }
+          toggle={toggle}
+          title="Test modal"
+          size="lg"
+          isOpen={isShowing}
+        >
           Test modal
         </Modal>
       </div>
