@@ -1,20 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button } from "@material-tailwind/react";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { FormItem, Input, Modal, Select } from "@/components";
+import { TModalProps } from "@/hooks";
 
 import { schema } from "../schema";
 import { TFormMemberInfo } from "../type";
 
-type TProps = {
-  isShowing: boolean;
-  setShow: () => void;
-  setHidden: () => void;
-};
-
-export const ModalCreateMember: React.FC<TProps> = ({
+export const ModalCreateMember: React.FC<TModalProps> = ({
   isShowing,
   setHidden,
   setShow,

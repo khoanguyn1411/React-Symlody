@@ -1,6 +1,13 @@
 import { useState } from "react";
 
-export const useModal = () => {
+export type TModalProps = {
+  isShowing: boolean;
+  setShow: () => void;
+  setHidden: () => void;
+  setToggle: () => void;
+};
+
+export const useModal = (): TModalProps => {
   const [isShowing, setIsShowing] = useState<boolean>(false);
 
   function setShow() {

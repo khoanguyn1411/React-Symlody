@@ -6,7 +6,7 @@ import { useModal } from "@/hooks";
 import { ModalCreateMember } from "./member-modal";
 
 export const MemberContainer: React.FC = () => {
-  const { isShowing, setShow, setHidden } = useModal();
+  const useModalProps = useModal();
 
   const list = [
     {
@@ -50,7 +50,7 @@ export const MemberContainer: React.FC = () => {
         <div className="flex items-center">
           <Button
             className="px-3 py-2 text-default bg-primary-800 hover:bg-primary-800"
-            onClick={setShow}
+            onClick={useModalProps.setShow}
           >
             Tạo mới
           </Button>
@@ -61,7 +61,7 @@ export const MemberContainer: React.FC = () => {
           <table className="w-full">
             <tbody>
               <tr>
-                <td className="py-2 font-semibold text-center w-14">STT</td>
+                <td className="w-20 py-2 font-semibold text-center">STT</td>
                 <td className="py-2 pr-6 font-semibold text-left">Họ và tên</td>
                 <td className="py-2 font-semibold text-left">Ban</td>
                 <td className="py-2 pr-6 font-semibold text-left">Ngày sinh</td>
@@ -71,7 +71,7 @@ export const MemberContainer: React.FC = () => {
               </tr>
               {list.map((item, index) => (
                 <tr className="text-left border-t border-gray-200" key={index}>
-                  <td className="py-2 font-normal text-center w-14">
+                  <td className="w-20 py-2 font-normal text-center">
                     {item.no}
                   </td>
                   <td className="w-auto py-2 pr-6 font-normal">
@@ -94,11 +94,7 @@ export const MemberContainer: React.FC = () => {
           </table>
         </div>
       </div>
-      <ModalCreateMember
-        setShow={setShow}
-        setHidden={setHidden}
-        isShowing={isShowing}
-      />
+      <ModalCreateMember {...useModalProps} />
     </div>
   );
 };
