@@ -12,7 +12,7 @@ import { UseFormReset } from "react-hook-form";
 import { Button } from "@/components";
 
 type TEventModal = {
-  title: string;
+  title?: string;
   event: () => void;
 };
 
@@ -100,7 +100,7 @@ export const Modal = <T extends unknown>({
             type="submit"
             className="ml-5 text-default bg-primary-800 hover:bg-primary-800"
           >
-            {handleEvent.title}
+            {handleEvent.title || "Tao"}
           </Button>
         </DialogFooter>
       </form>

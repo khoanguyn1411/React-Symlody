@@ -2,7 +2,7 @@ import * as yup from "yup";
 export const schema = yup.object().shape({
   fullName: yup.string().required("Họ tên được yêu cầu"),
   gender: yup.string().required("Giới tính được yêu cầu"),
-  birthday: yup.string().required("Ngày sinh được yêu cầu"),
+  birthday: yup.date().required("Ngày sinh được yêu cầu"),
   department: yup.string().required("Phòng ban được yêu cầu"),
   role: yup.string().required("Vị trí được yêu cầu"),
   class: yup.string().required("Lớp được yêu cầu"),

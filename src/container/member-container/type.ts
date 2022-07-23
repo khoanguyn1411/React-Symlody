@@ -1,7 +1,7 @@
 export type TFormMemberInfo = {
   fullName: string;
   gender: string;
-  birthday: string;
+  birthday: Date;
   department: string;
   role: string;
   class: string;

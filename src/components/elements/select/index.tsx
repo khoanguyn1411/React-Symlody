@@ -80,7 +80,7 @@ export const Select: React.FC<TProps> = ({
         <div
           ref={listRef}
           className={classNames(
-            "absolute z-10 w-full overflow-auto bg-white duration-100 shadow-md mt-2",
+            "absolute z-10 w-full overflow-auto bg-white duration-100 drop-shadow-lg mt-2",
             {
               "opacity-100 visible": isShowContent,
               "opacity-0 invisible": !isShowContent,

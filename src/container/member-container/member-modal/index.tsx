@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import { FormItem, Input, Modal, Select } from "@/components";
+import { AppDatePicker, FormItem, Input, Modal, Select } from "@/components";
 import { TModalProps } from "@/hooks";
 
 import { schema } from "../schema";
@@ -72,12 +72,7 @@ export const ModalCreateMember: React.FC<TModalProps> = ({
             control={control}
             name="birthday"
             render={({ field: { value, onChange } }) => (
-              <Input
-                style="modal"
-                value={value}
-                onChange={onChange}
-                placeholder="Ngày sinh"
-              />
+              <AppDatePicker style="modal" value={value} onChange={onChange} />
             )}
           />
         </FormItem>

@@ -3,7 +3,7 @@ import classNames from "classnames";
 type TProps = {
   type?: React.HTMLInputTypeAttribute;
   value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;
   style?: "modal" | "default";
 };
