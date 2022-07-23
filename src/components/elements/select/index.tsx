@@ -93,7 +93,7 @@ export const Select: React.FC<TProps> = ({
               aria-hidden="true"
               onClick={() => handleSetSelectedItem(item)}
               className={classNames(
-                "py-1 px-2 hover:bg-primary-100 cursor-pointer min-lg:hover:bg-grey transition-all duration-150",
+                "py-1 px-2 hover:bg-primary-100 cursor-pointer min-lg:hover:bg-grey transition-all duration-70",
                 {
                   "bg-primary-200": item === value,
                 }

@@ -19,7 +19,8 @@ const WrapperModule = styled.div`
   .react-datepicker__header {
     background-color: #e2f6f8;
   }
-  .react-datepicker__day--selected {
+  .react-datepicker__day--selected,
+  .react-datepicker__day--keyboard-selected {
     background-color: #007ea4;
   }
   .react-datepicker__day--today {
