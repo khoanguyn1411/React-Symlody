@@ -4,15 +4,17 @@ import React, { useEffect, useRef, useState } from "react";
 type TProps = {
   list: number[] | string[];
   value: number | string;
-  onChange: React.Dispatch<React.SetStateAction<string | number>>;
   placeHolder?: string;
+  style?: "modal" | "default";
+  onChange: React.Dispatch<React.SetStateAction<string | number>>;
 };
 
 export const Select: React.FC<TProps> = ({
   list,
   value,
-  onChange,
   placeHolder,
+  style = "default",
+  onChange,
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const listRef = useRef(null);
@@ -52,7 +54,13 @@ export const Select: React.FC<TProps> = ({
           ref={displayRef}
           onClick={handleToggleContent}
           aria-hidden="true"
-          className="flex justify-between w-full p-2 mt-2 bg-white border border-primary-800 rounded-md"
+          className={classNames(
+            "flex justify-between w-full p-2 mt-3 rounded-md text-black",
+            {
+              "bg-gray-100": style === "modal",
+              "bg-white border border-primary-800": style === "default",
+            }
+          )}
         >
           <h1 className={classNames({ "text-gray-400": !value })}>
             {value ?? placeHolder}
@@ -72,8 +80,11 @@ export const Select: React.FC<TProps> = ({
         <div
           ref={listRef}
           className={classNames(
-            "absolute z-10 w-full overflow-auto bg-white duration-75 shadow-md mt-2",
-            { "scale-100": isShowContent, "scale-0": !isShowContent }
+            "absolute z-10 w-full overflow-auto bg-white duration-100 shadow-md mt-2",
+            {
+              "opacity-100 visible": isShowContent,
+              "opacity-0 invisible": !isShowContent,
+            }
           )}
         >
           {list.map((item: number | string, index: number) => (
@@ -82,7 +93,7 @@ export const Select: React.FC<TProps> = ({
               aria-hidden="true"
               onClick={() => handleSetSelectedItem(item)}
               className={classNames(
-                "py-1 px-2 hover:bg-primary-100 cursor-pointer min-lg:hover:bg-grey transition-all",
+                "py-1 px-2 hover:bg-primary-100 cursor-pointer min-lg:hover:bg-grey transition-all duration-150",
                 {
                   "bg-primary-200": item === value,
                 }

@@ -58,7 +58,7 @@ export const LoginContainer: React.FC = () => {
           className="absolute top-0 right-0 w-1/4 -z-10"
         />
         <div className="w-1/2 h-fit ">
-          <h1 className="text-3xl font-bold uppercase text-primary-800">
+          <h1 className="text-3xl font-bold text-center uppercase text-primary-800">
             Đăng nhập
           </h1>
           <form
@@ -99,8 +99,8 @@ export const LoginContainer: React.FC = () => {
             </FormItem>
 
             <Button
+              type="submit"
               className="mt-4 text-default bg-primary-800 hover:bg-primary-800"
-              onClick={handleSubmit(onSubmit)}
             >
               Đăng nhập
             </Button>
@@ -108,7 +108,7 @@ export const LoginContainer: React.FC = () => {
               className="self-center mt-4 font-medium underline text-primary-800 hover:text-primary-900 transition-all duration-300 w-fit"
               to="#"
             >
-              Quên mật khẩu????
+              Quên mật khẩu?
             </Link>
           </form>
         </div>

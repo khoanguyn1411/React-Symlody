@@ -1,8 +1,11 @@
+import classNames from "classnames";
+
 type TProps = {
-  type?: string;
+  type?: React.HTMLInputTypeAttribute;
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;
+  style?: "modal" | "default";
 };
 
 export const Input: React.FC<TProps> = ({
@@ -10,6 +13,7 @@ export const Input: React.FC<TProps> = ({
   value = "",
   onChange,
   placeholder,
+  style = "default",
 }) => {
   return (
     <input
@@ -17,7 +21,13 @@ export const Input: React.FC<TProps> = ({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="w-full p-2 mt-2 outline-none border-[1.5px] border-[#D0D1D1] rounded-md"
+      className={classNames(
+        "w-full p-2 mt-2 border-gray-300 text-black outline-none rounded-md",
+        {
+          "bg-gray-100": style === "modal",
+          "border-[1.5px]": style === "default",
+        }
+      )}
     />
   );
 };
