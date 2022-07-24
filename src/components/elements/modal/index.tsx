@@ -1,6 +1,7 @@
 import { size } from "@material-tailwind/react/types/components/dialog";
 import classNames from "classnames";
 import { ReactElement, ReactNode } from "react";
+import ReactDOM from "react-dom";
 import { UseFormReset } from "react-hook-form";
 
 import { Button } from "@/components";
@@ -46,7 +47,7 @@ export const Modal = <T extends unknown>({
     toggle.setToggle();
     handleReset();
   };
-  return (
+  return ReactDOM.createPortal(
     <div
       className={classNames(
         "fixed top-0 bottom-0 left-0 bg-backdrop-main right-0 z-20 duration-150 flex flex-col items-center justify-center",
@@ -102,6 +103,7 @@ export const Modal = <T extends unknown>({
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.querySelector("body")
   );
 };
