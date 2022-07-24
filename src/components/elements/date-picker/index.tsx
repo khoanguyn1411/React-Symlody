@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 
 type TProps = {
   style?: "modal" | "default";
-  value: Date;
+  value: string;
   onChange: (param: Date) => void;
 };
 
@@ -39,14 +39,18 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
     return new Date(`${mm}/${dd}/${yyyy + 10}`);
   };
 
+  const handleChangeDate = (date: Date) => {
+    onChange(date);
+  };
+
   return (
     <WrapperModule className="relative">
       <DatePicker
         dateFormat="dd/MM/yyyy"
-        selected={value}
+        selected={value && new Date(value)}
         minDate={new Date("01/01/2000")}
-        maxDate={new Date(getMaxDate())}
-        onChange={(date) => onChange(date)}
+        maxDate={getMaxDate()}
+        onChange={handleChangeDate}
         placeholderText="Chọn ngày"
         className={classNames(
           "w-full p-2 mt-2 border-gray-300 text-black outline-none rounded-md",
@@ -60,7 +64,7 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
         }}
         calendarClassName="transition-all animate__animated animate__fadeIn"
       />
-      <span className="absolute top-0 right-0 mt-1 mr-2 text-black pointer-events-none translate-y-1/2 hover:cursor-pointer">
+      <span className="absolute top-0 right-0 mt-1 mr-2 text-black pointer-events-none translate-y-1/2">
         <i className="fas fa-calendar"></i>
       </span>
     </WrapperModule>

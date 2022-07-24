@@ -17,8 +17,7 @@ import { TFormMemberInfo } from "../type";
 
 export const ModalCreateMember: React.FC<TModalProps> = ({
   isShowing,
-  setHidden,
-  setShow,
+  setToggle,
 }) => {
   const {
     control,
@@ -33,12 +32,11 @@ export const ModalCreateMember: React.FC<TModalProps> = ({
   return (
     <Modal
       resetForm={reset}
-      toggle={{ setShow, setHidden }}
+      toggle={{ setToggle }}
       title="Tạo thành viên"
-      size="md"
+      size="lg"
       isShowing={isShowing}
       handleEvent={{
-        title: "Thêm thành viên",
         event: handleSubmit(handleCreateMember),
       }}
     >

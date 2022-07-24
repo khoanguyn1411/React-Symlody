@@ -2,11 +2,11 @@ import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
 type TProps = {
-  list: number[] | string[];
-  value: number | string;
+  list: string[];
+  value: string;
   placeHolder?: string;
   style?: "modal" | "default";
-  onChange: React.Dispatch<React.SetStateAction<string | number>>;
+  onChange: (param: string) => void;
 };
 
 export const Select: React.FC<TProps> = ({
@@ -32,13 +32,13 @@ export const Select: React.FC<TProps> = ({
         setIsShowContent(false);
       }
     };
-    window.addEventListener("click", handleCloseListDiv);
+    window.addEventListener("click", handleCloseListDiv, true);
     return () => {
-      window.removeEventListener("click", handleCloseListDiv);
+      window.removeEventListener("click", handleCloseListDiv, true);
     };
   }, [isShowContent]);
 
-  const handleSetSelectedItem = (item: number | string) => {
+  const handleSetSelectedItem = (item: string) => () => {
     onChange(item);
     setIsShowContent(false);
   };
@@ -80,18 +80,18 @@ export const Select: React.FC<TProps> = ({
         <div
           ref={listRef}
           className={classNames(
-            "absolute z-10 w-full overflow-auto bg-white duration-100 drop-shadow-lg mt-2",
+            "absolute z-10 w-full max-h-64 overflow-auto bg-white duration-100 drop-shadow-lg mt-2",
             {
               "opacity-100 visible": isShowContent,
               "opacity-0 invisible": !isShowContent,
             }
           )}
         >
-          {list.map((item: number | string, index: number) => (
+          {list.map((item: string, index: number) => (
             <div
               key={index}
               aria-hidden="true"
-              onClick={() => handleSetSelectedItem(item)}
+              onClick={handleSetSelectedItem(item)}
               className={classNames(
                 "py-1 px-2 hover:bg-primary-100 cursor-pointer min-lg:hover:bg-grey transition-all duration-70",
                 {

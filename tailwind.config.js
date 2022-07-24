@@ -31,6 +31,9 @@ module.exports = withMT({
         default: toPx(14),
       },
       colors: {
+        backdrop: {
+          main: "#0000006e"
+        },
         primary: {
           50: "#E2F6F8",
           100: "#B5E7EE",
