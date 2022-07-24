@@ -1,3 +1,4 @@
+import { ThemeProvider as Theme } from "@emotion/react";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -19,4 +20,18 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       <Router>{children}</Router>
     </React.Suspense>
   );
+};
+
+export interface TTheme extends Theme {
+  colors: any;
+}
+
+const theme: Partial<Theme> | ((outerTheme: Theme) => Theme) = {
+  colors: {
+    primary: "#007ea4",
+  },
+};
+
+export const ThemeProvider = ({ children }) => {
+  return <Theme theme={theme}>{children}</Theme>;
 };

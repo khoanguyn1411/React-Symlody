@@ -6,7 +6,7 @@ import { Navigate, Route } from "react-router-dom";
 import { Spin } from "./assets/icons";
 import { MainLayout } from "./components";
 import { useAuth } from "./hooks";
-import { AppProvider } from "./provider";
+import { AppProvider, ThemeProvider } from "./provider";
 import { CustomRoute, routesConfigs } from "./routes";
 
 function App() {
@@ -22,49 +22,51 @@ function App() {
 
   return (
     <AppProvider>
-      <CustomRoute>
-        {routesConfigs.privateRoutes.map((route, index) => {
-          return (
-            <Route
-              path={route.path}
-              key={`publicRoute_${index}`}
-              element={
-                !isAuth ? (
-                  <MainLayout pageKey={route.pageKey}>
-                    {route.component}
-                  </MainLayout>
-                ) : (
-                  <Navigate
-                    to="/login"
-                    replace
-                    state={{ path: location.pathname }}
-                  />
-                )
-              }
-            />
-          );
-        })}
+      <ThemeProvider>
+        <CustomRoute>
+          {routesConfigs.privateRoutes.map((route, index) => {
+            return (
+              <Route
+                path={route.path}
+                key={`publicRoute_${index}`}
+                element={
+                  !isAuth ? (
+                    <MainLayout pageKey={route.pageKey}>
+                      {route.component}
+                    </MainLayout>
+                  ) : (
+                    <Navigate
+                      to="/login"
+                      replace
+                      state={{ path: location.pathname }}
+                    />
+                  )
+                }
+              />
+            );
+          })}
 
-        {routesConfigs.publicRoutes.map((route, index) => {
-          return (
-            <Route
-              path={route.path}
-              key={`publicRoute_${index}`}
-              element={
-                !isAuth ? (
-                  <>{route.component}</>
-                ) : (
-                  <Navigate
-                    to="/"
-                    replace
-                    state={{ path: location.pathname }}
-                  />
-                )
-              }
-            />
-          );
-        })}
-      </CustomRoute>
+          {routesConfigs.publicRoutes.map((route, index) => {
+            return (
+              <Route
+                path={route.path}
+                key={`publicRoute_${index}`}
+                element={
+                  !isAuth ? (
+                    <>{route.component}</>
+                  ) : (
+                    <Navigate
+                      to="/"
+                      replace
+                      state={{ path: location.pathname }}
+                    />
+                  )
+                }
+              />
+            );
+          })}
+        </CustomRoute>
+      </ThemeProvider>
     </AppProvider>
   );
 

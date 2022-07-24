@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
-import { Checkbox } from "@material-tailwind/react";
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
+
+import { Checkbox } from "../checkbox";
 
 type TProps = {
   list: string[];
@@ -21,16 +21,6 @@ export const MultipleSelect: React.FC<TProps> = ({
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const listRef = useRef(null);
   const displayRef = useRef(null);
-
-  const WrapperModule = styled.div`
-    input,
-    input:checked {
-      border-radius: 4px;
-    }
-    input:checked {
-      background-color: #007ea4;
-    }
-  `;
 
   const handleSetItem = (checked: string) => () => {
     if (!value) onChange([checked]);
@@ -128,12 +118,7 @@ export const MultipleSelect: React.FC<TProps> = ({
                 "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-all duration-70"
               )}
             >
-              <WrapperModule>
-                <Checkbox
-                  readOnly
-                  checked={value && [...value].includes(item)}
-                />
-              </WrapperModule>
+              <Checkbox checked={value && [...value].includes(item)} />
               <h1>{item}</h1>
             </div>
           ))}
