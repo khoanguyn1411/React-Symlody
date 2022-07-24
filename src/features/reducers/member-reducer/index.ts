@@ -1,1 +1,7 @@
-export const as = "Demo";
+export type MemberState = {
+  pending: boolean;
+};
+
+const initialState: MemberState = {
+  pending: false,
+};
