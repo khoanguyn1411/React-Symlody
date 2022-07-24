@@ -65,7 +65,7 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
         calendarClassName="transition-all animate__animated animate__fadeIn"
       />
       <span className="absolute top-0 right-0 mt-1 mr-2 text-black pointer-events-none translate-y-1/2">
-        <i className="fas fa-calendar"></i>
+        <i className="fas fa-calendar-day"></i>
       </span>
     </WrapperModule>
   );
