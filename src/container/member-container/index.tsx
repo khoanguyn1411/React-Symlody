@@ -1,6 +1,7 @@
 import React from "react";
+import { useState } from "react";
 
-import { AppDatePicker, Button } from "@/components";
+import { Button, MultipleSelect } from "@/components";
 import { useModal } from "@/hooks";
 
 import { ModalCreateMember } from "./member-modal";
@@ -42,7 +43,7 @@ export const MemberContainer: React.FC = () => {
       position: "Leader",
     },
   ];
-
+  const [value, setValue] = useState([]);
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
@@ -95,6 +96,11 @@ export const MemberContainer: React.FC = () => {
         </div>
       </div>
       <ModalCreateMember {...useModalProps} />
+      <MultipleSelect
+        value={value}
+        onChange={setValue}
+        list={[132, 142124, 124124]}
+      ></MultipleSelect>
     </div>
   );
 };

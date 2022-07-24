@@ -4,7 +4,7 @@ export const schema = yup.object().shape({
   gender: yup.string().required("Giới tính được yêu cầu"),
   birthday: yup.date().required("Ngày sinh được yêu cầu"),
   department: yup.string().required("Phòng ban được yêu cầu"),
-  role: yup.string().required("Vị trí được yêu cầu"),
+  role: yup.array().min(1, "Vị trí được yêu cầu").default([]).nullable(),
   class: yup.string().required("Lớp được yêu cầu"),
   id: yup.string().required("MSSV được yêu cầu"),
   phone: yup.string().required("Số điện thoại được yêu cầu"),

@@ -3,7 +3,7 @@ export type TFormMemberInfo = {
   gender: string;
   birthday: Date;
   department: string;
-  role: string;
+  role: string[];
   class: string;
   id: string;
   email: string;
