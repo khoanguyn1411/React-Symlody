@@ -34,18 +34,6 @@ export const MultipleSelect: React.FC<TProps> = ({
 
   const handleSetItem = (checked: string | number) => () => {
     onChange((prev: any) => {
-      // if (value != null && [...value].includes(checked)) {
-      //   const newValue = [...value].filter((item) => item !== checked);
-      //   if (newValue.length === 0) {
-      //     return undefined;
-      //   }
-      //   return newValue;
-      // }
-      // if (value == null) {
-      //   return [checked];
-      // } else {
-      //   return [...prev, checked];
-      // }
       if (prev == null || value == null) {
         return [checked];
       }
