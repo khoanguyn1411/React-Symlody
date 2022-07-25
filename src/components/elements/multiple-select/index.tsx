@@ -21,6 +21,8 @@ export const MultipleSelect: React.FC<TProps> = ({
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const listRef = useRef(null);
   const displayRef = useRef(null);
+  const wrapperSelectRef = useRef(null);
+  const iconRef = useRef(null);
 
   const handleSetItem = (checked: string) => () => {
     if (!value) onChange([checked]);
@@ -38,7 +40,7 @@ export const MultipleSelect: React.FC<TProps> = ({
     const handleCloseListDiv = (event: Event) => {
       if (
         !elementList.contains(event.target) &&
-        !(elementDisplay == event.target)
+        !elementDisplay.contains(event.target)
       ) {
         setIsShowContent(false);
       }
@@ -50,17 +52,28 @@ export const MultipleSelect: React.FC<TProps> = ({
     };
   }, [isShowContent]);
 
-  const handleToggleContent = () => {
+  const handleToggleContent = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    const elementWrapperSelect = wrapperSelectRef?.current;
+    const elementDisplay = displayRef?.current;
+    const elementIcon = iconRef?.current;
+    if (
+      elementWrapperSelect !== e.target &&
+      elementDisplay != e.target &&
+      !elementIcon.contains(e.target)
+    ) {
+      return;
+    }
     setIsShowContent(!isShowContent);
   };
-
   return (
     <div>
       <div className="relative cursor-pointer">
         {/* Display */}
         <div
           ref={displayRef}
-          onClick={handleToggleContent}
+          onClick={(e) => handleToggleContent(e)}
           aria-hidden="true"
           className={classNames(
             "flex justify-between w-full p-2 mt-3 pr-5 rounded-md text-black",
@@ -73,7 +86,7 @@ export const MultipleSelect: React.FC<TProps> = ({
           {!value || value.length === 0 ? (
             <h1 className="text-gray-400">{placeHolder}</h1>
           ) : (
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3" ref={wrapperSelectRef}>
               {value.map((item: string, index: number) => (
                 <div
                   className="relative px-2 py-1 pr-5 text-xs bg-gray-200 min-w-max rounded-md"
@@ -92,7 +105,7 @@ export const MultipleSelect: React.FC<TProps> = ({
             </div>
           )}
 
-          <span>
+          <span ref={iconRef}>
             <i
               className={classNames(
                 "fas fa-angle-down duration-300 -mr-5 transition-transform text-base",
