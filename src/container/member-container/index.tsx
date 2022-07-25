@@ -92,12 +92,6 @@ export const MemberContainer: React.FC = () => {
         </div>
       </div>
       <ModalCreateMember {...useModalProps} />
-      <Select>
-        <Option>1</Option>
-        <Option>1</Option>
-        <Option>1</Option>
-        <Option>1</Option>
-      </Select>
     </div>
   );
 };
