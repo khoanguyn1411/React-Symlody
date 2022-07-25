@@ -102,10 +102,12 @@ export const MultipleSelect: React.FC<TProps> = ({
         <div
           ref={listRef}
           className={classNames(
-            "absolute z-10 w-full py-1 max-h-64 overflow-auto bg-white duration-100 drop-shadow-lg mt-2",
+            "absolute z-10 w-full py-1 rounded-md max-h-64 overflow-auto duration-100 shadow-md mt-2",
             {
               "opacity-100 visible": isShowContent,
               "opacity-0 invisible": !isShowContent,
+              "bg-white": style === "default",
+              "bg-grey-100 ": style === "modal",
             }
           )}
         >

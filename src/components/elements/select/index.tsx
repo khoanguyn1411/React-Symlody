@@ -80,10 +80,12 @@ export const Select: React.FC<TProps> = ({
         <div
           ref={listRef}
           className={classNames(
-            "absolute z-10 w-full max-h-64 overflow-auto bg-white duration-100 drop-shadow-lg mt-2",
+            "absolute z-10 w-full rounded-sm max-h-64 overflow-auto duration-100 drop-shadow-lg mt-2",
             {
               "opacity-100 visible": isShowContent,
               "opacity-0 invisible": !isShowContent,
+              "bg-gray-100": style === "modal",
+              "bg-white": style === "default",
             }
           )}
         >
@@ -93,9 +95,9 @@ export const Select: React.FC<TProps> = ({
               aria-hidden="true"
               onClick={handleSetSelectedItem(item)}
               className={classNames(
-                "py-1 px-2 hover:bg-primary-100 cursor-pointer min-lg:hover:bg-grey transition-all duration-70",
+                "py-1 px-2 hover:bg-primary-100 cursor-pointer transition-all duration-70",
                 {
-                  "bg-primary-200": item === value,
+                  "bg-primary-50 text-primary-800 font-medium": item === value,
                 }
               )}
             >

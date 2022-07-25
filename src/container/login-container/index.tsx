@@ -98,10 +98,7 @@ export const LoginContainer: React.FC = () => {
               />
             </FormItem>
 
-            <Button
-              type="submit"
-              className="mt-4 text-default bg-primary-800 hover:bg-primary-800"
-            >
+            <Button type="submit" className="mt-4">
               Đăng nhập
             </Button>
             <Link

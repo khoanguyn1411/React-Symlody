@@ -47,10 +47,7 @@ export const MemberContainer: React.FC = () => {
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
         <h1>Quản lý thành viên</h1>
         <div className="flex items-center">
-          <Button
-            className="px-3 py-2 text-default bg-primary-800 hover:bg-primary-800"
-            onClick={useModalProps.setShow}
-          >
+          <Button className="px-3 py-2" onClick={useModalProps.setShow}>
             Tạo mới
           </Button>
         </div>

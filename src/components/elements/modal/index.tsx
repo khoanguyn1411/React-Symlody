@@ -66,37 +66,28 @@ export const Modal = <T extends unknown>({
         })}
       >
         <div className={classNames("w-full flex relative flex-col p-0")}>
-          <h1 className="w-full px-5 py-3 text-2xl font-bold text-center uppercase border-b-2 text-primary-800 border-primary-800">
+          <h1 className="w-full px-5 py-3 text-2xl font-bold text-left uppercase border-b border-gray-400 text-primary-800">
             {title}
             <span
               aria-hidden="true"
               className="absolute right-0 mr-5 text-black cursor-pointer"
               onClick={handleSetHidden}
             >
-              <i className="fas fa-times"></i>
+              <i className="far fa-times"></i>
             </span>
           </h1>
         </div>
         <form
           onSubmit={handleEvent.event}
-          className="py-5 overflow-auto max-h-[80vh]"
+          className=" overflow-auto max-h-[80vh]"
         >
           <div className="overflow-auto">
-            <div className="flex flex-col w-full px-5 overflow-auto">
-              {children}
-            </div>
-            <div className="px-5 text-right">
-              <Button
-                type="reset"
-                onClick={handleSetHidden}
-                className="bg-white shadow-none text-default hover:shadow-none text-primary-800"
-              >
+            <div className="flex flex-col w-full px-5 pt-5">{children}</div>
+            <div className="px-5 pb-5 text-right">
+              <Button style="outline" type="reset" onClick={handleSetHidden}>
                 Hủy
               </Button>
-              <Button
-                type="submit"
-                className="ml-5 text-default bg-primary-800 hover:bg-primary-800"
-              >
+              <Button type="submit" className="ml-5">
                 {handleEvent.title || "Tạo"}
               </Button>
             </div>

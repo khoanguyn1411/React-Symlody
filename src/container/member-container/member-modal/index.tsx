@@ -10,6 +10,7 @@ import {
   MultipleSelect,
   Select,
 } from "@/components";
+import { getListRole } from "@/constants";
 import { TModalProps } from "@/hooks";
 
 import { schema } from "../schema";
@@ -173,7 +174,7 @@ export const ModalCreateMember: React.FC<TModalProps> = ({
           render={({ field: { value = [], onChange } }) => {
             return (
               <MultipleSelect
-                list={["Ban điều hành", "Ban chấp hành"]}
+                list={getListRole()}
                 style="modal"
                 value={value}
                 onChange={onChange}
