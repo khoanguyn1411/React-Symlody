@@ -1,3 +1,4 @@
+import { Option, Select } from "@material-tailwind/react";
 import React from "react";
 
 import { Button } from "@/components";
@@ -91,6 +92,12 @@ export const MemberContainer: React.FC = () => {
         </div>
       </div>
       <ModalCreateMember {...useModalProps} />
+      <Select>
+        <Option>1</Option>
+        <Option>1</Option>
+        <Option>1</Option>
+        <Option>1</Option>
+      </Select>
     </div>
   );
 };

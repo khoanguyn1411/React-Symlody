@@ -99,10 +99,12 @@ export const MultipleSelect: React.FC<TProps> = ({
           </span>
         </div>
         {/* List */}
-        <div
+        <ul
           ref={listRef}
+          role="listbox"
+          tabIndex={-1}
           className={classNames(
-            "absolute z-10 w-full py-1 rounded-md max-h-64 overflow-auto duration-100 shadow-md mt-2",
+            "absolute z-99 w-full py-1 rounded-md max-h-64 overflow-auto duration-100 shadow-md mt-2",
             {
               "opacity-100 visible": isShowContent,
               "opacity-0 invisible": !isShowContent,
@@ -112,7 +114,7 @@ export const MultipleSelect: React.FC<TProps> = ({
           )}
         >
           {list.map((item: string, index: number) => (
-            <div
+            <li
               key={index}
               aria-hidden="true"
               onClick={handleSetItem(item)}
@@ -122,9 +124,9 @@ export const MultipleSelect: React.FC<TProps> = ({
             >
               <Checkbox checked={value && [...value].includes(item)} />
               <h1>{item}</h1>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   );
