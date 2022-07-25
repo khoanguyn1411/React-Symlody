@@ -122,7 +122,7 @@ export const MultipleSelect: React.FC<TProps> = ({
           role="listbox"
           tabIndex={-1}
           className={classNames(
-            "absolute z-99 w-full py-1 rounded-md max-h-64 overflow-auto duration-100 shadow-md mt-2",
+            "absolute z-20 w-full py-1 rounded-md max-h-64 overflow-auto duration-100 shadow-md mt-2",
             {
               "opacity-100 visible": isShowContent,
               "opacity-0 invisible": !isShowContent,
