@@ -9,7 +9,7 @@ export const Checkbox: React.FC<TProps> = ({ checked, readOnly = false }) => {
   return (
     <div className="inline-flex items-center">
       <label
-        className="relative flex items-center p-3 rounded-full cursor-pointer"
+        className="relative flex items-center p-2 rounded-full cursor-pointer"
         htmlFor="checkbox"
       >
         <input
@@ -18,7 +18,7 @@ export const Checkbox: React.FC<TProps> = ({ checked, readOnly = false }) => {
           disabled={readOnly}
           type={"checkbox"}
           id={"checkbox"}
-          className="relative w-5 h-5 border appearance-none cursor-pointer peer rounded-md border-blue-grey-200 transition-all before:content[''] before:block before:bg-blue-grey-500 before:w-12 before:h-12 before:rounded-full before:absolute before:top-2/4 before:left-2/4 before:-translate-y-2/4 before:-translate-x-2/4 before:opacity-0 hover:before:opacity-10 before:transition-opacity checked:bg-blue-500 checked:border-blue-500 checked:before:bg-blue-500"
+          className="relative w-5 h-5 border appearance-none cursor-pointer peer rounded-md border-blue-grey-200 transition-all before:content[''] before:block before:bg-blue-grey-500 before:w-12 before:h-12 before:rounded-full before:absolute before:top-2/4 before:left-2/4 before:-translate-y-2/4 before:-translate-x-2/4 before:opacity-0 hover:before:opacity-10 before:transition-opacity checked:bg-primary-800 checked:border-primary-800 checked:before:bg-primary-800"
         />
         <div className="absolute text-white opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100 transition-opacity">
           <svg
