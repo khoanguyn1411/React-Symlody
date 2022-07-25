@@ -34,11 +34,16 @@ export const MultipleSelect: React.FC<TProps> = ({
     const elementList = listRef?.current;
     const elementDisplay = displayRef?.current;
     if (!elementList || !elementDisplay) return;
+
     const handleCloseListDiv = (event: Event) => {
-      if (!elementList.contains(event.target)) {
+      if (
+        !elementList.contains(event.target) &&
+        !(elementDisplay == event.target)
+      ) {
         setIsShowContent(false);
       }
     };
+
     window.addEventListener("click", handleCloseListDiv, true);
     return () => {
       window.removeEventListener("click", handleCloseListDiv, true);
