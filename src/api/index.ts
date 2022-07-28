@@ -5,3 +5,4 @@ export * from "./api-problem";
 export * from "./api-utilities";
 //api
 export * from "./auth-api";
+export * from "./member-api";
