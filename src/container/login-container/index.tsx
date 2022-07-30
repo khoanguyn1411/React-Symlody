@@ -3,6 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import { Api } from "@/api";
 import { images } from "@/assets/images";
 import { Button, FormItem, Input } from "@/components";
 import { useAppDispatch } from "@/features";
@@ -31,15 +32,14 @@ export const LoginContainer: React.FC = () => {
 
   const onSubmit = async (data: IFormLoginValue) => {
     const res = await dispatch(
-      loginAsync({ email: data.email, password: data.password })
+      loginAsync({ username: data.username, password: data.password })
     );
     if (!res.payload) {
       toast.error("Đăng nhập thất bại");
       return;
     }
-
-    console.log(data);
     dispatch(setIsAuth(true));
+    Api.getToken();
     navigate(pathLocation || "/");
     toast.success("Đăng nhập thành công");
   };
@@ -65,15 +65,19 @@ export const LoginContainer: React.FC = () => {
             className="flex flex-col mt-6"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <FormItem label="Email" isRequired error={errors.email?.message}>
+            <FormItem
+              label="Username"
+              isRequired
+              error={errors.username?.message}
+            >
               <Controller
                 control={control}
-                name="email"
+                name="username"
                 render={({ field: { value, onChange } }) => (
                   <Input
                     value={value}
                     onChange={onChange}
-                    placeholder="Email"
+                    placeholder="Username"
                   />
                 )}
               />

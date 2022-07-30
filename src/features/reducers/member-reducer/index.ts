@@ -14,6 +14,21 @@ const initialState: MemberState = {
   members: [],
 };
 
+// export const createMemberAsync = createAsyncThunk(
+//   "auth/login",
+//   async (payload: { name:  }) => {
+//     const result: RequestCreateMembersResult = await MemberApi.createMember(
+//       payload.email,
+//       payload.password
+//     );
+
+//     if (result.kind === "ok") {
+//       return true;
+//     }
+//     return false;
+//   }
+// );
+
 export const getMembersAsync = createAsyncThunk("get/members", async () => {
   const result: RequestGetMembersResult = await MemberApi.getMembers();
   if (result.kind === "ok") {

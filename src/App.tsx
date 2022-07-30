@@ -28,7 +28,7 @@ function App() {
             return (
               <Route
                 path={route.path}
-                key={`publicRoute_${index}`}
+                key={`privateRoute_${index}`}
                 element={
                   isAuth ? (
                     <MainLayout pageKey={route.pageKey}>

@@ -1,47 +1,23 @@
-import React from "react";
+import dayjs from "dayjs";
+import React, { useEffect } from "react";
 
 import { Button } from "@/components";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { getMembersAsync } from "@/features/reducers";
 import { useModal } from "@/hooks";
 
 import { ModalCreateMember } from "./member-modal";
 
 export const MemberContainer: React.FC = () => {
   const useModalProps = useModal();
+  const dispatch = useAppDispatch();
+  const memberList = useAppSelector((state) => state.member);
 
-  const list = [
-    {
-      no: 1,
-      name: "Khoa",
-      email: "1031@gmail.com",
-      ban: "Su kien",
-      date: "14/11/2001",
-      position: "Leader",
-    },
-    {
-      no: 1,
-      name: "Khoa",
-      ban: "Su kien",
-      email: "1031@gmail.com",
-      date: "14/11/2001",
-      position: "Leader",
-    },
-    {
-      no: 1,
-      name: "Khoa",
-      ban: "Su kien",
-      email: "1031@gmail.com",
-      date: "14/11/2001",
-      position: "Leader",
-    },
-    {
-      no: 1,
-      name: "Khoa",
-      ban: "Su kien",
-      email: "1031@gmail.com",
-      date: "14/11/2001",
-      position: "Leader",
-    },
-  ];
+  useEffect(() => {
+    dispatch(getMembersAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
@@ -65,24 +41,35 @@ export const MemberContainer: React.FC = () => {
                   Vị trí
                 </td>
               </tr>
-              {list.map((item, index) => (
-                <tr className="text-left border-t border-gray-200" key={index}>
+              {memberList.members.map((item, index) => (
+                <tr
+                  className="text-left border-t border-gray-200"
+                  key={item.id}
+                >
                   <td className="w-20 py-2 font-normal text-center">
-                    {item.no}
+                    {index + 1}
                   </td>
                   <td className="w-auto py-2 pr-6 font-normal">
                     <div className="flex items-center">
                       <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
                       <div>
-                        <h1 className="font-semibold">{item.name}</h1>
-                        <h1 className="text-sm">{item.email}</h1>
+                        <h1 className="font-semibold">
+                          {item.auth_account.first_name +
+                            " " +
+                            item.auth_account.last_name}
+                        </h1>
+                        <h1 className="text-sm">{item.auth_account.email}</h1>
                       </div>
                     </div>
                   </td>
-                  <td className="py-2 pr-6 font-normal w-1/10">{item.ban}</td>
-                  <td className="py-2 pr-6 font-normal w-1/10">{item.date}</td>
+                  <td className="py-2 pr-6 font-normal w-1/10">
+                    {item.department}
+                  </td>
+                  <td className="py-2 pr-6 font-normal w-1/10">
+                    {item.dob && dayjs(item.dob).format("DD/MM/YYYY")}
+                  </td>
                   <td className="py-2 font-normal w-1/10 pr-default">
-                    {item.position}
+                    {item.auth_account.groups.join(", ")}
                   </td>
                 </tr>
               ))}
