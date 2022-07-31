@@ -20,15 +20,13 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
+  <Provider store={store}>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
 
-      <ToastContainer position="bottom-center" autoClose={3500} pauseOnHover />
-    </Provider>
-  </React.StrictMode>
+    <ToastContainer position="bottom-center" autoClose={3500} pauseOnHover />
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -13,17 +13,15 @@ export function useAuth() {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.user);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!isLoading) {
-      setIsLoading(true);
-      checkAuth().then((res) => {
-        dispatch(setIsAuth(res));
-        setIsLoading(false);
-      });
-      getIsCompact();
-    }
+    checkAuth().then((res) => {
+      dispatch(setIsAuth(res));
+      setIsLoading(false);
+    });
+    getIsCompact();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkAuth = async () => {
