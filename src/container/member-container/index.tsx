@@ -76,7 +76,7 @@ export const MemberContainer: React.FC = () => {
                     </div>
                   </td>
                   <td className="py-2 pr-6 font-normal w-1/10">
-                    {item.department}
+                    {item.department.name}
                   </td>
                   <td className="py-2 pr-6 font-normal w-1/10">
                     {item.dob && dayjs(item.dob).format("DD/MM/YYYY")}

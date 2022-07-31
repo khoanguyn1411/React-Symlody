@@ -15,5 +15,8 @@ export interface IMember {
   home_town: string;
   last_modified_date: string;
   created_by: number;
-  department: number;
+  department: {
+    id: number;
+    name: string;
+  };
 }
