@@ -22,7 +22,7 @@ export const Button: React.FC<TProps> = ({
       color="blue-grey"
       type={type}
       className={classNames(
-        "rounded-lg transition-all duration-200 text-default border-2 py-2 normal-case font-bold",
+        "rounded-lg transition-all min-w-max duration-200 text-default border-2 py-2 normal-case font-bold",
         className,
         {
           "border-primary-800 bg-primary-800 hover:bg-primary-900 hover:border-primary-900 text-white":
