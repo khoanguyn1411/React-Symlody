@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Button } from "@/components";
+import { Button, Select } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync } from "@/features/reducers";
 import { useModal } from "@/hooks";
@@ -15,6 +15,13 @@ export const MemberContainer: React.FC = () => {
   const memberStore = useAppSelector((state) => state.member);
   const isNotEmpty = memberStore.members.length > 0;
 
+  const [filter, setFilter] = useState("");
+
+  const displayOptions = [
+    "Tất cả thành viên",
+    "Trong nhiệm kỳ",
+    "Hết nhiệm kỳ",
+  ];
   useEffect(() => {
     dispatch(getMembersAsync());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,8 +74,14 @@ export const MemberContainer: React.FC = () => {
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
         <h1>Quản lý thành viên</h1>
-        <div className="flex items-center">
-          <Button className="px-3 py-2" onClick={useModalProps.setShow}>
+        <div className="flex items-center justify-center">
+          <Select
+            className="w-44"
+            list={displayOptions}
+            value={filter}
+            onChange={setFilter}
+          ></Select>
+          <Button className="px-3 py-2 ml-5" onClick={useModalProps.setShow}>
             Tạo mới
           </Button>
         </div>

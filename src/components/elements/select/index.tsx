@@ -5,6 +5,7 @@ type TProps = {
   list: string[];
   value: string;
   placeHolder?: string;
+  className?: string;
   style?: "modal" | "default";
   onChange: (param: string) => void;
 };
@@ -13,6 +14,7 @@ export const Select: React.FC<TProps> = ({
   list,
   value,
   placeHolder,
+  className,
   style = "default",
   onChange,
 }) => {
@@ -47,7 +49,7 @@ export const Select: React.FC<TProps> = ({
   };
 
   return (
-    <div>
+    <div className={className}>
       <div className="relative cursor-pointer">
         {/* Display */}
         <div
@@ -55,14 +57,14 @@ export const Select: React.FC<TProps> = ({
           onClick={handleToggleContent}
           aria-hidden="true"
           className={classNames(
-            "flex justify-between w-full p-2 mt-3 pr-5 rounded-md text-black",
+            "flex justify-between w-full p-2 pr-5 rounded-md text-black",
             {
               "bg-gray-100": style === "modal",
               "bg-white border border-primary-800": style === "default",
             }
           )}
         >
-          <h1 className={classNames({ "text-gray-400": !value })}>
+          <h1 className={classNames("pr-3", { "text-gray-400": !value })}>
             {value ?? placeHolder}
           </h1>
           <span>

@@ -22,7 +22,7 @@ export const Input: React.FC<TProps> = ({
       onChange={onChange}
       placeholder={placeholder}
       className={classNames(
-        "w-full p-2 mt-2 border-gray-300 text-black outline-none rounded-md",
+        "w-full p-2 border-gray-300 text-black outline-none rounded-md",
         {
           "bg-gray-100": style === "modal",
           "border-[1.5px]": style === "default",
