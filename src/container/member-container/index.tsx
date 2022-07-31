@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
 
-import { Button } from "@/components";
+import { Button, Dropdown } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync } from "@/features/reducers";
 import { useModal } from "@/hooks";
@@ -70,6 +70,28 @@ export const MemberContainer: React.FC = () => {
                   </td>
                   <td className="py-2 font-normal w-1/10 pr-default">
                     {item.auth_account.groups.join(", ")}
+                  </td>
+
+                  <td className="w-6 py-2 font-normal pr-default">
+                    <Dropdown
+                      menus={[
+                        {
+                          key: "Chỉnh sửa thành viên",
+                          prefix: <i className="w-6 far fa-edit"></i>,
+                        },
+                        {
+                          key: "Lưu trữ thành viên",
+                          prefix: <i className="w-6 far fa-trash-alt"></i>,
+                        },
+                      ]}
+                      onClickMenu={function (key: string): void {
+                        throw new Error("Function not implemented.");
+                      }}
+                    >
+                      <span className="text-primary-800">
+                        <i className="far fa-ellipsis-h"></i>
+                      </span>
+                    </Dropdown>
                   </td>
                 </tr>
               ))}
