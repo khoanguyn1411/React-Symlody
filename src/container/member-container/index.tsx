@@ -102,7 +102,7 @@ export const MemberContainer: React.FC = () => {
                       }}
                     >
                       <span className="text-primary-800">
-                        <i className="far fa-ellipsis-h"></i>
+                        <i className="fas fa-ellipsis-h"></i>
                       </span>
                     </Dropdown>
                   </td>

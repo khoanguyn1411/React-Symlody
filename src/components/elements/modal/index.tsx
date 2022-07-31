@@ -25,6 +25,7 @@ type TProps<T> = {
   toggle: TToggleModal;
   handleEvent: TEventModal;
   resetForm?: UseFormReset<T>;
+  allowClickOutside?: boolean;
 };
 
 /**
@@ -39,6 +40,7 @@ export const Modal = <T extends unknown>({
   toggle,
   handleEvent,
   resetForm,
+  allowClickOutside = false,
 }: TProps<T>): ReactElement => {
   const handleReset = () => {
     resetForm();
@@ -47,8 +49,20 @@ export const Modal = <T extends unknown>({
     toggle.setToggle();
     handleReset();
   };
+  const handleCloseWhenClickOutside = () => {
+    allowClickOutside && toggle.setToggle();
+  };
+
+  const handleStopPropagation = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    allowClickOutside && event.stopPropagation();
+  };
+
   return ReactDOM.createPortal(
     <div
+      aria-hidden
+      onClick={handleCloseWhenClickOutside}
       className={classNames(
         "fixed top-0 bottom-0 left-0 bg-backdrop-main right-0 z-20 duration-150 flex flex-col items-center justify-center",
         {
@@ -58,6 +72,8 @@ export const Modal = <T extends unknown>({
       )}
     >
       <div
+        aria-hidden
+        onClick={(event) => handleStopPropagation(event)}
         className={classNames("w-full bg-white rounded-md min-w-modal", {
           "max-w-xs": size === "xs",
           "max-w-sm": size === "sm",
