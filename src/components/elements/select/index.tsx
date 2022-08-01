@@ -57,7 +57,7 @@ export const Select: React.FC<TProps> = ({
           onClick={handleToggleContent}
           aria-hidden="true"
           className={classNames(
-            "flex justify-between w-full p-2 pr-5 rounded-md text-black",
+            "flex justify-between w-full text-default px-2 py-2 pr-5 rounded-md text-black",
             {
               "bg-gray-100": style === "modal",
               "bg-white border border-primary-800": style === "default",

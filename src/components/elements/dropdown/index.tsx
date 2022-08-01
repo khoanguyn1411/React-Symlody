@@ -105,11 +105,14 @@ export const DropDownWithAction: React.FC<TPropsDropDown2> = ({
       <div className="flex h-11">
         <Button
           onClick={(event) => handleClickButton(event)}
-          className="px-2 rounded-r-none"
+          className="rounded-r-none"
         >
           Thêm tài sản
         </Button>
-        <Button className="flex items-center justify-center w-4 h-full px-0 border-l rounded-l-none border-l-white hover:bg-primary-900 hover:border-l-white bg-primary-800">
+        <Button
+          isIconOnly
+          className="flex items-center justify-center w-4 h-full border-l rounded-l-none border-l-white hover:bg-primary-900 hover:border-l-white bg-primary-800"
+        >
           <MenuHandler>
             <span className="flex items-center px-2 h-11">
               <i

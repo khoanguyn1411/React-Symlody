@@ -29,7 +29,7 @@ export const AssetContainer: React.FC = () => {
       owner: "Câu lạc bộ",
     },
     {
-      name: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
+      name: "VOUCHER TRÀ asdas dasd asd asd asd asd asd asd asd asd asd  SỮA ĐÔNG DU 50% ",
       quantity: 30,
       price: 120000,
       inCharge: "Nguyễn Thị A",
@@ -75,7 +75,7 @@ export const AssetContainer: React.FC = () => {
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
-        <h1>Quản lý thành viên</h1>
+        <h1>Quản lý tài sản</h1>
         <div className="flex items-center justify-center">
           <DropDownWithAction
             menus={[
@@ -97,7 +97,9 @@ export const AssetContainer: React.FC = () => {
           <table className="w-full">
             <tbody>
               <tr className="bg-secondary-50">
-                <td className="w-20 py-2 font-semibold text-center">STT</td>
+                <td className="w-20 py-2 pl-2 font-semibold text-center rounded-tl-lg">
+                  STT
+                </td>
                 <td className="py-2 pr-6 font-semibold text-center">Tài sản</td>
                 <td className="py-2 font-semibold text-center w-fit">
                   Số lượng
@@ -109,16 +111,16 @@ export const AssetContainer: React.FC = () => {
                 <td className="py-2 font-semibold text-center pr-default">
                   Chủ sở hữu
                 </td>
-                <td className="py-2 font-semibold text-left pr-default"></td>
+                <td className="py-2 font-semibold text-left rounded-tr-lg pr-default"></td>
               </tr>
               {assetList.map((item, index) => (
                 <tr className="text-left border-t border-gray-200" key={index}>
-                  <td className="w-20 py-2 font-normal text-center">
+                  <td className="w-20 py-2 pl-2 font-normal text-center">
                     {index + 1}
                   </td>
 
-                  <td className="w-1/4 py-2 font-normal">{item.name}</td>
-                  <td className="py-2 font-normal text-center">
+                  <td className="w-1/3 py-2 font-normal">{item.name}</td>
+                  <td className="w-16 py-2 font-normal text-center">
                     {item.quantity}
                   </td>
                   <td className="py-2 font-normal text-center w-44">

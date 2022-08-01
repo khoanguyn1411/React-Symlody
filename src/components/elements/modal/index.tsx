@@ -99,7 +99,7 @@ export const Modal = <T extends unknown>({
         >
           <div className="overflow-auto">
             <div className="flex flex-col w-full px-5 pt-5">{children}</div>
-            <div className="px-5 pb-5 text-right">
+            <div className="flex justify-end px-5 pb-5">
               <Button style="outline" type="reset" onClick={handleSetHidden}>
                 Hủy
               </Button>
