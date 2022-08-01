@@ -4,14 +4,17 @@ import React, { useEffect, useState } from "react";
 import { Button, Dropdown, Select } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync } from "@/features/reducers";
+import { IMember } from "@/features/types/member-type";
 import { useModal } from "@/hooks";
 
-import { ModalCreateMember } from "./member-modal";
+import { ModalCreateMember, ModalEditMember } from "./member-modal";
+import { ListMemberSkeleton } from "./member-skeleton";
 
 export const MemberContainer: React.FC = () => {
-  const useModalProps = useModal();
+  const propsModalCreateMember = useModal();
+  const propsModalEditMember = useModal<IMember>();
   const dispatch = useAppDispatch();
-  const memberList = useAppSelector((state) => state.member);
+  const memberStore = useAppSelector((state) => state.member);
 
   const displayOptions = [
     "Tất cả thành viên",
@@ -24,6 +27,27 @@ export const MemberContainer: React.FC = () => {
   }, []);
 
   const [filter, setFilter] = useState<string>(displayOptions[0]);
+  const handleSelectMenu = (key: string, item: IMember) => {
+    switch (key) {
+      case "Chỉnh sửa thành viên":
+        propsModalEditMember.setShow();
+        propsModalEditMember.setData(item);
+        break;
+      case "Lưu trữ thành viên":
+        // code block
+        break;
+      default:
+      // code block
+    }
+  };
+
+  if (memberStore.pending) {
+    return <ListMemberSkeleton />;
+  }
+
+  if (!memberStore.members || memberStore.members.length === 0) {
+    return <div>No data</div>;
+  }
 
   return (
     <div>
@@ -36,7 +60,10 @@ export const MemberContainer: React.FC = () => {
             value={filter}
             onChange={setFilter}
           ></Select>
-          <Button className="px-3 py-2 ml-5" onClick={useModalProps.setShow}>
+          <Button
+            className="px-3 py-2 ml-5"
+            onClick={propsModalCreateMember.setShow}
+          >
             Tạo mới
           </Button>
         </div>
@@ -54,7 +81,7 @@ export const MemberContainer: React.FC = () => {
                   Vị trí
                 </td>
               </tr>
-              {memberList.members.map((item, index) => (
+              {memberStore.members.map((item, index) => (
                 <tr
                   className="text-left border-t border-gray-200"
                   key={item.id}
@@ -97,9 +124,7 @@ export const MemberContainer: React.FC = () => {
                           prefix: <i className="w-6 far fa-trash-alt"></i>,
                         },
                       ]}
-                      onClickMenu={function (key: string): void {
-                        console.log(key);
-                      }}
+                      onClickMenu={(key) => handleSelectMenu(key, item)}
                     >
                       <span className="text-primary-800">
                         <i className="fas fa-ellipsis-h"></i>
@@ -112,7 +137,8 @@ export const MemberContainer: React.FC = () => {
           </table>
         </div>
       </div>
-      <ModalCreateMember {...useModalProps} />
+      <ModalCreateMember {...propsModalCreateMember} />
+      <ModalEditMember {...propsModalEditMember} />
     </div>
   );
 };
