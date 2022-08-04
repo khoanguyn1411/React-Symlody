@@ -5736,7 +5736,7 @@ readers do not read off random characters that represent icons */
   content: "\f75c";
 }
 
-.fa-xmark:before{
+.fa-xmark:before {
   content: "\f00d";
 }
 

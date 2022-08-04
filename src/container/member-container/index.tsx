@@ -30,14 +30,14 @@ export const MemberContainer: React.FC = () => {
   const handleSelectMenu = (key: string, item: IMember) => {
     switch (key) {
       case "Chỉnh sửa thành viên":
-        propsModalEditMember.setShow();
         propsModalEditMember.setData(item);
+        propsModalEditMember.setShow();
         break;
       case "Lưu trữ thành viên":
         // code block
         break;
       default:
-      // code block
+        throw new Error("Invalid input.");
     }
   };
 

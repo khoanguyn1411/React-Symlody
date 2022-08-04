@@ -1,8 +1,12 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { MemberApi, RequestGetMembersResult } from "@/api";
+import {
+  MemberApi,
+  RequestCreateMembersResult,
+  RequestGetMembersResult,
+} from "@/api";
 import { RootState } from "@/features/store";
-import { IMember } from "@/features/types/member-type";
+import { IMember, IMemberPost } from "@/features/types/member-type";
 
 export type MemberState = {
   pending: boolean;
@@ -14,20 +18,19 @@ const initialState: MemberState = {
   members: [],
 };
 
-// export const createMemberAsync = createAsyncThunk(
-//   "auth/login",
-//   async (payload: { name:  }) => {
-//     const result: RequestCreateMembersResult = await MemberApi.createMember(
-//       payload.email,
-//       payload.password
-//     );
+export const createMemberAsync = createAsyncThunk(
+  "auth/login",
+  async (payload: IMemberPost) => {
+    const result: RequestCreateMembersResult = await MemberApi.createMember(
+      payload
+    );
 
-//     if (result.kind === "ok") {
-//       return true;
-//     }
-//     return false;
-//   }
-// );
+    if (result.kind === "ok") {
+      return true;
+    }
+    return false;
+  }
+);
 
 export const getMembersAsync = createAsyncThunk("get/members", async () => {
   const result: RequestGetMembersResult = await MemberApi.getMembers();

@@ -29,8 +29,8 @@ export const ModalEditMember: React.FC<TModalProps<IMember>> = ({
     reset,
   } = useForm<TFormMemberInfo>({ resolver: yupResolver(schema) });
 
-  const handleCreateMember = (data: TFormMemberInfo) => {
-    console.log(data);
+  const handleCreateMember = (editInfo: TFormMemberInfo) => {
+    console.log(editInfo);
   };
   if (data == null) {
     return;

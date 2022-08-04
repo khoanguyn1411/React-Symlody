@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useState } from "react";
 import { Controller, FieldError, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 import {
   AppDatePicker,
@@ -11,10 +12,13 @@ import {
   Select,
 } from "@/components";
 import { getListRole } from "@/constants";
+import { useAppDispatch } from "@/features";
+import { createMemberAsync } from "@/features/reducers";
 import { TModalProps } from "@/hooks";
 
 import { schema } from "../schema";
 import { TFormMemberInfo } from "../type";
+import { MemberMapper } from "../utils";
 
 export const ModalCreateMember: React.FC<TModalProps<undefined>> = ({
   isShowing,
@@ -27,8 +31,19 @@ export const ModalCreateMember: React.FC<TModalProps<undefined>> = ({
     reset,
   } = useForm<TFormMemberInfo>({ resolver: yupResolver(schema) });
 
-  const handleCreateMember = (data: TFormMemberInfo) => {
-    console.log(data);
+  const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleCreateMember = async (data: TFormMemberInfo) => {
+    setIsLoading(true);
+    const memberDto = MemberMapper.toDto(data);
+    const res = await dispatch(createMemberAsync(memberDto));
+    if (!res.payload) {
+      toast.error("Tạo thành viên thất bại");
+      return;
+    }
+    setIsLoading(false);
+    reset();
   };
   return (
     <Modal
