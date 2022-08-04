@@ -13,12 +13,12 @@ import {
 } from "@/components";
 import { getListRole } from "@/constants";
 import { useAppDispatch } from "@/features";
-import { createMemberAsync } from "@/features/reducers";
+import { createMemberAsync, getMembersAsync } from "@/features/reducers";
 import { TModalProps } from "@/hooks";
 
+import { MemberMapper } from "../mapper";
 import { schema } from "../schema";
 import { TFormMemberInfo } from "../type";
-import { MemberMapper } from "../utils";
 
 export const ModalCreateMember: React.FC<TModalProps<undefined>> = ({
   isShowing,
@@ -43,6 +43,7 @@ export const ModalCreateMember: React.FC<TModalProps<undefined>> = ({
       return;
     }
     setIsLoading(false);
+    dispatch(getMembersAsync());
     reset();
   };
   return (

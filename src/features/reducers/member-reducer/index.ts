@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import {
+  Api,
   MemberApi,
   RequestCreateMembersResult,
   RequestGetMembersResult,

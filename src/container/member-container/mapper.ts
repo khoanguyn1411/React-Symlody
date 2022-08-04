@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 import { IMemberPost } from "@/features/types/member-type";
 
 import { TFormMemberInfo } from "./type";
@@ -12,11 +14,11 @@ export class MemberMapper {
         email: formData.email,
         groups: [1, 2, 3, 4, 5],
       },
-      dob: formData.birthday,
+      dob: dayjs().format("YYYY-MM-DD"),
       class_name: formData.class,
       is_archived: true,
       address: formData.address,
-      gender: formData.gender === "Nam" ? 1 : 0,
+      gender: formData.gender === "Nam" ? 1 : 2,
       student_id: formData.id,
       phone_number: formData.phone,
       home_town: formData.home,
