@@ -43,6 +43,7 @@ export const ModalEditMember: React.FC<TModalProps<IMember>> = ({
       size="lg"
       isShowing={isShowing}
       handleEvent={{
+        title: "Cập nhật",
         event: handleSubmit(handleCreateMember),
       }}
     >
