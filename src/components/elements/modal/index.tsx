@@ -9,6 +9,7 @@ import { Button } from "@/components";
 type TEventModal = {
   title?: string;
   event: () => void;
+  isLoading?: boolean;
 };
 
 type TToggleModal = {
@@ -42,6 +43,7 @@ export const Modal = <T extends unknown>({
   resetForm,
   allowClickOutside = false,
 }: TProps<T>): ReactElement => {
+  const isLoading = handleEvent.isLoading ?? false;
   const handleReset = () => {
     resetForm();
   };
@@ -103,8 +105,12 @@ export const Modal = <T extends unknown>({
               <Button style="outline" type="reset" onClick={handleSetHidden}>
                 Hủy
               </Button>
-              <Button type="submit" className="ml-5">
-                {handleEvent.title || "Tạo"}
+              <Button
+                isShowLoading={{ active: isLoading }}
+                type="submit"
+                className="ml-5"
+              >
+                {handleEvent.title ?? "Tạo"}
               </Button>
             </div>
           </div>

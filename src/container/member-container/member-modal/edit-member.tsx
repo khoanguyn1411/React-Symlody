@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useState } from "react";
 import { Controller, FieldError, useForm } from "react-hook-form";
 
 import {
@@ -28,8 +28,10 @@ export const ModalEditMember: React.FC<TModalProps<IMember>> = ({
     handleSubmit,
     reset,
   } = useForm<TFormMemberInfo>({ resolver: yupResolver(schema) });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleCreateMember = (editInfo: TFormMemberInfo) => {
+    setIsLoading(true);
     console.log(editInfo);
   };
   if (data == null) {
@@ -45,6 +47,7 @@ export const ModalEditMember: React.FC<TModalProps<IMember>> = ({
       handleEvent={{
         title: "Cập nhật",
         event: handleSubmit(handleCreateMember),
+        isLoading: isLoading,
       }}
     >
       <FormItem label="Họ và tên" isRequired error={errors.fullName?.message}>

@@ -55,6 +55,7 @@ export const ModalCreateMember: React.FC<TModalProps<undefined>> = ({
       isShowing={isShowing}
       handleEvent={{
         event: handleSubmit(handleCreateMember),
+        isLoading: isLoading,
       }}
     >
       <FormItem label="Họ và tên" isRequired error={errors.fullName?.message}>
