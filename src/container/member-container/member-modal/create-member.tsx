@@ -8,8 +8,8 @@ import {
   FormItem,
   Input,
   Modal,
-  MultipleSelect,
   Select,
+  SelectMultiple,
 } from "@/components";
 import { getListRole } from "@/constants";
 import { useAppDispatch } from "@/features";
@@ -190,7 +190,7 @@ export const ModalCreateMember: React.FC<TModalProps<undefined>> = ({
           name="role"
           render={({ field: { value = [], onChange } }) => {
             return (
-              <MultipleSelect
+              <SelectMultiple
                 list={getListRole()}
                 style="modal"
                 value={value}

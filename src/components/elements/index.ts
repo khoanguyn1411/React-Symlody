@@ -5,6 +5,5 @@ export * from "./dropdown";
 export * from "./form-item";
 export * from "./input";
 export * from "./modal";
-export * from "./multiple-select";
 export * from "./radio";
 export * from "./select";

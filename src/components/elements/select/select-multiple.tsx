@@ -11,7 +11,7 @@ type TProps = {
   onChange: (value: string[]) => void;
 };
 
-export const MultipleSelect: React.FC<TProps> = ({
+export const SelectMultiple: React.FC<TProps> = ({
   list,
   value,
   placeHolder,
