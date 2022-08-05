@@ -30,7 +30,7 @@ export const ModalEditMember: React.FC<TModalProps<IMember>> = ({
   } = useForm<TFormMemberInfo>({ resolver: yupResolver(schema) });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleCreateMember = (editInfo: TFormMemberInfo) => {
+  const handleEditMember = (editInfo: TFormMemberInfo) => {
     setIsLoading(true);
     console.log(editInfo);
   };
@@ -46,7 +46,7 @@ export const ModalEditMember: React.FC<TModalProps<IMember>> = ({
       isShowing={isShowing}
       handleEvent={{
         title: "Cập nhật",
-        event: handleSubmit(handleCreateMember),
+        event: handleSubmit(handleEditMember),
         isLoading: isLoading,
       }}
     >
