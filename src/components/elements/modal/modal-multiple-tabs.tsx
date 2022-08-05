@@ -1,10 +1,10 @@
 import { size } from "@material-tailwind/react/types/components/dialog";
 import classNames from "classnames";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import ReactDOM from "react-dom";
 import { UseFormReset } from "react-hook-form";
 
-import { Button } from "@/components";
+import { Button } from "../button";
 
 type TEventModal = {
   title?: string;
@@ -18,13 +18,17 @@ type TToggleModal = {
   setToggle?: () => void;
 };
 
-type TProps<T> = {
-  size: size;
-  children: ReactNode;
+type TTabs = {
   title: string;
+  children: ReactNode;
+};
+
+type TProps<T> = {
+  size?: size;
+  renderTabs: TTabs[];
   isShowing: boolean;
   toggle: TToggleModal;
-  handleEvent: TEventModal;
+  handleEvent?: TEventModal;
   resetForm?: UseFormReset<T>;
   allowClickOutside?: boolean;
 };
@@ -34,16 +38,23 @@ type TProps<T> = {
  * such values to corresponding props of modal (isShowing = isShowing and toggle = toggle)
  */
 export const ModalMultipleTabs = <T extends unknown>({
-  children,
+  renderTabs,
   size = "sm",
-  title,
   isShowing,
   toggle,
   handleEvent,
   resetForm,
   allowClickOutside = false,
 }: TProps<T>): ReactElement => {
-  const isLoading = handleEvent.isLoading ?? false;
+  // const isLoading = handleEvent.isLoading ?? false;
+  const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
+
+  const handleChangeTab = (item: TTabs) => {
+    return () => {
+      setTabActive(item);
+    };
+  };
+
   const handleReset = () => {
     resetForm();
   };
@@ -83,34 +94,52 @@ export const ModalMultipleTabs = <T extends unknown>({
           "max-w-lg": size === "lg",
         })}
       >
-        <div className={classNames("w-full flex relative flex-col p-0")}>
-          <h1 className="w-full px-5 py-3 text-2xl font-bold text-left uppercase border-b border-gray-400 text-primary-800">
-            {title}
-            <span
-              aria-hidden="true"
-              className="absolute right-0 mr-5 text-black cursor-pointer"
-              onClick={handleSetHidden}
-            >
-              <i className="far fa-times"></i>
-            </span>
-          </h1>
-        </div>
         <form
-          onSubmit={handleEvent.event}
+          // onSubmit={handleEvent.event}
           className=" overflow-auto max-h-[80vh]"
         >
-          <div className="overflow-auto">
-            <div className="flex flex-col w-full px-5 pt-5">{children}</div>
-            <div className="px-5 pb-5 text-right">
+          <div className={classNames("w-full flex relative flex-col mt-3")}>
+            {/* Title */}
+            <div className="flex justify-between px-5 border-b-2">
+              {renderTabs.map((item, index) => (
+                <div
+                  key={`modalTitle${index}`}
+                  aria-hidden
+                  className={classNames(
+                    "flex-1 py-2 text-center cursor-pointer transition-all duration-200",
+                    {
+                      "bg-primary-50 text-primary-800":
+                        tabActive.title === item.title,
+                      "text-black": tabActive.title === item.title,
+                    }
+                  )}
+                  onClick={handleChangeTab(item)}
+                >
+                  <span className="font-semibold">{item.title}</span>
+                </div>
+              ))}
+              <span
+                aria-hidden="true"
+                className="flex items-center justify-center py-3 pl-4 pr-0 text-black cursor-pointer"
+                // onClick={handleSetHidden}
+              >
+                <i className="far fa-times"></i>
+              </span>
+            </div>
+            {/* Children */}
+            <div className="px-5 py-3">{tabActive.children}</div>
+            {/* Footer buttons */}
+            <div className="flex justify-end px-5 pb-5">
               <Button style="outline" type="reset" onClick={handleSetHidden}>
                 Hủy
               </Button>
               <Button
-                isShowLoading={{ active: isLoading }}
+                isShowLoading={{ active: true }}
                 type="submit"
-                className="ml-5"
+                className="ml-5 transition-all duration-200"
               >
-                {handleEvent.title ?? "Tạo"}
+                {/* {handleEvent.title ?? "Tạo"} */}
+                Tạo
               </Button>
             </div>
           </div>

@@ -5,9 +5,10 @@ import { toast } from "react-toastify";
 
 import { Api } from "@/api";
 import { images } from "@/assets/images";
-import { Button, FormItem, Input } from "@/components";
+import { Button, FormItem, Input, ModalMultipleTabs } from "@/components";
 import { useAppDispatch } from "@/features";
 import { loginAsync, setIsAuth } from "@/features/reducers";
+import { useModal } from "@/hooks";
 
 import { schema } from "./schema";
 import { IFormLoginValue } from "./type";
@@ -20,6 +21,8 @@ export const LoginContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const propsModal = useModal();
 
   const stateLocation: TStateLocation = location?.state;
   const pathLocation = stateLocation?.path;
@@ -112,6 +115,21 @@ export const LoginContainer: React.FC = () => {
               Quên mật khẩu?
             </Link>
           </form>
+
+          <ModalMultipleTabs
+            toggle={{ setToggle: propsModal.setToggle }}
+            isShowing={true}
+            renderTabs={[
+              {
+                title: "Demo tab 1",
+                children: <input></input>,
+              },
+              {
+                title: "Demo tab 2",
+                children: <div>demo 2 ne</div>,
+              },
+            ]}
+          />
         </div>
       </div>
     </div>

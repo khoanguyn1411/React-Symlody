@@ -7,8 +7,8 @@ import {
   FormItem,
   Input,
   Modal,
-  MultipleSelect,
   Select,
+  SelectMultiple,
 } from "@/components";
 import { getListRole } from "@/constants";
 import { IMember } from "@/features/types/member-type";
@@ -186,7 +186,7 @@ export const ModalEditMember: React.FC<TModalProps<IMember>> = ({
           name="role"
           render={({ field: { value = [], onChange } }) => {
             return (
-              <MultipleSelect
+              <SelectMultiple
                 list={getListRole()}
                 style="modal"
                 value={value}
