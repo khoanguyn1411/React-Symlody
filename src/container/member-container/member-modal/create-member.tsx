@@ -6,7 +6,6 @@ import {
   FieldError,
   FormState,
   useForm,
-  UseFormReturn,
 } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -225,16 +224,16 @@ export const ModalCreateMember: React.FC<TModalProps<undefined>> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleCreateMember = async (data: TFormMemberInfo) => {
-    // setIsLoading(true);
-    // const memberDto = MemberMapper.toDto(data);
-    // const res = await dispatch(createMemberAsync(memberDto));
-    // if (!res.payload) {
-    //   toast.error("Tạo thành viên thất bại");
-    //   return;
-    // }
-    // setIsLoading(false);
-    // dispatch(getMembersAsync());
-    // reset();
+    setIsLoading(true);
+    const memberDto = MemberMapper.toDto(data);
+    const res = await dispatch(createMemberAsync(memberDto));
+    if (!res.payload) {
+      toast.error("Tạo thành viên thất bại");
+      return;
+    }
+    setIsLoading(false);
+    dispatch(getMembersAsync());
+    reset();
   };
 
   return (
