@@ -9,7 +9,6 @@ import { Button } from "@/components";
 type TEventModal = {
   title?: string;
   event: (param: string) => void;
-  // event: any;
   isLoading?: boolean;
 };
 
