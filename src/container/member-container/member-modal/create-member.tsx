@@ -53,7 +53,6 @@ const TabCreateAMember: React.FC = () => {
         event: handleSubmit(handleCreateMember),
         isLoading: isLoading,
       }}
-      resetForm={reset}
     >
       <FormItem label="Họ và tên" isRequired error={errors.fullName?.message}>
         <Controller
@@ -292,7 +291,6 @@ const TabCreateMultipleMembers: React.FC = () => {
         },
         isLoading: false,
       }}
-      resetForm={undefined}
     >
       <div
         className={classNames(
@@ -320,6 +318,7 @@ const TabCreateMultipleMembers: React.FC = () => {
           Chọn file
         </Button>
         <input
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           type="file"
           className="hidden"
           ref={inputFileRef}

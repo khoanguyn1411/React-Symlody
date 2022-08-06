@@ -1,3 +1,4 @@
+export * from "./animation-custom";
 export * from "./button";
 export * from "./checkbox";
 export * from "./date-picker";

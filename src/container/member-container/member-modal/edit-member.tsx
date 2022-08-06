@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, FieldError, useForm } from "react-hook-form";
 
 import {
@@ -26,10 +26,15 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     control,
     formState: { errors },
     handleSubmit,
-    reset,
+    unregister,
   } = useForm<TFormMemberInfo>({ resolver: yupResolver(schema) });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  useEffect(() => {
+    unregister();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleEditMember = (editInfo: TFormMemberInfo) => {
     setIsLoading(true);
     console.log(editInfo);
@@ -37,9 +42,9 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   if (data == null) {
     return;
   }
+
   return (
     <Modal
-      resetForm={reset}
       toggle={{ setToggle }}
       title="Chỉnh sửa thành viên"
       size="lg"
@@ -97,7 +102,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
           <Controller
             control={control}
             name="class"
-            render={({ field: { value = data.class_name, onChange } }) => (
+            render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
                 value={value}

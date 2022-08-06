@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { ReactNode, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
-import { Button } from "@/components";
+import { AnimationCustom, Button } from "@/components";
 
 import {
   ModalMultipleTabsProvider,
@@ -53,6 +53,7 @@ export const ModalContent: React.FC<TProps> = ({
 }) => {
   const { resetFn, toggle } = useModalMultipleTabsContext();
   const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const getTabActive = () => {
     return renderTabs.filter((item) => item.title === tabActive.title)[0];
   };
@@ -60,6 +61,20 @@ export const ModalContent: React.FC<TProps> = ({
   const handleReset = () => {
     resetFn && resetFn();
   };
+
+  useEffect(() => {
+    if (isShowing) {
+      setIsMounted(true);
+      return;
+    }
+    const unMountedId = setTimeout(() => {
+      setIsMounted(false);
+    }, 150);
+
+    return () => {
+      clearTimeout(unMountedId);
+    };
+  }, [isShowing]);
 
   const handleChangeTab = (item: TTabs) => () => {
     setTabActive(item);
@@ -77,60 +92,63 @@ export const ModalContent: React.FC<TProps> = ({
   ) => {
     allowClickOutside && event.stopPropagation();
   };
-
+  if (!isMounted) {
+    return;
+  }
   return ReactDOM.createPortal(
-    <div
-      aria-hidden
-      onClick={handleCloseWhenClickOutside}
-      className={classNames(
-        "fixed top-0 bottom-0 left-0 bg-backdrop-main right-0 z-20 duration-150 flex flex-col items-center justify-center",
-        {
-          "opacity-0 invisible": !isShowing,
-          "opacity-100 visible": isShowing,
-        }
-      )}
-    >
+    <AnimationCustom>
       <div
         aria-hidden
-        onClick={handleStopPropagation}
-        className={classNames("w-full bg-white rounded-md min-w-modal", {
-          "max-w-xs": size === "xs",
-          "max-w-sm": size === "sm",
-          "max-w-md": size === "md",
-          "max-w-lg": size === "lg",
-        })}
+        onClick={handleCloseWhenClickOutside}
+        className={classNames(
+          "fixed top-0 bottom-0 left-0 bg-backdrop-main animate__animated animate__fadeIn right-0 z-20 duration-150 flex flex-col items-center justify-center",
+          {
+            animate__fadeOut: !isShowing,
+          }
+        )}
       >
-        {/* Title */}
-        <div className="flex justify-between px-5 mt-4 border-b-2">
-          {renderTabs.map((item, index) => (
-            <div
-              key={`modalTitle${index}`}
-              aria-hidden
-              className={classNames(
-                "flex-1 py-2 text-center cursor-pointer transition-all duration-200",
-                {
-                  "bg-primary-50 text-primary-800":
-                    getTabActive().title === item.title,
-                  "text-black": getTabActive().title !== item.title,
-                }
-              )}
-              onClick={handleChangeTab(item)}
+        <div
+          aria-hidden
+          onClick={handleStopPropagation}
+          className={classNames("w-full bg-white rounded-md min-w-modal", {
+            "max-w-xs": size === "xs",
+            "max-w-sm": size === "sm",
+            "max-w-md": size === "md",
+            "max-w-lg": size === "lg",
+          })}
+        >
+          {/* Title */}
+          <div className="flex justify-between px-5 mt-4 border-b-2">
+            {renderTabs.map((item, index) => (
+              <div
+                key={`modalTitle${index}`}
+                aria-hidden
+                className={classNames(
+                  "flex-1 py-2 text-center cursor-pointer transition-all duration-200",
+                  {
+                    "bg-primary-50 text-primary-800":
+                      getTabActive().title === item.title,
+                    "text-black": getTabActive().title !== item.title,
+                  }
+                )}
+                onClick={handleChangeTab(item)}
+              >
+                <span className="text-lg font-semibold">{item.title}</span>
+              </div>
+            ))}
+            <span
+              aria-hidden="true"
+              className="flex items-center justify-center py-3 pl-4 pr-0 text-black cursor-pointer"
+              onClick={handleSetHidden}
             >
-              <span className="text-lg font-semibold">{item.title}</span>
-            </div>
-          ))}
-          <span
-            aria-hidden="true"
-            className="flex items-center justify-center py-3 pl-4 pr-0 text-black cursor-pointer"
-            onClick={handleSetHidden}
-          >
-            <i className="far fa-times"></i>
-          </span>
+              <i className="far fa-times"></i>
+            </span>
+          </div>
+          {/* Children */}
+          <div>{getTabActive().children}</div>
         </div>
-        {/* Children */}
-        <div>{getTabActive().children}</div>
       </div>
-    </div>,
+    </AnimationCustom>,
     document.querySelector("body")
   );
 };
@@ -143,7 +161,7 @@ type TEventModal = {
 
 type TPropsModalTab = {
   handleEvent: TEventModal;
-  resetForm: any;
+  resetForm?: () => void;
   children: ReactNode;
   otherActions?: React.DOMAttributes<HTMLFormElement>;
 };
