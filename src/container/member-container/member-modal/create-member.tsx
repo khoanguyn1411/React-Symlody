@@ -1,11 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
-import {
-  Controller,
-  FieldError,
-  useForm,
-  UseFormReturn,
-} from "react-hook-form";
+import { Controller, FieldError, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import {
@@ -26,17 +21,15 @@ import { MemberMapper } from "../mapper";
 import { schema } from "../schema";
 import { TFormMemberInfo } from "../type";
 
-type TPropsTabCreateAMember = UseFormReturn<TFormMemberInfo, any> & {
-  setToggle: () => void;
-};
-
-const TabCreateAMember: React.FC<TPropsTabCreateAMember> = ({
-  control,
-  formState: { errors },
-  handleSubmit,
-  reset,
-  setToggle,
-}) => {
+const TabCreateAMember: React.FC = () => {
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<TFormMemberInfo>({
+    resolver: yupResolver(schema),
+  });
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -54,7 +47,6 @@ const TabCreateAMember: React.FC<TPropsTabCreateAMember> = ({
   };
   return (
     <ModalTab
-      toggle={{ setToggle }}
       handleEvent={{
         event: handleSubmit(handleCreateMember),
         isLoading: isLoading,
@@ -238,30 +230,27 @@ const TabCreateAMember: React.FC<TPropsTabCreateAMember> = ({
   );
 };
 
+const TabCreateMultipleMembers: React.FC = () => {
+  return <div>Tét demo</div>;
+};
+
 export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
   isShowing,
   setToggle,
 }) => {
-  const propsUseForm = useForm<TFormMemberInfo>({
-    resolver: yupResolver(schema),
-  });
-
   return (
     <ModalMultipleTabs
-      resetForm={propsUseForm.reset}
       renderTabs={[
         {
           title: "Tạo thành viên",
-          children: (
-            <TabCreateAMember {...propsUseForm} setToggle={setToggle} />
-          ),
+          children: <TabCreateAMember />,
         },
         {
           title: "Tạo nhiều thành viên",
-          children: <div>Test demo</div>,
+          children: <TabCreateMultipleMembers />,
         },
       ]}
-      isShowing={true}
+      isShowing={isShowing}
       size="lg"
       toggle={{ setToggle }}
     />

@@ -1,12 +1,13 @@
 import { size } from "@material-tailwind/react/types/components/dialog";
 import classNames from "classnames";
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { UseFormReset } from "react-hook-form";
 
 import { Button } from "@/components";
 
-type TToggleModal = {
+import { ModalMultipleTabsProvider, useModalMultipleTabs } from "./context";
+
+export type TToggleModal = {
   setShow?: () => void;
   setHidden?: () => void;
   setToggle?: () => void;
@@ -17,13 +18,12 @@ type TTabs = {
   children: ReactNode;
 };
 
-type TProps<T> = {
+type TProps = {
   size?: size;
   renderTabs: TTabs[];
   isShowing: boolean;
   toggle: TToggleModal;
   handleEvent?: TEventModal;
-  resetForm?: UseFormReset<T>;
   allowClickOutside?: boolean;
 };
 
@@ -33,29 +33,33 @@ type TProps<T> = {
  * - To use this multiple tabs modal, please use ModalTab for rendering tab for better
  * handling event of specific tab.
  */
-export const ModalMultipleTabs = <T extends unknown>({
+export const ModalMultipleTabs: React.FC<TProps> = (props) => {
+  return (
+    <ModalMultipleTabsProvider toggle={props.toggle}>
+      <ModalContent {...props} />
+    </ModalMultipleTabsProvider>
+  );
+};
+
+export const ModalContent: React.FC<TProps> = ({
   renderTabs,
   size = "sm",
   isShowing,
-  toggle,
   allowClickOutside = false,
-  resetForm,
-}: TProps<T>): ReactElement => {
+}) => {
+  const { resetFn, toggle } = useModalMultipleTabs();
   const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
   const getTabActive = () => {
     return renderTabs.filter((item) => item.title === tabActive.title)[0];
   };
 
   const handleReset = () => {
-    resetForm();
+    resetFn && resetFn();
   };
 
-  const handleChangeTab = (item: TTabs) => {
-    return () => {
-      setTabActive(item);
-    };
+  const handleChangeTab = (item: TTabs) => () => {
+    setTabActive(item);
   };
-
   const handleSetHidden = () => {
     toggle.setToggle();
     handleReset();
@@ -102,8 +106,8 @@ export const ModalMultipleTabs = <T extends unknown>({
                 "flex-1 py-2 text-center cursor-pointer transition-all duration-200",
                 {
                   "bg-primary-50 text-primary-800":
-                    tabActive.title === item.title,
-                  "text-black": tabActive.title === item.title,
+                    getTabActive().title === item.title,
+                  "text-black": getTabActive().title !== item.title,
                 }
               )}
               onClick={handleChangeTab(item)}
@@ -133,23 +137,29 @@ type TEventModal = {
   isLoading?: boolean;
 };
 
-type TPropsModalTab<T> = {
-  toggle: TToggleModal;
+type TPropsModalTab = {
   handleEvent: TEventModal;
-  resetForm: UseFormReset<T>;
+  resetForm: any;
   children: ReactNode;
 };
 
-export const ModalTab = <T extends unknown>({
+export const ModalTab: React.FC<TPropsModalTab> = ({
   handleEvent,
   resetForm,
   children,
-  toggle,
-}: TPropsModalTab<T>): ReactElement => {
+}) => {
   const isLoading = handleEvent.isLoading ?? false;
+  const { resetFn, setResetFn, toggle } = useModalMultipleTabs();
+
+  useEffect(() => {
+    setResetFn(() => resetForm);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleReset = () => {
-    resetForm();
+    resetFn && resetFn();
   };
+
   const handleSetHidden = () => {
     toggle.setToggle();
     handleReset();
