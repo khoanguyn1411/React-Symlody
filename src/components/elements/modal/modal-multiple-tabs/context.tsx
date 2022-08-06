@@ -32,7 +32,7 @@ const ModalMultipleTabsProvider: React.FC<TModalMultipleTabsProvider> = ({
   );
 };
 
-function useModalMultipleTabs(): TContext {
+function useModalMultipleTabsContext(): TContext {
   const context = useContext(ModalMultipleTabsContext);
   if (typeof context === undefined) {
     throw new Error("This component must be used within modal context.");
@@ -40,4 +40,4 @@ function useModalMultipleTabs(): TContext {
   return context;
 }
 
-export { ModalMultipleTabsProvider, useModalMultipleTabs };
+export { ModalMultipleTabsProvider, useModalMultipleTabsContext };

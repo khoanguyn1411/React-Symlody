@@ -5,7 +5,10 @@ import ReactDOM from "react-dom";
 
 import { Button } from "@/components";
 
-import { ModalMultipleTabsProvider, useModalMultipleTabs } from "./context";
+import {
+  ModalMultipleTabsProvider,
+  useModalMultipleTabsContext,
+} from "./context";
 
 export type TToggleModal = {
   setShow?: () => void;
@@ -47,7 +50,7 @@ export const ModalContent: React.FC<TProps> = ({
   isShowing,
   allowClickOutside = false,
 }) => {
-  const { resetFn, toggle } = useModalMultipleTabs();
+  const { resetFn, toggle } = useModalMultipleTabsContext();
   const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
   const getTabActive = () => {
     return renderTabs.filter((item) => item.title === tabActive.title)[0];
@@ -149,7 +152,7 @@ export const ModalTab: React.FC<TPropsModalTab> = ({
   children,
 }) => {
   const isLoading = handleEvent.isLoading ?? false;
-  const { resetFn, setResetFn, toggle } = useModalMultipleTabs();
+  const { resetFn, setResetFn, toggle } = useModalMultipleTabsContext();
 
   useEffect(() => {
     setResetFn(() => resetForm);
