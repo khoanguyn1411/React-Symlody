@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import classNames from "classnames";
+import React, { useRef, useState } from "react";
 import { Controller, FieldError, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -79,7 +80,7 @@ const TabCreateAMember: React.FC = () => {
                 style="modal"
                 value={value}
                 onChange={onChange}
-                placeHolder="Chọn giới tính"
+                placeHolder="Giới tính"
               />
             )}
           />
@@ -134,7 +135,7 @@ const TabCreateAMember: React.FC = () => {
                 style="modal"
                 value={value}
                 onChange={onChange}
-                placeholder="Email"
+                placeholder="Vd: abc@gmail.com"
               />
             )}
           />
@@ -170,7 +171,7 @@ const TabCreateAMember: React.FC = () => {
               style="modal"
               value={value}
               onChange={onChange}
-              placeHolder="Chọn ban"
+              placeHolder="Ban"
             />
           )}
         />
@@ -191,7 +192,7 @@ const TabCreateAMember: React.FC = () => {
                 style="modal"
                 value={value}
                 onChange={onChange}
-                placeHolder="Chọn vị trí"
+                placeHolder="Vị trí"
               />
             );
           }}
@@ -213,7 +214,12 @@ const TabCreateAMember: React.FC = () => {
         />
       </FormItem>
 
-      <FormItem label="Quê quán" isRequired error={errors.home?.message}>
+      <FormItem
+        isNoSpace
+        label="Quê quán"
+        isRequired
+        error={errors.home?.message}
+      >
         <Controller
           control={control}
           name="home"
@@ -232,8 +238,54 @@ const TabCreateAMember: React.FC = () => {
 };
 
 const TabCreateMultipleMembers: React.FC = () => {
+  const inputFileRef = useRef<HTMLInputElement>();
+  const [selectedFile, setSelectedFile] = useState<File>(null);
+  const [isDragActive, setIsDragActive] = useState<boolean>(false);
+  const [dragCounter, setDragCounter] = useState<number>(0);
+  const handlePickFile = () => {
+    if (!inputFileRef.current) {
+      return;
+    }
+    inputFileRef.current.click();
+  };
+
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+  };
+
+  const handlePickedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleDrag = (event: React.DragEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.type === "dragenter" || event.type === "dragover") {
+      setDragCounter(dragCounter + 1);
+      setIsDragActive(true);
+    } else if (event.type === "dragleave") {
+      setDragCounter(dragCounter - 1);
+      if (dragCounter > 0) return;
+      setIsDragActive(false);
+    }
+  };
+  const handleDrop = function (event: React.DragEvent<HTMLFormElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsDragActive(false);
+    if (event.dataTransfer.files && event.dataTransfer.files[0]) {
+      setSelectedFile(event.dataTransfer.files[0]);
+    }
+  };
+
   return (
     <ModalTab
+      otherActions={{
+        onDragEnter: handleDrag,
+        onDrop: handleDrop,
+        onDragOver: handleDrag,
+        onDragLeave: handleDrag,
+      }}
       handleEvent={{
         event: function (): void {
           alert("Submitted!");
@@ -242,30 +294,56 @@ const TabCreateMultipleMembers: React.FC = () => {
       }}
       resetForm={undefined}
     >
-      <div className="flex flex-col items-center justify-center px-3 pb-5 mt-5 border-2 border-gray-400 border-dashed pt-18 dashed-border rounded-md">
-        <p className="text-lg text-center">
-          Kéo và thả file vào đây để <br /> bắt đầu tải lên
-        </p>
+      <div
+        className={classNames(
+          "flex flex-col items-center justify-center px-3 pb-5 mt-3 border-2 border-dashed dashed-border rounded-md",
+          isDragActive ? "border-red-500" : "border-gray-400"
+        )}
+      >
+        <span className="my-4 text-4xl text-primary-800">
+          <i className="far fa-file-upload"></i>
+        </span>
+        {!isDragActive && (
+          <p className="text-lg text-center">
+            Kéo và thả file vào đây để <br /> bắt đầu tải lên.
+          </p>
+        )}
+        {isDragActive && (
+          <p className="text-lg text-center text-red-500">Thả file vào đây.</p>
+        )}
         <div className="flex items-center w-2/3 mt-4 gap-3">
           <div className="flex-1 bg-black h-[1px]" />
           <span>HOẶC</span>
           <div className="flex-1 bg-black h-[1px]" />
         </div>
-        <Button className="px-5 mt-4">Chọn file</Button>
+        <Button className="px-5 mt-4" onClick={handlePickFile}>
+          Chọn file
+        </Button>
+        <input
+          type="file"
+          className="hidden"
+          ref={inputFileRef}
+          onChange={handlePickedFile}
+        />
       </div>
-      <div className="flex justify-between mt-3">
-        <div>
-          <span>
-            <i className="far fa-link" />
-          </span>
-          <span className="ml-3 font-semibold underline cursor-pointer">
-            Danhsachthanhvien.xslx
+      {selectedFile && (
+        <div className="flex justify-between mt-3">
+          <div className="w-5/6">
+            <p className="items-center block truncate cursor-pointer">
+              <i className="max-w-full mr-3  fas fa-link" />
+              {selectedFile.name}
+            </p>
+          </div>
+
+          <span
+            aria-hidden
+            onClick={handleRemoveFile}
+            className="text-black cursor-pointer hover:text-red-500 transition-all duration-300"
+          >
+            <i className="fas fa-trash"></i>
           </span>
         </div>
-        <span className="cursor-pointer">
-          <i className="far fa-times"></i>
-        </span>
-      </div>
+      )}
       <div className="flex flex-col items-center justify-center mt-6 mb-5">
         <span className="italic">Hệ thống chỉ nhận file .xslx</span>
         <span className="mt-1 font-semibold underline cursor-pointer text-primary-800">

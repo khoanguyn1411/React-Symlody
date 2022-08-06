@@ -51,7 +51,7 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
         minDate={new Date("01/01/2000")}
         maxDate={getMaxDate()}
         onChange={handleChangeDate}
-        placeholderText="Chọn ngày"
+        placeholderText="dd/mm/yyyy"
         className={classNames(
           "w-full p-2 border-gray-300 pr-8 text-black outline-none rounded-md",
           {

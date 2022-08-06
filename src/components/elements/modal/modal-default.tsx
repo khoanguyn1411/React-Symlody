@@ -75,7 +75,7 @@ export const Modal = <T extends unknown>({
     >
       <div
         aria-hidden
-        onClick={(event) => handleStopPropagation(event)}
+        onClick={handleStopPropagation}
         className={classNames("w-full bg-white rounded-md min-w-modal", {
           "max-w-xs": size === "xs",
           "max-w-sm": size === "sm",
@@ -97,22 +97,22 @@ export const Modal = <T extends unknown>({
         </div>
         <form
           onSubmit={handleEvent.event}
-          className=" overflow-auto max-h-[80vh]"
+          className="flex flex-col max-h-[80vh]"
         >
-          <div className="overflow-auto">
-            <div className="flex flex-col w-full px-5 pt-5">{children}</div>
-            <div className="px-5 pb-5 text-right">
-              <Button style="outline" type="reset" onClick={handleSetHidden}>
-                Hủy
-              </Button>
-              <Button
-                isShowLoading={{ active: isLoading }}
-                type="submit"
-                className="ml-5"
-              >
-                {handleEvent.title ?? "Tạo"}
-              </Button>
-            </div>
+          <div className="flex flex-col w-full px-5 pt-5 overflow-auto">
+            {children}
+          </div>
+          <div className="flex justify-end px-5 py-4">
+            <Button style="outline" type="reset" onClick={handleSetHidden}>
+              Hủy
+            </Button>
+            <Button
+              isShowLoading={{ active: isLoading }}
+              type="submit"
+              className="ml-5"
+            >
+              {handleEvent.title ?? "Tạo"}
+            </Button>
           </div>
         </form>
       </div>

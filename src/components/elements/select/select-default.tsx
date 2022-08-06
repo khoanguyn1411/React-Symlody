@@ -57,10 +57,10 @@ export const Select: React.FC<TProps> = ({
           onClick={handleToggleContent}
           aria-hidden="true"
           className={classNames(
-            "flex justify-between w-full p-2 pr-5 rounded-md text-black",
+            "flex justify-between w-full p-2 pr-5 rounded-lg text-black",
             {
-              "bg-gray-100": style === "modal",
-              "bg-white border border-primary-800": style === "default",
+              "bg-gray-100 rounded-md": style === "modal",
+              "bg-white border border-gray-400": style === "default",
             }
           )}
         >
@@ -70,7 +70,7 @@ export const Select: React.FC<TProps> = ({
           <span>
             <i
               className={classNames(
-                "fas fa-angle-down -mr-5 duration-300 transition-transform text-base",
+                "fas fa-angle-down text-lg -mr-5 duration-300 transition-transform",
                 {
                   "transform -rotate-180": isShowContent,
                 }

@@ -77,7 +77,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
                 style="modal"
                 value={value === 1 ? "Nam" : "Nữ"}
                 onChange={onChange}
-                placeHolder="Chọn giới tính"
+                placeHolder="Giới tính"
               />
             )}
           />
@@ -134,7 +134,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
                 style="modal"
                 value={value}
                 onChange={onChange}
-                placeholder="Email"
+                placeholder="Vd: abc@gmail.com"
               />
             )}
           />
@@ -170,7 +170,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
               style="modal"
               value={value}
               onChange={onChange}
-              placeHolder="Chọn ban"
+              placeHolder="Ban"
             />
           )}
         />
@@ -191,7 +191,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
                 style="modal"
                 value={value}
                 onChange={onChange}
-                placeHolder="Chọn vị trí"
+                placeHolder="Vị trí"
               />
             );
           }}

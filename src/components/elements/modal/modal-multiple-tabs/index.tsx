@@ -92,7 +92,7 @@ export const ModalContent: React.FC<TProps> = ({
     >
       <div
         aria-hidden
-        onClick={(event) => handleStopPropagation(event)}
+        onClick={handleStopPropagation}
         className={classNames("w-full bg-white rounded-md min-w-modal", {
           "max-w-xs": size === "xs",
           "max-w-sm": size === "sm",
@@ -101,7 +101,7 @@ export const ModalContent: React.FC<TProps> = ({
         })}
       >
         {/* Title */}
-        <div className="flex justify-between px-5 border-b-2">
+        <div className="flex justify-between px-5 mt-4 border-b-2">
           {renderTabs.map((item, index) => (
             <div
               key={`modalTitle${index}`}
@@ -145,12 +145,14 @@ type TPropsModalTab = {
   handleEvent: TEventModal;
   resetForm: any;
   children: ReactNode;
+  otherActions?: React.DOMAttributes<HTMLFormElement>;
 };
 
 export const ModalTab: React.FC<TPropsModalTab> = ({
   handleEvent,
   resetForm,
   children,
+  otherActions,
 }) => {
   const isLoading = handleEvent.isLoading ?? false;
   const { resetFn, setResetFn, toggle } = useModalMultipleTabsContext();
@@ -176,23 +178,22 @@ export const ModalTab: React.FC<TPropsModalTab> = ({
 
   return (
     <form
-      onSubmit={(event) => handleSubmit(event)}
-      className="overflow-auto max-h-[80vh]"
+      onSubmit={handleSubmit}
+      className="flex flex-col max-h-[80vh]"
+      {...otherActions}
     >
-      <div className="overflow-auto">
-        <div className="px-5 py-3">{children}</div>
-        <div className="flex justify-end px-5 pb-5">
-          <Button style="outline" type="reset" onClick={handleSetHidden}>
-            Hủy
-          </Button>
-          <Button
-            isShowLoading={{ active: isLoading }}
-            type="submit"
-            className="ml-5"
-          >
-            {handleEvent.title ?? "Tạo"}
-          </Button>
-        </div>
+      <div className="px-5 pt-5 overflow-auto">{children}</div>
+      <div className="flex justify-end px-5 py-4">
+        <Button style="outline" type="reset" onClick={handleSetHidden}>
+          Hủy
+        </Button>
+        <Button
+          isShowLoading={{ active: isLoading }}
+          type="submit"
+          className="ml-5"
+        >
+          {handleEvent.title ?? "Tạo"}
+        </Button>
       </div>
     </form>
   );

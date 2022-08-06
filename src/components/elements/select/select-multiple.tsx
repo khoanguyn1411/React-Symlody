@@ -73,7 +73,7 @@ export const SelectMultiple: React.FC<TProps> = ({
         {/* Display */}
         <div
           ref={displayRef}
-          onClick={(e) => handleToggleContent(e)}
+          onClick={handleToggleContent}
           aria-hidden="true"
           className={classNames(
             "flex justify-between w-full p-2 mt-3 pr-5 rounded-md text-black",
