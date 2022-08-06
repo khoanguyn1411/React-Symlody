@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 import {
   AppDatePicker,
+  Button,
   FormItem,
   Input,
   ModalMultipleTabs,
@@ -231,7 +232,48 @@ const TabCreateAMember: React.FC = () => {
 };
 
 const TabCreateMultipleMembers: React.FC = () => {
-  return <div>Tét demo</div>;
+  return (
+    <ModalTab
+      handleEvent={{
+        event: function (): void {
+          alert("Submitted!");
+        },
+        isLoading: false,
+      }}
+      resetForm={undefined}
+    >
+      <div className="flex flex-col items-center justify-center px-3 pb-5 mt-5 border-2 border-gray-400 border-dashed pt-18 dashed-border rounded-md">
+        <p className="text-lg text-center">
+          Kéo và thả file vào đây để <br /> bắt đầu tải lên
+        </p>
+        <div className="flex items-center w-2/3 mt-4 gap-3">
+          <div className="flex-1 bg-black h-[1px]" />
+          <span>HOẶC</span>
+          <div className="flex-1 bg-black h-[1px]" />
+        </div>
+        <Button className="px-5 mt-4">Chọn file</Button>
+      </div>
+      <div className="flex justify-between mt-3">
+        <div>
+          <span>
+            <i className="far fa-link" />
+          </span>
+          <span className="ml-3 font-semibold underline cursor-pointer">
+            Danhsachthanhvien.xslx
+          </span>
+        </div>
+        <span className="cursor-pointer">
+          <i className="far fa-times"></i>
+        </span>
+      </div>
+      <div className="flex flex-col items-center justify-center mt-6 mb-5">
+        <span className="italic">Hệ thống chỉ nhận file .xslx</span>
+        <span className="mt-1 font-semibold underline cursor-pointer text-primary-800">
+          Tải file mẫu (.xslx)
+        </span>
+      </div>
+    </ModalTab>
+  );
 };
 
 export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({

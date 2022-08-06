@@ -33,8 +33,9 @@ type TProps = {
 /**
  * - To get value of isShowing and toggle functions, please use useModal hook and pass
  * such values to corresponding props of modal (isShowing = isShowing and toggle = toggle)
- * - To use this multiple tabs modal, please use ModalTab for rendering tab for better
- * handling event of specific tab.
+ *
+ * - To use this multiple tabs modal, please use ModalTab for rendering content of tab
+ * for better handling event of such tab.
  */
 export const ModalMultipleTabs: React.FC<TProps> = (props) => {
   return (
@@ -115,7 +116,7 @@ export const ModalContent: React.FC<TProps> = ({
               )}
               onClick={handleChangeTab(item)}
             >
-              <span className="font-semibold">{item.title}</span>
+              <span className="text-lg font-semibold">{item.title}</span>
             </div>
           ))}
           <span
@@ -167,8 +168,17 @@ export const ModalTab: React.FC<TPropsModalTab> = ({
     toggle.setToggle();
     handleReset();
   };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleEvent.event();
+  };
+
   return (
-    <form onSubmit={handleEvent.event} className=" overflow-auto max-h-[80vh]">
+    <form
+      onSubmit={(event) => handleSubmit(event)}
+      className="overflow-auto max-h-[80vh]"
+    >
       <div className="overflow-auto">
         <div className="px-5 py-3">{children}</div>
         <div className="flex justify-end px-5 pb-5">
