@@ -6,12 +6,6 @@ import { UseFormReset } from "react-hook-form";
 
 import { Button } from "@/components";
 
-type TEventModal = {
-  title?: string;
-  event: (param: string) => void;
-  isLoading?: boolean;
-};
-
 type TToggleModal = {
   setShow?: () => void;
   setHidden?: () => void;
@@ -34,21 +28,26 @@ type TProps<T> = {
 };
 
 /**
- * To get value of isShowing and toggle functions, please use useModal hook and pass
+ * - To get value of isShowing and toggle functions, please use useModal hook and pass
  * such values to corresponding props of modal (isShowing = isShowing and toggle = toggle)
+ * - To use this multiple tabs modal, please use ModalTab for rendering tab for better
+ * handling event of specific tab.
  */
 export const ModalMultipleTabs = <T extends unknown>({
   renderTabs,
   size = "sm",
   isShowing,
   toggle,
-  handleEvent,
-  resetForm,
   allowClickOutside = false,
+  resetForm,
 }: TProps<T>): ReactElement => {
   const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
   const getTabActive = () => {
     return renderTabs.filter((item) => item.title === tabActive.title)[0];
+  };
+
+  const handleReset = () => {
+    resetForm();
   };
 
   const handleChangeTab = (item: TTabs) => {
@@ -56,10 +55,7 @@ export const ModalMultipleTabs = <T extends unknown>({
       setTabActive(item);
     };
   };
-  const isLoading = handleEvent.isLoading ?? false;
-  const handleReset = () => {
-    resetForm();
-  };
+
   const handleSetHidden = () => {
     toggle.setToggle();
     handleReset();
@@ -123,32 +119,58 @@ export const ModalMultipleTabs = <T extends unknown>({
             <i className="far fa-times"></i>
           </span>
         </div>
-
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            handleEvent.event(getTabActive().title);
-          }}
-          className=" overflow-auto max-h-[80vh]"
-        >
-          <div className="overflow-auto">
-            <div className="px-5 py-3">{getTabActive().children}</div>
-            <div className="flex justify-end px-5 pb-5">
-              <Button style="outline" type="reset" onClick={handleSetHidden}>
-                Hủy
-              </Button>
-              <Button
-                isShowLoading={{ active: isLoading }}
-                type="submit"
-                className="ml-5"
-              >
-                {handleEvent.title ?? "Tạo"}
-              </Button>
-            </div>
-          </div>
-        </form>
+        {/* Children */}
+        <div>{getTabActive().children}</div>
       </div>
     </div>,
     document.querySelector("body")
+  );
+};
+
+type TEventModal = {
+  title?: string;
+  event: () => void;
+  isLoading?: boolean;
+};
+
+type TPropsModalTab<T> = {
+  toggle: TToggleModal;
+  handleEvent: TEventModal;
+  resetForm: UseFormReset<T>;
+  children: ReactNode;
+};
+
+export const ModalTab = <T extends unknown>({
+  handleEvent,
+  resetForm,
+  children,
+  toggle,
+}: TPropsModalTab<T>): ReactElement => {
+  const isLoading = handleEvent.isLoading ?? false;
+  const handleReset = () => {
+    resetForm();
+  };
+  const handleSetHidden = () => {
+    toggle.setToggle();
+    handleReset();
+  };
+  return (
+    <form onSubmit={handleEvent.event} className=" overflow-auto max-h-[80vh]">
+      <div className="overflow-auto">
+        <div className="px-5 py-3">{children}</div>
+        <div className="flex justify-end px-5 pb-5">
+          <Button style="outline" type="reset" onClick={handleSetHidden}>
+            Hủy
+          </Button>
+          <Button
+            isShowLoading={{ active: isLoading }}
+            type="submit"
+            className="ml-5"
+          >
+            {handleEvent.title ?? "Tạo"}
+          </Button>
+        </div>
+      </div>
+    </form>
   );
 };

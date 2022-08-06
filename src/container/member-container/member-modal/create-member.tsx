@@ -1,11 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import {
-  Control,
   Controller,
   FieldError,
-  FormState,
   useForm,
+  UseFormReturn,
 } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -14,6 +13,7 @@ import {
   FormItem,
   Input,
   ModalMultipleTabs,
+  ModalTab,
   Select,
   SelectMultiple,
 } from "@/components";
@@ -26,15 +26,41 @@ import { MemberMapper } from "../mapper";
 import { schema } from "../schema";
 import { TFormMemberInfo } from "../type";
 
-type TProps = {
-  control: Control<TFormMemberInfo, any>;
-  formState: FormState<TFormMemberInfo>;
+type TPropsTabCreateAMember = UseFormReturn<TFormMemberInfo, any> & {
+  setToggle: () => void;
 };
 
-const TabCreateAMember: React.FC<TProps> = ({ control, formState }) => {
-  const { errors } = formState;
+const TabCreateAMember: React.FC<TPropsTabCreateAMember> = ({
+  control,
+  formState: { errors },
+  handleSubmit,
+  reset,
+  setToggle,
+}) => {
+  const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleCreateMember = async (data: TFormMemberInfo) => {
+    setIsLoading(true);
+    const memberDto = MemberMapper.toDto(data);
+    const res = await dispatch(createMemberAsync(memberDto));
+    if (!res.payload) {
+      toast.error("Tạo thành viên thất bại");
+      return;
+    }
+    setIsLoading(false);
+    dispatch(getMembersAsync());
+    reset();
+  };
   return (
-    <div>
+    <ModalTab
+      toggle={{ setToggle }}
+      handleEvent={{
+        event: handleSubmit(handleCreateMember),
+        isLoading: isLoading,
+      }}
+      resetForm={reset}
+    >
       <FormItem label="Họ và tên" isRequired error={errors.fullName?.message}>
         <Controller
           control={control}
@@ -208,7 +234,7 @@ const TabCreateAMember: React.FC<TProps> = ({ control, formState }) => {
           )}
         />
       </FormItem>
-    </div>
+    </ModalTab>
   );
 };
 
@@ -216,43 +242,18 @@ export const ModalCreateMember: React.FC<TModalProps<undefined>> = ({
   isShowing,
   setToggle,
 }) => {
-  const { control, formState, handleSubmit, reset } = useForm<TFormMemberInfo>({
+  const propsUseForm = useForm<TFormMemberInfo>({
     resolver: yupResolver(schema),
   });
 
-  const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const handleCreateMember = async (data: TFormMemberInfo) => {
-    setIsLoading(true);
-    const memberDto = MemberMapper.toDto(data);
-    const res = await dispatch(createMemberAsync(memberDto));
-    if (!res.payload) {
-      toast.error("Tạo thành viên thất bại");
-      return;
-    }
-    setIsLoading(false);
-    dispatch(getMembersAsync());
-    reset();
-  };
-
   return (
     <ModalMultipleTabs
-      resetForm={reset}
-      handleEvent={{
-        event: (tab) => {
-          if (tab === "Tạo thành viên") {
-            handleSubmit(handleCreateMember)();
-            return;
-          }
-        },
-        isLoading: isLoading,
-      }}
+      resetForm={propsUseForm.reset}
       renderTabs={[
         {
           title: "Tạo thành viên",
           children: (
-            <TabCreateAMember control={control} formState={formState} />
+            <TabCreateAMember {...propsUseForm} setToggle={setToggle} />
           ),
         },
         {
@@ -262,9 +263,7 @@ export const ModalCreateMember: React.FC<TModalProps<undefined>> = ({
       ]}
       isShowing={true}
       size="lg"
-      toggle={{
-        setToggle: setToggle,
-      }}
-    ></ModalMultipleTabs>
+      toggle={{ setToggle }}
+    />
   );
 };
