@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export type TModalProps<T> = {
+export type THookModalProps<T> = {
   isShowing: boolean;
   data: T | undefined;
   setData: (data: T) => void;
@@ -9,7 +9,7 @@ export type TModalProps<T> = {
   setToggle: () => void;
 };
 
-export function useModal<T = undefined>(): TModalProps<T> {
+export function useModal<T = undefined>(): THookModalProps<T> {
   const [isShowing, setIsShowing] = useState<boolean>(false);
   const [data, setDataState] = useState<T>();
 

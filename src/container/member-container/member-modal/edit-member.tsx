@@ -12,12 +12,12 @@ import {
 } from "@/components";
 import { getListRole } from "@/constants";
 import { IMember } from "@/features/types/member-type";
-import { TModalProps } from "@/hooks";
+import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";
 import { TFormMemberInfo } from "../type";
 
-export const ModalEditMember: React.FC<TModalProps<IMember>> = ({
+export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   data,
   isShowing,
   setToggle,

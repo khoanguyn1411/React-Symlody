@@ -20,7 +20,7 @@ import {
 import { getListRole } from "@/constants";
 import { useAppDispatch } from "@/features";
 import { createMemberAsync, getMembersAsync } from "@/features/reducers";
-import { TModalProps } from "@/hooks";
+import { THookModalProps } from "@/hooks";
 
 import { MemberMapper } from "../mapper";
 import { schema } from "../schema";
@@ -238,7 +238,7 @@ const TabCreateAMember: React.FC<TPropsTabCreateAMember> = ({
   );
 };
 
-export const ModalCreateMember: React.FC<TModalProps<undefined>> = ({
+export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
   isShowing,
   setToggle,
 }) => {
