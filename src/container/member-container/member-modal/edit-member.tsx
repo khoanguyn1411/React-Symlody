@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Controller, FieldError, useForm } from "react-hook-form";
 
 import {
@@ -26,13 +26,10 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     control,
     formState: { errors },
     handleSubmit,
-    unregister,
-  } = useForm<TFormMemberInfo>({ resolver: yupResolver(schema) });
-
-  useEffect(() => {
-    unregister();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  } = useForm<TFormMemberInfo>({
+    resolver: yupResolver(schema),
+    shouldUnregister: true,
+  });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleEditMember = (editInfo: TFormMemberInfo) => {
@@ -59,9 +56,8 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         <Controller
           control={control}
           name="fullName"
-          render={({
-            field: { value = data.auth_account.last_name, onChange },
-          }) => (
+          defaultValue={data.auth_account.last_name}
+          render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
               value={value}
@@ -75,12 +71,13 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         <FormItem label="Giới tính" isRequired error={errors.gender?.message}>
           <Controller
             control={control}
+            defaultValue={String(data.gender)}
             name="gender"
-            render={({ field: { value = data.gender, onChange } }) => (
+            render={({ field: { value, onChange } }) => (
               <Select
                 list={["Nam", "Nữ"]}
                 style="modal"
-                value={value === 1 ? "Nam" : "Nữ"}
+                value={Number(value) === 1 ? "Nam" : "Nữ"}
                 onChange={onChange}
                 placeHolder="Giới tính"
               />
@@ -90,9 +87,10 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
 
         <FormItem label="Ngày sinh" isRequired error={errors.birthday?.message}>
           <Controller
+            defaultValue={data.dob}
             control={control}
             name="birthday"
-            render={({ field: { value = data.dob, onChange } }) => (
+            render={({ field: { value, onChange } }) => (
               <AppDatePicker style="modal" value={value} onChange={onChange} />
             )}
           />
@@ -102,6 +100,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
           <Controller
             control={control}
             name="class"
+            defaultValue={data.class_name}
             render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
@@ -117,7 +116,8 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
           <Controller
             control={control}
             name="id"
-            render={({ field: { value = data.student_id, onChange } }) => (
+            defaultValue={data.student_id}
+            render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
                 value={value}
@@ -132,9 +132,8 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
           <Controller
             control={control}
             name="email"
-            render={({
-              field: { value = data.auth_account.email, onChange },
-            }) => (
+            defaultValue={data.auth_account.email}
+            render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
                 value={value}
@@ -151,9 +150,10 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
           error={errors.phone?.message}
         >
           <Controller
+            defaultValue={data.phone_number}
             control={control}
             name="phone"
-            render={({ field: { value = data.phone_number, onChange } }) => (
+            render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
                 value={value}
@@ -169,7 +169,8 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         <Controller
           control={control}
           name="department"
-          render={({ field: { value = data.department.name, onChange } }) => (
+          defaultValue={data.department.name}
+          render={({ field: { value, onChange } }) => (
             <Select
               list={["AD", "HR"]}
               style="modal"
@@ -189,7 +190,8 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         <Controller
           control={control}
           name="role"
-          render={({ field: { value = [], onChange } }) => {
+          defaultValue={[]}
+          render={({ field: { value, onChange } }) => {
             return (
               <SelectMultiple
                 list={getListRole()}
@@ -207,7 +209,8 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         <Controller
           control={control}
           name="address"
-          render={({ field: { value = data.address, onChange } }) => (
+          defaultValue={data.address}
+          render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
               value={value}
@@ -222,7 +225,8 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         <Controller
           control={control}
           name="home"
-          render={({ field: { value = data.home_town, onChange } }) => (
+          defaultValue={data.home_town}
+          render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
               value={value}
