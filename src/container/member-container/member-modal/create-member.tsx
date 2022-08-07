@@ -18,7 +18,7 @@ import {
   MESSAGE_NOT_PICK_FILE,
   MESSAGE_WRONG_EXTENSION,
 } from "./constants";
-import { FormItems } from "./form";
+import { FormItems } from "./member-form";
 
 const TabCreateAMember: React.FC = () => {
   const propsForm = useForm<TFormMemberInfo>({

@@ -30,11 +30,14 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
     formState: { errors },
   } = formProps;
 
-  const getDefaultValue = (key: keyof TFormMemberInfo): string => {
+  const getDefaultValue = (
+    key: keyof TFormMemberInfo,
+    defaultValue?: any
+  ): string => {
     if (dataForm) {
       return dataForm[key] as string;
     }
-    return undefined;
+    return defaultValue ?? undefined;
   };
 
   return (
@@ -177,7 +180,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="role"
-          defaultValue={getDefaultValue("role") as unknown as string[]}
+          defaultValue={(getDefaultValue("role") as unknown as string[], [])}
           render={({ field: { value, onChange } }) => {
             return (
               <SelectMultiple

@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
 
-import { AnimationCustom } from "../animation-custom";
 import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
 
 type TProps = {
@@ -27,5 +26,5 @@ export const ToggleWrapper: React.FC<TProps> = ({ isShowing, children }) => {
   if (!isMounted) {
     return;
   }
-  return <AnimationCustom>{children}</AnimationCustom>;
+  return <>{children}</>;
 };

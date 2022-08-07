@@ -12,7 +12,6 @@ export const ModalFooter: React.FC<TEventModal & TToggleModal> = ({
   const handleSetHidden = () => {
     setToggle();
   };
-  console.log(isDisable);
   return (
     <div className="flex justify-end w-full px-5 py-4 border-t">
       <Button style="outline" onClick={handleSetHidden}>

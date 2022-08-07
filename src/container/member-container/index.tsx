@@ -78,7 +78,7 @@ export const MemberContainer: React.FC = () => {
                 </td>
               </tr>
               {memberStore.pending && <ListMemberSkeleton />}
-              {memberStore &&
+              {!memberStore.pending &&
                 memberStore.members.map((item, index) => {
                   const memberTableItem = MemberMapper.toTableView(item);
                   return (
@@ -136,8 +136,8 @@ export const MemberContainer: React.FC = () => {
           </table>
         </div>
       </div>
+      <ModalCreateMember {...propsModalCreateMember} />;
       <ModalEditMember {...propsModalEditMember} />
-      <ModalCreateMember {...propsModalCreateMember} />
     </div>
   );
 };
