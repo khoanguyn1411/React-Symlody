@@ -18,10 +18,15 @@ import { getListRole } from "@/constants";
 import { useAppDispatch } from "@/features";
 import { createMemberAsync, getMembersAsync } from "@/features/reducers";
 import { THookModalProps } from "@/hooks";
+import { isCorrectExtension } from "@/utils";
 
 import { MemberMapper } from "../mapper";
 import { schema } from "../schema";
 import { TFormMemberInfo } from "../type";
+import {
+  MESSAGE_DEFAULT_EXTENSION,
+  MESSAGE_WRONG_EXTENSION,
+} from "./constants";
 
 const TabCreateAMember: React.FC = () => {
   const {
@@ -241,6 +246,7 @@ const TabCreateMultipleMembers: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>(null);
   const [isDragActive, setIsDragActive] = useState<boolean>(false);
   const [dragCounter, setDragCounter] = useState<number>(0);
+  const [message, setMessage] = useState<string>(MESSAGE_DEFAULT_EXTENSION);
   const handlePickFile = () => {
     if (!inputFileRef.current) {
       return;
@@ -268,12 +274,18 @@ const TabCreateMultipleMembers: React.FC = () => {
       setIsDragActive(false);
     }
   };
-  const handleDrop = function (event: React.DragEvent<HTMLFormElement>) {
+  const handleDrop = (event: React.DragEvent<HTMLFormElement>) => {
     event.preventDefault();
     event.stopPropagation();
     setIsDragActive(false);
+    if (!isCorrectExtension(event.dataTransfer.files[0].name)) {
+      setMessage(MESSAGE_WRONG_EXTENSION);
+      return;
+    }
     if (event.dataTransfer.files && event.dataTransfer.files[0]) {
+      setMessage(MESSAGE_DEFAULT_EXTENSION);
       setSelectedFile(event.dataTransfer.files[0]);
+      return;
     }
   };
 
@@ -294,8 +306,8 @@ const TabCreateMultipleMembers: React.FC = () => {
     >
       <div
         className={classNames(
-          "flex flex-col items-center justify-center px-3 pb-5 mt-3 border-2 border-dashed dashed-border rounded-md",
-          isDragActive ? "border-red-500" : "border-gray-400"
+          "flex flex-col items-center justify-center border-gray-400 px-3 pb-5 mt-3 border-2 border-dashed dashed-border rounded-md",
+          isDragActive && "bg-gray-100"
         )}
       >
         <span className="my-4 text-4xl text-primary-800">
@@ -307,7 +319,7 @@ const TabCreateMultipleMembers: React.FC = () => {
           </p>
         )}
         {isDragActive && (
-          <p className="text-lg text-center text-red-500">Thả file vào đây.</p>
+          <p className="text-lg text-center">Thả file vào đây.</p>
         )}
         <div className="flex items-center w-2/3 mt-4 gap-3">
           <div className="flex-1 bg-black h-[1px]" />
@@ -344,7 +356,14 @@ const TabCreateMultipleMembers: React.FC = () => {
         </div>
       )}
       <div className="flex flex-col items-center justify-center mt-6 mb-5">
-        <span className="italic">Hệ thống chỉ nhận file .xslx</span>
+        <span
+          className={classNames(
+            "italic w-3/4 text-center",
+            message !== MESSAGE_DEFAULT_EXTENSION && "text-red-500"
+          )}
+        >
+          {message}
+        </span>
         <span className="mt-1 font-semibold underline cursor-pointer text-primary-800">
           Tải file mẫu (.xslx)
         </span>
