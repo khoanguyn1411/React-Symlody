@@ -28,7 +28,6 @@ export const Button: React.FC<TProps> = ({
 }) => {
   return (
     <button
-      color="blue-grey"
       type={type}
       className={classNames(
         "rounded-lg text-center flex items-center justify-center transition-all min-w-max duration-200 text-default border-[1.5px] normal-case font-bold",

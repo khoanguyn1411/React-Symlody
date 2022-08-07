@@ -1,6 +1,6 @@
 import { size } from "@material-tailwind/react/types/components/dialog";
 import classNames from "classnames";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import ReactDOM from "react-dom";
 
 import { AnimationCustom, Button, ToggleWrapper } from "@/components";
@@ -51,14 +51,10 @@ export const ModalContent: React.FC<TProps> = ({
   isShowing,
   allowClickOutside = false,
 }) => {
-  const { resetFn, toggle } = useModalMultipleTabsContext();
+  const { toggle } = useModalMultipleTabsContext();
   const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
   const getTabActive = () => {
     return renderTabs.filter((item) => item.title === tabActive.title)[0];
-  };
-
-  const handleReset = () => {
-    resetFn && resetFn();
   };
 
   const handleChangeTab = (item: TTabs) => () => {
@@ -66,7 +62,6 @@ export const ModalContent: React.FC<TProps> = ({
   };
   const handleSetHidden = () => {
     toggle.setToggle();
-    handleReset();
   };
   const handleCloseWhenClickOutside = () => {
     allowClickOutside && toggle.setToggle();
@@ -146,32 +141,20 @@ type TEventModal = {
 
 type TPropsModalTab = {
   handleEvent: TEventModal;
-  resetForm?: () => void;
   children: ReactNode;
   otherActions?: React.DOMAttributes<HTMLFormElement>;
 };
 
 export const ModalTab: React.FC<TPropsModalTab> = ({
   handleEvent,
-  resetForm,
   children,
   otherActions,
 }) => {
   const isLoading = handleEvent.isLoading ?? false;
-  const { resetFn, setResetFn, toggle } = useModalMultipleTabsContext();
-
-  useEffect(() => {
-    setResetFn(() => resetForm);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleReset = () => {
-    resetFn && resetFn();
-  };
+  const { toggle } = useModalMultipleTabsContext();
 
   const handleSetHidden = () => {
     toggle.setToggle();
-    handleReset();
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -187,7 +170,7 @@ export const ModalTab: React.FC<TPropsModalTab> = ({
     >
       <div className="px-5 pt-5 overflow-auto">{children}</div>
       <div className="flex justify-end px-5 py-4">
-        <Button style="outline" type="reset" onClick={handleSetHidden}>
+        <Button style="outline" onClick={handleSetHidden}>
           Hủy
         </Button>
         <Button

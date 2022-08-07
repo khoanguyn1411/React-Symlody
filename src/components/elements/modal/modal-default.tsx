@@ -24,7 +24,6 @@ type TProps = {
   isShowing: boolean;
   toggle: TToggleModal;
   handleEvent: TEventModal;
-  resetForm?: () => void;
   allowClickOutside?: boolean;
 };
 
@@ -40,13 +39,11 @@ export const Modal: React.FC<TProps> = ({
   toggle,
   handleEvent,
   allowClickOutside = false,
-  resetForm,
 }) => {
   const isLoading = handleEvent.isLoading ?? false;
 
   const handleSetHidden = () => {
     toggle.setToggle();
-    resetForm && resetForm();
   };
   const handleCloseWhenClickOutside = () => {
     allowClickOutside && toggle.setToggle();
@@ -101,7 +98,7 @@ export const Modal: React.FC<TProps> = ({
                 {children}
               </div>
               <div className="flex justify-end px-5 py-4">
-                <Button style="outline" type="reset" onClick={handleSetHidden}>
+                <Button style="outline" onClick={handleSetHidden}>
                   Hủy
                 </Button>
                 <Button

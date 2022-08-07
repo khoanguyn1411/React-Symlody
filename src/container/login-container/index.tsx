@@ -8,7 +8,6 @@ import { images } from "@/assets/images";
 import { Button, FormItem, Input } from "@/components";
 import { useAppDispatch } from "@/features";
 import { loginAsync, setIsAuth } from "@/features/reducers";
-import { useModal } from "@/hooks";
 
 import { schema } from "./schema";
 import { IFormLoginValue } from "./type";
@@ -21,8 +20,6 @@ export const LoginContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const propsModal = useModal();
 
   const stateLocation: TStateLocation = location?.state;
   const pathLocation = stateLocation?.path;
