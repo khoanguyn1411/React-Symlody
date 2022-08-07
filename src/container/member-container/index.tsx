@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 
 import { Button, Dropdown, Select } from "@/components";
@@ -7,6 +6,7 @@ import { getMembersAsync } from "@/features/reducers";
 import { IMember } from "@/features/types/member-type";
 import { useModal } from "@/hooks";
 
+import { MemberMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { ListMemberSkeleton } from "./member-skeleton";
 
@@ -78,59 +78,60 @@ export const MemberContainer: React.FC = () => {
                 </td>
               </tr>
               {memberStore.pending && <ListMemberSkeleton />}
-              {!memberStore.pending &&
-                memberStore.members.map((item, index) => (
-                  <tr
-                    className="text-left border-t border-gray-200"
-                    key={item.id}
-                  >
-                    <td className="w-20 py-2 font-normal text-center">
-                      {index + 1}
-                    </td>
-                    <td className="w-auto py-2 pr-6 font-normal">
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
-                        <div>
-                          <h1 className="font-semibold">
-                            {item.auth_account.first_name +
-                              " " +
-                              item.auth_account.last_name}
-                          </h1>
-                          <h1 className="text-sm">{item.auth_account.email}</h1>
+              {memberStore &&
+                memberStore.members.map((item, index) => {
+                  const memberTableItem = MemberMapper.toTableView(item);
+                  return (
+                    <tr
+                      className="text-left border-t border-gray-200"
+                      key={memberTableItem.id}
+                    >
+                      <td className="w-20 py-2 font-normal text-center">
+                        {index + 1}
+                      </td>
+                      <td className="w-auto py-2 pr-6 font-normal">
+                        <div className="flex items-center">
+                          <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
+                          <div>
+                            <h1 className="font-semibold">
+                              {memberTableItem.name}
+                            </h1>
+                            <h1 className="text-sm">{memberTableItem.email}</h1>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="py-2 pr-6 font-normal w-28">
-                      {item.department.name}
-                    </td>
-                    <td className="py-2 pr-6 font-normal w-28">
-                      {item.dob && dayjs(item.dob).format("DD/MM/YYYY")}
-                    </td>
-                    <td className="py-2 font-normal w-28 pr-default">
-                      {item.auth_account.groups.join(", ")}
-                    </td>
+                      </td>
+                      <td className="py-2 pr-6 font-normal w-28">
+                        {memberTableItem.department}
+                      </td>
+                      <td className="py-2 pr-6 font-normal w-28">
+                        {memberTableItem.birthday}
+                      </td>
+                      <td className="py-2 font-normal w-28 pr-default">
+                        {memberTableItem.roles}
+                      </td>
 
-                    <td className="w-8 py-2 font-normal">
-                      <Dropdown
-                        menus={[
-                          {
-                            key: "Chỉnh sửa thành viên",
-                            prefix: <i className="w-6 far fa-edit"></i>,
-                          },
-                          {
-                            key: "Lưu trữ thành viên",
-                            prefix: <i className="w-6 far fa-trash-alt"></i>,
-                          },
-                        ]}
-                        onClickMenu={(key) => handleSelectMenu(key, item)}
-                      >
-                        <span className="text-primary-800">
-                          <i className="fas fa-ellipsis-h"></i>
-                        </span>
-                      </Dropdown>
-                    </td>
-                  </tr>
-                ))}
+                      <td className="w-8 py-2 font-normal">
+                        <Dropdown
+                          menus={[
+                            {
+                              key: "Chỉnh sửa thành viên",
+                              prefix: <i className="w-6 far fa-edit"></i>,
+                            },
+                            {
+                              key: "Lưu trữ thành viên",
+                              prefix: <i className="w-6 far fa-trash-alt"></i>,
+                            },
+                          ]}
+                          onClickMenu={(key) => handleSelectMenu(key, item)}
+                        >
+                          <span className="text-primary-800">
+                            <i className="fas fa-ellipsis-h"></i>
+                          </span>
+                        </Dropdown>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>

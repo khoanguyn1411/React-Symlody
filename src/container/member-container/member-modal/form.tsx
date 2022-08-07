@@ -25,12 +25,12 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
     formState: { errors },
   } = formProps;
 
-  const getDefaultValue = (defaultValue: any, key: keyof TFormMemberInfo) => {
+  const getDefaultValue = (key: keyof TFormMemberInfo): string => {
     if (data) {
       const dataForm = MemberMapper.toFormValue(data);
-      return dataForm[key];
+      return dataForm[key] as string;
     }
-    return defaultValue;
+    return undefined;
   };
 
   return (
@@ -39,7 +39,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="fullName"
-          defaultValue={getDefaultValue("", "fullName")}
+          defaultValue={getDefaultValue("fullName")}
           render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
@@ -54,13 +54,13 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <FormItem label="Giới tính" isRequired error={errors.gender?.message}>
           <Controller
             control={control}
-            defaultValue={getDefaultValue("", "gender")}
+            defaultValue={getDefaultValue("gender")}
             name="gender"
             render={({ field: { value, onChange } }) => (
               <Select
                 list={["Nam", "Nữ"]}
                 style="modal"
-                value={Number(value) === 1 ? "Nam" : "Nữ"}
+                value={value}
                 onChange={onChange}
                 placeHolder="Giới tính"
               />
@@ -70,7 +70,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
 
         <FormItem label="Ngày sinh" isRequired error={errors.birthday?.message}>
           <Controller
-            defaultValue={getDefaultValue("", "birthday")}
+            defaultValue={getDefaultValue("birthday")}
             control={control}
             name="birthday"
             render={({ field: { value, onChange } }) => (
@@ -83,7 +83,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           <Controller
             control={control}
             name="class"
-            defaultValue={getDefaultValue("", "class")}
+            defaultValue={getDefaultValue("class")}
             render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
@@ -95,11 +95,11 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           />
         </FormItem>
 
-        <FormItem label="MSSV" isRequired error={errors.id?.message}>
+        <FormItem label="MSSV" isRequired error={errors.studentId?.message}>
           <Controller
             control={control}
-            name="id"
-            defaultValue={getDefaultValue("", "id")}
+            name="studentId"
+            defaultValue={getDefaultValue("studentId")}
             render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
@@ -115,7 +115,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           <Controller
             control={control}
             name="email"
-            defaultValue={getDefaultValue("", "email")}
+            defaultValue={getDefaultValue("email")}
             render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
@@ -133,7 +133,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           error={errors.phone?.message}
         >
           <Controller
-            defaultValue={getDefaultValue("", "phone")}
+            defaultValue={getDefaultValue("phone")}
             control={control}
             name="phone"
             render={({ field: { value, onChange } }) => (
@@ -152,7 +152,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="department"
-          defaultValue={getDefaultValue("", "department")}
+          defaultValue={getDefaultValue("department")}
           render={({ field: { value, onChange } }) => (
             <Select
               list={["AD", "HR"]}
@@ -173,7 +173,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="role"
-          defaultValue={getDefaultValue([], "role")}
+          defaultValue={getDefaultValue("role") as unknown as string[]}
           render={({ field: { value, onChange } }) => {
             return (
               <SelectMultiple
@@ -192,7 +192,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="address"
-          defaultValue={getDefaultValue("", "address")}
+          defaultValue={getDefaultValue("address")}
           render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
@@ -208,7 +208,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="home"
-          defaultValue={getDefaultValue("", "home")}
+          defaultValue={getDefaultValue("home")}
           render={({ field: { value, onChange } }) => (
             <Input
               style="modal"

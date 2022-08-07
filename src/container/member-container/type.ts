@@ -5,9 +5,19 @@ export type TFormMemberInfo = {
   department: string;
   role: string[];
   class: string;
-  id: string;
+  studentId: string;
   email: string;
   phone: string;
   address: string;
   home: string;
 };
+
+export interface IMemberTable {
+  id: number;
+  avatar?: string;
+  name: string;
+  email: string;
+  department: string;
+  birthday: string;
+  roles: string;
+}
