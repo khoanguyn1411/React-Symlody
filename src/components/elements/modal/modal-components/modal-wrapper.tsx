@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import React, { ReactNode } from "react";
 
-import { AnimationCustom } from "../animation-custom";
-import { TPropsModalGeneral } from "./types";
+import { AnimationCustom } from "../../animation-custom";
+import { TPropsModalGeneral } from "../types";
 
 type TProps = {
   children: ReactNode;

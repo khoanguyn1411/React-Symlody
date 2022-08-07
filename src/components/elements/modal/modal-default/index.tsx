@@ -3,10 +3,8 @@ import ReactDOM from "react-dom";
 
 import { ToggleWrapper } from "@/components";
 
-import { ModalBody } from "./modal-body";
-import { ModalFooter } from "./modal-footer";
-import { ModalWrapper } from "./modal-wrapper";
-import { TPropsModalDefault } from "./types";
+import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
+import { TPropsModalDefault } from "../types";
 
 /**
  * To get value of isShowing and toggle functions, please use useModal hook and pass

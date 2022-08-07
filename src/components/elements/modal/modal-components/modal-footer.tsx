@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Button } from "../button";
-import { TEventModal, TToggleModal } from "./types";
+import { Button } from "../../button";
+import { TEventModal, TToggleModal } from "../types";
 
 export const ModalFooter: React.FC<TEventModal & TToggleModal> = ({
   isLoading,

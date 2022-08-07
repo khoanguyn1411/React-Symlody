@@ -4,9 +4,7 @@ import ReactDOM from "react-dom";
 
 import { ToggleWrapper } from "@/components";
 
-import { ModalBody } from "../modal-body";
-import { ModalFooter } from "../modal-footer";
-import { ModalWrapper } from "../modal-wrapper";
+import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
 import { TPropsModalMultipleTabs, TPropsModalTab, TTabs } from "../types";
 import {
   ModalMultipleTabsProvider,
