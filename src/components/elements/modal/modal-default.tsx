@@ -79,7 +79,7 @@ export const Modal: React.FC<TProps> = ({
             })}
           >
             <div className={classNames("w-full flex relative flex-col p-0")}>
-              <h1 className="w-full px-5 py-3 text-2xl font-bold text-left uppercase border-b border-gray-400 text-primary-800">
+              <h1 className="w-full px-5 py-3 text-2xl font-bold text-left uppercase border-b border-gray-200 text-primary-800">
                 {title}
                 <span
                   aria-hidden="true"
@@ -97,7 +97,7 @@ export const Modal: React.FC<TProps> = ({
               <div className="flex flex-col w-full px-5 pt-5 overflow-auto">
                 {children}
               </div>
-              <div className="flex justify-end px-5 py-4">
+              <div className="flex justify-end px-5 py-4 border-t">
                 <Button style="outline" onClick={handleSetHidden}>
                   Hủy
                 </Button>

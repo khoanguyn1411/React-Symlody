@@ -63,7 +63,7 @@ export const Select: React.FC<TProps> = ({
             "flex justify-between w-full p-2 pr-5 rounded-lg text-black",
             {
               "bg-gray-100 rounded-md": style === "modal",
-              "bg-white border border-gray-400": style === "default",
+              "bg-white border border-gray-200": style === "default",
             }
           )}
         >
@@ -73,7 +73,7 @@ export const Select: React.FC<TProps> = ({
           <span>
             <i
               className={classNames(
-                "fas fa-angle-down text-lg -mr-5 duration-300 transition-transform",
+                "fas fa-angle-down text-lg text-grey-400 -mr-5 duration-300 transition-transform",
                 {
                   "transform -rotate-180": isShowContent,
                 }

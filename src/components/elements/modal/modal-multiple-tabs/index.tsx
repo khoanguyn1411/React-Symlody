@@ -97,7 +97,7 @@ export const ModalContent: React.FC<TProps> = ({
             })}
           >
             {/* Title */}
-            <div className="flex justify-between px-5 mt-4 border-b-2">
+            <div className="flex justify-between px-5 mt-4 border-b">
               {renderTabs.map((item, index) => (
                 <div
                   key={`modalTitle${index}`}
@@ -169,7 +169,7 @@ export const ModalTab: React.FC<TPropsModalTab> = ({
       {...otherActions}
     >
       <div className="px-5 pt-5 overflow-auto">{children}</div>
-      <div className="flex justify-end px-5 py-4">
+      <div className="flex justify-end px-5 py-4 border-t">
         <Button style="outline" onClick={handleSetHidden}>
           Hủy
         </Button>
