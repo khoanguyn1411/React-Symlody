@@ -22,6 +22,8 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   isShowing,
   setToggle,
 }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const {
     control,
     formState: { errors },
@@ -31,7 +33,6 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     shouldUnregister: true,
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleEditMember = (editInfo: TFormMemberInfo) => {
     setIsLoading(true);
     console.log(editInfo);

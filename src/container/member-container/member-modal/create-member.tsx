@@ -248,6 +248,7 @@ const TabCreateMultipleMembers: React.FC = () => {
   const [isDragActive, setIsDragActive] = useState<boolean>(false);
   const [dragCounter, setDragCounter] = useState<number>(0);
   const [message, setMessage] = useState<string>(MESSAGE_DEFAULT_EXTENSION);
+
   const handlePickFile = () => {
     if (!inputFileRef.current) {
       return;

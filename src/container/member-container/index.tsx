@@ -13,8 +13,8 @@ import { ListMemberSkeleton } from "./member-skeleton";
 export const MemberContainer: React.FC = () => {
   const propsModalCreateMember = useModal();
   const propsModalEditMember = useModal<IMember>();
-  const dispatch = useAppDispatch();
   const memberStore = useAppSelector((state) => state.member);
+  const dispatch = useAppDispatch();
 
   const displayOptions = [
     "Tất cả thành viên",
@@ -41,9 +41,9 @@ export const MemberContainer: React.FC = () => {
     }
   };
 
-  // if (!memberStore.members || memberStore.members.length === 0) {
-  //   return <div>No data</div>;
-  // }
+  if (!memberStore.members || memberStore.members.length === 0) {
+    return <div>No data</div>;
+  }
 
   return (
     <div>
