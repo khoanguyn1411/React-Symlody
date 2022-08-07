@@ -1,5 +1,6 @@
-import { forwardRef, ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
+import { AnimationCustom } from "../animation-custom";
 import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
 
 type TProps = {
@@ -7,27 +8,24 @@ type TProps = {
   children: ReactNode;
 };
 
-// eslint-disable-next-line react/display-name
-export const ToggleWrapper = forwardRef<HTMLDivElement, TProps>(
-  ({ isShowing, children }, ref) => {
-    const [isMounted, setIsMounted] = useState<boolean>(false);
-    useEffect(() => {
-      if (isShowing) {
-        setIsMounted(true);
-        return;
-      }
-      const unMountedId = setTimeout(() => {
-        setIsMounted(false);
-      }, ANIMATION_DEFAULT_TIME);
-
-      return () => {
-        clearTimeout(unMountedId);
-      };
-    }, [isShowing]);
-
-    if (!isMounted) {
+export const ToggleWrapper: React.FC<TProps> = ({ isShowing, children }) => {
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+  useEffect(() => {
+    if (isShowing) {
+      setIsMounted(true);
       return;
     }
-    return <>{children}</>;
+    const unMountedId = setTimeout(() => {
+      setIsMounted(false);
+    }, ANIMATION_DEFAULT_TIME);
+
+    return () => {
+      clearTimeout(unMountedId);
+    };
+  }, [isShowing]);
+
+  if (!isMounted) {
+    return;
   }
-);
+  return <AnimationCustom>{children}</AnimationCustom>;
+};

@@ -5,7 +5,6 @@ import ReactDOM from "react-dom";
 
 import { AnimationCustom, Button, ToggleWrapper } from "@/components";
 
-import { ANIMATION_DEFAULT_TIME } from "../../animation-custom/constants";
 import {
   ModalMultipleTabsProvider,
   useModalMultipleTabsContext,
