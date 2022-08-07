@@ -27,7 +27,7 @@ type TProps = {
   isShowing: boolean;
   toggle: TToggleModal;
   handleEvent?: TEventModal;
-  allowClickOutside?: boolean;
+  closeWhenClickOutside?: boolean;
 };
 
 /**
@@ -49,7 +49,7 @@ export const ModalContent: React.FC<TProps> = ({
   renderTabs,
   size = "sm",
   isShowing,
-  allowClickOutside = false,
+  closeWhenClickOutside = false,
 }) => {
   const { toggle } = useModalMultipleTabsContext();
   const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
@@ -64,13 +64,13 @@ export const ModalContent: React.FC<TProps> = ({
     toggle.setToggle();
   };
   const handleCloseWhenClickOutside = () => {
-    allowClickOutside && toggle.setToggle();
+    closeWhenClickOutside && toggle.setToggle();
   };
 
   const handleStopPropagation = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    allowClickOutside && event.stopPropagation();
+    closeWhenClickOutside && event.stopPropagation();
   };
 
   return ReactDOM.createPortal(

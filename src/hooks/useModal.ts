@@ -34,8 +34,8 @@ export function useModal<T = undefined>(): THookModalProps<T> {
 
   return {
     data,
-    setData,
     isShowing,
+    setData,
     setShow,
     setHidden,
     setToggle,

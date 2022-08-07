@@ -24,7 +24,7 @@ type TProps = {
   isShowing: boolean;
   toggle: TToggleModal;
   handleEvent: TEventModal;
-  allowClickOutside?: boolean;
+  closeWhenClickOutside?: boolean;
 };
 
 /**
@@ -38,7 +38,7 @@ export const Modal: React.FC<TProps> = ({
   isShowing,
   toggle,
   handleEvent,
-  allowClickOutside = false,
+  closeWhenClickOutside = false,
 }) => {
   const isLoading = handleEvent.isLoading ?? false;
 
@@ -46,13 +46,13 @@ export const Modal: React.FC<TProps> = ({
     toggle.setToggle();
   };
   const handleCloseWhenClickOutside = () => {
-    allowClickOutside && toggle.setToggle();
+    closeWhenClickOutside && toggle.setToggle();
   };
 
   const handleStopPropagation = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    allowClickOutside && event.stopPropagation();
+    closeWhenClickOutside && event.stopPropagation();
   };
 
   return ReactDOM.createPortal(
