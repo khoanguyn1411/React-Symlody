@@ -20,7 +20,10 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
-  const { handleSubmit } = propsForm;
+  const {
+    handleSubmit,
+    formState: { isDirty },
+  } = propsForm;
 
   const handleEditMember = (editInfo: TFormMemberInfo) => {
     setIsLoading(false);
@@ -40,6 +43,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         title: "Cập nhật",
         event: handleSubmit(handleEditMember),
         isLoading: isLoading,
+        isDisable: !isDirty,
       }}
     >
       <FormItems data={data} formProps={propsForm} />

@@ -20,14 +20,18 @@ type TProps = {
 };
 
 export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
+  let dataForm: TFormMemberInfo = null;
+  if (data) {
+    dataForm = MemberMapper.toFormValue(data);
+  }
+
   const {
     control,
     formState: { errors },
   } = formProps;
 
   const getDefaultValue = (key: keyof TFormMemberInfo): string => {
-    if (data) {
-      const dataForm = MemberMapper.toFormValue(data);
+    if (dataForm) {
       return dataForm[key] as string;
     }
     return undefined;

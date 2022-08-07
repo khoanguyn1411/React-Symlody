@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext } from "react";
 
-import { TToggleModal } from "@/components";
+import { TToggleModal } from "../types";
 
 type TContext = {
   toggle: TToggleModal;

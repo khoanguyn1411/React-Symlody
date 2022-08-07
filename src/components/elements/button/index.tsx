@@ -10,7 +10,7 @@ type TProps = {
   className?: string;
   children: ReactNode;
   type?: "button" | "submit" | "reset";
-  style?: "outline" | "default" | "none";
+  style?: "outline" | "default" | "none" | "disable";
   isIconOnly?: boolean;
   prefix?: ReactNode | null;
   isShowLoading?: TLoading | null;
@@ -26,6 +26,14 @@ export const Button: React.FC<TProps> = ({
   prefix = null,
   isShowLoading = null,
 }) => {
+  const handleOnClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    if (style === "disable") {
+      return;
+    }
+    onClick && onClick(event);
+  };
   return (
     <button
       type={type}
@@ -35,11 +43,12 @@ export const Button: React.FC<TProps> = ({
         {
           "border-primary-800 bg-primary-800 hover:bg-primary-900 hover:border-primary-900 text-white":
             style === "default",
+          "border-primary-500 bg-primary-500 text-white": style === "disable",
           "border-primary-800 bg-white text-primary-800": style === "outline",
           "px-2 py-2 min-w-[80px]": !isIconOnly,
         }
       )}
-      onClick={onClick}
+      onClick={handleOnClick}
     >
       {isShowLoading && (
         <i

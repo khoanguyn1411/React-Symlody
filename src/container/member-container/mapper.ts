@@ -47,6 +47,7 @@ export class MemberMapper {
     };
   }
 
+  /** Use for map data from back-end to table view of member list. */
   public static toTableView(dto: IMember): IMemberTable {
     return {
       id: dto.id,
