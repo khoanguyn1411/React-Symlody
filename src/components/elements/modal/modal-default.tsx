@@ -5,6 +5,8 @@ import ReactDOM from "react-dom";
 
 import { AnimationCustom, Button } from "@/components";
 
+import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
+
 type TEventModal = {
   title?: string;
   event: () => void;
@@ -52,7 +54,7 @@ export const Modal: React.FC<TProps> = ({
     }
     const unMountedId = setTimeout(() => {
       setIsMounted(false);
-    }, 150);
+    }, ANIMATION_DEFAULT_TIME);
 
     return () => {
       clearTimeout(unMountedId);
@@ -61,7 +63,7 @@ export const Modal: React.FC<TProps> = ({
 
   const handleSetHidden = () => {
     toggle.setToggle();
-    resetForm();
+    resetForm && resetForm();
   };
   const handleCloseWhenClickOutside = () => {
     allowClickOutside && toggle.setToggle();
@@ -81,7 +83,7 @@ export const Modal: React.FC<TProps> = ({
         aria-hidden
         onClick={handleCloseWhenClickOutside}
         className={classNames(
-          "fixed top-0 bottom-0 left-0 bg-backdrop-main animate__animated animate__fadeIn right-0 z-20 duration-150 flex flex-col items-center justify-center",
+          "fixed top-0 bottom-0 left-0 bg-backdrop-main animate__animated animate__fadeIn right-0 z-20 flex flex-col items-center justify-center",
           {
             animate__fadeOut: !isShowing,
           }

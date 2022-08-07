@@ -94,7 +94,7 @@ export const SelectMultiple: React.FC<TProps> = ({
                 >
                   {item}
                   <span
-                    className="absolute top-0 bottom-0 right-0 flex items-center h-full px-1 ml-3 hover:bg-gray-300 rounded-r-md transition-all duration-150"
+                    className="absolute top-0 bottom-0 right-0 flex items-center h-full px-1 ml-3 hover:bg-gray-300 rounded-r-md transition-all"
                     aria-hidden={true}
                     onClick={handleSetItem(item)}
                   >

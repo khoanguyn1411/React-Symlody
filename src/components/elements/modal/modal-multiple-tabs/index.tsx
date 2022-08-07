@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 
 import { AnimationCustom, Button } from "@/components";
 
+import { ANIMATION_DEFAULT_TIME } from "../../animation-custom/constants";
 import {
   ModalMultipleTabsProvider,
   useModalMultipleTabsContext,
@@ -69,7 +70,7 @@ export const ModalContent: React.FC<TProps> = ({
     }
     const unMountedId = setTimeout(() => {
       setIsMounted(false);
-    }, 150);
+    }, ANIMATION_DEFAULT_TIME);
 
     return () => {
       clearTimeout(unMountedId);

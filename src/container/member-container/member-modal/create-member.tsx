@@ -25,6 +25,7 @@ import { schema } from "../schema";
 import { TFormMemberInfo } from "../type";
 import {
   MESSAGE_DEFAULT_EXTENSION,
+  MESSAGE_NOT_PICK_FILE,
   MESSAGE_WRONG_EXTENSION,
 } from "./constants";
 
@@ -260,6 +261,9 @@ const TabCreateMultipleMembers: React.FC = () => {
 
   const handlePickedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedFile(event.target.files[0]);
+    if (event.target.files) {
+      setMessage(MESSAGE_DEFAULT_EXTENSION);
+    }
   };
 
   const handleDrag = (event: React.DragEvent<HTMLFormElement>) => {
@@ -283,10 +287,18 @@ const TabCreateMultipleMembers: React.FC = () => {
       return;
     }
     if (event.dataTransfer.files && event.dataTransfer.files[0]) {
-      setMessage(MESSAGE_DEFAULT_EXTENSION);
       setSelectedFile(event.dataTransfer.files[0]);
+      setMessage(MESSAGE_DEFAULT_EXTENSION);
       return;
     }
+  };
+  const handleSubmitFile = () => {
+    if (!selectedFile) {
+      setMessage(MESSAGE_NOT_PICK_FILE);
+      return;
+    }
+    setMessage(MESSAGE_DEFAULT_EXTENSION);
+    alert("Submitted!");
   };
 
   return (
@@ -298,9 +310,7 @@ const TabCreateMultipleMembers: React.FC = () => {
         onDragLeave: handleDrag,
       }}
       handleEvent={{
-        event: function (): void {
-          alert("Submitted!");
-        },
+        event: handleSubmitFile,
         isLoading: false,
       }}
     >
