@@ -100,17 +100,17 @@ export const MemberContainer: React.FC = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="py-2 pr-6 font-normal w-1/10">
+                    <td className="py-2 pr-6 font-normal w-28">
                       {item.department.name}
                     </td>
-                    <td className="py-2 pr-6 font-normal w-1/10">
+                    <td className="py-2 pr-6 font-normal w-28">
                       {item.dob && dayjs(item.dob).format("DD/MM/YYYY")}
                     </td>
-                    <td className="py-2 font-normal w-1/10 pr-default">
+                    <td className="py-2 font-normal w-28 pr-default">
                       {item.auth_account.groups.join(", ")}
                     </td>
 
-                    <td className="w-6 py-2 font-normal pr-default">
+                    <td className="w-8 py-2 font-normal">
                       <Dropdown
                         menus={[
                           {

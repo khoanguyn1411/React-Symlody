@@ -30,6 +30,15 @@ module.exports = withMT({
       fontSize: {
         default: toPx(14),
       },
+      animation: {
+        'skeleton': 'fade 2s linear infinite',
+      },
+      keyframes: {
+        fade: {
+          '0%, 100%': { opacity: "1" },
+          '50%': { opacity: "0.5" },
+        }
+      },
       colors: {
         backdrop: {
           main: "#0000006e"
