@@ -18,7 +18,6 @@ export type TEventModal = {
 export type TPropsModalGeneral = {
   size?: size;
   isShowing: boolean;
-  handleEvent?: TEventModal;
   closeWhenClickOutside?: boolean;
   toggle: TToggleModal;
 };
@@ -41,6 +40,7 @@ export type TPropsModalTab = {
 
 // Type of modal default.
 export type TPropsModalDefault = {
+  handleEvent?: TEventModal;
   title: string;
   children: ReactNode;
 } & TPropsModalGeneral;

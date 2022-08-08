@@ -1,32 +1,30 @@
 import React, { createContext, ReactNode, useContext } from "react";
 
-import { TToggleModal } from "../types";
-
-type TContext = {
-  toggle: TToggleModal;
-};
-
-const ModalMultipleTabsContext = createContext<TContext>({
-  toggle: undefined,
-});
+import { TPropsModalMultipleTabs } from "../types";
 
 type TModalMultipleTabsProvider = {
   children: ReactNode;
-  toggle: TToggleModal;
-};
+} & TPropsModalMultipleTabs;
+
+const ModalMultipleTabsContext = createContext<TPropsModalMultipleTabs>({
+  renderTabs: [],
+  size: "sm",
+  isShowing: false,
+  toggle: undefined,
+});
+
 const ModalMultipleTabsProvider: React.FC<TModalMultipleTabsProvider> = ({
   children,
-  toggle,
+  ...props
 }) => {
-  const value = { toggle };
   return (
-    <ModalMultipleTabsContext.Provider value={value}>
+    <ModalMultipleTabsContext.Provider value={props}>
       {children}
     </ModalMultipleTabsContext.Provider>
   );
 };
 
-const useModalMultipleTabsContext = (): TContext => {
+const useModalMultipleTabsContext = (): TPropsModalMultipleTabs => {
   const context = useContext(ModalMultipleTabsContext);
   if (typeof context === undefined) {
     throw new Error("This component must be used within modal context.");

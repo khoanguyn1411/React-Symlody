@@ -20,15 +20,16 @@ import {
  */
 export const ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
   return (
-    <ModalMultipleTabsProvider toggle={props.toggle}>
-      <ModalContent {...props} />
+    <ModalMultipleTabsProvider {...props}>
+      <ModalMultipleTabsContent />
     </ModalMultipleTabsProvider>
   );
 };
 
-export const ModalContent: React.FC<TPropsModalMultipleTabs> = (props) => {
-  const { renderTabs, isShowing } = props;
-  const { toggle } = useModalMultipleTabsContext();
+export const ModalMultipleTabsContent: React.FC = () => {
+  const props = useModalMultipleTabsContext();
+  const { renderTabs, isShowing, toggle } = props;
+
   const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
   const getTabActive = () => {
     return renderTabs.filter((item) => item.title === tabActive.title)[0];
