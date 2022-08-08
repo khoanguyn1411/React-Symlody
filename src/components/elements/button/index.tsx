@@ -10,10 +10,15 @@ type TProps = {
   className?: string;
   children: ReactNode;
   type?: "button" | "submit" | "reset";
+<<<<<<< HEAD
   style?: "outline" | "default" | "none" | "disable";
   isIconOnly?: boolean;
   prefix?: ReactNode | null;
   isShowLoading?: TLoading | null;
+=======
+  style?: "outline" | "default" | "none";
+  isIconOnly?: boolean;
+>>>>>>> feature/club151
 };
 
 export const Button: React.FC<TProps> = ({
@@ -23,8 +28,11 @@ export const Button: React.FC<TProps> = ({
   type = "button",
   style = "default",
   isIconOnly = false,
+<<<<<<< HEAD
   prefix = null,
   isShowLoading = null,
+=======
+>>>>>>> feature/club151
 }) => {
   const handleOnClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -36,9 +44,16 @@ export const Button: React.FC<TProps> = ({
   };
   return (
     <button
+<<<<<<< HEAD
       type={type}
       className={classNames(
         "rounded-lg text-center flex items-center justify-center transition-all min-w-max duration-200 text-default border-[1.5px] normal-case font-bold",
+=======
+      color="blue-grey"
+      type={type}
+      className={classNames(
+        "rounded-lg text-center flex items-center justify-center transition-all min-w-max duration-200 text-default border-2 normal-case font-bold",
+>>>>>>> feature/club151
         className,
         {
           "border-primary-800 bg-primary-800 hover:bg-primary-900 hover:border-primary-900 text-white":
@@ -62,5 +77,25 @@ export const Button: React.FC<TProps> = ({
       {prefix}
       {children}
     </button>
+<<<<<<< HEAD
+=======
+
+    // <ButtonMaterial
+    //   color="blue-grey"
+    //   type={type}
+    //   className={classNames(
+    //     "rounded-lg transition-all min-w-max duration-200 text-default border-2 py-2 normal-case font-bold",
+    //     className,
+    //     {
+    //       "border-primary-800 bg-primary-800 hover:bg-primary-900 hover:border-primary-900 text-white":
+    //         style === "default",
+    //       "border-primary-800 bg-white text-primary-800": style === "outline",
+    //     }
+    //   )}
+    //   onClick={onClick}
+    // >
+    //   {children}
+    // </ButtonMaterial>
+>>>>>>> feature/club151
   );
 };

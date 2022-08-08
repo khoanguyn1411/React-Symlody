@@ -8,6 +8,7 @@ import { TPropsModalDefault } from "../types";
 
 /**
  * To get value of isShowing and toggle functions, please use useModal hook and pass
+ * the corresponding props provided in such hook.
  */
 export const Modal: React.FC<TPropsModalDefault> = (props) => {
   const { children, title, isShowing, toggle, handleEvent } = props;

@@ -22,7 +22,7 @@ export type TPropsModalGeneral = {
   toggle: TToggleModal;
 };
 
-// Type of modal multiple tabs.
+// Types of modal multiple tabs.
 export type TPropsModalMultipleTabs = {
   renderTabs: TTabs[];
 } & TPropsModalGeneral;
@@ -38,7 +38,7 @@ export type TPropsModalTab = {
   otherActions?: React.DOMAttributes<HTMLFormElement>;
 };
 
-// Type of modal default.
+// Types of modal default.
 export type TPropsModalDefault = {
   handleEvent?: TEventModal;
   title: string;
