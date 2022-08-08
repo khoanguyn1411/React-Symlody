@@ -1,7 +1,9 @@
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
+import { AnimationCustom } from "../animation-custom";
 import { Checkbox } from "../checkbox";
+import { ToggleWrapper } from "../toggle-wrapper";
 
 type TProps = {
   list: string[];
@@ -11,7 +13,7 @@ type TProps = {
   onChange: (value: string[]) => void;
 };
 
-export const MultipleSelect: React.FC<TProps> = ({
+export const SelectMultiple: React.FC<TProps> = ({
   list,
   value,
   placeHolder,
@@ -73,7 +75,7 @@ export const MultipleSelect: React.FC<TProps> = ({
         {/* Display */}
         <div
           ref={displayRef}
-          onClick={(e) => handleToggleContent(e)}
+          onClick={handleToggleContent}
           aria-hidden="true"
           className={classNames(
             "flex justify-between w-full p-2 mt-3 pr-5 rounded-md text-black",
@@ -94,7 +96,7 @@ export const MultipleSelect: React.FC<TProps> = ({
                 >
                   {item}
                   <span
-                    className="absolute top-0 bottom-0 right-0 flex items-center h-full px-1 ml-3 hover:bg-gray-300 rounded-r-md transition-all duration-150"
+                    className="absolute top-0 bottom-0 right-0 flex items-center h-full px-1 ml-3 hover:bg-gray-300 rounded-r-md transition-all"
                     aria-hidden={true}
                     onClick={handleSetItem(item)}
                   >
@@ -117,34 +119,37 @@ export const MultipleSelect: React.FC<TProps> = ({
           </span>
         </div>
         {/* List */}
-        <ul
-          ref={listRef}
-          role="listbox"
-          tabIndex={-1}
-          className={classNames(
-            "absolute z-20 w-full py-1 rounded-md max-h-64 overflow-auto duration-100 shadow-md mt-2",
-            {
-              "opacity-100 visible": isShowContent,
-              "opacity-0 invisible": !isShowContent,
-              "bg-white": style === "default",
-              "bg-grey-100 ": style === "modal",
-            }
-          )}
-        >
-          {list.map((item: string, index: number) => (
-            <li
-              key={index}
-              aria-hidden="true"
-              onClick={handleSetItem(item)}
-              className={classNames(
-                "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-all duration-70"
-              )}
-            >
-              <Checkbox checked={value && [...value].includes(item)} />
-              <h1>{item}</h1>
-            </li>
-          ))}
-        </ul>
+        <AnimationCustom>
+          <ul
+            role="listbox"
+            ref={listRef}
+            tabIndex={-1}
+            className={classNames(
+              "absolute z-20 w-full py-1 rounded-md max-h-64 overflow-auto animate__animated animate__fadeIn shadow-md mt-2",
+              {
+                animate__fadeOut: !isShowContent,
+                "bg-white": style === "default",
+                "bg-grey-100 ": style === "modal",
+              }
+            )}
+          >
+            <ToggleWrapper isShowing={isShowContent}>
+              {list.map((item: string, index: number) => (
+                <li
+                  key={index}
+                  aria-hidden="true"
+                  onClick={handleSetItem(item)}
+                  className={classNames(
+                    "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-all duration-70"
+                  )}
+                >
+                  <Checkbox checked={value && [...value].includes(item)} />
+                  <h1>{item}</h1>
+                </li>
+              ))}
+            </ToggleWrapper>
+          </ul>
+        </AnimationCustom>
       </div>
     </div>
   );
