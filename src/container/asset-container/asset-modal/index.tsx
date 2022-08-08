@@ -16,15 +16,16 @@ export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
     control,
     formState: { errors },
     handleSubmit,
-    reset,
-  } = useForm<TFormAssetInfo>({ resolver: yupResolver(schema) });
+  } = useForm<TFormAssetInfo>({
+    resolver: yupResolver(schema),
+    shouldUnregister: true,
+  });
 
   const handleCreateAsset = (data: TFormAssetInfo) => {
     console.log(data);
   };
   return (
     <Modal
-      resetForm={reset}
       toggle={{ setToggle }}
       title="Thêm tài sản"
       size="lg"
