@@ -2,7 +2,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import { FormItem, Input, Modal } from "@/components";
+import {
+  FormItem,
+  Input,
+  InputUnderLine,
+  Modal,
+  RadioGroup,
+} from "@/components";
 import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";
@@ -103,6 +109,7 @@ export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
         />
       </FormItem>
 
+      <RadioGroup></RadioGroup>
       <FormItem label="Ghi chú">
         <Controller
           control={control}

@@ -1,4 +1,4 @@
-import { Dropdown, DropDownWithAction } from "@/components";
+import { Button, Dropdown, DropDownWithAction } from "@/components";
 import { useModal } from "@/hooks";
 import { formatCurrency } from "@/utils/format";
 
@@ -60,36 +60,13 @@ export const AssetContainer: React.FC = () => {
   const handleOpenModal = () => {
     useModalProps.setToggle();
   };
-  const handleClickOnItemMenu = (key: string) => {
-    switch (key) {
-      case "Thêm tài sản":
-        handleOpenModal();
-        break;
-      case "Thêm nhiều tài sản":
-        // code block
-        break;
-      default:
-        handleOpenModal();
-    }
-  };
+
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
         <h1>Quản lý tài sản</h1>
         <div className="flex items-center justify-center">
-          <DropDownWithAction
-            menus={[
-              {
-                key: "Thêm tài sản",
-              },
-              {
-                key: "Thêm nhiều tài sản",
-              },
-            ]}
-            onClickButton={handleOpenModal}
-            hiddenAfterClick
-            onClickMenu={(key) => handleClickOnItemMenu(key)}
-          ></DropDownWithAction>
+          <Button onClick={handleOpenModal}>Thêm tài sản</Button>
         </div>
       </div>
       <div className="p-default">
@@ -119,8 +96,8 @@ export const AssetContainer: React.FC = () => {
                     {index + 1}
                   </td>
 
-                  <td className="w-1/3 py-2 font-normal">{item.name}</td>
-                  <td className="w-16 py-2 font-normal text-center">
+                  <td className="py-2 font-normal">{item.name}</td>
+                  <td className="py-2 font-normal text-center w-28">
                     {item.quantity}
                   </td>
                   <td className="py-2 font-normal text-center w-44">
