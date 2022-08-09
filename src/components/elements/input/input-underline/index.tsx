@@ -10,13 +10,13 @@ type TProps = {
 export const InputUnderLine: React.FC<TProps> = ({
   value = "",
   onChange,
-  label = "Khác: ",
+  label = "Khác",
   disable = false,
 }) => {
   return (
     <div className="w-full">
       <label className="flex items-center">
-        {label}
+        {label}:
         <div className="relative w-full ml-2 min-w-[200px]">
           <input
             value={value}

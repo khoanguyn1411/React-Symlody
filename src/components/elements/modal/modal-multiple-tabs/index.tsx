@@ -28,7 +28,7 @@ export const ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
 
 const ModalMultipleTabsContent: React.FC = () => {
   const props = useModalMultipleTabsContext();
-  const { renderTabs, isShowing, toggle } = props;
+  const { renderTabs, isShowing, toggle, reset } = props;
 
   const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
   const getTabActive = () => {
@@ -40,6 +40,7 @@ const ModalMultipleTabsContent: React.FC = () => {
   };
   const handleSetHidden = () => {
     toggle.setToggle();
+    reset && reset();
   };
 
   return ReactDOM.createPortal(
@@ -85,7 +86,7 @@ export const ModalTab: React.FC<TPropsModalTab> = ({
   children,
   otherActions,
 }) => {
-  const { toggle } = useModalMultipleTabsContext();
+  const { toggle, reset } = useModalMultipleTabsContext();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -99,7 +100,11 @@ export const ModalTab: React.FC<TPropsModalTab> = ({
       {...otherActions}
     >
       <ModalBody>{children}</ModalBody>
-      <ModalFooter {...handleEvent} setToggle={toggle.setToggle} />
+      <ModalFooter
+        reset={reset}
+        {...handleEvent}
+        setToggle={toggle.setToggle}
+      />
     </form>
   );
 };

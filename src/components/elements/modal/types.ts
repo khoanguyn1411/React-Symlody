@@ -10,9 +10,9 @@ export type TToggleModal = {
 
 export type TEventModal = {
   title?: string;
-  event: () => void;
   isLoading?: boolean;
   isDisable?: boolean;
+  event: () => void;
 };
 
 export type TPropsModalGeneral = {
@@ -20,6 +20,7 @@ export type TPropsModalGeneral = {
   isShowing: boolean;
   closeWhenClickOutside?: boolean;
   toggle: TToggleModal;
+  reset?: () => void;
 };
 
 // Types of modal multiple tabs.

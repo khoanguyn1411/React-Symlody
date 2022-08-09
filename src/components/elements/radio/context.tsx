@@ -8,8 +8,8 @@ type TContextRadioGroup = {
 };
 
 const RadioGroupContext = createContext<TContextRadioGroup>({
-  activeValue: undefined,
-  checked: undefined,
+  activeValue: "",
+  checked: "",
   setActiveValue: undefined,
   setChecked: undefined,
 });

@@ -11,9 +11,10 @@ import { TPropsModalDefault } from "../types";
  * the corresponding props provided in such hook.
  */
 export const Modal: React.FC<TPropsModalDefault> = (props) => {
-  const { children, title, isShowing, toggle, handleEvent } = props;
+  const { children, title, isShowing, toggle, handleEvent, reset } = props;
   const handleSetHidden = () => {
     toggle.setToggle();
+    reset && reset();
   };
 
   return ReactDOM.createPortal(
@@ -36,7 +37,11 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
           className="flex flex-col max-h-[80vh]"
         >
           <ModalBody>{children}</ModalBody>
-          <ModalFooter {...handleEvent} setToggle={toggle.setToggle} />
+          <ModalFooter
+            reset={reset}
+            {...handleEvent}
+            setToggle={toggle.setToggle}
+          />
         </form>
       </ModalWrapper>
     </ToggleWrapper>,

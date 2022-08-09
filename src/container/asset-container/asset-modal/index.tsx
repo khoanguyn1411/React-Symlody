@@ -15,6 +15,7 @@ export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
 }) => {
   const {
     control,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm<TFormAssetInfo>({
@@ -28,6 +29,7 @@ export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
 
   return (
     <Modal
+      reset={reset}
       toggle={{ setToggle }}
       title="Thêm tài sản"
       size="lg"
