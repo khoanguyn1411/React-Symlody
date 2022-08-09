@@ -4,4 +4,5 @@ export type TFormAssetInfo = {
   price: string;
   inCharge: string;
   note: string;
+  owner: string;
 };

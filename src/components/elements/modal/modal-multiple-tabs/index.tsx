@@ -26,7 +26,7 @@ export const ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
   );
 };
 
-export const ModalMultipleTabsContent: React.FC = () => {
+const ModalMultipleTabsContent: React.FC = () => {
   const props = useModalMultipleTabsContext();
   const { renderTabs, isShowing, toggle } = props;
 

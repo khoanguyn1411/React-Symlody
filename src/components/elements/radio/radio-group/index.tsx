@@ -1,19 +1,20 @@
-import React from "react";
+import { ReactNode } from "react";
 
-import { InputUnderLine } from "../../input";
-import { Radio } from "../radio-item";
+import { RadioGroupProvider, TRadioGroupProvider } from "../context";
 
-export const RadioGroup: React.FC = () => {
+export const RadioGroup: React.FC<TRadioGroupProvider> = ({
+  children,
+  ...props
+}) => {
   return (
-    <div className="flex flex-col">
-      <Radio>adasds</Radio>
-      <Radio>asd</Radio>
-      <Radio>fafafa</Radio>
-      <Radio>afsafs</Radio>
-      <Radio>asff</Radio>
-      <Radio>
-        <InputUnderLine />
-      </Radio>
-    </div>
+    <RadioGroupProvider {...props}>
+      <RadioGroupContent>{children}</RadioGroupContent>
+    </RadioGroupProvider>
   );
+};
+
+export const RadioGroupContent: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  return <div className="flex flex-col">{children}</div>;
 };

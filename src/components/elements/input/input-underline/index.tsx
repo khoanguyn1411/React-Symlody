@@ -4,17 +4,19 @@ type TProps = {
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   disable?: boolean;
+  label?: string;
 };
 
 export const InputUnderLine: React.FC<TProps> = ({
   value = "",
   onChange,
+  label = "Khác: ",
   disable = false,
 }) => {
   return (
     <div className="w-full">
       <label className="flex items-center">
-        Khác:
+        {label}
         <div className="relative w-full ml-2 min-w-[200px]">
           <input
             value={value}
