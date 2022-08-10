@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Button, Dropdown, Select } from "@/components";
+import { Button, DeleteAndEditField, Select } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync } from "@/features/reducers";
 import { IMember } from "@/features/types/member-type";
@@ -27,18 +27,12 @@ export const MemberContainer: React.FC = () => {
   }, []);
 
   const [filter, setFilter] = useState<string>(displayOptions[0]);
-  const handleSelectMenu = (key: string, item: IMember) => {
-    switch (key) {
-      case "Chỉnh sửa thành viên":
-        propsModalEditMember.setData(item);
-        propsModalEditMember.setShow();
-        break;
-      case "Lưu trữ thành viên":
-        // code block
-        break;
-      default:
-        throw new Error("Invalid input.");
-    }
+  const handleEdit = (item: IMember) => () => {
+    propsModalEditMember.setData(item);
+    propsModalEditMember.setShow();
+  };
+  const handleDelete = (item: IMember) => () => {
+    alert("Deleted");
   };
 
   if (!memberStore.members || memberStore.members.length === 0) {
@@ -110,24 +104,14 @@ export const MemberContainer: React.FC = () => {
                         {memberTableItem.roles}
                       </td>
 
-                      <td className="w-8 py-2 font-normal">
-                        <Dropdown
-                          menus={[
-                            {
-                              key: "Chỉnh sửa thành viên",
-                              prefix: <i className="w-6 far fa-edit"></i>,
-                            },
-                            {
-                              key: "Lưu trữ thành viên",
-                              prefix: <i className="w-6 far fa-trash-alt"></i>,
-                            },
-                          ]}
-                          onClickMenu={(key) => handleSelectMenu(key, item)}
-                        >
-                          <span className="text-primary-800">
-                            <i className="fas fa-ellipsis-h"></i>
-                          </span>
-                        </Dropdown>
+                      <td className="w-8 py-2 pr-4 font-normal">
+                        <DeleteAndEditField
+                          title="Xóa tài sản?"
+                          handleEvent={{
+                            edit: handleEdit(item),
+                            delete: handleDelete(item),
+                          }}
+                        />
                       </td>
                     </tr>
                   );

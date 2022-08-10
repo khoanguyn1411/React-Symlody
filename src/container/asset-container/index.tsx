@@ -1,11 +1,19 @@
-import { Button, Dropdown } from "@/components";
+import { Button, DeleteAndEditField } from "@/components";
 import { useModal } from "@/hooks";
 import { formatCurrency } from "@/utils/format";
 
 import { ModalCreateAsset } from "./asset-modal";
 
 export const AssetContainer: React.FC = () => {
-  const useModalProps = useModal();
+  const propsModal = useModal();
+  const handleEdit = (item) => () => {
+    propsModal.setData(item);
+    propsModal.setShow();
+  };
+  const handleDelete = (item) => () => {
+    alert("Deleted");
+  };
+
   const assetList = [
     {
       name: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
@@ -58,7 +66,7 @@ export const AssetContainer: React.FC = () => {
     },
   ];
   const handleOpenModal = () => {
-    useModalProps.setToggle();
+    propsModal.setToggle();
   };
 
   return (
@@ -99,14 +107,14 @@ export const AssetContainer: React.FC = () => {
                   <td className="py-2 font-normal min-w-[200px]">
                     {item.name}
                   </td>
-                  <td className="py-2 font-normal text-center w-28">
+                  <td className="w-20 py-2 font-normal text-center">
                     {item.quantity}
                   </td>
-                  <td className="py-2 font-normal text-center w-44">
+                  <td className="w-32 px-2 py-2 font-normal text-center">
                     {formatCurrency(item.price)}/cái
                   </td>
 
-                  <td className="w-56 py-2 font-normal text-center pr-default">
+                  <td className="py-2 font-normal text-center w-52 pr-default">
                     {item.inCharge}
                   </td>
                   <td className="w-32 py-2 font-normal text-center pr-default">
@@ -114,25 +122,13 @@ export const AssetContainer: React.FC = () => {
                   </td>
 
                   <td className="w-6 py-2 font-normal pr-default">
-                    <Dropdown
-                      menus={[
-                        {
-                          key: "Chỉnh sửa tài sản",
-                          prefix: <i className="w-6 far fa-edit"></i>,
-                        },
-                        {
-                          key: "Lưu trữ tài sản",
-                          prefix: <i className="w-6 far fa-trash-alt"></i>,
-                        },
-                      ]}
-                      onClickMenu={function (key: string): void {
-                        console.log(key);
+                    <DeleteAndEditField
+                      title="Xóa tài sản?"
+                      handleEvent={{
+                        edit: handleEdit(item),
+                        delete: handleDelete(item),
                       }}
-                    >
-                      <span className="text-primary-800">
-                        <i className="fas fa-ellipsis-h"></i>
-                      </span>
-                    </Dropdown>
+                    />
                   </td>
                 </tr>
               ))}
@@ -140,7 +136,7 @@ export const AssetContainer: React.FC = () => {
           </table>
         </div>
       </div>
-      <ModalCreateAsset {...useModalProps} />
+      <ModalCreateAsset {...propsModal} />
     </div>
   );
 };
