@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, { ReactNode } from "react";
 
 import { useRadioGroupContext } from "../context";
@@ -46,7 +47,12 @@ export const Radio: React.FC<TProps> = ({
             </svg>
           </div>
         </div>
-        <div className="flex-1 text-black cursor-pointer select-none">
+        <div
+          className={classNames(
+            "text-black cursor-pointer select-none",
+            children && "flex-1"
+          )}
+        >
           {children || value}
         </div>
       </label>
