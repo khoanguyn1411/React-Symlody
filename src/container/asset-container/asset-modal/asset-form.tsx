@@ -69,7 +69,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         />
       </FormItem>
 
-      <FormItem label="Đơn giá" isRequired error={errors.price?.message}>
+      <FormItem label="Đơn giá">
         <Controller
           control={control}
           name="price"
