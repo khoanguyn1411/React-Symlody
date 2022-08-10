@@ -96,7 +96,9 @@ export const AssetContainer: React.FC = () => {
                     {index + 1}
                   </td>
 
-                  <td className="py-2 font-normal">{item.name}</td>
+                  <td className="py-2 font-normal min-w-[200px]">
+                    {item.name}
+                  </td>
                   <td className="py-2 font-normal text-center w-28">
                     {item.quantity}
                   </td>

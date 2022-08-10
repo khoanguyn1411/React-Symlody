@@ -4,7 +4,11 @@ export function formatCurrency(price: number): string {
       style: "currency",
       currency: "VND",
     })
-    .replace("VND", "₫")
+    .replace("VND", "")
     .replace(/\s+/g, "");
   return formattedPrice;
+}
+
+export function formatToNormalNumber(value: string): string {
+  return value.replaceAll(".", "");
 }

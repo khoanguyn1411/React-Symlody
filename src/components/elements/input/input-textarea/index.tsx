@@ -1,49 +1,48 @@
 import classNames from "classnames";
+import React from "react";
 
-type TSideEffect = {
-  newValue: string;
-};
 type TProps = {
-  type?: React.HTMLInputTypeAttribute;
   value: string;
   onChange?: (value: string) => void;
   placeholder?: string;
   style?: "modal" | "default";
   handleSideEffect?: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => TSideEffect;
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+    onChange: (value: string) => void
+  ) => {
+    isDisableOnChange: boolean;
+  };
 };
 
-export const Input: React.FC<TProps> = ({
-  type,
+export const TextArea: React.FC<TProps> = ({
   value = "",
   onChange,
-  handleSideEffect,
   placeholder,
+  handleSideEffect,
   style = "default",
 }) => {
-  const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeEvent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (handleSideEffect) {
-      const returnValue = handleSideEffect(event);
-      const newValue = returnValue.newValue;
-      return onChange(newValue);
+      if (handleSideEffect(event, onChange).isDisableOnChange) {
+        return;
+      }
     }
     return onChange(event.target.value);
   };
-
   return (
-    <input
-      type={type}
+    <textarea
       value={value}
       onChange={handleChangeEvent}
       placeholder={placeholder}
       className={classNames(
-        "w-full p-2 border-gray-200 text-black outline-none rounded-md",
+        "w-full p-2 border-gray-200 h-28 resize-none text-black outline-none rounded-md",
         {
           "bg-gray-100": style === "modal",
           "border-[1.5px]": style === "default",
         }
       )}
-    />
+    >
+      TextArea
+    </textarea>
   );
 };
