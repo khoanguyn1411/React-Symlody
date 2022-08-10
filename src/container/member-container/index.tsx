@@ -104,7 +104,7 @@ export const MemberContainer: React.FC = () => {
                         {memberTableItem.roles}
                       </td>
 
-                      <td className="w-8 py-2 pr-4 font-normal">
+                      <td className="w-6 py-2 pr-4 font-normal">
                         <DeleteAndEditField
                           title="Xóa tài sản?"
                           handleEvent={{
