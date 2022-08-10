@@ -31,18 +31,8 @@ export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
   isShowing,
   setToggle,
 }) => {
-  const { reset } = useForm<TFormAssetInfo>({
-    resolver: yupResolver(schema),
-    shouldUnregister: true,
-  });
-
-  const handleCreateAsset = (data: TFormAssetInfo) => {
-    console.log(data);
-  };
-
   return (
     <ModalMultipleTabs
-      reset={reset}
       toggle={{ setToggle }}
       size="lg"
       isShowing={isShowing}
@@ -64,13 +54,13 @@ const TabCreateAnAsset: React.FC = () => {
     formState: { errors },
   } = propsForm;
 
-  const handleCreateMember = async (data: TFormAssetInfo) => {
+  const handleCreateAsset = async (data: TFormAssetInfo) => {
     console.log(data);
   };
   return (
     <ModalTab
       handleEvent={{
-        event: handleSubmit(handleCreateMember),
+        event: handleSubmit(handleCreateAsset),
         isLoading: false,
       }}
     >
