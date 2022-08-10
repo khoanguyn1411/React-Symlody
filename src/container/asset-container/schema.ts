@@ -9,6 +9,6 @@ export const schema = yup.object().shape({
     .required("Số lượng được yêu cầu")
     .min(1, "Vui lòng nhập một số lớn hơn 0")
     .test("no-leading-zero", "Vui lòng nhập một số lớn hơn 0", (value) => {
-      return value && !value.startsWith("0");
+      return value && Number(value) !== 0;
     }),
 });
