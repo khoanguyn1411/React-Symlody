@@ -7,7 +7,6 @@ import {
   Button,
   FormItem,
   Input,
-  Modal,
   ModalMultipleTabs,
   ModalTab,
   Radio,
@@ -35,6 +34,7 @@ export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
     <ModalMultipleTabs
       toggle={{ setToggle }}
       size="lg"
+      closeWhenClickOutside
       isShowing={isShowing}
       renderTabs={[
         { title: "Thêm 1 tài sản", children: <TabCreateAnAsset /> },
