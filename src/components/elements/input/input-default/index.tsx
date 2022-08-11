@@ -9,7 +9,6 @@ type TProps = {
   placeholder?: string;
   style?: "modal" | "default";
   className?: string;
-  onValueChange?: React.ChangeEventHandler<HTMLInputElement>;
   onChange?: (value: string) => void;
   handleSideEffect?: (
     event: React.ChangeEvent<HTMLInputElement>
@@ -23,7 +22,6 @@ export const Input: React.FC<TProps> = ({
   style = "default",
   className,
   onChange,
-  onValueChange,
   handleSideEffect,
 }) => {
   const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +37,7 @@ export const Input: React.FC<TProps> = ({
     <input
       type={type}
       value={value}
-      onChange={onValueChange ?? handleChangeEvent}
+      onChange={handleChangeEvent}
       placeholder={placeholder}
       className={classNames(
         "w-full p-2 border-gray-200 text-black outline-none rounded-md",

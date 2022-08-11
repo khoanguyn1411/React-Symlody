@@ -19,16 +19,13 @@ export const Search: React.FC<TProps> = ({
   setInputValue,
 }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleChangeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
 
   return (
     <div className="relative w-64 mr-5">
       <Input
         className="h-10"
         style="default"
-        onValueChange={handleChangeValue}
+        onChange={setInputValue}
         placeholder={placeholder}
         value={inputValue}
       />
