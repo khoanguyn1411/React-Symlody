@@ -3,7 +3,7 @@ import React, { createContext, ReactNode, useContext, useState } from "react";
 type TContextRadioGroup = {
   activeValue: string;
   checked: string;
-  listNormalRadios?: string[];
+  listNormalRadios?: readonly string[];
   setActiveValue: (value: string) => void;
   setChecked: (value: string) => void;
 };
@@ -18,7 +18,7 @@ const RadioGroupContext = createContext<TContextRadioGroup>({
 export type TRadioGroupProvider = {
   children: ReactNode;
   activeValue: string;
-  listNormalRadios?: string[];
+  listNormalRadios?: readonly string[];
   setActiveValue: (value: string) => void;
 };
 const RadioGroupProvider: React.FC<TRadioGroupProvider> = ({

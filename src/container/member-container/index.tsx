@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-import { Button, DeleteAndEditField, Select } from "@/components";
+import { Button, DeleteAndEditField, Search, Select } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync } from "@/features/reducers";
 import { IMember } from "@/features/types/member-type";
-import { useModal } from "@/hooks";
+import { useModal, useSearch } from "@/hooks";
 
+import { displayOptions } from "./constant";
 import { MemberMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { ListMemberSkeleton } from "./member-skeleton";
@@ -13,14 +14,11 @@ import { ListMemberSkeleton } from "./member-skeleton";
 export const MemberContainer: React.FC = () => {
   const propsModalCreateMember = useModal();
   const propsModalEditMember = useModal<IMember>();
+  const propsSearch = useSearch();
+
   const memberStore = useAppSelector((state) => state.member);
   const dispatch = useAppDispatch();
 
-  const displayOptions = [
-    "Tất cả thành viên",
-    "Trong nhiệm kỳ",
-    "Hết nhiệm kỳ",
-  ];
   useEffect(() => {
     dispatch(getMembersAsync());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,7 +40,10 @@ export const MemberContainer: React.FC = () => {
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
-        <h1>Quản lý thành viên</h1>
+        <div className="flex items-center">
+          <h1 className="mr-4 font-bold min-w-max">QUẢN LÝ THÀNH VIÊN</h1>
+          <Search placeholder="Nguyễn Thị A, ..." {...propsSearch} />
+        </div>
         <div className="flex items-center justify-center">
           <Select
             className="w-44"
@@ -59,7 +60,7 @@ export const MemberContainer: React.FC = () => {
         </div>
       </div>
       <div className="p-default">
-        <div className="mt-3 bg-white border border-gray-200 rounded-lg">
+        <div className="mt-3 bg-white border border-gray-200">
           <table className="w-full">
             <tbody>
               <tr>

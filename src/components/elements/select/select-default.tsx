@@ -5,7 +5,7 @@ import { AnimationCustom } from "../animation-custom";
 import { ToggleWrapper } from "../toggle-wrapper";
 
 type TProps = {
-  list: string[];
+  list: readonly string[];
   value: string;
   placeHolder?: string;
   className?: string;

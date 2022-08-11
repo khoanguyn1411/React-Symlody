@@ -1,5 +1,5 @@
-import { Button, DeleteAndEditField } from "@/components";
-import { useModal } from "@/hooks";
+import { Button, DeleteAndEditField, Search } from "@/components";
+import { useModal, useSearch } from "@/hooks";
 import { formatCurrency } from "@/utils/format";
 
 import { ModalCreateAsset } from "./asset-modal";
@@ -9,6 +9,8 @@ import { TFormAssetInfo } from "./type";
 export const AssetContainer: React.FC = () => {
   const propsModal = useModal();
   const propsModalEdit = useModal<TFormAssetInfo>();
+  const propsSearch = useSearch();
+
   const handleEdit = (item) => () => {
     propsModalEdit.setData(item);
     propsModalEdit.setShow();
@@ -77,17 +79,20 @@ export const AssetContainer: React.FC = () => {
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
-        <h1>Quản lý tài sản</h1>
+        <div className="flex items-center">
+          <h1 className="mr-4 font-bold min-w-max">QUẢN LÝ TÀI SẢN</h1>
+          <Search placeholder="Voucher, gấu bông,..." {...propsSearch} />
+        </div>
         <div className="flex items-center justify-center">
           <Button onClick={handleOpenModal}>Thêm tài sản</Button>
         </div>
       </div>
       <div className="p-default">
-        <div className="mt-3 bg-white rounded-lg">
+        <div className="mt-3 bg-white">
           <table className="w-full">
             <tbody>
               <tr className="bg-secondary-50">
-                <td className="w-20 py-2 pl-2 font-semibold text-center rounded-tl-lg">
+                <td className="w-20 py-2 pl-2 font-semibold text-center">
                   STT
                 </td>
                 <td className="py-2 pr-6 font-semibold text-center">Tài sản</td>
@@ -101,7 +106,7 @@ export const AssetContainer: React.FC = () => {
                 <td className="py-2 font-semibold text-center pr-default">
                   Chủ sở hữu
                 </td>
-                <td className="py-2 font-semibold text-left rounded-tr-lg pr-default"></td>
+                <td className="py-2 font-semibold text-left pr-default"></td>
               </tr>
               {assetList.map((item, index) => (
                 <tr className="text-left border-t border-gray-200" key={index}>

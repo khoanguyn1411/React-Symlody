@@ -7,10 +7,10 @@ import { ToggleWrapper } from "../toggle-wrapper";
 
 type TProps = {
   list: string[];
-  value: string[];
+  value: readonly string[];
   placeHolder?: string;
   style?: "modal" | "default";
-  onChange: (value: string[]) => void;
+  onChange: (value: readonly string[]) => void;
 };
 
 export const SelectMultiple: React.FC<TProps> = ({

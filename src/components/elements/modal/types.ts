@@ -25,7 +25,7 @@ export type TPropsModalGeneral = {
 
 // Types of modal multiple tabs.
 export type TPropsModalMultipleTabs = {
-  renderTabs: TTabs[];
+  renderTabs: readonly TTabs[];
 } & TPropsModalGeneral;
 
 export type TTabs = {

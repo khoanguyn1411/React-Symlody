@@ -41,8 +41,6 @@ export const TextArea: React.FC<TProps> = ({
           "border-[1.5px]": style === "default",
         }
       )}
-    >
-      TextArea
-    </textarea>
+    />
   );
 };

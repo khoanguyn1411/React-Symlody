@@ -6,9 +6,11 @@ type TSideEffect = {
 type TProps = {
   type?: React.HTMLInputTypeAttribute;
   value: string;
-  onChange?: (value: string) => void;
   placeholder?: string;
   style?: "modal" | "default";
+  className?: string;
+  onValueChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: (value: string) => void;
   handleSideEffect?: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => TSideEffect;
@@ -17,10 +19,12 @@ type TProps = {
 export const Input: React.FC<TProps> = ({
   type,
   value = "",
-  onChange,
-  handleSideEffect,
   placeholder,
   style = "default",
+  className,
+  onChange,
+  onValueChange,
+  handleSideEffect,
 }) => {
   const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (handleSideEffect) {
@@ -35,10 +39,11 @@ export const Input: React.FC<TProps> = ({
     <input
       type={type}
       value={value}
-      onChange={handleChangeEvent}
+      onChange={onValueChange ?? handleChangeEvent}
       placeholder={placeholder}
       className={classNames(
         "w-full p-2 border-gray-200 text-black outline-none rounded-md",
+        className,
         {
           "bg-gray-100": style === "modal",
           "border-[1.5px]": style === "default",

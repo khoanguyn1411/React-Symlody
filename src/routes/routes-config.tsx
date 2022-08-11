@@ -15,7 +15,7 @@ interface IRoutes {
   // layout?: React.FC;
 }
 
-const privateRoutes: IRoutes[] = [
+const privateRoutes: readonly IRoutes[] = [
   {
     path: "/",
     component: <HomeContainer />,
@@ -47,7 +47,7 @@ const privateRoutes: IRoutes[] = [
   },
 ];
 
-const publicRoutes: IRoutes[] = [
+const publicRoutes: readonly IRoutes[] = [
   {
     path: "/login",
     component: <LoginContainer />,

@@ -7,6 +7,7 @@ export * from "./form-item";
 export * from "./input";
 export * from "./modal";
 export * from "./radio";
+export * from "./search";
 export * from "./select";
 export * from "./skeleton";
 export * from "./toggle-wrapper";
