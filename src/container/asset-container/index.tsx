@@ -4,7 +4,6 @@ import { formatCurrency } from "@/utils/format";
 
 import { ModalCreateAsset } from "./asset-modal";
 import { ModalEditAsset } from "./asset-modal/edit-asset";
-import { AssetSkeleton } from "./asset-skeleton";
 import { TFormAssetInfo } from "./type";
 
 export const AssetContainer: React.FC = () => {
