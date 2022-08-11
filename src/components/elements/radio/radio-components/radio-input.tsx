@@ -11,15 +11,12 @@ type TProps = {
 export const RadioInput: React.FC<TProps> = ({ value, label }) => {
   const { checked, setActiveValue, listNormalRadios, activeValue } =
     useRadioGroupContext();
-
   const [inputValue, setInputValue] = useState<string>(
-    activeValue && listNormalRadios.includes(activeValue)
-      ? undefined
-      : activeValue
+    listNormalRadios.includes(activeValue) ? "" : activeValue
   );
   const handleChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
-    if (checked === value) {
+    if (!listNormalRadios.includes(activeValue)) {
       setActiveValue(event.target.value);
     }
   };
@@ -35,7 +32,6 @@ export const RadioInput: React.FC<TProps> = ({ value, label }) => {
     <div>
       <Radio
         value={value}
-        type={"input"}
         isChecked={
           activeValue !== undefined
             ? !listNormalRadios.includes(activeValue)
@@ -46,7 +42,11 @@ export const RadioInput: React.FC<TProps> = ({ value, label }) => {
           onChange={handleChangeValue}
           value={inputValue}
           label={label}
-          disable={activeValue && listNormalRadios.includes(activeValue)}
+          disable={
+            !activeValue && !checked
+              ? true
+              : listNormalRadios.includes(activeValue)
+          }
         />
       </Radio>
     </div>

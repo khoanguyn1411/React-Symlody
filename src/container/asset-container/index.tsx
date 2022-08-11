@@ -3,64 +3,69 @@ import { useModal } from "@/hooks";
 import { formatCurrency } from "@/utils/format";
 
 import { ModalCreateAsset } from "./asset-modal";
+import { ModalEditAsset } from "./asset-modal/edit-asset";
+import { TFormAssetInfo } from "./type";
 
 export const AssetContainer: React.FC = () => {
   const propsModal = useModal();
+  const propsModalEdit = useModal<TFormAssetInfo>();
   const handleEdit = (item) => () => {
-    propsModal.setData(item);
-    propsModal.setShow();
+    propsModalEdit.setData(item);
+    propsModalEdit.setShow();
   };
   const handleDelete = (item) => () => {
     alert("Deleted");
   };
 
-  const assetList = [
+  const assetList: TFormAssetInfo[] = [
     {
-      name: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
-      quantity: 30,
-      price: 120000,
+      assetName: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
+      quantity: "30",
+      price: "120000",
       inCharge: "Nguyễn Thị A",
       owner: "Câu lạc bộ",
     },
     {
-      name: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
-      quantity: 30,
-      price: 120000,
+      assetName: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
+      quantity: "30",
+      price: "120000",
       inCharge: "Nguyễn Thị A",
       owner: "Câu lạc bộ",
     },
     {
-      name: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
-      quantity: 30,
-      price: 120000,
+      assetName: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
+      quantity: "30",
+      price: "120000",
+      inCharge: "Nguyễn Thị A",
+      owner: "Khoa Nguyen",
+    },
+    {
+      assetName:
+        "VOUCHER TRÀ asdas dasd asd asd asd asd asd asd asd asd asd  SỮA ĐÔNG DU 50% ",
+      quantity: "30",
+      price: "120000",
       inCharge: "Nguyễn Thị A",
       owner: "Câu lạc bộ",
     },
     {
-      name: "VOUCHER TRÀ asdas dasd asd asd asd asd asd asd asd asd asd  SỮA ĐÔNG DU 50% ",
-      quantity: 30,
-      price: 120000,
+      assetName:
+        "VOUCHER TRÀ SỮA ĐÔNG DU 50% asd asda asd as asd asd asd asd asd asd  ",
+      quantity: "30",
+      price: "120000",
       inCharge: "Nguyễn Thị A",
       owner: "Câu lạc bộ",
     },
     {
-      name: "VOUCHER TRÀ SỮA ĐÔNG DU 50% asd asda asd as asd asd asd asd asd asd  ",
-      quantity: 30,
-      price: 120000,
+      assetName: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
+      quantity: "30",
+      price: "120000",
       inCharge: "Nguyễn Thị A",
       owner: "Câu lạc bộ",
     },
     {
-      name: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
-      quantity: 30,
-      price: 120000,
-      inCharge: "Nguyễn Thị A",
-      owner: "Câu lạc bộ",
-    },
-    {
-      name: "VOUCHER TRÀ SỮA ĐÔNG ",
-      quantity: 30,
-      price: 120000,
+      assetName: "VOUCHER TRÀ SỮA ĐÔNG ",
+      quantity: "30",
+      price: "120000",
       inCharge: "Nguyễn Thị A",
       owner: "Câu lạc bộ",
     },
@@ -105,13 +110,13 @@ export const AssetContainer: React.FC = () => {
                   </td>
 
                   <td className="py-2 font-normal min-w-[200px]">
-                    {item.name}
+                    {item.assetName}
                   </td>
                   <td className="w-20 py-2 font-normal text-center">
                     {item.quantity}
                   </td>
                   <td className="w-32 px-2 py-2 font-normal text-center">
-                    {formatCurrency(item.price)}/cái
+                    {formatCurrency(Number(item.price))}/cái
                   </td>
 
                   <td className="py-2 font-normal text-center w-52 pr-default">
@@ -137,6 +142,7 @@ export const AssetContainer: React.FC = () => {
         </div>
       </div>
       <ModalCreateAsset {...propsModal} />
+      <ModalEditAsset {...propsModalEdit} />
     </div>
   );
 };

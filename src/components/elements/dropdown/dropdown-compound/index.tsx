@@ -15,9 +15,9 @@ export const DropDownWithAction: React.FC<TPropsDropdownCompound> = ({
   menus,
   widthContainer,
   placement = "bottom-start",
+  hiddenAfterClick = false,
   onClickMenu,
   onClickButton,
-  hiddenAfterClick = false,
 }) => {
   const handleClickMenu = (key: string) => () => {
     hiddenAfterClick && handleToggleList();

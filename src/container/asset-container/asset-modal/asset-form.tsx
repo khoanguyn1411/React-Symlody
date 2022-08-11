@@ -9,6 +9,7 @@ import {
   RadioInput,
   TextArea,
 } from "@/components";
+import { formDefaultValueService } from "@/utils";
 import { formatCurrency, formatToNormalNumber } from "@/utils/format";
 
 import { TFormAssetInfo } from "../type";
@@ -23,6 +24,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
     control,
     formState: { errors },
   } = formProps;
+  const defaultValue = formDefaultValueService<TFormAssetInfo>(data);
   return (
     <>
       <FormItem
@@ -33,6 +35,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="assetName"
+          defaultValue={defaultValue.get("assetName")}
           render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
@@ -48,6 +51,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="quantity"
+          defaultValue={defaultValue.get("quantity")}
           render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
@@ -73,6 +77,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="price"
+          defaultValue={defaultValue.get("price")}
           render={({ field: { value, onChange } }) => (
             <Input
               handleSideEffect={(event) => {
@@ -104,6 +109,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
       >
         <Controller
           control={control}
+          defaultValue={defaultValue.get("inCharge")}
           name="inCharge"
           render={({ field: { value, onChange } }) => (
             <Input
@@ -123,6 +129,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
       >
         <Controller
           control={control}
+          defaultValue={defaultValue.get("owner")}
           name="owner"
           render={({ field: { value, onChange } }) => {
             return (
@@ -143,6 +150,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="note"
+          defaultValue={defaultValue.get("note")}
           render={({ field: { value, onChange } }) => (
             <TextArea
               style="modal"

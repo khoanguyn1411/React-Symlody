@@ -14,9 +14,19 @@ import {
 /**
  * - To get value of isShowing and toggle functions, please use useModal hook and pass
  * such values to corresponding props of modal (isShowing = isShowing and toggle = toggle)
- *
  * - To use this multiple tabs modal, please use ModalTab for rendering content of tab
  * for better handling event of such tab.
+ * @example
+ *  const {setToggle, isShowing} = useModal();
+ *  <ModalMultipleTabs
+      toggle={{ setToggle }}
+      size="lg"
+      isShowing={isShowing}
+      renderTabs={[
+        { title: "Thêm 1 tài sản", children: <ModalTab>...</ModalTab> },
+        { title: "Thêm nhiều tài sản", children: <ModalTab>...</ModalTab> },
+      ]}
+    />
  */
 export const ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
   return (

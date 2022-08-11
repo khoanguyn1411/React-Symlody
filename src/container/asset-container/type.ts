@@ -3,6 +3,6 @@ export type TFormAssetInfo = {
   quantity: string;
   price: string;
   inCharge: string;
-  note: string;
+  note?: string;
   owner: string;
 };

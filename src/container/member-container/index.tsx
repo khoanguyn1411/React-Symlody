@@ -106,7 +106,7 @@ export const MemberContainer: React.FC = () => {
 
                       <td className="w-6 py-2 pr-4 font-normal">
                         <DeleteAndEditField
-                          title="Xóa tài sản?"
+                          title="Xóa thành viên?"
                           handleEvent={{
                             edit: handleEdit(item),
                             delete: handleDelete(item),

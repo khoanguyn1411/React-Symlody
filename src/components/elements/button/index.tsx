@@ -43,7 +43,7 @@ export const Button: React.FC<TProps> = ({
         {
           "border-primary-800 bg-primary-800 hover:bg-primary-900 hover:border-primary-900 text-white":
             style === "default",
-          "border-primary-300 bg-primary-300 text-white cursor-default":
+          "border-gray-200 bg-gray-200 text-white cursor-default":
             style === "disable",
           "border-primary-800 bg-white text-primary-800": style === "outline",
           "px-2 py-2 min-w-[80px]": !isIconOnly,
