@@ -4,6 +4,7 @@ import { formatCurrency } from "@/utils/format";
 
 import { ModalCreateAsset } from "./asset-modal";
 import { ModalEditAsset } from "./asset-modal/edit-asset";
+import { AssetSkeleton } from "./asset-skeleton";
 import { TFormAssetInfo } from "./type";
 
 export const AssetContainer: React.FC = () => {
@@ -108,6 +109,7 @@ export const AssetContainer: React.FC = () => {
                 </td>
                 <td className="py-2 font-semibold text-left pr-default"></td>
               </tr>
+              {/* <AssetSkeleton /> */}
               {assetList.map((item, index) => (
                 <tr className="text-left border-t border-gray-200" key={index}>
                   <td className="w-20 py-2 pl-2 font-normal text-center">
