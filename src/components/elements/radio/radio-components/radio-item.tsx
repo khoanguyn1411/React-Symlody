@@ -5,13 +5,13 @@ import { useRadioGroupContext } from "../context";
 
 type TProps = {
   children?: ReactNode;
-  defaultChecked?: boolean;
+  isChecked?: boolean;
   value: string;
   type?: "input";
 };
 
 export const Radio: React.FC<TProps> = ({
-  defaultChecked,
+  isChecked = undefined,
   children,
   value,
   type,
@@ -32,8 +32,7 @@ export const Radio: React.FC<TProps> = ({
             type="radio"
             name="has"
             onChange={handleChangeChecked}
-            defaultChecked={defaultChecked}
-            checked={checked === value}
+            checked={isChecked ?? checked === value}
             className="relative w-5 h-5 border rounded-full appearance-none cursor-pointer text-primary-800 peer border-blue-grey-200 transition-all before:content[''] before:block before:bg-blue-grey-500 before:w-12 before:h-12 before:rounded-full before:absolute before:top-2/4 before:left-2/4 before:-translate-y-2/4 before:-translate-x-2/4 before:opacity-0 hover:before:opacity-10 before:transition-opacity checked:border-primary-800 checked:before:bg-primary-800"
           ></input>
           <div className="absolute opacity-0 pointer-events-none text-primary-800 top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100 transition-opacity">

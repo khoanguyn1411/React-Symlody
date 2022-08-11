@@ -51,7 +51,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
-              type={"number"}
+              type="number"
               value={value}
               handleSideEffect={(event) => {
                 if (
@@ -88,7 +88,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
                 return { newValue: value };
               }}
               style="modal"
-              type={"text"}
+              type="text"
               value={value}
               onChange={onChange}
               placeholder="Đơn giá"
@@ -124,12 +124,18 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="owner"
-          render={({ field: { value, onChange } }) => (
-            <RadioGroup activeValue={value} setActiveValue={onChange}>
-              <Radio value={"Câu lạc bộ"} />
-              <RadioInput value={"Khác"} />
-            </RadioGroup>
-          )}
+          render={({ field: { value, onChange } }) => {
+            return (
+              <RadioGroup
+                listNormalRadios={["Câu lạc bộ"]}
+                activeValue={value}
+                setActiveValue={onChange}
+              >
+                <Radio value={"Câu lạc bộ"} />
+                <RadioInput value={"Khác"} />
+              </RadioGroup>
+            );
+          }}
         />
       </FormItem>
 

@@ -2,6 +2,10 @@ import { ReactNode } from "react";
 
 import { RadioGroupProvider, TRadioGroupProvider } from "../context";
 
+/**
+ * Please provide a list of normal radio buttons if you have a "RadioInput" component.
+ * Otherwise, it is unnecessary to provide such list.
+ */
 export const RadioGroup: React.FC<TRadioGroupProvider> = ({
   children,
   ...props

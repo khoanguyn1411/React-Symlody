@@ -5,17 +5,22 @@ import { InputUnderLine, Radio } from "@/components";
 import { useRadioGroupContext } from "../context";
 
 type TProps = {
-  defaultChecked?: boolean;
   value: string;
+  label?: string;
 };
-export const RadioInput: React.FC<TProps> = ({ defaultChecked, value }) => {
-  const { checked, setActiveValue } = useRadioGroupContext();
+export const RadioInput: React.FC<TProps> = ({ value, label }) => {
+  const { checked, setActiveValue, listNormalRadios, activeValue } =
+    useRadioGroupContext();
 
-  const [inputValue, setInputValue] = useState<string>();
-  const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+  const [inputValue, setInputValue] = useState<string>(
+    activeValue && listNormalRadios.includes(activeValue)
+      ? undefined
+      : activeValue
+  );
+  const handleChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
     if (checked === value) {
-      setActiveValue(e.target.value);
+      setActiveValue(event.target.value);
     }
   };
 
@@ -28,11 +33,20 @@ export const RadioInput: React.FC<TProps> = ({ defaultChecked, value }) => {
 
   return (
     <div>
-      <Radio defaultChecked={defaultChecked} value={value} type={"input"}>
+      <Radio
+        value={value}
+        type={"input"}
+        isChecked={
+          activeValue !== undefined
+            ? !listNormalRadios.includes(activeValue)
+            : undefined
+        }
+      >
         <InputUnderLine
           onChange={handleChangeValue}
           value={inputValue}
-          disable={value !== checked}
+          label={label}
+          disable={activeValue && listNormalRadios.includes(activeValue)}
         />
       </Radio>
     </div>

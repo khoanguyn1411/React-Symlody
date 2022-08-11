@@ -16,7 +16,7 @@ export const InputUnderLine: React.FC<TProps> = ({
   return (
     <div className="w-full">
       <label className="flex items-center">
-        {label}:
+        <span className="min-w-max">{label}:</span>
         <div className="relative w-full ml-2 min-w-[200px]">
           <input
             value={value}
