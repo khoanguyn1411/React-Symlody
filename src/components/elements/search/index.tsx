@@ -1,5 +1,3 @@
-import { useTransition } from "react";
-
 import { Input } from "@/components";
 
 type TProps = {
@@ -21,11 +19,8 @@ export const Search: React.FC<TProps> = ({
   setInputValue,
 }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isPending, startTransition] = useTransition();
   const handleChangeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    startTransition(() => {
-      setInputValue(event.target.value);
-    });
+    setInputValue(event.target.value);
   };
 
   return (
