@@ -1,18 +1,21 @@
 import React from "react";
 
 type TProps = {
-  value?: string;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  value: string;
   disable?: boolean;
   label?: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
 
 export const InputUnderLine: React.FC<TProps> = ({
   value = "",
-  onChange,
   label = "Khác",
   disable = false,
+  onChange,
 }) => {
+  const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    return !event.target.value.startsWith(" ") && onChange(event);
+  };
   return (
     <div className="w-full">
       <label className="flex items-center">
@@ -20,7 +23,7 @@ export const InputUnderLine: React.FC<TProps> = ({
         <div className="relative w-full ml-2 min-w-[200px]">
           <input
             value={value}
-            onChange={onChange}
+            onChange={handleChangeEvent}
             disabled={disable}
             className="w-full h-full font-sans text-base font-normal text-black bg-transparent border-b border-gray-300 peer outline-0 focus:outlined-0  disabled:text-gray-400 transition-all placeholder-shown:border-gray-300 focus:border-primary-800"
           />

@@ -19,7 +19,6 @@ export const Search: React.FC<TProps> = ({
   setInputValue,
 }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
   return (
     <div className="relative w-64 mr-5">
       <Input

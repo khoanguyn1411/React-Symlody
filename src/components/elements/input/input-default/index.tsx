@@ -30,7 +30,7 @@ export const Input: React.FC<TProps> = ({
       const newValue = returnValue.newValue;
       return onChange(newValue);
     }
-    return onChange(event.target.value);
+    return !event.target.value.startsWith(" ") && onChange(event.target.value);
   };
 
   return (
