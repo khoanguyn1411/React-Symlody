@@ -1,7 +1,7 @@
-import { Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
+import { Button } from "@/components";
 type Props = {
   imageHeight?: string;
   title: string;
@@ -42,13 +42,7 @@ export const NotFound: React.FC<Props> = ({
         <div className="flex items-center mt-4 space-x-4">
           <Button onClick={onBackToHome}>Quay về trang chủ</Button>
 
-          <Button
-            className="text-gray-400 border border-gray-400"
-            onClick={null}
-            variant="outlined"
-          >
-            Đến trung tâm hỗ trợ
-          </Button>
+          <Button onClick={null}>Đến trung tâm hỗ trợ</Button>
         </div>
       </div>
     </div>

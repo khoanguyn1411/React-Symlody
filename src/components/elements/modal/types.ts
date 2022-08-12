@@ -1,5 +1,6 @@
-import { size } from "@material-tailwind/react/types/components/dialog";
 import { ReactNode } from "react";
+
+export type size = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 
 // General type of modal.
 export type TToggleModal = {
