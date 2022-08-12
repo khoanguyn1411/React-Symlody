@@ -1,28 +1,33 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
-const PaginationContext = createContext(undefined);
+const PaginationContext = createContext<TPropsPaginationContext>({
+  activePage: undefined,
+  rowsQuantity: undefined,
+  setActivePage: undefined,
+  setRowsQuantity: undefined,
+  totalPages: undefined,
+});
 
 type TPropsPaginationContext = {
-  activePage: 1;
-  pageStep?: number;
-  totalPages: number;
+  activePage: number;
   rowsQuantity: string;
-  onPaginationChange: (activePage: number) => void;
-  onRowQuantityChange: (row: string) => void;
   setActivePage: React.Dispatch<React.SetStateAction<number>>;
-  setRowsQuantity: (row: string) => void;
-};
+  setRowsQuantity: React.Dispatch<React.SetStateAction<string>>;
+} & TPropsPagination;
 
 export type TPropsPagination = {
-  children?: ReactNode;
   pageStep?: number;
   totalPages: number;
+  quantityDisplay?: string[];
   onPaginationChange?: (activePage: number) => void;
   onRowQuantityChange?: (row: string) => void;
 };
-const PaginationProvider: React.FC<TPropsPagination> = ({
+const PaginationProvider: React.FC<
+  TPropsPagination & { children: ReactNode }
+> = ({
   children,
   pageStep = 2,
+  quantityDisplay = ["5", "10", "15"],
   ...props
 }) => {
   const [activePage, setActivePage] = useState<number>(1);
@@ -31,6 +36,7 @@ const PaginationProvider: React.FC<TPropsPagination> = ({
     activePage,
     rowsQuantity,
     pageStep,
+    quantityDisplay,
     setActivePage,
     setRowsQuantity,
     ...props,

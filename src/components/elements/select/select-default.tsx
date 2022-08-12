@@ -9,6 +9,7 @@ type TProps = {
   value: string;
   placeHolder?: string;
   className?: string;
+  classNameDisplay?: string;
   style?: "modal" | "default";
   suffix?: string;
   onChange: (param: string) => void;
@@ -20,6 +21,7 @@ export const Select: React.FC<TProps> = ({
   suffix,
   placeHolder,
   className,
+  classNameDisplay,
   style = "default",
   onChange,
 }) => {
@@ -46,7 +48,14 @@ export const Select: React.FC<TProps> = ({
   }, [isShowContent]);
 
   const handleSetSelectedItem = (item: string) => () => {
-    onChange(item);
+    onChange(
+      ((currentItem) => {
+        if (currentItem !== item) {
+          return item;
+        }
+        return;
+      })()
+    );
     setIsShowContent(false);
   };
   const handleToggleContent = () => {
@@ -62,7 +71,8 @@ export const Select: React.FC<TProps> = ({
           onClick={handleToggleContent}
           aria-hidden="true"
           className={classNames(
-            "flex justify-between w-full p-2 pr-5 rounded-lg text-black",
+            "flex justify-between w-full items-center p-2 pr-5 rounded-lg text-black",
+            classNameDisplay,
             {
               "bg-gray-100 rounded-md": style === "modal",
               "bg-white border border-gray-200": style === "default",
@@ -70,7 +80,7 @@ export const Select: React.FC<TProps> = ({
           )}
         >
           <h1 className={classNames("pr-3", { "text-gray-400": !value })}>
-            {value ? value + " " + suffix : placeHolder}
+            {value ? value + " " + (suffix ? suffix : "") : placeHolder}
           </h1>
           <span>
             <i

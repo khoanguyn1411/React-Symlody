@@ -23,10 +23,12 @@ export const ListMemberSkeleton: React.FC = () => {
           <td className="py-2 pr-2 font-normal w-28">
             <Skeleton />
           </td>
-          <td className="py-2 font-normal w-28 pr-default">
+          <td className="py-2 pr-2 font-normal w-28">
             <Skeleton />
           </td>
-          <td className="w-8 py-2 font-normal"></td>
+          <td className="w-20 py-2 pr-2 font-normal">
+            <Skeleton />
+          </td>
         </tr>
       ))}
     </>

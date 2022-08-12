@@ -21,53 +21,37 @@ export const AssetContainer: React.FC = () => {
 
   const assetList: TFormAssetInfo[] = [
     {
-      assetName: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
+      assetName: "Lamborghini",
+      quantity: "30",
+      price: "",
+      inCharge: "Nguyễn Thị A",
+      owner: "Câu lạc bộ",
+    },
+    {
+      assetName: "Voi 9 ngà",
       quantity: "30",
       price: "120000",
       inCharge: "Nguyễn Thị A",
       owner: "Câu lạc bộ",
     },
     {
-      assetName: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
-      quantity: "30",
-      price: "120000",
-      inCharge: "Nguyễn Thị A",
-      owner: "Câu lạc bộ",
-    },
-    {
-      assetName: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
+      assetName: "Gà chín cựa ",
       quantity: "30",
       price: "120000",
       inCharge: "Nguyễn Thị A",
       owner: "Khoa Nguyen",
     },
     {
-      assetName:
-        "VOUCHER TRÀ asdas dasd asd asd asd asd asd asd asd asd asd  SỮA ĐÔNG DU 50% ",
+      assetName: "Ngựa chín sừng heo",
       quantity: "30",
       price: "120000",
       inCharge: "Nguyễn Thị A",
       owner: "Câu lạc bộ",
     },
     {
-      assetName:
-        "VOUCHER TRÀ SỮA ĐÔNG DU 50% asd asda asd as asd asd asd asd asd asd  ",
+      assetName: "Mặt trăng",
       quantity: "30",
-      price: "120000",
-      inCharge: "Nguyễn Thị A",
-      owner: "Câu lạc bộ",
-    },
-    {
-      assetName: "VOUCHER TRÀ SỮA ĐÔNG DU 50% ",
-      quantity: "30",
-      price: "120000",
-      inCharge: "Nguyễn Thị A",
-      owner: "Câu lạc bộ",
-    },
-    {
-      assetName: "VOUCHER TRÀ SỮA ĐÔNG ",
-      quantity: "30",
-      price: "120000",
+      price: "1230",
       inCharge: "Nguyễn Thị A",
       owner: "Câu lạc bộ",
     },
@@ -88,51 +72,55 @@ export const AssetContainer: React.FC = () => {
         </div>
       </div>
       <div className="p-default">
-        <div className="mt-3 bg-white">
+        <div className="bg-white">
           <table className="w-full">
             <tbody>
+              {/* <AssetSkeleton /> */}
               <tr className="bg-secondary-50">
-                <td className="w-20 py-2 pl-2 font-semibold text-center">
+                <td className="w-20 px-2 py-2 font-semibold text-center">
                   STT
                 </td>
-                <td className="py-2 pr-6 font-semibold text-center">Tài sản</td>
-                <td className="py-2 font-semibold text-center w-fit">
+                <td className="py-2 font-semibold text-center min-w-[200px]">
+                  Tài sản
+                </td>
+                <td className="w-24 px-2 py-2 font-semibold text-center">
                   Số lượng
                 </td>
-                <td className="py-2 font-semibold text-center">Đơn giá</td>
-                <td className="py-2 font-semibold text-center pr-default">
+                <td className="w-32 py-2 font-semibold text-center">Đơn giá</td>
+                <td className="px-2 py-2 font-semibold text-center w-52">
                   Người chịu trách nhiệm
                 </td>
-                <td className="py-2 font-semibold text-center pr-default">
+                <td className="w-32 py-2 font-semibold text-center">
                   Chủ sở hữu
                 </td>
-                <td className="py-2 font-semibold text-left pr-default"></td>
+                <td className="w-20 px-2 py-2 font-normal"></td>
               </tr>
-              {/* <AssetSkeleton /> */}
               {assetList.map((item, index) => (
-                <tr className="text-left border-t border-gray-200" key={index}>
-                  <td className="w-20 py-2 pl-2 font-normal text-center">
+                <tr className="text-left border-b border-gray-200" key={index}>
+                  <td className="w-20 px-2 py-2 font-normal text-center">
                     {index + 1}
                   </td>
 
                   <td className="py-2 font-normal min-w-[200px]">
                     {item.assetName}
                   </td>
-                  <td className="w-20 py-2 font-normal text-center">
+                  <td className="w-24 px-2 py-2 font-normal text-center">
                     {item.quantity}
                   </td>
-                  <td className="w-32 px-2 py-2 font-normal text-center">
-                    {formatCurrency(Number(item.price))}/cái
+                  <td className="w-32 py-2 font-normal text-center">
+                    {item.price
+                      ? `${formatCurrency(Number(item.price))}/cái`
+                      : "--"}
                   </td>
 
-                  <td className="py-2 font-normal text-center w-52 pr-default">
+                  <td className="px-2 py-2 font-normal text-center w-52">
                     {item.inCharge}
                   </td>
-                  <td className="w-32 py-2 font-normal text-center pr-default">
+                  <td className="w-32 py-2 font-normal text-center">
                     {item.owner}
                   </td>
 
-                  <td className="w-6 py-2 font-normal pr-default">
+                  <td className="w-20 px-2 py-2 font-normal">
                     <DeleteAndEditField
                       title="Xóa tài sản?"
                       handleEvent={{
@@ -150,7 +138,7 @@ export const AssetContainer: React.FC = () => {
           <Pagination
             onRowQuantityChange={(activeRows) => console.log(activeRows)}
             onPaginationChange={(activePage) => console.log(activePage)}
-            totalPages={20}
+            totalPages={150}
             pageStep={1}
           />
         </div>

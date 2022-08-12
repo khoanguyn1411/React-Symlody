@@ -15,12 +15,12 @@ export const Pagination: React.FC<TPropsPagination> = (props) => {
   );
 };
 
-export const PaginationContent: React.FC = () => {
+const PaginationContent: React.FC = () => {
   return (
-    <div className="flex">
-      <div className="flex items-center border border-black rounded-md">
+    <div className="flex items-center">
+      <div className="flex items-center bg-white border border-gray-300 h-[fit-content] rounded-md">
         <PaginationList />
-        <div className="flex border-l border-black place-self-stretch">
+        <div className="flex border-l border-gray-300 place-self-stretch">
           <PaginationPickPage />
         </div>
       </div>

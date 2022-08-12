@@ -8,10 +8,10 @@ import {
   Select,
   SelectMultiple,
 } from "@/components";
-import { getListRole } from "@/constants";
 import { IMember } from "@/features/types/member-type";
 import { formDefaultValueService } from "@/utils";
 
+import { getListRole } from "../constant";
 import { MemberMapper } from "../mapper";
 import { TFormMemberInfo } from "../type";
 

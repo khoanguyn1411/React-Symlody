@@ -16,7 +16,7 @@ export const AssetSkeleton = () => {
             <Skeleton />
           </td>
 
-          <td className="w-20 px-2 py-2 font-normal text-center">
+          <td className="w-24 px-2 py-2 font-normal text-center">
             <Skeleton />
           </td>
           <td className="w-32 py-2 font-normal text-center">
@@ -29,7 +29,9 @@ export const AssetSkeleton = () => {
           <td className="w-32 py-2 font-normal text-center">
             <Skeleton />
           </td>
-          <td className="w-6 py-2 font-normal"></td>
+          <td className="w-20 px-2 py-2 font-normal">
+            <Skeleton />
+          </td>
         </tr>
       ))}
     </>

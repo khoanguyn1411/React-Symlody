@@ -1,6 +1,6 @@
 import React from "react";
 
-export const PaginationPickPage = () => {
+export const PaginationPickPage: React.FC = () => {
   return (
     <div>
       <input
