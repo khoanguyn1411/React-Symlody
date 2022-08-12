@@ -1,50 +1,47 @@
-import {
-  Menu,
-  MenuHandler,
-  MenuItem,
-  MenuList,
-} from "@material-tailwind/react";
 import classNames from "classnames";
-import React from "react";
+import React, { ReactNode, useState } from "react";
 
-import { TMenuProps, TPropsDropdownDefault } from "../type";
-
-export const Dropdown: React.FC<TPropsDropdownDefault> = ({
-  menus,
-  widthContainer,
-  placement = "bottom-start",
-  children,
-  onClickMenu,
-}) => {
-  const handleClickMenu = (key: string) => () => {
-    onClickMenu && onClickMenu(key);
+import { DropdownGeneral } from "../dropdown-components";
+type TProps = {
+  children: ReactNode;
+  listSetting: {
+    prefix?: ReactNode;
+    list: string[];
+    suffix?: ReactNode;
   };
+  onChange: (value: string) => void;
+};
 
+export const Dropdown: React.FC<TProps> = ({
+  children,
+  listSetting,
+  onChange,
+}) => {
+  const [isShowContent, setIsShowContent] = useState(false);
+  const handleClickItem = (item: string) => () => {
+    setIsShowContent(false);
+    onChange(item);
+  };
   return (
-    <Menu placement={placement}>
-      <MenuHandler>
-        <div className="cursor-pointer">{children}</div>
-      </MenuHandler>
-      <MenuList
-        className={classNames(
-          `rounded-md shadow-none bg-white border px-0 py-2`,
-          widthContainer
-        )}
-      >
-        {menus.map((item: TMenuProps, index: number) => (
-          <MenuItem
-            key={index}
-            onClick={handleClickMenu(item.key)}
-            className={classNames(
-              "rounded-none bg-white w-full hover:bg-gray-100 text-black hover:text-primary-800 transition-all duration-300"
-            )}
-          >
-            {item.prefix}
-            {item.key}
-            {item.suffix}
-          </MenuItem>
-        ))}
-      </MenuList>
-    </Menu>
+    <DropdownGeneral
+      display={children}
+      isShowContent={isShowContent}
+      setIsShowContent={setIsShowContent}
+    >
+      {listSetting.list.map((item: string, index: number) => (
+        <li
+          key={index}
+          aria-hidden="true"
+          onClick={handleClickItem(item)}
+          className={classNames(
+            "py-1 px-2 hover:bg-primary-100 cursor-pointer transition-all duration-70"
+          )}
+        >
+          {listSetting.prefix}
+          <h1>{item}</h1>
+          {listSetting.suffix}
+        </li>
+      ))}
+    </DropdownGeneral>
   );
 };

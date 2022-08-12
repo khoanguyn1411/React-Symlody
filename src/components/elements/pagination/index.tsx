@@ -20,14 +20,9 @@ const PaginationContent: React.FC = () => {
     <div className="flex items-center">
       <div className="flex items-center bg-white border border-gray-300 h-[fit-content] rounded-md">
         <PaginationList />
-        <div className="flex border-l border-gray-300 place-self-stretch">
-          <PaginationPickPage />
-        </div>
+        <PaginationPickPage />
       </div>
-
-      <div className="ml-8">
-        <PaginationPickRows />
-      </div>
+      <PaginationPickRows />
     </div>
   );
 };
