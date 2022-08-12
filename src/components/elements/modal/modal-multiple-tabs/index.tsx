@@ -106,7 +106,7 @@ export const ModalTab: React.FC<TPropsModalTab> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col max-h-[80vh]"
+      className="flex flex-col max-h-[calc(100vh-160px)]"
       {...otherActions}
     >
       <ModalBody>{children}</ModalBody>

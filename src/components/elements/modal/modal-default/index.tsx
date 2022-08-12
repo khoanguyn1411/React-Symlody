@@ -51,7 +51,7 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
         </div>
         <form
           onSubmit={handleEvent.event}
-          className="flex flex-col max-h-[80vh]"
+          className="flex flex-col max-h-[calc(100vh-160px)]"
         >
           <ModalBody>{children}</ModalBody>
           <ModalFooter

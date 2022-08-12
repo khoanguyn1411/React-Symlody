@@ -1,4 +1,4 @@
-import { Button, DeleteAndEditField, Search } from "@/components";
+import { Button, DeleteAndEditField, Pagination, Search } from "@/components";
 import { useModal, useSearch } from "@/hooks";
 import { formatCurrency } from "@/utils/format";
 
@@ -145,6 +145,14 @@ export const AssetContainer: React.FC = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="flex justify-end w-full mt-5">
+          <Pagination
+            onRowQuantityChange={(activeRows) => console.log(activeRows)}
+            onPaginationChange={(activePage) => console.log(activePage)}
+            totalPages={20}
+            pageStep={1}
+          />
         </div>
       </div>
       <ModalCreateAsset {...propsModal} />

@@ -28,13 +28,12 @@ export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
         aria-hidden
         onClick={handleCloseWhenClickOutside}
         className={classNames(
-          "fixed top-0 bottom-0 left-0 bg-backdrop-main animate__animated animate__fadeIn right-0 z-20 flex flex-col items-center justify-center",
+          "fixed top-0 bottom-0 left-0 bg-backdrop-main animate__animated animate__fadeIn py-12 right-0 z-20 flex flex-col items-center",
           {
             animate__fadeOut: !isShowing,
           }
         )}
       >
-        {" "}
         <div
           aria-hidden
           onClick={handleStopPropagation}

@@ -10,12 +10,14 @@ type TProps = {
   placeHolder?: string;
   className?: string;
   style?: "modal" | "default";
+  suffix?: string;
   onChange: (param: string) => void;
 };
 
 export const Select: React.FC<TProps> = ({
   list,
   value,
+  suffix,
   placeHolder,
   className,
   style = "default",
@@ -68,7 +70,7 @@ export const Select: React.FC<TProps> = ({
           )}
         >
           <h1 className={classNames("pr-3", { "text-gray-400": !value })}>
-            {value ?? placeHolder}
+            {value ? value + " " + suffix : placeHolder}
           </h1>
           <span>
             <i
@@ -111,7 +113,9 @@ export const Select: React.FC<TProps> = ({
                     }
                   )}
                 >
-                  <h1>{item}</h1>
+                  <h1>
+                    {item} {suffix}
+                  </h1>
                 </li>
               ))}
             </ToggleWrapper>
