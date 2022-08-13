@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { AnimationCustom } from "@/components";
 
+import { SelectDisplayWrapper } from "../select-components";
+
 type TProps = {
   list: readonly string[];
   value: string;
@@ -65,18 +67,11 @@ export const Select: React.FC<TProps> = ({
     <div className={className}>
       <div className="relative cursor-pointer">
         {/* Display */}
-        <div
+        <SelectDisplayWrapper
+          classNameDisplay={classNameDisplay}
+          style={style}
           ref={displayRef}
           onClick={handleToggleContent}
-          aria-hidden="true"
-          className={classNames(
-            "flex justify-between w-full items-center p-2 pr-5 rounded-lg text-black",
-            classNameDisplay,
-            {
-              "bg-gray-100 rounded-md": style === "modal",
-              "bg-white border border-gray-200": style === "default",
-            }
-          )}
         >
           <h1 className={classNames("pr-3", { "text-gray-400": !value })}>
             {value ? value + " " + (suffix ? suffix : "") : placeHolder}
@@ -92,7 +87,7 @@ export const Select: React.FC<TProps> = ({
               )}
             />
           </span>
-        </div>
+        </SelectDisplayWrapper>
         {/* List */}
         <ul ref={listRef}>
           <AnimationCustom

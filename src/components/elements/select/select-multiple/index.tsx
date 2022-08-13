@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
-import { AnimationCustom } from "@/components";
+import { AnimationCustom, Checkbox } from "@/components";
 
-import { Checkbox } from "../checkbox";
+import { SelectDisplayWrapper } from "../select-components";
 
 type TProps = {
   list: string[];
@@ -73,17 +73,11 @@ export const SelectMultiple: React.FC<TProps> = ({
     <div>
       <div className="relative cursor-pointer">
         {/* Display */}
-        <div
+        <SelectDisplayWrapper
           ref={displayRef}
           onClick={handleToggleContent}
           aria-hidden="true"
-          className={classNames(
-            "flex justify-between w-full p-2 mt-3 pr-5 rounded-md text-black",
-            {
-              "bg-gray-100": style === "modal",
-              "bg-white border border-primary-800": style === "default",
-            }
-          )}
+          style={style}
         >
           {!value || value.length === 0 ? (
             <h1 className="text-gray-400">{placeHolder}</h1>
@@ -117,7 +111,7 @@ export const SelectMultiple: React.FC<TProps> = ({
               )}
             />
           </span>
-        </div>
+        </SelectDisplayWrapper>
         {/* List */}
         <ul ref={listRef}>
           <AnimationCustom
