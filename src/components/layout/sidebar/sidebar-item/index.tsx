@@ -1,8 +1,9 @@
-import { Tooltip } from "@material-tailwind/react";
+// import { Tooltip } from "@material-tailwind/react";
 import classNames from "classnames";
 import React from "react";
 
-// import { Tooltip } from "@/components";
+import { Tooltip } from "@/components";
+
 import { ITabSidebar } from "../type";
 
 type TProps = {

@@ -119,18 +119,17 @@ export const SelectMultiple: React.FC<TProps> = ({
           </span>
         </div>
         {/* List */}
-        <AnimationCustom
-          className={classNames(
-            "absolute z-20 w-full py-1 rounded-md max-h-64 overflow-auto shadow-md mt-2",
-            {
-              "bg-white": style === "default",
-              "bg-grey-100 ": style === "modal",
-            }
-          )}
-          isShowing={isShowContent}
-          ref={listRef}
-        >
-          <ul>
+        <ul ref={listRef}>
+          <AnimationCustom
+            className={classNames(
+              "z-20 absolute w-full py-1 rounded-md max-h-64 overflow-auto shadow-md mt-2",
+              {
+                "bg-white": style === "default",
+                "bg-grey-100 ": style === "modal",
+              }
+            )}
+            isShowing={isShowContent}
+          >
             {list.map((item: string, index: number) => (
               <li
                 key={index}
@@ -144,8 +143,8 @@ export const SelectMultiple: React.FC<TProps> = ({
                 <h1>{item}</h1>
               </li>
             ))}
-          </ul>
-        </AnimationCustom>
+          </AnimationCustom>
+        </ul>
       </div>
     </div>
   );

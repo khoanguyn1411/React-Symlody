@@ -5,8 +5,6 @@ import classNames from "classnames";
 import React from "react";
 import DatePicker from "react-datepicker";
 
-import { AnimationCustom } from "@/components";
-
 type TProps = {
   style?: "modal" | "default";
   value: string;
@@ -46,32 +44,30 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
 
   return (
     <WrapperModule className="relative">
-      <AnimationCustom>
-        <DatePicker
-          dateFormat="dd/MM/yyyy"
-          selected={value && new Date(value)}
-          minDate={new Date("01/01/2000")}
-          maxDate={getMaxDate()}
-          onChange={handleChangeDate}
-          placeholderText="dd/mm/yyyy"
-          className={classNames(
-            "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
-            {
-              "bg-gray-100": style === "modal",
-              "border-[1.5px]": style === "default",
-            }
-          )}
-          dayClassName={() => {
-            return "transition-all duration-100";
-          }}
-          calendarClassName="transition-all animate__animated animate__fadeIn"
-        />
-        <div className="absolute top-0 bottom-0 right-0 flex items-center mr-2 text-black pointer-events-none">
-          <span>
-            <i className="fas fa-calendar-day"></i>
-          </span>
-        </div>
-      </AnimationCustom>
+      <DatePicker
+        dateFormat="dd/MM/yyyy"
+        selected={value && new Date(value)}
+        minDate={new Date("01/01/2000")}
+        maxDate={getMaxDate()}
+        onChange={handleChangeDate}
+        placeholderText="dd/mm/yyyy"
+        className={classNames(
+          "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
+          {
+            "bg-gray-100": style === "modal",
+            "border-[1.5px]": style === "default",
+          }
+        )}
+        dayClassName={() => {
+          return "transition-all duration-100";
+        }}
+        calendarClassName="transition-all animate__animated animate__fadeIn"
+      />
+      <div className="absolute top-0 bottom-0 right-0 flex items-center mr-2 text-black pointer-events-none">
+        <span>
+          <i className="fas fa-calendar-day"></i>
+        </span>
+      </div>
     </WrapperModule>
   );
 };

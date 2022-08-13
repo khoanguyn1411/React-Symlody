@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
-import { AnimationCustom } from "../animation-custom";
+import { AnimationCustom } from "@/components";
 
 type TProps = {
   list: readonly string[];
@@ -94,18 +94,17 @@ export const Select: React.FC<TProps> = ({
           </span>
         </div>
         {/* List */}
-        <AnimationCustom
-          isShowing={isShowContent}
-          ref={listRef}
-          className={classNames(
-            "absolute z-10 w-full rounded-sm max-h-64 overflow-auto drop-shadow-lg mt-2",
-            {
-              "bg-gray-100": style === "modal",
-              "bg-white": style === "default",
-            }
-          )}
-        >
-          <ul>
+        <ul ref={listRef}>
+          <AnimationCustom
+            isShowing={isShowContent}
+            className={classNames(
+              "absolute z-10 w-full rounded-sm max-h-64 overflow-auto drop-shadow-lg mt-2",
+              {
+                "bg-gray-100": style === "modal",
+                "bg-white": style === "default",
+              }
+            )}
+          >
             {list.map((item: string, index: number) => (
               <li
                 key={index}
@@ -124,8 +123,8 @@ export const Select: React.FC<TProps> = ({
                 </h1>
               </li>
             ))}
-          </ul>
-        </AnimationCustom>
+          </AnimationCustom>
+        </ul>
       </div>
     </div>
   );

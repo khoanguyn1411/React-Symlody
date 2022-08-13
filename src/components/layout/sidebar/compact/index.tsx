@@ -1,5 +1,6 @@
-import { Tooltip } from "@material-tailwind/react";
 import classNames from "classnames";
+
+import { Tooltip } from "@/components";
 
 type Props = {
   isCompactSidebar: boolean;
@@ -14,26 +15,34 @@ export const CompactSidebar: React.FC<Props> = ({
     onSetIsCompact && onSetIsCompact();
   };
   return (
-    <Tooltip content={isCompactSidebar ? "Mở rộng (b)" : "Thu gọn (b)"}>
-      <span
-        aria-hidden="true"
-        onClick={setIsCompact}
-        className={classNames(
-          "absolute  bottom-1/2",
-          "flex items-center justify-center",
-          " w-6 h-6 text-sm  bg-white rounded-full shadow transition-all duration-300 hover:bg-gray-50 cursor-pointer",
-          isCompactSidebar ? "-right-4" : "-right-3"
-        )}
+    <div
+      className={classNames(
+        "absolute  bottom-1/2",
+        isCompactSidebar ? "-right-4" : "-right-3"
+      )}
+    >
+      <Tooltip
+        placement="top"
+        content={isCompactSidebar ? "Mở rộng (B)" : "Thu gọn (B)"}
       >
-        <i
+        <span
+          aria-hidden="true"
+          onClick={setIsCompact}
           className={classNames(
-            "fas fa-angle-left duration-300 transition-transform text-base",
-            {
-              "transform -rotate-180": isCompactSidebar,
-            }
+            "flex items-center justify-center",
+            " w-6 h-6 text-sm  bg-white rounded-full shadow transition-all duration-300 hover:bg-gray-50 cursor-pointer"
           )}
-        />
-      </span>
-    </Tooltip>
+        >
+          <i
+            className={classNames(
+              "fas fa-angle-left duration-300 transition-transform text-base",
+              {
+                "transform -rotate-180": isCompactSidebar,
+              }
+            )}
+          />
+        </span>
+      </Tooltip>
+    </div>
   );
 };

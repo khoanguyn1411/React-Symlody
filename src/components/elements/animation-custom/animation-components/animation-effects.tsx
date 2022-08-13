@@ -1,5 +1,6 @@
+import styled from "@emotion/styled";
 import classNames from "classnames";
-import React, { forwardRef, ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 import { ANIMATION_DEFAULT_TIME } from "../constants";
 
@@ -7,25 +8,35 @@ type TProps = {
   className?: string;
   isShowing: boolean;
   children: ReactNode;
+  attrs?: React.HTMLAttributes<HTMLDivElement>;
 };
 
-// eslint-disable-next-line react/display-name
-export const AnimationEffects = forwardRef<HTMLDivElement, TProps>(
-  ({ className, isShowing, children }, ref) => {
-    return (
+const AnimateModule = styled.div`
+  .animate__fadeIn {
+    --animate-duration: ${ANIMATION_DEFAULT_TIME / 1000}s;
+  }
+`;
+
+export const AnimationEffects: React.FC<TProps> = ({
+  className,
+  isShowing,
+  children,
+  attrs,
+}) => {
+  return (
+    <AnimateModule>
       <div
-        ref={ref}
+        {...attrs}
         className={classNames(
-          `absolute duration-${ANIMATION_DEFAULT_TIME}`,
+          `duration-${ANIMATION_DEFAULT_TIME} animate__fadeIn animate__animated transition-all`,
           className,
           {
-            "opacity-0 invisible": !isShowing,
-            "opacity-100 visible": isShowing,
+            animate__fadeOut: !isShowing,
           }
         )}
       >
         {children}
       </div>
-    );
-  }
-);
+    </AnimateModule>
+  );
+};

@@ -7,6 +7,7 @@ export * from "./form-item";
 export * from "./input";
 export * from "./modal";
 export * from "./pagination";
+export * from "./portal";
 export * from "./radio";
 export * from "./search";
 export * from "./select";

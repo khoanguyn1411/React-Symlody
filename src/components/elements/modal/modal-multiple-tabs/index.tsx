@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { useState } from "react";
-import ReactDOM from "react-dom";
 
 import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
 import { TPropsModalMultipleTabs, TPropsModalTab, TTabs } from "../types";
@@ -51,7 +50,7 @@ const ModalMultipleTabsContent: React.FC = () => {
     reset && reset();
   };
 
-  return ReactDOM.createPortal(
+  return (
     <ModalWrapper {...props}>
       {/* Title */}
       <div className="flex justify-between px-5 mt-4 border-b">
@@ -82,8 +81,7 @@ const ModalMultipleTabsContent: React.FC = () => {
       </div>
       {/* Children */}
       <div>{getTabActive().children}</div>
-    </ModalWrapper>,
-    document.querySelector("body")
+    </ModalWrapper>
   );
 };
 
@@ -102,7 +100,7 @@ export const ModalTab: React.FC<TPropsModalTab> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col max-h-[calc(100vh-160px)]"
+      className="flex flex-col max-h-[calc(100vh-10rem)]"
       {...otherActions}
     >
       <ModalBody>{children}</ModalBody>

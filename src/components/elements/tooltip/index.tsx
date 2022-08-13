@@ -1,46 +1,86 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import classNames from "classnames";
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 
-import { AnimationCustom } from "@/components";
+import { AnimationCustom, Portal } from "@/components";
 
 type TProps = {
   children: ReactNode;
   content: string;
   placement?: "bottom" | "top";
+  width?: number;
+};
+
+export type TPosition = {
+  left?: number;
+  right?: number;
+  bottom?: number;
+  top?: number;
 };
 
 export const Tooltip: React.FC<TProps> = ({
   children,
   content,
-  placement = "bottom",
+  placement,
+  width = 25,
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
-  const handleMouseOver = () => {
+  const [coords, setCoords] = useState<TPosition>({ left: 0, top: 0 });
+  const refChildren = useRef<HTMLDivElement>(null);
+
+  const handleMouseOver = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    const rect = refChildren.current.getBoundingClientRect();
+    event.stopPropagation();
+    event.preventDefault();
+    let leftSide = (rect.left + rect.right) / 2 - (width * 4) / 2;
+    leftSide = Math.max(10, leftSide);
+    leftSide = Math.min(leftSide, document.body.clientWidth - width * 4 - 10);
+    setCoords({
+      left: leftSide,
+      top: rect.top - 2,
+    });
     setIsActive(true);
   };
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
     setIsActive(false);
   };
   return (
-    <div className="relative">
-      <div onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
+    <div>
+      <div
+        ref={refChildren}
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseLeave}
+      >
         {children}
       </div>
-      <AnimationCustom
-        isShowing={isActive}
-        className={classNames(
-          "bg-black absolute text-white px-2 py-1 rounded-md select-none",
-          {
-            "-bottom-1 translate-y-full": placement === "bottom",
-            "-top-1 -translate-y-full": placement === "top",
-          }
-        )}
-      >
-        <h1 className="text-center min-w-max" role="tooltip">
-          {content}
-        </h1>
-      </AnimationCustom>
+      <Portal>
+        <AnimationCustom
+          isShowing={isActive}
+          attrs={{
+            style: {
+              top: coords.top,
+              left: coords.left,
+            },
+          }}
+          className={classNames(
+            `bg-black fixed  w-[${width}rem] z-20 text-white px-2 py-1 rounded-md select-none`,
+            {
+              " -translate-y-full": placement === "top",
+              " translate-y-full": placement === "bottom",
+            }
+          )}
+        >
+          <h1 className="text-center min-w-min" role="tooltip">
+            {content}
+          </h1>
+        </AnimationCustom>
+      </Portal>
     </div>
   );
 };

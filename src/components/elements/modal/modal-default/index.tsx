@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import ReactDOM from "react-dom";
 
 import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
 import { TPropsModalDefault } from "../types";
@@ -32,7 +31,7 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
     reset && reset();
   };
 
-  return ReactDOM.createPortal(
+  return (
     <ModalWrapper {...props}>
       <div className={classNames("w-full flex relative flex-col p-0")}>
         <h1 className="w-full px-5 py-3 text-2xl font-bold text-left uppercase border-b border-gray-200 text-primary-800">
@@ -48,7 +47,7 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
       </div>
       <form
         onSubmit={handleEvent.event}
-        className="flex flex-col max-h-[calc(100vh-160px)]"
+        className="flex flex-col max-h-[calc(100vh-10rem)]"
       >
         <ModalBody>{children}</ModalBody>
         <ModalFooter
@@ -57,7 +56,6 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
           setToggle={toggle.setToggle}
         />
       </form>
-    </ModalWrapper>,
-    document.querySelector("body")
+    </ModalWrapper>
   );
 };

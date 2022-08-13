@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 import { AnimationEffects, AnimationUnmount } from "./animation-components";
 
@@ -6,18 +6,28 @@ type TProps = {
   children?: ReactNode;
   isShowing?: boolean;
   className?: string;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
+  attrs?: React.HTMLAttributes<HTMLDivElement>;
 };
 
-// eslint-disable-next-line react/display-name
-export const AnimationCustom = forwardRef<HTMLDivElement, TProps>(
-  ({ className, children, isShowing, onClick }, ref) => {
-    return (
-      <div aria-hidden onClick={onClick}>
-        <AnimationEffects ref={ref} className={className} isShowing={isShowing}>
-          <AnimationUnmount isShowing={isShowing}>{children}</AnimationUnmount>
-        </AnimationEffects>
-      </div>
-    );
-  }
-);
+/**
+ * For toggle element, such as dropdown, select, tooltip, modal, ... please wrap the toggle
+ * component with an AnimationCustom component in order to apply animation fade.
+ */
+export const AnimationCustom: React.FC<TProps> = ({
+  className,
+  children,
+  isShowing,
+  attrs,
+}) => {
+  return (
+    <AnimationUnmount isShowing={isShowing}>
+      <AnimationEffects
+        attrs={attrs}
+        className={className}
+        isShowing={isShowing}
+      >
+        {children}
+      </AnimationEffects>
+    </AnimationUnmount>
+  );
+};

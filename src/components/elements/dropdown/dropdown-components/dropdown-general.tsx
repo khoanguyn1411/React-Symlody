@@ -55,13 +55,14 @@ export const DropdownGeneral: React.FC<TProps> = ({
         {display}
       </div>
       {/* List */}
-      <DropdownListWrapper
-        placement={placement}
-        ref={listRef}
-        isShowContent={isShowContent}
-      >
-        {children}
-      </DropdownListWrapper>
+      <ul ref={listRef}>
+        <DropdownListWrapper
+          placement={placement}
+          isShowContent={isShowContent}
+        >
+          {children}
+        </DropdownListWrapper>
+      </ul>
     </div>
   );
 };
