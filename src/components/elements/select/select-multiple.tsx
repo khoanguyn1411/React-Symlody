@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
-import { AnimationCustom } from "../animation-custom";
+import { AnimationCustom } from "@/components";
+
 import { Checkbox } from "../checkbox";
-import { ToggleWrapper } from "../toggle-wrapper";
 
 type TProps = {
   list: string[];
@@ -119,35 +119,31 @@ export const SelectMultiple: React.FC<TProps> = ({
           </span>
         </div>
         {/* List */}
-        <AnimationCustom>
-          <ul
-            role="listbox"
-            ref={listRef}
-            tabIndex={-1}
-            className={classNames(
-              "absolute z-20 w-full py-1 rounded-md max-h-64 overflow-auto animate__animated animate__fadeIn shadow-md mt-2",
-              {
-                animate__fadeOut: !isShowContent,
-                "bg-white": style === "default",
-                "bg-grey-100 ": style === "modal",
-              }
-            )}
-          >
-            <ToggleWrapper isShowing={isShowContent}>
-              {list.map((item: string, index: number) => (
-                <li
-                  key={index}
-                  aria-hidden="true"
-                  onClick={handleSetItem(item)}
-                  className={classNames(
-                    "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-all duration-70"
-                  )}
-                >
-                  <Checkbox checked={value && [...value].includes(item)} />
-                  <h1>{item}</h1>
-                </li>
-              ))}
-            </ToggleWrapper>
+        <AnimationCustom
+          className={classNames(
+            "absolute z-20 w-full py-1 rounded-md max-h-64 overflow-auto shadow-md mt-2",
+            {
+              "bg-white": style === "default",
+              "bg-grey-100 ": style === "modal",
+            }
+          )}
+          isShowing={isShowContent}
+          ref={listRef}
+        >
+          <ul>
+            {list.map((item: string, index: number) => (
+              <li
+                key={index}
+                aria-hidden="true"
+                onClick={handleSetItem(item)}
+                className={classNames(
+                  "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-all duration-70"
+                )}
+              >
+                <Checkbox checked={value && [...value].includes(item)} />
+                <h1>{item}</h1>
+              </li>
+            ))}
           </ul>
         </AnimationCustom>
       </div>

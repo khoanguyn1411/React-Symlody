@@ -2,8 +2,6 @@ import classNames from "classnames";
 import { useState } from "react";
 import ReactDOM from "react-dom";
 
-import { ToggleWrapper } from "@/components";
-
 import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
 import { TPropsModalMultipleTabs, TPropsModalTab, TTabs } from "../types";
 import {
@@ -38,7 +36,7 @@ export const ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
 
 const ModalMultipleTabsContent: React.FC = () => {
   const props = useModalMultipleTabsContext();
-  const { renderTabs, isShowing, toggle, reset } = props;
+  const { renderTabs, toggle, reset } = props;
 
   const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
   const getTabActive = () => {
@@ -54,39 +52,37 @@ const ModalMultipleTabsContent: React.FC = () => {
   };
 
   return ReactDOM.createPortal(
-    <ToggleWrapper isShowing={isShowing}>
-      <ModalWrapper {...props}>
-        {/* Title */}
-        <div className="flex justify-between px-5 mt-4 border-b">
-          {renderTabs.map((item, index) => (
-            <div
-              key={`modalTitle${index}`}
-              aria-hidden
-              className={classNames(
-                "flex-1 py-2 text-center cursor-pointer transition-all duration-200",
-                {
-                  "bg-primary-50 text-primary-800":
-                    getTabActive().title === item.title,
-                  "text-black": getTabActive().title !== item.title,
-                }
-              )}
-              onClick={handleChangeTab(item)}
-            >
-              <span className="text-lg font-semibold">{item.title}</span>
-            </div>
-          ))}
-          <span
-            aria-hidden="true"
-            className="flex items-center justify-center py-3 pl-4 pr-0 text-black cursor-pointer"
-            onClick={handleSetHidden}
+    <ModalWrapper {...props}>
+      {/* Title */}
+      <div className="flex justify-between px-5 mt-4 border-b">
+        {renderTabs.map((item, index) => (
+          <div
+            key={`modalTitle${index}`}
+            aria-hidden
+            className={classNames(
+              "flex-1 py-2 text-center cursor-pointer transition-all duration-200",
+              {
+                "bg-primary-50 text-primary-800":
+                  getTabActive().title === item.title,
+                "text-black": getTabActive().title !== item.title,
+              }
+            )}
+            onClick={handleChangeTab(item)}
           >
-            <i className="far fa-times"></i>
-          </span>
-        </div>
-        {/* Children */}
-        <div>{getTabActive().children}</div>
-      </ModalWrapper>
-    </ToggleWrapper>,
+            <span className="text-lg font-semibold">{item.title}</span>
+          </div>
+        ))}
+        <span
+          aria-hidden="true"
+          className="flex items-center justify-center py-3 pl-4 pr-0 text-black cursor-pointer"
+          onClick={handleSetHidden}
+        >
+          <i className="far fa-times"></i>
+        </span>
+      </div>
+      {/* Children */}
+      <div>{getTabActive().children}</div>
+    </ModalWrapper>,
     document.querySelector("body")
   );
 };

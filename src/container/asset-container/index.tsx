@@ -1,4 +1,10 @@
-import { Button, DeleteAndEditField, Pagination, Search } from "@/components";
+import {
+  Button,
+  DeleteAndEditField,
+  Pagination,
+  Search,
+  Tooltip,
+} from "@/components";
 import { useModal, useSearch } from "@/hooks";
 import { formatCurrency } from "@/utils/format";
 
@@ -145,6 +151,9 @@ export const AssetContainer: React.FC = () => {
       </div>
       <ModalCreateAsset {...propsModal} />
       <ModalEditAsset {...propsModalEdit} />
+      <Tooltip content={"Ai love you"}>
+        <h1>Test tooltips</h1>
+      </Tooltip>
     </div>
   );
 };

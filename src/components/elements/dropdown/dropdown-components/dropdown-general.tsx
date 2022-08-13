@@ -1,7 +1,5 @@
 import React, { ReactNode, useEffect, useRef } from "react";
 
-import { AnimationCustom, ToggleWrapper } from "@/components";
-
 import { AlignedPlacement, DropdownListWrapper } from "../dropdown-components";
 
 type TProps = {
@@ -57,15 +55,13 @@ export const DropdownGeneral: React.FC<TProps> = ({
         {display}
       </div>
       {/* List */}
-      <AnimationCustom>
-        <DropdownListWrapper
-          placement={placement}
-          ref={listRef}
-          isShowContent={isShowContent}
-        >
-          <ToggleWrapper isShowing={isShowContent}>{children}</ToggleWrapper>
-        </DropdownListWrapper>
-      </AnimationCustom>
+      <DropdownListWrapper
+        placement={placement}
+        ref={listRef}
+        isShowContent={isShowContent}
+      >
+        {children}
+      </DropdownListWrapper>
     </div>
   );
 };

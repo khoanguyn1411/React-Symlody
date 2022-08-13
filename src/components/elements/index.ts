@@ -11,4 +11,4 @@ export * from "./radio";
 export * from "./search";
 export * from "./select";
 export * from "./skeleton";
-export * from "./toggle-wrapper";
+export * from "./tooltip";

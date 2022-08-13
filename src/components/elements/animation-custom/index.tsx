@@ -1,18 +1,23 @@
-import styled from "@emotion/styled";
-import React, { ReactNode } from "react";
+import React, { forwardRef, ReactNode } from "react";
 
-import { ANIMATION_DEFAULT_TIME } from "./constants";
-
-const AnimateModule = styled.div`
-  .animate__fadeIn {
-    --animate-duration: ${ANIMATION_DEFAULT_TIME / 1000}s;
-  }
-`;
+import { AnimationEffects, AnimationUnmount } from "./animation-components";
 
 type TProps = {
-  children: ReactNode;
+  children?: ReactNode;
+  isShowing?: boolean;
+  className?: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-export const AnimationCustom: React.FC<TProps> = ({ children }) => {
-  return <AnimateModule>{children}</AnimateModule>;
-};
+// eslint-disable-next-line react/display-name
+export const AnimationCustom = forwardRef<HTMLDivElement, TProps>(
+  ({ className, children, isShowing, onClick }, ref) => {
+    return (
+      <div aria-hidden onClick={onClick}>
+        <AnimationEffects ref={ref} className={className} isShowing={isShowing}>
+          <AnimationUnmount isShowing={isShowing}>{children}</AnimationUnmount>
+        </AnimationEffects>
+      </div>
+    );
+  }
+);

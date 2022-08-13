@@ -2,7 +2,6 @@ import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
 import { AnimationCustom } from "../animation-custom";
-import { ToggleWrapper } from "../toggle-wrapper";
 
 type TProps = {
   list: readonly string[];
@@ -95,40 +94,36 @@ export const Select: React.FC<TProps> = ({
           </span>
         </div>
         {/* List */}
-        <AnimationCustom>
-          <ul
-            ref={listRef}
-            role="listbox"
-            tabIndex={-1}
-            className={classNames(
-              "absolute z-10 w-full rounded-sm max-h-64 animate__animated animate__fadeIn overflow-auto drop-shadow-lg mt-2",
-              {
-                animate__fadeOut: !isShowContent,
-                "bg-gray-100": style === "modal",
-                "bg-white": style === "default",
-              }
-            )}
-          >
-            <ToggleWrapper isShowing={isShowContent}>
-              {list.map((item: string, index: number) => (
-                <li
-                  key={index}
-                  aria-hidden="true"
-                  onClick={handleSetSelectedItem(item)}
-                  className={classNames(
-                    "py-1 px-2 hover:bg-primary-100 cursor-pointer transition-all duration-70",
-                    {
-                      "bg-primary-50 text-primary-800 font-medium":
-                        item === value,
-                    }
-                  )}
-                >
-                  <h1>
-                    {item} {suffix}
-                  </h1>
-                </li>
-              ))}
-            </ToggleWrapper>
+        <AnimationCustom
+          isShowing={isShowContent}
+          ref={listRef}
+          className={classNames(
+            "absolute z-10 w-full rounded-sm max-h-64 overflow-auto drop-shadow-lg mt-2",
+            {
+              "bg-gray-100": style === "modal",
+              "bg-white": style === "default",
+            }
+          )}
+        >
+          <ul>
+            {list.map((item: string, index: number) => (
+              <li
+                key={index}
+                aria-hidden="true"
+                onClick={handleSetSelectedItem(item)}
+                className={classNames(
+                  "py-1 px-2 hover:bg-primary-100 cursor-pointer transition-all duration-70",
+                  {
+                    "bg-primary-50 text-primary-800 font-medium":
+                      item === value,
+                  }
+                )}
+              >
+                <h1>
+                  {item} {suffix}
+                </h1>
+              </li>
+            ))}
           </ul>
         </AnimationCustom>
       </div>

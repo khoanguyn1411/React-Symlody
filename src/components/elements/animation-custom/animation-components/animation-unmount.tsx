@@ -1,13 +1,13 @@
 import React, { ReactNode, useEffect, useState } from "react";
 
-import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
+import { ANIMATION_DEFAULT_TIME } from "../constants";
 
 type TProps = {
   isShowing: boolean;
   children: ReactNode;
 };
 
-export const ToggleWrapper: React.FC<TProps> = ({ isShowing, children }) => {
+export const AnimationUnmount: React.FC<TProps> = ({ isShowing, children }) => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   useEffect(() => {
     if (isShowing) {
