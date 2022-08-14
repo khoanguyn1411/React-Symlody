@@ -71,8 +71,8 @@ export const Tooltip: React.FC<TProps> = ({
           className={classNames(
             `bg-black fixed  w-[${width}rem] z-20 text-white px-2 py-1 rounded-md select-none`,
             {
-              " -translate-y-full": placement === "top",
-              " translate-y-full": placement === "bottom",
+              "-translate-y-full": placement === "top",
+              "translate-y-full": placement === "bottom",
             }
           )}
         >

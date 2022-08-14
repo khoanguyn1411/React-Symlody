@@ -37,16 +37,16 @@ export const DropdownConfirm: React.FC<TProps> = ({
         {title}
       </h1>
       <div className="w-full h-[1px] bg-grey-200" />
-      <div className="flex p-4 gap-4">
+      <div className="flex p-4 w-52 gap-4">
         <Button
-          className="border-secondary-500 text-secondary-500"
+          className="flex-1 border-secondary-500 text-secondary-500"
           style="outline"
           onClick={handleCancel}
         >
           Hủy
         </Button>
         <Button
-          className="bg-secondary-500 border-secondary-500 hover:bg-secondary-600 hover:border-secondary-600"
+          className="flex-1 bg-secondary-500 border-secondary-500 hover:bg-secondary-600 hover:border-secondary-600"
           onClick={handleClickItem}
         >
           {handleEvent.title}

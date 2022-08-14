@@ -11,7 +11,7 @@ type TProps = {
 
 /**
  * For toggle element, such as dropdown, select, tooltip, modal, ... please wrap the toggle
- * component with an AnimationCustom component in order to apply animation fade.
+ * component with an AnimationCustom component in order to apply fade animation.
  */
 export const AnimationCustom: React.FC<TProps> = ({
   className,

@@ -50,7 +50,7 @@ export const DropdownGeneral: React.FC<TProps> = ({
         aria-hidden
         ref={displayRef}
         onClick={handleToggleDropdown}
-        className="w-full"
+        className="w-full cursor-pointer"
       >
         {display}
       </div>

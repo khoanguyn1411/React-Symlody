@@ -46,7 +46,7 @@ export const Button: React.FC<TProps> = ({
           "border-gray-200 bg-gray-200 text-white cursor-default":
             style === "disable",
           "border-primary-800 bg-white text-primary-800": style === "outline",
-          "px-2 py-2 min-w-[80px]": !isIconOnly,
+          "px-2 py-2": !isIconOnly,
         }
       )}
       onClick={handleOnClick}

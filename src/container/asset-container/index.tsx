@@ -74,8 +74,27 @@ export const AssetContainer: React.FC = () => {
           <Search placeholder="Voucher, gấu bông,..." {...propsSearch} />
         </div>
         <div className="flex items-center justify-center">
-          <Sort fields={[]}></Sort>
-          <Button className="min-w-max" onClick={handleOpenModal}>
+          <Sort
+            onSortChange={(sortValue) => console.log(sortValue)}
+            fields={[
+              {
+                title: "Tên tài sản",
+                prefix: <i>A</i>,
+                children: ["A-Z", "Z-A"],
+              },
+              {
+                title: "Số lượng",
+                prefix: <i>1</i>,
+                children: ["Nhỏ - lớn", "Lớn - nhỏ"],
+              },
+              {
+                title: "Đơn giá",
+                prefix: <i className="far fa-money-bill-wave"></i>,
+                children: ["Cao - thấp", "Thấp - cao"],
+              },
+            ]}
+          ></Sort>
+          <Button className="ml-4 min-w-max" onClick={handleOpenModal}>
             Thêm tài sản
           </Button>
         </div>

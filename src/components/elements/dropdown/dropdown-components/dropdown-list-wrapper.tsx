@@ -23,7 +23,7 @@ export const DropdownListWrapper: React.FC<TProps> = ({
     <AnimationCustom
       isShowing={isShowContent}
       className={classNames(
-        "absolute z-10 w-full w-[200px] bg-white rounded-sm max-h-64 overflow-auto drop-shadow-lg mt-2",
+        "absolute z-10 w-full min-w-max bg-white overflow-auto drop-shadow-lg border border-gray-200 rounded-md mt-2",
         {
           "top-5 right-0": placement === "bottom-end",
           "top-5 left-0": placement === "bottom-start",

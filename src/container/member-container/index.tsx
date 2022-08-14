@@ -148,7 +148,7 @@ export const MemberContainer: React.FC = () => {
           </div>
         )}
       </div>
-      <ModalCreateMember {...propsModalCreateMember} />;
+      <ModalCreateMember {...propsModalCreateMember} />
       <ModalEditMember {...propsModalEditMember} />
     </div>
   );

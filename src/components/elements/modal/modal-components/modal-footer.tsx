@@ -12,14 +12,18 @@ export const ModalFooter: React.FC<
   };
   return (
     <div className="flex justify-end w-full px-5 py-4 border-t">
-      <Button style="outline" onClick={handleSetHidden}>
+      <Button
+        style="outline"
+        className="min-w-[80px]"
+        onClick={handleSetHidden}
+      >
         Hủy
       </Button>
       <Button
         isShowLoading={{ active: isLoading }}
         type={isDisable ? "button" : "submit"}
         style={isDisable ? "disable" : "default"}
-        className="ml-5"
+        className="ml-5 min-w-[80px]"
       >
         {title ?? "Tạo"}
       </Button>

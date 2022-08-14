@@ -19,8 +19,8 @@ export const Dropdown: React.FC<TProps> = ({
 }) => {
   const [isShowContent, setIsShowContent] = useState(false);
   const handleClickItem = (item: string) => () => {
-    setIsShowContent(false);
     onChange(item);
+    setIsShowContent(false);
   };
   return (
     <DropdownGeneral
