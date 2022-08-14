@@ -27,6 +27,9 @@ const WrapperModule = styled.div`
     border-radius: 5px;
     color: black;
   }
+  .react-datepicker__navigation-icon {
+    margin-top: 25px;
+  }
 `;
 
 export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {

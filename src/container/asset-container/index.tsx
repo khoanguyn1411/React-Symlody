@@ -1,4 +1,10 @@
-import { Button, DeleteAndEditField, Pagination, Search } from "@/components";
+import {
+  Button,
+  DeleteAndEditField,
+  Pagination,
+  Search,
+  Sort,
+} from "@/components";
 import { useModal, useSearch } from "@/hooks";
 import { formatCurrency } from "@/utils/format";
 
@@ -68,7 +74,10 @@ export const AssetContainer: React.FC = () => {
           <Search placeholder="Voucher, gấu bông,..." {...propsSearch} />
         </div>
         <div className="flex items-center justify-center">
-          <Button onClick={handleOpenModal}>Thêm tài sản</Button>
+          <Sort fields={[]}></Sort>
+          <Button className="min-w-max" onClick={handleOpenModal}>
+            Thêm tài sản
+          </Button>
         </div>
       </div>
       <div className="p-default">
