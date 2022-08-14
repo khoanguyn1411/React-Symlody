@@ -22,7 +22,7 @@ export const Search: React.FC<TProps> = ({
   return (
     <div className="relative w-64 mr-5">
       <Input
-        className="h-10"
+        className="h-10 pr-8"
         style="default"
         onChange={setInputValue}
         placeholder={placeholder}

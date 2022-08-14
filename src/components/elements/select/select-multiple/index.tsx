@@ -1,9 +1,10 @@
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
-import { AnimationCustom, Checkbox } from "@/components";
+import { Checkbox, Portal, TPosition } from "@/components";
 
 import { SelectDisplayWrapper } from "../select-components";
+import { SelectListWrapper } from "../select-components/select-list-wrapper";
 
 type TProps = {
   list: string[];
@@ -21,6 +22,8 @@ export const SelectMultiple: React.FC<TProps> = ({
   onChange,
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
+  const [coords, setCoords] = useState<TPosition>({ left: 0, top: 0 });
+
   const listRef = useRef(null);
   const displayRef = useRef(null);
   const wrapperSelectRef = useRef(null);
@@ -54,6 +57,18 @@ export const SelectMultiple: React.FC<TProps> = ({
     };
   }, [isShowContent]);
 
+  const setPositionList = () => {
+    const rect = displayRef.current.getBoundingClientRect();
+    let leftSide = rect.left;
+    leftSide = Math.max(10, leftSide);
+    leftSide = Math.min(leftSide, document.body.clientWidth - rect.width - 10);
+    setCoords({
+      left: leftSide,
+      right: rect.right - rect.left,
+      top: rect.bottom,
+    });
+  };
+
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -67,8 +82,19 @@ export const SelectMultiple: React.FC<TProps> = ({
     ) {
       return;
     }
+    setPositionList();
     setIsShowContent(!isShowContent);
   };
+
+  useEffect(() => {
+    window.addEventListener("scroll", setPositionList, true);
+    window.addEventListener("resize", setPositionList, true);
+    return () => {
+      window.addEventListener("scroll", setPositionList, true);
+      window.addEventListener("resize", setPositionList, true);
+    };
+  }, []);
+
   return (
     <div>
       <div className="relative cursor-pointer">
@@ -113,32 +139,29 @@ export const SelectMultiple: React.FC<TProps> = ({
           </span>
         </SelectDisplayWrapper>
         {/* List */}
-        <ul ref={listRef}>
-          <AnimationCustom
-            className={classNames(
-              "z-20 absolute w-full py-1 rounded-md max-h-64 overflow-auto shadow-md mt-2",
-              {
-                "bg-white": style === "default",
-                "bg-grey-100 ": style === "modal",
-              }
-            )}
-            isShowing={isShowContent}
-          >
-            {list.map((item: string, index: number) => (
-              <li
-                key={index}
-                aria-hidden="true"
-                onClick={handleSetItem(item)}
-                className={classNames(
-                  "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-all duration-70"
-                )}
-              >
-                <Checkbox checked={value && [...value].includes(item)} />
-                <h1>{item}</h1>
-              </li>
-            ))}
-          </AnimationCustom>
-        </ul>
+        <Portal>
+          <ul ref={listRef}>
+            <SelectListWrapper
+              coords={coords}
+              style={style}
+              isShowContent={isShowContent}
+            >
+              {list.map((item: string, index: number) => (
+                <li
+                  key={index}
+                  aria-hidden="true"
+                  onClick={handleSetItem(item)}
+                  className={classNames(
+                    "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-colors duration-70"
+                  )}
+                >
+                  <Checkbox checked={value && [...value].includes(item)} />
+                  <h1>{item}</h1>
+                </li>
+              ))}
+            </SelectListWrapper>
+          </ul>
+        </Portal>
       </div>
     </div>
   );

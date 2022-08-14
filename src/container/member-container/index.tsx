@@ -38,9 +38,9 @@ export const MemberContainer: React.FC = () => {
     alert("Deleted");
   };
 
-  if (!memberStore.members || memberStore.members.length === 0) {
-    return <div>No data</div>;
-  }
+  // if (!memberStore.members || memberStore.members.length === 0) {
+  //   return <div>No data</div>;
+  // }
 
   return (
     <div>
