@@ -21,7 +21,6 @@ export const MemberContainer: React.FC = () => {
   const propsModalCreateMember = useModal();
   const propsModalEditMember = useModal<IMember>();
   const propsSearch = useSearch();
-
   const memberStore = useAppSelector((state) => state.member);
   const dispatch = useAppDispatch();
 
@@ -39,9 +38,9 @@ export const MemberContainer: React.FC = () => {
     alert("Deleted");
   };
 
-  // if (!memberStore.members || memberStore.members.length === 0) {
-  //   return <div>No data</div>;
-  // }
+  if (!memberStore.members || memberStore.members.length === 0) {
+    return <div>No data</div>;
+  }
 
   return (
     <div>

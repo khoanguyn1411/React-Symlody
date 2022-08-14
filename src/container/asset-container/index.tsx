@@ -76,21 +76,40 @@ export const AssetContainer: React.FC = () => {
         <div className="flex items-center justify-center">
           <Sort
             onSortChange={(sortValue) => console.log(sortValue)}
+            defaultSortBy={{
+              field: "Tên tài sản",
+              isAscending: false,
+            }}
             fields={[
               {
                 title: "Tên tài sản",
                 prefix: <i>A</i>,
-                children: ["A-Z", "Z-A"],
+                children: [
+                  {
+                    title: "A-Z",
+                    isAscending: true,
+                  },
+                  {
+                    title: "Z-A",
+                    isAscending: false,
+                  },
+                ],
               },
               {
                 title: "Số lượng",
                 prefix: <i>1</i>,
-                children: ["Nhỏ - lớn", "Lớn - nhỏ"],
+                children: [
+                  { title: "Nhỏ - lớn", isAscending: true },
+                  { title: "Lớn - nhỏ", isAscending: false },
+                ],
               },
               {
                 title: "Đơn giá",
                 prefix: <i className="far fa-money-bill-wave"></i>,
-                children: ["Cao - thấp", "Thấp - cao"],
+                children: [
+                  { title: "Thấp - cao", isAscending: true },
+                  { title: "Cao - thấp", isAscending: false },
+                ],
               },
             ]}
           ></Sort>
