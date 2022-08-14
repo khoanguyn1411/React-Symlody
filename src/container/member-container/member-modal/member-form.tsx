@@ -9,7 +9,7 @@ import {
   SelectMultiple,
 } from "@/components";
 import { IMember } from "@/features/types/member-type";
-import { formDefaultValueService } from "@/utils";
+import { FormService } from "@/utils";
 
 import { getListRole } from "../constant";
 import { MemberMapper } from "../mapper";
@@ -31,7 +31,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
     formState: { errors },
   } = formProps;
 
-  const defaultValue = formDefaultValueService<TFormMemberInfo>(dataForm);
+  const defaultValue = FormService.getDefaultValues<TFormMemberInfo>(dataForm);
 
   return (
     <>

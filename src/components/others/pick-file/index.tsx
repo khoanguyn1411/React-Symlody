@@ -6,7 +6,7 @@ import {
   MESSAGE_DEFAULT_EXTENSION,
   MESSAGE_WRONG_EXTENSION,
 } from "@/constants";
-import { isCorrectExtension } from "@/utils";
+import { FileService } from "@/utils";
 
 type TProps = {
   selectedFile: File;
@@ -59,7 +59,7 @@ export const PickFile: React.FC<TProps> = ({
     event.preventDefault();
     event.stopPropagation();
     setIsDragActive(false);
-    if (!isCorrectExtension(event.dataTransfer.files[0].name)) {
+    if (!FileService.isCorrectExtension(event.dataTransfer.files[0].name)) {
       setMessage(MESSAGE_WRONG_EXTENSION);
       return;
     }

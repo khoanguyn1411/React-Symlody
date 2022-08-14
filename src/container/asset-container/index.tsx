@@ -6,7 +6,7 @@ import {
   Sort,
 } from "@/components";
 import { useModal, useSearch } from "@/hooks";
-import { formatCurrency } from "@/utils/format";
+import { FormatService } from "@/utils";
 
 import { ModalCreateAsset } from "./asset-modal";
 import { ModalEditAsset } from "./asset-modal/edit-asset";
@@ -76,10 +76,6 @@ export const AssetContainer: React.FC = () => {
         <div className="flex items-center justify-center">
           <Sort
             onSortChange={(sortValue) => console.log(sortValue)}
-            defaultSortBy={{
-              field: "Tên tài sản",
-              isAscending: false,
-            }}
             fields={[
               {
                 title: "Tên tài sản",
@@ -156,7 +152,7 @@ export const AssetContainer: React.FC = () => {
                   </td>
                   <td className="w-32 py-2 font-normal text-center">
                     {item.price
-                      ? `${formatCurrency(Number(item.price))}/cái`
+                      ? `${FormatService.toCurrency(Number(item.price))}/cái`
                       : "--"}
                   </td>
 

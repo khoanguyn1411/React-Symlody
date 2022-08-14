@@ -38,7 +38,7 @@ export const Sort: React.FC<TProps> = ({
       : undefined
   );
   const [isAscending, setIsAscending] = useState<boolean>(
-    defaultSortBy.isAscending ?? true
+    defaultSortBy ? defaultSortBy.isAscending : true
   );
 
   const [valueToQuery, setValueToQuery] = useState<TValueQuery>(

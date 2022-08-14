@@ -35,12 +35,15 @@ export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
           <div
             aria-hidden
             onClick={handleStopPropagation}
-            className={classNames("w-full bg-white rounded-md min-w-modal", {
-              "max-w-xs": size === "xs",
-              "max-w-sm": size === "sm",
-              "max-w-md": size === "md",
-              "max-w-lg": size === "lg",
-            })}
+            className={classNames(
+              "w-full drop-shadow-2xl bg-white rounded-md min-w-modal",
+              {
+                "max-w-xs": size === "xs",
+                "max-w-sm": size === "sm",
+                "max-w-md": size === "md",
+                "max-w-lg": size === "lg",
+              }
+            )}
           >
             {children}
           </div>

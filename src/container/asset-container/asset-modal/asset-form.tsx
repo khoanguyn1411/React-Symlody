@@ -9,8 +9,7 @@ import {
   RadioInput,
   TextArea,
 } from "@/components";
-import { formDefaultValueService } from "@/utils";
-import { formatCurrency, formatToNormalNumber } from "@/utils/format";
+import { FormatService, FormService } from "@/utils";
 
 import { TFormAssetInfo } from "../type";
 
@@ -24,7 +23,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
     control,
     formState: { errors },
   } = formProps;
-  const defaultValue = formDefaultValueService<TFormAssetInfo>(data);
+  const defaultValue = FormService.getDefaultValues<TFormAssetInfo>(data);
   return (
     <>
       <FormItem
@@ -82,12 +81,14 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             <Input
               handleSideEffect={(event) => {
                 const value = event.target.value;
-                const splitValue = formatToNormalNumber(value);
+                const splitValue = FormatService.toNormalNumber(value);
                 if (value) {
                   if (isNaN(Number(splitValue))) {
                     return { newValue: "" };
                   }
-                  const valueFormatted = formatCurrency(Number(splitValue));
+                  const valueFormatted = FormatService.toCurrency(
+                    Number(splitValue)
+                  );
                   return { newValue: valueFormatted };
                 }
                 return { newValue: value };
