@@ -95,8 +95,8 @@ export const SelectMultiple: React.FC<TProps> = ({
     window.addEventListener("scroll", setPositionList, true);
     window.addEventListener("resize", setPositionList, true);
     return () => {
-      window.addEventListener("scroll", setPositionList, true);
-      window.addEventListener("resize", setPositionList, true);
+      window.removeEventListener("scroll", setPositionList, true);
+      window.removeEventListener("resize", setPositionList, true);
     };
   }, []);
 
