@@ -32,7 +32,7 @@ export const MemberContainer: React.FC = () => {
   const [filter, setFilter] = useState<string>(displayOptions[0]);
   const handleEdit = (item: IMember) => () => {
     propsModalEditMember.setData(item);
-    propsModalEditMember.setShow();
+    propsModalEditMember.toggle.setShow();
   };
   const handleDelete = (item: IMember) => () => {
     alert("Deleted");
@@ -60,7 +60,7 @@ export const MemberContainer: React.FC = () => {
           />
           <Button
             prefix={<i className="mr-2 fas fa-plus-circle" />}
-            onClick={propsModalCreateMember.setShow}
+            onClick={propsModalCreateMember.toggle.setShow}
           >
             Tạo mới
           </Button>

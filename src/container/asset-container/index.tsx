@@ -19,7 +19,7 @@ export const AssetContainer: React.FC = () => {
 
   const handleEdit = (item) => () => {
     propsModalEdit.setData(item);
-    propsModalEdit.setShow();
+    propsModalEdit.toggle.setToggle();
   };
   const handleDelete = (item) => () => {
     alert("Deleted");
@@ -63,7 +63,7 @@ export const AssetContainer: React.FC = () => {
     },
   ];
   const handleOpenModal = () => {
-    propsModal.setToggle();
+    propsModal.toggle.setToggle();
   };
 
   return (

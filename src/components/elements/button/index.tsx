@@ -36,6 +36,9 @@ export const Button: React.FC<TProps> = ({
   const handleOnClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
+    if (disable) {
+      return;
+    }
     onClick && onClick(event);
   };
   return (

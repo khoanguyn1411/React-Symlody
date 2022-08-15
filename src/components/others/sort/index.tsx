@@ -1,6 +1,7 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 import { DropdownGeneral } from "@/components/elements/dropdown/dropdown-components";
+import { useEffectSkipFirstRender } from "@/hooks";
 
 import { SortIncludeValues } from "./sort-component/sort-include-values";
 
@@ -55,9 +56,8 @@ export const Sort: React.FC<TProps> = ({
     });
   };
 
-  useEffect(() => {
+  useEffectSkipFirstRender(() => {
     onSortChange && onSortChange(valueToQuery);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valueToQuery]);
 
   const propsOfSortIncludeValues = {
