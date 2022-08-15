@@ -1,19 +1,22 @@
 import classNames from "classnames";
 import React, { ReactNode } from "react";
 
+import { BLOCK, SIZE_MAPS, TYPE_MAPS } from "./types";
+
 type TLoading = {
   active: boolean;
 };
-
 type TProps = {
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   className?: string;
   children: ReactNode;
   type?: "button" | "submit" | "reset";
-  style?: "outline" | "default" | "none" | "disable";
   isIconOnly?: boolean;
   prefix?: ReactNode | null;
   isShowLoading?: TLoading | null;
+  style?: keyof typeof TYPE_MAPS;
+  size?: keyof typeof SIZE_MAPS;
+  block?: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export const Button: React.FC<TProps> = ({
@@ -22,7 +25,9 @@ export const Button: React.FC<TProps> = ({
   children,
   type = "button",
   style = "default",
+  size = "default",
   isIconOnly = false,
+  block = false,
   prefix = null,
   isShowLoading = null,
 }) => {
@@ -38,15 +43,14 @@ export const Button: React.FC<TProps> = ({
     <button
       type={type}
       className={classNames(
-        "rounded-lg text-center flex items-center justify-center transition-all min-w-max duration-200 text-default border-[1.5px] normal-case font-bold",
+        "rounded-md items-center justify-center transition-all duration-300",
+        "text-center font-semibold normal-case",
         className,
+        TYPE_MAPS[style],
+        SIZE_MAPS[size],
+        BLOCK[block.toString()],
         {
-          "border-primary-800 bg-primary-800 hover:bg-primary-900 hover:border-primary-900 text-white":
-            style === "default",
-          "border-gray-200 bg-gray-200 text-white cursor-default":
-            style === "disable",
-          "border-primary-800 bg-white text-primary-800": style === "outline",
-          "px-2 py-2": !isIconOnly,
+          "px-3": !isIconOnly,
         }
       )}
       onClick={handleOnClick}
@@ -57,7 +61,7 @@ export const Button: React.FC<TProps> = ({
             "mr-3 fas hidden fa-spinner-third animate-spin transition-all duration-300",
             { "before:hidden mr-0": !isShowLoading.active }
           )}
-        ></i>
+        />
       )}
       {prefix}
       {children}

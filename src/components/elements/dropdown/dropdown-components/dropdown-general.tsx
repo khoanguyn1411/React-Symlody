@@ -7,6 +7,7 @@ type TProps = {
   display: ReactNode;
   isShowContent: boolean;
   placement?: AlignedPlacement;
+  widthContainer?: string;
   setIsShowContent: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -15,6 +16,7 @@ export const DropdownGeneral: React.FC<TProps> = ({
   display,
   isShowContent,
   placement,
+  widthContainer = "320px",
   setIsShowContent,
 }) => {
   const listRef = useRef(null);
@@ -59,6 +61,7 @@ export const DropdownGeneral: React.FC<TProps> = ({
         <DropdownListWrapper
           placement={placement}
           isShowContent={isShowContent}
+          widthContainer={widthContainer}
         >
           {children}
         </DropdownListWrapper>

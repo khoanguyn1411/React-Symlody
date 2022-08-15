@@ -43,99 +43,97 @@ export const MemberContainer: React.FC = () => {
   // }
 
   return (
-    <div>
+    <>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
-        <div className="flex items-center">
+        <div className="flex-1">
           <h1 className="mr-4 font-bold min-w-max">QUẢN LÝ THÀNH VIÊN</h1>
-          <Search placeholder="Nguyễn Thị A, ..." {...propsSearch} />
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center space-x-4">
+          <Search placeholder="Tìm kiếm ..." {...propsSearch} />
+
           <Select
             className="w-44"
             list={displayOptions}
             value={filter}
             onChange={setFilter}
-          ></Select>
+          />
           <Button
-            className="px-3 py-2 ml-5"
+            prefix={<i className="fas fa-plus-circle mr-2" />}
             onClick={propsModalCreateMember.setShow}
           >
             Tạo mới
           </Button>
         </div>
       </div>
-      <div className="p-default">
-        <div className="bg-white border-gray-200">
-          <table className="w-full">
-            <tbody>
-              {memberStore.pending && <ListMemberSkeleton />}
-              {!memberStore.pending && (
-                <>
-                  <tr>
-                    <td className="w-20 py-2 font-semibold text-center">STT</td>
-                    <td className="py-2 pr-6 font-semibold text-left">
-                      Họ và tên
-                    </td>
-                    <td className="py-2 font-semibold text-left">Ban</td>
-                    <td className="py-2 pr-6 font-semibold text-left">
-                      Ngày sinh
-                    </td>
-                    <td className="py-2 font-semibold text-left pr-default">
-                      Vị trí
-                    </td>
-                  </tr>
-                  {memberStore.members.map((item, index) => {
-                    const memberTableItem = MemberMapper.toTableView(item);
-                    return (
-                      <Fragment key={index}>
-                        <tr
-                          className="text-left border-t border-gray-200"
-                          key={memberTableItem.id}
-                        >
-                          <td className="w-20 py-2 font-normal text-center">
-                            {index + 1}
-                          </td>
-                          <td className="w-auto py-2 pr-6 font-normal">
-                            <div className="flex items-center">
-                              <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
-                              <div>
-                                <h1 className="font-semibold">
-                                  {memberTableItem.name}
-                                </h1>
-                                <h1 className="text-sm">
-                                  {memberTableItem.email}
-                                </h1>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="py-2 pr-6 font-normal w-28">
-                            {memberTableItem.department}
-                          </td>
-                          <td className="py-2 pr-6 font-normal w-28">
-                            {memberTableItem.birthday}
-                          </td>
-                          <td className="py-2 font-normal w-28 pr-default">
-                            {memberTableItem.roles}
-                          </td>
 
-                          <td className="w-8 py-2 pr-4 font-normal">
-                            <DeleteAndEditField
-                              title="Xóa thành viên?"
-                              handleEvent={{
-                                edit: handleEdit(item),
-                                delete: handleDelete(item),
-                              }}
-                            />
-                          </td>
-                        </tr>
-                      </Fragment>
-                    );
-                  })}
-                </>
-              )}
-            </tbody>
-          </table>
-        </div>
+      <div className="p-default">
+        <table className="bg-white rounded-md w-full border">
+          <thead>
+            <tr>
+              <th className="w-20 py-2 font-semibold text-center">STT</th>
+              <th className="py-2 pr-6 font-semibold text-left">Họ và tên</th>
+              <th className="py-2 font-semibold text-left">Ban</th>
+              <th className="py-2 pr-6 font-semibold text-left">Ngày sinh</th>
+              <th className="py-2 font-semibold text-left pr-default">
+                Vị trí
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {memberStore.pending && <ListMemberSkeleton />}
+            {!memberStore.pending && (
+              <>
+                {memberStore.members.map((item, index) => {
+                  const memberTableItem = MemberMapper.toTableView(item);
+                  return (
+                    <Fragment key={index}>
+                      <tr
+                        className="text-left border-t border-gray-200 hover:bg-gray-50 cursor-pointer transition-all duration-300"
+                        key={memberTableItem.id}
+                      >
+                        <td className="w-20 py-2 font-normal text-center">
+                          {index + 1}
+                        </td>
+                        <td className="w-auto py-2 pr-6 font-normal">
+                          <div className="flex items-center">
+                            <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
+                            <div>
+                              <h1 className="font-medium">
+                                {memberTableItem.name}
+                              </h1>
+                              <h1 className="text-sm text-gray-500">
+                                {memberTableItem.email}
+                              </h1>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-2 pr-6 font-normal w-28">
+                          {memberTableItem.department}
+                        </td>
+                        <td className="py-2 pr-6 font-normal w-28">
+                          {memberTableItem.birthday}
+                        </td>
+                        <td className="py-2 font-normal w-28 pr-default">
+                          {memberTableItem.roles}
+                        </td>
+
+                        <td className="w-8 py-2 pr-4 font-normal">
+                          <DeleteAndEditField
+                            title="Bạn có chắc muốn xoá thành viên?"
+                            handleEvent={{
+                              edit: handleEdit(item),
+                              delete: handleDelete(item),
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    </Fragment>
+                  );
+                })}
+              </>
+            )}
+          </tbody>
+        </table>
         {!memberStore.pending && (
           <div className="flex justify-end w-full mt-5">
             <Pagination
@@ -149,6 +147,6 @@ export const MemberContainer: React.FC = () => {
       </div>
       <ModalCreateMember {...propsModalCreateMember} />
       <ModalEditMember {...propsModalEditMember} />
-    </div>
+    </>
   );
 };

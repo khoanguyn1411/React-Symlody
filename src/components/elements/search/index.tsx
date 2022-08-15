@@ -20,7 +20,7 @@ export const Search: React.FC<TProps> = ({
 }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return (
-    <div className="relative w-64 mr-5">
+    <div className="relative w-64">
       <Input
         className="h-10 pr-8"
         style="default"
@@ -28,7 +28,7 @@ export const Search: React.FC<TProps> = ({
         placeholder={placeholder}
         value={inputValue}
       />
-      <span className="absolute top-0 bottom-0 flex items-center text-sm text-black cursor-pointer right-3">
+      <span className="absolute top-0 bottom-0 flex  items-center text-sm text-gray-400 cursor-pointer right-3">
         <i className="far fa-search" />
       </span>
     </div>

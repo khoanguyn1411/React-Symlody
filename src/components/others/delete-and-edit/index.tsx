@@ -1,6 +1,6 @@
 import React from "react";
 
-import { DropdownConfirm } from "@/components";
+import { Button, DropdownConfirm, Tooltip } from "@/components";
 
 type TProps = {
   title: string;
@@ -16,19 +16,23 @@ export const DeleteAndEditField: React.FC<TProps> = ({
 }) => {
   return (
     <div className="flex items-center justify-center w-full gap-4">
-      <button
-        onClick={handleEvent.edit}
-        className="flex items-center justify-center"
-      >
-        <i className="fas fa-edit"></i>
-      </button>
+      <Tooltip content="Chỉnh sửa" placement="top">
+        <button
+          onClick={handleEvent.edit}
+          className="flex items-center justify-center"
+        >
+          <i className="fas fa-edit"></i>
+        </button>
+      </Tooltip>
       <DropdownConfirm
         title={title}
         handleEvent={{ title: "Xóa", event: handleEvent.delete }}
       >
-        <button className="flex items-center justify-center">
-          <i className="fas fa-trash-alt"></i>
-        </button>
+        <Tooltip content="Xoá" placement="top">
+          <button className="flex items-center justify-center">
+            <i className="fas fa-trash-alt"></i>
+          </button>
+        </Tooltip>
       </DropdownConfirm>
     </div>
   );

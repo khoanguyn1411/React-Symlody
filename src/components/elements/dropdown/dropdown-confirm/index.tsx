@@ -30,27 +30,28 @@ export const DropdownConfirm: React.FC<TProps> = ({
   return (
     <DropdownGeneral
       display={children}
+      widthContainer="240px"
       isShowContent={isShowContent}
       setIsShowContent={setIsShowContent}
     >
-      <h1 className="w-full my-2 text-base font-semibold text-center text-black">
-        {title}
-      </h1>
-      <div className="w-full h-[1px] bg-grey-200" />
-      <div className="flex p-4 w-52 gap-4">
-        <Button
-          className="flex-1 border-secondary-500 text-secondary-500"
-          style="outline"
-          onClick={handleCancel}
-        >
-          Hủy
-        </Button>
-        <Button
-          className="flex-1 bg-secondary-500 border-secondary-500 hover:bg-secondary-600 hover:border-secondary-600"
-          onClick={handleClickItem}
-        >
-          {handleEvent.title}
-        </Button>
+      <div className="p-4 space-y-4 w-full">
+        <div className="flex items-center">
+          <span className="w-8 h-8 flex items-center justify-center rounded-full bg-red-50 shadow-inner mr-2">
+            <i className="fas fa-question text-red-400" />
+          </span>
+          <h1 className="w-full text-base font-medium text-black flex-1">
+            {title}
+          </h1>
+        </div>
+
+        <div className="flex items-center space-x-4 w-full">
+          <Button size="small" style="text" block onClick={handleCancel}>
+            Hủy
+          </Button>
+          <Button size="small" block style="danger" onClick={handleClickItem}>
+            {handleEvent.title}
+          </Button>
+        </div>
       </div>
     </DropdownGeneral>
   );
