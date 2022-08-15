@@ -58,7 +58,7 @@ export const SelectMultiple: React.FC<TProps> = ({
   }, [isShowContent]);
 
   const setPositionList = () => {
-    const rect = displayRef.current.getBoundingClientRect();
+    const rect = displayRef.current?.getBoundingClientRect();
     let leftSide = rect.left;
     leftSide = Math.max(10, leftSide);
     leftSide = Math.min(leftSide, document.body.clientWidth - rect.width - 10);
@@ -90,8 +90,8 @@ export const SelectMultiple: React.FC<TProps> = ({
     window.addEventListener("scroll", setPositionList, true);
     window.addEventListener("resize", setPositionList, true);
     return () => {
-      window.addEventListener("scroll", setPositionList, true);
-      window.addEventListener("resize", setPositionList, true);
+      window.removeEventListener("scroll", setPositionList, true);
+      window.removeEventListener("resize", setPositionList, true);
     };
   }, []);
 
