@@ -8,6 +8,7 @@ type TProps = {
   style: "modal" | "default";
   isShowContent: boolean;
   coords?: TPosition;
+  isPortal?: boolean;
 };
 
 export const SelectListWrapper: React.FC<TProps> = ({
@@ -15,21 +16,32 @@ export const SelectListWrapper: React.FC<TProps> = ({
   style,
   isShowContent,
   coords,
+  isPortal,
 }) => {
+  const getPropsAttrs = () => {
+    if (!isPortal) {
+      return;
+    }
+    return {
+      style: {
+        top: coords && coords.top,
+        left: coords && coords.left,
+        width: coords && coords.width,
+      },
+    };
+  };
   return (
     <AnimationCustom
-      attrs={{
-        style: {
-          top: coords && coords.top,
-          left: coords && coords.left,
-          width: coords && coords.right,
-        },
-      }}
+      attrs={getPropsAttrs()}
       className={classNames(
-        "z-30 fixed w-full py-1 rounded-md max-h-64 overflow-auto shadow-md mt-2",
+        "w-full rounded-md max-h-40 overflow-auto shadow-md mt-2",
+        {
+          "z-30 fixed": isPortal,
+          "z-10 absolute top-8": !isPortal,
+        },
         {
           "bg-white": style === "default",
-          "bg-grey-100 ": style === "modal",
+          "bg-gray-50": style === "modal",
         }
       )}
       isShowing={isShowContent}

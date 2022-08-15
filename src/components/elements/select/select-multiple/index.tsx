@@ -11,6 +11,7 @@ type TProps = {
   value: readonly string[];
   placeHolder?: string;
   style?: "modal" | "default";
+  isPortal: boolean;
   onChange: (value: readonly string[]) => void;
 };
 
@@ -19,6 +20,7 @@ export const SelectMultiple: React.FC<TProps> = ({
   value,
   placeHolder,
   style = "default",
+  isPortal = true,
   onChange,
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
@@ -58,13 +60,16 @@ export const SelectMultiple: React.FC<TProps> = ({
   }, [isShowContent]);
 
   const setPositionList = () => {
+    if (!displayRef.current) {
+      return;
+    }
     const rect = displayRef.current.getBoundingClientRect();
     let leftSide = rect.left;
     leftSide = Math.max(10, leftSide);
     leftSide = Math.min(leftSide, document.body.clientWidth - rect.width - 10);
     setCoords({
       left: leftSide,
-      right: rect.right - rect.left,
+      width: rect.right - rect.left,
       top: rect.bottom,
     });
   };
@@ -139,10 +144,36 @@ export const SelectMultiple: React.FC<TProps> = ({
           </span>
         </SelectDisplayWrapper>
         {/* List */}
-        <Portal>
+        {isPortal && (
+          <Portal>
+            <ul ref={listRef}>
+              <SelectListWrapper
+                isPortal={isPortal}
+                coords={isPortal && coords}
+                style={style}
+                isShowContent={isShowContent}
+              >
+                {list.map((item: string, index: number) => (
+                  <li
+                    key={index}
+                    aria-hidden="true"
+                    onClick={handleSetItem(item)}
+                    className={classNames(
+                      "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-colors duration-70"
+                    )}
+                  >
+                    <Checkbox checked={value && [...value].includes(item)} />
+                    <h1>{item}</h1>
+                  </li>
+                ))}
+              </SelectListWrapper>
+            </ul>
+          </Portal>
+        )}
+        {!isPortal && (
           <ul ref={listRef}>
             <SelectListWrapper
-              coords={coords}
+              isPortal={isPortal}
               style={style}
               isShowContent={isShowContent}
             >
@@ -161,7 +192,7 @@ export const SelectMultiple: React.FC<TProps> = ({
               ))}
             </SelectListWrapper>
           </ul>
-        </Portal>
+        )}
       </div>
     </div>
   );

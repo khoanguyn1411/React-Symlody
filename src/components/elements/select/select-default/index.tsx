@@ -11,6 +11,7 @@ type TProps = {
   classNameDisplay?: string;
   style?: "modal" | "default";
   suffix?: string;
+  isPortal?: boolean;
   onChange: (param: string) => void;
 };
 
@@ -22,6 +23,7 @@ export const Select: React.FC<TProps> = ({
   className,
   classNameDisplay,
   style = "default",
+  isPortal = true,
   onChange,
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
@@ -60,6 +62,7 @@ export const Select: React.FC<TProps> = ({
 
   return (
     <SelectGeneral
+      isPortal={isPortal}
       displayElement={
         <>
           <h1 className={classNames("pr-3", { "text-gray-400": !value })}>

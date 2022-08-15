@@ -6,11 +6,12 @@ import { SelectDisplayWrapper, SelectListWrapper } from ".";
 
 type TProps = {
   isShowContent: boolean;
-  style?: "modal" | "default";
+  style: "modal" | "default";
   classNameDisplay?: string;
   className?: string;
   displayElement: ReactNode;
   children: ReactNode;
+  isPortal: boolean;
   setIsShowContent: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -21,6 +22,7 @@ export const SelectGeneral: React.FC<TProps> = ({
   className,
   displayElement,
   children,
+  isPortal,
   setIsShowContent,
 }) => {
   const listRef = useRef<HTMLUListElement>(null);
@@ -46,13 +48,16 @@ export const SelectGeneral: React.FC<TProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isShowContent]);
   const setPositionList = () => {
+    if (!displayRef.current || !isPortal) {
+      return;
+    }
     const rect = displayRef.current.getBoundingClientRect();
     let leftSide = rect.left;
     leftSide = Math.max(10, leftSide);
     leftSide = Math.min(leftSide, document.body.clientWidth - rect.width - 10);
     setCoords({
       left: leftSide,
-      right: rect.right - rect.left,
+      width: rect.right - rect.left,
       top: rect.bottom,
     });
   };
@@ -65,8 +70,8 @@ export const SelectGeneral: React.FC<TProps> = ({
     window.addEventListener("scroll", setPositionList, true);
     window.addEventListener("resize", setPositionList, true);
     return () => {
-      window.addEventListener("scroll", setPositionList, true);
-      window.addEventListener("resize", setPositionList, true);
+      window.removeEventListener("scroll", setPositionList, true);
+      window.removeEventListener("resize", setPositionList, true);
     };
   }, []);
 
@@ -83,17 +88,31 @@ export const SelectGeneral: React.FC<TProps> = ({
           {displayElement}
         </SelectDisplayWrapper>
         {/* List */}
-        <Portal>
+        {isPortal && (
+          <Portal>
+            <ul ref={listRef}>
+              <SelectListWrapper
+                isPortal={isPortal}
+                coords={isPortal && coords}
+                isShowContent={isShowContent}
+                style={style}
+              >
+                {children}
+              </SelectListWrapper>
+            </ul>
+          </Portal>
+        )}
+        {!isPortal && (
           <ul ref={listRef}>
             <SelectListWrapper
-              coords={coords}
+              isPortal={isPortal}
               isShowContent={isShowContent}
               style={style}
             >
               {children}
             </SelectListWrapper>
           </ul>
-        </Portal>
+        )}
       </div>
     </div>
   );

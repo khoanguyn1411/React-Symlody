@@ -16,6 +16,7 @@ export type TPosition = {
   right?: number;
   bottom?: number;
   top?: number;
+  width?: number;
 };
 
 export const Tooltip: React.FC<TProps> = ({

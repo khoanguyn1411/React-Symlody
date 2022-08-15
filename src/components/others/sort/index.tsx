@@ -73,6 +73,8 @@ export const Sort: React.FC<TProps> = ({
 
   return (
     <DropdownGeneral
+      widthContainer="auto"
+      isOverflow={false}
       display={
         <span className="font-semibold">
           <i className="mr-2 fas fa-sort"></i>
