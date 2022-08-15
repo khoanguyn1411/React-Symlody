@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { InputUnderLine, Radio } from "@/components";
 
@@ -14,10 +14,10 @@ export const RadioInput: React.FC<TProps> = ({ value, label }) => {
   const [inputValue, setInputValue] = useState<string>(
     listNormalRadios.includes(activeValue) ? "" : activeValue
   );
-  const handleChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+  const handleChangeValue = (value: string) => {
+    setInputValue(value);
     if (!listNormalRadios.includes(activeValue)) {
-      setActiveValue(event.target.value);
+      setActiveValue(value);
     }
   };
 

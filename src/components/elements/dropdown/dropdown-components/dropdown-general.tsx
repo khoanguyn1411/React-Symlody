@@ -9,7 +9,7 @@ type TProps = {
   placement?: AlignedPlacement;
   widthContainer?: string;
   isOverflow?: boolean;
-  setIsShowContent: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowContent: (isShowContent: boolean) => void;
 };
 
 export const DropdownGeneral: React.FC<TProps> = ({

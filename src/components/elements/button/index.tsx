@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { ReactNode } from "react";
 
-import { BLOCK, SIZE_MAPS, TYPE_MAPS } from "./types";
+import { BLOCK, SIZE_MAPS, STYLE_MAPS } from "./types";
 
 type TLoading = {
   active: boolean;
@@ -13,8 +13,9 @@ type TProps = {
   isIconOnly?: boolean;
   prefix?: ReactNode | null;
   isShowLoading?: TLoading | null;
-  style?: keyof typeof TYPE_MAPS;
+  style?: keyof typeof STYLE_MAPS;
   size?: keyof typeof SIZE_MAPS;
+  disable?: boolean;
   block?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
@@ -29,24 +30,23 @@ export const Button: React.FC<TProps> = ({
   isIconOnly = false,
   block = false,
   prefix = null,
+  disable = false,
   isShowLoading = null,
 }) => {
   const handleOnClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    if (style === "disable") {
-      return;
-    }
     onClick && onClick(event);
   };
   return (
     <button
       type={type}
+      disabled={disable}
       className={classNames(
         "rounded-md items-center justify-center transition-all duration-300",
         "text-center font-semibold normal-case",
         className,
-        TYPE_MAPS[style],
+        STYLE_MAPS[disable ? "disable" : style],
         SIZE_MAPS[size],
         BLOCK[block.toString()],
         {

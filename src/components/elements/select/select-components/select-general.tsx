@@ -2,17 +2,18 @@ import React, { ReactNode, useEffect, useRef, useState } from "react";
 
 import { Portal, TPosition } from "@/components";
 
+import { TSelectGeneralProps, TStyle } from "../type";
 import { SelectDisplayWrapper, SelectListWrapper } from ".";
 
 type TProps = {
   isShowContent: boolean;
-  style: "modal" | "default";
-  classNameDisplay?: string;
-  className?: string;
+  style: TStyle;
+  classNameDisplay?: TSelectGeneralProps["classNameDisplay"];
+  className?: TSelectGeneralProps["className"];
   displayElement: ReactNode;
   children: ReactNode;
-  isPortal: boolean;
-  setIsShowContent: React.Dispatch<React.SetStateAction<boolean>>;
+  isPortal: TSelectGeneralProps["isPortal"];
+  setIsShowContent: (isShowContent: boolean) => void;
 };
 
 export const SelectGeneral: React.FC<TProps> = ({

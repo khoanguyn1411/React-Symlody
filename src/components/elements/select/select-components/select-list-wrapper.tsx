@@ -3,12 +3,14 @@ import React, { ReactNode } from "react";
 
 import { AnimationCustom, TPosition } from "@/components";
 
+import { STYLE_LIST_WRAPPER_MAPS, TSelectGeneralProps, TStyle } from "../type";
+
 type TProps = {
   children: ReactNode;
-  style: "modal" | "default";
+  style: TStyle;
   isShowContent: boolean;
   coords?: TPosition;
-  isPortal: boolean;
+  isPortal: TSelectGeneralProps["isPortal"];
 };
 
 export const SelectListWrapper: React.FC<TProps> = ({
@@ -39,10 +41,7 @@ export const SelectListWrapper: React.FC<TProps> = ({
           "z-30 fixed": isPortal,
           "z-10 absolute top-8": !isPortal,
         },
-        {
-          "bg-white": style === "default",
-          "bg-gray-50": style === "modal",
-        }
+        STYLE_LIST_WRAPPER_MAPS[style]
       )}
       isShowing={isShowContent}
     >

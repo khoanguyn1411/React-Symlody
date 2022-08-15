@@ -7,9 +7,9 @@ type TProps = {
   valueToQuery: TValueQuery;
   fields: TField[];
   isAscending: boolean;
-  setValueToQuery: React.Dispatch<React.SetStateAction<TValueQuery>>;
-  setSortSelected: React.Dispatch<React.SetStateAction<TField>>;
-  setIsAscending: React.Dispatch<React.SetStateAction<boolean>>;
+  setValueToQuery: (valueToQuery: TValueQuery) => void;
+  setSortSelected: (sortSelect: TField) => void;
+  setIsAscending: (isAscending: boolean) => void;
 };
 
 export const SortIncludeValues: React.FC<TProps> = ({

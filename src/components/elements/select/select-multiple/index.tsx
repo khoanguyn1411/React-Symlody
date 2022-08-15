@@ -5,17 +5,9 @@ import { Checkbox, Portal, TPosition } from "@/components";
 
 import { SelectDisplayWrapper } from "../select-components";
 import { SelectListWrapper } from "../select-components/select-list-wrapper";
+import { TSelectMultipleProps } from "../type";
 
-type TProps = {
-  list: string[];
-  value: readonly string[];
-  placeHolder?: string;
-  style?: "modal" | "default";
-  isPortal?: boolean;
-  onChange: (value: readonly string[]) => void;
-};
-
-export const SelectMultiple: React.FC<TProps> = ({
+export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
   list,
   value,
   placeHolder,

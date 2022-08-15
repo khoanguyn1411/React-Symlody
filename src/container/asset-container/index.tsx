@@ -124,22 +124,18 @@ export const AssetContainer: React.FC = () => {
             {/* <AssetSkeleton /> */}
             <thead>
               <tr className="bg-secondary-50">
-                <td className="w-20 px-5 py-2 font-semibold text-center">
-                  STT
-                </td>
-                <td className="py-2 font-semibold text-left min-w-[200px]">
+                <td className="w-20 px-5 py-2 font-medium text-center">STT</td>
+                <td className="py-2 font-medium text-left min-w-[200px]">
                   Tài sản
                 </td>
-                <td className="px-5 py-2 font-semibold text-right w-28">
+                <td className="px-5 py-2 font-medium text-right w-28">
                   Số lượng
                 </td>
-                <td className="w-24 py-2 font-semibold text-right">Đơn giá</td>
-                <td className="w-56 px-5 py-2 font-semibold text-left">
+                <td className="w-24 py-2 font-medium text-right">Đơn giá</td>
+                <td className="w-56 px-5 py-2 font-medium text-left">
                   Người chịu trách nhiệm
                 </td>
-                <td className="w-32 py-2 font-semibold text-left">
-                  Chủ sở hữu
-                </td>
+                <td className="w-32 py-2 font-medium text-left">Chủ sở hữu</td>
                 <td className="w-20 px-5 py-2 font-normal"></td>
               </tr>
             </thead>

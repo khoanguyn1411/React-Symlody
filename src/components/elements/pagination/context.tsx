@@ -11,8 +11,8 @@ const PaginationContext = createContext<TPropsPaginationContext>({
 type TPropsPaginationContext = {
   activePage: number;
   rowsQuantity: string;
-  setActivePage: React.Dispatch<React.SetStateAction<number>>;
-  setRowsQuantity: React.Dispatch<React.SetStateAction<string>>;
+  setActivePage: (activePage: number) => void;
+  setRowsQuantity: (rowsQuantity: string) => void;
 } & TPropsPagination;
 
 export type TPropsPagination = {

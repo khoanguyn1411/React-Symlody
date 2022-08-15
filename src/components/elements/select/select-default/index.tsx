@@ -2,20 +2,9 @@ import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
 import { SelectGeneral } from "../select-components";
+import { TSelectDefaultProps } from "../type";
 
-type TProps = {
-  list: readonly string[];
-  value: string;
-  placeHolder?: string;
-  className?: string;
-  classNameDisplay?: string;
-  style?: "modal" | "default";
-  suffix?: string;
-  isPortal?: boolean;
-  onChange: (param: string) => void;
-};
-
-export const Select: React.FC<TProps> = ({
+export const Select: React.FC<TSelectDefaultProps> = ({
   list,
   value,
   suffix,

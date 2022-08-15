@@ -3,7 +3,7 @@ import { Input } from "@/components";
 type TProps = {
   inputValue: string;
   placeholder?: string;
-  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  setInputValue: (inputValue: string) => void;
 };
 
 /**
