@@ -44,7 +44,7 @@ export const Input: React.FC<TProps> = ({
         className,
         {
           "bg-gray-100": style === "modal",
-          "border-[1.5px]": style === "default",
+          border: style === "default",
         }
       )}
     />

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */ /* eslint-disable prettier/prettier */
-const withMT = require("@material-tailwind/react/utils/withMT");
 
 const SIDE_BAR_WIDTH = 256; //can be changed
 const SIDE_BAR_COMPACT_WIDTH = 72; //can be changed
@@ -12,7 +11,7 @@ const DEFAULT_MODAL_MIN_WIDTH = 360;
 
 const toPx = (n) => `${n}px`;
 
-module.exports = withMT({
+module.exports = {
   // important: true,
   // purge: [],
   content: [
@@ -148,4 +147,4 @@ module.exports = withMT({
     },
   },
   plugins: [],
-});
+};

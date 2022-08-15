@@ -23,7 +23,7 @@ export const CompactSidebar: React.FC<Props> = ({
     >
       <Tooltip
         placement="top"
-        content={isCompactSidebar ? "Mở rộng (B)" : "Thu gọn (B)"}
+        content={isCompactSidebar ? "Mở rộng (b)" : "Thu gọn (b)"}
       >
         <span
           aria-hidden="true"

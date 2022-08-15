@@ -12,11 +12,13 @@ type TProps = {
   children: ReactNode;
   refOfList?: React.Ref<HTMLDivElement>;
   placement?: AlignedPlacement;
+  widthContainer?: string;
 };
 
 export const DropdownListWrapper: React.FC<TProps> = ({
   isShowContent,
   children,
+  widthContainer = "320px",
   placement = "bottom-end",
 }) => {
   return (
@@ -32,7 +34,7 @@ export const DropdownListWrapper: React.FC<TProps> = ({
         }
       )}
     >
-      <ul>{children}</ul>
+      <ul style={{ width: widthContainer }}>{children}</ul>
     </AnimationCustom>
   );
 };
