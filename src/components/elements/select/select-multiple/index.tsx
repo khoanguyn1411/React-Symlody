@@ -11,7 +11,7 @@ type TProps = {
   value: readonly string[];
   placeHolder?: string;
   style?: "modal" | "default";
-  isPortal: boolean;
+  isPortal?: boolean;
   onChange: (value: readonly string[]) => void;
 };
 

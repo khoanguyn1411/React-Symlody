@@ -45,19 +45,21 @@ export const MemberContainer: React.FC = () => {
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
-        <div className="flex items-center">
+        <div className="flex-1">
           <h1 className="mr-4 font-bold min-w-max">QUẢN LÝ THÀNH VIÊN</h1>
-          <Search placeholder="Nguyễn Thị A, ..." {...propsSearch} />
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center space-x-4">
+          <Search placeholder="Tìm kiếm ..." {...propsSearch} />
+
           <Select
             className="w-44"
+            classNameDisplay="h-10"
             list={displayOptions}
             value={filter}
             onChange={setFilter}
-          ></Select>
+          />
           <Button
-            className="px-3 py-2 ml-5"
+            prefix={<i className="mr-2 fas fa-plus-circle" />}
             onClick={propsModalCreateMember.setShow}
           >
             Tạo mới

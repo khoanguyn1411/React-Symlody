@@ -27,7 +27,11 @@ export const SelectGeneral: React.FC<TProps> = ({
 }) => {
   const listRef = useRef<HTMLUListElement>(null);
   const displayRef = useRef<HTMLDivElement>(null);
-  const [coords, setCoords] = useState<TPosition>({ left: 0, top: 0 });
+  const [coords, setCoords] = useState<TPosition>({
+    left: 0,
+    top: 0,
+    width: 0,
+  });
 
   useEffect(() => {
     const elementList = listRef?.current;
@@ -57,8 +61,8 @@ export const SelectGeneral: React.FC<TProps> = ({
     leftSide = Math.min(leftSide, document.body.clientWidth - rect.width - 10);
     setCoords({
       left: leftSide,
-      width: rect.right - rect.left,
       top: rect.bottom,
+      width: rect.right - rect.left,
     });
   };
   const handleToggleContent = () => {

@@ -8,7 +8,7 @@ type TProps = {
   style: "modal" | "default";
   isShowContent: boolean;
   coords?: TPosition;
-  isPortal?: boolean;
+  isPortal: boolean;
 };
 
 export const SelectListWrapper: React.FC<TProps> = ({
