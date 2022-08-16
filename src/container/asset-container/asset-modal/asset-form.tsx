@@ -135,13 +135,11 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           render={({ field: { value, onChange } }) => {
             return (
               <RadioGroup
+                isHaveOther
                 listNormalRadios={["Câu lạc bộ"]}
                 activeValue={value}
                 setActiveValue={onChange}
-              >
-                <Radio value={"Câu lạc bộ"} />
-                <RadioInput value={"Khác"} />
-              </RadioGroup>
+              />
             );
           }}
         />

@@ -48,7 +48,7 @@ export const DropdownGeneral: React.FC<TProps> = ({
   }, [isShowContent]);
 
   return (
-    <div className="relative w-full">
+    <div className="relative">
       {/* Display */}
       <div
         aria-hidden
