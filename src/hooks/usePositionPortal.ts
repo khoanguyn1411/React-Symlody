@@ -2,10 +2,15 @@ import { useEffect, useState } from "react";
 
 import { TPosition } from "@/components";
 
+type THookPositionPortal = {
+  setPositionList: () => void;
+  coords: TPosition;
+};
+
 export const usePositionPortal = <T extends HTMLElement>(
   displayRef: React.MutableRefObject<T>,
   isPortal: boolean
-) => {
+): THookPositionPortal => {
   const [coords, setCoords] = useState<TPosition>({
     left: 0,
     top: 0,

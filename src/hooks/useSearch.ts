@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 
 type THookSearch = {
-  /** Value after debounce. */
   debounceValue: string;
-  /** State of input value. */
   inputValue: string;
-  /** Set state function for input value. */
   setInputValue: (inputValue: string) => void;
 };
 

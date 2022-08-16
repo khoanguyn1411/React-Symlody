@@ -1,7 +1,7 @@
-import React, { ReactNode, useEffect, useRef } from "react";
+import React, { ReactNode, useRef } from "react";
 
 import { Portal } from "@/components";
-import { usePositionPortal } from "@/hooks";
+import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
 import { AlignedPlacement } from "../../portal/type";
 import { DropdownListWrapper } from "../dropdown-components";
@@ -32,30 +32,12 @@ export const DropdownGeneral: React.FC<TProps> = ({
     displayRef,
     true
   );
+  useHideOnClickOutside(listRef, displayRef, isShowContent, setIsShowContent);
 
   const handleToggleDropdown = () => {
     setPositionList();
     setIsShowContent(!isShowContent);
   };
-
-  useEffect(() => {
-    const elementList = listRef?.current;
-    const elementDisplay = displayRef?.current;
-    if (!elementList || !elementDisplay) return;
-    const handleCloseListDiv = (event: Event) => {
-      if (
-        !elementList.contains(event.target) &&
-        !elementDisplay.contains(event.target)
-      ) {
-        setIsShowContent(false);
-      }
-    };
-    window.addEventListener("click", handleCloseListDiv, true);
-    return () => {
-      window.removeEventListener("click", handleCloseListDiv, true);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isShowContent]);
 
   return (
     <div className="relative">

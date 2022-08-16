@@ -8,20 +8,6 @@ import {
   useRadioGroupContext,
 } from "../context";
 
-/**
- * - Please provide a list of normal radio buttons if you have a "RadioInput" component.
- * Otherwise, it is unnecessary to provide such list.
- * - Every RadioGroup should only have a RadioInput, or else it will cause a bug.
- * @example
- * <RadioGroup
-    listNormalRadios={["Câu lạc bộ"]}
-    activeValue={value}
-    setActiveValue={onChange}
-    >
-      <Radio value={"Câu lạc bộ"} />
-      <RadioInput value={"Khác"} />
-    </RadioGroup>
- */
 export const RadioGroup: React.FC<TRadioGroupProvider> = (props) => {
   return (
     <RadioGroupProvider {...props}>

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 
 import { SelectGeneral } from "../select-components";
 import { TSelectDefaultProps } from "../type";
@@ -16,26 +16,6 @@ export const Select: React.FC<TSelectDefaultProps> = ({
   onChange,
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
-  const listRef = useRef(null);
-  const displayRef = useRef(null);
-
-  useEffect(() => {
-    const elementList = listRef?.current;
-    const elementDisplay = displayRef?.current;
-    if (!elementList || !elementDisplay) return;
-    const handleCloseListDiv = (event: Event) => {
-      if (
-        !elementList.contains(event.target) &&
-        !elementDisplay.contains(event.target)
-      ) {
-        setIsShowContent(false);
-      }
-    };
-    window.addEventListener("click", handleCloseListDiv, true);
-    return () => {
-      window.removeEventListener("click", handleCloseListDiv, true);
-    };
-  }, [isShowContent]);
 
   const handleSetSelectedItem = (item: string) => () => {
     onChange(

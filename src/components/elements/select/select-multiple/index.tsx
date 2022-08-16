@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { Checkbox, Portal } from "@/components";
-import { usePositionPortal } from "@/hooks";
+import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
 import { SelectDisplayWrapper } from "../select-components";
 import { SelectListWrapper } from "../select-components/select-list-wrapper";
@@ -33,25 +33,7 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
     return onChange([...value, checked]);
   };
 
-  useEffect(() => {
-    const elementList = listRef?.current;
-    const elementDisplay = displayRef?.current;
-    if (!elementList || !elementDisplay) return;
-
-    const handleCloseListDiv = (event: Event) => {
-      if (
-        !elementList.contains(event.target) &&
-        !elementDisplay.contains(event.target)
-      ) {
-        setIsShowContent(false);
-      }
-    };
-
-    window.addEventListener("click", handleCloseListDiv, true);
-    return () => {
-      window.removeEventListener("click", handleCloseListDiv, true);
-    };
-  }, [isShowContent]);
+  useHideOnClickOutside(listRef, displayRef, isShowContent, setIsShowContent);
 
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>

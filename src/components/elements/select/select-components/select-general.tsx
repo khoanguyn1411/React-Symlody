@@ -1,7 +1,7 @@
-import React, { ReactNode, useEffect, useRef } from "react";
+import React, { ReactNode, useRef } from "react";
 
 import { Portal } from "@/components";
-import { usePositionPortal } from "@/hooks";
+import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
 import { TSelectGeneralProps, TStyle } from "../type";
 import { SelectDisplayWrapper, SelectListWrapper } from ".";
@@ -29,25 +29,7 @@ export const SelectGeneral: React.FC<TProps> = ({
 }) => {
   const listRef = useRef<HTMLUListElement>(null);
   const displayRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const elementList = listRef?.current;
-    const elementDisplay = displayRef?.current;
-    if (!elementList || !elementDisplay) return;
-    const handleCloseListDiv = (event: Event) => {
-      if (
-        !elementList.contains(event.target as Node) &&
-        !elementDisplay.contains(event.target as Node)
-      ) {
-        setIsShowContent(false);
-      }
-    };
-    window.addEventListener("click", handleCloseListDiv, true);
-    return () => {
-      window.removeEventListener("click", handleCloseListDiv, true);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isShowContent]);
+  useHideOnClickOutside(listRef, displayRef, isShowContent, setIsShowContent);
 
   const { coords, setPositionList } = usePositionPortal<HTMLDivElement>(
     displayRef,
