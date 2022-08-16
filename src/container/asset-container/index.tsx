@@ -69,11 +69,12 @@ export const AssetContainer: React.FC = () => {
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
-        <div className="flex items-center">
+        <div className="flex items-center flex-1">
           <h1 className="mr-4 font-bold min-w-max">QUẢN LÝ TÀI SẢN</h1>
-          <Search placeholder="Voucher, gấu bông,..." {...propsSearch} />
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center space-x-4">
+          <Search placeholder="Voucher, gấu bông,..." {...propsSearch} />
+
           <Sort
             onSortChange={(sortValue) => console.log(sortValue)}
             fields={[
@@ -108,8 +109,11 @@ export const AssetContainer: React.FC = () => {
                 ],
               },
             ]}
-          ></Sort>
-          <Button className="ml-4 min-w-max" onClick={handleOpenModal}>
+          />
+          <Button
+            prefix={<i className="mr-2 fas fa-plus-circle" />}
+            onClick={handleOpenModal}
+          >
             Thêm tài sản
           </Button>
         </div>
@@ -117,27 +121,30 @@ export const AssetContainer: React.FC = () => {
       <div className="p-default">
         <div className="bg-white">
           <table className="w-full">
+            <thead>
+              <tr className="bg-secondary-50">
+                <th className="w-20 px-2 py-2 font-semibold text-center">
+                  STT
+                </th>
+                <th className="py-2 font-semibold text-center min-w-[200px]">
+                  Tài sản
+                </th>
+                <th className="w-24 px-2 py-2 font-semibold text-center">
+                  Số lượng
+                </th>
+                <th className="w-32 py-2 font-semibold text-center">Đơn giá</th>
+                <th className="px-2 py-2 font-semibold text-center w-52">
+                  Người chịu trách nhiệm
+                </th>
+                <th className="w-32 py-2 font-semibold text-center">
+                  Chủ sở hữu
+                </th>
+                <th className="w-20 px-2 py-2 font-normal"></th>
+              </tr>
+            </thead>
             <tbody>
               {/* <AssetSkeleton /> */}
-              <tr className="bg-secondary-50">
-                <td className="w-20 px-2 py-2 font-semibold text-center">
-                  STT
-                </td>
-                <td className="py-2 font-semibold text-center min-w-[200px]">
-                  Tài sản
-                </td>
-                <td className="w-24 px-2 py-2 font-semibold text-center">
-                  Số lượng
-                </td>
-                <td className="w-32 py-2 font-semibold text-center">Đơn giá</td>
-                <td className="px-2 py-2 font-semibold text-center w-52">
-                  Người chịu trách nhiệm
-                </td>
-                <td className="w-32 py-2 font-semibold text-center">
-                  Chủ sở hữu
-                </td>
-                <td className="w-20 px-2 py-2 font-normal"></td>
-              </tr>
+
               {assetList.map((item, index) => (
                 <tr className="text-left border-b border-gray-200" key={index}>
                   <td className="w-20 px-2 py-2 font-normal text-center">

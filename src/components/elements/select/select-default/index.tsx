@@ -93,11 +93,11 @@ export const Select: React.FC<TProps> = ({
           <AnimationCustom
             isShowing={isShowContent}
             className={classNames(
-              "absolute z-10 w-full rounded-sm max-h-64 overflow-auto drop-shadow-lg mt-2",
-              {
-                "bg-gray-100": style === "modal",
-                "bg-white": style === "default",
-              }
+              "absolute z-10 w-full rounded-sm max-h-64 overflow-auto drop-shadow-lg mt-2 bg-white"
+              // {
+              //   "bg-gray-100": style === "modal",
+              //   "bg-white": style === "default",
+              // }
             )}
           >
             {list.map((item: string, index: number) => (
@@ -106,7 +106,7 @@ export const Select: React.FC<TProps> = ({
                 aria-hidden="true"
                 onClick={handleSetSelectedItem(item)}
                 className={classNames(
-                  "py-1 px-2 hover:bg-primary-100 cursor-pointer transition-all duration-70",
+                  "py-1 px-2 hover:bg-primary-50 cursor-pointer transition-all duration-70",
                   {
                     "bg-primary-50 text-primary-800 font-medium":
                       item === value,
