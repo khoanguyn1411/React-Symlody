@@ -1,22 +1,10 @@
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
-import { AnimationCustom } from "@/components";
+import { SelectGeneral } from "../select-components";
+import { TSelectDefaultProps } from "../type";
 
-import { SelectDisplayWrapper } from "../select-components";
-
-type TProps = {
-  list: readonly string[];
-  value: string;
-  placeHolder?: string;
-  className?: string;
-  classNameDisplay?: string;
-  style?: "modal" | "default";
-  suffix?: string;
-  onChange: (param: string) => void;
-};
-
-export const Select: React.FC<TProps> = ({
+export const Select: React.FC<TSelectDefaultProps> = ({
   list,
   value,
   suffix,
@@ -24,6 +12,7 @@ export const Select: React.FC<TProps> = ({
   className,
   classNameDisplay,
   style = "default",
+  isPortal = true,
   onChange,
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
@@ -59,20 +48,12 @@ export const Select: React.FC<TProps> = ({
     );
     setIsShowContent(false);
   };
-  const handleToggleContent = () => {
-    setIsShowContent(!isShowContent);
-  };
 
   return (
-    <div className={className}>
-      <div className="relative cursor-pointer">
-        {/* Display */}
-        <SelectDisplayWrapper
-          classNameDisplay={classNameDisplay}
-          style={style}
-          ref={displayRef}
-          onClick={handleToggleContent}
-        >
+    <SelectGeneral
+      isPortal={isPortal}
+      displayElement={
+        <>
           <h1 className={classNames("pr-3", { "text-gray-400": !value })}>
             {value ? value + " " + (suffix ? suffix : "") : placeHolder}
           </h1>
@@ -87,40 +68,31 @@ export const Select: React.FC<TProps> = ({
               )}
             />
           </span>
-        </SelectDisplayWrapper>
-        {/* List */}
-        <ul ref={listRef}>
-          <AnimationCustom
-            isShowing={isShowContent}
-            className={classNames(
-              "absolute z-10 w-full rounded-sm max-h-64 overflow-auto drop-shadow-lg mt-2",
-              {
-                "bg-gray-100": style === "modal",
-                "bg-white": style === "default",
-              }
-            )}
-          >
-            {list.map((item: string, index: number) => (
-              <li
-                key={index}
-                aria-hidden="true"
-                onClick={handleSetSelectedItem(item)}
-                className={classNames(
-                  "py-1 px-2 hover:bg-primary-100 cursor-pointer transition-all duration-70",
-                  {
-                    "bg-primary-50 text-primary-800 font-medium":
-                      item === value,
-                  }
-                )}
-              >
-                <h1>
-                  {item} {suffix}
-                </h1>
-              </li>
-            ))}
-          </AnimationCustom>
-        </ul>
-      </div>
-    </div>
+        </>
+      }
+      isShowContent={isShowContent}
+      style={style}
+      classNameDisplay={classNameDisplay}
+      className={className}
+      setIsShowContent={setIsShowContent}
+    >
+      {list.map((item: string, index: number) => (
+        <li
+          key={index}
+          aria-hidden="true"
+          onClick={handleSetSelectedItem(item)}
+          className={classNames(
+            "py-1 px-2 hover:bg-primary-100 cursor-pointer transition-colors duration-70",
+            {
+              "bg-primary-50 text-primary-800 font-medium": item === value,
+            }
+          )}
+        >
+          <h1>
+            {item} {suffix}
+          </h1>
+        </li>
+      ))}
+    </SelectGeneral>
   );
 };

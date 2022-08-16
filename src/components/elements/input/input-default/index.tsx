@@ -1,26 +1,14 @@
 import classNames from "classnames";
 
-type TSideEffect = {
-  newValue: string;
-};
-type TProps = {
-  type?: React.HTMLInputTypeAttribute;
-  value: string;
-  placeholder?: string;
-  style?: "modal" | "default";
-  className?: string;
-  onChange?: (value: string) => void;
-  handleSideEffect?: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => TSideEffect;
-};
+import { STYLE_INPUT_DEFAULT, TInputDefaultProps } from "../type";
 
-export const Input: React.FC<TProps> = ({
+export const Input: React.FC<TInputDefaultProps> = ({
   type,
   value = "",
   placeholder,
   style = "default",
   className,
+  disable = false,
   onChange,
   handleSideEffect,
 }) => {
@@ -36,16 +24,14 @@ export const Input: React.FC<TProps> = ({
   return (
     <input
       type={type}
+      disabled={disable}
       value={value}
       onChange={handleChangeEvent}
       placeholder={placeholder}
       className={classNames(
         "w-full p-2 border-gray-200 text-black outline-none rounded-md",
         className,
-        {
-          "bg-gray-100": style === "modal",
-          border: style === "default",
-        }
+        STYLE_INPUT_DEFAULT[style]
       )}
     />
   );

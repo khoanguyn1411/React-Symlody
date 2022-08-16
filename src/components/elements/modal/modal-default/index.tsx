@@ -34,7 +34,7 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
   return (
     <ModalWrapper {...props}>
       <div className={classNames("w-full flex relative flex-col p-0")}>
-        <h1 className="w-full px-5 py-3 text-2xl font-bold text-left uppercase border-b border-gray-200 text-primary-800">
+        <h1 className="w-full px-5 py-3 text-2xl font-semibold text-left border-b border-gray-200 text-primary-800">
           {title}
           <span
             aria-hidden="true"

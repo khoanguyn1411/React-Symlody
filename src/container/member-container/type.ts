@@ -1,5 +1,6 @@
 export type TFormMemberInfo = {
-  readonly fullName: string;
+  readonly firstName: string;
+  readonly lastName: string;
   readonly gender: string;
   readonly birthday: string;
   readonly department: string;

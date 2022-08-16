@@ -8,7 +8,8 @@ type TProps = {
   isShowContent: boolean;
   placement?: AlignedPlacement;
   widthContainer?: string;
-  setIsShowContent: React.Dispatch<React.SetStateAction<boolean>>;
+  isOverflow?: boolean;
+  setIsShowContent: (isShowContent: boolean) => void;
 };
 
 export const DropdownGeneral: React.FC<TProps> = ({
@@ -16,6 +17,7 @@ export const DropdownGeneral: React.FC<TProps> = ({
   display,
   isShowContent,
   placement,
+  isOverflow = true,
   widthContainer = "320px",
   setIsShowContent,
 }) => {
@@ -46,7 +48,7 @@ export const DropdownGeneral: React.FC<TProps> = ({
   }, [isShowContent]);
 
   return (
-    <div className="relative w-full">
+    <div className="relative">
       {/* Display */}
       <div
         aria-hidden
@@ -62,6 +64,7 @@ export const DropdownGeneral: React.FC<TProps> = ({
           placement={placement}
           isShowContent={isShowContent}
           widthContainer={widthContainer}
+          isOverflow={isOverflow}
         >
           {children}
         </DropdownListWrapper>

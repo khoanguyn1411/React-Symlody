@@ -8,7 +8,7 @@ type TProps = {
   children: ReactNode;
   content: string;
   placement?: "bottom" | "top";
-  width?: number;
+  offset?: number;
 };
 
 export type TPosition = {
@@ -16,13 +16,14 @@ export type TPosition = {
   right?: number;
   bottom?: number;
   top?: number;
+  width?: number;
 };
 
 export const Tooltip: React.FC<TProps> = ({
   children,
   content,
   placement,
-  width = 25,
+  offset = 0,
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [coords, setCoords] = useState<TPosition>({ left: 0, top: 0 });
@@ -34,12 +35,12 @@ export const Tooltip: React.FC<TProps> = ({
     const rect = refChildren.current.getBoundingClientRect();
     event.stopPropagation();
     event.preventDefault();
-    let leftSide = (rect.left + rect.right) / 2 - (width * 4) / 2;
+    let leftSide = rect.left + offset;
     leftSide = Math.max(10, leftSide);
-    leftSide = Math.min(leftSide, document.body.clientWidth - width * 4 - 10);
+    leftSide = Math.min(leftSide, document.body.clientWidth - 10);
     setCoords({
       left: leftSide,
-      top: rect.top - 2,
+      top: rect.top - 4,
     });
     setIsActive(true);
   };
@@ -69,7 +70,7 @@ export const Tooltip: React.FC<TProps> = ({
             },
           }}
           className={classNames(
-            `bg-black fixed  w-[${width}rem] z-20 text-white px-2 py-1 rounded-md select-none`,
+            `bg-black min-w-max fixed z-20 text-white px-2 py-1 rounded-md select-none`,
             {
               "-translate-y-full": placement === "top",
               "translate-y-full": placement === "bottom",

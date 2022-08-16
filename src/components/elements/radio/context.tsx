@@ -4,6 +4,8 @@ type TContextRadioGroup = {
   activeValue: string;
   checked: string;
   listNormalRadios?: readonly string[];
+  labelOther?: string;
+  isHaveOther?: boolean;
   setActiveValue: (value: string) => void;
   setChecked: (value: string) => void;
 };
@@ -16,15 +18,17 @@ const RadioGroupContext = createContext<TContextRadioGroup>({
   setChecked: undefined,
 });
 export type TRadioGroupProvider = {
-  children: ReactNode;
   activeValue: string;
   listNormalRadios?: readonly string[];
+  isHaveOther?: boolean;
+  labelOther?: string;
   setActiveValue: (value: string) => void;
 };
-const RadioGroupProvider: React.FC<TRadioGroupProvider> = ({
-  children,
-  ...props
-}) => {
+const RadioGroupProvider: React.FC<
+  TRadioGroupProvider & {
+    children: ReactNode;
+  }
+> = ({ children, ...props }) => {
   const [checked, setChecked] = useState<string>(props.activeValue);
   const value = { checked, setChecked, ...props };
   return (

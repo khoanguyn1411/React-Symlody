@@ -30,21 +30,21 @@ export const DropdownConfirm: React.FC<TProps> = ({
   return (
     <DropdownGeneral
       display={children}
-      widthContainer="240px"
+      widthContainer="12rem"
       isShowContent={isShowContent}
       setIsShowContent={setIsShowContent}
     >
-      <div className="p-4 space-y-4 w-full">
+      <div className="w-full p-4 w space-y-4">
         <div className="flex items-center">
-          <span className="w-8 h-8 flex items-center justify-center rounded-full bg-red-50 shadow-inner mr-2">
-            <i className="fas fa-question text-red-400" />
+          <span className="flex items-center justify-center w-8 h-8 mr-2 rounded-full shadow-inner bg-red-50">
+            <i className="text-red-400 fas fa-question" />
           </span>
-          <h1 className="w-full text-base font-medium text-black flex-1">
+          <h1 className="flex-1 w-full text-base font-medium text-black">
             {title}
           </h1>
         </div>
 
-        <div className="flex items-center space-x-4 w-full">
+        <div className="flex items-center w-full space-x-4">
           <Button size="small" style="text" block onClick={handleCancel}>
             Hủy
           </Button>

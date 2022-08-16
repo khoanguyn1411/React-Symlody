@@ -9,8 +9,8 @@ export class MemberMapper {
   public static toDto(formData: TFormMemberInfo): IMemberPost {
     return {
       auth_account: {
-        first_name: formData.fullName,
-        last_name: formData.fullName,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
         email: formData.email,
         groups: [1, 2, 3, 4, 5],
       },
@@ -33,7 +33,8 @@ export class MemberMapper {
   /** Use for map data from back-end to form values. */
   public static toFormValue(dto: IMember): TFormMemberInfo {
     return {
-      fullName: dto.auth_account.first_name + " " + dto.auth_account.last_name,
+      firstName: dto.auth_account.first_name,
+      lastName: dto.auth_account.last_name,
       gender: dto.gender ? (dto.gender === 1 ? "Nam" : "Nữ") : undefined,
       birthday: dayjs(dto.dob).format("MM/DD/YYYY"),
       department: dto.department.name,

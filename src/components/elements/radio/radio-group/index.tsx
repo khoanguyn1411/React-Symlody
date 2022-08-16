@@ -1,6 +1,12 @@
-import { ReactNode } from "react";
+import { Fragment } from "react";
 
-import { RadioGroupProvider, TRadioGroupProvider } from "../context";
+import { Radio, RadioInput } from "@/components";
+
+import {
+  RadioGroupProvider,
+  TRadioGroupProvider,
+  useRadioGroupContext,
+} from "../context";
 
 /**
  * - Please provide a list of normal radio buttons if you have a "RadioInput" component.
@@ -16,19 +22,24 @@ import { RadioGroupProvider, TRadioGroupProvider } from "../context";
       <RadioInput value={"Khác"} />
     </RadioGroup>
  */
-export const RadioGroup: React.FC<TRadioGroupProvider> = ({
-  children,
-  ...props
-}) => {
+export const RadioGroup: React.FC<TRadioGroupProvider> = (props) => {
   return (
     <RadioGroupProvider {...props}>
-      <RadioGroupContent>{children}</RadioGroupContent>
+      <RadioGroupContent />
     </RadioGroupProvider>
   );
 };
 
-export const RadioGroupContent: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  return <div className="flex flex-col">{children}</div>;
+export const RadioGroupContent: React.FC = () => {
+  const { listNormalRadios, isHaveOther, labelOther } = useRadioGroupContext();
+  return (
+    <div className="flex flex-col">
+      {listNormalRadios.map((item, index) => (
+        <Fragment key={index}>
+          <Radio value={item} />
+        </Fragment>
+      ))}
+      {isHaveOther && <RadioInput value="Other" label={labelOther} />}
+    </div>
+  );
 };

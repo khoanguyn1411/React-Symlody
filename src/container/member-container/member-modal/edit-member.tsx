@@ -13,7 +13,7 @@ import { FormItems } from "./member-form";
 export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   data,
   isShowing,
-  setToggle,
+  toggle,
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -34,7 +34,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
 
   return (
     <Modal
-      toggle={{ setToggle }}
+      toggle={toggle}
       title="Chỉnh sửa thành viên"
       size="lg"
       isShowing={isShowing}
