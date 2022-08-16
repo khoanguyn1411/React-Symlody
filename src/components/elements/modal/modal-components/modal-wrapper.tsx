@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import { AnimationCustom, Portal } from "@/components";
 
@@ -24,19 +25,10 @@ export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
     closeWhenClickOutside && event.stopPropagation();
   };
 
-  useEffect(() => {
-    const handleClickEsc = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        toggle.setHidden();
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    };
-    window.addEventListener("keydown", handleClickEsc, false);
-    return () => {
-      window.removeEventListener("keydown", handleClickEsc, false);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useHotkeys("esc", () => {
+    toggle.setHidden();
+  });
+
   return (
     <div aria-hidden onClick={handleCloseWhenClickOutside}>
       <Portal>
