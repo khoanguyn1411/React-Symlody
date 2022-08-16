@@ -13,6 +13,12 @@ const tabsSidebar: ITabSidebar[] = [
     to: "/member",
     pageActive: "Member",
   },
+  {
+    icon: "fas fa-sack-dollar",
+    title: "Tài sản",
+    to: "/asset",
+    pageActive: "Asset",
+  },
 ];
 
 export const getTabsSidebar = () => {

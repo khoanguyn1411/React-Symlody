@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */ /* eslint-disable prettier/prettier */
-const withMT = require("@material-tailwind/react/utils/withMT");
 
 const SIDE_BAR_WIDTH = 256; //can be changed
 const SIDE_BAR_COMPACT_WIDTH = 72; //can be changed
@@ -12,7 +11,7 @@ const DEFAULT_MODAL_MIN_WIDTH = 360;
 
 const toPx = (n) => `${n}px`;
 
-module.exports = withMT({
+module.exports = {
   // important: true,
   // purge: [],
   content: [
@@ -29,6 +28,15 @@ module.exports = withMT({
     extend: {
       fontSize: {
         default: toPx(14),
+      },
+      animation: {
+        'skeleton': 'fade 2s linear infinite',
+      },
+      keyframes: {
+        fade: {
+          '0%, 100%': { opacity: "1" },
+          '50%': { opacity: "0.5" },
+        }
       },
       colors: {
         backdrop: {
@@ -139,4 +147,4 @@ module.exports = withMT({
     },
   },
   plugins: [],
-});
+};

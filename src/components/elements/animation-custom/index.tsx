@@ -1,18 +1,33 @@
-import styled from "@emotion/styled";
 import React, { ReactNode } from "react";
 
-import { ANIMATION_DEFAULT_TIME } from "./constants";
-
-const AnimateModule = styled.div`
-  .animate__fadeIn {
-    --animate-duration: ${ANIMATION_DEFAULT_TIME / 1000}s;
-  }
-`;
+import { AnimationEffects, AnimationUnmount } from "./animation-components";
 
 type TProps = {
-  children: ReactNode;
+  children?: ReactNode;
+  isShowing?: boolean;
+  className?: string;
+  attrs?: React.HTMLAttributes<HTMLDivElement>;
 };
 
-export const AnimationCustom: React.FC<TProps> = ({ children }) => {
-  return <AnimateModule>{children}</AnimateModule>;
+/**
+ * For toggle element, such as dropdown, select, tooltip, modal, ... please wrap the toggle
+ * component with an AnimationCustom component in order to apply fade animation.
+ */
+export const AnimationCustom: React.FC<TProps> = ({
+  className,
+  children,
+  isShowing,
+  attrs,
+}) => {
+  return (
+    <AnimationUnmount isShowing={isShowing}>
+      <AnimationEffects
+        attrs={attrs}
+        className={className}
+        isShowing={isShowing}
+      >
+        {children}
+      </AnimationEffects>
+    </AnimationUnmount>
+  );
 };

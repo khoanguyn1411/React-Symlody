@@ -1,7 +1,12 @@
 import { NotFound } from "@/components";
-import { HomeContainer, LoginContainer, MemberContainer } from "@/container";
+import {
+  AssetContainer,
+  HomeContainer,
+  LoginContainer,
+  MemberContainer,
+} from "@/container";
 
-export type Page_Key = "Home" | "Member";
+export type Page_Key = "Home" | "Member" | "Asset";
 interface IRoutes {
   path: string;
   component: React.ReactNode | JSX.Element;
@@ -10,7 +15,7 @@ interface IRoutes {
   // layout?: React.FC;
 }
 
-const privateRoutes: IRoutes[] = [
+const privateRoutes: readonly IRoutes[] = [
   {
     path: "/",
     component: <HomeContainer />,
@@ -22,6 +27,12 @@ const privateRoutes: IRoutes[] = [
     component: <MemberContainer />,
     pageKey: "Member",
     pageTitle: "Trang thành viên",
+  },
+  {
+    path: "/asset",
+    component: <AssetContainer />,
+    pageKey: "Asset",
+    pageTitle: "Trang tài sản",
   },
   {
     path: "/*",
@@ -36,7 +47,7 @@ const privateRoutes: IRoutes[] = [
   },
 ];
 
-const publicRoutes: IRoutes[] = [
+const publicRoutes: readonly IRoutes[] = [
   {
     path: "/login",
     component: <LoginContainer />,

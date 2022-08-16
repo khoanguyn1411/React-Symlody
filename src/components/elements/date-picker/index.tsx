@@ -12,7 +12,6 @@ type TProps = {
 };
 
 const WrapperModule = styled.div`
-  --animate-duration: 0.2s;
   .react-datepicker__navigation-icon::before {
     border-color: black;
   }
@@ -27,6 +26,9 @@ const WrapperModule = styled.div`
     background-color: #e2f6f8;
     border-radius: 5px;
     color: black;
+  }
+  .react-datepicker__navigation-icon {
+    margin-top: 25px;
   }
 `;
 
@@ -53,7 +55,7 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
         onChange={handleChangeDate}
         placeholderText="dd/mm/yyyy"
         className={classNames(
-          "w-full p-2 border-gray-300 pr-8 text-black outline-none rounded-md",
+          "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
           {
             "bg-gray-100": style === "modal",
             "border-[1.5px]": style === "default",

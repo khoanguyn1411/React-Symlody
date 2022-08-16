@@ -5,7 +5,6 @@ import "./assets/FontAwesomePro/css/fontawesome.min.css";
 import "./assets/FontAwesomePro/css/solid.min.css";
 import "./assets/FontAwesomePro/css/regular.min.css";
 
-import { ThemeProvider } from "@material-tailwind/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
@@ -20,13 +19,13 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <Provider store={store}>
-    <ThemeProvider>
+  <React.Fragment>
+    <Provider store={store}>
       <App />
-    </ThemeProvider>
 
-    <ToastContainer position="bottom-center" autoClose={3500} pauseOnHover />
-  </Provider>
+      <ToastContainer position="bottom-center" autoClose={3000} pauseOnHover />
+    </Provider>
+  </React.Fragment>
 );
 
 // If you want to start measuring performance in your app, pass a function

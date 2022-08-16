@@ -1,13 +1,23 @@
 export type TFormMemberInfo = {
-  fullName: string;
-  gender: string;
-  birthday: string;
-  department: string;
-  role: string[];
-  class: string;
-  id: string;
-  email: string;
-  phone: string;
-  address: string;
-  home: string;
+  readonly fullName: string;
+  readonly gender: string;
+  readonly birthday: string;
+  readonly department: string;
+  readonly role: string[];
+  readonly class: string;
+  readonly studentId: string;
+  readonly email: string;
+  readonly phone: string;
+  readonly address: string;
+  readonly home: string;
 };
+
+export interface IMemberTable {
+  readonly id: number;
+  readonly avatar?: string;
+  readonly name: string;
+  readonly email: string;
+  readonly department: string;
+  readonly birthday: string;
+  readonly roles: string;
+}

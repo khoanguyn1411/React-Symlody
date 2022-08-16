@@ -16,6 +16,7 @@ export function useAuth() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     checkAuth().then((res) => {
       dispatch(setIsAuth(res));
       setIsLoading(false);

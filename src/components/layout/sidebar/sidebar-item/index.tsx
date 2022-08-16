@@ -1,6 +1,7 @@
-import { Tooltip } from "@material-tailwind/react";
 import classNames from "classnames";
 import React from "react";
+
+import { Tooltip } from "@/components";
 
 import { ITabSidebar } from "../type";
 
@@ -42,7 +43,11 @@ export const SidebarItem: React.FC<TProps> = ({
   );
 
   if (isCompactSidebar) {
-    return <Tooltip content={tab.title}>{children}</Tooltip>;
+    return (
+      <Tooltip placement="top" content={tab.title}>
+        {children}
+      </Tooltip>
+    );
   }
 
   return children;

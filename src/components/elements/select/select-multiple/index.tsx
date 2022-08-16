@@ -1,16 +1,16 @@
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
-import { AnimationCustom } from "../animation-custom";
-import { Checkbox } from "../checkbox";
-import { ToggleWrapper } from "../toggle-wrapper";
+import { AnimationCustom, Checkbox } from "@/components";
+
+import { SelectDisplayWrapper } from "../select-components";
 
 type TProps = {
   list: string[];
-  value: string[];
+  value: readonly string[];
   placeHolder?: string;
   style?: "modal" | "default";
-  onChange: (value: string[]) => void;
+  onChange: (value: readonly string[]) => void;
 };
 
 export const SelectMultiple: React.FC<TProps> = ({
@@ -73,17 +73,11 @@ export const SelectMultiple: React.FC<TProps> = ({
     <div>
       <div className="relative cursor-pointer">
         {/* Display */}
-        <div
+        <SelectDisplayWrapper
           ref={displayRef}
           onClick={handleToggleContent}
           aria-hidden="true"
-          className={classNames(
-            "flex justify-between w-full p-2 mt-3 pr-5 rounded-md text-black",
-            {
-              "bg-gray-100": style === "modal",
-              "bg-white border border-primary-800": style === "default",
-            }
-          )}
+          style={style}
         >
           {!value || value.length === 0 ? (
             <h1 className="text-gray-400">{placeHolder}</h1>
@@ -117,39 +111,34 @@ export const SelectMultiple: React.FC<TProps> = ({
               )}
             />
           </span>
-        </div>
+        </SelectDisplayWrapper>
         {/* List */}
-        <AnimationCustom>
-          <ul
-            role="listbox"
-            ref={listRef}
-            tabIndex={-1}
+        <ul ref={listRef}>
+          <AnimationCustom
             className={classNames(
-              "absolute z-20 w-full py-1 rounded-md max-h-64 overflow-auto animate__animated animate__fadeIn shadow-md mt-2",
+              "z-20 absolute w-full py-1 rounded-md max-h-64 overflow-auto shadow-md mt-2",
               {
-                animate__fadeOut: !isShowContent,
                 "bg-white": style === "default",
                 "bg-grey-100 ": style === "modal",
               }
             )}
+            isShowing={isShowContent}
           >
-            <ToggleWrapper isShowing={isShowContent}>
-              {list.map((item: string, index: number) => (
-                <li
-                  key={index}
-                  aria-hidden="true"
-                  onClick={handleSetItem(item)}
-                  className={classNames(
-                    "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-all duration-70"
-                  )}
-                >
-                  <Checkbox checked={value && [...value].includes(item)} />
-                  <h1>{item}</h1>
-                </li>
-              ))}
-            </ToggleWrapper>
-          </ul>
-        </AnimationCustom>
+            {list.map((item: string, index: number) => (
+              <li
+                key={index}
+                aria-hidden="true"
+                onClick={handleSetItem(item)}
+                className={classNames(
+                  "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-all duration-70"
+                )}
+              >
+                <Checkbox checked={value && [...value].includes(item)} />
+                <h1>{item}</h1>
+              </li>
+            ))}
+          </AnimationCustom>
+        </ul>
       </div>
     </div>
   );

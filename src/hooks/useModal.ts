@@ -9,6 +9,11 @@ export type THookModalProps<T> = {
   setToggle: () => void;
 };
 
+/**
+ * If you need to pass data to modal from an component, please use "setData" prop
+ * and receive value by "data" prop. To use "data" and "setData" props, please provide the interface or type of the data
+ * you need to pass and receive.
+ */
 export function useModal<T = undefined>(): THookModalProps<T> {
   const [isShowing, setIsShowing] = useState<boolean>(false);
   const [data, setDataState] = useState<T>();
