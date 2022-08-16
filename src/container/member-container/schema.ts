@@ -1,6 +1,7 @@
 import * as yup from "yup";
 export const schema = yup.object().shape({
-  fullName: yup.string().required("Họ tên được yêu cầu"),
+  firstName: yup.string().required("Tên được yêu cầu"),
+  lastName: yup.string().required("Họ được yêu cầu"),
   gender: yup.string().required("Giới tính được yêu cầu"),
   birthday: yup.string().required("Ngày sinh được yêu cầu"),
   department: yup.string().required("Phòng ban được yêu cầu"),

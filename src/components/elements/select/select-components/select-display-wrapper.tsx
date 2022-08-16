@@ -1,9 +1,15 @@
 import classNames from "classnames";
 import React, { forwardRef, ReactNode } from "react";
 
+import {
+  STYLE_DISPLAY_WRAPPER_MAPS,
+  TSelectGeneralProps,
+  TStyle,
+} from "../type";
+
 type TProps = {
-  classNameDisplay?: string;
-  style?: "modal" | "default";
+  classNameDisplay?: TSelectGeneralProps["classNameDisplay"];
+  style?: TStyle;
   children: ReactNode;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
@@ -19,10 +25,7 @@ export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
         className={classNames(
           "flex justify-between w-full items-center p-2 pr-5 rounded-lg text-black",
           classNameDisplay,
-          {
-            "bg-gray-100 rounded-md": style === "modal",
-            "bg-white border border-gray-200": style === "default",
-          }
+          STYLE_DISPLAY_WRAPPER_MAPS[style]
         )}
       >
         {children}

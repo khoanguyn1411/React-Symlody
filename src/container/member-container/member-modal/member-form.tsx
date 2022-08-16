@@ -35,22 +35,37 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
 
   return (
     <>
-      <FormItem label="Họ và tên" isRequired error={errors.fullName?.message}>
-        <Controller
-          control={control}
-          name="fullName"
-          defaultValue={defaultValue.get("fullName")}
-          render={({ field: { value, onChange } }) => (
-            <Input
-              style="modal"
-              value={value}
-              onChange={onChange}
-              placeholder="Họ và tên"
-            />
-          )}
-        />
-      </FormItem>
       <div className="grid grid-cols-2 gap-x-5">
+        <FormItem label="Họ" isRequired error={errors.lastName?.message}>
+          <Controller
+            control={control}
+            name="lastName"
+            defaultValue={defaultValue.get("lastName")}
+            render={({ field: { value, onChange } }) => (
+              <Input
+                style="modal"
+                value={value}
+                onChange={onChange}
+                placeholder="Họ"
+              />
+            )}
+          />
+        </FormItem>
+        <FormItem label="Tên" isRequired error={errors.firstName?.message}>
+          <Controller
+            control={control}
+            name="firstName"
+            defaultValue={defaultValue.get("firstName")}
+            render={({ field: { value, onChange } }) => (
+              <Input
+                style="modal"
+                value={value}
+                onChange={onChange}
+                placeholder="Tên"
+              />
+            )}
+          />
+        </FormItem>
         <FormItem label="Giới tính" isRequired error={errors.gender?.message}>
           <Controller
             control={control}

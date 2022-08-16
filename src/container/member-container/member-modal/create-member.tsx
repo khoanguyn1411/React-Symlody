@@ -77,7 +77,7 @@ const TabCreateMultipleMembers: React.FC = () => {
 
 export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
   isShowing,
-  setToggle,
+  toggle,
 }) => {
   return (
     <ModalMultipleTabs
@@ -93,7 +93,7 @@ export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
       ]}
       isShowing={isShowing}
       size="lg"
-      toggle={{ setToggle }}
+      toggle={toggle}
     />
   );
 };

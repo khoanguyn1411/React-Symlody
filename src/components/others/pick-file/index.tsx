@@ -11,8 +11,8 @@ import { FileService } from "@/utils";
 type TProps = {
   selectedFile: File;
   message: string;
-  setSelectedFile: React.Dispatch<React.SetStateAction<File>>;
-  setMessage: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedFile: (file: File) => void;
+  setMessage: (message: string) => void;
 };
 
 export const PickFile: React.FC<TProps> = ({

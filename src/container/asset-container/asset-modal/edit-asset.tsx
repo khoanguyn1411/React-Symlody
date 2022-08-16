@@ -12,7 +12,7 @@ import { FormItems } from "./asset-form";
 export const ModalEditAsset: React.FC<THookModalProps<TFormAssetInfo>> = ({
   data,
   isShowing,
-  setToggle,
+  toggle,
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -34,7 +34,7 @@ export const ModalEditAsset: React.FC<THookModalProps<TFormAssetInfo>> = ({
   return (
     <Modal
       reset={reset}
-      toggle={{ setToggle }}
+      toggle={toggle}
       title="Chỉnh sửa tài sản"
       size="lg"
       isShowing={isShowing}

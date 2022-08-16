@@ -7,9 +7,9 @@ type TProps = {
   valueToQuery: TValueQuery;
   fields: TField[];
   isAscending: boolean;
-  setValueToQuery: React.Dispatch<React.SetStateAction<TValueQuery>>;
-  setSortSelected: React.Dispatch<React.SetStateAction<TField>>;
-  setIsAscending: React.Dispatch<React.SetStateAction<boolean>>;
+  setValueToQuery: (valueToQuery: TValueQuery) => void;
+  setSortSelected: (sortSelect: TField) => void;
+  setIsAscending: (isAscending: boolean) => void;
 };
 
 export const SortIncludeValues: React.FC<TProps> = ({
@@ -53,6 +53,7 @@ export const SortIncludeValues: React.FC<TProps> = ({
     <div className="p-3 w-96">
       <div className="items-center justify-between py-1 grid-cols-7 grid">
         <Select
+          isPortal={false}
           className="col-span-3"
           classNameDisplay="h-8"
           list={listSelect}
@@ -60,6 +61,7 @@ export const SortIncludeValues: React.FC<TProps> = ({
           onChange={handleSetSortSelected}
         />
         <Select
+          isPortal={false}
           className="ml-3 col-span-3"
           classNameDisplay="h-8"
           list={sortSelected.children.map((value) => value.title)}

@@ -1,20 +1,21 @@
 import React from "react";
 
-type TProps = {
-  value: string;
-  disable?: boolean;
-  label?: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-};
+import { TInputUnderLine } from "../type";
 
-export const InputUnderLine: React.FC<TProps> = ({
+export const InputUnderLine: React.FC<TInputUnderLine> = ({
   value = "",
   label = "Khác",
   disable = false,
+  handleSideEffect,
   onChange,
 }) => {
   const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
-    return !event.target.value.startsWith(" ") && onChange(event);
+    if (handleSideEffect) {
+      const returnValue = handleSideEffect(event);
+      const newValue = returnValue.newValue;
+      return onChange(newValue);
+    }
+    return !event.target.value.startsWith(" ") && onChange(event.target.value);
   };
   return (
     <div className="w-full">

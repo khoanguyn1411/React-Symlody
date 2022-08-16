@@ -6,7 +6,7 @@ type THookSearch = {
   /** State of input value. */
   inputValue: string;
   /** Set state function for input value. */
-  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  setInputValue: (inputValue: string) => void;
 };
 
 export const useSearch = (): THookSearch => {

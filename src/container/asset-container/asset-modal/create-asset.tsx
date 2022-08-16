@@ -13,11 +13,11 @@ import { FormItems } from "./asset-form";
 
 export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
   isShowing,
-  setToggle,
+  toggle,
 }) => {
   return (
     <ModalMultipleTabs
-      toggle={{ setToggle }}
+      toggle={toggle}
       size="lg"
       isShowing={isShowing}
       renderTabs={[

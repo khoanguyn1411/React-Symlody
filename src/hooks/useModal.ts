@@ -1,12 +1,12 @@
 import { useState } from "react";
 
+import { TToggleModal } from "@/components/elements/modal/types";
+
 export type THookModalProps<T> = {
   isShowing: boolean;
   data: T | undefined;
+  toggle: TToggleModal;
   setData: (data: T) => void;
-  setShow: () => void;
-  setHidden: () => void;
-  setToggle: () => void;
 };
 
 /**
@@ -41,8 +41,6 @@ export function useModal<T = undefined>(): THookModalProps<T> {
     data,
     isShowing,
     setData,
-    setShow,
-    setHidden,
-    setToggle,
+    toggle: { setHidden, setShow, setToggle },
   };
 }

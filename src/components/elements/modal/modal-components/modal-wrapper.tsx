@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React, { ReactNode } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import { AnimationCustom, Portal } from "@/components";
 
@@ -23,6 +24,11 @@ export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
   ) => {
     closeWhenClickOutside && event.stopPropagation();
   };
+
+  useHotkeys("esc", () => {
+    toggle.setHidden();
+  });
+
   return (
     <div aria-hidden onClick={handleCloseWhenClickOutside}>
       <Portal>

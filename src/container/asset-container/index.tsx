@@ -19,7 +19,7 @@ export const AssetContainer: React.FC = () => {
 
   const handleEdit = (item) => () => {
     propsModalEdit.setData(item);
-    propsModalEdit.setShow();
+    propsModalEdit.toggle.setToggle();
   };
   const handleDelete = (item) => () => {
     alert("Deleted");
@@ -57,13 +57,13 @@ export const AssetContainer: React.FC = () => {
     {
       assetName: "Mặt trăng",
       quantity: "30",
-      price: "1230",
+      price: "1230000",
       inCharge: "Nguyễn Thị A",
       owner: "Câu lạc bộ",
     },
   ];
   const handleOpenModal = () => {
-    propsModal.setToggle();
+    propsModal.toggle.setToggle();
   };
 
   return (
@@ -147,30 +147,30 @@ export const AssetContainer: React.FC = () => {
 
               {assetList.map((item, index) => (
                 <tr className="text-left border-b border-gray-200" key={index}>
-                  <td className="w-20 px-2 py-2 font-normal text-center">
+                  <td className="w-20 px-5 py-2 font-normal text-center">
                     {index + 1}
                   </td>
 
                   <td className="py-2 font-normal min-w-[200px]">
                     {item.assetName}
                   </td>
-                  <td className="w-24 px-2 py-2 font-normal text-center">
+                  <td className="px-5 py-2 font-normal text-right w-28">
                     {item.quantity}
                   </td>
-                  <td className="w-32 py-2 font-normal text-center">
+                  <td className="w-24 py-2 font-normal text-right">
                     {item.price
-                      ? `${FormatService.toCurrency(Number(item.price))}/cái`
+                      ? `${FormatService.toCurrency(Number(item.price))}`
                       : "--"}
                   </td>
 
-                  <td className="px-2 py-2 font-normal text-center w-52">
+                  <td className="w-56 px-5 py-2 font-normal text-left">
                     {item.inCharge}
                   </td>
-                  <td className="w-32 py-2 font-normal text-center">
+                  <td className="w-32 py-2 font-normal text-left">
                     {item.owner}
                   </td>
 
-                  <td className="w-20 px-2 py-2 font-normal">
+                  <td className="w-20 px-5 py-2 font-normal">
                     <DeleteAndEditField
                       title="Xóa tài sản?"
                       handleEvent={{

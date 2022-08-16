@@ -30,7 +30,7 @@ export const DropdownConfirm: React.FC<TProps> = ({
   return (
     <DropdownGeneral
       display={children}
-      widthContainer="240px"
+      widthContainer="12rem"
       isShowContent={isShowContent}
       setIsShowContent={setIsShowContent}
     >

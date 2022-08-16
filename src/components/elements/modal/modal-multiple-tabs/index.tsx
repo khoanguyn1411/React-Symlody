@@ -59,7 +59,7 @@ const ModalMultipleTabsContent: React.FC = () => {
             key={`modalTitle${index}`}
             aria-hidden
             className={classNames(
-              "flex-1 py-2 text-center cursor-pointer transition-all duration-200",
+              "flex-1 py-2 text-center cursor-pointer transition-colors duration-200",
               {
                 "bg-primary-50 text-primary-800":
                   getTabActive().title === item.title,

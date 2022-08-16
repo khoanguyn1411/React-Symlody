@@ -13,6 +13,7 @@ type TProps = {
   refOfList?: React.Ref<HTMLDivElement>;
   placement?: AlignedPlacement;
   widthContainer?: string;
+  isOverflow: boolean;
 };
 
 export const DropdownListWrapper: React.FC<TProps> = ({
@@ -20,17 +21,19 @@ export const DropdownListWrapper: React.FC<TProps> = ({
   children,
   widthContainer = "320px",
   placement = "bottom-end",
+  isOverflow,
 }) => {
   return (
     <AnimationCustom
       isShowing={isShowContent}
       className={classNames(
-        "absolute z-10 w-full min-w-max bg-white overflow-auto drop-shadow-lg border border-gray-200 rounded-md mt-2",
+        "absolute z-10 w-full min-w-max bg-white drop-shadow-lg border border-gray-200 rounded-md mt-2",
         {
           "top-5 right-0": placement === "bottom-end",
           "top-5 left-0": placement === "bottom-start",
           "bottom-5 left-0": placement === "top-start",
           "bottom-5 right-0": placement === "top-end",
+          "overflow-auto": isOverflow,
         }
       )}
     >

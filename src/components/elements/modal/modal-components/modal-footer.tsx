@@ -21,8 +21,8 @@ export const ModalFooter: React.FC<
       </Button>
       <Button
         isShowLoading={{ active: isLoading }}
-        type={isDisable ? "button" : "submit"}
-        style={isDisable ? "disable" : "default"}
+        type="submit"
+        disable={isDisable}
         className="ml-5 min-w-[80px]"
       >
         {title ?? "Tạo"}
