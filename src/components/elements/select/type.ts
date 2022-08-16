@@ -3,6 +3,8 @@ export const STYLE = {
   default: "default",
 } as const;
 
+export type TStyle = typeof STYLE[keyof typeof STYLE];
+
 export const STYLE_DISPLAY_WRAPPER_MAPS = {
   [STYLE.modal]: "bg-gray-100 rounded-md",
   [STYLE.default]: "bg-white border border-gray-200",
@@ -12,8 +14,6 @@ export const STYLE_LIST_WRAPPER_MAPS = {
   [STYLE.default]: "bg-white",
   [STYLE.modal]: "bg-gray-50",
 } as const;
-
-export type TStyle = typeof STYLE[keyof typeof STYLE];
 
 export type TSelectGeneralProps = {
   list: readonly string[];

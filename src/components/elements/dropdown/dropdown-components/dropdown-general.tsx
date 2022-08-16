@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from "react";
+import React, { ReactNode } from "react";
 
 import { Portal } from "@/components";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
@@ -25,14 +25,14 @@ export const DropdownGeneral: React.FC<TProps> = ({
   widthContainer = "320px",
   setIsShowContent,
 }) => {
-  const listRef = useRef(null);
-  const displayRef = useRef(null);
-
+  const { listRef, displayRef } = useHideOnClickOutside(
+    isShowContent,
+    setIsShowContent
+  );
   const { coords, setPositionList } = usePositionPortal<HTMLDivElement>(
     displayRef,
     true
   );
-  useHideOnClickOutside(listRef, displayRef, isShowContent, setIsShowContent);
 
   const handleToggleDropdown = () => {
     setPositionList();

@@ -18,11 +18,13 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
 
-  const listRef = useRef(null);
-  const displayRef = useRef(null);
   const wrapperSelectRef = useRef(null);
   const iconRef = useRef(null);
 
+  const { listRef, displayRef } = useHideOnClickOutside(
+    isShowContent,
+    setIsShowContent
+  );
   const { coords, setPositionList } = usePositionPortal(displayRef, isPortal);
 
   const handleSetItem = (checked: string) => () => {
@@ -32,8 +34,6 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
     }
     return onChange([...value, checked]);
   };
-
-  useHideOnClickOutside(listRef, displayRef, isShowContent, setIsShowContent);
 
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>

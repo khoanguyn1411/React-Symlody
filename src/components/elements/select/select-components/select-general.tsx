@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from "react";
+import React, { ReactNode } from "react";
 
 import { Portal } from "@/components";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
@@ -27,10 +27,10 @@ export const SelectGeneral: React.FC<TProps> = ({
   isPortal,
   setIsShowContent,
 }) => {
-  const listRef = useRef<HTMLUListElement>(null);
-  const displayRef = useRef<HTMLDivElement>(null);
-  useHideOnClickOutside(listRef, displayRef, isShowContent, setIsShowContent);
-
+  const { listRef, displayRef } = useHideOnClickOutside(
+    isShowContent,
+    setIsShowContent
+  );
   const { coords, setPositionList } = usePositionPortal<HTMLDivElement>(
     displayRef,
     isPortal

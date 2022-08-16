@@ -1,19 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+
+type THookHideOnClickOutside = {
+  listRef: React.MutableRefObject<HTMLUListElement & HTMLDivElement>;
+  displayRef: React.MutableRefObject<HTMLDivElement>;
+};
 
 export const useHideOnClickOutside = (
-  listRef,
-  displayRef,
-  isShowContent,
-  setIsShowContent
-) => {
+  isShowContent: boolean,
+  setIsShowContent: (isShowContent: boolean) => void
+): THookHideOnClickOutside => {
+  const listRef = useRef<HTMLUListElement & HTMLDivElement>(null);
+  const displayRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const elementList = listRef?.current;
     const elementDisplay = displayRef?.current;
     if (!elementList || !elementDisplay) return;
     const handleCloseListDiv = (event: Event) => {
       if (
-        !elementList.contains(event.target) &&
-        !elementDisplay.contains(event.target)
+        !elementList.contains(event.target as Node) &&
+        !elementDisplay.contains(event.target as Node)
       ) {
         setIsShowContent(false);
       }
@@ -24,4 +29,5 @@ export const useHideOnClickOutside = (
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isShowContent]);
+  return { listRef, displayRef };
 };
