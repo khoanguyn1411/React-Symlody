@@ -67,7 +67,7 @@ export const MemberContainer: React.FC = () => {
         </div>
       </div>
       <div className="p-default">
-        <div className="bg-white border-gray-200">
+        <div className="bg-white border border-gray-200 rounded-md">
           <table className="w-full">
             {memberStore.pending && (
               <tbody>

@@ -69,11 +69,11 @@ export const AssetContainer: React.FC = () => {
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
-        <div className="flex items-center">
+        <div className="flex items-center flex-1">
           <h1 className="mr-4 font-bold min-w-max">QUẢN LÝ TÀI SẢN</h1>
-          <Search placeholder="Voucher, gấu bông,..." {...propsSearch} />
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center space-x-4">
+          <Search placeholder="Tìm kiếm ..." {...propsSearch} />
           <Sort
             onSortChange={(sortValue) => console.log(sortValue)}
             fields={[
@@ -108,7 +108,7 @@ export const AssetContainer: React.FC = () => {
                 ],
               },
             ]}
-          ></Sort>
+          />
           <Button
             className="ml-4"
             onClick={handleOpenModal}
@@ -119,12 +119,14 @@ export const AssetContainer: React.FC = () => {
         </div>
       </div>
       <div className="p-default">
-        <div className="bg-white">
+        <div className="bg-white border rounded-md">
           <table className="w-full">
             {/* <AssetSkeleton /> */}
-            <thead>
-              <tr className="bg-secondary-50">
-                <td className="w-20 px-5 py-2 font-medium text-center">STT</td>
+            <thead className="bg-secondary-50">
+              <tr className="w-full  rounded-t-md">
+                <td className="w-20 px-5 py-2 font-medium text-center rounded-tl-md">
+                  STT
+                </td>
                 <td className="py-2 font-medium text-left min-w-[200px]">
                   Tài sản
                 </td>
@@ -136,12 +138,12 @@ export const AssetContainer: React.FC = () => {
                   Người chịu trách nhiệm
                 </td>
                 <td className="w-32 py-2 font-medium text-left">Chủ sở hữu</td>
-                <td className="w-20 px-5 py-2 font-normal"></td>
+                <td className="w-20 px-5 py-2 font-normal rounded-tr-md"></td>
               </tr>
             </thead>
             <tbody>
               {assetList.map((item, index) => (
-                <tr className="text-left border-b border-gray-200" key={index}>
+                <tr className="text-left border-t border-gray-200" key={index}>
                   <td className="w-20 px-5 py-2 font-normal text-center">
                     {index + 1}
                   </td>

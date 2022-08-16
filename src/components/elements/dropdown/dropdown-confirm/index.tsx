@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from "react";
 
 import { Button } from "@/components";
 
-import { AlignedPlacement } from "../../portal/type";
+import { AlignedPlacement } from "../../../elements/portal/type";
 import { DropdownGeneral } from "../dropdown-components";
 
 type TProps = {
@@ -37,7 +37,7 @@ export const DropdownConfirm: React.FC<TProps> = ({
       isShowContent={isShowContent}
       setIsShowContent={setIsShowContent}
     >
-      <div className="w-full p-4 w space-y-4">
+      <div className="w-full p-4 space-y-4">
         <div className="flex items-center">
           <span className="flex items-center justify-center w-8 h-8 mr-2 rounded-full shadow-inner bg-red-50">
             <i className="text-red-400 fas fa-question" />

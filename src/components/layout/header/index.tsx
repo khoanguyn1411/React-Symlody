@@ -1,12 +1,17 @@
 import classNames from "classnames";
 import React from "react";
 
+import { Avatar } from "@/components/elements";
+import { useAppSelector } from "@/features";
+
 type TProps = {
   className?: string;
   isCompactSidebar: boolean;
 };
 
 export const Header: React.FC<TProps> = ({ isCompactSidebar }) => {
+  const userStore = useAppSelector((state) => state.user);
+
   return (
     <header
       className={classNames(
@@ -23,8 +28,11 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar }) => {
           <i className="fas fa-bell" />
         </span>
 
-        <div className="flex items-center cursor-pointer">
-          <div className="w-8 h-8 mr-3 bg-green-300 rounded-full" />
+        <div className="flex items-center cursor-pointer space-x-2">
+          <Avatar
+            src={userStore.user.avatar_url}
+            fullName={userStore.user.full_name}
+          />
           <span className="">
             <i className="fas fa-caret-down" />
           </span>
