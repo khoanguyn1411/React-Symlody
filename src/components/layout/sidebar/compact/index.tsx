@@ -22,7 +22,6 @@ export const CompactSidebar: React.FC<Props> = ({
       )}
     >
       <Tooltip
-        placement="top"
         offset={-35}
         content={isCompactSidebar ? "Mở rộng (b)" : "Thu gọn (b)"}
       >

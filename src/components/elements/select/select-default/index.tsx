@@ -82,7 +82,7 @@ export const Select: React.FC<TSelectDefaultProps> = ({
           aria-hidden="true"
           onClick={handleSetSelectedItem(item)}
           className={classNames(
-            "py-1 px-2 hover:bg-primary-100 cursor-pointer transition-colors duration-70",
+            "py-1 px-2 hover:bg-primary-50 cursor-pointer transition-colors duration-70",
             {
               "bg-primary-50 text-primary-800 font-medium": item === value,
             }

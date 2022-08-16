@@ -1,7 +1,8 @@
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
-import { Checkbox, Portal, TPosition } from "@/components";
+import { Checkbox, Portal } from "@/components";
+import { usePositionPortal } from "@/hooks";
 
 import { SelectDisplayWrapper } from "../select-components";
 import { SelectListWrapper } from "../select-components/select-list-wrapper";
@@ -16,12 +17,13 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
   onChange,
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
-  const [coords, setCoords] = useState<TPosition>({ left: 0, top: 0 });
 
   const listRef = useRef(null);
   const displayRef = useRef(null);
   const wrapperSelectRef = useRef(null);
   const iconRef = useRef(null);
+
+  const { coords, setPositionList } = usePositionPortal(displayRef, isPortal);
 
   const handleSetItem = (checked: string) => () => {
     if (!value) onChange([checked]);
@@ -51,21 +53,6 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
     };
   }, [isShowContent]);
 
-  const setPositionList = () => {
-    if (!displayRef.current) {
-      return;
-    }
-    const rect = displayRef.current.getBoundingClientRect();
-    let leftSide = rect.left;
-    leftSide = Math.max(10, leftSide);
-    leftSide = Math.min(leftSide, document.body.clientWidth - rect.width - 10);
-    setCoords({
-      left: leftSide,
-      width: rect.right - rect.left,
-      top: rect.bottom,
-    });
-  };
-
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -82,15 +69,6 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
     setPositionList();
     setIsShowContent(!isShowContent);
   };
-
-  useEffect(() => {
-    window.addEventListener("scroll", setPositionList, true);
-    window.addEventListener("resize", setPositionList, true);
-    return () => {
-      window.removeEventListener("scroll", setPositionList, true);
-      window.removeEventListener("resize", setPositionList, true);
-    };
-  }, []);
 
   return (
     <div>

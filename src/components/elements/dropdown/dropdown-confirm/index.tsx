@@ -2,7 +2,8 @@ import React, { ReactNode, useState } from "react";
 
 import { Button } from "@/components";
 
-import { AlignedPlacement, DropdownGeneral } from "../dropdown-components";
+import { AlignedPlacement } from "../../portal/type";
+import { DropdownGeneral } from "../dropdown-components";
 
 type TProps = {
   title: string;
@@ -18,6 +19,7 @@ export const DropdownConfirm: React.FC<TProps> = ({
   children,
   handleEvent,
   title,
+  placement,
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const handleClickItem = () => {
@@ -31,6 +33,7 @@ export const DropdownConfirm: React.FC<TProps> = ({
     <DropdownGeneral
       display={children}
       widthContainer="12rem"
+      placement={placement}
       isShowContent={isShowContent}
       setIsShowContent={setIsShowContent}
     >

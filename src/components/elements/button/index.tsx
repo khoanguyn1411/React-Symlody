@@ -46,7 +46,7 @@ export const Button: React.FC<TProps> = ({
       type={type}
       disabled={disable}
       className={classNames(
-        "rounded-md items-center justify-center transition-all duration-300",
+        "rounded-md items-center min-w-max justify-center transition-all duration-300",
         "text-center font-semibold normal-case",
         className,
         STYLE_MAPS[disable ? "disable" : style],

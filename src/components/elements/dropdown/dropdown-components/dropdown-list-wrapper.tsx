@@ -1,11 +1,10 @@
 import classNames from "classnames";
 import { ReactNode } from "react";
 
-import { AnimationCustom } from "@/components";
+import { AnimationCustom, TPosition } from "@/components";
 
-type Alignment = "start" | "end";
-type Side = "top" | "right" | "bottom" | "left";
-export type AlignedPlacement = `${Side}-${Alignment}`;
+import { AlignedPlacement } from "../../portal/type";
+import { getPosition } from "../../portal/util";
 
 type TProps = {
   isShowContent: boolean;
@@ -14,25 +13,24 @@ type TProps = {
   placement?: AlignedPlacement;
   widthContainer?: string;
   isOverflow: boolean;
+  coords: TPosition;
 };
 
 export const DropdownListWrapper: React.FC<TProps> = ({
   isShowContent,
   children,
   widthContainer = "320px",
-  placement = "bottom-end",
+  placement = "bottom-right",
   isOverflow,
+  coords,
 }) => {
   return (
     <AnimationCustom
+      attrs={{ style: getPosition(placement, coords) }}
       isShowing={isShowContent}
       className={classNames(
-        "absolute z-10 w-full min-w-max bg-white drop-shadow-lg border border-gray-200 rounded-md mt-2",
+        "fixed z-10 w-full min-w-max bg-white drop-shadow-lg border border-gray-200 rounded-md mt-2",
         {
-          "top-5 right-0": placement === "bottom-end",
-          "top-5 left-0": placement === "bottom-start",
-          "bottom-5 left-0": placement === "top-start",
-          "bottom-5 right-0": placement === "top-end",
           "overflow-auto": isOverflow,
         }
       )}

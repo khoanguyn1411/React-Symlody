@@ -1,6 +1,10 @@
 import React, { ReactNode, useEffect, useRef } from "react";
 
-import { AlignedPlacement, DropdownListWrapper } from "../dropdown-components";
+import { Portal } from "@/components";
+import { usePositionPortal } from "@/hooks";
+
+import { AlignedPlacement } from "../../portal/type";
+import { DropdownListWrapper } from "../dropdown-components";
 
 type TProps = {
   children: ReactNode;
@@ -24,7 +28,13 @@ export const DropdownGeneral: React.FC<TProps> = ({
   const listRef = useRef(null);
   const displayRef = useRef(null);
 
+  const { coords, setPositionList } = usePositionPortal<HTMLDivElement>(
+    displayRef,
+    true
+  );
+
   const handleToggleDropdown = () => {
+    setPositionList();
     setIsShowContent(!isShowContent);
   };
 
@@ -48,7 +58,7 @@ export const DropdownGeneral: React.FC<TProps> = ({
   }, [isShowContent]);
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {/* Display */}
       <div
         aria-hidden
@@ -59,16 +69,19 @@ export const DropdownGeneral: React.FC<TProps> = ({
         {display}
       </div>
       {/* List */}
-      <ul ref={listRef}>
-        <DropdownListWrapper
-          placement={placement}
-          isShowContent={isShowContent}
-          widthContainer={widthContainer}
-          isOverflow={isOverflow}
-        >
-          {children}
-        </DropdownListWrapper>
-      </ul>
+      <Portal>
+        <ul ref={listRef}>
+          <DropdownListWrapper
+            placement={placement}
+            coords={coords}
+            isShowContent={isShowContent}
+            widthContainer={widthContainer}
+            isOverflow={isOverflow}
+          >
+            {children}
+          </DropdownListWrapper>
+        </ul>
+      </Portal>
     </div>
   );
 };

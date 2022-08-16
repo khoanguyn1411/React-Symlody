@@ -1,6 +1,7 @@
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef } from "react";
 
-import { Portal, TPosition } from "@/components";
+import { Portal } from "@/components";
+import { usePositionPortal } from "@/hooks";
 
 import { TSelectGeneralProps, TStyle } from "../type";
 import { SelectDisplayWrapper, SelectListWrapper } from ".";
@@ -28,11 +29,6 @@ export const SelectGeneral: React.FC<TProps> = ({
 }) => {
   const listRef = useRef<HTMLUListElement>(null);
   const displayRef = useRef<HTMLDivElement>(null);
-  const [coords, setCoords] = useState<TPosition>({
-    left: 0,
-    top: 0,
-    width: 0,
-  });
 
   useEffect(() => {
     const elementList = listRef?.current;
@@ -52,33 +48,16 @@ export const SelectGeneral: React.FC<TProps> = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isShowContent]);
-  const setPositionList = () => {
-    if (!displayRef.current || !isPortal) {
-      return;
-    }
-    const rect = displayRef.current.getBoundingClientRect();
-    let leftSide = rect.left;
-    leftSide = Math.max(10, leftSide);
-    leftSide = Math.min(leftSide, document.body.clientWidth - rect.width - 10);
-    setCoords({
-      left: leftSide,
-      top: rect.bottom,
-      width: rect.right - rect.left,
-    });
-  };
+
+  const { coords, setPositionList } = usePositionPortal<HTMLDivElement>(
+    displayRef,
+    isPortal
+  );
+
   const handleToggleContent = () => {
     setPositionList();
     setIsShowContent(!isShowContent);
   };
-
-  useEffect(() => {
-    window.addEventListener("scroll", setPositionList, true);
-    window.addEventListener("resize", setPositionList, true);
-    return () => {
-      window.removeEventListener("scroll", setPositionList, true);
-      window.removeEventListener("resize", setPositionList, true);
-    };
-  }, []);
 
   return (
     <div className={className}>

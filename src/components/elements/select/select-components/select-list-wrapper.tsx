@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 
 import { AnimationCustom, TPosition } from "@/components";
 
+import { getPosition } from "../../portal/util";
 import { STYLE_LIST_WRAPPER_MAPS, TSelectGeneralProps, TStyle } from "../type";
 
 type TProps = {
@@ -20,21 +21,9 @@ export const SelectListWrapper: React.FC<TProps> = ({
   coords,
   isPortal,
 }) => {
-  const getPropsAttrs = () => {
-    if (!isPortal) {
-      return;
-    }
-    return {
-      style: {
-        top: coords && coords.top,
-        left: coords && coords.left,
-        width: coords && coords.width,
-      },
-    };
-  };
   return (
     <AnimationCustom
-      attrs={getPropsAttrs()}
+      attrs={{ style: getPosition("bottom-left", coords) }}
       className={classNames(
         "w-full rounded-md max-h-40 overflow-auto shadow-md mt-2",
         {

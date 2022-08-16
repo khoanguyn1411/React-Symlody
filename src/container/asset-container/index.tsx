@@ -110,7 +110,7 @@ export const AssetContainer: React.FC = () => {
             ]}
           ></Sort>
           <Button
-            className="ml-4 min-w-max"
+            className="ml-4"
             onClick={handleOpenModal}
             prefix={<i className="mr-2 fas fa-plus-circle" />}
           >

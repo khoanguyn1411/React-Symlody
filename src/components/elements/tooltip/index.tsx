@@ -3,11 +3,15 @@ import classNames from "classnames";
 import { ReactNode, useRef, useState } from "react";
 
 import { AnimationCustom, Portal } from "@/components";
+import { usePositionPortal } from "@/hooks";
+
+import { AlignedPlacement } from "../portal/type";
+import { getPosition } from "../portal/util";
 
 type TProps = {
   children: ReactNode;
   content: string;
-  placement?: "bottom" | "top";
+  placement?: AlignedPlacement;
   offset?: number;
 };
 
@@ -22,26 +26,20 @@ export type TPosition = {
 export const Tooltip: React.FC<TProps> = ({
   children,
   content,
-  placement,
+  placement = "top-left",
   offset = 0,
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [coords, setCoords] = useState<TPosition>({ left: 0, top: 0 });
   const refChildren = useRef<HTMLDivElement>(null);
+
+  const { coords, setPositionList } = usePositionPortal(refChildren, true);
 
   const handleMouseOver = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    const rect = refChildren.current.getBoundingClientRect();
     event.stopPropagation();
     event.preventDefault();
-    let leftSide = rect.left + offset;
-    leftSide = Math.max(10, leftSide);
-    leftSide = Math.min(leftSide, document.body.clientWidth - 10);
-    setCoords({
-      left: leftSide,
-      top: rect.top - 4,
-    });
+    setPositionList();
     setIsActive(true);
   };
   const handleMouseLeave = (
@@ -51,6 +49,7 @@ export const Tooltip: React.FC<TProps> = ({
     event.preventDefault();
     setIsActive(false);
   };
+  const position = getPosition(placement, coords);
   return (
     <div>
       <div
@@ -65,16 +64,13 @@ export const Tooltip: React.FC<TProps> = ({
           isShowing={isActive}
           attrs={{
             style: {
-              top: coords.top,
-              left: coords.left,
+              ...position,
+              bottom: (position.bottom as number) + 5,
+              left: (position.left as number) + offset,
             },
           }}
           className={classNames(
-            `bg-black min-w-max fixed z-20 text-white px-2 py-1 rounded-md select-none`,
-            {
-              "-translate-y-full": placement === "top",
-              "translate-y-full": placement === "bottom",
-            }
+            `bg-black min-w-max h-[fit-content] fixed z-20 text-white px-2 py-1 rounded-md select-none`
           )}
         >
           <h1 className="text-center min-w-min" role="tooltip">
