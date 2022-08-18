@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { ReactNode } from "react";
 
-import { AnimationCustom, TPosition } from "@/components";
+import { AnimationCustom } from "@/components";
 
 import { STYLE_LIST_WRAPPER_MAPS, TSelectGeneralProps, TStyle } from "../type";
 
@@ -9,7 +9,6 @@ type TProps = {
   children: ReactNode;
   style: TStyle;
   isShowContent: boolean;
-  coords?: TPosition;
   position?: React.CSSProperties;
   isPortal: TSelectGeneralProps["isPortal"];
 };

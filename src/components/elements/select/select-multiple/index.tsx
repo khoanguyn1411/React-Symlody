@@ -25,7 +25,7 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
     isShowContent,
     setIsShowContent
   );
-  const { coords, setPositionList, getPosition } = usePositionPortal(
+  const { setPositionList, getPosition } = usePositionPortal(
     displayRef,
     isPortal,
     "bottom-left"
