@@ -2,11 +2,10 @@
 import classNames from "classnames";
 import { ReactNode, useRef, useState } from "react";
 
-import { AnimationCustom, Portal } from "@/components";
+import { AnimationEffects, Portal } from "@/components";
 import { usePositionPortal } from "@/hooks";
 
 import { AlignedPlacement } from "../portal/type";
-import { getPosition } from "../portal/util";
 
 type TProps = {
   children: ReactNode;
@@ -26,13 +25,18 @@ export type TPosition = {
 export const Tooltip: React.FC<TProps> = ({
   children,
   content,
-  placement = "top-left",
-  offset = 0,
+  placement = "top-center",
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const refChildren = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLDivElement>(null);
 
-  const { coords, setPositionList } = usePositionPortal(refChildren, true);
+  const { setPositionList, getPosition } = usePositionPortal(
+    refChildren,
+    true,
+    placement,
+    toggleRef
+  );
 
   const handleMouseOver = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -49,7 +53,6 @@ export const Tooltip: React.FC<TProps> = ({
     event.preventDefault();
     setIsActive(false);
   };
-  const position = getPosition(placement, coords);
   return (
     <div>
       <div
@@ -60,23 +63,23 @@ export const Tooltip: React.FC<TProps> = ({
         {children}
       </div>
       <Portal>
-        <AnimationCustom
+        <AnimationEffects
           isShowing={isActive}
+          className={classNames(
+            `bg-black min-w-max h-[fit-content fixed z-20 text-white px-2 py-1 rounded-md select-none`
+          )}
           attrs={{
             style: {
-              ...position,
-              bottom: (position.bottom as number) + 5,
-              left: (position.left as number) + offset,
+              ...getPosition(),
             },
           }}
-          className={classNames(
-            `bg-black min-w-max h-[fit-content] fixed z-20 text-white px-2 py-1 rounded-md select-none`
-          )}
         >
-          <h1 className="text-center min-w-min" role="tooltip">
-            {content}
-          </h1>
-        </AnimationCustom>
+          <div ref={toggleRef}>
+            <h1 className="text-center min-w-min" role="tooltip">
+              {content}
+            </h1>
+          </div>
+        </AnimationEffects>
       </Portal>
     </div>
   );

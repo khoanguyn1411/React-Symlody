@@ -25,7 +25,11 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
     isShowContent,
     setIsShowContent
   );
-  const { coords, setPositionList } = usePositionPortal(displayRef, isPortal);
+  const { coords, setPositionList, getPosition } = usePositionPortal(
+    displayRef,
+    isPortal,
+    "bottom-left"
+  );
 
   const handleSetItem = (checked: string) => () => {
     if (!value) onChange([checked]);
@@ -101,7 +105,7 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
             <ul ref={listRef}>
               <SelectListWrapper
                 isPortal={isPortal}
-                coords={isPortal && coords}
+                position={getPosition()}
                 style={style}
                 isShowContent={isShowContent}
               >

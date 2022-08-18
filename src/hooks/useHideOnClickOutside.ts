@@ -9,8 +9,8 @@ export const useHideOnClickOutside = (
   isShowContent: boolean,
   setIsShowContent: (isShowContent: boolean) => void
 ): THookHideOnClickOutside => {
-  const listRef = useRef<HTMLUListElement & HTMLDivElement>(null);
-  const displayRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement & HTMLDivElement>();
+  const displayRef = useRef<HTMLDivElement>();
   useEffect(() => {
     const elementList = listRef?.current;
     const elementDisplay = displayRef?.current;

@@ -12,9 +12,7 @@ export const PaginationItem: React.FC<TProps> = ({ pageIndex }) => {
     usePaginationContext();
   const handleChangeActivePage = () => {
     setActivePage(pageIndex);
-    if (activePage !== pageIndex) {
-      onPaginationChange && onPaginationChange(pageIndex);
-    }
+    onPaginationChange && onPaginationChange(pageIndex);
   };
 
   return (

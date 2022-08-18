@@ -7,7 +7,7 @@ type TProps = {
 
 export const Portal: React.FC<TProps> = ({ children }) => {
   return ReactDOM.createPortal(
-    children,
+    <div>{children}</div>,
     document.getElementById("portal-root")
   );
 };

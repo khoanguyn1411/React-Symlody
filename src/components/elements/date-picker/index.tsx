@@ -5,6 +5,8 @@ import classNames from "classnames";
 import React from "react";
 import DatePicker from "react-datepicker";
 
+import { STYLE_MAP } from "./type";
+
 type TProps = {
   style?: "modal" | "default";
   value: string;
@@ -56,10 +58,7 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
         placeholderText="dd/mm/yyyy"
         className={classNames(
           "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
-          {
-            "bg-gray-100": style === "modal",
-            "border-[1.5px]": style === "default",
-          }
+          STYLE_MAP[style]
         )}
         dayClassName={() => {
           return "transition-all duration-100";

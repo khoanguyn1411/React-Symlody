@@ -1,32 +1,26 @@
 import classNames from "classnames";
 import { ReactNode } from "react";
 
-import { AnimationCustom, TPosition } from "@/components";
-
-import { AlignedPlacement } from "../../portal/type";
-import { getPosition } from "../../portal/util";
+import { AnimationCustom } from "@/components";
 
 type TProps = {
   isShowContent: boolean;
   children: ReactNode;
-  refOfList?: React.Ref<HTMLDivElement>;
-  placement?: AlignedPlacement;
   widthContainer?: string;
   isOverflow: boolean;
-  coords: TPosition;
+  position: React.CSSProperties;
 };
 
 export const DropdownListWrapper: React.FC<TProps> = ({
   isShowContent,
   children,
   widthContainer = "320px",
-  placement = "bottom-right",
   isOverflow,
-  coords,
+  position,
 }) => {
   return (
     <AnimationCustom
-      attrs={{ style: getPosition(placement, coords) }}
+      attrs={{ style: { ...position, width: widthContainer } }}
       isShowing={isShowContent}
       className={classNames(
         "fixed z-10 w-full min-w-max bg-white drop-shadow-lg border border-gray-200 rounded-md mt-2",
@@ -35,7 +29,7 @@ export const DropdownListWrapper: React.FC<TProps> = ({
         }
       )}
     >
-      <ul style={{ width: widthContainer }}>{children}</ul>
+      {children}
     </AnimationCustom>
   );
 };

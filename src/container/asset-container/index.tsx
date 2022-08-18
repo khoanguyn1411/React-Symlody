@@ -122,7 +122,7 @@ export const AssetContainer: React.FC = () => {
         <div className="bg-white border rounded-md">
           <table className="w-full">
             {/* <AssetSkeleton /> */}
-            <thead className="bg-secondary-50">
+            <thead className="bg-primary-50">
               <tr className="w-full  rounded-t-md">
                 <td className="w-20 px-5 py-2 font-medium text-center rounded-tl-md">
                   STT

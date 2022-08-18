@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { TPosition } from "@/components";
+import { AlignedPlacement } from "@/components/elements/portal/type";
 
 type THookPositionPortal = {
   setPositionList: () => void;
   coords: TPosition;
+  setCoords?: (coord: TPosition) => void;
+  getPosition?: () => React.CSSProperties;
 };
 
 export const usePositionPortal = <T extends HTMLElement>(
   displayRef: React.MutableRefObject<T>,
-  isPortal: boolean
+  isPortal: boolean,
+  placement: AlignedPlacement,
+  toggleRef?: React.MutableRefObject<HTMLDivElement>
 ): THookPositionPortal => {
-  const [coords, setCoords] = useState<TPosition>({
-    left: 0,
-    top: 0,
-    width: 0,
-  });
+  const [coords, setCoords] = useState<TPosition>({ top: 0, left: 0 });
+
   const setPositionList = () => {
-    if (!displayRef.current || !isPortal) {
+    if (!displayRef || !displayRef.current || !isPortal) {
       return;
     }
     const rect = displayRef.current.getBoundingClientRect();
@@ -25,12 +27,87 @@ export const usePositionPortal = <T extends HTMLElement>(
     leftSide = Math.max(10, leftSide);
     leftSide = Math.min(leftSide, document.body.clientWidth - rect.width - 10);
     setCoords({
-      top: window.innerHeight - rect.top,
-      bottom: rect.bottom,
+      top: rect.top,
       left: leftSide,
-      width: rect.right - rect.left,
-      right: window.innerWidth - rect.right,
+      right: rect.right,
+      bottom: rect.bottom,
     });
+  };
+
+  const getPosition = (): any => {
+    if (!isPortal || !coords) {
+      return { top: 1 };
+    }
+
+    if (placement === "top-center" || placement === "bottom-center") {
+      if (!toggleRef || !displayRef) {
+        throw new Error("There is no toggleRef");
+      }
+    }
+
+    const position = {
+      top: {
+        bottom: window.innerHeight - coords.top - window.scrollY + 5,
+      },
+      bottom: {
+        top: coords.bottom - window.scrollY + 5,
+      },
+      left: {
+        left: coords.left - window.scrollX,
+      },
+      right: {
+        right: window.innerWidth - coords.right - window.scrollX,
+      },
+      center: {
+        left:
+          displayRef && displayRef.current
+            ? coords.left +
+              displayRef?.current.offsetWidth / 2 -
+              toggleRef?.current.offsetWidth / 2 -
+              7
+            : 0,
+      },
+    };
+
+    switch (placement) {
+      case "top-left":
+        return {
+          ...position.top,
+          ...position.left,
+        };
+      case "top-right":
+        return {
+          ...position.top,
+          ...position.right,
+        };
+      case "bottom-right":
+        return {
+          ...position.bottom,
+          ...position.right,
+        };
+      case "bottom-left":
+        return {
+          width: coords.right - coords.left,
+          ...position.bottom,
+          ...position.left,
+        };
+      case "top-center":
+        return {
+          ...position.top,
+          ...position.center,
+        };
+      case "bottom-center":
+        return {
+          ...position.bottom,
+          ...position.center,
+        };
+      default: {
+        return {
+          ...position.top,
+          ...position.left,
+        };
+      }
+    }
   };
 
   useEffect(() => {
@@ -42,5 +119,6 @@ export const usePositionPortal = <T extends HTMLElement>(
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return { setPositionList, coords };
+
+  return { coords, setPositionList, getPosition };
 };

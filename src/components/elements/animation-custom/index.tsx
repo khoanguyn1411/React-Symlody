@@ -25,3 +25,5 @@ export const AnimationCustom: React.FC<TAnimationEffectsProps> = ({
     </AnimationUnmount>
   );
 };
+
+export * from "./animation-components";

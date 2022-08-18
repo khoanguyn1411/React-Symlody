@@ -31,11 +31,12 @@ export const SelectGeneral: React.FC<TProps> = ({
     isShowContent,
     setIsShowContent
   );
-  const { coords, setPositionList } = usePositionPortal<HTMLDivElement>(
+  const { getPosition, setPositionList } = usePositionPortal<HTMLDivElement>(
     displayRef,
-    isPortal
+    isPortal,
+    "bottom-left",
+    null
   );
-
   const handleToggleContent = () => {
     setPositionList();
     setIsShowContent(!isShowContent);
@@ -59,7 +60,7 @@ export const SelectGeneral: React.FC<TProps> = ({
             <ul ref={listRef}>
               <SelectListWrapper
                 isPortal={isPortal}
-                coords={isPortal && coords}
+                position={getPosition()}
                 isShowContent={isShowContent}
                 style={style}
               >
