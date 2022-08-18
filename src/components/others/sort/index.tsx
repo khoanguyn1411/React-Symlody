@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from "react";
 
-import { DropdownGeneral } from "@/components/elements/dropdown/dropdown-components";
+import { DropdownGeneral } from "@/components";
 import { useEffectSkipFirstRender } from "@/hooks";
 
 import { SortIncludeValues } from "./sort-component/sort-include-values";
