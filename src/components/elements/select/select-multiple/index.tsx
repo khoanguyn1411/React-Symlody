@@ -25,11 +25,11 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
     isShowContent,
     setIsShowContent
   );
-  const { setPositionList, getPosition } = usePositionPortal(
+  const { setPositionList, getPosition } = usePositionPortal({
     displayRef,
     isPortal,
-    "bottom-left"
-  );
+    placement: "bottom-left",
+  });
 
   const handleSetItem = (checked: string) => () => {
     if (!value) onChange([checked]);

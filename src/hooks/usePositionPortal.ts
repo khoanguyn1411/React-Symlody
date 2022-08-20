@@ -10,12 +10,21 @@ type THookPositionPortal = {
   getPosition?: () => React.CSSProperties;
 };
 
-export const usePositionPortal = <T extends HTMLElement>(
-  displayRef: React.MutableRefObject<T>,
-  isPortal: boolean,
-  placement: AlignedPlacement,
-  toggleRef?: React.MutableRefObject<HTMLDivElement>
-): THookPositionPortal => {
+type TProps<T> = {
+  displayRef: React.MutableRefObject<T>;
+  isPortal: boolean;
+  placement: AlignedPlacement;
+  toggleRef?: React.MutableRefObject<HTMLDivElement>;
+  space?: number;
+};
+
+export const usePositionPortal = <T extends HTMLElement>({
+  displayRef,
+  isPortal,
+  placement,
+  toggleRef,
+  space = 0,
+}: TProps<T>): THookPositionPortal => {
   const [coords, setCoords] = useState<TPosition>({ top: 0, left: 0 });
 
   const setPositionList = () => {
@@ -36,7 +45,7 @@ export const usePositionPortal = <T extends HTMLElement>(
 
   const getPosition = (): any => {
     if (!isPortal || !coords) {
-      return { top: 1 };
+      return;
     }
 
     if (placement === "top-center" || placement === "bottom-center") {
@@ -47,10 +56,10 @@ export const usePositionPortal = <T extends HTMLElement>(
 
     const position = {
       top: {
-        bottom: window.innerHeight - coords.top - window.scrollY + 5,
+        bottom: window.innerHeight - coords.top - window.scrollY + space,
       },
       bottom: {
-        top: coords.bottom - window.scrollY + 5,
+        top: coords.bottom - window.scrollY + space,
       },
       left: {
         left: coords.left - window.scrollX,

@@ -1,8 +1,7 @@
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import classNames from "classnames";
 import { ReactNode, useRef, useState } from "react";
 
-import { AnimationEffects, Portal } from "@/components";
+import { AnimationKeepDom, Portal } from "@/components";
 import { usePositionPortal } from "@/hooks";
 
 import { AlignedPlacement } from "../portal/type";
@@ -31,14 +30,15 @@ export const Tooltip: React.FC<TProps> = ({
   const refChildren = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLDivElement>(null);
 
-  const { setPositionList, getPosition } = usePositionPortal(
-    refChildren,
-    true,
+  const { setPositionList, getPosition } = usePositionPortal({
+    displayRef: refChildren,
+    isPortal: true,
     placement,
-    toggleRef
-  );
+    space: 5,
+    toggleRef,
+  });
 
-  const handleMouseOver = (
+  const handleMouseEnter = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     event.stopPropagation();
@@ -57,16 +57,16 @@ export const Tooltip: React.FC<TProps> = ({
     <div>
       <div
         ref={refChildren}
-        onMouseOver={handleMouseOver}
+        onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         {children}
       </div>
       <Portal>
-        <AnimationEffects
+        <AnimationKeepDom
           isShowing={isActive}
           className={classNames(
-            `bg-black min-w-max h-[fit-content fixed z-20 text-white px-2 py-1 rounded-md select-none`
+            `bg-black min-w-max h-[fit-content fixed z-20 text-white px-2 py-1 rounded-md select-none pointer-events-none`
           )}
           attrs={{
             style: {
@@ -79,7 +79,7 @@ export const Tooltip: React.FC<TProps> = ({
               {content}
             </h1>
           </div>
-        </AnimationEffects>
+        </AnimationKeepDom>
       </Portal>
     </div>
   );

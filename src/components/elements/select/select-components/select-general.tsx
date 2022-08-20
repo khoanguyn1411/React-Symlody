@@ -31,12 +31,12 @@ export const SelectGeneral: React.FC<TProps> = ({
     isShowContent,
     setIsShowContent
   );
-  const { getPosition, setPositionList } = usePositionPortal<HTMLDivElement>(
+  const { getPosition, setPositionList } = usePositionPortal<HTMLDivElement>({
     displayRef,
     isPortal,
-    "bottom-left",
-    null
-  );
+    placement: "bottom-left",
+  });
+
   const handleToggleContent = () => {
     setPositionList();
     setIsShowContent(!isShowContent);

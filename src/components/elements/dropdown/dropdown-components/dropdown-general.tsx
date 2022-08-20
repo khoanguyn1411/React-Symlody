@@ -29,11 +29,11 @@ export const DropdownGeneral: React.FC<TProps> = ({
     isShowContent,
     setIsShowContent
   );
-  const { setPositionList, getPosition } = usePositionPortal<HTMLDivElement>(
+  const { setPositionList, getPosition } = usePositionPortal<HTMLDivElement>({
     displayRef,
-    true,
-    placement
-  );
+    isPortal: true,
+    placement,
+  });
 
   const handleToggleDropdown = () => {
     setPositionList();
