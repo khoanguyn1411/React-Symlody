@@ -1,4 +1,4 @@
-import { IUser } from "@/features";
+import { IUser } from "@/features/types/dtos/user";
 
 import { GeneralApiProblem } from "../api-problem";
 

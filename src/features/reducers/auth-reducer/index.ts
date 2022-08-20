@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthApi, RequestGetProfileResult, RequestLoginResult } from "@/api";
 import { APP_CONSTANTS } from "@/constants";
 import { RootState } from "@/features/store";
-import { IUser } from "@/features/types";
+import { IUser } from "@/features/types/dtos/user";
 
 export type AuthState = {
   pending: boolean;

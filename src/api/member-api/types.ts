@@ -1,19 +1,19 @@
-import { IMember, IMemberPost } from "@/features/types/member-type";
+import { IMemberDto, IMemberDtoCU } from "@/features/types/dtos";
 
 import { GeneralApiProblem } from "../api-problem";
 
-export type RequestCreateMemberBody = IMemberPost;
+export type RequestCreateMemberBody = IMemberDtoCU;
 
 export type RequestGetMembersResult =
   | {
       kind: `ok`;
-      result: IMember[];
+      result: IMemberDto[];
     }
   | GeneralApiProblem;
 
 export type RequestCreateMembersResult =
   | {
       kind: `ok`;
-      result: IMemberPost;
+      result: IMemberDtoCU;
     }
   | GeneralApiProblem;

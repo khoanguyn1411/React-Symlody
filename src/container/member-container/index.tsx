@@ -7,13 +7,12 @@ import {
   Search,
   Select,
 } from "@/components";
-import { useAppDispatch, useAppSelector } from "@/features";
+import { IMember, useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync } from "@/features/reducers";
-import { IMember } from "@/features/types/member-type";
 import { useModal, useSearch } from "@/hooks";
 
 import { displayOptions } from "./constant";
-import { MemberMapper } from "./mapper";
+import { MemberTableMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { ListMemberSkeleton } from "./member-skeleton";
 
@@ -94,7 +93,7 @@ export const MemberContainer: React.FC = () => {
                 </thead>
                 <tbody>
                   {memberStore.members.map((item, index) => {
-                    const memberTableItem = MemberMapper.toTableView(item);
+                    const memberTableItem = MemberTableMapper.fromModel(item);
                     return (
                       <Fragment key={index}>
                         <tr

@@ -1,6 +1,6 @@
 import { ApiResponse, ApisauceInstance } from "apisauce";
 
-import { IMember, IMemberPost } from "@/features/types/member-type";
+import { IMemberDto, IMemberDtoCU } from "@/features";
 
 import { API_URL } from "../api-config";
 import { Api } from "../api-core";
@@ -18,7 +18,7 @@ const routes = {
 export const MemberApi = {
   async getMembers(): Promise<Types.RequestGetMembersResult> {
     const url = routes.getMembers();
-    const result: ApiResponse<IMember[]> = await api.get(url);
+    const result: ApiResponse<IMemberDto[]> = await api.get(url);
 
     return returnResponse(result);
   },
@@ -27,7 +27,7 @@ export const MemberApi = {
     body: Types.RequestCreateMemberBody
   ): Promise<Types.RequestCreateMembersResult> {
     const url = routes.getMembers();
-    const result: ApiResponse<IMemberPost> = await api.post(url, { ...body });
+    const result: ApiResponse<IMemberDtoCU> = await api.post(url, { ...body });
 
     return returnResponse(result);
   },

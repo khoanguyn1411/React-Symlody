@@ -8,11 +8,11 @@ import {
   Select,
   SelectMultiple,
 } from "@/components";
-import { IMember } from "@/features/types/member-type";
+import { ERoles, IMember } from "@/features";
 import { FormService } from "@/utils";
 
 import { getListRole } from "../constant";
-import { MemberMapper } from "../mapper";
+import { MemberFormMapper } from "../mapper";
 import { IFormMemberInfo } from "../type";
 
 type TProps = {
@@ -23,7 +23,7 @@ type TProps = {
 export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
   let dataForm: IFormMemberInfo = null;
   if (data) {
-    dataForm = MemberMapper.toFormValue(data);
+    dataForm = MemberFormMapper.fromModel(data);
   }
 
   const {
@@ -188,11 +188,14 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="role"
-          defaultValue={(defaultValue.get("role") as unknown as string[], [])}
+          defaultValue={
+            defaultValue.get("role") as unknown as IFormMemberInfo["role"]
+          }
           render={({ field: { value, onChange } }) => {
+            console.log(value);
             return (
               <SelectMultiple
-                list={getListRole()}
+                list={Object.values(ERoles)}
                 style="modal"
                 value={value}
                 onChange={onChange}

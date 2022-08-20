@@ -9,7 +9,7 @@ import { useAppDispatch } from "@/features";
 import { createMemberAsync, getMembersAsync } from "@/features/reducers";
 import { THookModalProps } from "@/hooks";
 
-import { MemberMapper } from "../mapper";
+import { MemberFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { IFormMemberInfo } from "../type";
 import { FormItems } from "./member-form";
@@ -24,8 +24,8 @@ const TabCreateAMember: React.FC = () => {
 
   const handleCreateMember = async (data: IFormMemberInfo) => {
     setIsLoading(true);
-    const memberDto = MemberMapper.toDto(data);
-    const res = await dispatch(createMemberAsync(memberDto));
+    const memberModel = MemberFormMapper.toModel(data);
+    const res = await dispatch(createMemberAsync(memberModel));
     if (!res.payload) {
       toast.error("Tạo thành viên thất bại");
       return;

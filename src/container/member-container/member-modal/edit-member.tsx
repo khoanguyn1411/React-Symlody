@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Modal } from "@/components";
-import { IMember } from "@/features/types/member-type";
+import { IMember } from "@/features";
 import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";

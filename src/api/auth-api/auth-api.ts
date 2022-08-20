@@ -1,6 +1,6 @@
 import { ApiResponse, ApisauceInstance } from "apisauce";
 
-import { IUser } from "@/features";
+import { IUser } from "@/features/types/dtos/user";
 
 import { API_URL } from "../api-config";
 import { Api } from "../api-core";

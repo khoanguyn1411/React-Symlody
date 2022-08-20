@@ -1,62 +1,61 @@
 import dayjs from "dayjs";
 
-import { IMember, IMemberPost } from "@/features/types/member-type";
+import { IMember, IMemberCU } from "@/features";
 
 import { IFormMemberInfo, IMemberTable } from "./type";
 
-export class MemberMapper {
+export class MemberFormMapper {
   /** Use for map data from form values to member dto. */
-  public static toDto(formData: IFormMemberInfo): IMemberPost {
+  public static toModel(formData: IFormMemberInfo): IMemberCU {
     return {
-      auth_account: {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
+      authAccount: {
+        fistName: formData.firstName,
+        lastName: formData.lastName,
         email: formData.email,
-        groups: [1, 2, 3, 4, 5],
+        groups: formData.role,
       },
-      dob: dayjs(formData.birthday).format("YYYY-MM-DD"),
-      class_name: formData.class,
-      is_archived: true,
+      birthday: dayjs(formData.birthday).format("YYYY-MM-DD"),
+      className: formData.class,
       address: formData.address,
-      gender: formData.gender === "Nam" ? 1 : 2,
-      student_id: formData.studentId,
-      phone_number: formData.phone,
-      home_town: formData.home,
-      last_modified_by: "someguys",
-      created_by: 12,
+      gender: formData.gender,
+      studentId: formData.studentId,
+      phone: formData.phone,
+      home: formData.home,
+      lastModifierDate: "someguys",
+      createBy: 123123,
       department: {
-        name: "khoa",
+        name: formData.department,
       },
     };
   }
-
   /** Use for map data from back-end to form values. */
-  public static toFormValue(dto: IMember): IFormMemberInfo {
+  public static fromModel(model: IMember): IFormMemberInfo {
     return {
-      firstName: dto.auth_account.first_name,
-      lastName: dto.auth_account.last_name,
-      gender: dto.gender ? (dto.gender === 1 ? "Nam" : "Nữ") : undefined,
-      birthday: dayjs(dto.dob).format("MM/DD/YYYY"),
-      department: dto.department.name,
-      role: ["HR", "AD"],
-      class: dto.class_name,
-      studentId: dto.student_id,
-      email: dto.auth_account.email,
-      phone: dto.phone_number,
-      address: dto.address,
-      home: dto.home_town,
+      firstName: model.authAccount.fistName,
+      lastName: model.authAccount.lastName,
+      gender: model.gender ?? undefined,
+      birthday: model.birthday,
+      department: model.department.name,
+      role: model.authAccount.groups,
+      class: model.className,
+      studentId: model.studentId,
+      email: model.authAccount.email,
+      phone: model.phone,
+      address: model.address,
+      home: model.home,
     };
   }
+}
 
-  /** Use for map data from back-end to table view of member list. */
-  public static toTableView(dto: IMember): IMemberTable {
+export class MemberTableMapper {
+  public static fromModel(model: IMember): IMemberTable {
     return {
-      id: dto.id,
-      name: dto.auth_account.first_name + " " + dto.auth_account.last_name,
-      email: dto.auth_account.email,
-      department: dto.department.name,
-      birthday: dayjs(dto.dob).format("DD/MM/YYYY"),
-      roles: dto.auth_account.groups.join(", "),
+      id: model.id,
+      name: model.authAccount.fistName + " " + model.authAccount.lastName,
+      email: model.authAccount.email,
+      department: model.department.name,
+      birthday: dayjs(model.birthday).format("DD/MM/YYYY"),
+      roles: model.authAccount.groups.join(", "),
     };
   }
 }

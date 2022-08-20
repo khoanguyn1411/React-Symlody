@@ -6,7 +6,8 @@ import {
   RequestGetMembersResult,
 } from "@/api";
 import { RootState } from "@/features/store";
-import { IMember, IMemberPost } from "@/features/types/member-type";
+import { MemberMapper } from "@/features/types/mappers";
+import { IMember, IMemberCU } from "@/features/types/models";
 
 export type MemberState = {
   pending: boolean;
@@ -20,9 +21,9 @@ const initialState: MemberState = {
 
 export const createMemberAsync = createAsyncThunk(
   "auth/login",
-  async (payload: IMemberPost) => {
+  async (payload: IMemberCU) => {
     const result: RequestCreateMembersResult = await MemberApi.createMember(
-      payload
+      MemberMapper.toDto(payload)
     );
 
     if (result.kind === "ok") {
@@ -35,9 +36,8 @@ export const createMemberAsync = createAsyncThunk(
 export const getMembersAsync = createAsyncThunk("get/members", async () => {
   const result: RequestGetMembersResult = await MemberApi.getMembers();
   if (result.kind === "ok") {
-    return result.result;
+    return result.result.map((item) => MemberMapper.fromDto(item));
   }
-
   return [];
 });
 
