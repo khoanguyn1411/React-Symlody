@@ -32,7 +32,9 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
   });
 
   const handleSetItem = (checked: string) => () => {
-    if (!value) onChange([checked]);
+    if (!value) {
+      return onChange([checked]);
+    }
     if ([...value].includes(checked)) {
       return onChange([...value].filter((item) => item !== checked));
     }

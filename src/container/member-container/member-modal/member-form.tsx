@@ -191,7 +191,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             defaultValue.get("role") as unknown as IFormMemberInfo["role"]
           }
           render={({ field: { value, onChange } }) => {
-            console.log(value);
             return (
               <SelectMultiple
                 list={Object.values(ERoles)}

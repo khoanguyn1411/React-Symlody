@@ -24,6 +24,7 @@ const TabCreateAMember: React.FC = () => {
 
   const handleCreateMember = async (data: IFormMemberInfo) => {
     setIsLoading(true);
+    console.log(data);
     const memberModel = MemberFormMapper.toModel(data);
     const res = await dispatch(createMemberAsync(memberModel));
     if (!res.payload) {
