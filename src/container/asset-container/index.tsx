@@ -4,6 +4,12 @@ import {
   Pagination,
   Search,
   Sort,
+  Table,
+  TableBody,
+  TableCell,
+  TableCellHead,
+  TableHead,
+  TableRow,
 } from "@/components";
 import { useModal, useSearch } from "@/hooks";
 import { FormatService } from "@/utils";
@@ -119,68 +125,56 @@ export const AssetContainer: React.FC = () => {
         </div>
       </div>
       <div className="p-default">
-        <div className="bg-white border rounded-md">
-          <table className="w-full">
-            {/* <AssetSkeleton /> */}
-            <thead className="bg-primary-50">
-              <tr className="w-full  rounded-t-md">
-                <td className="w-20 px-5 py-2 font-medium text-center rounded-tl-md">
-                  STT
-                </td>
-                <td className="py-2 font-medium text-left min-w-[200px]">
-                  Tài sản
-                </td>
-                <td className="px-5 py-2 font-medium text-right w-28">
-                  Số lượng
-                </td>
-                <td className="w-24 py-2 font-medium text-right">Đơn giá</td>
-                <td className="w-56 px-5 py-2 font-medium text-left">
-                  Người chịu trách nhiệm
-                </td>
-                <td className="w-32 py-2 font-medium text-left">Chủ sở hữu</td>
-                <td className="w-20 px-5 py-2 font-normal rounded-tr-md"></td>
-              </tr>
-            </thead>
-            <tbody>
-              {assetList.map((item, index) => (
-                <tr className="text-left border-t border-gray-200" key={index}>
-                  <td className="w-20 px-5 py-2 font-normal text-center">
-                    {index + 1}
-                  </td>
+        {/* <TableAssetSkeleton /> */}
+        <Table>
+          <TableHead>
+            <TableCellHead isFirst textAlign="center" width="5rem">
+              STT
+            </TableCellHead>
+            <TableCellHead>Tài sản</TableCellHead>
+            <TableCellHead width="7rem" textAlign="right">
+              Số lượng
+            </TableCellHead>
+            <TableCellHead width="6rem" textAlign="right">
+              Đơn giá
+            </TableCellHead>
+            <TableCellHead width="14rem">Người chịu trách nhiệm</TableCellHead>
+            <TableCellHead width="8rem">Chủ sở hữu</TableCellHead>
+            <TableCellHead isLast width="5rem" />
+          </TableHead>
+          <TableBody>
+            {assetList.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell textAlign="center" width="5rem">
+                  {index + 1}
+                </TableCell>
 
-                  <td className="py-2 font-normal min-w-[200px]">
-                    {item.assetName}
-                  </td>
-                  <td className="px-5 py-2 font-normal text-right w-28">
-                    {item.quantity}
-                  </td>
-                  <td className="w-24 py-2 font-normal text-right">
-                    {item.price
-                      ? `${FormatService.toCurrency(Number(item.price))}`
-                      : "--"}
-                  </td>
+                <TableCell>{item.assetName}</TableCell>
+                <TableCell width="7rem" textAlign="right">
+                  {item.quantity}
+                </TableCell>
+                <TableCell width="6rem" textAlign="right">
+                  {item.price
+                    ? `${FormatService.toCurrency(Number(item.price))}`
+                    : "--"}
+                </TableCell>
 
-                  <td className="w-56 px-5 py-2 font-normal text-left">
-                    {item.inCharge}
-                  </td>
-                  <td className="w-32 py-2 font-normal text-left">
-                    {item.owner}
-                  </td>
+                <TableCell width="14rem">{item.inCharge}</TableCell>
+                <TableCell width="8rem">{item.owner}</TableCell>
 
-                  <td className="w-20 px-5 py-2 font-normal">
-                    <DeleteAndEditField
-                      title="Xóa tài sản?"
-                      handleEvent={{
-                        edit: handleEdit(item),
-                        delete: handleDelete(item),
-                      }}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                <TableCell width="5rem">
+                  <DeleteAndEditField
+                    title="Xóa tài sản?"
+                    handleEvent={{
+                      edit: handleEdit(item),
+                      delete: handleDelete(item),
+                    }}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
         <div className="flex justify-end w-full mt-5">
           <Pagination
             onRowQuantityChange={(activeRows) => console.log(activeRows)}

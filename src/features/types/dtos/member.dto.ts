@@ -1,11 +1,11 @@
 export enum ERolesDto {
-  EventManager = 1,
-  Member = 2,
+  SystemAdmin = 1,
+  Lead = 2,
   MemberManager = 3,
-  NotificationManager = 4,
-  PropertyManager = 5,
-  SystemAdmin = 6,
-  Lead = 7,
+  PropertyManager = 4,
+  NotificationManager = 5,
+  EventManager = 6,
+  Member = 7,
 }
 
 export interface IAuthAccountDto {

@@ -115,7 +115,7 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
                     aria-hidden="true"
                     onClick={handleSetItem(item)}
                     className={classNames(
-                      "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-colors duration-70"
+                      "py-1 px-2 hover:bg-primary-50 cursor-pointer flex items-center hover:bg-grey transition-colors duration-70"
                     )}
                   >
                     <Checkbox checked={value && [...value].includes(item)} />
@@ -139,7 +139,7 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
                   aria-hidden="true"
                   onClick={handleSetItem(item)}
                   className={classNames(
-                    "py-1 px-2 hover:bg-primary-100 cursor-pointer flex items-center hover:bg-grey transition-colors duration-70"
+                    "py-1 px-2 hover:bg-primary-50 cursor-pointer flex items-center hover:bg-grey transition-colors duration-70"
                   )}
                 >
                   <Checkbox checked={value && [...value].includes(item)} />

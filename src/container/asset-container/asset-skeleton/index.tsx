@@ -1,39 +1,39 @@
-import React from "react";
+type TProps = {
+  length?: number;
+};
 
-import { Skeleton } from "@/components";
+import { Skeleton, Table, TableBody, TableCell, TableRow } from "@/components";
 
-export const AssetSkeleton = () => {
-  const count = 5;
+export const TableAssetSkeleton: React.FC<TProps> = ({ length = 5 }) => {
   return (
-    <>
-      {[...Array(count)].map((item, index) => (
-        <tr key={index} className="text-left border-t border-gray-200">
-          <td className="w-20 px-2 py-2 font-normal text-center">
-            <Skeleton />
-          </td>
-
-          <td className="py-2 font-normal min-w-[200px]">
-            <Skeleton />
-          </td>
-
-          <td className="w-24 px-2 py-2 font-normal text-center">
-            <Skeleton />
-          </td>
-          <td className="w-32 py-2 font-normal text-center">
-            <Skeleton />
-          </td>
-
-          <td className="px-2 py-2 font-normal text-center w-52">
-            <Skeleton />
-          </td>
-          <td className="w-32 py-2 font-normal text-center">
-            <Skeleton />
-          </td>
-          <td className="w-20 px-2 py-2 font-normal">
-            <Skeleton />
-          </td>
-        </tr>
-      ))}
-    </>
+    <Table>
+      <TableBody>
+        {[...Array(length)].map((item, index) => (
+          <TableRow isSkeleton key={index} isBorderTop={index !== 0}>
+            <TableCell isSkeleton isFirst width="5rem" textAlign="center">
+              <Skeleton />
+            </TableCell>
+            <TableCell isSkeleton>
+              <Skeleton />
+            </TableCell>
+            <TableCell isSkeleton width="7rem">
+              <Skeleton />
+            </TableCell>
+            <TableCell isSkeleton width="6rem">
+              <Skeleton />
+            </TableCell>
+            <TableCell isSkeleton width="14rem">
+              <Skeleton />
+            </TableCell>
+            <TableCell isSkeleton width="8rem">
+              <Skeleton />
+            </TableCell>
+            <TableCell isSkeleton isLast width="5rem">
+              <Skeleton />
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };

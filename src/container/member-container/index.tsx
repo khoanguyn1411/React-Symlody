@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Button,
@@ -6,6 +6,12 @@ import {
   Pagination,
   Search,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableCellHead,
+  TableHead,
+  TableRow,
 } from "@/components";
 import { IMember, useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync } from "@/features/reducers";
@@ -14,7 +20,7 @@ import { useModal, useSearch } from "@/hooks";
 import { displayOptions } from "./constant";
 import { MemberTableMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
-import { ListMemberSkeleton } from "./member-skeleton";
+import { TableMemberSkeleton } from "./member-skeleton";
 
 export const MemberContainer: React.FC = () => {
   const propsModalCreateMember = useModal();
@@ -66,84 +72,62 @@ export const MemberContainer: React.FC = () => {
         </div>
       </div>
       <div className="p-default">
-        <div className="bg-white border border-gray-200 rounded-md">
-          <table className="w-full">
-            {memberStore.pending && (
-              <tbody>
-                <ListMemberSkeleton />
-              </tbody>
-            )}
-            {!memberStore.pending && (
-              <>
-                <thead className="bg-primary-50">
-                  <tr>
-                    <td className="w-20 py-2 font-semibold text-center">STT</td>
-                    <td className="py-2 pr-6 font-semibold text-left">
-                      Họ và tên
-                    </td>
-                    <td className="py-2 font-semibold text-left">Ban</td>
-                    <td className="py-2 pr-6 font-semibold text-left">
-                      Ngày sinh
-                    </td>
-                    <td className="py-2 font-semibold text-left pr-default">
-                      Vị trí
-                    </td>
-                    <td className="w-8 py-2 pr-4 font-normal"></td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {memberStore.members.map((item, index) => {
-                    const memberTableItem = MemberTableMapper.fromModel(item);
-                    return (
-                      <Fragment key={index}>
-                        <tr
-                          className="text-left border-t border-gray-200"
-                          key={memberTableItem.id}
-                        >
-                          <td className="w-20 py-2 font-normal text-center">
-                            {index + 1}
-                          </td>
-                          <td className="w-auto py-2 pr-6 font-normal">
-                            <div className="flex items-center">
-                              <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
-                              <div>
-                                <h1 className="font-semibold">
-                                  {memberTableItem.name}
-                                </h1>
-                                <h1 className="text-sm">
-                                  {memberTableItem.email}
-                                </h1>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="py-2 pr-6 font-normal w-28">
-                            {memberTableItem.department}
-                          </td>
-                          <td className="py-2 pr-6 font-normal w-28">
-                            {memberTableItem.birthday}
-                          </td>
-                          <td className="py-2 font-normal w-28 pr-default">
-                            {memberTableItem.roles}
-                          </td>
+        {memberStore.pending && <TableMemberSkeleton />}
+        {!memberStore.pending && (
+          <Table>
+            <TableHead>
+              <TableCellHead isFirst width="5rem" textAlign="center">
+                STT
+              </TableCellHead>
+              <TableCellHead>Họ và tên</TableCellHead>
+              <TableCellHead width="6rem">Ban</TableCellHead>
+              <TableCellHead width="8rem">Ngày sinh</TableCellHead>
+              <TableCellHead width="18rem">Vị trí</TableCellHead>
+              <TableCellHead isLast width="5rem" />
+            </TableHead>
+            <TableBody>
+              {memberStore.members.map((item, index) => {
+                const memberTableItem = MemberTableMapper.fromModel(item);
+                return (
+                  <TableRow key={memberTableItem.id}>
+                    <TableCell width="5rem" textAlign="center">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center">
+                        <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
+                        <div>
+                          <h1 className="font-semibold">
+                            {memberTableItem.name}
+                          </h1>
+                          <h1 className="text-sm">{memberTableItem.email}</h1>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell width="6rem">
+                      {memberTableItem.department}
+                    </TableCell>
+                    <TableCell width="8rem">
+                      {memberTableItem.birthday}
+                    </TableCell>
+                    <TableCell width="18rem">{memberTableItem.roles}</TableCell>
 
-                          <td className="w-8 py-2 pr-4 font-normal">
-                            <DeleteAndEditField
-                              title="Xóa thành viên?"
-                              handleEvent={{
-                                edit: handleEdit(item),
-                                delete: handleDelete(item),
-                              }}
-                            />
-                          </td>
-                        </tr>
-                      </Fragment>
-                    );
-                  })}
-                </tbody>
-              </>
-            )}
-          </table>
-        </div>
+                    <TableCell width="5rem" textAlign="right">
+                      <DeleteAndEditField
+                        title="Xóa thành viên?"
+                        handleEvent={{
+                          edit: handleEdit(item),
+                          delete: handleDelete(item),
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
+
         {!memberStore.pending && (
           <div className="flex justify-end w-full mt-5">
             <Pagination

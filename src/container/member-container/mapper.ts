@@ -5,7 +5,7 @@ import { IMember, IMemberCU } from "@/features";
 import { IFormMemberInfo, IMemberTable } from "./type";
 
 export class MemberFormMapper {
-  /** Use for map data from form values to member dto. */
+  /** Use for map data from form values to member model. */
   public static toModel(formData: IFormMemberInfo): IMemberCU {
     return {
       authAccount: {
@@ -28,12 +28,12 @@ export class MemberFormMapper {
       },
     };
   }
-  /** Use for map data from back-end to form values. */
+  /** Use for map data from model to form values. */
   public static fromModel(model: IMember): IFormMemberInfo {
     return {
       firstName: model.authAccount.fistName,
       lastName: model.authAccount.lastName,
-      gender: model.gender ?? undefined,
+      gender: model.gender,
       birthday: model.birthday,
       department: model.department.name,
       role: model.authAccount.groups,

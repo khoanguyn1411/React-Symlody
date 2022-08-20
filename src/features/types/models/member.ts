@@ -39,5 +39,5 @@ export interface IMember {
   readonly department: IDepartment;
 }
 export type IMemberCU = Omit<IMember, "id" | "department"> & {
-  department: IDepartmentCU;
+  readonly department: IDepartmentCU;
 };

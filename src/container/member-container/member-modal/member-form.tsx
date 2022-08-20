@@ -11,7 +11,6 @@ import {
 import { ERoles, IMember } from "@/features";
 import { FormService } from "@/utils";
 
-import { getListRole } from "../constant";
 import { MemberFormMapper } from "../mapper";
 import { IFormMemberInfo } from "../type";
 
