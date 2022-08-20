@@ -19,6 +19,12 @@ const tabsSidebar: ITabSidebar[] = [
     to: "/asset",
     pageActive: "Asset",
   },
+  {
+    icon: "fas fa-wrench",
+    title: "Cấu hình",
+    to: "/config",
+    pageActive: "Config",
+  },
 ];
 
 export const getTabsSidebar = () => {

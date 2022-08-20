@@ -32,7 +32,11 @@ export const Sidebar: React.FC<TProps> = ({
         className
       )}
     >
-      <div className={"h-screen flex flex-col items-center px-3 py-2"}>
+      <div
+        className={classNames("h-screen flex flex-col items-center px-3 py-2", {
+          "pr-4": !isCompactSidebar,
+        })}
+      >
         <div className="flex justify-start w-full">
           <div className="w-10 h-10 rounded-full bg-primary-500"></div>
         </div>

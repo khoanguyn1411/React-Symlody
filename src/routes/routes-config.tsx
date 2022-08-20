@@ -1,12 +1,13 @@
 import { NotFound } from "@/components";
 import {
   AssetContainer,
+  ConfigContainer,
   HomeContainer,
   LoginContainer,
   MemberContainer,
 } from "@/container";
 
-export type Page_Key = "Home" | "Member" | "Asset";
+export type Page_Key = "Home" | "Member" | "Asset" | "Config";
 interface IRoutes {
   path: string;
   component: React.ReactNode | JSX.Element;
@@ -33,6 +34,12 @@ const privateRoutes: readonly IRoutes[] = [
     component: <AssetContainer />,
     pageKey: "Asset",
     pageTitle: "Trang tài sản",
+  },
+  {
+    path: "/config",
+    component: <ConfigContainer />,
+    pageKey: "Config",
+    pageTitle: "Trang cấu hình",
   },
   {
     path: "/*",
