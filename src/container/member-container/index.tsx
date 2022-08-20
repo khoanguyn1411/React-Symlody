@@ -13,8 +13,9 @@ import {
   TableHead,
   TableRow,
 } from "@/components";
-import { IMember, useAppDispatch, useAppSelector } from "@/features";
+import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync } from "@/features/reducers";
+import { IMember } from "@/features/types";
 import { useModal, useSearch } from "@/hooks";
 
 import { displayOptions } from "./constant";

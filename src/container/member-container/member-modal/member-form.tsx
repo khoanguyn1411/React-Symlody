@@ -8,7 +8,7 @@ import {
   Select,
   SelectMultiple,
 } from "@/components";
-import { ERoles, IMember } from "@/features";
+import { ERoles, IMember } from "@/features/types";
 import { FormService } from "@/utils";
 
 import { MemberFormMapper } from "../mapper";

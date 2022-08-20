@@ -1,3 +1,3 @@
 export * from "./dtos";
 export * from "./mappers";
-export * from "./models";
+export * from "./models/index";

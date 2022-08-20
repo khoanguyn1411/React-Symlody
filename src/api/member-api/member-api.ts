@@ -1,6 +1,6 @@
 import { ApiResponse, ApisauceInstance } from "apisauce";
 
-import { IMemberDto, IMemberDtoCU } from "@/features";
+import { IMemberDto, IMemberDtoCU } from "@/features/types";
 
 import { API_URL } from "../api-config";
 import { Api } from "../api-core";

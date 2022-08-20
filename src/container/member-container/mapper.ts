@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { IMember, IMemberCU } from "@/features";
+import { IMember, IMemberCU } from "@/features/types";
 
 import { IFormMemberInfo, IMemberTable } from "./type";
 
