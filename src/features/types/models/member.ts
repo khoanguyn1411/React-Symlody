@@ -21,7 +21,7 @@ export interface IDepartment {
 }
 
 export interface IDepartmentCU {
-  name: string;
+  readonly name: string;
 }
 
 export interface IMember {
