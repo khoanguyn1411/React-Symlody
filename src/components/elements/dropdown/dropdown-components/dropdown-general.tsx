@@ -29,7 +29,7 @@ export const DropdownGeneral: React.FC<TProps> = ({
     isShowContent,
     setIsShowContent
   );
-  const { setPositionList, getPosition } = usePositionPortal<HTMLDivElement>({
+  const { setPositionList, position } = usePositionPortal<HTMLDivElement>({
     displayRef,
     isPortal: true,
     placement,
@@ -55,7 +55,7 @@ export const DropdownGeneral: React.FC<TProps> = ({
       <Portal>
         <ul ref={listRef}>
           <DropdownListWrapper
-            position={getPosition()}
+            position={position}
             isShowContent={isShowContent}
             widthContainer={widthContainer}
             isOverflow={isOverflow}

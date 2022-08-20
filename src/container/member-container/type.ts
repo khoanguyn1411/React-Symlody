@@ -1,4 +1,4 @@
-export type TFormMemberInfo = {
+export interface IFormMemberInfo {
   readonly firstName: string;
   readonly lastName: string;
   readonly gender: string;
@@ -11,7 +11,7 @@ export type TFormMemberInfo = {
   readonly phone: string;
   readonly address: string;
   readonly home: string;
-};
+}
 
 export interface IMemberTable {
   readonly id: number;

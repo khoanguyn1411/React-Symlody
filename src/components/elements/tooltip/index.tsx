@@ -30,7 +30,7 @@ export const Tooltip: React.FC<TProps> = ({
   const refChildren = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLDivElement>(null);
 
-  const { setPositionList, getPosition } = usePositionPortal({
+  const { setPositionList, position } = usePositionPortal({
     displayRef: refChildren,
     isPortal: true,
     placement,
@@ -69,9 +69,7 @@ export const Tooltip: React.FC<TProps> = ({
             `bg-black min-w-max h-[fit-content fixed z-20 text-white px-2 py-1 rounded-md select-none pointer-events-none`
           )}
           attrs={{
-            style: {
-              ...getPosition(),
-            },
+            style: position,
           }}
         >
           <div ref={toggleRef}>

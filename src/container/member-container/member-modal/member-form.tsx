@@ -13,15 +13,15 @@ import { FormService } from "@/utils";
 
 import { getListRole } from "../constant";
 import { MemberMapper } from "../mapper";
-import { TFormMemberInfo } from "../type";
+import { IFormMemberInfo } from "../type";
 
 type TProps = {
   data?: IMember;
-  formProps: UseFormReturn<TFormMemberInfo, any>;
+  formProps: UseFormReturn<IFormMemberInfo, any>;
 };
 
 export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
-  let dataForm: TFormMemberInfo = null;
+  let dataForm: IFormMemberInfo = null;
   if (data) {
     dataForm = MemberMapper.toFormValue(data);
   }
@@ -31,7 +31,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
     formState: { errors },
   } = formProps;
 
-  const defaultValue = FormService.getDefaultValues<TFormMemberInfo>(dataForm);
+  const defaultValue = FormService.getDefaultValues<IFormMemberInfo>(dataForm);
 
   return (
     <>

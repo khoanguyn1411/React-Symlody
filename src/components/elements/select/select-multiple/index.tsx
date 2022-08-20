@@ -25,7 +25,7 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
     isShowContent,
     setIsShowContent
   );
-  const { setPositionList, getPosition } = usePositionPortal({
+  const { setPositionList, position } = usePositionPortal({
     displayRef,
     isPortal,
     placement: "bottom-left",
@@ -105,7 +105,7 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
             <ul ref={listRef}>
               <SelectListWrapper
                 isPortal={isPortal}
-                position={getPosition()}
+                position={position}
                 style={style}
                 isShowContent={isShowContent}
               >

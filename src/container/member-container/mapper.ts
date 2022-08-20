@@ -2,11 +2,11 @@ import dayjs from "dayjs";
 
 import { IMember, IMemberPost } from "@/features/types/member-type";
 
-import { IMemberTable, TFormMemberInfo } from "./type";
+import { IFormMemberInfo, IMemberTable } from "./type";
 
 export class MemberMapper {
   /** Use for map data from form values to member dto. */
-  public static toDto(formData: TFormMemberInfo): IMemberPost {
+  public static toDto(formData: IFormMemberInfo): IMemberPost {
     return {
       auth_account: {
         first_name: formData.firstName,
@@ -31,7 +31,7 @@ export class MemberMapper {
   }
 
   /** Use for map data from back-end to form values. */
-  public static toFormValue(dto: IMember): TFormMemberInfo {
+  public static toFormValue(dto: IMember): IFormMemberInfo {
     return {
       firstName: dto.auth_account.first_name,
       lastName: dto.auth_account.last_name,

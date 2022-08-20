@@ -4,10 +4,9 @@ import { TPosition } from "@/components";
 import { AlignedPlacement } from "@/components/elements/portal/type";
 
 type THookPositionPortal = {
-  setPositionList: () => void;
   coords: TPosition;
-  setCoords?: (coord: TPosition) => void;
-  getPosition?: () => React.CSSProperties;
+  position: React.CSSProperties;
+  setPositionList: () => void;
 };
 
 type TProps<T> = {
@@ -43,7 +42,7 @@ export const usePositionPortal = <T extends HTMLElement>({
     });
   };
 
-  const getPosition = (): any => {
+  const getPosition = (): React.CSSProperties => {
     if (!isPortal || !coords) {
       return;
     }
@@ -129,5 +128,5 @@ export const usePositionPortal = <T extends HTMLElement>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { coords, setPositionList, getPosition };
+  return { coords, position: getPosition(), setPositionList };
 };

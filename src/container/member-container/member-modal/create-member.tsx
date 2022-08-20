@@ -11,18 +11,18 @@ import { THookModalProps } from "@/hooks";
 
 import { MemberMapper } from "../mapper";
 import { schema } from "../schema";
-import { TFormMemberInfo } from "../type";
+import { IFormMemberInfo } from "../type";
 import { FormItems } from "./member-form";
 
 const TabCreateAMember: React.FC = () => {
-  const propsForm = useForm<TFormMemberInfo>({
+  const propsForm = useForm<IFormMemberInfo>({
     resolver: yupResolver(schema),
   });
   const { handleSubmit } = propsForm;
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleCreateMember = async (data: TFormMemberInfo) => {
+  const handleCreateMember = async (data: IFormMemberInfo) => {
     setIsLoading(true);
     const memberDto = MemberMapper.toDto(data);
     const res = await dispatch(createMemberAsync(memberDto));

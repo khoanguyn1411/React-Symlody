@@ -7,7 +7,7 @@ import { IMember } from "@/features/types/member-type";
 import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";
-import { TFormMemberInfo } from "../type";
+import { IFormMemberInfo } from "../type";
 import { FormItems } from "./member-form";
 
 export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
@@ -17,7 +17,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const propsForm = useForm<TFormMemberInfo>({
+  const propsForm = useForm<IFormMemberInfo>({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
@@ -27,7 +27,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     formState: { dirtyFields },
   } = propsForm;
 
-  const handleEditMember = (editInfo: TFormMemberInfo) => {
+  const handleEditMember = (editInfo: IFormMemberInfo) => {
     setIsLoading(false);
     console.log(editInfo);
   };
