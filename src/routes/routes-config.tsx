@@ -42,6 +42,19 @@ const privateRoutes: readonly IRoutes[] = [
     pageTitle: "Trang cấu hình",
   },
   {
+    path: "/config/:tab",
+    component: <ConfigContainer />,
+    pageKey: "Config",
+    pageTitle: "Trang cấu hình",
+  },
+  // {
+  //   path: "/config/department",
+  //   component: <ConfigContainer />,
+  //   pageKey: "Config",
+  //   pageTitle: "Trang cấu hình thành viên",
+  // },
+
+  {
     path: "/*",
     component: (
       <NotFound

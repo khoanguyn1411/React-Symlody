@@ -1,25 +1,36 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
-import { Button, TabHost } from "@/components";
+import { Button, NotFound, TabHost } from "@/components";
 
-export const ConfigContainer = () => {
+import { ActionConfigDepartment, TabConfigDepartment } from "./config-tabs";
+
+export const ConfigContainer: React.FC = () => {
+  const { tab } = useParams();
+  if (tab !== undefined && tab !== "department") {
+    return (
+      <NotFound
+        title="Trang bạn đang truy cập không tồn tại"
+        description="Vui lòng kiểm tra lại đường dẫn hoặc liên hệ trung tâm hỗ trợ"
+      />
+    );
+  }
   return (
     <div>
       <TabHost
+        tabUrlChange={tab}
         renderTabs={[
           {
             title: "Tổ chức",
-            children: <div>Content 1</div>,
+            children: <div>Content 2</div>,
             rightSide: <Button className="w-20">Lưu</Button>,
+            to: "/config",
           },
           {
             title: "Phòng ban",
-            children: <div>Content 2</div>,
-            rightSide: (
-              <Button prefix={<i className="mr-2 fas fa-plus-circle" />}>
-                Tạo mới
-              </Button>
-            ),
+            children: <TabConfigDepartment />,
+            rightSide: <ActionConfigDepartment />,
+            to: "/config/department",
           },
         ]}
       />

@@ -30,6 +30,10 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
     toggle.setToggle();
     reset && reset();
   };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleEvent.event();
+  };
 
   return (
     <ModalWrapper {...props}>
@@ -46,7 +50,7 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
         </h1>
       </div>
       <form
-        onSubmit={handleEvent.event}
+        onSubmit={handleSubmit}
         className="flex flex-col max-h-[calc(100vh-10rem)]"
       >
         <ModalBody>{children}</ModalBody>

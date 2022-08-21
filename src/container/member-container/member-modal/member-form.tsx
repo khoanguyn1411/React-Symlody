@@ -193,7 +193,9 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           render={({ field: { value, onChange } }) => {
             return (
               <SelectMultiple
-                list={Object.values(ERoles)}
+                list={Object.values(ERoles).filter(
+                  (item) => item !== ERoles.Member
+                )}
                 style="modal"
                 value={value}
                 onChange={onChange}

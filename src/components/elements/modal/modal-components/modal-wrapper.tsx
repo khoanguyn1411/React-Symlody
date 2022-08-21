@@ -14,7 +14,7 @@ export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
   toggle,
   closeWhenClickOutside,
   children,
-  size,
+  size = "lg",
 }) => {
   const handleCloseWhenClickOutside = () => {
     closeWhenClickOutside && toggle.setToggle();
