@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from "react";
 
-import { DropdownGeneral } from "@/components";
+import { Dropdown } from "@/components/elements";
 import { useEffectSkipFirstRender } from "@/hooks";
 
 import { SortIncludeValues } from "./sort-component/sort-include-values";
@@ -72,39 +72,38 @@ export const Sort: React.FC<TProps> = ({
   };
 
   return (
-    <DropdownGeneral
+    <Dropdown
       widthContainer="auto"
       isOverflow={false}
       placement="bottom-right"
-      display={
-        <span className="font-semibold">
-          <i className="mr-2 fas fa-sort"></i>
-          Sắp xếp
-        </span>
+      stateOfToggleContent={{ isShowContent, setIsShowContent }}
+      renderCustom={
+        <div>
+          <h1 className="w-full p-3 font-semibold border-b border-gray-200">
+            Sắp xếp theo
+          </h1>
+          {!sortSelected && (
+            <div className="w-60">
+              {fields.map((item, index) => (
+                <button
+                  className="flex items-center w-full px-3 py-2 font-semibold cursor-pointer duration-200 hover:bg-primary-50"
+                  key={index}
+                  onClick={handleSetSortSelected(item)}
+                >
+                  <span className="w-6 mr-2 text-center">{item.prefix}</span>
+                  <h1>{item.title}</h1>
+                </button>
+              ))}
+            </div>
+          )}
+          {sortSelected && <SortIncludeValues {...propsOfSortIncludeValues} />}
+        </div>
       }
-      isShowContent={isShowContent}
-      setIsShowContent={setIsShowContent}
     >
-      <div>
-        <h1 className="w-full p-3 font-semibold border-b border-gray-200">
-          Sắp xếp theo
-        </h1>
-        {!sortSelected && (
-          <div className="w-60">
-            {fields.map((item, index) => (
-              <button
-                className="flex items-center w-full px-3 py-2 font-semibold cursor-pointer duration-200 hover:bg-primary-50"
-                key={index}
-                onClick={handleSetSortSelected(item)}
-              >
-                <span className="w-6 mr-2 text-center">{item.prefix}</span>
-                <h1>{item.title}</h1>
-              </button>
-            ))}
-          </div>
-        )}
-        {sortSelected && <SortIncludeValues {...propsOfSortIncludeValues} />}
-      </div>
-    </DropdownGeneral>
+      <span className="font-semibold">
+        <i className="mr-2 fas fa-sort"></i>
+        Sắp xếp
+      </span>
+    </Dropdown>
   );
 };

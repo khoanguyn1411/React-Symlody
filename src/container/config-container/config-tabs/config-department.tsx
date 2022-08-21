@@ -13,7 +13,7 @@ import {
 } from "@/components";
 import { useModal } from "@/hooks";
 
-export const TabConfigDepartment = () => {
+export const TabConfigDepartment: React.FC = () => {
   const listTest = [
     {
       department: "Test department",

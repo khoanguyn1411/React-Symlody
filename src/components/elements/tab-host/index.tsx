@@ -9,7 +9,6 @@ type TTab = {
   children: ReactNode;
   rightSide?: ReactNode;
   to?: string;
-  isDefaultActive?: boolean;
 };
 
 type TProps = {
@@ -19,7 +18,7 @@ type TProps = {
 
 export const TabHost: React.FC<TProps> = ({ renderTabs, tabUrlChange }) => {
   const getTabActive = () => {
-    if (tabUrlChange === undefined) {
+    if (!tabUrlChange) {
       return renderTabs[0];
     }
     return renderTabs.filter((item) => {
@@ -28,12 +27,15 @@ export const TabHost: React.FC<TProps> = ({ renderTabs, tabUrlChange }) => {
       return lastParam === tabUrlChange;
     })[0];
   };
+
   const [activeTab, setActiveTab] = useState<TTab>(getTabActive());
 
   const navigate = useNavigate();
   const handleClickTab = (tab: TTab) => () => {
     setActiveTab(tab);
-    navigate(tab.to);
+    if (tab.to) {
+      navigate(tab.to);
+    }
   };
 
   useEffectSkipFirstRender(() => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import { Button, NotFound, TabHost } from "@/components";
+import { Button, Dropdown, NotFound, TabHost } from "@/components";
 
 import { ActionConfigDepartment, TabConfigDepartment } from "./config-tabs";
 
@@ -15,6 +15,7 @@ export const ConfigContainer: React.FC = () => {
       />
     );
   }
+
   return (
     <div>
       <TabHost
@@ -22,7 +23,32 @@ export const ConfigContainer: React.FC = () => {
         renderTabs={[
           {
             title: "Tổ chức",
-            children: <div>Content 2</div>,
+            children: (
+              <div>
+                <Dropdown
+                  placement={"bottom-left"}
+                  listSetting={[
+                    {
+                      key: "something",
+                      value: "something",
+                    },
+                    {
+                      key: "somg2",
+                      value: "asdasd",
+                    },
+                    {
+                      key: "asdas",
+                      value: "asdas",
+                    },
+                  ]}
+                  onChange={function (value): void {
+                    console.log(value.key);
+                  }}
+                >
+                  Test Dropdown
+                </Dropdown>
+              </div>
+            ),
             rightSide: <Button className="w-20">Lưu</Button>,
             to: "/config",
           },
