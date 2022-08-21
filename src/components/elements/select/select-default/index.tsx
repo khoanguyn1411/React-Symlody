@@ -1,27 +1,62 @@
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 
-import { SelectGeneral } from "../select-components";
-import { TSelectDefaultProps } from "../type";
+import { Portal } from "@/components";
+import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
-export const Select: React.FC<TSelectDefaultProps> = ({
-  list,
-  value,
+import { SelectDisplayWrapper, SelectListWrapper } from "../select-components";
+import { TSelectGeneralProps, TStyle } from "../type";
+
+export type TItemListDropdown = {
+  prefix?: ReactNode;
+  suffix?: ReactNode;
+  value: string;
+};
+
+type TProps = {
+  suffix?: ReactNode;
+  list: TItemListDropdown[];
+  style?: TStyle;
+  placeHolder?: string;
+  classNameDisplay?: TSelectGeneralProps["classNameDisplay"];
+  className?: TSelectGeneralProps["className"];
+  isPortal?: TSelectGeneralProps["isPortal"];
+  value: string;
+  onChange: (value: string) => void;
+};
+
+export const Select: React.FC<TProps> = ({
+  classNameDisplay,
+  className,
   suffix,
   placeHolder,
-  className,
-  classNameDisplay,
+  list,
+  value,
+  onChange,
   style = "default",
   isPortal = true,
-  onChange,
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
+  const { listRef, displayRef } = useHideOnClickOutside(
+    isShowContent,
+    setIsShowContent
+  );
+  const { position, setPositionList } = usePositionPortal<HTMLDivElement>({
+    displayRef,
+    isPortal,
+    placement: "bottom-left",
+  });
 
-  const handleSetSelectedItem = (item: string) => () => {
+  const handleToggleContent = () => {
+    setPositionList();
+    setIsShowContent(!isShowContent);
+  };
+
+  const handleSetSelectedItem = (item: TItemListDropdown) => () => {
     onChange(
       ((currentItem) => {
-        if (currentItem !== item) {
-          return item;
+        if (currentItem !== item.value) {
+          return item.value;
         }
         return;
       })()
@@ -30,10 +65,15 @@ export const Select: React.FC<TSelectDefaultProps> = ({
   };
 
   return (
-    <SelectGeneral
-      isPortal={isPortal}
-      displayElement={
-        <>
+    <div className={className}>
+      <div className="relative cursor-pointer">
+        {/* Display */}
+        <SelectDisplayWrapper
+          classNameDisplay={classNameDisplay}
+          style={style}
+          ref={displayRef}
+          onClick={handleToggleContent}
+        >
           <h1 className={classNames("pr-3", { "text-gray-400": !value })}>
             {value ? value + " " + (suffix ? suffix : "") : placeHolder}
           </h1>
@@ -48,31 +88,68 @@ export const Select: React.FC<TSelectDefaultProps> = ({
               )}
             />
           </span>
-        </>
-      }
-      isShowContent={isShowContent}
-      style={style}
-      classNameDisplay={classNameDisplay}
-      className={className}
-      setIsShowContent={setIsShowContent}
-    >
-      {list.map((item: string, index: number) => (
-        <li
-          key={index}
-          aria-hidden="true"
-          onClick={handleSetSelectedItem(item)}
-          className={classNames(
-            "py-1 px-2 hover:bg-primary-50 cursor-pointer transition-colors duration-70",
-            {
-              "bg-primary-50 text-primary-800 font-medium": item === value,
-            }
-          )}
-        >
-          <h1>
-            {item} {suffix}
-          </h1>
-        </li>
-      ))}
-    </SelectGeneral>
+        </SelectDisplayWrapper>
+        {/* List */}
+        {isPortal && (
+          <Portal>
+            <ul ref={listRef}>
+              <SelectListWrapper
+                isPortal={isPortal}
+                position={position}
+                isShowContent={isShowContent}
+                style={style}
+              >
+                {list.map((item, index: number) => (
+                  <li
+                    key={index}
+                    aria-hidden="true"
+                    onClick={handleSetSelectedItem(item)}
+                    className={classNames(
+                      "py-1 px-2 hover:bg-primary-50 cursor-pointer transition-colors duration-70",
+                      {
+                        "bg-primary-50 text-primary-800 font-medium":
+                          item.value === value,
+                      }
+                    )}
+                  >
+                    <h1>
+                      {item.prefix} {item.value} {item.suffix}
+                    </h1>
+                  </li>
+                ))}
+              </SelectListWrapper>
+            </ul>
+          </Portal>
+        )}
+        {!isPortal && (
+          <ul ref={listRef}>
+            <SelectListWrapper
+              isPortal={isPortal}
+              isShowContent={isShowContent}
+              style={style}
+            >
+              {list.map((item, index: number) => (
+                <li
+                  key={index}
+                  aria-hidden="true"
+                  onClick={handleSetSelectedItem(item)}
+                  className={classNames(
+                    "py-1 px-2 hover:bg-primary-50 cursor-pointer transition-colors duration-70",
+                    {
+                      "bg-primary-50 text-primary-800 font-medium":
+                        item.value === value,
+                    }
+                  )}
+                >
+                  <h1>
+                    {item.prefix} {item.value} {item.suffix}
+                  </h1>
+                </li>
+              ))}
+            </SelectListWrapper>
+          </ul>
+        )}
+      </div>
+    </div>
   );
 };

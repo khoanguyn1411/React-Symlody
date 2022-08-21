@@ -32,7 +32,6 @@ export const Sort: React.FC<TProps> = ({
   defaultSortBy,
   onSortChange,
 }) => {
-  const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const [sortSelected, setSortSelected] = useState<TField>(
     defaultSortBy
       ? fields.filter((item) => item.title === defaultSortBy.field)[0]
@@ -76,7 +75,6 @@ export const Sort: React.FC<TProps> = ({
       widthContainer="auto"
       isOverflow={false}
       placement="bottom-right"
-      stateOfToggleContent={{ isShowContent, setIsShowContent }}
       renderCustom={
         <div>
           <h1 className="w-full p-3 font-semibold border-b border-gray-200">

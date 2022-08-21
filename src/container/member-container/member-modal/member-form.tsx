@@ -72,7 +72,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             name="gender"
             render={({ field: { value, onChange } }) => (
               <Select
-                list={["Nam", "Nữ"]}
+                list={[{ value: "Nam" }, { value: "Nữ" }]}
                 style="modal"
                 value={value}
                 onChange={onChange}
@@ -169,11 +169,12 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           defaultValue={defaultValue.get("department")}
           render={({ field: { value, onChange } }) => (
             <Select
-              list={["AD", "HR"]}
-              style="modal"
+              list={[{ value: "AD" }, { value: "HR" }]}
+              style={"modal"}
               value={value}
-              onChange={onChange}
               placeHolder="Ban"
+              isPortal={false}
+              onChange={onChange}
             />
           )}
         />

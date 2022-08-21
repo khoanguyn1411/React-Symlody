@@ -1,6 +1,6 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useRef } from "react";
 
-import { Button, Dropdown } from "@/components";
+import { Button, Dropdown, TDropdownMethod } from "@/components";
 
 import { AlignedPlacement } from "../../../elements/portal/type";
 
@@ -20,20 +20,17 @@ export const DropdownConfirm: React.FC<TProps> = ({
   title,
   placement,
 }) => {
-  const [isShowContent, setIsShowContent] = useState<boolean>(false);
+  const dropdownRef = useRef<TDropdownMethod>(null);
   const handleClickItem = () => {
-    setIsShowContent(false);
     handleEvent.event();
+    dropdownRef.current.hideDropdown();
   };
   const handleCancel = () => {
-    setIsShowContent(false);
+    dropdownRef.current.hideDropdown();
   };
   return (
     <Dropdown
-      stateOfToggleContent={{
-        isShowContent,
-        setIsShowContent,
-      }}
+      ref={dropdownRef}
       renderCustom={
         <div className="w-full p-4 space-y-4">
           <div className="flex items-center">

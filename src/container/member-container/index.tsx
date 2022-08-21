@@ -60,7 +60,7 @@ export const MemberContainer: React.FC = () => {
           <Select
             className="w-44"
             classNameDisplay="h-10"
-            list={displayOptions}
+            list={displayOptions.map((item) => ({ value: item }))}
             value={filter}
             onChange={setFilter}
           />

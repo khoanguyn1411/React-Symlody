@@ -1,4 +1,4 @@
-import { Select } from "@/components";
+import { Select, TItemListDropdown } from "@/components";
 
 import { usePaginationContext } from "../context";
 
@@ -16,6 +16,7 @@ export const PaginationPickRows: React.FC = () => {
       onRowQuantityChange && onRowQuantityChange(row);
     }
   };
+  console.log(rowsQuantity);
 
   return (
     <div className="flex items-center ml-8">
@@ -25,10 +26,12 @@ export const PaginationPickRows: React.FC = () => {
         classNameDisplay="h-9"
         suffix="hàng"
         isPortal={false}
-        list={quantityDisplay}
+        list={quantityDisplay.map(
+          (item): TItemListDropdown => ({ value: item })
+        )}
         value={rowsQuantity}
         onChange={handleRowsChange}
-      ></Select>
+      />
     </div>
   );
 };
