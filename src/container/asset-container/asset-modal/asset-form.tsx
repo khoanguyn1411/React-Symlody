@@ -1,14 +1,7 @@
 import React from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
-import {
-  FormItem,
-  Input,
-  Radio,
-  RadioGroup,
-  RadioInput,
-  TextArea,
-} from "@/components";
+import { FormItem, Input, RadioGroup, TextArea } from "@/components";
 import { FormatService, FormService } from "@/utils";
 
 import { TFormAssetInfo } from "../type";

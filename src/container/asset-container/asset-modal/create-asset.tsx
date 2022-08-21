@@ -2,24 +2,21 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { ModalMultipleTabs, ModalTab } from "@/components";
+import { ModalMultipleTabs, ModalTab, TMethodModals } from "@/components";
 import { PickFile } from "@/components/others";
 import { MESSAGE_DEFAULT_EXTENSION, MESSAGE_NOT_PICK_FILE } from "@/constants";
-import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";
 import { TFormAssetInfo } from "../type";
 import { FormItems } from "./asset-form";
-
-export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
-  isShowing,
-  toggle,
-}) => {
+type TProps = {
+  modalRef: React.MutableRefObject<TMethodModals<undefined>>;
+};
+export const ModalCreateAsset: React.FC<TProps> = ({ modalRef }) => {
   return (
     <ModalMultipleTabs
-      toggle={toggle}
+      ref={modalRef}
       size="lg"
-      isShowing={isShowing}
       renderTabs={[
         { title: "Thêm 1 tài sản", children: <TabCreateAnAsset /> },
         { title: "Thêm nhiều tài sản", children: <TabCreateMultipleAssets /> },

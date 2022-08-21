@@ -92,9 +92,9 @@ export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
           children: <TabCreateMultipleMembers />,
         },
       ]}
-      isShowing={isShowing}
+      // isShowing={isShowing}
       size="lg"
-      toggle={toggle}
+      // toggle={toggle}
     />
   );
 };
