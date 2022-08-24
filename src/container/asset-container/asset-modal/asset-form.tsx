@@ -1,7 +1,13 @@
 import React from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
-import { FormItem, Input, RadioGroup, TextArea } from "@/components";
+import {
+  FormItem,
+  Input,
+  PickImageVideo,
+  RadioGroup,
+  TextArea,
+} from "@/components";
 import { FormatService, FormService } from "@/utils";
 
 import { TFormAssetInfo } from "../type";
@@ -136,6 +142,10 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             );
           }}
         />
+      </FormItem>
+
+      <FormItem label="Hình ảnh / Video">
+        <PickImageVideo />
       </FormItem>
 
       <FormItem label="Ghi chú">

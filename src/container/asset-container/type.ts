@@ -5,4 +5,5 @@ export type TFormAssetInfo = {
   inCharge: string;
   note?: string;
   owner: string;
+  image?: File;
 };
