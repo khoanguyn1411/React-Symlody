@@ -3,19 +3,23 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { ModalMultipleTabs, ModalTab } from "@/components";
-import { TRefModal } from "@/components/elements/modal/types";
 import { PickFile } from "@/components/others";
 import { MESSAGE_DEFAULT_EXTENSION, MESSAGE_NOT_PICK_FILE } from "@/constants";
+import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";
 import { TFormAssetInfo } from "../type";
 import { FormItems } from "./asset-form";
 
-export const ModalCreateAsset: React.FC<TRefModal> = ({ modalRef }) => {
+export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
+  isShowing,
+  toggle,
+}) => {
   return (
     <ModalMultipleTabs
-      ref={modalRef}
+      toggle={toggle}
       size="lg"
+      isShowing={isShowing}
       renderTabs={[
         { title: "Thêm 1 tài sản", children: <TabCreateAnAsset /> },
         { title: "Thêm nhiều tài sản", children: <TabCreateMultipleAssets /> },

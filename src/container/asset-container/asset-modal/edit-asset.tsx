@@ -1,16 +1,18 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Modal } from "@/components";
-import { TRefModal } from "@/components/elements/modal/types";
+import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";
 import { TFormAssetInfo } from "../type";
 import { FormItems } from "./asset-form";
 
-export const ModalEditAsset: React.FC<TRefModal<TFormAssetInfo>> = ({
-  modalRef,
+export const ModalEditAsset: React.FC<THookModalProps<TFormAssetInfo>> = ({
+  data,
+  isShowing,
+  toggle,
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -31,10 +33,11 @@ export const ModalEditAsset: React.FC<TRefModal<TFormAssetInfo>> = ({
   };
   return (
     <Modal
-      ref={modalRef}
       reset={reset}
+      toggle={toggle}
       title="Chỉnh sửa tài sản"
       size="lg"
+      isShowing={isShowing}
       handleEvent={{
         title: "Cập nhật",
         event: handleSubmit(handleEditAsset),
@@ -42,7 +45,7 @@ export const ModalEditAsset: React.FC<TRefModal<TFormAssetInfo>> = ({
         isDisable: Object.keys(dirtyFields).length === 0,
       }}
     >
-      <FormItems data={modalRef.current?.data} formProps={propsForm} />
+      <FormItems data={data} formProps={propsForm} />
     </Modal>
   );
 };

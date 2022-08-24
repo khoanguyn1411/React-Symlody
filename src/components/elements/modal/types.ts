@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
 
-import { TMethodModals } from "@/components";
-
 export type size = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 
 // General type of modal.
@@ -20,9 +18,9 @@ export type TEventModal = {
 
 export type TPropsModalGeneral = {
   size?: size;
-  isShowing?: boolean;
+  isShowing: boolean;
   closeWhenClickOutside?: boolean;
-  toggle?: TToggleModal;
+  toggle: TToggleModal;
   reset?: () => void;
 };
 
@@ -48,7 +46,3 @@ export type TPropsModalDefault = {
   title: string;
   children: ReactNode;
 } & TPropsModalGeneral;
-
-export type TRefModal<T = undefined> = {
-  modalRef: React.MutableRefObject<TMethodModals<T>>;
-};

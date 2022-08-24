@@ -1,10 +1,7 @@
 import classNames from "classnames";
-import { forwardRef, useImperativeHandle, useState } from "react";
-
-import { TMethodModals } from "@/components";
 
 import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
-import { TPropsModalDefault, TToggleModal } from "../types";
+import { TPropsModalDefault } from "../types";
 
 /**
  * To get value of isShowing and toggle functions, please use useModal hook and pass
@@ -27,39 +24,8 @@ import { TPropsModalDefault, TToggleModal } from "../types";
       <FormItems data={data} formProps={propsForm} />
     </Modal>
  */
-const ModalInner = <T extends unknown>(
-  props: TPropsModalDefault,
-  ref: React.ForwardedRef<TMethodModals<T>>
-) => {
-  const [isShowing, setIsShowing] = useState<boolean>(false);
-  const [data, setDataState] = useState<T>();
-
-  function setData(data: T) {
-    if (typeof data === undefined) {
-      throw new Error("To use this function, please implement type for hook.");
-    }
-    setDataState(data);
-  }
-
-  const toggle: TToggleModal = {
-    setShow() {
-      setIsShowing(true);
-    },
-    setHidden() {
-      setIsShowing(false);
-    },
-    setToggle() {
-      setIsShowing(!isShowing);
-    },
-  };
-
-  useImperativeHandle(ref, () => ({
-    setData,
-    toggle,
-    data,
-  }));
-
-  const { children, title, handleEvent, reset } = props;
+export const Modal: React.FC<TPropsModalDefault> = (props) => {
+  const { children, title, toggle, handleEvent, reset } = props;
   const handleSetHidden = () => {
     toggle.setToggle();
     reset && reset();
@@ -70,7 +36,7 @@ const ModalInner = <T extends unknown>(
   };
 
   return (
-    <ModalWrapper {...props} isShowing={isShowing} toggle={toggle}>
+    <ModalWrapper {...props}>
       <div className={classNames("w-full flex relative flex-col p-0")}>
         <h1 className="w-full px-5 py-3 text-2xl font-semibold text-left border-b border-gray-200 text-primary-800">
           {title}
@@ -97,5 +63,3 @@ const ModalInner = <T extends unknown>(
     </ModalWrapper>
   );
 };
-
-export const Modal = forwardRef(ModalInner);

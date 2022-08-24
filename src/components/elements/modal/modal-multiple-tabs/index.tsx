@@ -1,23 +1,12 @@
 import classNames from "classnames";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { useState } from "react";
 
 import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
-import {
-  TPropsModalMultipleTabs,
-  TPropsModalTab,
-  TTabs,
-  TToggleModal,
-} from "../types";
+import { TPropsModalMultipleTabs, TPropsModalTab, TTabs } from "../types";
 import {
   ModalMultipleTabsProvider,
   useModalMultipleTabsContext,
 } from "./context";
-
-export type TMethodModals<T> = {
-  setData: (data: T) => void;
-  toggle: TToggleModal;
-  data: T | undefined;
-};
 
 /**
  * - To get value of isShowing and toggle functions, please use useModal hook and pass
@@ -36,49 +25,13 @@ export type TMethodModals<T> = {
       ]}
     />
  */
-const ModalMultipleTabsInner = <T extends unknown>(
-  props: Omit<TPropsModalMultipleTabs, "isShowing" | "toggle">,
-  ref: React.ForwardedRef<TMethodModals<T>>
-) => {
-  const [isShowing, setIsShowing] = useState<boolean>(false);
-  const [data, setDataState] = useState<T>();
-
-  function setData(data: T) {
-    if (typeof data === undefined) {
-      throw new Error("To use this function, please implement type for hook.");
-    }
-    setDataState(data);
-  }
-
-  const toggle: TToggleModal = {
-    setShow() {
-      setIsShowing(true);
-    },
-    setHidden() {
-      setIsShowing(false);
-    },
-    setToggle() {
-      setIsShowing(!isShowing);
-    },
-  };
-
-  useImperativeHandle(ref, () => ({
-    setData,
-    toggle,
-    data,
-  }));
-
-  const values = { ...props, isShowing, setIsShowing, data, setData, toggle };
+export const ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
   return (
-    <div>
-      <ModalMultipleTabsProvider {...values}>
-        <ModalMultipleTabsContent />
-      </ModalMultipleTabsProvider>
-    </div>
+    <ModalMultipleTabsProvider {...props}>
+      <ModalMultipleTabsContent />
+    </ModalMultipleTabsProvider>
   );
 };
-
-export const ModalMultipleTabs = forwardRef(ModalMultipleTabsInner);
 
 const ModalMultipleTabsContent: React.FC = () => {
   const props = useModalMultipleTabsContext();

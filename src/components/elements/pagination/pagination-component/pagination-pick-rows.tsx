@@ -16,7 +16,6 @@ export const PaginationPickRows: React.FC = () => {
       onRowQuantityChange && onRowQuantityChange(row);
     }
   };
-  console.log(rowsQuantity);
 
   return (
     <div className="flex items-center ml-8">
