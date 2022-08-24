@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 import {
   Button,
@@ -14,7 +14,7 @@ import {
   TableRow,
   TMethodModals,
 } from "@/components";
-import { useModal, useSearch } from "@/hooks";
+import { useSearch } from "@/hooks";
 import { FormatService } from "@/utils";
 
 import { ModalCreateAsset } from "./asset-modal";
@@ -22,13 +22,13 @@ import { ModalEditAsset } from "./asset-modal/edit-asset";
 import { TFormAssetInfo } from "./type";
 
 export const AssetContainer: React.FC = () => {
-  const propsModalEdit = useModal<TFormAssetInfo>();
   const propsSearch = useSearch();
   const refModal = useRef<TMethodModals<undefined>>();
+  const refModalEdit = useRef<TMethodModals<TFormAssetInfo>>();
 
   const handleEdit = (item) => () => {
-    propsModalEdit.setData(item);
-    propsModalEdit.toggle.setToggle();
+    refModalEdit.current.setData(item);
+    refModalEdit.current.toggle.setToggle();
   };
   const handleDelete = (item) => () => {
     alert("Deleted");
@@ -188,7 +188,7 @@ export const AssetContainer: React.FC = () => {
         </div>
       </div>
       <ModalCreateAsset modalRef={refModal} />
-      <ModalEditAsset {...propsModalEdit} />
+      <ModalEditAsset modalRef={refModalEdit} />
     </div>
   );
 };

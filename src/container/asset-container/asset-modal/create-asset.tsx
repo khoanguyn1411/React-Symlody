@@ -2,17 +2,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { ModalMultipleTabs, ModalTab, TMethodModals } from "@/components";
+import { ModalMultipleTabs, ModalTab } from "@/components";
+import { TRefModal } from "@/components/elements/modal/types";
 import { PickFile } from "@/components/others";
 import { MESSAGE_DEFAULT_EXTENSION, MESSAGE_NOT_PICK_FILE } from "@/constants";
 
 import { schema } from "../schema";
 import { TFormAssetInfo } from "../type";
 import { FormItems } from "./asset-form";
-type TProps = {
-  modalRef: React.MutableRefObject<TMethodModals<undefined>>;
-};
-export const ModalCreateAsset: React.FC<TProps> = ({ modalRef }) => {
+
+export const ModalCreateAsset: React.FC<TRefModal> = ({ modalRef }) => {
   return (
     <ModalMultipleTabs
       ref={modalRef}
