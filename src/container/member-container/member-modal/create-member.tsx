@@ -86,10 +86,12 @@ export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
         {
           title: "Tạo thành viên",
           children: <TabCreateAMember />,
+          key: "AddAMember",
         },
         {
           title: "Tạo nhiều thành viên",
           children: <TabCreateMultipleMembers />,
+          key: "AddMultipleMember",
         },
       ]}
       isShowing={isShowing}

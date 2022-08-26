@@ -23,11 +23,11 @@ export const AssetContainer: React.FC = () => {
   const propsModalEdit = useModal<TFormAssetInfo>();
   const propsSearch = useSearch();
 
-  const handleEdit = (item) => () => {
+  const handleEdit = (item: TFormAssetInfo) => () => {
     propsModalEdit.setData(item);
     propsModalEdit.toggle.setToggle();
   };
-  const handleDelete = (item) => () => {
+  const handleDelete = (item: TFormAssetInfo) => () => {
     alert("Deleted");
   };
 

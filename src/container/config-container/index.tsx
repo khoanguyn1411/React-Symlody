@@ -1,18 +1,23 @@
-import React from "react";
+import React, { ReactNode, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import {
-  Button,
-  Dropdown,
-  ModalMultipleTabs,
-  NotFound,
-  TabHost,
-} from "@/components";
+import { NotFound, TabHost, TTab } from "@/components";
+``;
+import { TabConfigDepartment } from "./config-tabs";
 
-import { ActionConfigDepartment, TabConfigDepartment } from "./config-tabs";
+const getContentTab = (key: TTab["key"]) => {
+  if (key === undefined) {
+    return <div>Demo</div>;
+  }
+  return <TabConfigDepartment />;
+};
 
 export const ConfigContainer: React.FC = () => {
   const { tab } = useParams();
+  const [content, setContent] = useState<ReactNode>(getContentTab(tab));
+  const handleChangeTab = (tab: TTab) => {
+    setContent(getContentTab(tab.key));
+  };
 
   if (tab !== undefined && tab !== "department") {
     return (
@@ -25,23 +30,19 @@ export const ConfigContainer: React.FC = () => {
 
   return (
     <div>
-      <TabHost
-        tabUrlChange={tab}
-        renderTabs={[
-          {
-            title: "Tổ chức",
-            children: <div></div>,
-            rightSide: <Button className="w-20">Lưu</Button>,
-            to: "/config",
-          },
-          {
-            title: "Phòng ban",
-            children: <TabConfigDepartment />,
-            rightSide: <ActionConfigDepartment />,
-            to: "/config/department",
-          },
-        ]}
-      />
+      <div className="flex justify-between w-full py-3 bg-white border-b px-default">
+        <TabHost
+          isRounded
+          tabDependency={tab}
+          listTabs={[
+            { key: undefined, title: "Tổ chức", to: "/config" },
+            { key: "department", title: "Phòng ban", to: "/config/department" },
+          ]}
+          onUrlChange={handleChangeTab}
+          defaultActive={tab}
+        />
+      </div>
+      <div className="p-default">{content}</div>
     </div>
   );
 };

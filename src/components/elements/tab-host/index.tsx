@@ -1,71 +1,79 @@
 import classNames from "classnames";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useEffectSkipFirstRender } from "@/hooks";
 
-type TTab = {
+export type TTab = {
   title: string;
-  children: ReactNode;
-  rightSide?: ReactNode;
+  key: string;
   to?: string;
 };
 
 type TProps = {
-  renderTabs: TTab[];
-  tabUrlChange?: string;
+  listTabs: TTab[];
+  defaultActive?: TTab["key"];
+  tabDependency?: string;
+  isRounded?: boolean;
+  isNoSpace?: boolean;
+  isStretchTab?: boolean;
+  onChangeTab?: (tab: TTab) => void;
+  onUrlChange?: (tab: TTab) => void;
 };
 
-export const TabHost: React.FC<TProps> = ({ renderTabs, tabUrlChange }) => {
-  const getTabActive = () => {
-    if (!tabUrlChange) {
-      return renderTabs[0];
-    }
-    return renderTabs.filter((item) => {
-      const arr = item.to.split("/");
-      const lastParam = arr[arr.length - 1];
-      return lastParam === tabUrlChange;
-    })[0];
-  };
-
-  const [activeTab, setActiveTab] = useState<TTab>(getTabActive());
-
+export const TabHost: React.FC<TProps> = ({
+  listTabs,
+  onChangeTab,
+  tabDependency,
+  defaultActive,
+  onUrlChange,
+  isStretchTab = false,
+  isRounded = false,
+  isNoSpace = false,
+}) => {
+  const [activeTab, setActiveTab] = useState<TTab>(
+    defaultActive
+      ? listTabs.filter((item) => item.key === defaultActive)[0]
+      : listTabs[0]
+  );
   const navigate = useNavigate();
+
   const handleClickTab = (tab: TTab) => () => {
     setActiveTab(tab);
-    if (tab.to) {
-      navigate(tab.to);
-    }
+    tab.to && navigate(tab.to);
+    onChangeTab && onChangeTab(tab);
   };
 
   useEffectSkipFirstRender(() => {
-    setActiveTab(getTabActive());
-  }, [tabUrlChange]);
+    if (!onUrlChange) {
+      return;
+    }
+    const tabItem = listTabs.filter((item) => item.key === tabDependency)[0];
+    setActiveTab(tabItem);
+    onUrlChange(tabItem);
+  }, [tabDependency]);
 
   return (
-    <div>
-      <div className="flex justify-between w-full py-3 bg-white border-b px-default">
-        <div className="flex gap-2">
-          {renderTabs.map((item, index) => (
-            <button
-              className={classNames(
-                "px-5 py-2 rounded-md transition-colors duration-200 font-medium",
-                {
-                  "bg-primary-50 text-primary-800":
-                    item.title === activeTab.title,
-                  "hover:bg-gray-50": item.title !== activeTab.title,
-                }
-              )}
-              key={index}
-              onClick={handleClickTab(item)}
-            >
-              {item.title}
-            </button>
-          ))}
-        </div>
-        <div>{activeTab.rightSide}</div>
-      </div>
-      <div className="p-default">{activeTab.children}</div>
+    <div className={classNames(!isNoSpace && "space-x-2", "flex w-full")}>
+      {listTabs.map((item, index) => (
+        <button
+          className={classNames(
+            "px-5 py-2",
+            "font-medium",
+            "transition-colors duration-200",
+            {
+              "bg-primary-50 text-primary-800": item.key === activeTab.key,
+              "hover:bg-gray-50": item.key !== activeTab.key,
+              "rounded-md": isRounded,
+              "flex-1": isStretchTab,
+            }
+          )}
+          key={index}
+          onClick={handleClickTab(item)}
+        >
+          {item.title}
+        </button>
+      ))}
     </div>
   );
 };
