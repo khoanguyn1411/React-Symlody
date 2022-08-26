@@ -15,7 +15,7 @@ import {
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync } from "@/features/reducers";
-import { IMember } from "@/features/types";
+import { ERoles, IMember, ROLE_MAP_FROM_DTO } from "@/features/types";
 import { useModal, useSearch } from "@/hooks";
 
 import { displayOptions } from "./constant";

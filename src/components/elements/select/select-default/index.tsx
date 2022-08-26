@@ -44,6 +44,7 @@ export const Select: React.FC<TProps> = ({
   const { position, setPositionList } = usePositionPortal<HTMLDivElement>({
     displayRef,
     isPortal,
+    isShowing: isShowContent,
     placement: "bottom-left",
   });
 

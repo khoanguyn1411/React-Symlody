@@ -17,7 +17,7 @@ import {
   IMemberCU,
 } from "../models";
 
-const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
+export const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
   [ERolesDto.EventManager]: ERoles.EventManager,
   [ERolesDto.Member]: ERoles.Member,
   [ERolesDto.MemberManager]: ERoles.MemberManager,
@@ -25,16 +25,6 @@ const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
   [ERolesDto.PropertyManager]: ERoles.PropertyManager,
   [ERolesDto.SystemAdmin]: ERoles.SystemAdmin,
   [ERolesDto.Lead]: ERoles.Lead,
-};
-
-const ROLE_MAP_TO_DTO: Readonly<Record<ERoles, ERolesDto>> = {
-  [ERoles.EventManager]: ERolesDto.EventManager,
-  [ERoles.Member]: ERolesDto.Member,
-  [ERoles.MemberManager]: ERolesDto.MemberManager,
-  [ERoles.NotificationManager]: ERolesDto.NotificationManager,
-  [ERoles.PropertyManager]: ERolesDto.PropertyManager,
-  [ERoles.SystemAdmin]: ERolesDto.SystemAdmin,
-  [ERoles.Lead]: ERolesDto.Lead,
 };
 
 class GroupMapper {
@@ -52,7 +42,16 @@ class GroupMapper {
   public static toDto(
     model: IAuthAccount["groups"]
   ): IAuthAccountDto["groups"] {
-    return [...model.map((item) => ROLE_MAP_TO_DTO[item]), ERolesDto.Member];
+    const keys = Object.keys(ROLE_MAP_FROM_DTO);
+    return [
+      ...model.map(
+        (item) =>
+          Number(
+            keys.filter((key) => ROLE_MAP_FROM_DTO[key] === item)[0]
+          ) as ERolesDto
+      ),
+      ERolesDto.Member,
+    ];
   }
 }
 

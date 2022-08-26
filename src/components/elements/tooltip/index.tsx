@@ -35,6 +35,7 @@ export const Tooltip: React.FC<TProps> = ({
     isPortal: true,
     placement,
     space: 5,
+    isShowing: isActive,
     toggleRef,
   });
 

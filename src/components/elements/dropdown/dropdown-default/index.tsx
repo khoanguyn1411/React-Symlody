@@ -62,6 +62,7 @@ export const Dropdown = forwardRef<TDropdownMethod, TProps>(
       displayRef,
       isPortal: true,
       placement,
+      isShowing: isShowContent,
     });
 
     const handleToggleDropdown = () => {
