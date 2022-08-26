@@ -23,7 +23,8 @@ export const DropdownListWrapper: React.FC<TProps> = ({
       attrs={{ style: { ...position, width: widthContainer } }}
       isShowing={isShowContent}
       className={classNames(
-        "fixed z-10 w-full min-w-max bg-white drop-shadow-lg border border-gray-200 rounded-md mt-2",
+        "fixed z-10 w-full min-w-max drop-shadow-lg rounded-md mt-2",
+        "border border-gray-200 bg-white",
         {
           "overflow-auto": isOverflow,
         }

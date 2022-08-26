@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { IUser } from "@/features/types/dtos/user";
 
 import { GeneralApiProblem } from "../api-problem";
@@ -11,14 +12,14 @@ export type RespondResult = {
 
 export type RequestLoginResult =
   | {
-      kind: `ok`;
-      result: RespondResult;
-    }
+    kind: `ok`;
+    result: RespondResult;
+  }
   | GeneralApiProblem;
 
 export type RequestGetProfileResult =
   | {
-      kind: `ok`;
-      result: IUser;
-    }
+    kind: `ok`;
+    result: IUser;
+  }
   | GeneralApiProblem;

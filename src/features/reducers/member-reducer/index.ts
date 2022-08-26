@@ -20,7 +20,7 @@ const initialState: MemberState = {
 };
 
 export const createMemberAsync = createAsyncThunk(
-  "auth/login",
+  "auth/create/members",
   async (payload: IMemberCU) => {
     const result: RequestCreateMembersResult = await MemberApi.createMember(
       MemberMapper.toDto(payload)
