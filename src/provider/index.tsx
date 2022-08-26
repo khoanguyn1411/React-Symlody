@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { Spin } from "@/assets/icons";
+import { DatePortal } from "@/components";
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -33,5 +34,10 @@ const theme: Partial<Theme> | ((outerTheme: Theme) => Theme) = {
 };
 
 export const ThemeProvider = ({ children }) => {
-  return <Theme theme={theme}>{children}</Theme>;
+  return (
+    <Theme theme={theme}>
+      <DatePortal />
+      {children}
+    </Theme>
+  );
 };

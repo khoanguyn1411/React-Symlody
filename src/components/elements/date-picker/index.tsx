@@ -5,6 +5,8 @@ import classNames from "classnames";
 import React from "react";
 import DatePicker from "react-datepicker";
 
+import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
+import { Portal } from "../portal";
 import { STYLE_MAP } from "./type";
 
 type TProps = {
@@ -14,6 +16,7 @@ type TProps = {
 };
 
 const WrapperModule = styled.div`
+  --animate-duration: ${ANIMATION_DEFAULT_TIME / 1000}s;
   .react-datepicker__navigation-icon::before {
     border-color: black;
   }
@@ -30,9 +33,17 @@ const WrapperModule = styled.div`
     color: black;
   }
   .react-datepicker__navigation-icon {
-    margin-top: 25px;
+    margin-top: 15px;
   }
 `;
+
+export const DatePortal: React.FC = () => {
+  return (
+    <Portal>
+      <WrapperModule id="portal-date" />
+    </Portal>
+  );
+};
 
 export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
   const getMaxDate = () => {
@@ -56,6 +67,9 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
         maxDate={getMaxDate()}
         onChange={handleChangeDate}
         placeholderText="dd/mm/yyyy"
+        portalId="portal-date"
+        popperClassName="!z-30"
+        popperPlacement="bottom-end"
         className={classNames(
           "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
           STYLE_MAP[style]

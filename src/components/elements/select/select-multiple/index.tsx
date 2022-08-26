@@ -31,7 +31,6 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
     isShowing: isShowContent,
     placement: "bottom-left",
   });
-  console.log(value);
   const handleSetItem = (checked: string) => () => {
     if (!value) {
       return onChange([checked]);
