@@ -1,20 +1,31 @@
 import React, { ReactNode, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { NotFound, TabHost, TTab } from "@/components";
+import { Button, NotFound, TabHost, TTab } from "@/components";
 ``;
-import { TabConfigDepartment } from "./config-tabs";
+import { ActionConfigDepartment, TabConfigDepartment } from "./config-tabs";
 
-const getContentTab = (key: TTab["key"]) => {
+type ContentTab = {
+  content: ReactNode;
+  rightSide: ReactNode;
+};
+
+const getContentTab = (key: TTab["key"]): ContentTab => {
   if (key === undefined) {
-    return <div>Demo</div>;
+    return {
+      content: <div>Demo</div>,
+      rightSide: <Button className="w-20">Lưu</Button>,
+    };
   }
-  return <TabConfigDepartment />;
+  return {
+    content: <TabConfigDepartment />,
+    rightSide: <ActionConfigDepartment />,
+  };
 };
 
 export const ConfigContainer: React.FC = () => {
   const { tab } = useParams();
-  const [content, setContent] = useState<ReactNode>(getContentTab(tab));
+  const [content, setContent] = useState<ContentTab>(getContentTab(tab));
   const handleChangeTab = (tab: TTab) => {
     setContent(getContentTab(tab.key));
   };
@@ -41,8 +52,9 @@ export const ConfigContainer: React.FC = () => {
           onUrlChange={handleChangeTab}
           defaultActive={tab}
         />
+        <div>{content.rightSide}</div>
       </div>
-      <div className="p-default">{content}</div>
+      <div className="p-default">{content.content}</div>
     </div>
   );
 };

@@ -37,6 +37,14 @@ const WrapperModule = styled.div`
   }
 `;
 
+const getMaxDate = () => {
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const yyyy = today.getFullYear();
+  return new Date(`${mm}/${dd}/${yyyy + 10}`);
+};
+
 export const DatePortal: React.FC = () => {
   return (
     <Portal>
@@ -46,14 +54,6 @@ export const DatePortal: React.FC = () => {
 };
 
 export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
-  const getMaxDate = () => {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0");
-    const yyyy = today.getFullYear();
-    return new Date(`${mm}/${dd}/${yyyy + 10}`);
-  };
-
   const handleChangeDate = (date: Date) => {
     onChange(date);
   };
