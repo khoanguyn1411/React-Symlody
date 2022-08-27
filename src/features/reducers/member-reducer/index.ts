@@ -8,7 +8,7 @@ import {
 import { RootState } from "@/features/store";
 import { MemberMapper } from "@/features/types/mappers";
 import { IMember, IMemberCU } from "@/features/types/models";
-import { MemberQueryMapper, TParamQueryMember } from "@/features/types/queries";
+import { TParamQueryMemberDto } from "@/features/types/queries";
 
 export type MemberState = {
   pending: boolean;
@@ -38,11 +38,9 @@ export const createMemberAsync = createAsyncThunk(
 
 export const getMembersAsync = createAsyncThunk(
   "get/members",
-  async (param: TParamQueryMember) => {
-    const paramDto = MemberQueryMapper.toParamDto(param);
-    const result: RequestGetMembersResult = await MemberApi.getMembers(
-      paramDto
-    );
+  async (param: TParamQueryMemberDto) => {
+    // const paramDto = MemberQueryMapper.toParamDto(param);
+    const result: RequestGetMembersResult = await MemberApi.getMembers(param);
     if (result.kind === "ok") {
       return result.result.map((item) => MemberMapper.fromDto(item));
     }

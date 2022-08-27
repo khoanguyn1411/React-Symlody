@@ -1,8 +1,8 @@
 import { TItemListSelect } from "@/components";
 
 export const MEMBER_FILTER_VALUE = {
-  inActive: "in_active",
-  all: "all",
+  isArchived: "is_archived",
+  all: "get_all",
 } as const;
 
 export const MEMBER_QUERY_PARAM_KEY = {
@@ -15,7 +15,7 @@ export const FILTER_MEMBER_OPTIONS: readonly TItemListSelect[] = [
     value: "Đang hoạt động",
   },
   {
-    key: MEMBER_FILTER_VALUE.inActive,
+    key: MEMBER_FILTER_VALUE.isArchived,
     value: "Hết nhiệm kỳ",
   },
   {

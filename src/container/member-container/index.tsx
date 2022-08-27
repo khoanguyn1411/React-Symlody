@@ -17,14 +17,10 @@ import {
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync } from "@/features/reducers";
 import { IMember } from "@/features/types";
-import { TParamQueryMember } from "@/features/types/queries";
-import { useModal, useQueryParam, useSearch } from "@/hooks";
+import { TParamQueryMemberDto } from "@/features/types/queries";
+import { useModal, useSearch } from "@/hooks";
 
-import {
-  FILTER_MEMBER_OPTIONS,
-  MEMBER_FILTER_VALUE,
-  MEMBER_QUERY_PARAM_KEY,
-} from "./constant";
+import { FILTER_MEMBER_OPTIONS } from "./constant";
 import { MemberTableMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { TableMemberSkeleton } from "./member-skeleton";
@@ -35,30 +31,28 @@ export const MemberContainer: React.FC = () => {
   const propsSearch = useSearch();
   const memberStore = useAppSelector((state) => state.member);
   const dispatch = useAppDispatch();
-  const { getQueryMethodWithKey, currentQueryParams, searchParams } =
-    useQueryParam<TParamQueryMember>();
   const [filter, setFilter] = useState<string>(FILTER_MEMBER_OPTIONS[0].value);
+  const [listQuery, setListQuery] = useState<TParamQueryMemberDto>({});
 
   const handleSetFilter = (item: TItemListSelect) => {
-    const queryFilterMethods = getQueryMethodWithKey(
-      MEMBER_QUERY_PARAM_KEY.filter
-    );
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { is_archived, get_all, ...rest } = listQuery;
     switch (item.key) {
-      case "all":
-        queryFilterMethods.set(MEMBER_FILTER_VALUE.all);
-        break;
-      case "in_active":
-        queryFilterMethods.set(MEMBER_FILTER_VALUE.inActive);
+      case "get_all":
+        setListQuery({ ...rest, get_all: true });
+        return;
+      case "is_archived":
+        setListQuery({ ...rest, is_archived: true });
         break;
       case "active":
-        queryFilterMethods.delete();
+        setListQuery(rest);
         break;
     }
   };
   useEffect(() => {
-    dispatch(getMembersAsync(currentQueryParams));
+    dispatch(getMembersAsync(listQuery));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [listQuery]);
 
   const handleEdit = (item: IMember) => () => {
     propsModalEditMember.setData(item);
@@ -153,8 +147,6 @@ export const MemberContainer: React.FC = () => {
             classNameDisplay="h-10"
             list={FILTER_MEMBER_OPTIONS}
             value={filter}
-            isUrlInteracting
-            paramChangeDependency={currentQueryParams.filter}
             onChangeSideEffect={handleSetFilter}
             onChange={setFilter}
           />

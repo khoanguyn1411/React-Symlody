@@ -1,12 +1,17 @@
+import {
+  MEMBER_FILTER_VALUE,
+  MEMBER_QUERY_PARAM_KEY,
+} from "@/container/member-container/constant";
+
 /** Param query types. */
 export type TParamQueryMember = {
-  filter?: "all" | "in_active";
+  [MEMBER_QUERY_PARAM_KEY.filter]?: "get_all" | "is_archived";
 };
 
 /** Param query dto types. */
 export type TFilterListParamDto = {
-  is_archived?: boolean;
-  get_all?: boolean;
+  [MEMBER_FILTER_VALUE.isArchived]?: boolean;
+  [MEMBER_FILTER_VALUE.all]?: boolean;
 };
 
 export type TParamQueryMemberDto = {
@@ -15,23 +20,11 @@ export type TParamQueryMemberDto = {
 
 /** Mapper child. */
 const mapKeyFilter = (filterType: TParamQueryMember["filter"]) => {
-  let keyFilter: keyof TFilterListParamDto;
-  switch (filterType) {
-    case "all":
-      keyFilter = "get_all";
-      break;
-    case "in_active":
-      keyFilter = "is_archived";
-      break;
-    default:
-      keyFilter = undefined;
-      break;
-  }
-  if (!keyFilter) {
+  if (!filterType) {
     return;
   }
   return {
-    [keyFilter]: true,
+    [filterType]: true,
   };
 };
 
