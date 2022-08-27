@@ -34,7 +34,7 @@ export const Sort: React.FC<TProps> = ({
 }) => {
   const [sortSelected, setSortSelected] = useState<TField>(
     defaultSortBy
-      ? fields.filter((item) => item.title === defaultSortBy.field)[0]
+      ? fields.find((item) => item.title === defaultSortBy.field)
       : undefined
   );
   const [isAscending, setIsAscending] = useState<boolean>(

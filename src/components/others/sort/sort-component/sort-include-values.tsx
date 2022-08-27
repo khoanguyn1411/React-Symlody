@@ -28,15 +28,15 @@ export const SortIncludeValues: React.FC<TProps> = ({
   };
 
   const handleSetOrdering = (ordering: string) => {
-    const isAscending = sortSelected.children.filter(
+    const isAscending = sortSelected.children.find(
       (item) => item.title === ordering
-    )[0].isAscending;
+    ).isAscending;
     setIsAscending(isAscending);
     setValueToQuery({ ...valueToQuery, isAscending: isAscending });
   };
 
   const handleSetSortSelected = (sortTitle: string) => {
-    const sortItem = fields.filter((item) => item.title === sortTitle)[0];
+    const sortItem = fields.find((item) => item.title === sortTitle);
     setSortSelected(sortItem);
     setIsAscending(true);
     setValueToQuery({
@@ -68,9 +68,9 @@ export const SortIncludeValues: React.FC<TProps> = ({
             (value): TItemListSelect => ({ value: value.title })
           )}
           value={
-            sortSelected.children.filter(
+            sortSelected.children.find(
               (item) => item.isAscending === isAscending
-            )[0].title
+            ).title
           }
           onChange={handleSetOrdering}
         />

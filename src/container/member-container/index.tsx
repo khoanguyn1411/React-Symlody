@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   Button,
@@ -34,21 +34,26 @@ export const MemberContainer: React.FC = () => {
   const [filter, setFilter] = useState<string>(FILTER_MEMBER_OPTIONS[0].value);
   const [listQuery, setListQuery] = useState<TParamQueryMemberDto>({});
 
-  const handleSetFilter = (item: TItemListSelect) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { is_archived, get_all, ...rest } = listQuery;
-    switch (item.key) {
-      case MEMBER_FILTER_VALUE.all:
-        setListQuery({ ...rest, get_all: true });
-        return;
-      case MEMBER_FILTER_VALUE.isArchived:
-        setListQuery({ ...rest, is_archived: true });
-        break;
-      case "active":
-        setListQuery(rest);
-        break;
-    }
-  };
+  const handleSetFilter = useCallback(
+    (item: TItemListSelect) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { is_archived, get_all, ...rest } = listQuery;
+      switch (item.key) {
+        case MEMBER_FILTER_VALUE.all:
+          setListQuery({ ...rest, get_all: true });
+          return;
+        case MEMBER_FILTER_VALUE.isArchived:
+          setListQuery({ ...rest, is_archived: true });
+          break;
+        case "active":
+          setListQuery(rest);
+          break;
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [filter]
+  );
+
   useEffect(() => {
     dispatch(getMembersAsync(listQuery));
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -47,7 +47,7 @@ class GroupMapper {
       ...model.map(
         (item) =>
           Number(
-            keys.filter((key) => ROLE_MAP_FROM_DTO[key] === item)[0]
+            keys.find((key) => ROLE_MAP_FROM_DTO[key] === item)
           ) as ERolesDto
       ),
       ERolesDto.Member,

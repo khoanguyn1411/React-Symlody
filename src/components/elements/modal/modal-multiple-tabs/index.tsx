@@ -40,7 +40,7 @@ const ModalMultipleTabsContent: React.FC = () => {
   const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
 
   const handleChangeTab = (item: TTab) => {
-    const tabModal = renderTabs.filter((tab) => tab.title === item.title)[0];
+    const tabModal = renderTabs.find((tab) => tab.title === item.title);
     setTabActive(tabModal);
   };
   const handleSetHidden = () => {

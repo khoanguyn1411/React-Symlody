@@ -78,9 +78,9 @@ export const Select: React.FC<TProps> = ({
       return;
     }
     console.log(paramChangeDependency);
-    const selectedOption = list.filter(
+    const selectedOption = list.find(
       (item) => item.key === paramChangeDependency
-    )[0];
+    );
     onChange(selectedOption ? selectedOption.value : list[0].value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramChangeDependency]);

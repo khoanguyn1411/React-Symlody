@@ -33,7 +33,7 @@ export const TabHost: React.FC<TProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<TTab>(
     defaultActive
-      ? listTabs.filter((item) => item.key === defaultActive)[0]
+      ? listTabs.find((item) => item.key === defaultActive)
       : listTabs[0]
   );
   const navigate = useNavigate();
@@ -48,9 +48,7 @@ export const TabHost: React.FC<TProps> = ({
     if (!onUrlChange) {
       return;
     }
-    const tabItem = listTabs.filter(
-      (item) => item.key === paramChangeDependency
-    )[0];
+    const tabItem = listTabs.find((item) => item.key === paramChangeDependency);
     setActiveTab(tabItem);
     onUrlChange(tabItem);
   }, [paramChangeDependency]);
