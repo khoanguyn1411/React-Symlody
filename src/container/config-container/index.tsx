@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Button, NotFound, TabHost, TTab } from "@/components";
-``;
+
 import { ActionConfigDepartment, TabConfigDepartment } from "./config-tabs";
 
 type ContentTab = {

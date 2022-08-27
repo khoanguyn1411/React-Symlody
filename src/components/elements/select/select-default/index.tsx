@@ -7,15 +7,16 @@ import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 import { SelectDisplayWrapper, SelectListWrapper } from "../select-components";
 import { TSelectGeneralProps, TStyle } from "../type";
 
-export type TItemListDropdown = {
+export type TItemListSelect = {
   prefix?: ReactNode;
   suffix?: ReactNode;
+  key?: string;
   value: string;
 };
 
 type TProps = {
   suffix?: ReactNode;
-  list: TItemListDropdown[];
+  list: TItemListSelect[];
   style?: TStyle;
   placeHolder?: string;
   classNameDisplay?: TSelectGeneralProps["classNameDisplay"];
@@ -23,6 +24,7 @@ type TProps = {
   isPortal?: TSelectGeneralProps["isPortal"];
   value: string;
   onChange: (value: string) => void;
+  onChangeAction?: (item: TItemListSelect) => void;
 };
 
 export const Select: React.FC<TProps> = ({
@@ -33,6 +35,7 @@ export const Select: React.FC<TProps> = ({
   list,
   value,
   onChange,
+  onChangeAction,
   style = "default",
   isPortal = true,
 }) => {
@@ -53,7 +56,8 @@ export const Select: React.FC<TProps> = ({
     setIsShowContent(!isShowContent);
   };
 
-  const handleSetSelectedItem = (item: TItemListDropdown) => () => {
+  const handleSetSelectedItem = (item: TItemListSelect) => () => {
+    onChangeAction && onChangeAction(item);
     onChange(
       ((currentItem) => {
         if (currentItem !== item.value) {

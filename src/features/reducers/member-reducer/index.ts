@@ -8,14 +8,17 @@ import {
 import { RootState } from "@/features/store";
 import { MemberMapper } from "@/features/types/mappers";
 import { IMember, IMemberCU } from "@/features/types/models";
+import { MemberQueryMapper, TParamQueryMember } from "@/features/types/queries";
 
 export type MemberState = {
   pending: boolean;
   members: IMember[];
+  pendingCreateMember: boolean;
 };
 
 const initialState: MemberState = {
   pending: false,
+  pendingCreateMember: false,
   members: [],
 };
 
@@ -33,13 +36,19 @@ export const createMemberAsync = createAsyncThunk(
   }
 );
 
-export const getMembersAsync = createAsyncThunk("get/members", async () => {
-  const result: RequestGetMembersResult = await MemberApi.getMembers();
-  if (result.kind === "ok") {
-    return result.result.map((item) => MemberMapper.fromDto(item));
+export const getMembersAsync = createAsyncThunk(
+  "get/members",
+  async (param: TParamQueryMember) => {
+    const paramDto = MemberQueryMapper.toParamDto(param);
+    const result: RequestGetMembersResult = await MemberApi.getMembers(
+      paramDto
+    );
+    if (result.kind === "ok") {
+      return result.result.map((item) => MemberMapper.fromDto(item));
+    }
+    return [];
   }
-  return [];
-});
+);
 
 export const memberSlice = createSlice({
   name: "member",
@@ -57,6 +66,15 @@ export const memberSlice = createSlice({
       .addCase(getMembersAsync.rejected, (state) => {
         state.pending = false;
         state.members = [];
+      })
+      .addCase(createMemberAsync.pending, (state) => {
+        state.pendingCreateMember = true;
+      })
+      .addCase(createMemberAsync.fulfilled, (state) => {
+        state.pendingCreateMember = false;
+      })
+      .addCase(createMemberAsync.rejected, (state) => {
+        state.pendingCreateMember = false;
       });
   },
 });

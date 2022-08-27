@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 
 import {
   Button,
@@ -12,13 +12,19 @@ import {
   TableCellHead,
   TableHead,
   TableRow,
+  TItemListSelect,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync } from "@/features/reducers";
-import { ERoles, IMember, ROLE_MAP_FROM_DTO } from "@/features/types";
-import { useModal, useSearch } from "@/hooks";
+import { IMember } from "@/features/types";
+import { TParamQueryMember } from "@/features/types/queries";
+import { useModal, useQueryParam, useSearch } from "@/hooks";
 
-import { displayOptions } from "./constant";
+import {
+  FILTER_MEMBER_OPTIONS,
+  MEMBER_FILTER_VALUE,
+  MEMBER_QUERY_PARAM_KEY,
+} from "./constant";
 import { MemberTableMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { TableMemberSkeleton } from "./member-skeleton";
@@ -29,13 +35,38 @@ export const MemberContainer: React.FC = () => {
   const propsSearch = useSearch();
   const memberStore = useAppSelector((state) => state.member);
   const dispatch = useAppDispatch();
+  const { getQueryMethodWithKey, currentQueryParams, searchParams } =
+    useQueryParam<TParamQueryMember>();
+  const [filter, setFilter] = useState<string>(FILTER_MEMBER_OPTIONS[0].value);
 
-  useEffect(() => {
-    dispatch(getMembersAsync());
+  const handleSetFilter = (item: TItemListSelect) => {
+    const queryFilterMethods = getQueryMethodWithKey(
+      MEMBER_QUERY_PARAM_KEY.filter
+    );
+    switch (item.key) {
+      case "all":
+        queryFilterMethods.set(MEMBER_FILTER_VALUE.all);
+        break;
+      case "in_active":
+        queryFilterMethods.set(MEMBER_FILTER_VALUE.inActive);
+        break;
+      case "active":
+        queryFilterMethods.delete();
+        break;
+    }
+  };
+  useLayoutEffect(() => {
+    dispatch(getMembersAsync(currentQueryParams));
+
+    const filterOption = FILTER_MEMBER_OPTIONS.filter(
+      (item) => item.key === currentQueryParams.filter
+    )[0];
+    setFilter(
+      filterOption ? filterOption.value : FILTER_MEMBER_OPTIONS[0].value
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchParams]);
 
-  const [filter, setFilter] = useState<string>(displayOptions[0]);
   const handleEdit = (item: IMember) => () => {
     propsModalEditMember.setData(item);
     propsModalEditMember.toggle.setShow();
@@ -43,10 +74,6 @@ export const MemberContainer: React.FC = () => {
   const handleDelete = (item: IMember) => () => {
     alert("Deleted");
   };
-
-  // if (!memberStore.members || memberStore.members.length === 0) {
-  //   return <div>No data</div>;
-  // }
 
   return (
     <div>
@@ -60,8 +87,12 @@ export const MemberContainer: React.FC = () => {
           <Select
             className="w-44"
             classNameDisplay="h-10"
-            list={displayOptions.map((item) => ({ value: item }))}
+            list={FILTER_MEMBER_OPTIONS.map((item) => ({
+              key: item.key,
+              value: item.value,
+            }))}
             value={filter}
+            onChangeAction={handleSetFilter}
             onChange={setFilter}
           />
           <Button
@@ -74,7 +105,10 @@ export const MemberContainer: React.FC = () => {
       </div>
       <div className="p-default">
         {memberStore.pending && <TableMemberSkeleton />}
-        {!memberStore.pending && (
+        {(!memberStore.members || memberStore.members.length === 0) && (
+          <div>No data</div>
+        )}
+        {!memberStore.pending && memberStore.members.length > 0 && (
           <Table>
             <TableHead>
               <TableCellHead isFirst width="5rem" textAlign="center">
@@ -129,7 +163,7 @@ export const MemberContainer: React.FC = () => {
           </Table>
         )}
 
-        {!memberStore.pending && (
+        {!memberStore.pending && memberStore.members.length > 0 && (
           <div className="flex justify-end w-full mt-5">
             <Pagination
               onRowQuantityChange={(activeRows) => console.log(activeRows)}

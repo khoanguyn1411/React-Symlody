@@ -1,6 +1,7 @@
 import { ApiResponse, ApisauceInstance } from "apisauce";
 
 import { IMemberDto, IMemberDtoCU } from "@/features/types";
+import { TParamQueryMemberDto } from "@/features/types/queries";
 
 import { API_URL } from "../api-config";
 import { Api } from "../api-core";
@@ -16,9 +17,11 @@ const routes = {
 };
 
 export const MemberApi = {
-  async getMembers(): Promise<Types.RequestGetMembersResult> {
+  async getMembers(
+    param?: TParamQueryMemberDto
+  ): Promise<Types.RequestGetMembersResult> {
     const url = routes.getMembers();
-    const result: ApiResponse<IMemberDto[]> = await api.get(url);
+    const result: ApiResponse<IMemberDto[]> = await api.get(url, { ...param });
 
     return returnResponse(result);
   },
