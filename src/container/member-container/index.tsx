@@ -20,7 +20,7 @@ import { IMember } from "@/features/types";
 import { TParamQueryMemberDto } from "@/features/types/queries";
 import { useModal, useSearch } from "@/hooks";
 
-import { FILTER_MEMBER_OPTIONS } from "./constant";
+import { FILTER_MEMBER_OPTIONS, MEMBER_FILTER_VALUE } from "./constant";
 import { MemberTableMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { TableMemberSkeleton } from "./member-skeleton";
@@ -38,10 +38,10 @@ export const MemberContainer: React.FC = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { is_archived, get_all, ...rest } = listQuery;
     switch (item.key) {
-      case "get_all":
+      case MEMBER_FILTER_VALUE.all:
         setListQuery({ ...rest, get_all: true });
         return;
-      case "is_archived":
+      case MEMBER_FILTER_VALUE.isArchived:
         setListQuery({ ...rest, is_archived: true });
         break;
       case "active":
