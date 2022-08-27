@@ -13,7 +13,7 @@ export type TTab = {
 type TProps = {
   listTabs: TTab[];
   defaultActive?: TTab["key"];
-  tabDependency?: string;
+  paramChangeDependency?: string;
   isRounded?: boolean;
   isNoSpace?: boolean;
   isStretchTab?: boolean;
@@ -24,7 +24,7 @@ type TProps = {
 export const TabHost: React.FC<TProps> = ({
   listTabs,
   onChangeTab,
-  tabDependency,
+  paramChangeDependency,
   defaultActive,
   onUrlChange,
   isStretchTab = false,
@@ -48,10 +48,12 @@ export const TabHost: React.FC<TProps> = ({
     if (!onUrlChange) {
       return;
     }
-    const tabItem = listTabs.filter((item) => item.key === tabDependency)[0];
+    const tabItem = listTabs.filter(
+      (item) => item.key === paramChangeDependency
+    )[0];
     setActiveTab(tabItem);
     onUrlChange(tabItem);
-  }, [tabDependency]);
+  }, [paramChangeDependency]);
 
   return (
     <div className={classNames(!isNoSpace && "space-x-2", "flex w-full")}>

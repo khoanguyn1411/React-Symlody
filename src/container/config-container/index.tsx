@@ -44,12 +44,12 @@ export const ConfigContainer: React.FC = () => {
       <div className="flex justify-between w-full py-3 bg-white border-b px-default">
         <TabHost
           isRounded
-          tabDependency={tab}
           listTabs={[
             { key: undefined, title: "Tổ chức", to: "/config" },
             { key: "department", title: "Phòng ban", to: "/config/department" },
           ]}
           onUrlChange={handleChangeTab}
+          paramChangeDependency={tab}
           defaultActive={tab}
         />
         <div>{content.rightSide}</div>

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Button,
@@ -55,15 +55,8 @@ export const MemberContainer: React.FC = () => {
         break;
     }
   };
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(getMembersAsync(currentQueryParams));
-
-    const filterOption = FILTER_MEMBER_OPTIONS.filter(
-      (item) => item.key === currentQueryParams.filter
-    )[0];
-    setFilter(
-      filterOption ? filterOption.value : FILTER_MEMBER_OPTIONS[0].value
-    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
@@ -73,6 +66,77 @@ export const MemberContainer: React.FC = () => {
   };
   const handleDelete = (item: IMember) => () => {
     alert("Deleted");
+  };
+
+  const TableComponent: React.FC = () => {
+    if (memberStore.pending) {
+      return <TableMemberSkeleton />;
+    }
+    if (!memberStore.members || memberStore.members.length === 0) {
+      return <div>No data</div>;
+    }
+    return (
+      <>
+        <Table>
+          <TableHead>
+            <TableCellHead isFirst width="5rem" textAlign="center">
+              STT
+            </TableCellHead>
+            <TableCellHead>Họ và tên</TableCellHead>
+            <TableCellHead width="6rem">Ban</TableCellHead>
+            <TableCellHead width="8rem">Ngày sinh</TableCellHead>
+            <TableCellHead width="18rem">Vị trí</TableCellHead>
+            <TableCellHead isLast width="5rem" />
+          </TableHead>
+          <TableBody>
+            {memberStore.members.map((item, index) => {
+              const memberTableItem = MemberTableMapper.fromModel(item);
+              return (
+                <TableRow key={memberTableItem.id}>
+                  <TableCell width="5rem" textAlign="center">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
+                      <div>
+                        <h1 className="font-semibold">
+                          {memberTableItem.name}
+                        </h1>
+                        <h1 className="text-sm">{memberTableItem.email}</h1>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell width="6rem">
+                    {memberTableItem.department}
+                  </TableCell>
+                  <TableCell width="8rem">{memberTableItem.birthday}</TableCell>
+                  <TableCell width="18rem">{memberTableItem.roles}</TableCell>
+
+                  <TableCell width="5rem" textAlign="right">
+                    <DeleteAndEditField
+                      title="Xóa thành viên?"
+                      handleEvent={{
+                        edit: handleEdit(item),
+                        delete: handleDelete(item),
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+        <div className="flex justify-end w-full mt-5">
+          <Pagination
+            onRowQuantityChange={(activeRows) => console.log(activeRows)}
+            onPaginationChange={(activePage) => console.log(activePage)}
+            totalPages={150}
+            pageStep={1}
+          />
+        </div>
+      </>
+    );
   };
 
   return (
@@ -87,12 +151,11 @@ export const MemberContainer: React.FC = () => {
           <Select
             className="w-44"
             classNameDisplay="h-10"
-            list={FILTER_MEMBER_OPTIONS.map((item) => ({
-              key: item.key,
-              value: item.value,
-            }))}
+            list={FILTER_MEMBER_OPTIONS}
             value={filter}
-            onChangeAction={handleSetFilter}
+            isUrlInteracting
+            paramChangeDependency={currentQueryParams.filter}
+            onChangeSideEffect={handleSetFilter}
             onChange={setFilter}
           />
           <Button
@@ -104,75 +167,7 @@ export const MemberContainer: React.FC = () => {
         </div>
       </div>
       <div className="p-default">
-        {memberStore.pending && <TableMemberSkeleton />}
-        {(!memberStore.members || memberStore.members.length === 0) && (
-          <div>No data</div>
-        )}
-        {!memberStore.pending && memberStore.members.length > 0 && (
-          <Table>
-            <TableHead>
-              <TableCellHead isFirst width="5rem" textAlign="center">
-                STT
-              </TableCellHead>
-              <TableCellHead>Họ và tên</TableCellHead>
-              <TableCellHead width="6rem">Ban</TableCellHead>
-              <TableCellHead width="8rem">Ngày sinh</TableCellHead>
-              <TableCellHead width="18rem">Vị trí</TableCellHead>
-              <TableCellHead isLast width="5rem" />
-            </TableHead>
-            <TableBody>
-              {memberStore.members.map((item, index) => {
-                const memberTableItem = MemberTableMapper.fromModel(item);
-                return (
-                  <TableRow key={memberTableItem.id}>
-                    <TableCell width="5rem" textAlign="center">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
-                        <div>
-                          <h1 className="font-semibold">
-                            {memberTableItem.name}
-                          </h1>
-                          <h1 className="text-sm">{memberTableItem.email}</h1>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell width="6rem">
-                      {memberTableItem.department}
-                    </TableCell>
-                    <TableCell width="8rem">
-                      {memberTableItem.birthday}
-                    </TableCell>
-                    <TableCell width="18rem">{memberTableItem.roles}</TableCell>
-
-                    <TableCell width="5rem" textAlign="right">
-                      <DeleteAndEditField
-                        title="Xóa thành viên?"
-                        handleEvent={{
-                          edit: handleEdit(item),
-                          delete: handleDelete(item),
-                        }}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        )}
-
-        {!memberStore.pending && memberStore.members.length > 0 && (
-          <div className="flex justify-end w-full mt-5">
-            <Pagination
-              onRowQuantityChange={(activeRows) => console.log(activeRows)}
-              onPaginationChange={(activePage) => console.log(activePage)}
-              totalPages={150}
-              pageStep={1}
-            />
-          </div>
-        )}
+        <TableComponent />
       </div>
       <ModalCreateMember {...propsModalCreateMember} />
       <ModalEditMember {...propsModalEditMember} />

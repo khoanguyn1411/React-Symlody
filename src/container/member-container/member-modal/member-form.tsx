@@ -173,7 +173,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
               style={"modal"}
               value={value}
               placeHolder="Ban"
-              isPortal={false}
               onChange={onChange}
             />
           )}

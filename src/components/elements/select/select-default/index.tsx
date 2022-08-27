@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useLayoutEffect, useState } from "react";
 
 import { Portal } from "@/components";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
@@ -16,15 +16,17 @@ export type TItemListSelect = {
 
 type TProps = {
   suffix?: ReactNode;
-  list: TItemListSelect[];
+  list: readonly TItemListSelect[];
   style?: TStyle;
   placeHolder?: string;
   classNameDisplay?: TSelectGeneralProps["classNameDisplay"];
   className?: TSelectGeneralProps["className"];
   isPortal?: TSelectGeneralProps["isPortal"];
   value: string;
+  isUrlInteracting?: boolean;
+  paramChangeDependency?: string;
   onChange: (value: string) => void;
-  onChangeAction?: (item: TItemListSelect) => void;
+  onChangeSideEffect?: (item: TItemListSelect) => void;
 };
 
 export const Select: React.FC<TProps> = ({
@@ -35,8 +37,10 @@ export const Select: React.FC<TProps> = ({
   list,
   value,
   onChange,
-  onChangeAction,
+  onChangeSideEffect,
+  paramChangeDependency,
   style = "default",
+  isUrlInteracting = false,
   isPortal = true,
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
@@ -57,7 +61,7 @@ export const Select: React.FC<TProps> = ({
   };
 
   const handleSetSelectedItem = (item: TItemListSelect) => () => {
-    onChangeAction && onChangeAction(item);
+    onChangeSideEffect && onChangeSideEffect(item);
     onChange(
       ((currentItem) => {
         if (currentItem !== item.value) {
@@ -68,6 +72,48 @@ export const Select: React.FC<TProps> = ({
     );
     setIsShowContent(false);
   };
+
+  useLayoutEffect(() => {
+    if (!isUrlInteracting) {
+      return;
+    }
+    console.log(paramChangeDependency);
+    const selectedOption = list.filter(
+      (item) => item.key === paramChangeDependency
+    )[0];
+    onChange(selectedOption ? selectedOption.value : list[0].value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paramChangeDependency]);
+
+  const ListComponent = (
+    <ul ref={listRef}>
+      <SelectListWrapper
+        isPortal={isPortal}
+        position={position}
+        isShowContent={isShowContent}
+        style={style}
+      >
+        {list.map((item, index: number) => (
+          <li
+            key={index}
+            aria-hidden="true"
+            onClick={handleSetSelectedItem(item)}
+            className={classNames(
+              "py-1 px-2 hover:bg-primary-50 cursor-pointer transition-colors duration-70",
+              {
+                "bg-primary-50 text-primary-800 font-medium":
+                  item.value === value,
+              }
+            )}
+          >
+            <h1>
+              {item.prefix} {item.value} {item.suffix}
+            </h1>
+          </li>
+        ))}
+      </SelectListWrapper>
+    </ul>
+  );
 
   return (
     <div className={className}>
@@ -95,65 +141,8 @@ export const Select: React.FC<TProps> = ({
           </span>
         </SelectDisplayWrapper>
         {/* List */}
-        {isPortal && (
-          <Portal>
-            <ul ref={listRef}>
-              <SelectListWrapper
-                isPortal={isPortal}
-                position={position}
-                isShowContent={isShowContent}
-                style={style}
-              >
-                {list.map((item, index: number) => (
-                  <li
-                    key={index}
-                    aria-hidden="true"
-                    onClick={handleSetSelectedItem(item)}
-                    className={classNames(
-                      "py-1 px-2 hover:bg-primary-50 cursor-pointer transition-colors duration-70",
-                      {
-                        "bg-primary-50 text-primary-800 font-medium":
-                          item.value === value,
-                      }
-                    )}
-                  >
-                    <h1>
-                      {item.prefix} {item.value} {item.suffix}
-                    </h1>
-                  </li>
-                ))}
-              </SelectListWrapper>
-            </ul>
-          </Portal>
-        )}
-        {!isPortal && (
-          <ul ref={listRef}>
-            <SelectListWrapper
-              isPortal={isPortal}
-              isShowContent={isShowContent}
-              style={style}
-            >
-              {list.map((item, index: number) => (
-                <li
-                  key={index}
-                  aria-hidden="true"
-                  onClick={handleSetSelectedItem(item)}
-                  className={classNames(
-                    "py-1 px-2 hover:bg-primary-50 cursor-pointer transition-colors duration-70",
-                    {
-                      "bg-primary-50 text-primary-800 font-medium":
-                        item.value === value,
-                    }
-                  )}
-                >
-                  <h1>
-                    {item.prefix} {item.value} {item.suffix}
-                  </h1>
-                </li>
-              ))}
-            </SelectListWrapper>
-          </ul>
-        )}
+        {isPortal && <Portal>{ListComponent}</Portal>}
+        {!isPortal && ListComponent}
       </div>
     </div>
   );
