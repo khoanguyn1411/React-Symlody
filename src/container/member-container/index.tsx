@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import {
+  Avatar,
   Button,
   DeleteAndEditField,
   Pagination,
@@ -97,7 +98,13 @@ export const MemberContainer: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
-                      <div className="w-10 h-10 mr-3 rounded-full bg-primary-800"></div>
+                      <div className="mr-3">
+                        <Avatar
+                          size="medium"
+                          src={memberTableItem.avatar}
+                          fullName={memberTableItem.name}
+                        />
+                      </div>
                       <div>
                         <h1 className="font-semibold">
                           {memberTableItem.name}
