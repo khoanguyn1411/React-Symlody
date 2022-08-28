@@ -41,15 +41,10 @@ class GroupMapper {
     model: IAuthAccount["groups"]
   ): IAuthAccountDto["groups"] {
     const keys = Object.keys(ROLE_MAP_FROM_DTO);
-    return [
-      ...model.map(
-        (item) =>
-          Number(
-            keys.find((key) => ROLE_MAP_FROM_DTO[key] === item)
-          ) as ERolesDto
-      ),
-      ERolesDto.Member,
-    ];
+    return model.map(
+      (item) =>
+        Number(keys.find((key) => ROLE_MAP_FROM_DTO[key] === item)) as ERolesDto
+    );
   }
 }
 

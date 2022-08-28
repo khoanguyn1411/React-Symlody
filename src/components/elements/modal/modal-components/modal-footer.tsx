@@ -20,7 +20,7 @@ export const ModalFooter: React.FC<
         Hủy
       </Button>
       <Button
-        isShowLoading={{ active: isLoading }}
+        isShowLoading={isLoading}
         type="submit"
         disable={isDisable}
         className="ml-5 min-w-[80px]"

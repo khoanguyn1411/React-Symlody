@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import {
   Avatar,
@@ -18,7 +19,7 @@ import {
   TItemListSelect,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getMembersAsync } from "@/features/reducers";
+import { deleteMemberAsync, getMembersAsync } from "@/features/reducers";
 import { IMember } from "@/features/types";
 import { TParamQueryMemberDto } from "@/features/types/queries";
 import { useModal, useSearch } from "@/hooks";
@@ -66,8 +67,14 @@ export const MemberContainer: React.FC = () => {
     propsModalEditMember.setData(item);
     propsModalEditMember.toggle.setShow();
   };
-  const handleDelete = (item: IMember) => () => {
-    alert("Deleted");
+  const handleDelete = (item: IMember) => async () => {
+    const result = await dispatch(deleteMemberAsync(item.id));
+    if (result.payload) {
+      toast.success("Xóa thành viên thành công.");
+      dispatch(getMembersAsync(listQuery));
+      return;
+    }
+    toast.success("Xóa thành viên thất bại.");
   };
 
   const TableComponent: React.FC = () => {

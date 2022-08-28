@@ -17,3 +17,10 @@ export type RequestCreateMembersResult =
       result: IMemberDto;
     }
   | GeneralApiProblem;
+
+export type RequestDeleteMembersResult =
+  | {
+      kind: `ok`;
+      result: unknown;
+    }
+  | GeneralApiProblem;

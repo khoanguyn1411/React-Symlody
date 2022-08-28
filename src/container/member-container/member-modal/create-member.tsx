@@ -18,7 +18,7 @@ const TabCreateAMember: React.FC = () => {
   const propsForm = useForm<IFormMemberInfo>({
     resolver: yupResolver(schema),
   });
-  const { handleSubmit } = propsForm;
+  const { handleSubmit, reset } = propsForm;
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector((state) => state.member.pendingCreateMember);
 
@@ -29,6 +29,8 @@ const TabCreateAMember: React.FC = () => {
       toast.error("Tạo thành viên thất bại");
       return;
     }
+    toast.success("Tạo thành viên thành công");
+    // reset();
     dispatch(getMembersAsync(undefined));
   };
   return (

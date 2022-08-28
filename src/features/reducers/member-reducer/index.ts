@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   MemberApi,
   RequestCreateMembersResult,
+  RequestDeleteMembersResult,
   RequestGetMembersResult,
 } from "@/api";
 import { RootState } from "@/features/store";
@@ -14,20 +15,34 @@ export type MemberState = {
   pending: boolean;
   members: IMember[];
   pendingCreateMember: boolean;
+  pendingDeleteMember: boolean;
 };
 
 const initialState: MemberState = {
   pending: false,
   pendingCreateMember: false,
+  pendingDeleteMember: false,
   members: [],
 };
 
 export const createMemberAsync = createAsyncThunk(
-  "auth/login",
+  "create/member",
   async (payload: IMemberCreate) => {
     const result: RequestCreateMembersResult = await MemberApi.createMember(
       MemberMapper.toCreateDto(payload)
     );
+
+    if (result.kind === "ok") {
+      return true;
+    }
+    return false;
+  }
+);
+
+export const deleteMemberAsync = createAsyncThunk(
+  "delete/member",
+  async (id: IMember["id"]) => {
+    const result: RequestDeleteMembersResult = await MemberApi.deleteMember(id);
 
     if (result.kind === "ok") {
       return true;
@@ -73,6 +88,15 @@ export const memberSlice = createSlice({
       })
       .addCase(createMemberAsync.rejected, (state) => {
         state.pendingCreateMember = false;
+      })
+      .addCase(deleteMemberAsync.pending, (state) => {
+        state.pendingDeleteMember = true;
+      })
+      .addCase(deleteMemberAsync.fulfilled, (state) => {
+        state.pendingDeleteMember = false;
+      })
+      .addCase(deleteMemberAsync.rejected, (state) => {
+        state.pendingDeleteMember = false;
       });
   },
 });
