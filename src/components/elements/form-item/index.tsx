@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 type IFormItemProps = {
   label?: string;
@@ -22,6 +22,12 @@ export const FormItem: React.FC<IFormItemProps> = ({
   children,
   subLabel,
 }) => {
+  const focusRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (error && focusRef) {
+      focusRef.current.scrollIntoView({ block: "center" });
+    }
+  }, [error]);
   return (
     <div
       className={classNames({
@@ -43,7 +49,7 @@ export const FormItem: React.FC<IFormItemProps> = ({
         {subLabel ? subLabel : <React.Fragment />}
       </div>
 
-      <div>{children}</div>
+      <div ref={focusRef}>{children}</div>
 
       {error && (
         <div className="flex justify-start mt-2">

@@ -30,9 +30,6 @@ class GroupMapper {
   public static fromDto(
     dto: IAuthAccountDto["groups"]
   ): IAuthAccount["groups"] {
-    if (dto.length === 1 && dto[0] === ERolesDto.Member) {
-      return [ERoles.Member];
-    }
     return dto
       .map((id) => ROLE_MAP_FROM_DTO[id])
       .filter((item) => item !== ERoles.Member);

@@ -30,7 +30,7 @@ const TabCreateAMember: React.FC = () => {
       return;
     }
     toast.success("Tạo thành viên thành công");
-    // reset();
+    reset();
     dispatch(getMembersAsync(undefined));
   };
   return (

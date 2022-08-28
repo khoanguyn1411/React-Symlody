@@ -55,7 +55,10 @@ export class MemberTableMapper {
       email: model.auth_account.email,
       department: model.department.name,
       birthday: dayjs(model.dob).format("DD/MM/YYYY"),
-      roles: model.auth_account.groups.join(", "),
+      roles:
+        model.auth_account.groups.length === 0
+          ? ERoles.Member
+          : model.auth_account.groups.join(", "),
     };
   }
 }
