@@ -7,7 +7,7 @@ import {
 } from "@/api";
 import { RootState } from "@/features/store";
 import { MemberMapper } from "@/features/types/mappers";
-import { IMember, IMemberCU } from "@/features/types/models";
+import { IMember, IMemberCreate } from "@/features/types/models";
 import { TParamQueryMemberDto } from "@/features/types/queries";
 
 export type MemberState = {
@@ -24,9 +24,9 @@ const initialState: MemberState = {
 
 export const createMemberAsync = createAsyncThunk(
   "auth/login",
-  async (payload: IMemberCU) => {
+  async (payload: IMemberCreate) => {
     const result: RequestCreateMembersResult = await MemberApi.createMember(
-      MemberMapper.toDto(payload)
+      MemberMapper.toCreateDto(payload)
     );
 
     if (result.kind === "ok") {

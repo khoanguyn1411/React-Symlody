@@ -1,3 +1,5 @@
+import { IMember } from "@/features/types";
+
 export interface IFormMemberInfo {
   readonly firstName: string;
   readonly lastName: string;

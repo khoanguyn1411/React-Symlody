@@ -20,28 +20,24 @@ export interface IDepartmentDto {
   readonly name: string;
 }
 
-export type IDepartmentDtoCU = Omit<IDepartmentDto, "id">;
-
-export interface IMemberDto {
-  readonly id: number;
+interface IMemberGeneralDto {
   readonly auth_account: IAuthAccountDto;
   readonly gender: number;
-  readonly dob: string;
   readonly class_name: string;
   readonly student_id: string;
   readonly address: string;
   readonly phone_number: string;
   readonly home_town: string;
-  readonly last_modified_date: string;
-  readonly created_by: number;
+  readonly dob: string;
   readonly department: IDepartmentDto;
 }
 
-export type IMemberDtoCU = Omit<
-  IMemberDto,
-  "id" | "last_modified_date" | "department"
-> & {
+export interface IMemberDto extends IMemberGeneralDto {
+  readonly id: number;
+  readonly last_modified_date: string;
+  readonly created_by: number;
+}
+
+export interface IMemberCreateDto extends IMemberGeneralDto {
   readonly is_archived: boolean;
-  readonly department: IDepartmentDtoCU;
-  readonly last_modified_by: string;
-};
+}

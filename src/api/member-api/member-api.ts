@@ -1,6 +1,6 @@
 import { ApiResponse, ApisauceInstance } from "apisauce";
 
-import { IMemberDto, IMemberDtoCU } from "@/features/types";
+import { IMemberDto } from "@/features/types";
 import { TParamQueryMemberDto } from "@/features/types/queries";
 
 import { API_URL } from "../api-config";
@@ -30,7 +30,9 @@ export const MemberApi = {
     body: Types.RequestCreateMemberBody
   ): Promise<Types.RequestCreateMembersResult> {
     const url = routes.getMembers();
-    const result: ApiResponse<IMemberDtoCU> = await api.post(url, { ...body });
+    const result: ApiResponse<IMemberDto> = await api.post(url, {
+      ...body,
+    });
 
     return returnResponse(result);
   },
