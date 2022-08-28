@@ -30,19 +30,21 @@ class GroupMapper {
   public static fromDto(
     dto: IAuthAccountDto["groups"]
   ): IAuthAccount["groups"] {
-    return dto
-      .map((id) => ROLE_MAP_FROM_DTO[id])
-      .filter((item) => item !== ERoles.Member);
+    return dto.map((id) => ROLE_MAP_FROM_DTO[id]);
   }
 
   public static toDto(
     model: IAuthAccount["groups"]
   ): IAuthAccountDto["groups"] {
     const keys = Object.keys(ROLE_MAP_FROM_DTO);
-    return model.map(
+    const roleDto = model.map(
       (item) =>
         Number(keys.find((key) => ROLE_MAP_FROM_DTO[key] === item)) as ERolesDto
     );
+    if (roleDto.includes(ERolesDto.Member)) {
+      return roleDto;
+    }
+    return [...roleDto, ERolesDto.Member];
   }
 }
 

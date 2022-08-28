@@ -26,7 +26,7 @@ root.render(
       <ToastContainer
         limit={3}
         position="top-right"
-        autoClose={2000}
+        autoClose={1800}
         pauseOnHover
       />
     </Provider>

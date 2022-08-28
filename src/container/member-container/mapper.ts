@@ -30,13 +30,19 @@ export class MemberFormMapper {
   }
   /** Use for map data from model to form values. */
   public static fromModel(model: IMember): IFormMemberInfo {
+    const role = model.auth_account.groups as ERoles[];
+    const roleMapped =
+      role &&
+      (role.length === 1 && role[0] === ERoles.Member
+        ? [ERoles.Member]
+        : role.filter((item) => item !== ERoles.Member));
     return {
       firstName: model.auth_account.first_name,
       lastName: model.auth_account.last_name,
       gender: model.gender,
       birthday: model.dob,
       department: model.department.name,
-      role: model.auth_account.groups as ERoles[],
+      role: roleMapped,
       class: model.class_name,
       studentId: model.student_id,
       email: model.auth_account.email,
@@ -56,9 +62,12 @@ export class MemberTableMapper {
       department: model.department.name,
       birthday: dayjs(model.dob).format("DD/MM/YYYY"),
       roles:
-        model.auth_account.groups.length === 0
+        model.auth_account.groups.length === 1 &&
+        model.auth_account.groups[0] === ERoles.Member
           ? ERoles.Member
-          : model.auth_account.groups.join(", "),
+          : model.auth_account.groups
+              .filter((item) => item !== ERoles.Member)
+              .join(", "),
     };
   }
 }

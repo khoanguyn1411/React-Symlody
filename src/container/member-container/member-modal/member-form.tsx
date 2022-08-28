@@ -31,7 +31,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
   } = formProps;
 
   const defaultValue = FormService.getDefaultValues<IFormMemberInfo>(dataForm);
-  const role = defaultValue.get("role") as unknown as IFormMemberInfo["role"];
+
   return (
     <>
       <div className="grid grid-cols-2 gap-x-5">
@@ -187,7 +187,9 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="role"
-          defaultValue={role && [...role, ERoles.Member]}
+          defaultValue={
+            defaultValue.get("role") as unknown as IFormMemberInfo["role"]
+          }
           render={({ field: { value, onChange } }) => {
             return (
               <SelectMultiple
