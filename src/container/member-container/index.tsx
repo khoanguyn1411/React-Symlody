@@ -10,7 +10,9 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableCellAction,
   TableCellHead,
+  TableCellHeadAction,
   TableHead,
   TableRow,
   TItemListSelect,
@@ -86,7 +88,7 @@ export const MemberContainer: React.FC = () => {
             <TableCellHead width="6rem">Ban</TableCellHead>
             <TableCellHead width="8rem">Ngày sinh</TableCellHead>
             <TableCellHead width="18rem">Vị trí</TableCellHead>
-            <TableCellHead isLast width="5rem" />
+            <TableCellHeadAction />
           </TableHead>
           <TableBody>
             {memberStore.members.map((item, index) => {
@@ -119,7 +121,7 @@ export const MemberContainer: React.FC = () => {
                   <TableCell width="8rem">{memberTableItem.birthday}</TableCell>
                   <TableCell width="18rem">{memberTableItem.roles}</TableCell>
 
-                  <TableCell width="5rem" textAlign="right">
+                  <TableCellAction>
                     <DeleteAndEditField
                       title="Xóa thành viên?"
                       handleEvent={{
@@ -127,7 +129,7 @@ export const MemberContainer: React.FC = () => {
                         delete: handleDelete(item),
                       }}
                     />
-                  </TableCell>
+                  </TableCellAction>
                 </TableRow>
               );
             })}

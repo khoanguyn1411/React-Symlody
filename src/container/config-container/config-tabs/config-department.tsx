@@ -46,7 +46,7 @@ export const TabConfigDepartment: React.FC = () => {
     <div>
       <Table>
         <TableHead>
-          <TableCellHead width="5rem" textAlign="center">
+          <TableCellHead isFirst width="5rem" textAlign="center">
             STT
           </TableCellHead>
           <TableCellHead>Ban</TableCellHead>
@@ -56,7 +56,7 @@ export const TabConfigDepartment: React.FC = () => {
           <TableCellHead width="8rem" textAlign="right">
             Ngày tạo
           </TableCellHead>
-          <TableCellHead width="8rem" textAlign="center">
+          <TableCellHead isLast width="8rem" textAlign="center">
             Hành động
           </TableCellHead>
         </TableHead>

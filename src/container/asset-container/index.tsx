@@ -7,7 +7,9 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableCellAction,
   TableCellHead,
+  TableCellHeadAction,
   TableHead,
   TableRow,
 } from "@/components";
@@ -140,7 +142,7 @@ export const AssetContainer: React.FC = () => {
             </TableCellHead>
             <TableCellHead width="14rem">Người chịu trách nhiệm</TableCellHead>
             <TableCellHead width="8rem">Chủ sở hữu</TableCellHead>
-            <TableCellHead isLast width="5rem" />
+            <TableCellHeadAction />
           </TableHead>
           <TableBody>
             {assetList.map((item, index) => (
@@ -162,7 +164,7 @@ export const AssetContainer: React.FC = () => {
                 <TableCell width="14rem">{item.inCharge}</TableCell>
                 <TableCell width="8rem">{item.owner}</TableCell>
 
-                <TableCell width="5rem">
+                <TableCellAction>
                   <DeleteAndEditField
                     title="Xóa tài sản?"
                     handleEvent={{
@@ -170,7 +172,7 @@ export const AssetContainer: React.FC = () => {
                       delete: handleDelete(item),
                     }}
                   />
-                </TableCell>
+                </TableCellAction>
               </TableRow>
             ))}
           </TableBody>
