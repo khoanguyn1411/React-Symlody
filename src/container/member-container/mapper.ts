@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { IMember, IMemberCreate } from "@/features/types";
+import { ERoles, IMember, IMemberCreate } from "@/features/types";
 
 import { IFormMemberInfo, IMemberTable } from "./type";
 
@@ -17,7 +17,7 @@ export class MemberFormMapper {
       dob: dayjs(formData.birthday).format("YYYY-MM-DD"),
       class_name: formData.class,
       address: formData.address,
-      gender: formData.gender as unknown as IMemberCreate["gender"],
+      gender: formData.gender as IMemberCreate["gender"],
       student_id: formData.studentId,
       phone_number: formData.phone,
       home_town: formData.home,
@@ -36,7 +36,7 @@ export class MemberFormMapper {
       gender: model.gender,
       birthday: model.dob,
       department: model.department.name,
-      role: model.auth_account.groups,
+      role: model.auth_account.groups as ERoles[],
       class: model.class_name,
       studentId: model.student_id,
       email: model.auth_account.email,

@@ -19,8 +19,10 @@ export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
   ({ classNameDisplay, style, children, onClick }, ref) => {
     return (
       <div
-        aria-hidden
+        role={"listbox"}
         onClick={onClick}
+        onKeyDown={null}
+        tabIndex={0}
         ref={ref}
         className={classNames(
           "flex justify-between w-full items-center p-2 pr-5 rounded-lg text-black",

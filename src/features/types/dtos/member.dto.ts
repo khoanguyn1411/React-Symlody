@@ -41,3 +41,5 @@ export interface IMemberDto extends IMemberGeneralDto {
 export interface IMemberCreateDto extends IMemberGeneralDto {
   readonly is_archived: boolean;
 }
+
+export type IMemberUpdateDto = Omit<IMemberCreateDto, "id">;

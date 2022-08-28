@@ -41,3 +41,5 @@ export interface IMember extends IMemberGeneral {
 export interface IMemberCreate extends IMemberGeneral {
   readonly is_archived: boolean;
 }
+
+export type IMemberUpdate = Omit<IMemberCreate, "id">;

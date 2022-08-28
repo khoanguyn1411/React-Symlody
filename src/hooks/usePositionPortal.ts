@@ -57,16 +57,16 @@ export const usePositionPortal = <T extends HTMLElement>({
 
     const position = {
       top: {
-        bottom: window.innerHeight - coords.top - window.scrollY + space,
+        bottom: window.innerHeight - coords.top + space,
       },
       bottom: {
-        top: coords.bottom - window.scrollY + space,
+        top: coords.bottom + space,
       },
       left: {
-        left: coords.left - window.scrollX,
+        left: coords.left,
       },
       right: {
-        right: window.innerWidth - coords.right - window.scrollX,
+        right: document.body.offsetWidth - coords.right,
       },
       center: {
         left:

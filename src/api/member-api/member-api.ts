@@ -14,6 +14,7 @@ const api: ApisauceInstance = Api.getInstance();
 const routes = {
   createMember: () => `${prefix}/member/`,
   getMembers: () => `${prefix}/member/`,
+  updateMember: (id: IMember["id"]) => `${prefix}/member/${id}`,
   deleteMember: (id: IMember["id"]) => `${prefix}/member/archive/${id}`,
 };
 
@@ -42,6 +43,18 @@ export const MemberApi = {
   ): Promise<Types.RequestCreateMembersResult> {
     const url = routes.createMember();
     const result: ApiResponse<IMemberDto> = await api.post(url, {
+      ...body,
+    });
+
+    return returnResponse(result);
+  },
+
+  async updateMember(
+    id: IMember["id"],
+    body: Types.RequestUpdateMemberBody
+  ): Promise<Types.RequestUpdateMembersResult> {
+    const url = routes.updateMember(id);
+    const result: ApiResponse<IMemberDto> = await api.patch(url, {
       ...body,
     });
 

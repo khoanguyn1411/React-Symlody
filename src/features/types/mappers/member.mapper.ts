@@ -6,6 +6,7 @@ import {
   IDepartmentDto,
   IMemberCreateDto,
   IMemberDto,
+  IMemberUpdateDto,
 } from "../dtos";
 import {
   ERoles,
@@ -86,6 +87,16 @@ export class MemberMapper {
   }
 
   public static toCreateDto(model: IMemberCreate): IMemberCreateDto {
+    return {
+      ...model,
+      dob: dayjs(model.dob).format("YYYY-MM-DD"),
+      gender: model.gender === "Nam" ? 1 : 2,
+      auth_account: AuthAccountMapper.toDto(model.auth_account),
+      department: DepartmentMapper.toDto(model.department),
+    };
+  }
+
+  public static toUpdateDto(model: IMemberCreate): IMemberUpdateDto {
     return {
       ...model,
       dob: dayjs(model.dob).format("YYYY-MM-DD"),

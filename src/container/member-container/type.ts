@@ -1,4 +1,4 @@
-import { IMember } from "@/features/types";
+import { ERoles } from "@/features/types";
 
 export interface IFormMemberInfo {
   readonly firstName: string;
@@ -6,7 +6,7 @@ export interface IFormMemberInfo {
   readonly gender: string;
   readonly birthday: string;
   readonly department: string;
-  readonly role: string[];
+  readonly role: ERoles[];
   readonly class: string;
   readonly studentId: string;
   readonly email: string;

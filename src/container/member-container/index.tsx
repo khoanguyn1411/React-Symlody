@@ -71,7 +71,7 @@ export const MemberContainer: React.FC = () => {
     const result = await dispatch(deleteMemberAsync(item.id));
     if (result.payload) {
       toast.success("Xóa thành viên thành công.");
-      dispatch(getMembersAsync(listQuery));
+      await dispatch(getMembersAsync(listQuery));
       return;
     }
     toast.success("Xóa thành viên thất bại.");

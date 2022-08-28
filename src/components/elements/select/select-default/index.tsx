@@ -95,8 +95,10 @@ export const Select: React.FC<TProps> = ({
       >
         {list.map((item, index: number) => (
           <li
+            role={"menuitem"}
+            onKeyDown={null}
             key={index}
-            aria-hidden="true"
+            tabIndex={0}
             onClick={handleSetSelectedItem(item)}
             className={classNames(
               "py-1 px-2 hover:bg-primary-50 cursor-pointer transition-colors duration-70",

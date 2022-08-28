@@ -78,8 +78,10 @@ export const Dropdown = forwardRef<TDropdownMethod, TProps>(
       <div className="relative">
         {/* Display */}
         <div
-          aria-hidden
           ref={displayRef}
+          role={"menu"}
+          onKeyDown={null}
+          tabIndex={0}
           onClick={handleToggleDropdown}
           className="w-full cursor-pointer"
         >
@@ -98,8 +100,10 @@ export const Dropdown = forwardRef<TDropdownMethod, TProps>(
               {!renderCustom &&
                 listSetting.map((item, index: number) => (
                   <li
+                    role={"menuitem"}
                     key={index}
-                    aria-hidden="true"
+                    tabIndex={0}
+                    onKeyDown={null}
                     onClick={handleClickItem(item)}
                     className={classNames(
                       "py-1 px-2 hover:bg-primary-100 cursor-pointer transition-all duration-70"
