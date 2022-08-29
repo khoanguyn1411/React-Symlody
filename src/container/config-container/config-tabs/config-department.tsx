@@ -1,16 +1,6 @@
 import React from "react";
 
-import {
-  Button,
-  DeleteAndEditField,
-  Modal,
-  Table,
-  TableBody,
-  TableCell,
-  TableCellHead,
-  TableHead,
-  TableRow,
-} from "@/components";
+import { Button, DeleteAndEditField, Modal, Table } from "@/components";
 import { useModal } from "@/hooks";
 
 export const TabConfigDepartment: React.FC = () => {
@@ -44,59 +34,55 @@ export const TabConfigDepartment: React.FC = () => {
   ];
   return (
     <div>
-      <Table>
-        <TableHead>
-          <TableCellHead isFirst width="5rem" textAlign="center">
+      <Table.Container>
+        <Table.Head>
+          <Table.CellHead isFirst width="5rem" textAlign="center">
             STT
-          </TableCellHead>
-          <TableCellHead>Ban</TableCellHead>
-          <TableCellHead width="10rem" textAlign="right">
+          </Table.CellHead>
+          <Table.CellHead>Ban</Table.CellHead>
+          <Table.CellHead width="10rem" textAlign="right">
             Tổng thành viên
-          </TableCellHead>
-          <TableCellHead width="8rem" textAlign="right">
+          </Table.CellHead>
+          <Table.CellHead width="8rem" textAlign="right">
             Ngày tạo
-          </TableCellHead>
-          <TableCellHead isLast width="8rem" textAlign="center">
-            Hành động
-          </TableCellHead>
-        </TableHead>
-        <TableBody>
+          </Table.CellHead>
+          <Table.CellHeadAction />
+        </Table.Head>
+        <Table.Body>
           {listTest.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell width="5rem" textAlign="center">
+            <Table.Row key={index}>
+              <Table.Cell width="5rem" textAlign="center">
                 {index + 1}
-              </TableCell>
-              <TableCell>
+              </Table.Cell>
+              <Table.Cell>
                 <div className="flex items-center gap-4">
                   <div className="w-8 h-8 rounded-full bg-primary-600" />
                   <p>{item.department}</p>
                 </div>
-              </TableCell>
-              <TableCell width="10rem" textAlign="right">
+              </Table.Cell>
+              <Table.Cell width="10rem" textAlign="right">
                 {item.totalMember}
-              </TableCell>
-              <TableCell width="8rem" textAlign="right">
+              </Table.Cell>
+              <Table.Cell width="8rem" textAlign="right">
                 {item.dateCreated}
-              </TableCell>
-              <TableCell width="8rem" textAlign="right">
-                <div className="flex justify-center">
-                  <DeleteAndEditField
-                    title={"Xóa phòng ban?"}
-                    handleEvent={{
-                      edit: function (): void {
-                        throw new Error("Function not implemented.");
-                      },
-                      delete: function (): void {
-                        throw new Error("Function not implemented.");
-                      },
-                    }}
-                  />
-                </div>
-              </TableCell>
-            </TableRow>
+              </Table.Cell>
+              <Table.CellAction>
+                <DeleteAndEditField
+                  title={"Xóa phòng ban?"}
+                  handleEvent={{
+                    edit: function (): void {
+                      throw new Error("Function not implemented.");
+                    },
+                    delete: function (): void {
+                      throw new Error("Function not implemented.");
+                    },
+                  }}
+                />
+              </Table.CellAction>
+            </Table.Row>
           ))}
-        </TableBody>
-      </Table>
+        </Table.Body>
+      </Table.Container>
     </div>
   );
 };

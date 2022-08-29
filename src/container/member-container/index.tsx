@@ -9,13 +9,6 @@ import {
   Search,
   Select,
   Table,
-  TableBody,
-  TableCell,
-  TableCellAction,
-  TableCellHead,
-  TableCellHeadAction,
-  TableHead,
-  TableRow,
   TItemListSelect,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
@@ -93,26 +86,26 @@ export const MemberContainer: React.FC = () => {
     }
     return (
       <>
-        <Table>
-          <TableHead>
-            <TableCellHead isFirst width="5rem" textAlign="center">
+        <Table.Container>
+          <Table.Head>
+            <Table.CellHead isFirst width="5rem" textAlign="center">
               STT
-            </TableCellHead>
-            <TableCellHead>Họ và tên</TableCellHead>
-            <TableCellHead width="6rem">Ban</TableCellHead>
-            <TableCellHead width="8rem">Ngày sinh</TableCellHead>
-            <TableCellHead width="18rem">Vị trí</TableCellHead>
-            <TableCellHeadAction />
-          </TableHead>
-          <TableBody>
+            </Table.CellHead>
+            <Table.CellHead>Họ và tên</Table.CellHead>
+            <Table.CellHead width="6rem">Ban</Table.CellHead>
+            <Table.CellHead width="8rem">Ngày sinh</Table.CellHead>
+            <Table.CellHead width="18rem">Vị trí</Table.CellHead>
+            <Table.CellHeadAction />
+          </Table.Head>
+          <Table.Body>
             {memberStore.members.map((item, index) => {
               const memberTableItem = MemberTableMapper.fromModel(item);
               return (
-                <TableRow key={memberTableItem.id}>
-                  <TableCell width="5rem" textAlign="center">
+                <Table.Row key={memberTableItem.id}>
+                  <Table.Cell width="5rem" textAlign="center">
                     {index + 1}
-                  </TableCell>
-                  <TableCell>
+                  </Table.Cell>
+                  <Table.Cell>
                     <div className="flex items-center">
                       <div className="mr-3">
                         <Avatar
@@ -128,14 +121,16 @@ export const MemberContainer: React.FC = () => {
                         <h1 className="text-sm">{memberTableItem.email}</h1>
                       </div>
                     </div>
-                  </TableCell>
-                  <TableCell width="6rem">
+                  </Table.Cell>
+                  <Table.Cell width="6rem">
                     {memberTableItem.department}
-                  </TableCell>
-                  <TableCell width="8rem">{memberTableItem.birthday}</TableCell>
-                  <TableCell width="18rem">{memberTableItem.roles}</TableCell>
+                  </Table.Cell>
+                  <Table.Cell width="8rem">
+                    {memberTableItem.birthday}
+                  </Table.Cell>
+                  <Table.Cell width="18rem">{memberTableItem.roles}</Table.Cell>
 
-                  <TableCellAction>
+                  <Table.CellAction>
                     <DeleteAndEditField
                       title="Xóa thành viên?"
                       handleEvent={{
@@ -143,12 +138,12 @@ export const MemberContainer: React.FC = () => {
                         delete: handleDelete(item),
                       }}
                     />
-                  </TableCellAction>
-                </TableRow>
+                  </Table.CellAction>
+                </Table.Row>
               );
             })}
-          </TableBody>
-        </Table>
+          </Table.Body>
+        </Table.Container>
         <div className="flex justify-end w-full mt-5">
           <Pagination
             onRowQuantityChange={(activeRows) => console.log(activeRows)}

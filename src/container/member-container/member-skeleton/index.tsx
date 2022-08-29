@@ -2,35 +2,35 @@ type TProps = {
   length?: number;
 };
 
-import { Skeleton, Table, TableBody, TableCell, TableRow } from "@/components";
+import { Skeleton, Table } from "@/components";
 
 export const TableMemberSkeleton: React.FC<TProps> = ({ length = 5 }) => {
   return (
-    <Table>
-      <TableBody>
+    <Table.Container>
+      <Table.Body>
         {[...Array(length)].map((item, index) => (
-          <TableRow isSkeleton key={index} isBorderTop={index !== 0}>
-            <TableCell isSkeleton isFirst width="5rem" textAlign="center">
+          <Table.Row isSkeleton key={index} isBorderTop={index !== 0}>
+            <Table.Cell isSkeleton isFirst width="5rem" textAlign="center">
               <Skeleton />
-            </TableCell>
-            <TableCell isSkeleton>
+            </Table.Cell>
+            <Table.Cell isSkeleton>
               <Skeleton />
-            </TableCell>
-            <TableCell isSkeleton width="6rem">
+            </Table.Cell>
+            <Table.Cell isSkeleton width="6rem">
               <Skeleton />
-            </TableCell>
-            <TableCell isSkeleton width="8rem">
+            </Table.Cell>
+            <Table.Cell isSkeleton width="8rem">
               <Skeleton />
-            </TableCell>
-            <TableCell isSkeleton width="18rem">
+            </Table.Cell>
+            <Table.Cell isSkeleton width="18rem">
               <Skeleton />
-            </TableCell>
-            <TableCell isSkeleton isLast width="8rem">
+            </Table.Cell>
+            <Table.Cell isSkeleton isLast width="8rem">
               <Skeleton />
-            </TableCell>
-          </TableRow>
+            </Table.Cell>
+          </Table.Row>
         ))}
-      </TableBody>
-    </Table>
+      </Table.Body>
+    </Table.Container>
   );
 };

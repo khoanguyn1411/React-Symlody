@@ -5,13 +5,6 @@ import {
   Search,
   Sort,
   Table,
-  TableBody,
-  TableCell,
-  TableCellAction,
-  TableCellHead,
-  TableCellHeadAction,
-  TableHead,
-  TableRow,
 } from "@/components";
 import { useModal, useSearch } from "@/hooks";
 import { FormatService } from "@/utils";
@@ -127,43 +120,45 @@ export const AssetContainer: React.FC = () => {
       </div>
       <div className="p-default">
         {/* <TableAssetSkeleton /> */}
-        <Table>
-          <TableHead>
-            <TableCellHead isFirst textAlign="center" width="5rem">
+        <Table.Container>
+          <Table.Head>
+            <Table.CellHead isFirst textAlign="center" width="5rem">
               STT
-            </TableCellHead>
-            <TableCellHead>Tài sản</TableCellHead>
-            <TableCellHead width="7rem" textAlign="right">
+            </Table.CellHead>
+            <Table.CellHead>Tài sản</Table.CellHead>
+            <Table.CellHead width="7rem" textAlign="right">
               Số lượng
-            </TableCellHead>
-            <TableCellHead width="6rem" textAlign="right">
+            </Table.CellHead>
+            <Table.CellHead width="6rem" textAlign="right">
               Đơn giá
-            </TableCellHead>
-            <TableCellHead width="14rem">Người chịu trách nhiệm</TableCellHead>
-            <TableCellHead width="8rem">Chủ sở hữu</TableCellHead>
-            <TableCellHeadAction />
-          </TableHead>
-          <TableBody>
+            </Table.CellHead>
+            <Table.CellHead width="14rem">
+              Người chịu trách nhiệm
+            </Table.CellHead>
+            <Table.CellHead width="8rem">Chủ sở hữu</Table.CellHead>
+            <Table.CellHeadAction />
+          </Table.Head>
+          <Table.Body>
             {assetList.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell textAlign="center" width="5rem">
+              <Table.Row key={index}>
+                <Table.Cell textAlign="center" width="5rem">
                   {index + 1}
-                </TableCell>
+                </Table.Cell>
 
-                <TableCell>{item.assetName}</TableCell>
-                <TableCell width="7rem" textAlign="right">
+                <Table.Cell>{item.assetName}</Table.Cell>
+                <Table.Cell width="7rem" textAlign="right">
                   {item.quantity}
-                </TableCell>
-                <TableCell width="6rem" textAlign="right">
+                </Table.Cell>
+                <Table.Cell width="6rem" textAlign="right">
                   {item.price
                     ? `${FormatService.toCurrency(Number(item.price))}`
                     : "--"}
-                </TableCell>
+                </Table.Cell>
 
-                <TableCell width="14rem">{item.inCharge}</TableCell>
-                <TableCell width="8rem">{item.owner}</TableCell>
+                <Table.Cell width="14rem">{item.inCharge}</Table.Cell>
+                <Table.Cell width="8rem">{item.owner}</Table.Cell>
 
-                <TableCellAction>
+                <Table.CellAction>
                   <DeleteAndEditField
                     title="Xóa tài sản?"
                     handleEvent={{
@@ -171,11 +166,11 @@ export const AssetContainer: React.FC = () => {
                       delete: handleDelete(item),
                     }}
                   />
-                </TableCellAction>
-              </TableRow>
+                </Table.CellAction>
+              </Table.Row>
             ))}
-          </TableBody>
-        </Table>
+          </Table.Body>
+        </Table.Container>
         <div className="flex justify-end w-full mt-5">
           <Pagination
             onRowQuantityChange={(activeRows) => console.log(activeRows)}

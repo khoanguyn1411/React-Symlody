@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 
-import { TableCell, TableCellHead } from "@/components";
+import { TableCell } from "../table-cell";
+import { TableCellHead } from "../table-cell-head";
 
 export const TableCellHeadAction: React.FC = () => {
   return (
