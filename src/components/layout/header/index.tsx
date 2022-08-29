@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 
+import { Avatar } from "@/components/elements";
 import { useAppSelector } from "@/features";
 
 import { UserDropdown } from "./UserDropdown";
@@ -29,7 +30,13 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar }) => {
           <i className="fas fa-bell" />
         </span>
 
-        <UserDropdown user={userStore.user} />
+        <div className="flex items-center py-1 pl-3 pr-2 bg-white border  shadow-sm rounded-md space-x-4">
+          <div className="flex items-center space-x-2">
+            <Avatar src="" fullName="Logo" />
+            <span className="font-medium">Logo</span>
+          </div>
+          <UserDropdown user={userStore.user} />
+        </div>
       </div>
     </header>
   );
