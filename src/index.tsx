@@ -23,7 +23,12 @@ root.render(
     <Provider store={store}>
       <App />
 
-      <ToastContainer position="bottom-center" autoClose={3000} pauseOnHover />
+      <ToastContainer
+        limit={3}
+        position="top-right"
+        autoClose={2000}
+        pauseOnHover
+      />
     </Provider>
   </React.Fragment>
 );

@@ -1,4 +1,4 @@
-import { Select, TItemListDropdown } from "@/components";
+import { Select, TItemListSelect } from "@/components";
 
 import { usePaginationContext } from "../context";
 
@@ -25,9 +25,7 @@ export const PaginationPickRows: React.FC = () => {
         classNameDisplay="h-9"
         suffix="hàng"
         isPortal={false}
-        list={quantityDisplay.map(
-          (item): TItemListDropdown => ({ value: item })
-        )}
+        list={quantityDisplay.map((item): TItemListSelect => ({ value: item }))}
         value={rowsQuantity}
         onChange={handleRowsChange}
       />

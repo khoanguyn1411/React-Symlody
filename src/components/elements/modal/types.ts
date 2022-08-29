@@ -31,6 +31,7 @@ export type TPropsModalMultipleTabs = {
 
 export type TTabs = {
   title: string;
+  key: string;
   children: ReactNode;
 };
 

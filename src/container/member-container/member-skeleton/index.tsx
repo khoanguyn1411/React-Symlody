@@ -25,7 +25,7 @@ export const TableMemberSkeleton: React.FC<TProps> = ({ length = 5 }) => {
             <TableCell isSkeleton width="18rem">
               <Skeleton />
             </TableCell>
-            <TableCell isSkeleton isLast width="5rem">
+            <TableCell isSkeleton isLast width="8rem">
               <Skeleton />
             </TableCell>
           </TableRow>

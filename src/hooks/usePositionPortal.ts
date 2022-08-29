@@ -13,6 +13,7 @@ type TProps<T> = {
   displayRef: React.MutableRefObject<T>;
   isPortal: boolean;
   placement: AlignedPlacement;
+  isShowing: boolean;
   toggleRef?: React.MutableRefObject<HTMLDivElement>;
   space?: number;
 };
@@ -22,6 +23,7 @@ export const usePositionPortal = <T extends HTMLElement>({
   isPortal,
   placement,
   toggleRef,
+  isShowing,
   space = 0,
 }: TProps<T>): THookPositionPortal => {
   const [coords, setCoords] = useState<TPosition>({ top: 0, left: 0 });
@@ -55,16 +57,16 @@ export const usePositionPortal = <T extends HTMLElement>({
 
     const position = {
       top: {
-        bottom: window.innerHeight - coords.top - window.scrollY + space,
+        bottom: window.innerHeight - coords.top + space,
       },
       bottom: {
-        top: coords.bottom - window.scrollY + space,
+        top: coords.bottom + space,
       },
       left: {
-        left: coords.left - window.scrollX,
+        left: coords.left,
       },
       right: {
-        right: window.innerWidth - coords.right - window.scrollX,
+        right: document.body.offsetWidth - coords.right,
       },
       center: {
         left:
@@ -119,14 +121,17 @@ export const usePositionPortal = <T extends HTMLElement>({
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", setPositionList, true);
-    window.addEventListener("resize", setPositionList, true);
-    return () => {
-      window.removeEventListener("scroll", setPositionList, true);
-      window.removeEventListener("resize", setPositionList, true);
-    };
+    if (isShowing) {
+      window.addEventListener("scroll", setPositionList, true);
+      window.addEventListener("resize", setPositionList, true);
+      return () => {
+        window.removeEventListener("scroll", setPositionList, true);
+        window.removeEventListener("resize", setPositionList, true);
+      };
+    }
+    return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isShowing]);
 
   return { coords, position: getPosition(), setPositionList };
 };

@@ -3,16 +3,13 @@ import React, { ReactNode } from "react";
 
 import { BLOCK, SIZE_MAPS, STYLE_MAPS } from "./types";
 
-type TLoading = {
-  active: boolean;
-};
 type TProps = {
   className?: string;
   children: ReactNode;
   type?: "button" | "submit" | "reset";
   isIconOnly?: boolean;
   prefix?: ReactNode | null;
-  isShowLoading?: TLoading | null;
+  isShowLoading?: boolean | null;
   style?: keyof typeof STYLE_MAPS;
   size?: keyof typeof SIZE_MAPS;
   disable?: boolean;
@@ -62,7 +59,7 @@ export const Button: React.FC<TProps> = ({
         <i
           className={classNames(
             "mr-3 fas hidden fa-spinner-third animate-spin transition-all duration-300",
-            { "before:hidden mr-0": !isShowLoading.active }
+            { "before:hidden mr-0": !isShowLoading }
           )}
         />
       )}

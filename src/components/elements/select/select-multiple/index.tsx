@@ -10,7 +10,7 @@ import { TSelectMultipleProps } from "../type";
 
 export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
   list,
-  value,
+  value = [],
   placeHolder,
   style = "default",
   isPortal = true,
@@ -28,9 +28,9 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
   const { setPositionList, position } = usePositionPortal({
     displayRef,
     isPortal,
+    isShowing: isShowContent,
     placement: "bottom-left",
   });
-
   const handleSetItem = (checked: string) => () => {
     if (!value) {
       return onChange([checked]);
@@ -57,6 +57,30 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
     setPositionList();
     setIsShowContent(!isShowContent);
   };
+  const ListComponent: JSX.Element = (
+    <ul ref={listRef}>
+      <SelectListWrapper
+        isPortal={isPortal}
+        position={position}
+        style={style}
+        isShowContent={isShowContent}
+      >
+        {list.map((item: string, index: number) => (
+          <li
+            key={index}
+            aria-hidden="true"
+            onClick={handleSetItem(item)}
+            className={classNames(
+              "py-1 px-2 hover:bg-primary-50 cursor-pointer flex items-center hover:bg-grey transition-colors duration-70"
+            )}
+          >
+            <Checkbox checked={value && [...value].includes(item)} />
+            <h1>{item}</h1>
+          </li>
+        ))}
+      </SelectListWrapper>
+    </ul>
+  );
 
   return (
     <div>
@@ -102,55 +126,8 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
           </span>
         </SelectDisplayWrapper>
         {/* List */}
-        {isPortal && (
-          <Portal>
-            <ul ref={listRef}>
-              <SelectListWrapper
-                isPortal={isPortal}
-                position={position}
-                style={style}
-                isShowContent={isShowContent}
-              >
-                {list.map((item: string, index: number) => (
-                  <li
-                    key={index}
-                    aria-hidden="true"
-                    onClick={handleSetItem(item)}
-                    className={classNames(
-                      "py-1 px-2 hover:bg-primary-50 cursor-pointer flex items-center hover:bg-grey transition-colors duration-70"
-                    )}
-                  >
-                    <Checkbox checked={value && [...value].includes(item)} />
-                    <h1>{item}</h1>
-                  </li>
-                ))}
-              </SelectListWrapper>
-            </ul>
-          </Portal>
-        )}
-        {!isPortal && (
-          <ul ref={listRef}>
-            <SelectListWrapper
-              isPortal={isPortal}
-              style={style}
-              isShowContent={isShowContent}
-            >
-              {list.map((item: string, index: number) => (
-                <li
-                  key={index}
-                  aria-hidden="true"
-                  onClick={handleSetItem(item)}
-                  className={classNames(
-                    "py-1 px-2 hover:bg-primary-50 cursor-pointer flex items-center hover:bg-grey transition-colors duration-70"
-                  )}
-                >
-                  <Checkbox checked={value && [...value].includes(item)} />
-                  <h1>{item}</h1>
-                </li>
-              ))}
-            </SelectListWrapper>
-          </ul>
-        )}
+        {isPortal && <Portal>{ListComponent}</Portal>}
+        {!isPortal && ListComponent}
       </div>
     </div>
   );

@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 import { Avatar, Dropdown } from "@/components/elements";
+import { useAppDispatch } from "@/features";
+import { logout } from "@/features/reducers";
 import { IUser } from "@/features/types/dtos/user";
 
 const MENUS = [
@@ -16,8 +20,15 @@ type TProps = {
   user: IUser;
 };
 export const UserDropdown: React.FC<TProps> = ({ user }) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const handleChangeMenu = (item) => {
-    if (item.key === "PROFILE") return;
+    if (item.key === "LOGOUT") {
+      dispatch(logout());
+      navigate("/login");
+      return;
+    }
   };
   return (
     <Dropdown

@@ -21,8 +21,16 @@ export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
       size="lg"
       isShowing={isShowing}
       renderTabs={[
-        { title: "Thêm 1 tài sản", children: <TabCreateAnAsset /> },
-        { title: "Thêm nhiều tài sản", children: <TabCreateMultipleAssets /> },
+        {
+          title: "Thêm 1 tài sản",
+          children: <TabCreateAnAsset />,
+          key: "AddAnAsset",
+        },
+        {
+          title: "Thêm nhiều tài sản",
+          children: <TabCreateMultipleAssets />,
+          key: "AddMultipleAsset",
+        },
       ]}
     />
   );

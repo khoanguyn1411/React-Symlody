@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 import { ModalMultipleTabs, ModalTab, PickFile } from "@/components";
 import { MESSAGE_DEFAULT_EXTENSION, MESSAGE_NOT_PICK_FILE } from "@/constants";
-import { useAppDispatch } from "@/features";
+import { useAppDispatch, useAppSelector } from "@/features";
 import { createMemberAsync, getMembersAsync } from "@/features/reducers";
 import { THookModalProps } from "@/hooks";
 
@@ -18,21 +18,20 @@ const TabCreateAMember: React.FC = () => {
   const propsForm = useForm<IFormMemberInfo>({
     resolver: yupResolver(schema),
   });
-  const { handleSubmit } = propsForm;
+  const { handleSubmit, reset } = propsForm;
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isLoading = useAppSelector((state) => state.member.pendingCreateMember);
 
   const handleCreateMember = async (data: IFormMemberInfo) => {
-    setIsLoading(true);
-    console.log(data);
     const memberModel = MemberFormMapper.toModel(data);
     const res = await dispatch(createMemberAsync(memberModel));
     if (!res.payload) {
       toast.error("Tạo thành viên thất bại");
       return;
     }
-    setIsLoading(false);
-    dispatch(getMembersAsync());
+    toast.success("Tạo thành viên thành công");
+    reset();
+    dispatch(getMembersAsync(undefined));
   };
   return (
     <ModalTab
@@ -86,10 +85,12 @@ export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
         {
           title: "Tạo thành viên",
           children: <TabCreateAMember />,
+          key: "AddAMember",
         },
         {
           title: "Tạo nhiều thành viên",
           children: <TabCreateMultipleMembers />,
+          key: "AddMultipleMember",
         },
       ]}
       isShowing={isShowing}

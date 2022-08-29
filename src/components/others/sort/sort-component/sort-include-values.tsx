@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Select, TField, TItemListDropdown, TValueQuery } from "@/components";
+import { Select, TField, TItemListSelect, TValueQuery } from "@/components";
 
 type TProps = {
   sortSelected: TField;
@@ -28,15 +28,15 @@ export const SortIncludeValues: React.FC<TProps> = ({
   };
 
   const handleSetOrdering = (ordering: string) => {
-    const isAscending = sortSelected.children.filter(
+    const isAscending = sortSelected.children.find(
       (item) => item.title === ordering
-    )[0].isAscending;
+    ).isAscending;
     setIsAscending(isAscending);
     setValueToQuery({ ...valueToQuery, isAscending: isAscending });
   };
 
   const handleSetSortSelected = (sortTitle: string) => {
-    const sortItem = fields.filter((item) => item.title === sortTitle)[0];
+    const sortItem = fields.find((item) => item.title === sortTitle);
     setSortSelected(sortItem);
     setIsAscending(true);
     setValueToQuery({
@@ -56,7 +56,7 @@ export const SortIncludeValues: React.FC<TProps> = ({
           isPortal={false}
           className="col-span-3"
           classNameDisplay="h-8"
-          list={listSelect.map((item): TItemListDropdown => ({ value: item }))}
+          list={listSelect.map((item): TItemListSelect => ({ value: item }))}
           value={sortSelected.title}
           onChange={handleSetSortSelected}
         />
@@ -65,12 +65,12 @@ export const SortIncludeValues: React.FC<TProps> = ({
           className="ml-3 col-span-3"
           classNameDisplay="h-8"
           list={sortSelected.children.map(
-            (value): TItemListDropdown => ({ value: value.title })
+            (value): TItemListSelect => ({ value: value.title })
           )}
           value={
-            sortSelected.children.filter(
+            sortSelected.children.find(
               (item) => item.isAscending === isAscending
-            )[0].title
+            ).title
           }
           onChange={handleSetOrdering}
         />

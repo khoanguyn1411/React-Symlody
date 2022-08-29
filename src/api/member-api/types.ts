@@ -1,8 +1,13 @@
-import { IMemberDto, IMemberDtoCU } from "@/features/types/dtos";
+import {
+  IMemberCreateDto,
+  IMemberDto,
+  IMemberUpdateDto,
+} from "@/features/types/dtos";
 
 import { GeneralApiProblem } from "../api-problem";
 
-export type RequestCreateMemberBody = IMemberDtoCU;
+export type RequestCreateMemberBody = IMemberCreateDto;
+export type RequestUpdateMemberBody = IMemberUpdateDto;
 
 export type RequestGetMembersResult =
   | {
@@ -14,6 +19,15 @@ export type RequestGetMembersResult =
 export type RequestCreateMembersResult =
   | {
       kind: `ok`;
-      result: IMemberDtoCU;
+      result: IMemberDto;
     }
   | GeneralApiProblem;
+
+export type RequestDeleteMembersResult =
+  | {
+      kind: `ok`;
+      result: unknown;
+    }
+  | GeneralApiProblem;
+
+export type RequestUpdateMembersResult = RequestCreateMembersResult;

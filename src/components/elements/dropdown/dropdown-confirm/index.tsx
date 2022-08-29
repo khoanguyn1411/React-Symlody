@@ -11,6 +11,7 @@ type TProps = {
     title: string;
     event: () => void;
   };
+  isShowLoading?: boolean;
   children: ReactNode;
 };
 
@@ -19,12 +20,14 @@ export const DropdownConfirm: React.FC<TProps> = ({
   handleEvent,
   title,
   placement,
+  isShowLoading,
 }) => {
   const dropdownRef = useRef<TDropdownMethod>(null);
   const handleClickItem = () => {
     handleEvent.event();
     dropdownRef.current.hideDropdown();
   };
+
   const handleCancel = () => {
     dropdownRef.current.hideDropdown();
   };
@@ -46,7 +49,13 @@ export const DropdownConfirm: React.FC<TProps> = ({
             <Button size="small" style="text" block onClick={handleCancel}>
               Hủy
             </Button>
-            <Button size="small" block style="danger" onClick={handleClickItem}>
+            <Button
+              size="small"
+              block
+              style="danger"
+              onClick={handleClickItem}
+              isShowLoading={isShowLoading}
+            >
               {handleEvent.title}
             </Button>
           </div>

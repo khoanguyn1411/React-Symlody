@@ -21,6 +21,7 @@ export const Search: React.FC<TProps> = ({
   return (
     <div className="relative w-64">
       <Input
+        type={"search"}
         className="h-10 pr-8"
         style="default"
         onChange={setInputValue}

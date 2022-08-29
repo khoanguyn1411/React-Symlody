@@ -4,20 +4,19 @@ import {
   ERolesDto,
   IAuthAccountDto,
   IDepartmentDto,
-  IDepartmentDtoCU,
+  IMemberCreateDto,
   IMemberDto,
-  IMemberDtoCU,
+  IMemberUpdateDto,
 } from "../dtos";
 import {
   ERoles,
   IAuthAccount,
   IDepartment,
-  IDepartmentCU,
   IMember,
-  IMemberCU,
+  IMemberCreate,
 } from "../models";
 
-const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
+export const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
   [ERolesDto.EventManager]: ERoles.EventManager,
   [ERolesDto.Member]: ERoles.Member,
   [ERolesDto.MemberManager]: ERoles.MemberManager,
@@ -27,23 +26,10 @@ const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
   [ERolesDto.Lead]: ERoles.Lead,
 };
 
-const ROLE_MAP_TO_DTO: Readonly<Record<ERoles, ERolesDto>> = {
-  [ERoles.EventManager]: ERolesDto.EventManager,
-  [ERoles.Member]: ERolesDto.Member,
-  [ERoles.MemberManager]: ERolesDto.MemberManager,
-  [ERoles.NotificationManager]: ERolesDto.NotificationManager,
-  [ERoles.PropertyManager]: ERolesDto.PropertyManager,
-  [ERoles.SystemAdmin]: ERolesDto.SystemAdmin,
-  [ERoles.Lead]: ERolesDto.Lead,
-};
-
 class GroupMapper {
   public static fromDto(
     dto: IAuthAccountDto["groups"]
   ): IAuthAccount["groups"] {
-    if (dto.length === 1 && dto[0] === ERolesDto.Member) {
-      return [ERoles.Member];
-    }
     return dto
       .map((id) => ROLE_MAP_FROM_DTO[id])
       .filter((item) => item !== ERoles.Member);
@@ -52,24 +38,24 @@ class GroupMapper {
   public static toDto(
     model: IAuthAccount["groups"]
   ): IAuthAccountDto["groups"] {
-    return [...model.map((item) => ROLE_MAP_TO_DTO[item]), ERolesDto.Member];
+    const keys = Object.keys(ROLE_MAP_FROM_DTO);
+    return model.map(
+      (item) =>
+        Number(keys.find((key) => ROLE_MAP_FROM_DTO[key] === item)) as ERolesDto
+    );
   }
 }
 
 class AuthAccountMapper {
   public static fromDto(dto: IAuthAccountDto): IAuthAccount {
     return {
-      fistName: dto.first_name,
-      lastName: dto.last_name,
-      email: dto.email,
+      ...dto,
       groups: GroupMapper.fromDto(dto.groups),
     };
   }
   public static toDto(model: IAuthAccount): IAuthAccountDto {
     return {
-      first_name: model.fistName,
-      last_name: model.lastName,
-      email: model.email,
+      ...model,
       groups: GroupMapper.toDto(model.groups),
     };
   }
@@ -77,51 +63,43 @@ class AuthAccountMapper {
 
 class DepartmentMapper {
   public static fromDto(dto: IDepartmentDto): IDepartment {
-    return {
-      name: dto.name,
-      id: dto.id,
-    };
+    return { ...dto };
   }
 
-  public static toDto(model: IDepartmentCU): IDepartmentDtoCU {
-    return {
-      name: model.name,
-    };
+  public static toDto(model: IDepartment): IDepartmentDto {
+    return { ...model };
   }
 }
 
 export class MemberMapper {
   public static fromDto(dto: IMemberDto): IMember {
     return {
-      id: dto.id,
-      authAccount: AuthAccountMapper.fromDto(dto.auth_account),
+      ...dto,
       gender: dto.gender === 1 ? "Nam" : "Nữ",
-      birthday: dayjs(dto.dob).format("MM/DD/YYYY"),
-      className: dto.class_name,
-      studentId: dto.student_id,
-      address: dto.address,
-      phone: dto.phone_number,
-      home: dto.home_town,
-      lastModifierDate: dayjs(dto.dob).format("MM/DD/YYYY"),
-      createBy: dto.created_by,
+      dob: dayjs(dto.dob).format("MM/DD/YYYY"),
+      last_modified_date: dayjs(dto.dob).format("MM/DD/YYYY"),
       department: DepartmentMapper.fromDto(dto.department),
+      auth_account: AuthAccountMapper.fromDto(dto.auth_account),
     };
   }
 
-  public static toDto(model: IMemberCU): IMemberDtoCU {
+  public static toCreateDto(model: IMemberCreate): IMemberCreateDto {
     return {
-      auth_account: AuthAccountMapper.toDto(model.authAccount),
-      gender: model.gender === "Nam" ? 1 : 0,
-      dob: dayjs(model.birthday).format("YYYY-MM-DD"),
-      class_name: model.className,
-      student_id: model.studentId,
-      address: model.address,
-      phone_number: model.phone,
-      home_town: model.home,
-      is_archived: true,
+      ...model,
+      dob: dayjs(model.dob).format("YYYY-MM-DD"),
+      gender: model.gender === "Nam" ? 1 : 2,
+      auth_account: AuthAccountMapper.toDto(model.auth_account),
       department: DepartmentMapper.toDto(model.department),
-      last_modified_by: "Khoa Nguyen",
-      created_by: 123,
+    };
+  }
+
+  public static toUpdateDto(model: IMemberCreate): IMemberUpdateDto {
+    return {
+      ...model,
+      dob: dayjs(model.dob).format("YYYY-MM-DD"),
+      gender: model.gender === "Nam" ? 1 : 2,
+      auth_account: AuthAccountMapper.toDto(model.auth_account),
+      department: DepartmentMapper.toDto(model.department),
     };
   }
 }
