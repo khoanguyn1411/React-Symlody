@@ -55,14 +55,12 @@ export const Button: React.FC<TProps> = ({
       )}
       onClick={handleOnClick}
     >
-      {isShowLoading && (
-        <i
-          className={classNames(
-            "mr-3 fas hidden fa-spinner-third animate-spin transition-all duration-300",
-            { "before:hidden mr-0": !isShowLoading }
-          )}
-        />
-      )}
+      <i
+        className={classNames(
+          "mr-3 fas hidden fa-spinner-third animate-spin transition-all duration-75",
+          { "before:hidden mr-0": !isShowLoading }
+        )}
+      />
       {prefix}
       {children}
     </button>

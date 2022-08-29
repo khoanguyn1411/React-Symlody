@@ -81,7 +81,6 @@ export const Select: React.FC<TProps> = ({
     if (!isUrlInteracting) {
       return;
     }
-    console.log(paramChangeDependency);
     const selectedOption = list.find(
       (item) => item.key === paramChangeDependency
     );

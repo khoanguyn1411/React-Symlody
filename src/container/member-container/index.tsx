@@ -39,7 +39,6 @@ export const MemberContainer: React.FC = () => {
 
   const handleSetFilter = useCallback(
     (item: TItemListSelect) => {
-      console.log(item);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { is_archived, get_all, ...rest } = memberStore.listQueryMember;
       switch (item.key) {

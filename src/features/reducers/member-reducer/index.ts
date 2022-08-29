@@ -47,7 +47,6 @@ export const deleteMemberAsync = createAsyncThunk(
   "delete/member",
   async (id: IMember["id"]) => {
     const result: RequestDeleteMembersResult = await MemberApi.deleteMember(id);
-
     if (result.kind === "ok") {
       return true;
     }

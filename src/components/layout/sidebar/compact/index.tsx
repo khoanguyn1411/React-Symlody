@@ -21,10 +21,7 @@ export const CompactSidebar: React.FC<Props> = ({
         isCompactSidebar ? "-right-4" : "-right-3"
       )}
     >
-      <Tooltip
-        offset={-35}
-        content={isCompactSidebar ? "Mở rộng (b)" : "Thu gọn (b)"}
-      >
+      <Tooltip content={isCompactSidebar ? "Mở rộng (b)" : "Thu gọn (b)"}>
         <span
           aria-hidden="true"
           onClick={setIsCompact}

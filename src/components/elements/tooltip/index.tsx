@@ -10,7 +10,6 @@ type TProps = {
   children: ReactNode;
   content: string;
   placement?: AlignedPlacement;
-  offset?: number;
 };
 
 export type TPosition = {

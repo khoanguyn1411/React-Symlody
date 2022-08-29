@@ -16,7 +16,7 @@ export const DeleteAndEditField: React.FC<TProps> = ({
 }) => {
   return (
     <div className="flex items-center justify-center w-fit gap-4">
-      <Tooltip content="Chỉnh sửa" offset={-35}>
+      <Tooltip content="Chỉnh sửa">
         <button
           onClick={handleEvent.edit}
           className="flex items-center justify-center"
@@ -29,7 +29,7 @@ export const DeleteAndEditField: React.FC<TProps> = ({
         placement={"bottom-right"}
         handleEvent={{ title: "Xóa", event: handleEvent.delete }}
       >
-        <Tooltip offset={-15} content="Xoá">
+        <Tooltip content="Xoá">
           <button className="flex items-center justify-center">
             <i className="fas fa-trash-alt"></i>
           </button>
