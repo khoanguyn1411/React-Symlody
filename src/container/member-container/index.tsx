@@ -28,9 +28,9 @@ import { IMember } from "@/features/types";
 import { useModal, useSearch } from "@/hooks";
 
 import {
-  FILTER_MEMBER_OPTIONS,
+  MEMBER_FILTER_OPTIONS,
   MEMBER_FILTER_VALUE,
-  MESSAGE_MEMBER,
+  MEMBER_MESSAGE,
 } from "./constant";
 import { MemberTableMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
@@ -42,10 +42,11 @@ export const MemberContainer: React.FC = () => {
   const propsSearch = useSearch();
   const memberStore = useAppSelector((state) => state.member);
   const dispatch = useAppDispatch();
-  const [filter, setFilter] = useState<string>(FILTER_MEMBER_OPTIONS[0].value);
+  const [filter, setFilter] = useState<string>(MEMBER_FILTER_OPTIONS[0].value);
 
   const handleSetFilter = useCallback(
     (item: TItemListSelect) => {
+      console.log(item);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { is_archived, get_all, ...rest } = memberStore.listQueryMember;
       switch (item.key) {
@@ -76,11 +77,11 @@ export const MemberContainer: React.FC = () => {
   const handleDelete = (item: IMember) => async () => {
     const result = await dispatch(deleteMemberAsync(item.id));
     if (result.payload) {
-      toast.success(MESSAGE_MEMBER.delete.success);
+      toast.success(MEMBER_MESSAGE.delete.success);
       await dispatch(getMembersAsync(memberStore.listQueryMember));
       return;
     }
-    toast.success(MESSAGE_MEMBER.delete.error);
+    toast.success(MEMBER_MESSAGE.delete.error);
   };
 
   const TableComponent: React.FC = () => {
@@ -172,7 +173,7 @@ export const MemberContainer: React.FC = () => {
           <Select
             className="w-44"
             classNameDisplay="h-10"
-            list={FILTER_MEMBER_OPTIONS}
+            list={MEMBER_FILTER_OPTIONS}
             value={filter}
             onChangeSideEffect={handleSetFilter}
             onChange={setFilter}

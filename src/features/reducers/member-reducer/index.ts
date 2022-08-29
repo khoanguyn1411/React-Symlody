@@ -9,7 +9,7 @@ import {
 import { RootState } from "@/features/store";
 import { MemberMapper } from "@/features/types/mappers";
 import { IMember, IMemberCreate, IMemberUpdate } from "@/features/types/models";
-import { TParamQueryMemberDto } from "@/features/types/queries";
+import { TMemberParamQueryDto } from "@/features/types/queries";
 
 export type MemberState = {
   members: IMember[];
@@ -17,7 +17,7 @@ export type MemberState = {
   pendingCreateMember: boolean;
   pendingDeleteMember: boolean;
   pendingUpdateMember: boolean;
-  listQueryMember: TParamQueryMemberDto;
+  listQueryMember: TMemberParamQueryDto;
 };
 
 const initialState: MemberState = {
@@ -57,7 +57,7 @@ export const deleteMemberAsync = createAsyncThunk(
 
 export const getMembersAsync = createAsyncThunk(
   "get/members",
-  async (param: TParamQueryMemberDto) => {
+  async (param: TMemberParamQueryDto) => {
     // const paramDto = MemberQueryMapper.toParamDto(param);
     const result: RequestGetMembersResult = await MemberApi.getMembers(param);
     if (result.kind === "ok") {
@@ -85,7 +85,7 @@ export const memberSlice = createSlice({
   name: "member",
   initialState,
   reducers: {
-    setListQueryMember(state, action: PayloadAction<TParamQueryMemberDto>) {
+    setListQueryMember(state, action: PayloadAction<TMemberParamQueryDto>) {
       state.listQueryMember = action.payload;
     },
   },

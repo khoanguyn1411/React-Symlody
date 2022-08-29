@@ -9,7 +9,7 @@ import { updateMemberAsync } from "@/features/reducers";
 import { IMember, IMemberUpdate } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 
-import { MESSAGE_MEMBER } from "../constant";
+import { MEMBER_MESSAGE } from "../constant";
 import { MemberFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { IFormMemberInfo } from "../type";
@@ -38,10 +38,10 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
       updateMemberAsync({ payload: memberModel, id: data.id })
     );
     if (result.payload) {
-      toast.success(MESSAGE_MEMBER.update.success);
+      toast.success(MEMBER_MESSAGE.update.success);
       return;
     }
-    toast.error(MESSAGE_MEMBER.update.error);
+    toast.error(MEMBER_MESSAGE.update.error);
   };
 
   return (

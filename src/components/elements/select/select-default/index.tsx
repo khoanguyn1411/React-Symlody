@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { ReactNode, useLayoutEffect, useState } from "react";
+import React, { ReactNode, useEffect, useLayoutEffect, useState } from "react";
 
 import { Portal } from "@/components";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
@@ -61,7 +61,6 @@ export const Select: React.FC<TProps> = ({
   };
 
   const handleSetSelectedItem = (item: TItemListSelect) => () => {
-    onChangeSideEffect && onChangeSideEffect(item);
     onChange(
       ((currentItem) => {
         if (currentItem !== item.value) {
@@ -72,6 +71,11 @@ export const Select: React.FC<TProps> = ({
     );
     setIsShowContent(false);
   };
+
+  useEffect(() => {
+    onChangeSideEffect &&
+      onChangeSideEffect(list.find((item) => item.value === value));
+  }, [list, onChangeSideEffect, value]);
 
   useLayoutEffect(() => {
     if (!isUrlInteracting) {

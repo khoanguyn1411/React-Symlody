@@ -2,11 +2,9 @@ import classNames from "classnames";
 import React, { useRef, useState } from "react";
 
 import { Button } from "@/components";
-import {
-  MESSAGE_DEFAULT_EXTENSION,
-  MESSAGE_WRONG_EXTENSION,
-} from "@/constants";
 import { FileService } from "@/utils";
+
+import { PICK_FILE_MESSAGE } from "./constant";
 
 type TProps = {
   selectedFile: File;
@@ -14,7 +12,7 @@ type TProps = {
   setSelectedFile: (file: File) => void;
   setMessage: (message: string) => void;
 };
-
+export * from "./constant";
 export const PickFile: React.FC<TProps> = ({
   selectedFile,
   message,
@@ -39,7 +37,7 @@ export const PickFile: React.FC<TProps> = ({
   const handlePickedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedFile(event.target.files[0]);
     if (event.target.files) {
-      setMessage(MESSAGE_DEFAULT_EXTENSION);
+      setMessage(PICK_FILE_MESSAGE.defaultExtension);
     }
   };
 
@@ -60,12 +58,12 @@ export const PickFile: React.FC<TProps> = ({
     event.stopPropagation();
     setIsDragActive(false);
     if (!FileService.isCorrectExtension(event.dataTransfer.files[0].name)) {
-      setMessage(MESSAGE_WRONG_EXTENSION);
+      setMessage(PICK_FILE_MESSAGE.wrongExtension);
       return;
     }
     if (event.dataTransfer.files && event.dataTransfer.files[0]) {
       setSelectedFile(event.dataTransfer.files[0]);
-      setMessage(MESSAGE_DEFAULT_EXTENSION);
+      setMessage(PICK_FILE_MESSAGE.defaultExtension);
       return;
     }
   };
@@ -131,7 +129,7 @@ export const PickFile: React.FC<TProps> = ({
         <span
           className={classNames(
             "italic w-3/4 text-center",
-            message !== MESSAGE_DEFAULT_EXTENSION && "text-red-500"
+            message !== PICK_FILE_MESSAGE.defaultExtension && "text-red-500"
           )}
         >
           {message}

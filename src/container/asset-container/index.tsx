@@ -16,8 +16,7 @@ import {
 import { useModal, useSearch } from "@/hooks";
 import { FormatService } from "@/utils";
 
-import { ModalCreateAsset } from "./asset-modal";
-import { ModalEditAsset } from "./asset-modal/edit-asset";
+import { ModalCreateAsset, ModalEditAsset } from "./asset-modal";
 import { TFormAssetInfo } from "./type";
 
 export const AssetContainer: React.FC = () => {

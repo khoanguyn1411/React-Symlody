@@ -3,13 +3,17 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { ModalMultipleTabs, ModalTab, PickFile } from "@/components";
-import { MESSAGE_DEFAULT_EXTENSION, MESSAGE_NOT_PICK_FILE } from "@/constants";
+import {
+  ModalMultipleTabs,
+  ModalTab,
+  PICK_FILE_MESSAGE,
+  PickFile,
+} from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { createMemberAsync, getMembersAsync } from "@/features/reducers";
 import { THookModalProps } from "@/hooks";
 
-import { MESSAGE_MEMBER } from "../constant";
+import { MEMBER_MESSAGE } from "../constant";
 import { MemberFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { IFormMemberInfo } from "../type";
@@ -27,10 +31,10 @@ const TabCreateAMember: React.FC = () => {
     const memberModel = MemberFormMapper.toModel(data);
     const res = await dispatch(createMemberAsync(memberModel));
     if (!res.payload) {
-      toast.error(MESSAGE_MEMBER.create.error);
+      toast.error(MEMBER_MESSAGE.create.error);
       return;
     }
-    toast.success(MESSAGE_MEMBER.create.success);
+    toast.success(MEMBER_MESSAGE.create.success);
     reset();
     dispatch(getMembersAsync(memberStore.listQueryMember));
   };
@@ -48,14 +52,16 @@ const TabCreateAMember: React.FC = () => {
 
 const TabCreateMultipleMembers: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>(null);
-  const [message, setMessage] = useState<string>(MESSAGE_DEFAULT_EXTENSION);
+  const [message, setMessage] = useState<string>(
+    PICK_FILE_MESSAGE.defaultExtension
+  );
 
   const handleSubmitFile = () => {
     if (!selectedFile) {
-      setMessage(MESSAGE_NOT_PICK_FILE);
+      setMessage(PICK_FILE_MESSAGE.notPickFile);
       return;
     }
-    setMessage(MESSAGE_DEFAULT_EXTENSION);
+    setMessage(PICK_FILE_MESSAGE.defaultExtension);
     alert("Submitted!");
   };
 
@@ -68,8 +74,8 @@ const TabCreateMultipleMembers: React.FC = () => {
     >
       <PickFile
         message={message}
-        selectedFile={selectedFile}
         setMessage={setMessage}
+        selectedFile={selectedFile}
         setSelectedFile={setSelectedFile}
       />
     </ModalTab>

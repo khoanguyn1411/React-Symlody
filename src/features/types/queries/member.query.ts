@@ -4,22 +4,22 @@ import {
 } from "@/container/member-container/constant";
 
 /** Param query types. */
-export type TParamQueryMember = {
+export type TMemberParamQuery = {
   [MEMBER_QUERY_PARAM_KEY.filter]?: "get_all" | "is_archived";
 };
 
 /** Param query dto types. */
-export type TFilterListParamDto = {
+export type TMemberFilterParamDto = {
   [MEMBER_FILTER_VALUE.isArchived]?: boolean;
   [MEMBER_FILTER_VALUE.all]?: boolean;
 };
 
-export type TParamQueryMemberDto = {
-  [key in keyof TFilterListParamDto]: TFilterListParamDto[key];
+export type TMemberParamQueryDto = {
+  [key in keyof TMemberFilterParamDto]: TMemberFilterParamDto[key];
 };
 
 /** Mapper child. */
-const mapKeyFilter = (filterType: TParamQueryMember["filter"]) => {
+const mapKeyFilter = (filterType: TMemberParamQuery["filter"]) => {
   if (!filterType) {
     return;
   }
@@ -30,7 +30,7 @@ const mapKeyFilter = (filterType: TParamQueryMember["filter"]) => {
 
 /** Mapper method. */
 export class MemberQueryMapper {
-  public static toParamDto(param: TParamQueryMember): TParamQueryMemberDto {
+  public static toParamDto(param: TMemberParamQuery): TMemberParamQueryDto {
     return {
       ...mapKeyFilter(param.filter),
     };

@@ -2,9 +2,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { ModalMultipleTabs, ModalTab } from "@/components";
-import { PickFile } from "@/components/others";
-import { MESSAGE_DEFAULT_EXTENSION, MESSAGE_NOT_PICK_FILE } from "@/constants";
+import {
+  PICK_FILE_MESSAGE,
+  ModalMultipleTabs,
+  ModalTab,
+  PickFile,
+} from "@/components";
 import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";
@@ -59,14 +62,16 @@ const TabCreateAnAsset: React.FC = () => {
 
 const TabCreateMultipleAssets: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>(null);
-  const [message, setMessage] = useState<string>(MESSAGE_DEFAULT_EXTENSION);
+  const [message, setMessage] = useState<string>(
+    PICK_FILE_MESSAGE.defaultExtension
+  );
 
   const handleSubmitFile = () => {
     if (!selectedFile) {
-      setMessage(MESSAGE_NOT_PICK_FILE);
+      setMessage(PICK_FILE_MESSAGE.notPickFile);
       return;
     }
-    setMessage(MESSAGE_DEFAULT_EXTENSION);
+    setMessage(PICK_FILE_MESSAGE.defaultExtension);
     alert("Submitted!");
   };
   return (

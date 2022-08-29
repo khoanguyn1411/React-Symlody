@@ -10,7 +10,7 @@ export const MEMBER_QUERY_PARAM_KEY = {
   filter: "filter",
 } as const;
 
-export const FILTER_MEMBER_OPTIONS: readonly TItemListSelect[] = [
+export const MEMBER_FILTER_OPTIONS: readonly TItemListSelect[] = [
   {
     key: MEMBER_FILTER_VALUE.active,
     value: "Đang hoạt động",
@@ -25,7 +25,7 @@ export const FILTER_MEMBER_OPTIONS: readonly TItemListSelect[] = [
   },
 ];
 
-export const MESSAGE_MEMBER = {
+export const MEMBER_MESSAGE = {
   delete: {
     success: "Xóa thành viên thành công.",
     error: "Xóa thành viên thất bại.",
