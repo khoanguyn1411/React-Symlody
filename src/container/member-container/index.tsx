@@ -19,12 +19,19 @@ import {
   TItemListSelect,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { deleteMemberAsync, getMembersAsync } from "@/features/reducers";
+import {
+  deleteMemberAsync,
+  getMembersAsync,
+  setListQueryMember,
+} from "@/features/reducers";
 import { IMember } from "@/features/types";
-import { TParamQueryMemberDto } from "@/features/types/queries";
 import { useModal, useSearch } from "@/hooks";
 
-import { FILTER_MEMBER_OPTIONS, MEMBER_FILTER_VALUE } from "./constant";
+import {
+  FILTER_MEMBER_OPTIONS,
+  MEMBER_FILTER_VALUE,
+  MESSAGE_MEMBER,
+} from "./constant";
 import { MemberTableMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { TableMemberSkeleton } from "./member-skeleton";
@@ -36,21 +43,20 @@ export const MemberContainer: React.FC = () => {
   const memberStore = useAppSelector((state) => state.member);
   const dispatch = useAppDispatch();
   const [filter, setFilter] = useState<string>(FILTER_MEMBER_OPTIONS[0].value);
-  const [listQuery, setListQuery] = useState<TParamQueryMemberDto>({});
 
   const handleSetFilter = useCallback(
     (item: TItemListSelect) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { is_archived, get_all, ...rest } = listQuery;
+      const { is_archived, get_all, ...rest } = memberStore.listQueryMember;
       switch (item.key) {
         case MEMBER_FILTER_VALUE.all:
-          setListQuery({ ...rest, get_all: true });
+          dispatch(setListQueryMember({ ...rest, get_all: true }));
           return;
         case MEMBER_FILTER_VALUE.isArchived:
-          setListQuery({ ...rest, is_archived: true });
+          dispatch(setListQueryMember({ ...rest, is_archived: true }));
           break;
-        case "active":
-          setListQuery(rest);
+        case MEMBER_FILTER_VALUE.active:
+          dispatch(setListQueryMember({ rest }));
           break;
       }
     },
@@ -59,9 +65,9 @@ export const MemberContainer: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(getMembersAsync(listQuery));
+    dispatch(getMembersAsync(memberStore.listQueryMember));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listQuery]);
+  }, [memberStore.listQueryMember]);
 
   const handleEdit = (item: IMember) => () => {
     propsModalEditMember.setData(item);
@@ -70,11 +76,11 @@ export const MemberContainer: React.FC = () => {
   const handleDelete = (item: IMember) => async () => {
     const result = await dispatch(deleteMemberAsync(item.id));
     if (result.payload) {
-      toast.success("Xóa thành viên thành công.");
-      await dispatch(getMembersAsync(listQuery));
+      toast.success(MESSAGE_MEMBER.delete.success);
+      await dispatch(getMembersAsync(memberStore.listQueryMember));
       return;
     }
-    toast.success("Xóa thành viên thất bại.");
+    toast.success(MESSAGE_MEMBER.delete.error);
   };
 
   const TableComponent: React.FC = () => {

@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import { createMemberAsync, getMembersAsync } from "@/features/reducers";
 import { THookModalProps } from "@/hooks";
 
+import { MESSAGE_MEMBER } from "../constant";
 import { MemberFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { IFormMemberInfo } from "../type";
@@ -20,24 +21,24 @@ const TabCreateAMember: React.FC = () => {
   });
   const { handleSubmit, reset } = propsForm;
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector((state) => state.member.pendingCreateMember);
+  const memberStore = useAppSelector((state) => state.member);
 
   const handleCreateMember = async (data: IFormMemberInfo) => {
     const memberModel = MemberFormMapper.toModel(data);
     const res = await dispatch(createMemberAsync(memberModel));
     if (!res.payload) {
-      toast.error("Tạo thành viên thất bại");
+      toast.error(MESSAGE_MEMBER.create.error);
       return;
     }
-    toast.success("Tạo thành viên thành công");
+    toast.success(MESSAGE_MEMBER.create.success);
     reset();
-    dispatch(getMembersAsync(undefined));
+    dispatch(getMembersAsync(memberStore.listQueryMember));
   };
   return (
     <ModalTab
       handleEvent={{
         event: handleSubmit(handleCreateMember),
-        isLoading: isLoading,
+        isLoading: memberStore.pendingCreateMember,
       }}
     >
       <FormItems formProps={propsForm} />

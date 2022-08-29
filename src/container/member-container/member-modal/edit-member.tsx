@@ -9,6 +9,7 @@ import { updateMemberAsync } from "@/features/reducers";
 import { IMember, IMemberUpdate } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 
+import { MESSAGE_MEMBER } from "../constant";
 import { MemberFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { IFormMemberInfo } from "../type";
@@ -37,18 +38,10 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
       updateMemberAsync({ payload: memberModel, id: data.id })
     );
     if (result.payload) {
-      toast.success(
-        `Cập nhật thành viên ${
-          editInfo.firstName + " " + editInfo.lastName
-        } thành công.`
-      );
+      toast.success(MESSAGE_MEMBER.update.success);
       return;
     }
-    toast.error(
-      `Cập nhật thành viên ${
-        editInfo.firstName + " " + editInfo.lastName
-      } thất bại.`
-    );
+    toast.error(MESSAGE_MEMBER.update.error);
   };
 
   return (

@@ -3,6 +3,7 @@ import { TItemListSelect } from "@/components";
 export const MEMBER_FILTER_VALUE = {
   isArchived: "is_archived",
   all: "get_all",
+  active: "active",
 } as const;
 
 export const MEMBER_QUERY_PARAM_KEY = {
@@ -11,7 +12,7 @@ export const MEMBER_QUERY_PARAM_KEY = {
 
 export const FILTER_MEMBER_OPTIONS: readonly TItemListSelect[] = [
   {
-    key: "active",
+    key: MEMBER_FILTER_VALUE.active,
     value: "Đang hoạt động",
   },
   {
@@ -23,3 +24,18 @@ export const FILTER_MEMBER_OPTIONS: readonly TItemListSelect[] = [
     value: "Tất cả thành viên",
   },
 ];
+
+export const MESSAGE_MEMBER = {
+  delete: {
+    success: "Xóa thành viên thành công.",
+    error: "Xóa thành viên thất bại.",
+  },
+  create: {
+    error: `Tạo thành viên thất bại.`,
+    success: `Tạo thành viên thành công.`,
+  },
+  update: {
+    error: `Cập nhật thành viên thất bại.`,
+    success: `Cập nhật thành viên thành công.`,
+  },
+} as const;

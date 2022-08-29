@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import {
   MemberApi,
@@ -12,11 +12,12 @@ import { IMember, IMemberCreate, IMemberUpdate } from "@/features/types/models";
 import { TParamQueryMemberDto } from "@/features/types/queries";
 
 export type MemberState = {
-  pending: boolean;
   members: IMember[];
+  pending: boolean;
   pendingCreateMember: boolean;
   pendingDeleteMember: boolean;
   pendingUpdateMember: boolean;
+  listQueryMember: TParamQueryMemberDto;
 };
 
 const initialState: MemberState = {
@@ -25,6 +26,7 @@ const initialState: MemberState = {
   pendingDeleteMember: false,
   pendingUpdateMember: false,
   members: [],
+  listQueryMember: {},
 };
 
 export const createMemberAsync = createAsyncThunk(
@@ -82,7 +84,11 @@ export const updateMemberAsync = createAsyncThunk(
 export const memberSlice = createSlice({
   name: "member",
   initialState,
-  reducers: {},
+  reducers: {
+    setListQueryMember(state, action: PayloadAction<TParamQueryMemberDto>) {
+      state.listQueryMember = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getMembersAsync.pending, (state) => {
@@ -127,5 +133,6 @@ export const memberSlice = createSlice({
 });
 
 export const memberStore = (state: RootState) => state.member;
+export const { setListQueryMember } = memberSlice.actions;
 
 export default memberSlice.reducer;
