@@ -24,7 +24,7 @@ export const PaginationPickRows: React.FC = () => {
         className="w-28"
         classNameDisplay="h-9"
         suffix="hàng"
-        isPortal={false}
+        placement="top-left"
         list={quantityDisplay.map((item): TItemListSelect => ({ value: item }))}
         value={rowsQuantity}
         onChange={handleRowsChange}

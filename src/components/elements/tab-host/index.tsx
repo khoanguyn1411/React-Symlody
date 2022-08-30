@@ -2,8 +2,6 @@ import classNames from "classnames";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useEffectSkipFirstRender } from "@/hooks";
-
 export type TTab = {
   title: string;
   key: string;
@@ -44,14 +42,14 @@ export const TabHost: React.FC<TProps> = ({
     onChangeTab && onChangeTab(tab);
   };
 
-  useEffectSkipFirstRender(() => {
-    if (!onUrlChange) {
-      return;
-    }
-    const tabItem = listTabs.find((item) => item.key === paramChangeDependency);
-    setActiveTab(tabItem);
-    onUrlChange(tabItem);
-  }, [paramChangeDependency]);
+  // useEffectSkipFirstRender(() => {
+  //   if (!onUrlChange) {
+  //     return;
+  //   }
+  //   const tabItem = listTabs.find((item) => item.key === paramChangeDependency);
+  //   setActiveTab(tabItem);
+  //   onUrlChange(tabItem);
+  // }, [paramChangeDependency]);
 
   return (
     <div className={classNames(!isNoSpace && "space-x-2", "flex w-full")}>

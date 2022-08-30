@@ -41,11 +41,11 @@ export function useModal<T = undefined>(
   }
 
   function setToggle() {
-    setIsShowing(!isShowing);
+    setIsShowing((prev) => !prev);
   }
 
   useHotkeys("c", () => {
-    isHotkeyOpen && setShow();
+    isHotkeyOpen && setToggle();
   });
 
   return {

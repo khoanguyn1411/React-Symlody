@@ -120,8 +120,12 @@ module.exports = {
         width: "width",
         margin: "margin",
       },
+      maxHeight: {
+        table: `calc(100vh - ${toPx(HEADER_HEIGHT)} - 210px)`,
+      },
       height: {
         header: `var(--header-height, ${toPx(HEADER_HEIGHT)})`, // headerHeight
+        table: `calc(100vh - ${toPx(HEADER_HEIGHT)} - 210px)`,
       },
       width: {
         sidebar: toPx(SIDE_BAR_WIDTH),

@@ -67,7 +67,7 @@ export const Dropdown = forwardRef<TDropdownMethod, TProps>(
 
     const handleToggleDropdown = () => {
       setPositionList();
-      setIsShowContent(!isShowContent);
+      setIsShowContent((prev) => !prev);
     };
     const handleClickItem = (item: TListSetting) => () => {
       onChange && onChange(item);

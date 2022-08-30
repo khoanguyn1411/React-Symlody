@@ -5,7 +5,7 @@ type TProps = {
 
 export const TableHead: React.FC<TProps> = ({ children }) => {
   return (
-    <thead className="bg-primary-50">
+    <thead className="sticky top-0 z-10 bg-primary-50">
       <tr>{children}</tr>
     </thead>
   );

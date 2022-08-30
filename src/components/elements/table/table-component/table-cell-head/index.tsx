@@ -17,15 +17,16 @@ export const TableCellHead: React.FC<TProps> = ({
   isLast = false,
 }) => {
   return (
-    <td
+    <th
       style={{ width: width }}
       className={classNames(
         "px-2.5 py-2 font-semibold",
+        "border-b border-gray-200",
         TEXT_ALIGN_MAP[textAlign],
         { "rounded-tl-md": isFirst, "rounded-tr-md": isLast }
       )}
     >
       {children}
-    </td>
+    </th>
   );
 };

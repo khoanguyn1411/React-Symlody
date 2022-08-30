@@ -4,6 +4,7 @@ import React, { ReactNode, useLayoutEffect, useState } from "react";
 import { Portal } from "@/components";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
+import { AlignedPlacement } from "../../portal/type";
 import { SelectDisplayWrapper, SelectListWrapper } from "../select-components";
 import { TSelectGeneralProps, TStyle } from "../type";
 
@@ -25,6 +26,7 @@ type TProps = {
   value: string;
   isUrlInteracting?: boolean;
   paramChangeDependency?: string;
+  placement?: AlignedPlacement;
   onChange: (value: string) => void;
   onChangeSideEffect?: (item: TItemListSelect) => void;
 };
@@ -42,6 +44,7 @@ export const Select: React.FC<TProps> = ({
   style = "default",
   isUrlInteracting = false,
   isPortal = true,
+  placement = "bottom-left",
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const { listRef, displayRef } = useHideOnClickOutside(
@@ -52,12 +55,12 @@ export const Select: React.FC<TProps> = ({
     displayRef,
     isPortal,
     isShowing: isShowContent,
-    placement: "bottom-left",
+    placement: placement,
   });
 
   const handleToggleContent = () => {
     setPositionList();
-    setIsShowContent(!isShowContent);
+    setIsShowContent((prev) => !prev);
   };
 
   const handleSetSelectedItem = (item: TItemListSelect) => () => {

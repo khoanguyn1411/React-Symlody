@@ -82,6 +82,7 @@ export const usePositionPortal = <T extends HTMLElement>({
     switch (placement) {
       case "top-left":
         return {
+          width: coords.right - coords.left,
           ...position.top,
           ...position.left,
         };
