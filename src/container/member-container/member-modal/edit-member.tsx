@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 import { Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { updateMemberAsync } from "@/features/reducers";
+import { getMembersAsync, updateMemberAsync } from "@/features/reducers";
 import { IMember, IMemberUpdate } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 
@@ -25,7 +25,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     shouldUnregister: true,
   });
 
-  const isLoading = useAppSelector((state) => state.member.pendingUpdateMember);
+  const memberStore = useAppSelector((state) => state.member);
   const dispatch = useAppDispatch();
   const {
     handleSubmit,
@@ -39,6 +39,8 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     );
     if (result.payload) {
       toast.success(MEMBER_MESSAGE.update.success);
+      dispatch(getMembersAsync(memberStore.listQueryMember));
+      toggle.setHidden();
       return;
     }
     toast.error(MEMBER_MESSAGE.update.error);
@@ -53,7 +55,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
       handleEvent={{
         title: "Cập nhật",
         event: handleSubmit(handleEditMember),
-        isLoading: isLoading,
+        isLoading: memberStore.pendingUpdateMember,
         isDisable: Object.keys(dirtyFields).length === 0,
       }}
     >

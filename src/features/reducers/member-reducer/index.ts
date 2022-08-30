@@ -26,7 +26,7 @@ const initialState: MemberState = {
   pendingDeleteMember: false,
   pendingUpdateMember: false,
   members: [],
-  listQueryMember: {},
+  listQueryMember: { is_archived: false },
 };
 
 export const createMemberAsync = createAsyncThunk(

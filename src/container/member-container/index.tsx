@@ -40,16 +40,16 @@ export const MemberContainer: React.FC = () => {
   const handleSetFilter = useCallback(
     (item: TItemListSelect) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { is_archived, get_all, ...rest } = memberStore.listQueryMember;
+      const { is_archived, ...rest } = memberStore.listQueryMember;
       switch (item.key) {
         case MEMBER_FILTER_VALUE.all:
-          dispatch(setListQueryMember({ ...rest, get_all: true }));
+          dispatch(setListQueryMember(rest));
           return;
         case MEMBER_FILTER_VALUE.isArchived:
           dispatch(setListQueryMember({ ...rest, is_archived: true }));
           break;
         case MEMBER_FILTER_VALUE.active:
-          dispatch(setListQueryMember({ rest }));
+          dispatch(setListQueryMember({ ...rest, is_archived: false }));
           break;
       }
     },
@@ -58,9 +58,9 @@ export const MemberContainer: React.FC = () => {
   );
 
   useEffect(() => {
+    console.log(memberStore.listQueryMember);
     dispatch(getMembersAsync(memberStore.listQueryMember));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [memberStore.listQueryMember]);
+  }, [dispatch, memberStore.listQueryMember]);
 
   const handleEdit = (item: IMember) => () => {
     propsModalEditMember.setData(item);
