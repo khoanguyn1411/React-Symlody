@@ -4,6 +4,8 @@ import React from "react";
 import { Avatar } from "@/components/elements";
 import { useAppSelector } from "@/features";
 
+import { UserDropdown } from "./UserDropdown";
+
 type TProps = {
   className?: string;
   isCompactSidebar: boolean;
@@ -28,14 +30,12 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar }) => {
           <i className="fas fa-bell" />
         </span>
 
-        <div className="flex items-center cursor-pointer space-x-2">
-          <Avatar
-            src={userStore.user.avatar_url}
-            fullName={userStore.user.full_name}
-          />
-          <span className="">
-            <i className="fas fa-caret-down" />
-          </span>
+        <div className="flex items-center py-1 pl-3 pr-2 bg-white border  shadow-sm rounded-md space-x-4">
+          <div className="flex items-center space-x-2">
+            <Avatar src="" fullName="Logo" />
+            <span className="font-medium">Logo</span>
+          </div>
+          <UserDropdown user={userStore.user} />
         </div>
       </div>
     </header>

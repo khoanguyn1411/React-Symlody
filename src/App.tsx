@@ -1,4 +1,3 @@
-import "./App.css";
 import "animate.css";
 
 import { Navigate, Route } from "react-router-dom";

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Button, NotFound, TabHost, TTab } from "@/components";
 
 import { ActionConfigDepartment, TabConfigDepartment } from "./config-tabs";
+import { TabOrganization } from "./config-tabs/config-organization";
 
 type ContentTab = {
   content: ReactNode;
@@ -13,7 +14,7 @@ type ContentTab = {
 const getContentTab = (key: TTab["key"]): ContentTab => {
   if (key === undefined) {
     return {
-      content: <div>Demo</div>,
+      content: <TabOrganization />,
       rightSide: <Button className="w-20">Lưu</Button>,
     };
   }
