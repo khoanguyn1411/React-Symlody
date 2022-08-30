@@ -37,13 +37,13 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     const result = await dispatch(
       updateMemberAsync({ payload: memberModel, id: data.id })
     );
-    if (result.payload) {
-      toast.success(MEMBER_MESSAGE.update.success);
-      dispatch(getMembersAsync(memberStore.listQueryMember));
-      toggle.setHidden();
+    if (!result.payload) {
+      toast.error(MEMBER_MESSAGE.update.error);
       return;
     }
-    toast.error(MEMBER_MESSAGE.update.error);
+    toast.success(MEMBER_MESSAGE.update.success);
+    dispatch(getMembersAsync(memberStore.listQueryMember));
+    toggle.setHidden();
   };
 
   return (
