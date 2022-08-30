@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import { TToggleModal } from "@/components/elements/modal/types";
 
@@ -9,12 +10,18 @@ export type THookModalProps<T> = {
   setData: (data: T) => void;
 };
 
+export type TProps = {
+  isHotkeyOpen?: boolean;
+};
+
 /**
  * If you need to pass data to modal from an component, please use "setData" prop
  * and receive value by "data" prop. To use "data" and "setData" props, please provide the interface or type of the data
  * you need to pass and receive.
  */
-export function useModal<T = undefined>(): THookModalProps<T> {
+export function useModal<T = undefined>(
+  { isHotkeyOpen }: TProps = { isHotkeyOpen: false }
+): THookModalProps<T> {
   const [isShowing, setIsShowing] = useState<boolean>(false);
   const [data, setDataState] = useState<T>();
 
@@ -36,6 +43,10 @@ export function useModal<T = undefined>(): THookModalProps<T> {
   function setToggle() {
     setIsShowing(!isShowing);
   }
+
+  useHotkeys("c", () => {
+    isHotkeyOpen && setShow();
+  });
 
   return {
     data,

@@ -13,7 +13,7 @@ import { ModalCreateAsset, ModalEditAsset } from "./asset-modal";
 import { TFormAssetInfo } from "./type";
 
 export const AssetContainer: React.FC = () => {
-  const propsModal = useModal();
+  const propsModal = useModal({ isHotkeyOpen: true });
   const propsModalEdit = useModal<TFormAssetInfo>();
   const propsSearch = useSearch();
 

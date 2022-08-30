@@ -30,7 +30,7 @@ import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { TableMemberSkeleton } from "./member-skeleton";
 
 export const MemberContainer: React.FC = () => {
-  const propsModalCreateMember = useModal();
+  const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<IMember>();
   const propsSearch = useSearch();
   const memberStore = useAppSelector((state) => state.member);
