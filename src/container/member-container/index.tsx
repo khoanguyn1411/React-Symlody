@@ -99,7 +99,7 @@ export const MemberContainer: React.FC = () => {
             {memberStore.members.map((item, index) => {
               const memberTableItem = MemberTableMapper.fromModel(item);
               return (
-                <Table.Row key={memberTableItem.id} isBorderTop={index !== 0}>
+                <Table.Row key={memberTableItem.id}>
                   <Table.Cell width="5rem" textAlign="center">
                     {index + 1}
                   </Table.Cell>

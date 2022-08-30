@@ -9,7 +9,7 @@ export const TableAssetSkeleton: React.FC<TProps> = ({ length = 5 }) => {
     <Table.Container>
       <Table.Body>
         {[...Array(length)].map((item, index) => (
-          <Table.Row isSkeleton key={index} isBorderTop={index !== 0}>
+          <Table.Row isSkeleton key={index}>
             <Table.Cell isSkeleton isFirst width="5rem" textAlign="center">
               <Skeleton />
             </Table.Cell>

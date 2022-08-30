@@ -121,11 +121,11 @@ module.exports = {
         margin: "margin",
       },
       maxHeight: {
-        table: `calc(100vh - ${toPx(HEADER_HEIGHT)} - 210px)`,
+        table: `calc(100vh - ${toPx(HEADER_HEIGHT)} - 163px)`,
       },
       height: {
         header: `var(--header-height, ${toPx(HEADER_HEIGHT)})`, // headerHeight
-        table: `calc(100vh - ${toPx(HEADER_HEIGHT)} - 210px)`,
+        table: `calc(100vh - ${toPx(HEADER_HEIGHT)} - 163px)`,
       },
       width: {
         sidebar: toPx(SIDE_BAR_WIDTH),

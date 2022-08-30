@@ -7,25 +7,25 @@ import { Skeleton, Table } from "@/components";
 export const TableMemberSkeleton: React.FC<TProps> = ({ length = 5 }) => {
   return (
     <Table.Container>
-      <Table.Body isSkeleton>
+      <Table.Body>
         {[...Array(length)].map((item, index) => (
-          <Table.Row isSkeleton key={index} isBorderTop={index !== 0}>
-            <Table.Cell isSkeleton isFirst width="5rem" textAlign="center">
+          <Table.Row isSkeleton key={index}>
+            <Table.Cell index={index} isSkeleton isFirst width="5rem">
               <Skeleton />
             </Table.Cell>
-            <Table.Cell isSkeleton>
+            <Table.Cell index={index} isSkeleton>
               <Skeleton />
             </Table.Cell>
-            <Table.Cell isSkeleton width="6rem">
+            <Table.Cell index={index} isSkeleton width="6rem">
               <Skeleton />
             </Table.Cell>
-            <Table.Cell isSkeleton width="8rem">
+            <Table.Cell index={index} isSkeleton width="8rem">
               <Skeleton />
             </Table.Cell>
-            <Table.Cell isSkeleton width="18rem">
+            <Table.Cell index={index} isSkeleton width="18rem">
               <Skeleton />
             </Table.Cell>
-            <Table.Cell isSkeleton isLast width="8rem">
+            <Table.Cell index={index} isSkeleton isLast width="8rem">
               <Skeleton />
             </Table.Cell>
           </Table.Row>
