@@ -2,6 +2,8 @@ import classNames from "classnames";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import { APP_NAME } from "@/constants";
+
 import { CompactSidebar } from "./compact";
 import { SidebarItem } from "./sidebar-item";
 import { getTabsSidebar } from "./sidebar-tab";
@@ -27,7 +29,7 @@ export const Sidebar: React.FC<TProps> = ({
   return (
     <div
       className={classNames(
-        "fixed hidden border-r bg-white border-gray-200 -mt-header xl:block transition-width  duration-300",
+        "fixed hidden border-r bg-white border-gray-200 -mt-header xl:block transition-width duration-300",
         isCompactSidebar ? "w-sidebar-compact" : "w-sidebar",
         className
       )}
@@ -37,8 +39,21 @@ export const Sidebar: React.FC<TProps> = ({
           "pr-4": !isCompactSidebar,
         })}
       >
-        <div className="flex justify-start w-full">
-          <div className="w-10 h-10 rounded-full bg-primary-500"></div>
+        <div
+          className={classNames(
+            "flex items-center justify-center w-full mt-4",
+            !isCompactSidebar && "space-x-3"
+          )}
+        >
+          <div className="h-10 rounded-full min-w-[2.5rem] bg-primary-500"></div>
+          <h1
+            className={classNames(
+              "transition-width overflow-hidden text-xl font-medium duration-200",
+              isCompactSidebar && "w-0"
+            )}
+          >
+            {APP_NAME}
+          </h1>
         </div>
         <div className="flex-1 w-full mt-4">
           {tabsSidebar.map((tab, index) => (

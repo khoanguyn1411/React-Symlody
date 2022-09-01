@@ -7,7 +7,14 @@ import {
   MemberContainer,
 } from "@/container";
 
-export type Page_Key = "Home" | "Member" | "Asset" | "Config";
+export type Page_Key =
+  | "Home"
+  | "Member"
+  | "Asset"
+  | "Config"
+  | "Event"
+  | "Todos"
+  | "Target";
 interface IRoutes {
   path: string;
   component: React.ReactNode | JSX.Element;

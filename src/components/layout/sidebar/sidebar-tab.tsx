@@ -16,10 +16,28 @@ export const getTabsSidebar = (): ITabSidebar[] => [
     pageActive: "Member",
   },
   {
-    icon: Icon.Home,
+    icon: Icon.Money,
     title: "Tài sản",
     to: "/asset",
     pageActive: "Asset",
+  },
+  {
+    icon: Icon.Calendar,
+    title: "Sự kiện",
+    to: "/asset",
+    pageActive: "Event",
+  },
+  {
+    icon: Icon.List,
+    title: "Công việc",
+    to: "/asset",
+    pageActive: "Todos",
+  },
+  {
+    icon: Icon.Target,
+    title: "Mục tiêu",
+    to: "/asset",
+    pageActive: "Target",
   },
   {
     icon: Icon.Home,

@@ -4,6 +4,7 @@ export * from "./calendar";
 export * from "./edit";
 export * from "./home";
 export * from "./list";
+export * from "./money";
 export * from "./question";
 export * from "./spin";
 export * from "./target";
