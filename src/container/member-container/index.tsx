@@ -156,20 +156,20 @@ export const MemberContainer: React.FC = () => {
     );
   };
 
-  if (!memberStore) {
-    return (
-      <>
-        <NoData
-          imageSrc={MEMBER_NO_DATA_CONFIG.imageSrc}
-          buttonTitle={MEMBER_NO_DATA_CONFIG.buttonTitle}
-          content={MEMBER_NO_DATA_CONFIG.content}
-          title={MEMBER_NO_DATA_CONFIG.title}
-          onCreateNew={propsModalCreateMember.toggle.setShow}
-        />
-        <ModalCreateMember {...propsModalCreateMember} />
-      </>
-    );
-  }
+  // if (!memberStore.pending) {
+  //   return (
+  //     <>
+  //       <NoData
+  //         imageSrc={MEMBER_NO_DATA_CONFIG.imageSrc}
+  //         buttonTitle={MEMBER_NO_DATA_CONFIG.buttonTitle}
+  //         content={MEMBER_NO_DATA_CONFIG.content}
+  //         title={MEMBER_NO_DATA_CONFIG.title}
+  //         onCreateNew={propsModalCreateMember.toggle.setShow}
+  //       />
+  //       <ModalCreateMember {...propsModalCreateMember} />
+  //     </>
+  //   );
+  // }
 
   return (
     <div>

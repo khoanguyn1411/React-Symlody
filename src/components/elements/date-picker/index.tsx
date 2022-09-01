@@ -71,7 +71,7 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
         popperClassName="!z-30"
         popperPlacement="bottom-end"
         className={classNames(
-          "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
+          "w-full p-2 border-gray-200 pr-8 text-gray-font outline-none rounded-md",
           STYLE_MAP[style]
         )}
         dayClassName={() => {
@@ -79,7 +79,7 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
         }}
         calendarClassName="transition-all animate__animated animate__fadeIn"
       />
-      <div className="absolute top-0 bottom-0 right-0 flex items-center mr-2 text-black pointer-events-none">
+      <div className="absolute top-0 bottom-0 right-0 flex items-center mr-2 pointer-events-none text-gray-font">
         <span>
           <i className="fas fa-calendar-day"></i>
         </span>

@@ -46,5 +46,5 @@ export const MEMBER_NO_DATA_CONFIG = {
   content:
     "Lập danh sách thành viên và quản lý các thành viên một cách dễ dàng và tiện lợi.",
   buttonTitle: "Tạo thành viên",
-  imageSrc: images.imageNotFound,
+  imageSrc: images.noData.member,
 } as const;

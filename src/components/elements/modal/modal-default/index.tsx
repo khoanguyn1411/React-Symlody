@@ -42,7 +42,7 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
           {title}
           <span
             aria-hidden="true"
-            className="absolute right-0 mr-5 text-black cursor-pointer"
+            className="absolute right-0 mr-5 text-gray-font cursor-pointer"
             onClick={handleSetHidden}
           >
             <i className="far fa-times"></i>

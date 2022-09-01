@@ -22,7 +22,7 @@ export const NotFound: React.FC<Props> = ({
     <div className="flex items-center justify-center py-4">
       <div className="flex flex-col items-center justify-center p-4 bg-white border rounded-md">
         <img
-          src={images.imageNotFound}
+          src={images.notFound}
           alt="not-found"
           height={imageHeight}
           width={imageHeight}

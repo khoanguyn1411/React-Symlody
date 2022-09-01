@@ -42,7 +42,9 @@ export const Radio: React.FC<TProps> = ({
           </div>
         </div>
         <div
-          className={classNames("text-black cursor-pointer select-none w-full")}
+          className={classNames(
+            "text-gray-font cursor-pointer select-none w-full"
+          )}
         >
           {children || value}
         </div>

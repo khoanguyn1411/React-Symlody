@@ -1,6 +1,7 @@
 import {
   Button,
   DeleteAndEditField,
+  NoData,
   Pagination,
   Search,
   Sort,
@@ -10,6 +11,7 @@ import { useModal, useSearch } from "@/hooks";
 import { FormatService } from "@/utils";
 
 import { ModalCreateAsset, ModalEditAsset } from "./asset-modal";
+import { ASSET_NO_DATA_CONFIG } from "./constant";
 import { TFormAssetInfo } from "./type";
 
 export const AssetContainer: React.FC = () => {
@@ -65,7 +67,21 @@ export const AssetContainer: React.FC = () => {
   const handleOpenModal = () => {
     propsModal.toggle.setToggle();
   };
-
+  const newLocal = true;
+  if (newLocal) {
+    return (
+      <>
+        <NoData
+          imageSrc={ASSET_NO_DATA_CONFIG.imageSrc}
+          title={ASSET_NO_DATA_CONFIG.title}
+          buttonTitle={ASSET_NO_DATA_CONFIG.buttonTitle}
+          content={ASSET_NO_DATA_CONFIG.content}
+          onCreateNew={propsModal.toggle.setShow}
+        />
+        <ModalCreateAsset {...propsModal} />
+      </>
+    );
+  }
   return (
     <div>
       <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
