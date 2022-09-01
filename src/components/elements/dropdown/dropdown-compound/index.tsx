@@ -80,7 +80,7 @@ export const Demo = () => {
 //             key={index}
 //             onClick={handleClickMenu(item.key)}
 //             className={classNames(
-//               "rounded-none bg-white w-full hover:bg-gray-100 text-gray-font hover:text-primary-800 transition-all duration-300"
+//               "rounded-none bg-white w-full hover:bg-gray-100 text-font-main hover:text-primary-800 transition-all duration-300"
 //             )}
 //           >
 //             {item.prefix}

@@ -40,6 +40,9 @@ module.exports = {
         }
       },
       colors: {
+        font: {
+          main: "#000000"
+        },
         backdrop: {
           main: "#0000006e"
         },
@@ -114,7 +117,6 @@ module.exports = {
           700: "#374151",
           800: "#1f2937",
           900: "#111827",
-          font: "#455A64"
         },
       },
       transitionProperty: {
@@ -157,7 +159,7 @@ module.exports = {
     plugin(({ addBase, theme }) => {
       addBase({
         // or whichever color you'd like
-        'html': { color: theme('colors.gray.font') },
+        'html': { color: theme('colors.font.main') },
       });
     })
   ],

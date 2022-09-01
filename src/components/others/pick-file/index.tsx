@@ -119,7 +119,7 @@ export const PickFile: React.FC<TProps> = ({
           <span
             aria-hidden
             onClick={handleRemoveFile}
-            className="text-gray-font cursor-pointer hover:text-red-500 transition-all duration-300"
+            className="text-font-main cursor-pointer hover:text-red-500 transition-all duration-300"
           >
             <i className="fas fa-trash"></i>
           </span>

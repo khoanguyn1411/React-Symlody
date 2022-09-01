@@ -25,7 +25,7 @@ export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
         tabIndex={0}
         ref={ref}
         className={classNames(
-          "flex justify-between w-full items-center p-2 pr-5 rounded-lg text-gray-font",
+          "flex justify-between w-full items-center p-2 pr-5 rounded-lg text-font-main",
           classNameDisplay,
           STYLE_DISPLAY_WRAPPER_MAPS[style]
         )}
