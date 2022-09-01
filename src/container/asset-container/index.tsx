@@ -67,7 +67,7 @@ export const AssetContainer: React.FC = () => {
   const handleOpenModal = () => {
     propsModal.toggle.setToggle();
   };
-  const newLocal = true;
+  const newLocal = false;
   if (newLocal) {
     return (
       <>

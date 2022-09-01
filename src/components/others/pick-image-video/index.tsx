@@ -20,6 +20,12 @@ export const PickImageVideo: React.FC = () => {
     }
     setFile(file);
   };
+
+  const handleRemoveFile = () => {
+    setFile(null);
+    setFileData(null);
+  };
+
   const handleOpenSelectFile = () => {
     if (!inputFileRef.current) {
       return;
@@ -27,9 +33,11 @@ export const PickImageVideo: React.FC = () => {
     inputFileRef.current.click();
   };
 
-  const handleRemoveFile = () => {
-    setFile(undefined);
-    setFileData(undefined);
+  const handleResetInput = (
+    event: React.MouseEvent<HTMLInputElement, MouseEvent>
+  ) => {
+    const element = event.target as HTMLInputElement;
+    element.value = null;
   };
 
   useEffect(() => {
@@ -67,6 +75,7 @@ export const PickImageVideo: React.FC = () => {
         type="file"
         accept="image/*, video/*"
         className="hidden"
+        onClick={handleResetInput}
         onChange={handleUploadFile}
       />
       {!file && (
@@ -86,14 +95,7 @@ export const PickImageVideo: React.FC = () => {
       )}
 
       {fileData && (
-        <div className="relative w-full">
-          <button
-            onClick={handleRemoveFile}
-            type="button"
-            className="absolute right-0 z-10 flex items-center justify-center w-6 h-6 m-2 rounded-full cursor-pointer bg-secondary-200"
-          >
-            <i className="far fa-times"></i>
-          </button>
+        <div className="w-full">
           {fileData && fileData.type === "video.*" && (
             <video src={fileData.url.toString()} controls className="w-full">
               <track kind="captions" />
@@ -101,11 +103,20 @@ export const PickImageVideo: React.FC = () => {
           )}
 
           {fileData && fileData.type === "image.*" && (
-            <img
-              alt="img-preview"
-              className="w-full"
-              src={fileData.url.toString()}
-            />
+            <div className="relative h-44 w-[fit-content] drop-shadow-md">
+              <img
+                alt="img-preview"
+                className="object-cover object-left h-full rounded-md"
+                src={fileData.url.toString()}
+              />
+              <button
+                onClick={handleRemoveFile}
+                type="button"
+                className="absolute top-0 right-0 z-10 flex items-center justify-center w-6 h-6 m-2 text-white rounded-full cursor-pointer bg-backdrop-main"
+              >
+                <i className="far fa-times"></i>
+              </button>
+            </div>
           )}
         </div>
       )}

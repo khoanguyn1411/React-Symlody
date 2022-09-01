@@ -35,6 +35,13 @@ export const PickFile: React.FC<TProps> = ({
     setSelectedFile(null);
   };
 
+  const handleResetInput = (
+    event: React.MouseEvent<HTMLInputElement, MouseEvent>
+  ) => {
+    const element = event.target as HTMLInputElement;
+    element.value = null;
+  };
+
   const handlePickedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedFile(event.target.files[0]);
     if (event.target.files) {
@@ -105,6 +112,7 @@ export const PickFile: React.FC<TProps> = ({
           type="file"
           className="hidden"
           ref={inputFileRef}
+          onClick={handleResetInput}
           onChange={handlePickedFile}
         />
       </div>
@@ -117,13 +125,13 @@ export const PickFile: React.FC<TProps> = ({
             </p>
           </div>
 
-          <span
-            aria-hidden
-            onClick={handleRemoveFile}
-            className="cursor-pointer text-font-main hover:text-red-500 transition-all duration-300"
-          >
-            <i className="fas fa-trash"></i>
-          </span>
+          <button type="button" onClick={handleRemoveFile}>
+            <Icon.Trash
+              size="medium"
+              customColor="text"
+              className="cursor-pointer hover:text-red-500 text-font-main transition-colors duration-300"
+            />
+          </button>
         </div>
       )}
       <div className="flex flex-col items-center justify-center mt-6 mb-5">
