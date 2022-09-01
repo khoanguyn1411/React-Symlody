@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, { useRef, useState } from "react";
 
+import { Icon } from "@/assets/icons";
 import { Button } from "@/components";
 import { FileService } from "@/utils";
 
@@ -80,8 +81,8 @@ export const PickFile: React.FC<TProps> = ({
           isDragActive && "bg-gray-100"
         )}
       >
-        <span className="my-4 text-4xl text-primary-800">
-          <i className="far fa-file-upload"></i>
+        <span className="my-4 mt-4">
+          <Icon.Upload size="large" />
         </span>
         {!isDragActive && (
           <p className="text-lg text-center">
@@ -119,7 +120,7 @@ export const PickFile: React.FC<TProps> = ({
           <span
             aria-hidden
             onClick={handleRemoveFile}
-            className="text-font-main cursor-pointer hover:text-red-500 transition-all duration-300"
+            className="cursor-pointer text-font-main hover:text-red-500 transition-all duration-300"
           >
             <i className="fas fa-trash"></i>
           </span>

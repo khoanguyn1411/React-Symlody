@@ -111,7 +111,7 @@ export const MemberContainer: React.FC = () => {
                         <Avatar
                           size="medium"
                           src={memberTableItem.avatar}
-                          fullName={memberTableItem.name}
+                          fullName={item.auth_account.first_name}
                         />
                       </div>
                       <div>
@@ -144,19 +144,11 @@ export const MemberContainer: React.FC = () => {
             })}
           </Table.Body>
         </Table.Container>
-        <div className="flex justify-end w-full mt-5">
-          <Pagination
-            onRowQuantityChange={(activeRows) => console.log(activeRows)}
-            onPaginationChange={(activePage) => console.log(activePage)}
-            totalPages={150}
-            pageStep={1}
-          />
-        </div>
       </>
     );
   };
-
-  if (!memberStore.pending) {
+  const showNoData = false;
+  if (showNoData) {
     return (
       <>
         <NoData
@@ -198,6 +190,16 @@ export const MemberContainer: React.FC = () => {
       </div>
       <div className="p-default">
         <TableComponent />
+        {memberStore.members.length > 0 && (
+          <div className="flex justify-end w-full mt-5">
+            <Pagination
+              onRowQuantityChange={(activeRows) => console.log(activeRows)}
+              onPaginationChange={(activePage) => console.log(activePage)}
+              totalPages={150}
+              pageStep={1}
+            />
+          </div>
+        )}
       </div>
       <ModalCreateMember {...propsModalCreateMember} />
       <ModalEditMember {...propsModalEditMember} />

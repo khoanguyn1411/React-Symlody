@@ -27,9 +27,13 @@ export const SidebarItem: React.FC<TProps> = ({
         isActive ? "bg-primary-50 text-primary-800" : undefined
       )}
     >
-      <span className="text-lg text-center group-hover:text-primary-800 transition-all duration-300">
-        <i className={tab.icon}></i>
-      </span>
+      <tab.icon
+        className={classNames(
+          "group-hover:text-primary-800",
+          "transition-all duration-300",
+          isActive ? "text-primary-800" : "text-font-main"
+        )}
+      />
 
       <div
         className={classNames(

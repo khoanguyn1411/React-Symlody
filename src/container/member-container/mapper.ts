@@ -57,7 +57,7 @@ export class MemberTableMapper {
   public static fromModel(model: IMember): IMemberTable {
     return {
       id: model.id,
-      name: model.auth_account.first_name + " " + model.auth_account.last_name,
+      name: model.auth_account.last_name + " " + model.auth_account.first_name,
       email: model.auth_account.email,
       department: model.department.name,
       birthday: dayjs(model.dob).format("DD/MM/YYYY"),

@@ -1,32 +1,30 @@
+import { Icon } from "@/assets/icons";
+
 import { ITabSidebar } from "./type";
 
-const tabsSidebar: ITabSidebar[] = [
+export const getTabsSidebar = (): ITabSidebar[] => [
   {
-    icon: "fas fa-home",
+    icon: Icon.Home,
     title: "Trang chủ",
     to: "/",
     pageActive: "Home",
   },
   {
-    icon: "fas fa-users",
+    icon: Icon.Users,
     title: "Thành viên",
     to: "/member",
     pageActive: "Member",
   },
   {
-    icon: "fas fa-sack-dollar",
+    icon: Icon.Home,
     title: "Tài sản",
     to: "/asset",
     pageActive: "Asset",
   },
   {
-    icon: "fas fa-wrench",
+    icon: Icon.Home,
     title: "Cấu hình",
     to: "/config",
     pageActive: "Config",
   },
 ];
-
-export const getTabsSidebar = () => {
-  return tabsSidebar;
-};

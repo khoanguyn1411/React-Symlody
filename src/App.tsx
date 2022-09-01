@@ -2,7 +2,7 @@ import "animate.css";
 
 import { Navigate, Route } from "react-router-dom";
 
-import { Spin } from "./assets/icons";
+import { Icon } from "./assets/icons";
 import { MainLayout } from "./components";
 import { useAuth } from "./hooks";
 import { AppProvider, ThemeProvider } from "./provider";
@@ -14,7 +14,7 @@ function App() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center w-screen h-screen">
-        <Spin size="large" />
+        <Icon.Spin size="large" />
       </div>
     );
   }

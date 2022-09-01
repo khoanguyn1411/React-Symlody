@@ -2,7 +2,7 @@ import { ThemeProvider as Theme } from "@emotion/react";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import { Spin } from "@/assets/icons";
+import { Icon } from "@/assets/icons";
 import { DatePortal } from "@/components";
 
 type AppProviderProps = {
@@ -14,7 +14,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     <React.Suspense
       fallback={
         <div className="flex items-center justify-center w-screen h-screen">
-          <Spin size="large" />
+          <Icon.Spin size="large" />
         </div>
       }
     >

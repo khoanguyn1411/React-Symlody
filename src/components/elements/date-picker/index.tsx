@@ -5,6 +5,8 @@ import classNames from "classnames";
 import React from "react";
 import DatePicker from "react-datepicker";
 
+import { Icon } from "@/assets/icons";
+
 import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
 import { Portal } from "../portal";
 import { STYLE_MAP } from "./type";
@@ -80,9 +82,7 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
         calendarClassName="transition-all animate__animated animate__fadeIn"
       />
       <div className="absolute top-0 bottom-0 right-0 flex items-center mr-2 pointer-events-none text-font-main">
-        <span>
-          <i className="fas fa-calendar-day"></i>
-        </span>
+        <Icon.Calendar customColor="text" />
       </div>
     </WrapperModule>
   );

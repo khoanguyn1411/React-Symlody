@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 
+import { Icon } from "@/assets/icons";
 import { Avatar } from "@/components/elements";
 import { useAppSelector } from "@/features";
 
@@ -23,11 +24,11 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar }) => {
     >
       <div className="flex items-center space-x-4">
         <span className="flex items-center justify-center w-6 h-6 text-sm bg-gray-200 rounded-full shadow-inner cursor-pointer hover:bg-gray-300 transition-all duration-300">
-          <i className="fas fa-question" />
+          <Icon.Question size="small" customColor="text" />
         </span>
 
         <span className="flex items-center justify-center w-6 h-6 text-sm bg-gray-200 rounded-full shadow-inner cursor-pointer transition-all duration-300 hover:bg-gray-300">
-          <i className="fas fa-bell" />
+          <Icon.Bell size="small" customColor="text" />
         </span>
 
         <div className="flex items-center py-1 pl-3 pr-2 bg-white border  shadow-sm rounded-md space-x-4">

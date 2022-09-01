@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Icon } from "@/assets/icons";
 import { DropdownConfirm, Tooltip } from "@/components";
 
 type TProps = {
@@ -19,9 +20,13 @@ export const DeleteAndEditField: React.FC<TProps> = ({
       <Tooltip content="Chỉnh sửa">
         <button
           onClick={handleEvent.edit}
-          className="flex items-center justify-center"
+          className="flex items-center justify-center group"
         >
-          <i className="fas fa-edit"></i>
+          <Icon.Edit
+            customColor="gray"
+            size="medium"
+            className="group-hover:text-font-main transition-all duration-200"
+          />
         </button>
       </Tooltip>
       <DropdownConfirm
@@ -30,8 +35,12 @@ export const DeleteAndEditField: React.FC<TProps> = ({
         handleEvent={{ title: "Xóa", event: handleEvent.delete }}
       >
         <Tooltip content="Xoá">
-          <button className="flex items-center justify-center">
-            <i className="fas fa-trash-alt"></i>
+          <button className="flex items-center justify-center group">
+            <Icon.Trash
+              customColor="gray"
+              size="medium"
+              className="group-hover:text-font-main transition-all duration-200"
+            />
           </button>
         </Tooltip>
       </DropdownConfirm>

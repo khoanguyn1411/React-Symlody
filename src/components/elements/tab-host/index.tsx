@@ -38,7 +38,7 @@ export const TabHost: React.FC<TProps> = ({
 
   const handleClickTab = (tab: TTab) => () => {
     setActiveTab(tab);
-    tab.to && navigate(tab.to);
+    // tab.to && navigate(tab.to);
     onChangeTab && onChangeTab(tab);
   };
 

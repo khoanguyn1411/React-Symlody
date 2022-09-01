@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import { Icon } from "@/assets/icons";
+import { Button } from "@/components/elements";
+
 type TFileData = {
   url: string | ArrayBuffer;
   type: "video.*" | "image.*";
@@ -68,17 +71,15 @@ export const PickImageVideo: React.FC = () => {
       />
       {!file && (
         <>
-          <button
-            type="button"
+          <Button
+            style="outline"
             onClick={handleOpenSelectFile}
-            className="px-3 py-2 font-medium border border-gray-300 min-w-max w-[fit-content] text-primary-800 rounded-md"
+            prefix={<Icon.Upload className="mr-3" />}
+            className="border-gray-300 w-[fit-content]"
           >
-            <span className="mr-2">
-              <i className="far fa-upload"></i>
-            </span>{" "}
             Thêm file
-          </button>
-          <span className="mt-1 italic text-gray-400">
+          </Button>
+          <span className="mt-2 italic text-gray-400">
             Cho phép upload file dưới 10Mb
           </span>
         </>

@@ -1,7 +1,6 @@
 import React, { ReactNode, useState } from "react";
-import { useParams } from "react-router-dom";
 
-import { Button, NotFound, TabHost, TTab } from "@/components";
+import { Button, TabHost, TTab } from "@/components";
 
 import { ActionConfigDepartment, TabConfigDepartment } from "./config-tabs";
 import { TabOrganization } from "./config-tabs/config-organization";
@@ -12,7 +11,7 @@ type ContentTab = {
 };
 
 const getContentTab = (key: TTab["key"]): ContentTab => {
-  if (key === undefined) {
+  if (key === "organization") {
     return {
       content: <TabOrganization />,
       rightSide: <Button className="w-20">Lưu</Button>,
@@ -25,20 +24,12 @@ const getContentTab = (key: TTab["key"]): ContentTab => {
 };
 
 export const ConfigContainer: React.FC = () => {
-  const { tab } = useParams();
-  const [content, setContent] = useState<ContentTab>(getContentTab(tab));
+  const [content, setContent] = useState<ContentTab>(
+    getContentTab("organization")
+  );
   const handleChangeTab = (tab: TTab) => {
     setContent(getContentTab(tab.key));
   };
-
-  if (tab !== undefined && tab !== "department") {
-    return (
-      <NotFound
-        title="Trang bạn đang truy cập không tồn tại"
-        description="Vui lòng kiểm tra lại đường dẫn hoặc liên hệ trung tâm hỗ trợ"
-      />
-    );
-  }
 
   return (
     <div>
@@ -46,12 +37,10 @@ export const ConfigContainer: React.FC = () => {
         <TabHost
           isRounded
           listTabs={[
-            { key: undefined, title: "Tổ chức", to: "/config" },
-            { key: "department", title: "Phòng ban", to: "/config/department" },
+            { key: "organization", title: "Tổ chức" },
+            { key: "department", title: "Phòng ban" },
           ]}
-          onUrlChange={handleChangeTab}
-          paramChangeDependency={tab}
-          defaultActive={tab}
+          onChangeTab={handleChangeTab}
         />
         <div>{content.rightSide}</div>
       </div>
