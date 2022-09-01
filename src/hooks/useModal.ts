@@ -46,6 +46,7 @@ export function useModal<T = undefined>(
 
   useHotkeys("c", () => {
     isHotkeyOpen && setToggle();
+    !isHotkeyOpen && setHidden();
   });
 
   return {
