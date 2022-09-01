@@ -57,7 +57,6 @@ export const deleteMemberAsync = createAsyncThunk(
 export const getMembersAsync = createAsyncThunk(
   "get/members",
   async (param: TMemberParamQueryDto) => {
-    // const paramDto = MemberQueryMapper.toParamDto(param);
     const result: RequestGetMembersResult = await MemberApi.getMembers(param);
     if (result.kind === "ok") {
       return result.result.map((item) => MemberMapper.fromDto(item));
@@ -80,6 +79,7 @@ export const updateMemberAsync = createAsyncThunk(
     return false;
   }
 );
+
 export const memberSlice = createSlice({
   name: "member",
   initialState,

@@ -5,6 +5,7 @@ import {
   Avatar,
   Button,
   DeleteAndEditField,
+  NoData,
   Pagination,
   Search,
   Select,
@@ -24,6 +25,7 @@ import {
   MEMBER_FILTER_OPTIONS,
   MEMBER_FILTER_VALUE,
   MEMBER_MESSAGE,
+  MEMBER_NO_DATA_CONFIG,
 } from "./constant";
 import { MemberTableMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
@@ -153,6 +155,21 @@ export const MemberContainer: React.FC = () => {
       </>
     );
   };
+
+  if (!memberStore) {
+    return (
+      <>
+        <NoData
+          imageSrc={MEMBER_NO_DATA_CONFIG.imageSrc}
+          buttonTitle={MEMBER_NO_DATA_CONFIG.buttonTitle}
+          content={MEMBER_NO_DATA_CONFIG.content}
+          title={MEMBER_NO_DATA_CONFIG.title}
+          onCreateNew={propsModalCreateMember.toggle.setShow}
+        />
+        <ModalCreateMember {...propsModalCreateMember} />
+      </>
+    );
+  }
 
   return (
     <div>

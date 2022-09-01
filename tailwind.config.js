@@ -126,6 +126,7 @@ module.exports = {
       height: {
         header: `var(--header-height, ${toPx(HEADER_HEIGHT)})`, // headerHeight
         table: `calc(100vh - ${toPx(HEADER_HEIGHT)} - 163px)`,
+        content: `calc(100vh - ${toPx(HEADER_HEIGHT)})`
       },
       width: {
         sidebar: toPx(SIDE_BAR_WIDTH),
