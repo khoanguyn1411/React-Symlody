@@ -1,26 +1,18 @@
 import classNames from "classnames";
-import { ReactNode, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import { AnimationKeepDom, Portal } from "@/components";
+import { GlobalTypes } from "@/global";
 import { usePositionPortal } from "@/hooks";
 
 import { AlignedPlacement } from "../portal/type";
 
 type TProps = {
-  children: ReactNode;
   content: string;
   placement?: AlignedPlacement;
 };
 
-export type TPosition = {
-  left?: number;
-  right?: number;
-  bottom?: number;
-  top?: number;
-  width?: number;
-};
-
-export const Tooltip: React.FC<TProps> = ({
+export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   content,
   placement = "top-center",

@@ -1,14 +1,18 @@
 import classNames from "classnames";
-import React, { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+import { GlobalTypes } from "@/global";
 
 import { ANIMATION_DEFAULT_TIME } from "../constants";
 
 type TProps = {
   isShowing: boolean;
-  children: ReactNode;
 };
 
-export const AnimationHide: React.FC<TProps> = ({ isShowing, children }) => {
+export const AnimationHide: GlobalTypes.FCPropsWithChildren<TProps> = ({
+  isShowing,
+  children,
+}) => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   useEffect(() => {
     if (isShowing) {

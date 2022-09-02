@@ -2,6 +2,7 @@ import { NotFound } from "@/components";
 import {
   AssetContainer,
   ConfigContainer,
+  EventContainer,
   HomeContainer,
   LoginContainer,
   MemberContainer,
@@ -49,17 +50,11 @@ const privateRoutes: readonly IRoutes[] = [
     pageTitle: "Trang cấu hình",
   },
   {
-    path: "/config/:tab",
-    component: <ConfigContainer />,
-    pageKey: "Config",
-    pageTitle: "Trang cấu hình",
+    path: "/event",
+    component: <EventContainer />,
+    pageKey: "Event",
+    pageTitle: "Trang sự kiện",
   },
-  // {
-  //   path: "/config/department",
-  //   component: <ConfigContainer />,
-  //   pageKey: "Config",
-  //   pageTitle: "Trang cấu hình thành viên",
-  // },
 
   {
     path: "/*",

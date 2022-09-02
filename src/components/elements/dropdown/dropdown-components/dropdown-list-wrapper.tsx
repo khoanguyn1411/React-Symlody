@@ -1,17 +1,16 @@
 import classNames from "classnames";
-import { ReactNode } from "react";
 
 import { AnimationCustom } from "@/components";
+import { GlobalTypes } from "@/global";
 
 type TProps = {
   isShowContent: boolean;
-  children: ReactNode;
   widthContainer?: string;
   isOverflow: boolean;
   position: React.CSSProperties;
 };
 
-export const DropdownListWrapper: React.FC<TProps> = ({
+export const DropdownListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
   isShowContent,
   children,
   widthContainer = "320px",

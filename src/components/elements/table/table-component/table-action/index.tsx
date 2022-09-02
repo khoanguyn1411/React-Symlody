@@ -1,4 +1,6 @@
-import React, { ReactNode } from "react";
+import React from "react";
+
+import { GlobalTypes } from "@/global";
 
 import { TableCell } from "../table-cell";
 import { TableCellHead } from "../table-cell-head";
@@ -11,10 +13,7 @@ export const TableCellHeadAction: React.FC = () => {
   );
 };
 
-type TProps = {
-  children: ReactNode;
-};
-export const TableCellAction: React.FC<TProps> = ({ children }) => {
+export const TableCellAction: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <TableCell width="8rem" textAlign="right">
       <div className="flex justify-center">{children}</div>

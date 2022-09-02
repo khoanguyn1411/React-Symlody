@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { Icon } from "@/assets/icons";
 import { DatePortal } from "@/components";
+import { GlobalTypes } from "@/global";
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -33,7 +34,7 @@ const theme: Partial<Theme> | ((outerTheme: Theme) => Theme) = {
   },
 };
 
-export const ThemeProvider = ({ children }) => {
+export const ThemeProvider: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <Theme theme={theme}>
       <DatePortal />

@@ -1,19 +1,19 @@
 import classNames from "classnames";
-import React, { ReactNode } from "react";
+import React from "react";
 
 import { AnimationCustom } from "@/components";
+import { GlobalTypes } from "@/global";
 
 import { STYLE_LIST_WRAPPER_MAPS, TSelectGeneralProps, TStyle } from "../type";
 
 type TProps = {
-  children: ReactNode;
   style: TStyle;
   isShowContent: boolean;
   position?: React.CSSProperties;
   isPortal: TSelectGeneralProps["isPortal"];
 };
 
-export const SelectListWrapper: React.FC<TProps> = ({
+export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   style,
   isShowContent,

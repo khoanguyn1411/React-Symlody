@@ -24,7 +24,7 @@ export const getTabsSidebar = (): ITabSidebar[] => [
   {
     icon: Icon.Calendar,
     title: "Sự kiện",
-    to: "/asset",
+    to: "/event",
     pageActive: "Event",
   },
   {

@@ -1,6 +1,7 @@
-import React, { ReactNode, useRef } from "react";
+import { useRef } from "react";
 
 import { Button, Dropdown, TDropdownMethod } from "@/components";
+import { GlobalTypes } from "@/global";
 
 import { AlignedPlacement } from "../../../elements/portal/type";
 
@@ -12,10 +13,9 @@ type TProps = {
     event: () => void;
   };
   isShowLoading?: boolean;
-  children: ReactNode;
 };
 
-export const DropdownConfirm: React.FC<TProps> = ({
+export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   handleEvent,
   title,

@@ -1,11 +1,12 @@
 import classNames from "classnames";
 import React, { ReactNode } from "react";
 
+import { GlobalTypes } from "@/global";
+
 import { BLOCK, SIZE_MAPS, STYLE_MAPS } from "./types";
 
 type TProps = {
   className?: string;
-  children: ReactNode;
   type?: "button" | "submit" | "reset";
   isIconOnly?: boolean;
   prefix?: ReactNode | null;
@@ -17,7 +18,7 @@ type TProps = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export const Button: React.FC<TProps> = ({
+export const Button: GlobalTypes.FCPropsWithChildren<TProps> = ({
   onClick,
   className = "",
   children,

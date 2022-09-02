@@ -1,5 +1,6 @@
 import {
   Button,
+  Container,
   DeleteAndEditField,
   NoData,
   Pagination,
@@ -83,12 +84,10 @@ export const AssetContainer: React.FC = () => {
     );
   }
   return (
-    <div>
-      <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
-        <div className="flex items-center flex-1">
-          <h1 className="mr-4 font-bold min-w-max">QUẢN LÝ TÀI SẢN</h1>
-        </div>
-        <div className="flex items-center justify-center space-x-4">
+    <>
+      <Container.Header>
+        <Container.Title>QUẢN LÝ TÀI SẢN</Container.Title>
+        <Container.HeaderRight>
           <Search placeholder="Tìm kiếm ..." {...propsSearch} />
           <Sort
             onSortChange={(sortValue) => console.log(sortValue)}
@@ -132,9 +131,9 @@ export const AssetContainer: React.FC = () => {
           >
             Thêm tài sản
           </Button>
-        </div>
-      </div>
-      <div className="p-default">
+        </Container.HeaderRight>
+      </Container.Header>
+      <Container.Body>
         <Table.Container>
           <Table.Head>
             <Table.CellHead isFirst textAlign="center" width="5rem">
@@ -194,9 +193,9 @@ export const AssetContainer: React.FC = () => {
             pageStep={1}
           />
         </div>
-      </div>
+      </Container.Body>
       <ModalCreateAsset {...propsModal} />
       <ModalEditAsset {...propsModalEdit} />
-    </div>
+    </>
   );
 };

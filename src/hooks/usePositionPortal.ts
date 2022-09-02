@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { TPosition } from "@/components";
-import { AlignedPlacement } from "@/components/elements/portal/type";
+import { AlignedPlacement, TPosition } from "@/components/elements/portal/type";
 
 type THookPositionPortal = {
   coords: TPosition;

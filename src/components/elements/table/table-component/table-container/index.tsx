@@ -1,10 +1,6 @@
-import { ReactNode } from "react";
+import { GlobalTypes } from "@/global";
 
-type TProps = {
-  children: ReactNode;
-};
-
-export const TableContainer: React.FC<TProps> = ({ children }) => {
+export const TableContainer: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <div className="overflow-auto h-table rounded-md">
       <div className="bg-white border border-t-0 border-gray-200 rounded-t-lg rounded-md">

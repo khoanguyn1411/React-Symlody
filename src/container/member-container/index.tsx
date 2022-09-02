@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import {
   Avatar,
   Button,
+  Container,
   DeleteAndEditField,
   NoData,
   Pagination,
@@ -190,12 +191,10 @@ export const MemberContainer: React.FC = () => {
   }
 
   return (
-    <div>
-      <div className="flex items-center justify-between py-3 bg-white border-b border-gray-200 px-default">
-        <div className="flex-1">
-          <h1 className="mr-4 font-bold min-w-max">QUẢN LÝ THÀNH VIÊN</h1>
-        </div>
-        <div className="flex items-center justify-center space-x-4">
+    <>
+      <Container.Header>
+        <Container.Title>QUẢN LÝ THÀNH VIÊN</Container.Title>
+        <Container.HeaderRight>
           <Search placeholder="Tìm kiếm ..." {...propsSearch} />
 
           <Select
@@ -212,9 +211,9 @@ export const MemberContainer: React.FC = () => {
           >
             Tạo mới
           </Button>
-        </div>
-      </div>
-      <div className="p-default">
+        </Container.HeaderRight>
+      </Container.Header>
+      <Container.Body>
         <TableComponent />
         {memberStore.members.length > 0 && (
           <div className="flex justify-end w-full mt-5">
@@ -226,9 +225,9 @@ export const MemberContainer: React.FC = () => {
             />
           </div>
         )}
-      </div>
+      </Container.Body>
       <ModalCreateMember {...propsModalCreateMember} />
       <ModalEditMember {...propsModalEditMember} />
-    </div>
+    </>
   );
 };

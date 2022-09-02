@@ -1,12 +1,12 @@
 import classNames from "classnames";
-import React, { ReactNode } from "react";
+
+import { GlobalTypes } from "@/global";
 
 type TProps = {
-  children: ReactNode;
   isSkeleton?: boolean;
 };
 
-export const TableRow: React.FC<TProps> = ({
+export const TableRow: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   isSkeleton = false,
 }) => {

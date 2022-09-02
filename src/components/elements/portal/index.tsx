@@ -1,11 +1,8 @@
-import { ReactNode } from "react";
 import ReactDOM from "react-dom";
 
-type TProps = {
-  children: ReactNode;
-};
+import { GlobalTypes } from "@/global";
 
-export const Portal: React.FC<TProps> = ({ children }) => {
+export const Portal: GlobalTypes.FCChildren = ({ children }) => {
   return ReactDOM.createPortal(
     <>{children}</>,
     document.getElementById("portal-root")

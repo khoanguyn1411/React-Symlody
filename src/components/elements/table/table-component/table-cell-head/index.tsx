@@ -1,15 +1,15 @@
 import classNames from "classnames";
-import React, { ReactNode } from "react";
+
+import { GlobalTypes } from "@/global";
 
 import { TEXT_ALIGN_MAP } from "../../type";
 type TProps = {
-  children?: ReactNode;
   textAlign?: keyof typeof TEXT_ALIGN_MAP;
   width?: string;
   isFirst?: boolean;
   isLast?: boolean;
 };
-export const TableCellHead: React.FC<TProps> = ({
+export const TableCellHead: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   textAlign = "left",
   width = "auto",

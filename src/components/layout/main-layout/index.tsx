@@ -1,20 +1,22 @@
 import classNames from "classnames";
-import React, { ReactNode } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { useAppDispatch, useAppSelector } from "@/features";
 import { toggleCompactSidebar } from "@/features/reducers";
+import { GlobalTypes } from "@/global";
 import { Page_Key } from "@/routes";
 
 import { Header } from "../header";
 import { Sidebar } from "../sidebar";
 
 type TProps = {
-  children: ReactNode;
   pageKey: Page_Key;
 };
 
-export const MainLayout: React.FC<TProps> = ({ children, pageKey }) => {
+export const MainLayout: GlobalTypes.FCPropsWithChildren<TProps> = ({
+  children,
+  pageKey,
+}) => {
   const dispatch = useAppDispatch();
   const commonState = useAppSelector((state) => state.common);
 

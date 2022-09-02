@@ -1,9 +1,6 @@
-import React, { ReactNode } from "react";
-type TProps = {
-  children: ReactNode;
-};
+import { GlobalTypes } from "@/global";
 
-export const TableHead: React.FC<TProps> = ({ children }) => {
+export const TableHead: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <thead className="sticky top-0 z-10 bg-primary-50">
       <tr>{children}</tr>
