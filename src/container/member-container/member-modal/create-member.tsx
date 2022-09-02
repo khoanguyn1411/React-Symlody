@@ -30,6 +30,7 @@ const TabCreateAMember: React.FC = () => {
   const handleCreateMember = async (data: IFormMemberInfo) => {
     const memberModel = MemberFormMapper.toModel(data);
     const res = await dispatch(createMemberAsync(memberModel));
+    console.log(res);
     if (!res.payload) {
       toast.error(MEMBER_MESSAGE.create.error);
       return;

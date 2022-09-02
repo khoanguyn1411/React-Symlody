@@ -1,14 +1,8 @@
 import React from "react";
-import { Controller, FieldError, UseFormReturn } from "react-hook-form";
+import { Controller, UseFormReturn } from "react-hook-form";
 
-import {
-  AppDatePicker,
-  FormItem,
-  Input,
-  Select,
-  SelectMultiple,
-} from "@/components";
-import { ERoles, IMember } from "@/features/types";
+import { AppDatePicker, FormItem, Input, Select } from "@/components";
+import { IMember } from "@/features/types";
 import { FormService } from "@/utils";
 
 import { MemberFormMapper } from "../mapper";
@@ -16,7 +10,7 @@ import { IFormMemberInfo } from "../type";
 
 type TProps = {
   data?: IMember;
-  formProps: UseFormReturn<IFormMemberInfo, any>;
+  formProps: UseFormReturn<IFormMemberInfo>;
 };
 
 export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
@@ -176,31 +170,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
               onChange={onChange}
             />
           )}
-        />
-      </FormItem>
-
-      <FormItem
-        label="Vị trí"
-        isRequired
-        error={(errors.role as unknown as FieldError)?.message}
-      >
-        <Controller
-          control={control}
-          name="role"
-          defaultValue={
-            defaultValue.get("role") as unknown as IFormMemberInfo["role"]
-          }
-          render={({ field: { value, onChange } }) => {
-            return (
-              <SelectMultiple
-                list={Object.values(ERoles)}
-                style="modal"
-                value={value}
-                onChange={onChange}
-                placeHolder="Vị trí"
-              />
-            );
-          }}
         />
       </FormItem>
 

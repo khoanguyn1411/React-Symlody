@@ -12,7 +12,7 @@ export class MemberFormMapper {
         first_name: formData.firstName,
         last_name: formData.lastName,
         email: formData.email,
-        groups: formData.role,
+        groups: [ERoles.Member],
       },
       dob: dayjs(formData.birthday).format("YYYY-MM-DD"),
       class_name: formData.class,
@@ -30,19 +30,12 @@ export class MemberFormMapper {
   }
   /** Use for map data from model to form values. */
   public static fromModel(model: IMember): IFormMemberInfo {
-    const role = model.auth_account.groups as ERoles[];
-    const roleMapped =
-      role &&
-      (role.length === 1 && role[0] === ERoles.Member
-        ? [ERoles.Member]
-        : role.filter((item) => item !== ERoles.Member));
     return {
       firstName: model.auth_account.first_name,
       lastName: model.auth_account.last_name,
       gender: model.gender,
       birthday: model.dob,
       department: model.department.name,
-      role: roleMapped,
       class: model.class_name,
       studentId: model.student_id,
       email: model.auth_account.email,
