@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export const STYLE_MAPS = {
   default: "bg-primary-800 hover:bg-primary-900 text-white",
   outline:
@@ -16,3 +18,16 @@ export const SIZE_MAPS = {
 export const BLOCK = {
   true: "w-full",
 } as const;
+
+export type TPropsButton = {
+  className?: string;
+  type?: "button" | "submit" | "reset";
+  isIconOnly?: boolean;
+  prefix?: ReactNode | null;
+  isShowLoading?: boolean | null;
+  style?: keyof typeof STYLE_MAPS;
+  size?: keyof typeof SIZE_MAPS;
+  disable?: boolean;
+  block?: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+};

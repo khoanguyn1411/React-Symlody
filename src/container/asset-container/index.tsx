@@ -1,9 +1,8 @@
 import {
-  Button,
+  ButtonCreate,
   Container,
   DeleteAndEditField,
   NoData,
-  Pagination,
   Search,
   Sort,
   Table,
@@ -12,7 +11,7 @@ import { useModal, useSearch } from "@/hooks";
 import { FormatService } from "@/utils";
 
 import { ModalCreateAsset, ModalEditAsset } from "./asset-modal";
-import { ASSET_NO_DATA_CONFIG } from "./constant";
+import { ASSET_NO_DATA_CONFIG, assetList } from "./constant";
 import { TFormAssetInfo } from "./type";
 
 export const AssetContainer: React.FC = () => {
@@ -28,43 +27,6 @@ export const AssetContainer: React.FC = () => {
     alert("Deleted");
   };
 
-  const assetList: TFormAssetInfo[] = [
-    {
-      assetName: "Lamborghini",
-      quantity: "30",
-      price: "",
-      inCharge: "Nguyễn Thị A",
-      owner: "Câu lạc bộ",
-    },
-    {
-      assetName: "Voi 9 ngà",
-      quantity: "30",
-      price: "120000",
-      inCharge: "Nguyễn Thị A",
-      owner: "Câu lạc bộ",
-    },
-    {
-      assetName: "Gà chín cựa ",
-      quantity: "30",
-      price: "120000",
-      inCharge: "Nguyễn Thị A",
-      owner: "Khoa Nguyen",
-    },
-    {
-      assetName: "Ngựa chín sừng heo",
-      quantity: "30",
-      price: "120000",
-      inCharge: "Nguyễn Thị A",
-      owner: "Câu lạc bộ",
-    },
-    {
-      assetName: "Mặt trăng",
-      quantity: "30",
-      price: "1230000",
-      inCharge: "Nguyễn Thị A",
-      owner: "Câu lạc bộ",
-    },
-  ];
   const handleOpenModal = () => {
     propsModal.toggle.setToggle();
   };
@@ -124,13 +86,9 @@ export const AssetContainer: React.FC = () => {
               },
             ]}
           />
-          <Button
-            className="ml-4"
-            onClick={handleOpenModal}
-            prefix={<i className="mr-2 fas fa-plus-circle" />}
-          >
+          <ButtonCreate className="ml-4" onClick={handleOpenModal}>
             Thêm tài sản
-          </Button>
+          </ButtonCreate>
         </Container.HeaderRight>
       </Container.Header>
       <Container.Body>
@@ -185,14 +143,10 @@ export const AssetContainer: React.FC = () => {
             ))}
           </Table.Body>
         </Table.Container>
-        <div className="flex justify-end w-full mt-5">
-          <Pagination
-            onRowQuantityChange={(activeRows) => console.log(activeRows)}
-            onPaginationChange={(activePage) => console.log(activePage)}
-            totalPages={150}
-            pageStep={1}
-          />
-        </div>
+        <Container.Pagination
+          onRowQuantityChange={(activeRows) => console.log(activeRows)}
+          onPaginationChange={(activePage) => console.log(activePage)}
+        />
       </Container.Body>
       <ModalCreateAsset {...propsModal} />
       <ModalEditAsset {...propsModalEdit} />

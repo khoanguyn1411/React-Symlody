@@ -3,11 +3,10 @@ import { toast } from "react-toastify";
 
 import {
   Avatar,
-  Button,
+  ButtonCreate,
   Container,
   DeleteAndEditField,
   NoData,
-  Pagination,
   Search,
   Select,
   Table,
@@ -51,20 +50,6 @@ export const MemberContainer: React.FC = () => {
         return getValue(MEMBER_FILTER_VALUE.all);
     }
   });
-
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/test", {
-      method: "POST",
-      body: JSON.stringify({
-        test: Math.random(),
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
-  }, [filter]);
 
   const handleSetFilter = useCallback(
     (item: TItemListSelect) => {
@@ -205,25 +190,18 @@ export const MemberContainer: React.FC = () => {
             onChangeSideEffect={handleSetFilter}
             onChange={setFilter}
           />
-          <Button
-            prefix={<i className="mr-2 fas fa-plus-circle" />}
-            onClick={propsModalCreateMember.toggle.setShow}
-          >
+          <ButtonCreate onClick={propsModalCreateMember.toggle.setShow}>
             Tạo mới
-          </Button>
+          </ButtonCreate>
         </Container.HeaderRight>
       </Container.Header>
       <Container.Body>
         <TableComponent />
         {memberStore.members.length > 0 && (
-          <div className="flex justify-end w-full mt-5">
-            <Pagination
-              onRowQuantityChange={(activeRows) => console.log(activeRows)}
-              onPaginationChange={(activePage) => console.log(activePage)}
-              totalPages={150}
-              pageStep={1}
-            />
-          </div>
+          <Container.Pagination
+            onRowQuantityChange={(activeRows) => console.log(activeRows)}
+            onPaginationChange={(activePage) => console.log(activePage)}
+          />
         )}
       </Container.Body>
       <ModalCreateMember {...propsModalCreateMember} />

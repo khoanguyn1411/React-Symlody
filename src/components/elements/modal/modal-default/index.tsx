@@ -38,11 +38,11 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
   return (
     <ModalWrapper {...props}>
       <div className={classNames("w-full flex relative flex-col p-0")}>
-        <h1 className="w-full px-5 py-3 text-2xl font-semibold text-left border-b border-gray-200 text-primary-800">
+        <h1 className="w-full px-5 py-3 text-lg font-semibold text-left border-b border-gray-200 text-primary-800">
           {title}
           <span
             aria-hidden="true"
-            className="absolute right-0 mr-5 text-font-main cursor-pointer"
+            className="absolute right-0 mr-5 cursor-pointer text-font-main"
             onClick={handleSetHidden}
           >
             <i className="far fa-times"></i>

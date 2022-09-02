@@ -1,24 +1,11 @@
 import classNames from "classnames";
-import React, { ReactNode } from "react";
+import React from "react";
 
 import { GlobalTypes } from "@/global";
 
-import { BLOCK, SIZE_MAPS, STYLE_MAPS } from "./types";
+import { BLOCK, SIZE_MAPS, STYLE_MAPS, TPropsButton } from "./types";
 
-type TProps = {
-  className?: string;
-  type?: "button" | "submit" | "reset";
-  isIconOnly?: boolean;
-  prefix?: ReactNode | null;
-  isShowLoading?: boolean | null;
-  style?: keyof typeof STYLE_MAPS;
-  size?: keyof typeof SIZE_MAPS;
-  disable?: boolean;
-  block?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-};
-
-export const Button: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
   onClick,
   className = "",
   children,
