@@ -31,13 +31,39 @@ import { MemberTableMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { TableMemberSkeleton } from "./member-skeleton";
 
+const getValue = (key: string) => {
+  return MEMBER_FILTER_OPTIONS.find((item) => item.key === key).value;
+};
 export const MemberContainer: React.FC = () => {
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<IMember>();
   const propsSearch = useSearch();
   const memberStore = useAppSelector((state) => state.member);
   const dispatch = useAppDispatch();
-  const [filter, setFilter] = useState<string>(MEMBER_FILTER_OPTIONS[0].value);
+  const [filter, setFilter] = useState<string>(() => {
+    switch (memberStore.listQueryMember.is_archived) {
+      case true:
+        return getValue(MEMBER_FILTER_VALUE.isArchived);
+      case false:
+        return getValue(MEMBER_FILTER_VALUE.active);
+      case undefined:
+        return getValue(MEMBER_FILTER_VALUE.all);
+    }
+  });
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/test", {
+      method: "POST",
+      body: JSON.stringify({
+        test: Math.random(),
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+  }, [filter]);
 
   const handleSetFilter = useCallback(
     (item: TItemListSelect) => {
@@ -46,7 +72,7 @@ export const MemberContainer: React.FC = () => {
       switch (item.key) {
         case MEMBER_FILTER_VALUE.all:
           dispatch(setListQueryMember(rest));
-          return;
+          break;
         case MEMBER_FILTER_VALUE.isArchived:
           dispatch(setListQueryMember({ ...rest, is_archived: true }));
           break;
@@ -92,7 +118,7 @@ export const MemberContainer: React.FC = () => {
               STT
             </Table.CellHead>
             <Table.CellHead>Họ và tên</Table.CellHead>
-            <Table.CellHead width="6rem">Ban</Table.CellHead>
+            <Table.CellHead width="10rem">Ban</Table.CellHead>
             <Table.CellHead width="8rem">Ngày sinh</Table.CellHead>
             <Table.CellHead width="18rem">Vị trí</Table.CellHead>
             <Table.CellHeadAction />
@@ -122,7 +148,7 @@ export const MemberContainer: React.FC = () => {
                       </div>
                     </div>
                   </Table.Cell>
-                  <Table.Cell width="6rem">
+                  <Table.Cell width="10rem">
                     {memberTableItem.department}
                   </Table.Cell>
                   <Table.Cell width="8rem">

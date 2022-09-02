@@ -27,7 +27,7 @@ export const TableCell: React.FC<TProps> = ({
         "font-normal py-2 border-t border-gray-200",
         TEXT_ALIGN_MAP[textAlign],
         {
-          "px-2.5": !isSkeleton,
+          "px-4": !isSkeleton,
           "border-none": index === 0,
           "px-1": isSkeleton,
           "pl-2": isFirst,

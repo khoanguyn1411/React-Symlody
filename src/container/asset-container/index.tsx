@@ -135,7 +135,6 @@ export const AssetContainer: React.FC = () => {
         </div>
       </div>
       <div className="p-default">
-        {/* <TableAssetSkeleton /> */}
         <Table.Container>
           <Table.Head>
             <Table.CellHead isFirst textAlign="center" width="5rem">
@@ -151,7 +150,7 @@ export const AssetContainer: React.FC = () => {
             <Table.CellHead width="14rem">
               Người chịu trách nhiệm
             </Table.CellHead>
-            <Table.CellHead width="8rem">Chủ sở hữu</Table.CellHead>
+            <Table.CellHead width="11rem">Chủ sở hữu</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
           <Table.Body>
@@ -172,7 +171,7 @@ export const AssetContainer: React.FC = () => {
                 </Table.Cell>
 
                 <Table.Cell width="14rem">{item.inCharge}</Table.Cell>
-                <Table.Cell width="8rem">{item.owner}</Table.Cell>
+                <Table.Cell width="11rem">{item.owner}</Table.Cell>
 
                 <Table.CellAction>
                   <DeleteAndEditField

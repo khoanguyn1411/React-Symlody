@@ -11,3 +11,4 @@ export * from "./target";
 export * from "./trash";
 export * from "./upload";
 export * from "./users";
+export * from "./wrench";

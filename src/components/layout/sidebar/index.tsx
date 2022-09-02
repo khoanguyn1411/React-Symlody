@@ -41,7 +41,7 @@ export const Sidebar: React.FC<TProps> = ({
       >
         <div
           className={classNames(
-            "flex items-center justify-center w-full mt-4",
+            "flex items-center justify-center w-full mt-4 mb-3",
             !isCompactSidebar && "space-x-3"
           )}
         >
