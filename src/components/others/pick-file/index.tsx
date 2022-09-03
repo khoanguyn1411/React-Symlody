@@ -129,7 +129,7 @@ export const PickFile: React.FC<TProps> = ({
             <Icon.Trash
               size="medium"
               customColor="text"
-              className="cursor-pointer hover:text-red-500 text-font-main transition-colors duration-300"
+              className="cursor-pointer hover:text-red-500 text-black transition-colors duration-300"
             />
           </button>
         </div>

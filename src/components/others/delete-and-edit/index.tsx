@@ -25,7 +25,7 @@ export const DeleteAndEditField: React.FC<TProps> = ({
           <Icon.Edit
             customColor="gray"
             size="medium"
-            className="group-hover:text-font-main transition-all duration-200"
+            className="group-hover:text-black transition-all duration-200"
           />
         </button>
       </Tooltip>
@@ -39,7 +39,7 @@ export const DeleteAndEditField: React.FC<TProps> = ({
             <Icon.Trash
               customColor="gray"
               size="medium"
-              className="group-hover:text-font-main transition-all duration-200"
+              className="group-hover:text-black transition-all duration-200"
             />
           </button>
         </Tooltip>

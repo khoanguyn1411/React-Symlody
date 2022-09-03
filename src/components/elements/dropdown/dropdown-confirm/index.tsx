@@ -40,7 +40,7 @@ export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
             <span className="flex items-center justify-center w-8 h-8 mr-2 rounded-full shadow-inner bg-red-50">
               <i className="text-red-400 fas fa-question" />
             </span>
-            <h1 className="flex-1 w-full text-base font-medium text-font-main">
+            <h1 className="flex-1 w-full text-base font-medium text-black">
               {title}
             </h1>
           </div>

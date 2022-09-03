@@ -6,7 +6,7 @@ export const COLOR_MAPS_ICON = {
   gray: "text-gray-400",
   warning: "text-warning-400",
   info: "text-blue-400",
-  text: "text-font-main",
+  text: "text-black",
   "text-primary": "text-primary-400",
   success: "text-white",
   transparent: "text-transparent",

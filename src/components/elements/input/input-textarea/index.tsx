@@ -27,7 +27,7 @@ export const TextArea: React.FC<TInputTextAreaProps> = ({
       onChange={handleChangeEvent}
       disabled={disable}
       className={classNames(
-        "w-full p-2 border-gray-200 h-28 resize-none text-font-main outline-none rounded-md",
+        "w-full p-2 border-gray-200 h-28 resize-none text-black outline-none rounded-md",
         STYLE_INPUT_TEXT_AREA[style]
       )}
     />

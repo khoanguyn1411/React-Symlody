@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */ /* eslint-disable prettier/prettier */
-const plugin = require('tailwindcss/plugin');
 
 const SIDE_BAR_WIDTH = 256; //can be changed
 const SIDE_BAR_COMPACT_WIDTH = 72; //can be changed
@@ -40,9 +39,6 @@ module.exports = {
         }
       },
       colors: {
-        font: {
-          main: "#000000"
-        },
         backdrop: {
           main: "#0000006e"
         },
@@ -155,12 +151,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    plugin(({ addBase, theme }) => {
-      addBase({
-        // or whichever color you'd like
-        'html': { color: theme('colors.font.main') },
-      });
-    })
-  ],
+  plugins: [],
 };

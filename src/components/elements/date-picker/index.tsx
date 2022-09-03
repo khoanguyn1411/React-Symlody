@@ -82,7 +82,7 @@ export const AppDatePicker: React.FC<TProps> = ({
         popperClassName="!z-30"
         popperPlacement="bottom-end"
         className={classNames(
-          "w-full p-2 border-gray-200 pr-8 text-font-main outline-none rounded-md",
+          "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
           STYLE_MAP[style]
         )}
         dayClassName={() => {
@@ -91,7 +91,7 @@ export const AppDatePicker: React.FC<TProps> = ({
         calendarClassName="transition-all animate__animated animate__fadeIn"
         showTimeSelect={isTimePicker}
       />
-      <div className="absolute top-0 bottom-0 right-0 flex items-center mr-2 pointer-events-none text-font-main">
+      <div className="absolute top-0 bottom-0 right-0 flex items-center mr-2 pointer-events-none text-black">
         <Icon.Calendar customColor="text" />
       </div>
     </WrapperModule>
