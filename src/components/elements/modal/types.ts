@@ -43,7 +43,7 @@ export type TPropsModalTab = {
 
 // Types of modal default.
 export type TPropsModalDefault = {
-  handleEvent?: TEventModal;
+  handleEvent: TEventModal;
   title: string;
   children: ReactNode;
 } & TPropsModalGeneral;

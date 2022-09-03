@@ -43,10 +43,16 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
           control={control}
           name="startTime"
           render={({ field: { value, onChange } }) => (
-            <AppDatePicker style="modal" value={value} onChange={onChange} />
+            <AppDatePicker
+              isTimePicker
+              style="modal"
+              value={value}
+              onChange={onChange}
+            />
           )}
         />
       </FormItem>
+
       <FormItem
         label="Thời gian kết thúc"
         isRequired
@@ -56,7 +62,12 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
           control={control}
           name="endTime"
           render={({ field: { value, onChange } }) => (
-            <AppDatePicker style="modal" value={value} onChange={onChange} />
+            <AppDatePicker
+              isTimePicker
+              style="modal"
+              value={value}
+              onChange={onChange}
+            />
           )}
         />
       </FormItem>

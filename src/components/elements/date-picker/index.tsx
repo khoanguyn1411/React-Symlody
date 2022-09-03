@@ -14,6 +14,7 @@ import { STYLE_MAP } from "./type";
 type TProps = {
   style?: "modal" | "default";
   value: string;
+  isTimePicker?: boolean;
   onChange: (param: Date) => void;
 };
 
@@ -37,6 +38,9 @@ const WrapperModule = styled.div`
   .react-datepicker__navigation-icon {
     margin-top: 15px;
   }
+  .react-datepicker__time-list-item--selected {
+    background-color: #007ea4 !important;
+  }
 `;
 
 const getMaxDate = () => {
@@ -55,7 +59,12 @@ export const DatePortal: React.FC = () => {
   );
 };
 
-export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
+export const AppDatePicker: React.FC<TProps> = ({
+  isTimePicker = false,
+  style,
+  value,
+  onChange,
+}) => {
   const handleChangeDate = (date: Date) => {
     onChange(date);
   };
@@ -63,12 +72,12 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
   return (
     <WrapperModule className="relative">
       <DatePicker
-        dateFormat="dd/MM/yyyy"
+        dateFormat={!isTimePicker ? "dd/MM/yyyy" : "dd/MM/yyyy hh:mm aa"}
         selected={value && new Date(value)}
         minDate={new Date("01/01/2000")}
         maxDate={getMaxDate()}
         onChange={handleChangeDate}
-        placeholderText="dd/mm/yyyy"
+        placeholderText={!isTimePicker ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm aa"}
         portalId="portal-date"
         popperClassName="!z-30"
         popperPlacement="bottom-end"
@@ -80,6 +89,7 @@ export const AppDatePicker: React.FC<TProps> = ({ style, value, onChange }) => {
           return "transition-all duration-100";
         }}
         calendarClassName="transition-all animate__animated animate__fadeIn"
+        showTimeSelect={isTimePicker}
       />
       <div className="absolute top-0 bottom-0 right-0 flex items-center mr-2 pointer-events-none text-font-main">
         <Icon.Calendar customColor="text" />

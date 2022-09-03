@@ -1,10 +1,10 @@
 import * as yup from "yup";
 export const schema = yup.object().shape({
-  eventName: yup.string().required("Tên tài sản được yêu cầu"),
-  startTime: yup.string().required("Người chịu trách nhiệm được yêu cầu"),
-  endTime: yup.string().required("Chủ sở hữu được yêu cầu"),
-  place: yup.string().required("Số lượng được yêu cầu"),
-  status: yup.string().required("Trang"),
-  department: yup.string().required("Trang"),
+  eventName: yup.string().required("Vui lòng nhập trường này"),
+  startTime: yup.string().required("Vui lòng nhập trường này"),
+  endTime: yup.string().required("Vui lòng nhập trường này"),
+  place: yup.string().required("Vui lòng nhập trường này"),
+  status: yup.string().required("Vui lòng nhập trường này"),
+  department: yup.string().required("Vui lòng nhập trường này"),
   description: yup.string(),
 });

@@ -1,3 +1,5 @@
+import { images } from "@/assets/images";
+
 import { TEventTable } from "./type";
 
 export enum EEventStatus {
@@ -23,3 +25,10 @@ export const TABLE_EVENT_DATA: TEventTable[] = [
     status: EEventStatus.End,
   },
 ];
+
+export const EVENT_NO_DATA_CONFIG = {
+  title: "Tạo sự kiện",
+  content: "Lên lịch và quản lý các sự kiện một cách dễ dàng và tiện lợi.",
+  buttonTitle: "Tạo sự kiện",
+  imageSrc: images.noData.event,
+} as const;

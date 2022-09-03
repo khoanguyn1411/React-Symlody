@@ -4,21 +4,42 @@ import {
   ButtonCreate,
   Container,
   DeleteAndEditField,
+  NoData,
+  Search,
   Table,
 } from "@/components";
-import { useModal } from "@/hooks";
+import { useModal, useSearch } from "@/hooks";
 
-import { TABLE_EVENT_DATA } from "./constant";
+import { EVENT_NO_DATA_CONFIG, TABLE_EVENT_DATA } from "./constant";
 import { Status } from "./event-components";
 import { ModalCreateEvent } from "./event-modals";
+import { TableEventSkeleton } from "./event-skeleton";
 
 export const EventContainer: React.FC = () => {
   const propsModalCreateEvent = useModal({ isHotkeyOpen: true });
+  const propsSearch = useSearch();
+
+  const isShowNoData = false;
+  if (isShowNoData) {
+    return (
+      <>
+        <NoData
+          imageSrc={EVENT_NO_DATA_CONFIG.imageSrc}
+          title={EVENT_NO_DATA_CONFIG.title}
+          buttonTitle={EVENT_NO_DATA_CONFIG.buttonTitle}
+          content={EVENT_NO_DATA_CONFIG.content}
+          onCreateNew={propsModalCreateEvent.toggle.setShow}
+        />
+        <ModalCreateEvent {...propsModalCreateEvent} />
+      </>
+    );
+  }
   return (
     <>
       <Container.Header>
         <Container.Title>QUẢN LÝ SỰ KIỆN</Container.Title>
         <Container.HeaderRight>
+          <Search placeholder="Họp CLB, training,..." {...propsSearch} />
           <ButtonCreate onClick={propsModalCreateEvent.toggle.setShow}>
             Tạo sự kiện
           </ButtonCreate>
