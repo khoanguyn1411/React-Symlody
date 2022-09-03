@@ -13,7 +13,6 @@ import { useModal, useSearch } from "@/hooks";
 import { EVENT_NO_DATA_CONFIG, TABLE_EVENT_DATA } from "./constant";
 import { Status } from "./event-components";
 import { ModalCreateEvent } from "./event-modals";
-import { TableEventSkeleton } from "./event-skeleton";
 
 export const EventContainer: React.FC = () => {
   const propsModalCreateEvent = useModal({ isHotkeyOpen: true });
