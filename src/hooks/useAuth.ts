@@ -11,6 +11,7 @@ import {
 
 export function useAuth() {
   const dispatch = useAppDispatch();
+
   const state = useAppSelector((state) => state.user);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +24,7 @@ export function useAuth() {
     });
     getIsCompact();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state.isAuth]);
 
   const checkAuth = async () => {
     const token = Api.getToken();

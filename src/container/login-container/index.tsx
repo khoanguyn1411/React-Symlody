@@ -3,7 +3,6 @@ import { Controller, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { Api } from "@/api";
 import { images } from "@/assets/images";
 import { Button, FormItem, Input } from "@/components";
 import { useAppDispatch } from "@/features";
@@ -26,7 +25,7 @@ export const LoginContainer: React.FC = () => {
 
   const {
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<IFormLoginValue>({ resolver: yupResolver(schema) });
 
@@ -39,7 +38,7 @@ export const LoginContainer: React.FC = () => {
       return;
     }
     dispatch(setIsAuth(true));
-    Api.getToken();
+    // Api.getToken();
     navigate(pathLocation || "/");
     toast.success("Đăng nhập thành công");
   };
@@ -102,7 +101,7 @@ export const LoginContainer: React.FC = () => {
               />
             </FormItem>
 
-            <Button type="submit" className="mt-4">
+            <Button type="submit" className="mt-4" isShowLoading={isSubmitting}>
               Đăng nhập
             </Button>
             <Link
