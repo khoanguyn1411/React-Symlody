@@ -106,7 +106,7 @@ export const MemberContainer: React.FC = () => {
             <Table.CellHead>Họ và tên</Table.CellHead>
             <Table.CellHead width="10rem">Ban</Table.CellHead>
             <Table.CellHead width="8rem">Ngày sinh</Table.CellHead>
-            <Table.CellHead width="18rem">Vị trí</Table.CellHead>
+            <Table.CellHead width="12rem">Vị trí</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
           <Table.Body>
@@ -140,7 +140,7 @@ export const MemberContainer: React.FC = () => {
                   <Table.Cell index={index} width="8rem">
                     {memberTableItem.birthday}
                   </Table.Cell>
-                  <Table.Cell index={index} width="18rem">
+                  <Table.Cell index={index} width="12rem">
                     {memberTableItem.roles}
                   </Table.Cell>
 
