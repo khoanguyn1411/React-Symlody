@@ -29,7 +29,7 @@ export const SidebarItem: React.FC<TProps> = ({
     >
       <tab.icon
         className={classNames(
-          "group-hover:text-primary-800",
+          "group-hover:text-primary-800 min-w-max",
           "transition-all duration-300",
           isActive ? "text-primary-800" : "text-gray-400"
         )}
@@ -38,7 +38,7 @@ export const SidebarItem: React.FC<TProps> = ({
       <div
         className={classNames(
           "ml-3 group-hover:text-primary-800 transition-all duration-300 overflow-hidden whitespace-nowrap w-full",
-          isCompactSidebar && "w-0"
+          isCompactSidebar && "w-0 ml-0"
         )}
       >
         <span className="flex-1">{tab.title}</span>

@@ -64,7 +64,7 @@ const ModalMultipleTabsContent: React.FC = () => {
         />
         <span
           aria-hidden="true"
-          className="flex items-center justify-center py-3 pl-4 pr-0 text-gray-400 cursor-pointer"
+          className="flex items-center justify-center py-3 pl-4 pr-0 text-lg text-gray-400 cursor-pointer"
           onClick={handleSetHidden}
         >
           <i className="far fa-times"></i>

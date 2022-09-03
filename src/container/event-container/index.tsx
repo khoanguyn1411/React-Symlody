@@ -55,12 +55,12 @@ export const EventContainer: React.FC = () => {
           <Table.Body>
             {TABLE_EVENT_DATA.map((item, index) => (
               <Table.Row key={index}>
-                <Table.Cell>{item.eventName}</Table.Cell>
-                <Table.Cell>{item.time}</Table.Cell>
-                <Table.Cell>
+                <Table.Cell index={index}>{item.eventName}</Table.Cell>
+                <Table.Cell index={index}>{item.time}</Table.Cell>
+                <Table.Cell index={index}>
                   <Status>{item.status}</Status>
                 </Table.Cell>
-                <Table.CellAction>
+                <Table.CellAction index={index}>
                   <DeleteAndEditField
                     title="Xóa tài sản?"
                     handleEvent={{

@@ -29,12 +29,12 @@ export const Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
   return (
     <button
       type={type}
-      disabled={disable}
+      disabled={disable || isShowLoading}
       className={classNames(
         "rounded-md items-center flex min-w-max justify-center transition-all duration-300",
         "text-center font-semibold normal-case",
         className,
-        STYLE_MAPS[disable ? "disable" : style],
+        STYLE_MAPS[disable || isShowLoading ? "disable" : style],
         SIZE_MAPS[size],
         BLOCK[block.toString()],
         {

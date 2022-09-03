@@ -13,6 +13,7 @@ export const SvgWrapper: React.FC<TIconWrapperProps> = ({
   return (
     <svg
       className={classNames(
+        "flex items-center justify-center",
         SIZE_MAPS_ICON[size],
         COLOR_MAPS_ICON[customColor],
         className

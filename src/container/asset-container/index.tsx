@@ -113,24 +113,28 @@ export const AssetContainer: React.FC = () => {
           <Table.Body>
             {assetList.map((item, index) => (
               <Table.Row key={index}>
-                <Table.Cell textAlign="center" width="5rem">
+                <Table.Cell index={index} textAlign="center" width="5rem">
                   {index + 1}
                 </Table.Cell>
 
-                <Table.Cell>{item.assetName}</Table.Cell>
-                <Table.Cell width="7rem" textAlign="right">
+                <Table.Cell index={index}>{item.assetName}</Table.Cell>
+                <Table.Cell index={index} width="7rem" textAlign="right">
                   {item.quantity}
                 </Table.Cell>
-                <Table.Cell width="6rem" textAlign="right">
+                <Table.Cell index={index} width="6rem" textAlign="right">
                   {item.price
                     ? `${FormatService.toCurrency(Number(item.price))}`
                     : "--"}
                 </Table.Cell>
 
-                <Table.Cell width="14rem">{item.inCharge}</Table.Cell>
-                <Table.Cell width="11rem">{item.owner}</Table.Cell>
+                <Table.Cell index={index} width="14rem">
+                  {item.inCharge}
+                </Table.Cell>
+                <Table.Cell index={index} width="11rem">
+                  {item.owner}
+                </Table.Cell>
 
-                <Table.CellAction>
+                <Table.CellAction index={index}>
                   <DeleteAndEditField
                     title="Xóa tài sản?"
                     handleEvent={{

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */ /* eslint-disable prettier/prettier */
-
 const SIDE_BAR_WIDTH = 256; //can be changed
 const SIDE_BAR_COMPACT_WIDTH = 72; //can be changed
 

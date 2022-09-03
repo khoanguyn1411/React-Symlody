@@ -24,7 +24,7 @@ export const DeleteAndEditField: React.FC<TProps> = ({
         >
           <Icon.Edit
             customColor="gray"
-            size="medium"
+            size="small"
             className="group-hover:text-black transition-all duration-200"
           />
         </button>
@@ -38,7 +38,7 @@ export const DeleteAndEditField: React.FC<TProps> = ({
           <button className="flex items-center justify-center group">
             <Icon.Trash
               customColor="gray"
-              size="medium"
+              size="small"
               className="group-hover:text-black transition-all duration-200"
             />
           </button>

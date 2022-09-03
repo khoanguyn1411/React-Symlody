@@ -114,10 +114,10 @@ export const MemberContainer: React.FC = () => {
               const memberTableItem = MemberTableMapper.fromModel(item);
               return (
                 <Table.Row key={memberTableItem.id}>
-                  <Table.Cell width="5rem" textAlign="center">
+                  <Table.Cell index={index} width="5rem" textAlign="center">
                     {index + 1}
                   </Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell index={index}>
                     <div className="flex items-center">
                       <div className="mr-3">
                         <Avatar
@@ -134,15 +134,17 @@ export const MemberContainer: React.FC = () => {
                       </div>
                     </div>
                   </Table.Cell>
-                  <Table.Cell width="10rem">
+                  <Table.Cell index={index} width="10rem">
                     {memberTableItem.department}
                   </Table.Cell>
-                  <Table.Cell width="8rem">
+                  <Table.Cell index={index} width="8rem">
                     {memberTableItem.birthday}
                   </Table.Cell>
-                  <Table.Cell width="18rem">{memberTableItem.roles}</Table.Cell>
+                  <Table.Cell index={index} width="18rem">
+                    {memberTableItem.roles}
+                  </Table.Cell>
 
-                  <Table.CellAction>
+                  <Table.CellAction index={index}>
                     <DeleteAndEditField
                       title="Xóa thành viên?"
                       handleEvent={{
