@@ -1,24 +1,5 @@
-export enum ERolesDto {
-  SystemAdmin = 1,
-  Lead = 2,
-  MemberManager = 3,
-  PropertyManager = 4,
-  NotificationManager = 5,
-  EventManager = 6,
-  Member = 7,
-}
-
-export interface IAuthAccountDto {
-  readonly first_name: string;
-  readonly last_name: string;
-  readonly email: string;
-  readonly groups: ERolesDto[];
-}
-
-export interface IDepartmentDto {
-  readonly id: number;
-  readonly name: string;
-}
+import { IAuthAccountDto } from "./auth-account.dto";
+import { IDepartmentDto } from "./department.dto";
 
 interface IMemberGeneralDto {
   readonly auth_account: IAuthAccountDto;

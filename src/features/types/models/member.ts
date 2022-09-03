@@ -1,24 +1,5 @@
-export enum ERoles {
-  Member = "Thành viên",
-  Lead = "Trưởng ban",
-  EventManager = "Quản lý sự kiện",
-  MemberManager = "Quản lý thành viên",
-  NotificationManager = "Quản lý thông báo",
-  PropertyManager = "Quản lý tài sản",
-  SystemAdmin = "Quản lý hệ thống",
-}
-
-export interface IAuthAccount {
-  readonly first_name: string;
-  readonly last_name: string;
-  readonly email: string;
-  readonly groups: string[];
-}
-
-export interface IDepartment {
-  readonly id: number;
-  readonly name: string;
-}
+import { IAuthAccount } from "./auth-account";
+import { IDepartment } from "./department";
 
 interface IMemberGeneral {
   readonly auth_account: IAuthAccount;

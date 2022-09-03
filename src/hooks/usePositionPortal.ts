@@ -25,7 +25,12 @@ export const usePositionPortal = <T extends HTMLElement>({
   isShowing,
   space = 0,
 }: TProps<T>): THookPositionPortal => {
-  const [coords, setCoords] = useState<TPosition>({ top: 0, left: 0 });
+  const [coords, setCoords] = useState<TPosition>({
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  });
 
   const setPositionList = () => {
     if (!displayRef || !displayRef.current || !isPortal) {

@@ -2,6 +2,7 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 
 import authReducer from "./reducers/auth-reducer";
 import commonReducer from "./reducers/common-reducer";
+import departmentReducer from "./reducers/department-reducer";
 import memberReducer from "./reducers/member-reducer";
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     user: authReducer,
     common: commonReducer,
     member: memberReducer,
+    department: departmentReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

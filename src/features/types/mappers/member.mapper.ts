@@ -1,77 +1,9 @@
 import dayjs from "dayjs";
 
-import {
-  ERolesDto,
-  IAuthAccountDto,
-  IDepartmentDto,
-  IMemberCreateDto,
-  IMemberDto,
-  IMemberUpdateDto,
-} from "../dtos";
-import {
-  ERoles,
-  IAuthAccount,
-  IDepartment,
-  IMember,
-  IMemberCreate,
-} from "../models";
-
-export const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
-  [ERolesDto.EventManager]: ERoles.EventManager,
-  [ERolesDto.Member]: ERoles.Member,
-  [ERolesDto.MemberManager]: ERoles.MemberManager,
-  [ERolesDto.NotificationManager]: ERoles.NotificationManager,
-  [ERolesDto.PropertyManager]: ERoles.PropertyManager,
-  [ERolesDto.SystemAdmin]: ERoles.SystemAdmin,
-  [ERolesDto.Lead]: ERoles.Lead,
-};
-
-class GroupMapper {
-  public static fromDto(
-    dto: IAuthAccountDto["groups"]
-  ): IAuthAccount["groups"] {
-    return dto.map((id) => ROLE_MAP_FROM_DTO[id]);
-  }
-
-  public static toDto(
-    model: IAuthAccount["groups"]
-  ): IAuthAccountDto["groups"] {
-    const keys = Object.keys(ROLE_MAP_FROM_DTO);
-    const roleDto = model.map(
-      (item) =>
-        Number(keys.find((key) => ROLE_MAP_FROM_DTO[key] === item)) as ERolesDto
-    );
-    if (roleDto.includes(ERolesDto.Member)) {
-      return roleDto;
-    }
-    return [...roleDto, ERolesDto.Member];
-  }
-}
-
-class AuthAccountMapper {
-  public static fromDto(dto: IAuthAccountDto): IAuthAccount {
-    return {
-      ...dto,
-      groups: GroupMapper.fromDto(dto.groups),
-    };
-  }
-  public static toDto(model: IAuthAccount): IAuthAccountDto {
-    return {
-      ...model,
-      groups: GroupMapper.toDto(model.groups),
-    };
-  }
-}
-
-class DepartmentMapper {
-  public static fromDto(dto: IDepartmentDto): IDepartment {
-    return { ...dto };
-  }
-
-  public static toDto(model: IDepartment): IDepartmentDto {
-    return { ...model };
-  }
-}
+import { IMemberCreateDto, IMemberDto, IMemberUpdateDto } from "../dtos";
+import { IMember, IMemberCreate } from "../models";
+import { AuthAccountMapper } from "./auth-account.mapper";
+import { DepartmentMapper } from "./department.mapper";
 
 export class MemberMapper {
   public static fromDto(dto: IMemberDto): IMember {
