@@ -26,11 +26,14 @@ const TabCreateAMember: React.FC = () => {
   const { handleSubmit, reset } = propsForm;
   const dispatch = useAppDispatch();
   const memberStore = useAppSelector((state) => state.member);
+  const departmentStore = useAppSelector((state) => state.department);
 
   const handleCreateMember = async (data: IFormMemberInfo) => {
-    const memberModel = MemberFormMapper.toModel(data);
+    const memberModel = MemberFormMapper.toModel(
+      departmentStore.department,
+      data
+    );
     const res = await dispatch(createMemberAsync(memberModel));
-    console.log(res);
     if (!res.payload) {
       toast.error(MEMBER_MESSAGE.create.error);
       return;

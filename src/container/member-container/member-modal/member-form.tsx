@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 import { AppDatePicker, FormItem, Input, Select } from "@/components";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { getDepartmentAsync } from "@/features/reducers/department-reducer";
 import { IMember } from "@/features/types";
 import { FormService } from "@/utils";
 
@@ -18,6 +20,13 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
   if (data) {
     dataForm = MemberFormMapper.fromModel(data);
   }
+
+  const dispatch = useAppDispatch();
+  const departmentStore = useAppSelector((state) => state.department);
+
+  useEffect(() => {
+    dispatch(getDepartmentAsync());
+  }, [dispatch]);
 
   const {
     control,
@@ -163,7 +172,9 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           defaultValue={defaultValue.get("department")}
           render={({ field: { value, onChange } }) => (
             <Select
-              list={[{ value: "AD" }, { value: "HR" }]}
+              list={departmentStore.department.map((item) => ({
+                value: item.name,
+              }))}
               style={"modal"}
               value={value}
               placeHolder="Ban"

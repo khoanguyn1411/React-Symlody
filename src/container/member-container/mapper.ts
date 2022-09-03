@@ -1,12 +1,15 @@
 import dayjs from "dayjs";
 
-import { ERoles, IMember, IMemberCreate } from "@/features/types";
+import { ERoles, IDepartment, IMember, IMemberCreate } from "@/features/types";
 
 import { IFormMemberInfo, IMemberTable } from "./type";
 
 export class MemberFormMapper {
   /** Use for map data from form values to member model. */
-  public static toModel(formData: IFormMemberInfo): IMemberCreate {
+  public static toModel(
+    departmentModel: IDepartment[],
+    formData: IFormMemberInfo
+  ): IMemberCreate {
     return {
       auth_account: {
         first_name: formData.firstName,
@@ -21,10 +24,10 @@ export class MemberFormMapper {
       student_id: formData.studentId,
       phone_number: formData.phone,
       home_town: formData.home,
-      department: {
-        name: formData.department,
-        id: 2,
-      },
+      department: DepartmentFormMapper.toModel(
+        departmentModel,
+        formData.department
+      ),
       is_archived: false,
     };
   }
@@ -62,5 +65,11 @@ export class MemberTableMapper {
               .filter((item) => item !== ERoles.Member)
               .join(", "),
     };
+  }
+}
+
+export class DepartmentFormMapper {
+  public static toModel(model: IDepartment[], formData: string): IDepartment {
+    return model.find((item) => item.name === formData);
   }
 }

@@ -26,6 +26,8 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   });
 
   const memberStore = useAppSelector((state) => state.member);
+  const departmentStore = useAppSelector((state) => state.department);
+
   const dispatch = useAppDispatch();
   const {
     handleSubmit,
@@ -33,7 +35,10 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   } = propsForm;
 
   const handleEditMember = async (editInfo: IFormMemberInfo) => {
-    const memberModel: IMemberUpdate = MemberFormMapper.toModel(editInfo);
+    const memberModel: IMemberUpdate = MemberFormMapper.toModel(
+      departmentStore.department,
+      editInfo
+    );
     const result = await dispatch(
       updateMemberAsync({ payload: memberModel, id: data.id })
     );
