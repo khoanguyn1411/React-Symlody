@@ -175,6 +175,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
               list={departmentStore.department.map((item) => ({
                 value: item.name,
               }))}
+              isLoading={departmentStore.pending}
               style={"modal"}
               value={value}
               placeHolder="Ban"

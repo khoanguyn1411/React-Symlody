@@ -4,7 +4,6 @@ import {
   DeleteAndEditField,
   NoData,
   Search,
-  Sort,
   Table,
 } from "@/components";
 import { useModal, useSearch } from "@/hooks";
@@ -51,44 +50,7 @@ export const AssetContainer: React.FC = () => {
         <Container.Title>QUẢN LÝ TÀI SẢN</Container.Title>
         <Container.HeaderRight>
           <Search placeholder="Tìm kiếm ..." {...propsSearch} />
-          <Sort
-            onSortChange={(sortValue) => console.log(sortValue)}
-            fields={[
-              {
-                title: "Tên tài sản",
-                prefix: <i>A</i>,
-                children: [
-                  {
-                    title: "A-Z",
-                    isAscending: true,
-                  },
-                  {
-                    title: "Z-A",
-                    isAscending: false,
-                  },
-                ],
-              },
-              {
-                title: "Số lượng",
-                prefix: <i>1</i>,
-                children: [
-                  { title: "Nhỏ - lớn", isAscending: true },
-                  { title: "Lớn - nhỏ", isAscending: false },
-                ],
-              },
-              {
-                title: "Đơn giá",
-                prefix: <i className="far fa-money-bill-wave"></i>,
-                children: [
-                  { title: "Thấp - cao", isAscending: true },
-                  { title: "Cao - thấp", isAscending: false },
-                ],
-              },
-            ]}
-          />
-          <ButtonCreate className="ml-4" onClick={handleOpenModal}>
-            Thêm tài sản
-          </ButtonCreate>
+          <ButtonCreate onClick={handleOpenModal}>Thêm tài sản</ButtonCreate>
         </Container.HeaderRight>
       </Container.Header>
       <Container.Body>
@@ -97,11 +59,11 @@ export const AssetContainer: React.FC = () => {
             <Table.CellHead isFirst textAlign="center" width="5rem">
               STT
             </Table.CellHead>
-            <Table.CellHead>Tài sản</Table.CellHead>
-            <Table.CellHead width="7rem" textAlign="right">
+            <Table.CellHead isSort>Tài sản</Table.CellHead>
+            <Table.CellHead isSort width="7rem" textAlign="right">
               Số lượng
             </Table.CellHead>
-            <Table.CellHead width="6rem" textAlign="right">
+            <Table.CellHead isSort width="6rem" textAlign="right">
               Đơn giá
             </Table.CellHead>
             <Table.CellHead width="14rem">
@@ -112,29 +74,25 @@ export const AssetContainer: React.FC = () => {
           </Table.Head>
           <Table.Body>
             {assetList.map((item, index) => (
-              <Table.Row key={index}>
-                <Table.Cell index={index} textAlign="center" width="5rem">
+              <Table.Row key={index} index={index}>
+                <Table.Cell textAlign="center" width="5rem">
                   {index + 1}
                 </Table.Cell>
 
-                <Table.Cell index={index}>{item.assetName}</Table.Cell>
-                <Table.Cell index={index} width="7rem" textAlign="right">
+                <Table.Cell>{item.assetName}</Table.Cell>
+                <Table.Cell width="7rem" textAlign="right">
                   {item.quantity}
                 </Table.Cell>
-                <Table.Cell index={index} width="6rem" textAlign="right">
+                <Table.Cell width="6rem" textAlign="right">
                   {item.price
                     ? `${FormatService.toCurrency(Number(item.price))}`
                     : "--"}
                 </Table.Cell>
 
-                <Table.Cell index={index} width="14rem">
-                  {item.inCharge}
-                </Table.Cell>
-                <Table.Cell index={index} width="11rem">
-                  {item.owner}
-                </Table.Cell>
+                <Table.Cell width="14rem">{item.inCharge}</Table.Cell>
+                <Table.Cell width="11rem">{item.owner}</Table.Cell>
 
-                <Table.CellAction index={index}>
+                <Table.CellAction>
                   <DeleteAndEditField
                     title="Xóa tài sản?"
                     handleEvent={{

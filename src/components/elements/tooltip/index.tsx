@@ -10,11 +10,13 @@ import { AlignedPlacement } from "../portal/type";
 type TProps = {
   content: string;
   placement?: AlignedPlacement;
+  className?: string;
 };
 
 export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   content,
+  className,
   placement = "top-center",
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -46,8 +48,9 @@ export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
     setIsActive(false);
   };
   return (
-    <div>
+    <>
       <div
+        className={className}
         ref={refChildren}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -71,6 +74,6 @@ export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
           </div>
         </AnimationKeepDom>
       </Portal>
-    </div>
+    </>
   );
 };

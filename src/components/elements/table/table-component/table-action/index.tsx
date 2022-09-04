@@ -13,11 +13,9 @@ export const TableCellHeadAction: React.FC = () => {
   );
 };
 
-export const TableCellAction: GlobalTypes.FCPropsWithChildren<{
-  index?: number;
-}> = ({ children, index }) => {
+export const TableCellAction: GlobalTypes.FCChildren = ({ children }) => {
   return (
-    <TableCell index={index} width="8rem" textAlign="right">
+    <TableCell width="8rem" textAlign="right">
       <div className="flex justify-center">{children}</div>
     </TableCell>
   );

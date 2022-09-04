@@ -1,4 +1,6 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
+
+import { GlobalTypes } from "@/global";
 
 const PaginationContext = createContext<TPropsPaginationContext>({
   activePage: undefined,
@@ -22,9 +24,7 @@ export type TPropsPagination = {
   onPaginationChange?: (activePage: number) => void;
   onRowQuantityChange?: (row: string) => void;
 };
-const PaginationProvider: React.FC<
-  TPropsPagination & { children: ReactNode }
-> = ({
+const PaginationProvider: GlobalTypes.FCPropsWithChildren<TPropsPagination> = ({
   children,
   pageStep = 2,
   quantityDisplay = ["5", "10", "15"],

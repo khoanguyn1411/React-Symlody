@@ -27,6 +27,7 @@ type TProps = {
   isUrlInteracting?: boolean;
   paramChangeDependency?: string;
   placement?: AlignedPlacement;
+  isLoading?: boolean;
   onChange: (value: string) => void;
   onChangeSideEffect?: (item: TItemListSelect) => void;
 };
@@ -44,6 +45,7 @@ export const Select: React.FC<TProps> = ({
   style = "default",
   isUrlInteracting = false,
   isPortal = true,
+  isLoading = false,
   placement = "bottom-left",
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
@@ -95,26 +97,33 @@ export const Select: React.FC<TProps> = ({
         isShowContent={isShowContent}
         style={style}
       >
-        {list.map((item, index: number) => (
-          <li
-            role={"menuitem"}
-            onKeyDown={null}
-            key={index}
-            tabIndex={0}
-            onClick={handleSetSelectedItem(item)}
-            className={classNames(
-              "py-1 px-2 hover:bg-primary-50 cursor-pointer transition-colors duration-70",
-              {
-                "bg-primary-50 text-primary-800 font-medium":
-                  item.value === value,
-              }
-            )}
-          >
-            <h1>
-              {item.prefix} {item.value} {item.suffix}
-            </h1>
-          </li>
-        ))}
+        {isLoading && (
+          <span className="flex items-center justify-center w-full p-4">
+            <i className="animate-spin fas fa-spinner-third" />
+          </span>
+        )}
+
+        {!isLoading &&
+          list.map((item, index: number) => (
+            <li
+              role={"menuitem"}
+              onKeyDown={null}
+              key={index}
+              tabIndex={0}
+              onClick={handleSetSelectedItem(item)}
+              className={classNames(
+                "py-1 px-2 hover:bg-primary-50 cursor-pointer transition-colors duration-70",
+                {
+                  "bg-primary-50 text-primary-800 font-medium":
+                    item.value === value,
+                }
+              )}
+            >
+              <h1>
+                {item.prefix} {item.value} {item.suffix}
+              </h1>
+            </li>
+          ))}
       </SelectListWrapper>
     </ul>
   );

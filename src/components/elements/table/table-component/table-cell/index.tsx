@@ -2,24 +2,22 @@ import classNames from "classnames";
 
 import { GlobalTypes } from "@/global";
 
+import { useTableRowContext } from "../../context";
 import { TEXT_ALIGN_MAP } from "../../type";
 type TProps = {
   textAlign?: keyof typeof TEXT_ALIGN_MAP;
   width?: string;
-  isSkeleton?: boolean;
   isFirst?: boolean;
   isLast?: boolean;
-  index?: number;
 };
 export const TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
   textAlign = "left",
   width = "auto",
   children,
-  isSkeleton = false,
   isFirst = false,
   isLast = false,
-  index,
 }) => {
+  const { index, isSkeleton } = useTableRowContext();
   return (
     <td
       style={{ width: width }}

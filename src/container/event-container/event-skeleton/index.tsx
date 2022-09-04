@@ -10,16 +10,16 @@ export const TableEventSkeleton: React.FC<TProps> = ({ length = 5 }) => {
       <Table.Body>
         {[...Array(length)].map((item, index) => (
           <Table.Row isSkeleton key={index}>
-            <Table.Cell isSkeleton isFirst>
+            <Table.Cell isFirst>
               <Skeleton />
             </Table.Cell>
-            <Table.Cell isSkeleton>
+            <Table.Cell>
               <Skeleton />
             </Table.Cell>
-            <Table.Cell isSkeleton>
+            <Table.Cell>
               <Skeleton />
             </Table.Cell>
-            <Table.Cell width="8rem" isSkeleton isLast>
+            <Table.Cell width="8rem" isLast>
               <Skeleton />
             </Table.Cell>
           </Table.Row>

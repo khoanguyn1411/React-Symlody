@@ -10,22 +10,22 @@ export const TableMemberSkeleton: React.FC<TProps> = ({ length = 5 }) => {
       <Table.Body>
         {[...Array(length)].map((item, index) => (
           <Table.Row isSkeleton key={index}>
-            <Table.Cell index={index} isSkeleton isFirst width="5rem">
+            <Table.Cell isFirst width="5rem">
               <Skeleton />
             </Table.Cell>
-            <Table.Cell index={index} isSkeleton>
+            <Table.Cell>
               <Skeleton />
             </Table.Cell>
-            <Table.Cell index={index} isSkeleton width="6rem">
+            <Table.Cell width="6rem">
               <Skeleton />
             </Table.Cell>
-            <Table.Cell index={index} isSkeleton width="8rem">
+            <Table.Cell width="8rem">
               <Skeleton />
             </Table.Cell>
-            <Table.Cell index={index} isSkeleton width="18rem">
+            <Table.Cell width="18rem">
               <Skeleton />
             </Table.Cell>
-            <Table.Cell index={index} isSkeleton isLast width="8rem">
+            <Table.Cell isLast width="8rem">
               <Skeleton />
             </Table.Cell>
           </Table.Row>

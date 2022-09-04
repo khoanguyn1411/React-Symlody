@@ -1,5 +1,5 @@
 export const TEXT_ALIGN_MAP = {
   left: "text-left",
-  center: "text-center",
-  right: "text-right",
+  center: "text-center w-full",
+  right: "text-right w-full",
 } as const;
