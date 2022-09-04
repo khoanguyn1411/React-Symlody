@@ -40,7 +40,7 @@ export const getTabsSidebar = (): ITabSidebar[] => [
     pageActive: "Target",
   },
   {
-    icon: Icon.Wrench,
+    icon: Icon.Gear,
     title: "Cấu hình",
     to: "/config",
     pageActive: "Config",

@@ -91,7 +91,7 @@ export const AppDatePicker: React.FC<TProps> = ({
         calendarClassName="transition-all animate__animated animate__fadeIn"
         showTimeSelect={isTimePicker}
       />
-      <div className="absolute top-0 bottom-0 right-0 flex items-center mr-2 pointer-events-none text-black">
+      <div className="absolute top-0 bottom-0 right-0 flex items-center mr-2 text-black pointer-events-none">
         <Icon.Calendar customColor="text" />
       </div>
     </WrapperModule>

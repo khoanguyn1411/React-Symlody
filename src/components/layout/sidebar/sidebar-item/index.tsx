@@ -23,7 +23,7 @@ export const SidebarItem: React.FC<TProps> = ({
       aria-hidden="true"
       onClick={onClick}
       className={classNames(
-        "flex px-3 py-3 items-center mb-4 cursor-pointer hover:bg-primary-50 duration-300 rounded-md font-medium transition-all group",
+        "flex px-3 py-3 justify-center items-center mb-4 cursor-pointer hover:bg-primary-50 duration-300 rounded-md font-medium transition-all group",
         isActive ? "bg-primary-50 text-primary-800" : undefined
       )}
     >

@@ -2,6 +2,7 @@ export * from "./bell";
 export * from "./bell";
 export * from "./calendar";
 export * from "./edit";
+export * from "./gear";
 export * from "./home";
 export * from "./list";
 export * from "./money";
