@@ -26,7 +26,7 @@ export const getDepartmentAsync = createAsyncThunk(
       return result.result;
     }
 
-    return null;
+    return [];
   }
 );
 
@@ -45,7 +45,7 @@ export const departmentSlice = createSlice({
       })
       .addCase(getDepartmentAsync.rejected, (state) => {
         state.pending = false;
-        state.department = null;
+        state.department = [];
       });
   },
 });

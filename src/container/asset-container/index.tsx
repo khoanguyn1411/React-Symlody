@@ -30,10 +30,6 @@ export const AssetContainer: React.FC = () => {
     propsModal.toggle.setToggle();
   };
 
-  const handleSortName = (key) => {
-    console.log(key);
-  };
-
   const newLocal = false;
   if (newLocal) {
     return (
@@ -64,7 +60,7 @@ export const AssetContainer: React.FC = () => {
             <Table.CellHead isFirst textAlign="center" width="5rem">
               STT
             </Table.CellHead>
-            <Table.CellHead onSort={handleSortName} isSort keySorting="name">
+            <Table.CellHead isSort keySorting="name">
               Tài sản
             </Table.CellHead>
             <Table.CellHead
