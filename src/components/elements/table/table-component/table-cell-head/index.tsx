@@ -1,16 +1,19 @@
 import classNames from "classnames";
+import { useEffect } from "react";
 
 import { Tooltip } from "@/components/elements/tooltip";
 import { GlobalTypes } from "@/global";
 
 import { TEXT_ALIGN_MAP } from "../../type";
+import { TOrdering, useTableContext } from "../table-container/context";
 type TProps = {
   textAlign?: keyof typeof TEXT_ALIGN_MAP;
   width?: string;
   isFirst?: boolean;
   isLast?: boolean;
   isSort?: boolean;
-  onSort?: () => void;
+  keySorting?: string;
+  onSort?: (ordering: TOrdering) => void;
 };
 export const TableCellHead: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
@@ -19,45 +22,124 @@ export const TableCellHead: GlobalTypes.FCPropsWithChildren<TProps> = ({
   isFirst = false,
   isLast = false,
   isSort = false,
+  keySorting,
   onSort,
 }) => {
+  const { currentSort, currentOrdering, setCurrentSort, setCurrentOrdering } =
+    useTableContext();
   const handleSorting = () => {
-    onSort && onSort();
+    if (!isSort) {
+      return;
+    }
+    if (currentSort === keySorting) {
+      if (currentOrdering === "asc") {
+        setCurrentOrdering("des");
+      }
+      if (currentOrdering === "des") {
+        setCurrentOrdering(null);
+      }
+      if (currentOrdering == null) {
+        setCurrentOrdering("asc");
+      }
+    } else {
+      setCurrentSort(keySorting);
+      setCurrentOrdering("asc");
+    }
+  };
+
+  useEffect(() => {
+    if (!isSort) {
+      return;
+    }
+    if (keySorting === currentSort) {
+      onSort && onSort(currentOrdering);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentOrdering, currentSort]);
+
+  const props = {
+    style: { width: width },
+    onClick: handleSorting,
+  };
+
+  const getTooltipText = () => {
+    if (keySorting !== currentSort) {
+      return "sắp xếp tăng dần";
+    }
+    switch (currentOrdering) {
+      case "asc":
+        return "sắp xếp giảm dần";
+      case "des":
+        return "hủy sắp xếp";
+      case undefined || null:
+        return "sắp xếp tăng dần";
+    }
   };
 
   const CellHeadContent = (
-    <th
-      style={{ width: width }}
-      onClick={handleSorting}
-      className={classNames(
-        "px-4 py-2 font-semibold w-full",
-        "border-t border-b border-gray-200",
-        { "rounded-tl-md": isFirst, "rounded-tr-md": isLast }
+    <div className="flex">
+      <h1 className={classNames("min-w-max", TEXT_ALIGN_MAP[textAlign])}>
+        {children}
+      </h1>
+      {isSort && (
+        <div className="flex flex-col mt-1 ml-3">
+          <i
+            className={classNames(
+              "h-[1px] fas fa-sort-up",
+              keySorting === currentSort &&
+                currentOrdering === "asc" &&
+                "text-primary-800"
+            )}
+          ></i>
+          <i
+            className={classNames(
+              "h-[1px] fas fa-sort-down",
+              keySorting === currentSort &&
+                currentOrdering === "des" &&
+                "text-primary-800"
+            )}
+          ></i>
+        </div>
       )}
-    >
-      <div className="flex">
-        <h1 className={classNames("min-w-max", TEXT_ALIGN_MAP[textAlign])}>
-          {children}
-        </h1>
-        {isSort && (
-          <span className="ml-3">
-            <i className="fas fa-sort"></i>
-          </span>
-        )}
-      </div>
-    </th>
+    </div>
   );
 
   if (!isSort) {
-    return CellHeadContent;
+    return (
+      <th
+        {...props}
+        className={classNames(
+          "px-4 py-2 font-semibold w-full",
+          "border-t border-b border-gray-200",
+          { "rounded-tl-md": isFirst, "rounded-tr-md": isLast }
+        )}
+      >
+        {CellHeadContent}
+      </th>
+    );
   }
 
   return (
-    <Tooltip
-      className="table-cell cursor-pointer hover:bg-primary-100 transition-colors duration-300"
-      content={"Bấm vào để sắp xếp"}
+    <th
+      className={classNames(
+        "border-t border-b",
+        currentOrdering && currentSort === keySorting && "bg-primary-100",
+        {
+          "rounded-tl-md": isFirst,
+          "rounded-tr-md": isLast,
+        }
+      )}
+      {...props}
     >
-      {CellHeadContent}
-    </Tooltip>
+      <Tooltip
+        className={classNames(
+          "cursor-pointer hover:bg-primary-100 transition-colors duration-300",
+          "px-4 py-2 font-semibold w-full"
+        )}
+        content={`Bấm để ${getTooltipText()}`}
+      >
+        {CellHeadContent}
+      </Tooltip>
+    </th>
   );
 };

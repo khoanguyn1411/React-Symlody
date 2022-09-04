@@ -29,6 +29,11 @@ export const AssetContainer: React.FC = () => {
   const handleOpenModal = () => {
     propsModal.toggle.setToggle();
   };
+
+  const handleSortName = (key) => {
+    console.log(key);
+  };
+
   const newLocal = false;
   if (newLocal) {
     return (
@@ -54,16 +59,28 @@ export const AssetContainer: React.FC = () => {
         </Container.HeaderRight>
       </Container.Header>
       <Container.Body>
-        <Table.Container>
+        <Table.Container defaultSortActive="name" defaultOrderActive="asc">
           <Table.Head>
             <Table.CellHead isFirst textAlign="center" width="5rem">
               STT
             </Table.CellHead>
-            <Table.CellHead isSort>Tài sản</Table.CellHead>
-            <Table.CellHead isSort width="7rem" textAlign="right">
+            <Table.CellHead onSort={handleSortName} isSort keySorting="name">
+              Tài sản
+            </Table.CellHead>
+            <Table.CellHead
+              isSort
+              keySorting="quantity"
+              width="7rem"
+              textAlign="right"
+            >
               Số lượng
             </Table.CellHead>
-            <Table.CellHead isSort width="6rem" textAlign="right">
+            <Table.CellHead
+              keySorting="price"
+              isSort
+              width="6rem"
+              textAlign="right"
+            >
               Đơn giá
             </Table.CellHead>
             <Table.CellHead width="14rem">
@@ -78,12 +95,15 @@ export const AssetContainer: React.FC = () => {
                 <Table.Cell textAlign="center" width="5rem">
                   {index + 1}
                 </Table.Cell>
-
-                <Table.Cell>{item.assetName}</Table.Cell>
-                <Table.Cell width="7rem" textAlign="right">
+                <Table.Cell keySorting="name">{item.assetName}</Table.Cell>
+                <Table.Cell
+                  width="7rem"
+                  textAlign="right"
+                  keySorting="quantity"
+                >
                   {item.quantity}
                 </Table.Cell>
-                <Table.Cell width="6rem" textAlign="right">
+                <Table.Cell width="6rem" textAlign="right" keySorting="price">
                   {item.price
                     ? `${FormatService.toCurrency(Number(item.price))}`
                     : "--"}

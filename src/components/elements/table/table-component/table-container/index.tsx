@@ -1,6 +1,8 @@
 import { GlobalTypes } from "@/global";
 
-export const TableContainer: GlobalTypes.FCChildren = ({ children }) => {
+import { TableProvider, TPropsTable } from "./context";
+
+const TableContainerContent: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <div className="h-table">
       <div className="border border-t-0 rounded-md">
@@ -13,5 +15,16 @@ export const TableContainer: GlobalTypes.FCChildren = ({ children }) => {
         </div>
       </div>
     </div>
+  );
+};
+
+export const TableContainer: GlobalTypes.FCPropsWithChildren<TPropsTable> = ({
+  children,
+  ...props
+}) => {
+  return (
+    <TableProvider {...props}>
+      <TableContainerContent>{children}</TableContainerContent>
+    </TableProvider>
   );
 };

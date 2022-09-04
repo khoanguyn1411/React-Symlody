@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 import { AnimationKeepDom, Portal } from "@/components";
 import { GlobalTypes } from "@/global";
@@ -31,6 +31,11 @@ export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
     isShowing: isActive,
     toggleRef,
   });
+
+  useLayoutEffect(() => {
+    setPositionList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [content]);
 
   const handleMouseEnter = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>

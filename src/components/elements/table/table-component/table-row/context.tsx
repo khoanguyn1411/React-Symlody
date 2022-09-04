@@ -11,7 +11,7 @@ export type TPropsTableRow = TPropsTableRowContext;
 
 const TableRowContext = createContext<TPropsTableRowContext>(null);
 
-const TableProvider: GlobalTypes.FCPropsWithChildren<TPropsTableRow> = ({
+const TableRowProvider: GlobalTypes.FCPropsWithChildren<TPropsTableRow> = ({
   children,
   isSkeleton = false,
   index,
@@ -32,4 +32,4 @@ const useTableRowContext = (): TPropsTableRowContext => {
   return context;
 };
 
-export { TableProvider, useTableRowContext };
+export { TableRowProvider, useTableRowContext };

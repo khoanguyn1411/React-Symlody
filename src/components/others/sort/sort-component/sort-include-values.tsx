@@ -22,8 +22,8 @@ export const SortIncludeValues: React.FC<TProps> = ({
   setIsAscending,
 }) => {
   const handleRemoveSort = () => {
-    setSortSelected(undefined);
-    setValueToQuery(undefined);
+    setSortSelected(null);
+    setValueToQuery(null);
     setIsAscending(true);
   };
 

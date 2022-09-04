@@ -5,7 +5,7 @@ export class FormService {
         if (data) {
           return data[key] as unknown as string;
         }
-        return defaultValue ?? undefined;
+        return defaultValue ?? null;
       },
     };
   }

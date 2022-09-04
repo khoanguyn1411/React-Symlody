@@ -93,70 +93,49 @@ export const MemberContainer: React.FC = () => {
     if (memberStore.pending) {
       return <TableMemberSkeleton />;
     }
-    if (!memberStore.members || memberStore.members.length === 0) {
-      return <div>No data</div>;
-    }
     return (
-      <>
-        <Table.Container>
-          <Table.Head>
-            <Table.CellHead isFirst width="5rem" textAlign="center">
-              STT
-            </Table.CellHead>
-            <Table.CellHead>Họ và tên</Table.CellHead>
-            <Table.CellHead width="10rem">Ban</Table.CellHead>
-            <Table.CellHead width="8rem">Ngày sinh</Table.CellHead>
-            <Table.CellHead width="12rem">Vị trí</Table.CellHead>
-            <Table.CellHeadAction />
-          </Table.Head>
-          <Table.Body>
-            {memberStore.members.map((item, index) => {
-              const memberTableItem = MemberTableMapper.fromModel(item);
-              return (
-                <Table.Row key={memberTableItem.id} index={index}>
-                  <Table.Cell width="5rem" textAlign="center">
-                    {index + 1}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <div className="flex items-center">
-                      <div className="mr-3">
-                        <Avatar
-                          size="medium"
-                          src={memberTableItem.avatar}
-                          fullName={item.auth_account.first_name}
-                        />
-                      </div>
-                      <div>
-                        <h1 className="font-semibold">
-                          {memberTableItem.name}
-                        </h1>
-                        <h1 className="text-sm">{memberTableItem.email}</h1>
-                      </div>
-                    </div>
-                  </Table.Cell>
-                  <Table.Cell width="10rem">
-                    {memberTableItem.department}
-                  </Table.Cell>
-                  <Table.Cell width="8rem">
-                    {memberTableItem.birthday}
-                  </Table.Cell>
-                  <Table.Cell width="12rem">{memberTableItem.roles}</Table.Cell>
-
-                  <Table.CellAction>
-                    <DeleteAndEditField
-                      title="Xóa thành viên?"
-                      handleEvent={{
-                        edit: handleEdit(item),
-                        delete: handleDelete(item),
-                      }}
+      <Table.Body>
+        {memberStore.members.map((item, index) => {
+          const memberTableItem = MemberTableMapper.fromModel(item);
+          return (
+            <Table.Row key={memberTableItem.id} index={index}>
+              <Table.Cell width="5rem" textAlign="center">
+                {index + 1}
+              </Table.Cell>
+              <Table.Cell>
+                <div className="flex items-center">
+                  <div className="mr-3">
+                    <Avatar
+                      size="medium"
+                      src={memberTableItem.avatar}
+                      fullName={item.auth_account.first_name}
                     />
-                  </Table.CellAction>
-                </Table.Row>
-              );
-            })}
-          </Table.Body>
-        </Table.Container>
-      </>
+                  </div>
+                  <div>
+                    <h1 className="font-semibold">{memberTableItem.name}</h1>
+                    <h1 className="text-sm">{memberTableItem.email}</h1>
+                  </div>
+                </div>
+              </Table.Cell>
+              <Table.Cell keySorting="department" width="10rem">
+                {memberTableItem.department}
+              </Table.Cell>
+              <Table.Cell width="8rem">{memberTableItem.birthday}</Table.Cell>
+              <Table.Cell width="12rem">{memberTableItem.roles}</Table.Cell>
+
+              <Table.CellAction>
+                <DeleteAndEditField
+                  title="Xóa thành viên?"
+                  handleEvent={{
+                    edit: handleEdit(item),
+                    delete: handleDelete(item),
+                  }}
+                />
+              </Table.CellAction>
+            </Table.Row>
+          );
+        })}
+      </Table.Body>
     );
   };
   const showNoData = false;
@@ -196,7 +175,21 @@ export const MemberContainer: React.FC = () => {
         </Container.HeaderRight>
       </Container.Header>
       <Container.Body>
-        <TableComponent />
+        <Table.Container>
+          <Table.Head>
+            <Table.CellHead isFirst width="5rem" textAlign="center">
+              STT
+            </Table.CellHead>
+            <Table.CellHead>Họ và tên</Table.CellHead>
+            <Table.CellHead width="10rem">Ban</Table.CellHead>
+            <Table.CellHead width="8rem">Ngày sinh</Table.CellHead>
+            <Table.CellHead width="12rem">Vị trí</Table.CellHead>
+            <Table.CellHeadAction />
+          </Table.Head>
+
+          <TableComponent />
+        </Table.Container>
+
         {memberStore.members.length > 0 && (
           <Container.Pagination
             onRowQuantityChange={(activeRows) => console.log(activeRows)}

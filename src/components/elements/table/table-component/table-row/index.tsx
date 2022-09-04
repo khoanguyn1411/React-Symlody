@@ -3,10 +3,10 @@ import classNames from "classnames";
 import { GlobalTypes } from "@/global";
 
 import {
-  TableProvider,
+  TableRowProvider,
   TPropsTableRow,
   useTableRowContext,
-} from "../../context";
+} from "./context";
 
 export const TableRowContent: GlobalTypes.FCChildren = ({ children }) => {
   const { isSkeleton } = useTableRowContext();
@@ -20,8 +20,8 @@ export const TableRow: GlobalTypes.FCPropsWithChildren<TPropsTableRow> = ({
   ...props
 }) => {
   return (
-    <TableProvider {...props}>
+    <TableRowProvider {...props}>
       <TableRowContent>{children}</TableRowContent>
-    </TableProvider>
+    </TableRowProvider>
   );
 };
