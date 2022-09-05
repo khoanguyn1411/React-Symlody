@@ -30,13 +30,13 @@ export const getTabsSidebar = (): ITabSidebar[] => [
   {
     icon: Icon.List,
     title: "Công việc",
-    to: "/asset",
+    to: "/todos",
     pageActive: "Todos",
   },
   {
     icon: Icon.Target,
     title: "Mục tiêu",
-    to: "/asset",
+    to: "/target",
     pageActive: "Target",
   },
   {

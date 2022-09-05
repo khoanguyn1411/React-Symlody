@@ -6,6 +6,8 @@ import {
   HomeContainer,
   LoginContainer,
   MemberContainer,
+  TargetContainer,
+  TodosContainer,
 } from "@/container";
 
 export type Page_Key =
@@ -54,6 +56,18 @@ const privateRoutes: readonly IRoutes[] = [
     component: <EventContainer />,
     pageKey: "Event",
     pageTitle: "Trang sự kiện",
+  },
+  {
+    path: "/todos",
+    component: <TodosContainer />,
+    pageKey: "Todos",
+    pageTitle: "Trang công việc",
+  },
+  {
+    path: "/target",
+    component: <TargetContainer />,
+    pageKey: "Target",
+    pageTitle: "Trang mục tiêu",
   },
 
   {
