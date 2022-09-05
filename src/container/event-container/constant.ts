@@ -1,4 +1,5 @@
 import { images } from "@/assets/images";
+import { TItemListSelect } from "@/components";
 
 import { TEventTable } from "./type";
 
@@ -32,3 +33,8 @@ export const EVENT_NO_DATA_CONFIG = {
   buttonTitle: "Tạo sự kiện",
   imageSrc: images.noData.event,
 } as const;
+
+export const EVENT_STATUS_LIST_OPTIONS: TItemListSelect[] = [
+  "Tất cả sự kiện",
+  ...Object.values(EEventStatus),
+].map((item) => ({ value: item }));

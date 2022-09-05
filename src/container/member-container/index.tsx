@@ -165,7 +165,6 @@ export const MemberContainer: React.FC = () => {
 
           <Select
             className="w-44"
-            classNameDisplay="h-10"
             list={MEMBER_FILTER_OPTIONS}
             value={filter}
             onChangeSideEffect={handleSetFilter}

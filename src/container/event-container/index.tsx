@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   ButtonCreate,
@@ -6,17 +6,25 @@ import {
   DeleteAndEditField,
   NoData,
   Search,
+  Select,
   Table,
 } from "@/components";
 import { useModal, useSearch } from "@/hooks";
 
-import { EVENT_NO_DATA_CONFIG, TABLE_EVENT_DATA } from "./constant";
+import {
+  EVENT_NO_DATA_CONFIG,
+  EVENT_STATUS_LIST_OPTIONS,
+  TABLE_EVENT_DATA,
+} from "./constant";
 import { Status } from "./event-components";
 import { ModalCreateEvent } from "./event-modals";
 
 export const EventContainer: React.FC = () => {
   const propsModalCreateEvent = useModal({ isHotkeyOpen: true });
   const propsSearch = useSearch();
+  const [filterStatus, setFilterStatus] = useState<string>(
+    EVENT_STATUS_LIST_OPTIONS[0].value
+  );
 
   const isShowNoData = false;
   if (isShowNoData) {
@@ -39,6 +47,12 @@ export const EventContainer: React.FC = () => {
         <Container.Title>QUẢN LÝ SỰ KIỆN</Container.Title>
         <Container.HeaderRight>
           <Search placeholder="Họp CLB, training,..." {...propsSearch} />
+          <Select
+            list={EVENT_STATUS_LIST_OPTIONS}
+            value={filterStatus}
+            className="w-40"
+            onChange={setFilterStatus}
+          />
           <ButtonCreate onClick={propsModalCreateEvent.toggle.setShow}>
             Tạo sự kiện
           </ButtonCreate>
