@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { GlobalTypes } from "@/global";
 
 import { TEXT_ALIGN_MAP } from "../../type";
-import { useTableContext } from "../table-container/context";
 import { useTableRowContext } from "../table-row/context";
 type TProps = {
   textAlign?: keyof typeof TEXT_ALIGN_MAP;
@@ -18,10 +17,8 @@ export const TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   isFirst = false,
   isLast = false,
-  keySorting,
 }) => {
   const { index, isSkeleton } = useTableRowContext();
-  const { currentSort, currentOrdering } = useTableContext();
 
   return (
     <td
@@ -30,8 +27,6 @@ export const TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
         "font-normal py-2 border-t border-gray-200",
         TEXT_ALIGN_MAP[textAlign],
         {
-          "bg-gray-50":
-            currentSort && currentOrdering && currentSort === keySorting,
           "px-4": !isSkeleton,
           "border-none": index === 0,
           "px-1": isSkeleton,

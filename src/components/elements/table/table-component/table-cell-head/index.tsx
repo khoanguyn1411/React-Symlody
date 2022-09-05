@@ -82,7 +82,7 @@ export const TableCellHead: GlobalTypes.FCPropsWithChildren<TProps> = ({
         {children}
       </h1>
       {isSort && (
-        <div className="flex flex-col mt-1 ml-3">
+        <div className="flex flex-col mt-1 ml-3 text-gray-400">
           <i
             className={classNames(
               "h-[1px] fas fa-sort-up",
@@ -121,19 +121,15 @@ export const TableCellHead: GlobalTypes.FCPropsWithChildren<TProps> = ({
 
   return (
     <th
-      className={classNames(
-        "border-t border-b",
-        currentOrdering && currentSort === keySorting && "bg-primary-100",
-        {
-          "rounded-tl-md": isFirst,
-          "rounded-tr-md": isLast,
-        }
-      )}
+      className={classNames("border-t border-b", {
+        "rounded-tl-md": isFirst,
+        "rounded-tr-md": isLast,
+      })}
       {...props}
     >
       <Tooltip
         className={classNames(
-          "cursor-pointer hover:bg-primary-100 transition-colors duration-300",
+          "cursor-pointer",
           "px-4 py-2 font-semibold w-full"
         )}
         content={`Bấm để ${getTooltipText()}`}

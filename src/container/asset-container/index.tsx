@@ -91,15 +91,11 @@ export const AssetContainer: React.FC = () => {
                 <Table.Cell textAlign="center" width="5rem">
                   {index + 1}
                 </Table.Cell>
-                <Table.Cell keySorting="name">{item.assetName}</Table.Cell>
-                <Table.Cell
-                  width="7rem"
-                  textAlign="right"
-                  keySorting="quantity"
-                >
+                <Table.Cell>{item.assetName}</Table.Cell>
+                <Table.Cell width="7rem" textAlign="right">
                   {item.quantity}
                 </Table.Cell>
-                <Table.Cell width="6rem" textAlign="right" keySorting="price">
+                <Table.Cell width="6rem" textAlign="right">
                   {item.price
                     ? `${FormatService.toCurrency(Number(item.price))}`
                     : "--"}
