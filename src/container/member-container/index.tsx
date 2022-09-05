@@ -108,7 +108,9 @@ export const MemberContainer: React.FC = () => {
                     <Avatar
                       size="medium"
                       src={memberTableItem.avatar}
-                      fullName={item.auth_account.first_name}
+                      fullName={
+                        item.auth_account.first_name.split(" ").splice(-1)[0]
+                      }
                     />
                   </div>
                   <div>
