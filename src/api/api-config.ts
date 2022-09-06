@@ -1,3 +1,4 @@
-export const API_URL = process.env.ISPRODUCTION
-  ? process.env.REACT_APP_API_URL
-  : (process.env.REACT_APP_API_URL_LOCAL as string);
+export const API_URL =
+  process.env.IS_PRODUCT === "true"
+    ? (process.env.WEB_API as string)
+    : (process.env.WEB_API_LOCAL as string);
