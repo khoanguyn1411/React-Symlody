@@ -14,6 +14,9 @@ COPY --from=deps /app/node_modules ./node_modules
 ARG MAX_OLD_SPACE_SIZE=8192
 ENV NODE_OPTIONS="--max-old-space-size=${MAX_OLD_SPACE_SIZE}"
 
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S reactjs -u 1001
+
 USER reactjs
 
 EXPOSE 3000
