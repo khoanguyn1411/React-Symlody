@@ -23,11 +23,11 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar }) => {
       )}
     >
       <div className="flex items-center space-x-4">
-        <span className="flex items-center justify-center w-6 h-6 text-sm bg-gray-200 rounded-full shadow-inner cursor-pointer hover:bg-gray-300 transition-all duration-300">
-          <Icon.Question size="small" customColor="text" />
+        <span className="flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full shadow-inner cursor-pointer hover:bg-gray-300 transition-all duration-300">
+          <i className="fas fa-question text-sm" />
         </span>
 
-        <span className="flex items-center justify-center w-6 h-6 text-sm bg-gray-200 rounded-full shadow-inner cursor-pointer transition-all duration-300 hover:bg-gray-300">
+        <span className="flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full shadow-inner cursor-pointer transition-all duration-300 hover:bg-gray-300">
           <Icon.Bell size="small" customColor="text" />
         </span>
 

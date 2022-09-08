@@ -13,6 +13,7 @@ const api: ApisauceInstance = Api.getInstance();
 
 const routes = {
   login: () => `${prefix}/login/`,
+  refreshToken: () => `${prefix}/login/refresh/`,
   geProfile: () => `${prefix}/login/`,
 };
 
@@ -33,6 +34,18 @@ export const AuthApi = {
   async getProfile(): Promise<Types.RequestGetProfileResult> {
     const url = routes.geProfile();
     const result: ApiResponse<IUser> = await api.get(url);
+
+    return returnResponse(result);
+  },
+
+  async refreshToken(token: string): Promise<Types.RequestRefreshResult> {
+    const url = routes.refreshToken();
+    const result: ApiResponse<Types.RespondRefreshResult> = await api.post(
+      url,
+      {
+        refresh: token,
+      }
+    );
 
     return returnResponse(result);
   },
