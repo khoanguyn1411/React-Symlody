@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { AuthApi, RequestGetProfileResult, RequestLoginResult } from "@/api";
+import {
+  AuthApi,
+  RequestGetProfileResult,
+  RequestLoginResult,
+  RequestRefreshResult,
+} from "@/api";
 import { APP_CONSTANTS } from "@/constants";
 import { RootState } from "@/features/store";
 import { IUser } from "@/features/types/dtos/user";
@@ -23,6 +28,21 @@ export const loginAsync = createAsyncThunk(
     const result: RequestLoginResult = await AuthApi.login(
       payload.username,
       payload.password
+    );
+
+    if (result.kind === "ok") {
+      localStorage.setItem(APP_CONSTANTS.AUTH, result.result.access);
+      return true;
+    }
+    return false;
+  }
+);
+
+export const refreshTokenAsync = createAsyncThunk(
+  "auth/refresh/token",
+  async (payload: { token: string }) => {
+    const result: RequestRefreshResult = await AuthApi.refreshToken(
+      payload.token
     );
 
     if (result.kind === "ok") {

@@ -12,14 +12,26 @@ export type RespondResult = {
 
 export type RequestLoginResult =
   | {
-    kind: `ok`;
-    result: RespondResult;
-  }
+      kind: `ok`;
+      result: RespondResult;
+    }
   | GeneralApiProblem;
 
 export type RequestGetProfileResult =
   | {
-    kind: `ok`;
-    result: IUser;
-  }
+      kind: `ok`;
+      result: IUser;
+    }
+  | GeneralApiProblem;
+
+export type RespondRefreshResult = {
+  access: string;
+  refresh: string;
+};
+
+export type RequestRefreshResult =
+  | {
+      kind: `ok`;
+      result: RespondRefreshResult;
+    }
   | GeneralApiProblem;

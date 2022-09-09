@@ -5,6 +5,7 @@ import { APP_CONSTANTS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getMeAsync,
+  refreshTokenAsync,
   setIsAuth,
   setIsCompactSidebar,
 } from "@/features/reducers";
@@ -31,7 +32,14 @@ export function useAuth() {
     if (!token) return false;
 
     const result = await dispatch(getMeAsync());
-    if (!result.payload) return false;
+    if (!result.payload) {
+      await dispatch(refreshTokenAsync({ token: token })).then((res) => {
+        if (res.payload) {
+          return true;
+        }
+      });
+      return false;
+    }
 
     return true;
   };
