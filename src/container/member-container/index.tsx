@@ -93,6 +93,11 @@ export const MemberContainer: React.FC = () => {
     if (memberStore.pending) {
       return <TableMemberSkeleton />;
     }
+
+    if (memberStore.members.length === 0) {
+      return <Table.NoData colsNumber={6} />;
+    }
+
     return (
       <Table.Body>
         {memberStore.members.map((item, index) => {

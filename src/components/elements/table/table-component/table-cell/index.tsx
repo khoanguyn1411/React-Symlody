@@ -6,6 +6,7 @@ import { TEXT_ALIGN_MAP } from "../../type";
 import { useTableRowContext } from "../table-row/context";
 type TProps = {
   textAlign?: keyof typeof TEXT_ALIGN_MAP;
+  colSpans?: number;
   width?: string;
   isFirst?: boolean;
   isLast?: boolean;
@@ -15,6 +16,7 @@ export const TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
   textAlign = "left",
   width = "auto",
   children,
+  colSpans,
   isFirst = false,
   isLast = false,
 }) => {
@@ -22,6 +24,7 @@ export const TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
 
   return (
     <td
+      colSpan={colSpans}
       style={{ width: width }}
       className={classNames(
         "font-normal py-2 border-t border-gray-200",

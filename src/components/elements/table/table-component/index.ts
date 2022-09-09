@@ -4,4 +4,5 @@ export * from "./table-cell";
 export * from "./table-cell-head";
 export * from "./table-container";
 export * from "./table-head";
+export * from "./table-nodata";
 export * from "./table-row";

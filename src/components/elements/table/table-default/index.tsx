@@ -6,6 +6,7 @@ import {
   TableCellHeadAction,
   TableContainer,
   TableHead,
+  TableNoData,
   TableRow,
 } from "../table-component";
 
@@ -18,4 +19,5 @@ export const Table = {
   CellHeadAction: TableCellHeadAction,
   Head: TableHead,
   Row: TableRow,
+  NoData: TableNoData,
 } as const;
