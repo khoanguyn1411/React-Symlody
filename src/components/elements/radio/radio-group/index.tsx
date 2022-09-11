@@ -20,8 +20,8 @@ export const RadioGroupContent: React.FC = () => {
   const { listNormalRadios, isHaveOther, labelOther } = useRadioGroupContext();
   return (
     <div className="flex flex-col">
-      {listNormalRadios.map((item, index) => (
-        <Fragment key={index}>
+      {listNormalRadios.map((item) => (
+        <Fragment key={item}>
           <Radio value={item} />
         </Fragment>
       ))}

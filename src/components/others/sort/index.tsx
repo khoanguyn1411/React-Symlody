@@ -85,7 +85,7 @@ export const Sort: React.FC<TProps> = ({
               {fields.map((item, index) => (
                 <button
                   className="flex items-center w-full px-3 py-2 font-semibold cursor-pointer duration-200 hover:bg-primary-50"
-                  key={index}
+                  key={item.title + index}
                   onClick={handleSetSortSelected(item)}
                 >
                   <span className="w-6 mr-2 text-center">{item.prefix}</span>

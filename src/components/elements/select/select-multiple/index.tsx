@@ -67,7 +67,7 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
       >
         {list.map((item: string, index: number) => (
           <li
-            key={index}
+            key={item + index}
             aria-hidden="true"
             onClick={handleSetItem(item)}
             className={classNames(

@@ -53,7 +53,7 @@ export const TabHost: React.FC<TProps> = ({
 
   return (
     <div className={classNames(!isNoSpace && "space-x-2", "flex w-full")}>
-      {listTabs.map((item, index) => (
+      {listTabs.map((item) => (
         <button
           className={classNames(
             "px-5 py-2",
@@ -66,7 +66,7 @@ export const TabHost: React.FC<TProps> = ({
               "flex-1": isStretchTab,
             }
           )}
-          key={index}
+          key={item.key}
           onClick={handleClickTab(item)}
         >
           {item.title}

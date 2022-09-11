@@ -54,9 +54,8 @@ export const MemberApi = {
     body: Types.RequestUpdateMemberBody
   ): Promise<Types.RequestUpdateMembersResult> {
     const url = routes.updateMember(id);
-    const result: ApiResponse<IMemberDto> = await api.patch(url, {
-      ...body,
-    });
+    const result: ApiResponse<IMemberDto> = await api.patch(url, body);
+    console.log(result.data);
 
     return returnResponse(result);
   },
