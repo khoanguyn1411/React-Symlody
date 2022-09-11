@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import {
+  Api,
   AuthApi,
   RequestGetProfileResult,
   RequestLoginResult,
@@ -71,7 +72,7 @@ export const authSlice = createSlice({
     },
     logout: (state) => {
       state.isAuth = false;
-      localStorage.clear();
+      Api.clearToken();
     },
   },
   extraReducers: (builder) => {
