@@ -2,10 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
-  Avatar,
   ButtonCreate,
   Container,
-  DeleteAndEditField,
   NoData,
   Search,
   Select,
@@ -28,9 +26,8 @@ import {
   MEMBER_MESSAGE,
   MEMBER_NO_DATA_CONFIG,
 } from "./constant";
-import { MemberTableMapper } from "./mapper";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
-import { TableMemberSkeleton } from "./member-skeleton";
+import { TableMemberContent } from "./member-table-content";
 
 const getValue = (key: string) => {
   return MEMBER_FILTER_OPTIONS.find((item) => item.key === key).value;
@@ -42,7 +39,6 @@ export const MemberContainer: React.FC = () => {
 
   const memberStore = useAppSelector((state) => state.member);
   const memberCount = useAppSelector(memberSelectors.selectTotal);
-  const memberList = useAppSelector(memberSelectors.selectAll);
 
   const dispatch = useAppDispatch();
   const [filter, setFilter] = useState<string>(() => {
@@ -76,18 +72,15 @@ export const MemberContainer: React.FC = () => {
     [filter]
   );
 
-  const [currentDeleteId, setCurrentDeleteId] = useState<number>();
-
   useEffect(() => {
     dispatch(getMembersAsync(memberStore.listQueryMember));
   }, [dispatch, memberStore.listQueryMember]);
 
-  const handleEdit = (item: IMember) => () => {
+  const handleEdit = (item: IMember) => {
     propsModalEditMember.setData(item);
     propsModalEditMember.toggle.setShow();
   };
-  const handleDelete = (item: IMember) => async () => {
-    setCurrentDeleteId(item.id);
+  const handleDelete = async (item: IMember) => {
     const result = await dispatch(deleteMemberAsync(item.id));
     if (result.payload) {
       toast.success(MEMBER_MESSAGE.delete.success);
@@ -96,66 +89,6 @@ export const MemberContainer: React.FC = () => {
     toast.success(MEMBER_MESSAGE.delete.error);
   };
 
-  const TableComponent: React.FC = () => {
-    if (memberStore.pending) {
-      return <TableMemberSkeleton />;
-    }
-
-    if (memberCount === 0) {
-      return <Table.NoData colsNumber={6} />;
-    }
-
-    return (
-      <Table.Body>
-        {memberList.map((item, index) => {
-          const memberTableItem = MemberTableMapper.fromModel(item);
-          return (
-            <Table.Row key={memberTableItem.id} index={index}>
-              <Table.Cell width="5rem" textAlign="center">
-                {index + 1}
-              </Table.Cell>
-              <Table.Cell>
-                <div className="flex items-center">
-                  <div className="mr-3">
-                    <Avatar
-                      size="medium"
-                      src={memberTableItem.avatar}
-                      fullName={
-                        item.auth_account.first_name.split(" ").splice(-1)[0]
-                      }
-                    />
-                  </div>
-                  <div>
-                    <h1 className="font-semibold">{memberTableItem.name}</h1>
-                    <h1 className="text-sm">{memberTableItem.email}</h1>
-                  </div>
-                </div>
-              </Table.Cell>
-              <Table.Cell keySorting="department" width="10rem">
-                {memberTableItem.department}
-              </Table.Cell>
-              <Table.Cell width="8rem">{memberTableItem.birthday}</Table.Cell>
-              <Table.Cell width="12rem">{memberTableItem.roles}</Table.Cell>
-
-              <Table.CellAction>
-                <DeleteAndEditField
-                  isShowLoading={
-                    memberStore.pendingDeleteMember &&
-                    currentDeleteId === item.id
-                  }
-                  title="Xóa thành viên?"
-                  handleEvent={{
-                    edit: handleEdit(item),
-                    delete: handleDelete(item),
-                  }}
-                />
-              </Table.CellAction>
-            </Table.Row>
-          );
-        })}
-      </Table.Body>
-    );
-  };
   const showNoData = false;
   if (showNoData) {
     return (
@@ -203,8 +136,7 @@ export const MemberContainer: React.FC = () => {
             <Table.CellHead width="12rem">Vị trí</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
-
-          <TableComponent />
+          <TableMemberContent onEdit={handleEdit} onDelete={handleDelete} />
         </Table.Container>
 
         {memberCount > 0 && (

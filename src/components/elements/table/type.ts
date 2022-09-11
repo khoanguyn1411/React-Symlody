@@ -3,10 +3,3 @@ export const TEXT_ALIGN_MAP = {
   center: "text-center w-full",
   right: "text-right w-full",
 } as const;
-
-export type TTableItem<T> = {
-  dataSource: T;
-  index: number;
-  onEdit: (dataSource: T) => void;
-  onDelete: (dataSource: T) => void;
-};
