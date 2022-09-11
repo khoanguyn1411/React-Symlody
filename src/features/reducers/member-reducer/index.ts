@@ -19,7 +19,7 @@ export const createMemberAsync = createAsyncThunk(
     const result: RequestCreateMembersResult = await MemberApi.createMember(
       MemberMapper.toCreateDto(payload)
     );
-
+    console.log(result);
     if (result.kind === "ok") {
       return MemberMapper.fromDto(result.result);
     }

@@ -42,9 +42,7 @@ export const MemberApi = {
     body: Types.RequestCreateMemberBody
   ): Promise<Types.RequestCreateMembersResult> {
     const url = routes.createMember();
-    const result: ApiResponse<IMemberDto> = await api.post(url, {
-      ...body,
-    });
+    const result: ApiResponse<IMemberDto> = await api.post(url, body);
 
     return returnResponse(result);
   },
@@ -55,8 +53,6 @@ export const MemberApi = {
   ): Promise<Types.RequestUpdateMembersResult> {
     const url = routes.updateMember(id);
     const result: ApiResponse<IMemberDto> = await api.patch(url, body);
-    console.log(result.data);
-
     return returnResponse(result);
   },
 };
