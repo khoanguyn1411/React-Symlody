@@ -34,7 +34,9 @@ export const Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
         "rounded-md items-center flex min-w-max justify-center transition-all duration-300",
         "text-center font-semibold normal-case",
         className,
-        STYLE_MAPS[disable || isShowLoading ? "disable" : style],
+        STYLE_MAPS[
+          (disable || isShowLoading) && style !== "none" ? "disable" : style
+        ],
         SIZE_MAPS[size],
         BLOCK[block.toString()],
         {
@@ -45,8 +47,8 @@ export const Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
     >
       <i
         className={classNames(
-          "mr-3 fas hidden fa-spinner-third animate-spin transition-all duration-75",
-          { "before:hidden mr-0": !isShowLoading }
+          "fas hidden fa-spinner-third animate-spin transition-all duration-75",
+          { "before:hidden mr-0": !isShowLoading, "mr-3": !isIconOnly }
         )}
       />
       {prefix}

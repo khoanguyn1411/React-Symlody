@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 
 export const STYLE_MAPS = {
+  none: "h-[fit-content]",
   default: "bg-primary-800 hover:bg-primary-900 text-white",
   outline:
     "border-primary-800 bg-white text-primary-800 border hover:bg-primary-50",

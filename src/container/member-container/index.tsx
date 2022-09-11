@@ -76,6 +76,8 @@ export const MemberContainer: React.FC = () => {
     [filter]
   );
 
+  const [currentDeleteId, setCurrentDeleteId] = useState<number>();
+
   useEffect(() => {
     dispatch(getMembersAsync(memberStore.listQueryMember));
   }, [dispatch, memberStore.listQueryMember]);
@@ -85,6 +87,7 @@ export const MemberContainer: React.FC = () => {
     propsModalEditMember.toggle.setShow();
   };
   const handleDelete = (item: IMember) => async () => {
+    setCurrentDeleteId(item.id);
     const result = await dispatch(deleteMemberAsync(item.id));
     if (result.payload) {
       toast.success(MEMBER_MESSAGE.delete.success);
@@ -136,6 +139,10 @@ export const MemberContainer: React.FC = () => {
 
               <Table.CellAction>
                 <DeleteAndEditField
+                  isShowLoading={
+                    memberStore.pendingDeleteMember &&
+                    currentDeleteId === item.id
+                  }
                   title="Xóa thành viên?"
                   handleEvent={{
                     edit: handleEdit(item),
