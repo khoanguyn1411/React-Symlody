@@ -17,7 +17,7 @@ import {
   memberSelectors,
   setListQueryMember,
 } from "@/features/reducers";
-import { IMember } from "@/features/types";
+import { IMember, ROLE_MAP_TO_DTO } from "@/features/types";
 import { useModal, useSearch } from "@/hooks";
 
 import {
@@ -33,6 +33,7 @@ const getValue = (key: string) => {
   return MEMBER_FILTER_OPTIONS.find((item) => item.key === key).value;
 };
 export const MemberContainer: React.FC = () => {
+  console.log(ROLE_MAP_TO_DTO);
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<IMember>();
   const propsSearch = useSearch();

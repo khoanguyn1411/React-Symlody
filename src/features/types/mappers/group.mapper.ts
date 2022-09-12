@@ -1,3 +1,5 @@
+import { FormatService } from "@/utils";
+
 import { ERolesDto, IAuthAccountDto } from "../dtos";
 import { ERoles, IAuthAccount } from "../models";
 
@@ -11,6 +13,11 @@ export const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
   [ERolesDto.Lead]: ERoles.Lead,
 };
 
+export const ROLE_MAP_TO_DTO = FormatService.reverseToDto<ERoles, ERolesDto>(
+  ROLE_MAP_FROM_DTO,
+  true
+);
+
 export class GroupMapper {
   public static fromDto(
     dto: IAuthAccountDto["groups"]
@@ -21,11 +28,7 @@ export class GroupMapper {
   public static toDto(
     model: IAuthAccount["groups"]
   ): IAuthAccountDto["groups"] {
-    const keys = Object.keys(ROLE_MAP_FROM_DTO);
-    const roleDto = model.map(
-      (item) =>
-        Number(keys.find((key) => ROLE_MAP_FROM_DTO[key] === item)) as ERolesDto
-    );
+    const roleDto = model.map((model) => ROLE_MAP_TO_DTO[model] as ERolesDto);
     if (roleDto.includes(ERolesDto.Member)) {
       return roleDto;
     }

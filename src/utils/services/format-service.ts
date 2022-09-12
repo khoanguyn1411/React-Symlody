@@ -13,4 +13,21 @@ export class FormatService {
   public static toNormalNumber(value: string): string {
     return value.replaceAll(".", "");
   }
+
+  public static reverseToDto<
+    Model extends string | number | symbol,
+    Dto extends string | number | symbol
+  >(
+    model: Readonly<Record<Dto, Model>>,
+    isNumberModel = false
+  ): Readonly<Record<Model, Dto>> {
+    let obj: Readonly<Record<Model, Dto>>;
+    Object.entries(model).forEach(([key, value]) => {
+      obj = {
+        ...obj,
+        [value as Dto]: !isNumberModel ? (key as Model) : Number(key),
+      };
+    });
+    return obj;
+  }
 }
