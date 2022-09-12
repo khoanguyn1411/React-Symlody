@@ -29,11 +29,10 @@ import {
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { TableMemberContent } from "./member-table-content";
 
-const getValue = (key: string) => {
+const getFilterValue = (key: string) => {
   return MEMBER_FILTER_OPTIONS.find((item) => item.key === key).value;
 };
 export const MemberContainer: React.FC = () => {
-  console.log(ROLE_MAP_TO_DTO);
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<IMember>();
   const propsSearch = useSearch();
@@ -45,11 +44,11 @@ export const MemberContainer: React.FC = () => {
   const [filter, setFilter] = useState<string>(() => {
     switch (memberStore.listQueryMember.is_archived) {
       case true:
-        return getValue(MEMBER_FILTER_VALUE.isArchived);
+        return getFilterValue(MEMBER_FILTER_VALUE.isArchived);
       case false:
-        return getValue(MEMBER_FILTER_VALUE.active);
+        return getFilterValue(MEMBER_FILTER_VALUE.active);
       case undefined:
-        return getValue(MEMBER_FILTER_VALUE.all);
+        return getFilterValue(MEMBER_FILTER_VALUE.all);
     }
   });
 
