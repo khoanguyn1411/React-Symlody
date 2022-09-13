@@ -1,5 +1,3 @@
-import "react-activity/dist/Spinner.css";
-
 import { asUploadButton } from "@rpldy/upload-button";
 import { useBatchStartListener, useItemFinishListener } from "@rpldy/uploady";
 import React, { useState } from "react";

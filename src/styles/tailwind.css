@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer components {
-    .border-spacing-0 {
-      border-spacing: theme("spacing.0");
-    }
+  .border-spacing-0 {
+    border-spacing: theme("spacing.0");
   }
+}
