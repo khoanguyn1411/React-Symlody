@@ -59,6 +59,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint --fix .",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc",
+    "prepare": "husky install",
     "pm2:start": "pm2 start ./ecosystem.config.js --env production ; pm2 status",
     "pm2:reload": "pm2 reload ./ecosystem.config.js --env production ; pm2 status"
   },
