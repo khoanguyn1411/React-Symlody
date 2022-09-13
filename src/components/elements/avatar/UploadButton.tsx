@@ -19,7 +19,7 @@ export const ButtonUpload = asUploadButton((props) => {
       {props.url ? (
         <img
           alt="user-avatar"
-          src={"" || "/images/default-avatar.png"}
+          src={props.url || "/images/default-avatar.png"}
           className="object-cover w-32 h-32 rounded-full cursor-pointer"
         />
       ) : (

@@ -76,7 +76,7 @@ export const ItemPreviewWithCrop = withRequestPreSendUpdate((props) => {
     <Modal
       title="Cập nhật ảnh"
       isShowing={visible}
-      toggle={{ setHidden: onCancel }}
+      toggle={{ setToggle: onCancel }}
       handleEvent={{
         title: "Cập nhật",
         event: onUploadCrop,

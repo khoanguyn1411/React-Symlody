@@ -26,9 +26,8 @@ export const AvatarUpload: React.FC<Props> = ({ onResponse, avatar, char }) => {
       formatServerResponse={onResponse}
       accept="image/*"
       destination={{
-        // url: ApiConfig().drive + "/upload-s3",
         url: "",
-        headers: { Authorization: `Bearer ${Api.getToken()}` },
+        // headers: { Authorization: `Bearer ${Api.getToken()}` },
       }}
     >
       <ButtonUpload extraProps={{ url: avatar, char }} />
