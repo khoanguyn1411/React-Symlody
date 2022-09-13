@@ -87,7 +87,7 @@ export const AssetContainer: React.FC = () => {
           </Table.Head>
           <Table.Body>
             {assetList.map((item, index) => (
-              <Table.Row key={index} index={index}>
+              <Table.Row key={item.assetName} index={index}>
                 <Table.Cell textAlign="center" width="5rem">
                   {index + 1}
                 </Table.Cell>

@@ -24,7 +24,7 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar }) => {
     >
       <div className="flex items-center space-x-4">
         <span className="flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full shadow-inner cursor-pointer hover:bg-gray-300 transition-all duration-300">
-          <i className="fas fa-question text-sm" />
+          <i className="text-sm fas fa-question" />
         </span>
 
         <span className="flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full shadow-inner cursor-pointer transition-all duration-300 hover:bg-gray-300">

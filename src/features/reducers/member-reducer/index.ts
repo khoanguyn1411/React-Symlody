@@ -11,23 +11,7 @@ import { MemberMapper } from "@/features/types/mappers";
 import { IMember, IMemberCreate, IMemberUpdate } from "@/features/types/models";
 import { TMemberParamQueryDto } from "@/features/types/queries";
 
-export type MemberState = {
-  members: IMember[];
-  pending: boolean;
-  pendingCreateMember: boolean;
-  pendingDeleteMember: boolean;
-  pendingUpdateMember: boolean;
-  listQueryMember: TMemberParamQueryDto;
-};
-
-const initialState: MemberState = {
-  pending: false,
-  pendingCreateMember: false,
-  pendingDeleteMember: false,
-  pendingUpdateMember: false,
-  members: [],
-  listQueryMember: { is_archived: false },
-};
+import { initialState, memberAdapter } from "./state";
 
 export const createMemberAsync = createAsyncThunk(
   "create/member",
@@ -35,11 +19,11 @@ export const createMemberAsync = createAsyncThunk(
     const result: RequestCreateMembersResult = await MemberApi.createMember(
       MemberMapper.toCreateDto(payload)
     );
-
+    console.log(result);
     if (result.kind === "ok") {
-      return true;
+      return MemberMapper.fromDto(result.result);
     }
-    return false;
+    return null;
   }
 );
 
@@ -48,9 +32,9 @@ export const deleteMemberAsync = createAsyncThunk(
   async (id: IMember["id"]) => {
     const result: RequestDeleteMembersResult = await MemberApi.deleteMember(id);
     if (result.kind === "ok") {
-      return true;
+      return id;
     }
-    return false;
+    return null;
   }
 );
 
@@ -72,11 +56,10 @@ export const updateMemberAsync = createAsyncThunk(
       id,
       MemberMapper.toUpdateDto(payload)
     );
-
     if (result.kind === "ok") {
-      return true;
+      return MemberMapper.fromDto(result.result);
     }
-    return false;
+    return null;
   }
 );
 
@@ -95,17 +78,18 @@ export const memberSlice = createSlice({
       })
       .addCase(getMembersAsync.fulfilled, (state, action) => {
         state.pending = false;
-        state.members = action.payload;
+        memberAdapter.setAll(state, action.payload);
       })
       .addCase(getMembersAsync.rejected, (state) => {
         state.pending = false;
-        state.members = [];
+        memberAdapter.setAll(state, []);
       })
       .addCase(createMemberAsync.pending, (state) => {
         state.pendingCreateMember = true;
       })
-      .addCase(createMemberAsync.fulfilled, (state) => {
+      .addCase(createMemberAsync.fulfilled, (state, action) => {
         state.pendingCreateMember = false;
+        memberAdapter.addOne(state, action.payload);
       })
       .addCase(createMemberAsync.rejected, (state) => {
         state.pendingCreateMember = false;
@@ -113,7 +97,8 @@ export const memberSlice = createSlice({
       .addCase(deleteMemberAsync.pending, (state) => {
         state.pendingDeleteMember = true;
       })
-      .addCase(deleteMemberAsync.fulfilled, (state) => {
+      .addCase(deleteMemberAsync.fulfilled, (state, action) => {
+        memberAdapter.removeOne(state, action.payload);
         state.pendingDeleteMember = false;
       })
       .addCase(deleteMemberAsync.rejected, (state) => {
@@ -122,7 +107,11 @@ export const memberSlice = createSlice({
       .addCase(updateMemberAsync.pending, (state) => {
         state.pendingUpdateMember = true;
       })
-      .addCase(updateMemberAsync.fulfilled, (state) => {
+      .addCase(updateMemberAsync.fulfilled, (state, action) => {
+        memberAdapter.updateOne(state, {
+          id: action.payload.id,
+          changes: action.payload,
+        });
         state.pendingUpdateMember = false;
       })
       .addCase(updateMemberAsync.rejected, (state) => {
@@ -132,6 +121,9 @@ export const memberSlice = createSlice({
 });
 
 export const memberStore = (state: RootState) => state.member;
+export const memberSelectors = memberAdapter.getSelectors(
+  (state: RootState) => state.member
+);
 export const { setListQueryMember } = memberSlice.actions;
 
 export default memberSlice.reducer;

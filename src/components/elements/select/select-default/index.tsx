@@ -111,7 +111,7 @@ export const Select: React.FC<TProps> = ({
             <li
               role={"menuitem"}
               onKeyDown={null}
-              key={index}
+              key={item.value + index}
               tabIndex={0}
               onClick={handleSetSelectedItem(item)}
               className={classNames(

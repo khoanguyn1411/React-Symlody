@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deleteMemberAsync,
   getMembersAsync,
+  memberSelectors,
   setListQueryMember,
 } from "@/features/reducers";
 import { IMember } from "@/features/types";
@@ -38,7 +39,11 @@ export const MemberContainer: React.FC = () => {
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<IMember>();
   const propsSearch = useSearch();
+
   const memberStore = useAppSelector((state) => state.member);
+  const memberCount = useAppSelector(memberSelectors.selectTotal);
+  const memberList = useAppSelector(memberSelectors.selectAll);
+
   const dispatch = useAppDispatch();
   const [filter, setFilter] = useState<string>(() => {
     switch (memberStore.listQueryMember.is_archived) {
@@ -83,7 +88,6 @@ export const MemberContainer: React.FC = () => {
     const result = await dispatch(deleteMemberAsync(item.id));
     if (result.payload) {
       toast.success(MEMBER_MESSAGE.delete.success);
-      await dispatch(getMembersAsync(memberStore.listQueryMember));
       return;
     }
     toast.success(MEMBER_MESSAGE.delete.error);
@@ -93,9 +97,14 @@ export const MemberContainer: React.FC = () => {
     if (memberStore.pending) {
       return <TableMemberSkeleton />;
     }
+
+    if (memberCount === 0) {
+      return <Table.NoData colsNumber={6} />;
+    }
+
     return (
       <Table.Body>
-        {memberStore.members.map((item, index) => {
+        {memberList.map((item, index) => {
           const memberTableItem = MemberTableMapper.fromModel(item);
           return (
             <Table.Row key={memberTableItem.id} index={index}>
@@ -191,7 +200,7 @@ export const MemberContainer: React.FC = () => {
           <TableComponent />
         </Table.Container>
 
-        {memberStore.members.length > 0 && (
+        {memberCount > 0 && (
           <Container.Pagination
             onRowQuantityChange={(activeRows) => console.log(activeRows)}
             onPaginationChange={(activePage) => console.log(activePage)}
