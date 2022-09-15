@@ -37,11 +37,13 @@ class Api {
   }
 
   public static getToken() {
-    const cookies = localStorage.getItem(APP_CONSTANTS.AUTH);
-    Api.token = cookies || "";
-
-    return cookies;
+    return Api.token;
   }
+
+  public static setToken(token: string) {
+    Api.token = token || "";
+  }
+
   public static clearToken() {
     localStorage.removeItem(APP_CONSTANTS.AUTH);
   }
