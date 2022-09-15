@@ -17,7 +17,7 @@ import {
   memberSelectors,
   setListQueryMember,
 } from "@/features/reducers";
-import { IMember, ROLE_MAP_TO_DTO } from "@/features/types";
+import { IMember } from "@/features/types";
 import { useModal, useSearch } from "@/hooks";
 
 import {
