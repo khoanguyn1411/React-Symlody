@@ -34,6 +34,7 @@ const TabCreateAMember: React.FC = () => {
       data
     );
     const res = await dispatch(createMemberAsync(memberModel));
+    console.log(res);
     if (!res.payload) {
       toast.error(MEMBER_MESSAGE.create.error);
       return;
