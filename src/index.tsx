@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import "./assets/FontAwesomePro/css/fontawesome.min.css";
 import "./assets/FontAwesomePro/css/solid.min.css";
 import "./assets/FontAwesomePro/css/regular.min.css";
+import "react-image-crop/dist/ReactCrop.css";
 
 import React from "react";
 import ReactDOM from "react-dom/client";

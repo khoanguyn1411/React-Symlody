@@ -1,8 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 
-import { Editor, FormItem, Input } from "@/components";
+import { AvatarUpload, Editor, FormItem, Input } from "@/components";
+import { PLACEHOLDER_IMAGE } from "@/constants";
 
 const schema = yup.object().shape({
   name: yup.string().required("Vui lòng nhập thông tin"),
@@ -21,9 +23,27 @@ export const TabOrganization: React.FC = () => {
     formState: { errors },
     handleSubmit,
   } = useForm<IFormOrganizationValue>({ resolver: yupResolver(schema) });
+
+  const [avatar, setAvatar] = useState("");
+
+  const onResponse = (response: string, status: number) => {
+    const result = JSON.parse(response);
+
+    if (status === 200) {
+      setAvatar(result?.[0].Location);
+    }
+  };
+
   return (
     <div>
-      <form onSubmit={handleSubmit(null)}>
+      <form>
+        <FormItem label="Logo tổ chức">
+          <AvatarUpload
+            char=""
+            avatar={avatar || PLACEHOLDER_IMAGE}
+            onResponse={onResponse}
+          />
+        </FormItem>
         <div className="grid grid-cols-2 gap-4">
           <FormItem label="Tên tổ chức" isRequired error={errors.name?.message}>
             <Controller
