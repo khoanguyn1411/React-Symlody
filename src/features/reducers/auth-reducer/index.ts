@@ -33,6 +33,7 @@ export const loginAsync = createAsyncThunk(
 
     if (result.kind === "ok") {
       localStorage.setItem(APP_CONSTANTS.AUTH, result.result.access);
+      Api.setToken(result.result.access);
       return true;
     }
     return false;
@@ -48,6 +49,7 @@ export const refreshTokenAsync = createAsyncThunk(
 
     if (result.kind === "ok") {
       localStorage.setItem(APP_CONSTANTS.AUTH, result.result.access);
+      Api.setToken(result.result.access);
       return true;
     }
     return false;
