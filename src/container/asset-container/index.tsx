@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import {
   ButtonCreate,
   Container,
@@ -6,6 +8,8 @@ import {
   Search,
   Table,
 } from "@/components";
+import { useAppDispatch } from "@/features";
+import { getPropertyAsync } from "@/features/reducers/property-reducer";
 import { useModal, useSearch } from "@/hooks";
 import { FormatService } from "@/utils";
 
@@ -17,6 +21,7 @@ export const AssetContainer: React.FC = () => {
   const propsModal = useModal({ isHotkeyOpen: true });
   const propsModalEdit = useModal<TFormAssetInfo>();
   const propsSearch = useSearch();
+  const dispatch = useAppDispatch();
 
   const handleEdit = (item: TFormAssetInfo) => () => {
     propsModalEdit.setData(item);
@@ -29,6 +34,10 @@ export const AssetContainer: React.FC = () => {
   const handleOpenModal = () => {
     propsModal.toggle.setToggle();
   };
+
+  useEffect(() => {
+    dispatch(getPropertyAsync());
+  }, []);
 
   const newLocal = false;
   if (newLocal) {
