@@ -1,20 +1,13 @@
 import { useEffect } from "react";
 
-import {
-  ButtonCreate,
-  Container,
-  DeleteAndEditField,
-  NoData,
-  Search,
-  Table,
-} from "@/components";
+import { ButtonCreate, Container, NoData, Search, Table } from "@/components";
 import { useAppDispatch } from "@/features";
 import { getPropertyAsync } from "@/features/reducers/property-reducer";
 import { useModal, useSearch } from "@/hooks";
-import { FormatService } from "@/utils";
 
 import { ModalCreateAsset, ModalEditAsset } from "./asset-modal";
-import { ASSET_NO_DATA_CONFIG, assetList } from "./constant";
+import { TableAssetContent } from "./asset-table-content";
+import { ASSET_NO_DATA_CONFIG } from "./constant";
 import { TFormAssetInfo } from "./type";
 
 export const AssetContainer: React.FC = () => {
@@ -23,11 +16,11 @@ export const AssetContainer: React.FC = () => {
   const propsSearch = useSearch();
   const dispatch = useAppDispatch();
 
-  const handleEdit = (item: TFormAssetInfo) => () => {
+  const handleEdit = (item: any) => {
     propsModalEdit.setData(item);
     propsModalEdit.toggle.setToggle();
   };
-  const handleDelete = (item: TFormAssetInfo) => () => {
+  const handleDelete = (item: any) => {
     alert("Deleted");
   };
 
@@ -94,37 +87,7 @@ export const AssetContainer: React.FC = () => {
             <Table.CellHead width="11rem">Chủ sở hữu</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
-          <Table.Body>
-            {assetList.map((item, index) => (
-              <Table.Row key={item.assetName} index={index}>
-                <Table.Cell textAlign="center" width="5rem">
-                  {index + 1}
-                </Table.Cell>
-                <Table.Cell>{item.assetName}</Table.Cell>
-                <Table.Cell width="7rem" textAlign="right">
-                  {item.quantity}
-                </Table.Cell>
-                <Table.Cell width="6rem" textAlign="right">
-                  {item.price
-                    ? `${FormatService.toCurrency(Number(item.price))}`
-                    : "--"}
-                </Table.Cell>
-
-                <Table.Cell width="14rem">{item.inCharge}</Table.Cell>
-                <Table.Cell width="11rem">{item.owner}</Table.Cell>
-
-                <Table.CellAction>
-                  <DeleteAndEditField
-                    title="Xóa tài sản?"
-                    handleEvent={{
-                      edit: handleEdit(item),
-                      delete: handleDelete(item),
-                    }}
-                  />
-                </Table.CellAction>
-              </Table.Row>
-            ))}
-          </Table.Body>
+          <TableAssetContent onEdit={handleEdit} onDelete={handleDelete} />
         </Table.Container>
         <Container.Pagination
           onRowQuantityChange={(activeRows) => console.log(activeRows)}

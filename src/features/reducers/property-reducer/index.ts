@@ -33,6 +33,8 @@ export const propertySlice = createSlice({
       });
   },
 });
-
+export const propertySelector = propertyAdapter.getSelectors(
+  (state: RootState) => state.property
+);
 export const propertyStore = (state: RootState) => state.member;
 export default propertySlice.reducer;
