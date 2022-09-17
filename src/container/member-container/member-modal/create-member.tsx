@@ -23,7 +23,11 @@ const TabCreateAMember: React.FC = () => {
   const propsForm = useForm<IFormMemberInfo>({
     resolver: yupResolver(schema),
   });
-  const { handleSubmit, reset } = propsForm;
+  const {
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = propsForm;
   const dispatch = useAppDispatch();
   const memberStore = useAppSelector((state) => state.member);
   const departmentStore = useAppSelector((state) => state.department);
@@ -47,7 +51,7 @@ const TabCreateAMember: React.FC = () => {
     <ModalTab
       handleEvent={{
         event: handleSubmit(handleCreateMember),
-        isLoading: memberStore.pendingCreateMember,
+        isLoading: isSubmitting,
       }}
     >
       <FormItems formProps={propsForm} />

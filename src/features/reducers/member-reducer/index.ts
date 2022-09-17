@@ -83,15 +83,8 @@ export const memberSlice = createSlice({
         state.pending = false;
         memberAdapter.setAll(state, []);
       })
-      .addCase(createMemberAsync.pending, (state) => {
-        state.pendingCreateMember = true;
-      })
       .addCase(createMemberAsync.fulfilled, (state, action) => {
-        state.pendingCreateMember = false;
         memberAdapter.addOne(state, action.payload);
-      })
-      .addCase(createMemberAsync.rejected, (state) => {
-        state.pendingCreateMember = false;
       })
       .addCase(deleteMemberAsync.pending, (state) => {
         state.pendingDeleteMember = true;
@@ -103,18 +96,12 @@ export const memberSlice = createSlice({
       .addCase(deleteMemberAsync.rejected, (state) => {
         state.pendingDeleteMember = false;
       })
-      .addCase(updateMemberAsync.pending, (state) => {
-        state.pendingUpdateMember = true;
-      })
+
       .addCase(updateMemberAsync.fulfilled, (state, action) => {
         memberAdapter.updateOne(state, {
           id: action.payload.id,
           changes: action.payload,
         });
-        state.pendingUpdateMember = false;
-      })
-      .addCase(updateMemberAsync.rejected, (state) => {
-        state.pendingUpdateMember = false;
       });
   },
 });
