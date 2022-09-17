@@ -4,7 +4,7 @@ type TProps = {
 
 import { Skeleton, Table } from "@/components";
 
-export const TableAssetSkeleton: React.FC<TProps> = ({ length = 5 }) => {
+export const TablePropertySkeleton: React.FC<TProps> = ({ length = 5 }) => {
   return (
     <Table.Body>
       {[...Array(length)].map((item, index) => (

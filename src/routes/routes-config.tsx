@@ -1,11 +1,11 @@
 import { NotFound } from "@/components";
 import {
-  AssetContainer,
   ConfigContainer,
   EventContainer,
   HomeContainer,
   LoginContainer,
   MemberContainer,
+  PropertyContainer,
   TargetContainer,
   TodosContainer,
 } from "@/container";
@@ -13,7 +13,7 @@ import {
 export type Page_Key =
   | "Home"
   | "Member"
-  | "Asset"
+  | "Property"
   | "Config"
   | "Event"
   | "Todos"
@@ -40,9 +40,9 @@ const privateRoutes: readonly IRoutes[] = [
     pageTitle: "Trang thành viên",
   },
   {
-    path: "/asset",
-    component: <AssetContainer />,
-    pageKey: "Asset",
+    path: "/property",
+    component: <PropertyContainer />,
+    pageKey: "Property",
     pageTitle: "Trang tài sản",
   },
   {

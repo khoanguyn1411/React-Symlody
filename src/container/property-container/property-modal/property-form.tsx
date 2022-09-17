@@ -10,11 +10,11 @@ import {
 } from "@/components";
 import { FormatService, FormService } from "@/utils";
 
-import { TFormAssetInfo } from "../type";
+import { TFormPropertyInfo } from "../type";
 
 type TProps = {
-  data?: TFormAssetInfo;
-  formProps: UseFormReturn<TFormAssetInfo, any>;
+  data?: TFormPropertyInfo;
+  formProps: UseFormReturn<TFormPropertyInfo, any>;
 };
 
 export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
@@ -22,7 +22,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
     control,
     formState: { errors },
   } = formProps;
-  const defaultValue = FormService.getDefaultValues<TFormAssetInfo>(data);
+  const defaultValue = FormService.getDefaultValues<TFormPropertyInfo>(data);
   return (
     <>
       <FormItem

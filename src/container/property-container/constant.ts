@@ -1,6 +1,6 @@
 import { images } from "@/assets/images";
 
-import { TFormAssetInfo } from "./type";
+import { TFormPropertyInfo } from "./type";
 
 export const ASSET_NO_DATA_CONFIG = {
   title: "Thêm tài sản mới",
@@ -10,7 +10,7 @@ export const ASSET_NO_DATA_CONFIG = {
   imageSrc: images.noData.asset,
 } as const;
 
-export const assetList: TFormAssetInfo[] = [
+export const assetList: TFormPropertyInfo[] = [
   {
     assetName: "Lamborghini",
     quantity: "30",

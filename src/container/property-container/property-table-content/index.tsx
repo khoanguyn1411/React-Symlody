@@ -6,7 +6,7 @@ import { propertySelector } from "@/features/reducers/property-reducer";
 import { IProperty } from "@/features/types";
 import { FormatService } from "@/utils";
 
-import { TableAssetSkeleton } from "../asset-skeleton";
+import { TablePropertySkeleton } from "../property-skeleton";
 
 type TProps = {
   onEdit: (property: IProperty) => void;
@@ -28,7 +28,7 @@ export const TableAssetContent: React.FC<TProps> = ({ onEdit, onDelete }) => {
   };
 
   if (propertyStore.pending) {
-    return <TableAssetSkeleton />;
+    return <TablePropertySkeleton />;
   }
 
   if (propertyCount === 0) {

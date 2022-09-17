@@ -11,10 +11,10 @@ import {
 import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";
-import { TFormAssetInfo } from "../type";
-import { FormItems } from "./asset-form";
+import { TFormPropertyInfo } from "../type";
+import { FormItems } from "./property-form";
 
-export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
+export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
   isShowing,
   toggle,
 }) => {
@@ -40,12 +40,12 @@ export const ModalCreateAsset: React.FC<THookModalProps<undefined>> = ({
 };
 
 const TabCreateAnAsset: React.FC = () => {
-  const propsForm = useForm<TFormAssetInfo>({
+  const propsForm = useForm<TFormPropertyInfo>({
     resolver: yupResolver(schema),
   });
   const { handleSubmit } = propsForm;
 
-  const handleCreateAsset = async (data: TFormAssetInfo) => {
+  const handleCreateAsset = async (data: TFormPropertyInfo) => {
     console.log(data);
   };
   return (

@@ -5,14 +5,14 @@ import { useAppDispatch } from "@/features";
 import { getPropertyAsync } from "@/features/reducers/property-reducer";
 import { useModal, useSearch } from "@/hooks";
 
-import { ModalCreateAsset, ModalEditAsset } from "./asset-modal";
-import { TableAssetContent } from "./asset-table-content";
 import { ASSET_NO_DATA_CONFIG } from "./constant";
-import { TFormAssetInfo } from "./type";
+import { ModalCreateProperty, ModalEditProperty } from "./property-modal";
+import { TableAssetContent } from "./property-table-content";
+import { TFormPropertyInfo } from "./type";
 
-export const AssetContainer: React.FC = () => {
+export const PropertyContainer: React.FC = () => {
   const propsModal = useModal({ isHotkeyOpen: true });
-  const propsModalEdit = useModal<TFormAssetInfo>();
+  const propsModalEdit = useModal<TFormPropertyInfo>();
   const propsSearch = useSearch();
   const dispatch = useAppDispatch();
 
@@ -30,6 +30,7 @@ export const AssetContainer: React.FC = () => {
 
   useEffect(() => {
     dispatch(getPropertyAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const newLocal = false;
@@ -43,7 +44,7 @@ export const AssetContainer: React.FC = () => {
           content={ASSET_NO_DATA_CONFIG.content}
           onCreateNew={propsModal.toggle.setShow}
         />
-        <ModalCreateAsset {...propsModal} />
+        <ModalCreateProperty {...propsModal} />
       </>
     );
   }
@@ -94,8 +95,8 @@ export const AssetContainer: React.FC = () => {
           onPaginationChange={(activePage) => console.log(activePage)}
         />
       </Container.Body>
-      <ModalCreateAsset {...propsModal} />
-      <ModalEditAsset {...propsModalEdit} />
+      <ModalCreateProperty {...propsModal} />
+      <ModalEditProperty {...propsModalEdit} />
     </>
   );
 };

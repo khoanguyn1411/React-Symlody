@@ -18,8 +18,8 @@ export const getTabsSidebar = (): ITabSidebar[] => [
   {
     icon: Icon.Money,
     title: "Tài sản",
-    to: "/asset",
-    pageActive: "Asset",
+    to: "/property",
+    pageActive: "Property",
   },
   {
     icon: Icon.Calendar,

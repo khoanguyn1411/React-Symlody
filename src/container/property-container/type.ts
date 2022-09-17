@@ -1,4 +1,4 @@
-export type TFormAssetInfo = {
+export type TFormPropertyInfo = {
   assetName: string;
   quantity: string;
   price: string;

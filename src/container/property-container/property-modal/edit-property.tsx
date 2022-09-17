@@ -6,17 +6,15 @@ import { Modal } from "@/components";
 import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";
-import { TFormAssetInfo } from "../type";
-import { FormItems } from "./asset-form";
+import { TFormPropertyInfo } from "../type";
+import { FormItems } from "./property-form";
 
-export const ModalEditAsset: React.FC<THookModalProps<TFormAssetInfo>> = ({
-  data,
-  isShowing,
-  toggle,
-}) => {
+export const ModalEditProperty: React.FC<
+  THookModalProps<TFormPropertyInfo>
+> = ({ data, isShowing, toggle }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const propsForm = useForm<TFormAssetInfo>({
+  const propsForm = useForm<TFormPropertyInfo>({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
@@ -27,7 +25,7 @@ export const ModalEditAsset: React.FC<THookModalProps<TFormAssetInfo>> = ({
     formState: { dirtyFields },
   } = propsForm;
 
-  const handleEditAsset = (editInfo: TFormAssetInfo) => {
+  const handleEditAsset = (editInfo: TFormPropertyInfo) => {
     setIsLoading(false);
     console.log(editInfo);
   };
