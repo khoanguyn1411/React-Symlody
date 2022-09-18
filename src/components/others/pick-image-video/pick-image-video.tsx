@@ -8,9 +8,21 @@ type TFileData = {
   type: "video.*" | "image.*";
 };
 
-export const PickImageVideo: React.FC = () => {
-  const [file, setFile] = useState<File>();
-  const [fileData, setFileData] = useState<TFileData>();
+type TProps = {
+  defaultImageLink?: string;
+  file: File;
+  setFile: (file: File) => void;
+};
+
+export const PickImageVideo: React.FC<TProps> = ({
+  file,
+  defaultImageLink,
+  setFile,
+}) => {
+  const [fileData, setFileData] = useState<TFileData>({
+    url: defaultImageLink,
+    type: "image.*",
+  });
   const inputFileRef = useRef<HTMLInputElement>();
   const handleUploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
@@ -78,7 +90,7 @@ export const PickImageVideo: React.FC = () => {
         onClick={handleResetInput}
         onChange={handleUploadFile}
       />
-      {!file && (
+      {!fileData && (
         <>
           <Button
             style="outline"

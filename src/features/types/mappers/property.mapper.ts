@@ -7,7 +7,7 @@ export class PropertyMapper {
     return {
       ...dto,
       price: dto.price.toString(),
-      quantity: dto.price.toString(),
+      quantity: dto.quantity.toString(),
       incharger: ProfileMapper.fromDto(dto.incharger),
     };
   }
@@ -16,7 +16,7 @@ export class PropertyMapper {
     return {
       ...model,
       price: model.price && Number(model.price),
-      quantity: model.price && Number(model.quantity),
+      quantity: model.quantity && Number(model.quantity),
       incharger: ProfileMapper.toDto(model.incharger),
     };
   }

@@ -8,6 +8,7 @@ import { initialState, propertyAdapter } from "./state";
 
 export const getPropertyAsync = createAsyncThunk("get/properties", async () => {
   const result: RequestGetPropertiesResult = await PropertyApi.getProperties();
+  console.log(result);
   if (result.kind === "ok") {
     return result.result.map((item) => PropertyMapper.fromDto(item));
   }

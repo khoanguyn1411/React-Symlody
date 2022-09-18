@@ -5,7 +5,8 @@ export type IFormPropertyInfo = {
   inCharge: string;
   note?: string;
   owner: string;
-  image?: string;
+  image?: File;
+  imageLink?: string;
 };
 
 export type IPropertyTable = {

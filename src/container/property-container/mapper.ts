@@ -15,7 +15,7 @@ export class PropertyFormMapper {
       inCharge: model.incharger.last_name + " " + model.incharger.first_name,
       owner: model.prop_owner,
       note: model.note,
-      image: model.image,
+      imageLink: model.image,
     };
   }
 }

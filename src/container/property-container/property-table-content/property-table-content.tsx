@@ -21,7 +21,6 @@ export const TablePropertyContent: React.FC<TProps> = ({
   const propertyList = useAppSelector(propertySelector.selectAll);
   const propertyStore = useAppSelector((state) => state.property);
   const propertyCount = useAppSelector(propertySelector.selectTotal);
-  console.log(propertyList);
   const handleEdit = (item: IProperty) => () => {
     onEdit(item);
   };
