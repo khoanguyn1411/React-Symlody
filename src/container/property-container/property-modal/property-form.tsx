@@ -8,21 +8,30 @@ import {
   RadioGroup,
   TextArea,
 } from "@/components";
+import { IProperty } from "@/features/types";
 import { FormatService, FormService } from "@/utils";
 
-import { TFormPropertyInfo } from "../type";
+import { PropertyFormMapper } from "../mapper";
+import { IFormPropertyInfo } from "../type";
 
 type TProps = {
-  data?: TFormPropertyInfo;
-  formProps: UseFormReturn<TFormPropertyInfo, any>;
+  data?: IProperty;
+  formProps: UseFormReturn<IFormPropertyInfo, any>;
 };
 
 export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
+  let dataForm: IFormPropertyInfo = null;
+  if (data) {
+    dataForm = PropertyFormMapper.fromModel(data);
+  }
+
   const {
     control,
     formState: { errors },
   } = formProps;
-  const defaultValue = FormService.getDefaultValues<TFormPropertyInfo>(data);
+
+  const defaultValue =
+    FormService.getDefaultValues<IFormPropertyInfo>(dataForm);
   return (
     <>
       <FormItem
@@ -55,7 +64,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
               style="modal"
               type="number"
               value={value}
-              handleSideEffect={(event) => {
+              onInputSideEffect={(event) => {
                 if (
                   Number(event.target.value) &&
                   Number(event.target.value) < 1
@@ -78,7 +87,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           defaultValue={defaultValue.get("price")}
           render={({ field: { value, onChange } }) => (
             <Input
-              handleSideEffect={(event) => {
+              onInputSideEffect={(event) => {
                 const value = event.target.value;
                 const splitValue = FormatService.toNormalNumber(value);
                 if (value) {
@@ -135,7 +144,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             return (
               <RadioGroup
                 isHaveOther
-                listNormalRadios={["Câu lạc bộ"]}
+                listNormalRadios={["CLB"]}
                 activeValue={value}
                 setActiveValue={onChange}
               />

@@ -3,30 +3,29 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Modal } from "@/components";
+import { IProperty } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";
-import { TFormPropertyInfo } from "../type";
+import { IFormPropertyInfo } from "../type";
 import { FormItems } from "./property-form";
 
-export const ModalEditProperty: React.FC<
-  THookModalProps<TFormPropertyInfo>
-> = ({ data, isShowing, toggle }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const propsForm = useForm<TFormPropertyInfo>({
+export const ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
+  data,
+  isShowing,
+  toggle,
+}) => {
+  const propsForm = useForm<IFormPropertyInfo>({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
-
   const {
     handleSubmit,
     reset,
-    formState: { dirtyFields },
+    formState: { dirtyFields, isSubmitting },
   } = propsForm;
 
-  const handleEditAsset = (editInfo: TFormPropertyInfo) => {
-    setIsLoading(false);
+  const handleEditProperty = (editInfo: IFormPropertyInfo) => {
     console.log(editInfo);
   };
   return (
@@ -38,8 +37,8 @@ export const ModalEditProperty: React.FC<
       isShowing={isShowing}
       handleEvent={{
         title: "Cập nhật",
-        event: handleSubmit(handleEditAsset),
-        isLoading: isLoading,
+        event: handleSubmit(handleEditProperty),
+        isLoading: isSubmitting,
         isDisable: Object.keys(dirtyFields).length === 0,
       }}
     >

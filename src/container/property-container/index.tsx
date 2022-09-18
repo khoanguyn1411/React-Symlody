@@ -1,26 +1,30 @@
 import { useEffect } from "react";
 
 import { ButtonCreate, Container, NoData, Search, Table } from "@/components";
-import { useAppDispatch } from "@/features";
-import { getPropertyAsync } from "@/features/reducers/property-reducer";
+import { useAppDispatch, useAppSelector } from "@/features";
+import {
+  getPropertyAsync,
+  propertySelector,
+} from "@/features/reducers/property-reducer";
+import { IProperty } from "@/features/types";
 import { useModal, useSearch } from "@/hooks";
 
 import { ASSET_NO_DATA_CONFIG } from "./constant";
 import { ModalCreateProperty, ModalEditProperty } from "./property-modal";
-import { TableAssetContent } from "./property-table-content";
-import { TFormPropertyInfo } from "./type";
+import { TablePropertyContent } from "./property-table-content";
 
 export const PropertyContainer: React.FC = () => {
   const propsModal = useModal({ isHotkeyOpen: true });
-  const propsModalEdit = useModal<TFormPropertyInfo>();
+  const propsModalEdit = useModal<IProperty>();
   const propsSearch = useSearch();
   const dispatch = useAppDispatch();
+  const propertyCount = useAppSelector(propertySelector.selectTotal);
 
-  const handleEdit = (item: any) => {
+  const handleEdit = (item: IProperty) => {
     propsModalEdit.setData(item);
     propsModalEdit.toggle.setToggle();
   };
-  const handleDelete = (item: any) => {
+  const handleDelete = (item: IProperty) => {
     alert("Deleted");
   };
 
@@ -30,11 +34,10 @@ export const PropertyContainer: React.FC = () => {
 
   useEffect(() => {
     dispatch(getPropertyAsync());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
-  const newLocal = false;
-  if (newLocal) {
+  const isNodata = false;
+  if (isNodata) {
     return (
       <>
         <NoData
@@ -85,15 +88,17 @@ export const PropertyContainer: React.FC = () => {
             <Table.CellHead width="14rem">
               Người chịu trách nhiệm
             </Table.CellHead>
-            <Table.CellHead width="11rem">Chủ sở hữu</Table.CellHead>
+            <Table.CellHead width="8rem">Chủ sở hữu</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
-          <TableAssetContent onEdit={handleEdit} onDelete={handleDelete} />
+          <TablePropertyContent onEdit={handleEdit} onDelete={handleDelete} />
         </Table.Container>
-        <Container.Pagination
-          onRowQuantityChange={(activeRows) => console.log(activeRows)}
-          onPaginationChange={(activePage) => console.log(activePage)}
-        />
+        {propertyCount > 0 && (
+          <Container.Pagination
+            onRowQuantityChange={(activeRows) => console.log(activeRows)}
+            onPaginationChange={(activePage) => console.log(activePage)}
+          />
+        )}
       </Container.Body>
       <ModalCreateProperty {...propsModal} />
       <ModalEditProperty {...propsModalEdit} />

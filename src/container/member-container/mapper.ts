@@ -1,6 +1,12 @@
 import dayjs from "dayjs";
 
-import { ERoles, IDepartment, IMember, IMemberCreate } from "@/features/types";
+import {
+  ERoles,
+  IDepartment,
+  IDepartmentCreateUpdate,
+  IMember,
+  IMemberCreate,
+} from "@/features/types";
 
 import { IFormMemberInfo, IMemberTable } from "./type";
 
@@ -69,7 +75,12 @@ export class MemberTableMapper {
 }
 
 export class DepartmentFormMapper {
-  public static toModel(model: IDepartment[], formData: string): IDepartment {
-    return model.find((item) => item.name === formData);
+  public static toModel(
+    model: IDepartment[],
+    formData: string
+  ): IDepartmentCreateUpdate {
+    return {
+      id: model.find((item) => item.name === formData).id,
+    };
   }
 }

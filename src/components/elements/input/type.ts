@@ -30,19 +30,19 @@ export type TInputGeneralProps = {
 };
 
 export type TInputDefaultProps = {
-  handleSideEffect?: (
+  onInputSideEffect?: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => TSideEffect;
 } & TInputGeneralProps;
 
 export type TInputTextAreaProps = {
-  handleSideEffect?: (
+  onInputSideEffect?: (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => TSideEffect;
 } & TInputGeneralProps;
 
 export type TInputUnderLine = {
-  handleSideEffect?: (
+  onInputSideEffect?: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => TSideEffect;
   label?: string;

@@ -9,11 +9,11 @@ export const TextArea: React.FC<TInputTextAreaProps> = ({
   style = "default",
   disable = false,
   onChange,
-  handleSideEffect,
+  onInputSideEffect,
 }) => {
   const handleChangeEvent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (handleSideEffect) {
-      const returnValue = handleSideEffect(event);
+    if (onInputSideEffect) {
+      const returnValue = onInputSideEffect(event);
       const newValue = returnValue.newValue;
       return onChange(newValue);
     }

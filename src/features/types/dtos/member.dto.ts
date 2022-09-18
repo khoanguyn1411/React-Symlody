@@ -1,5 +1,5 @@
 import { IAuthAccountDto } from "./auth-account.dto";
-import { IDepartmentDto } from "./department.dto";
+import { IDepartmentCreateUpdateDto, IDepartmentDto } from "./department.dto";
 
 interface IMemberGeneralDto {
   readonly auth_account: IAuthAccountDto;
@@ -10,17 +10,20 @@ interface IMemberGeneralDto {
   readonly phone_number: string;
   readonly home_town: string;
   readonly dob: string;
-  readonly department: IDepartmentDto;
 }
 
 export interface IMemberDto extends IMemberGeneralDto {
   readonly id: number;
   readonly last_modified_date: string;
   readonly created_by: number;
+  readonly department: IDepartmentDto;
 }
 
 export interface IMemberCreateDto extends IMemberGeneralDto {
   readonly is_archived: boolean;
+  readonly department: IDepartmentCreateUpdateDto;
 }
 
-export type IMemberUpdateDto = Omit<IMemberCreateDto, "id">;
+export type IMemberUpdateDto = Omit<IMemberCreateDto, "id"> & {
+  readonly department: IDepartmentCreateUpdateDto;
+};

@@ -1,5 +1,5 @@
 import { IAuthAccount } from "./auth-account";
-import { IDepartment } from "./department";
+import { IDepartment, IDepartmentCreateUpdate } from "./department";
 
 interface IMemberGeneral {
   readonly auth_account: IAuthAccount;
@@ -10,17 +10,20 @@ interface IMemberGeneral {
   readonly phone_number: string;
   readonly home_town: string;
   readonly dob: string;
-  readonly department: IDepartment;
 }
 
 export interface IMember extends IMemberGeneral {
   readonly id: number;
   readonly last_modified_date: string;
   readonly created_by: number;
+  readonly department: IDepartment;
 }
 
 export interface IMemberCreate extends IMemberGeneral {
   readonly is_archived: boolean;
+  readonly department: IDepartmentCreateUpdate;
 }
 
-export type IMemberUpdate = Omit<IMemberCreate, "id">;
+export type IMemberUpdate = Omit<IMemberCreate, "id"> & {
+  readonly department: IDepartmentCreateUpdate;
+};

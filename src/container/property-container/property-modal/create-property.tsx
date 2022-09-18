@@ -11,7 +11,7 @@ import {
 import { THookModalProps } from "@/hooks";
 
 import { schema } from "../schema";
-import { TFormPropertyInfo } from "../type";
+import { IFormPropertyInfo } from "../type";
 import { FormItems } from "./property-form";
 
 export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
@@ -40,12 +40,12 @@ export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
 };
 
 const TabCreateAnAsset: React.FC = () => {
-  const propsForm = useForm<TFormPropertyInfo>({
+  const propsForm = useForm<IFormPropertyInfo>({
     resolver: yupResolver(schema),
   });
   const { handleSubmit } = propsForm;
 
-  const handleCreateAsset = async (data: TFormPropertyInfo) => {
+  const handleCreateAsset = async (data: IFormPropertyInfo) => {
     console.log(data);
   };
   return (

@@ -6,12 +6,12 @@ export const InputUnderLine: React.FC<TInputUnderLine> = ({
   value = "",
   label = "Khác",
   disable = false,
-  handleSideEffect,
+  onInputSideEffect,
   onChange,
 }) => {
   const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (handleSideEffect) {
-      const returnValue = handleSideEffect(event);
+    if (onInputSideEffect) {
+      const returnValue = onInputSideEffect(event);
       const newValue = returnValue.newValue;
       return onChange(newValue);
     }

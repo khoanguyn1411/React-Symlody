@@ -3,3 +3,8 @@ export interface IDepartmentDto {
   readonly name: string;
   readonly abbreviation_name?: string | null;
 }
+
+export type IDepartmentCreateUpdateDto = Omit<
+  IDepartmentDto,
+  "name" | "abbreviation_name"
+>;

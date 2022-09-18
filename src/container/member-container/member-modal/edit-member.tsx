@@ -24,18 +24,13 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
-
   const {
-    formState: { isSubmitting },
+    handleSubmit,
+    formState: { dirtyFields, isSubmitting },
   } = propsForm;
 
   const departmentStore = useAppSelector((state) => state.department);
-
   const dispatch = useAppDispatch();
-  const {
-    handleSubmit,
-    formState: { dirtyFields },
-  } = propsForm;
 
   const handleEditMember = async (editInfo: IFormMemberInfo) => {
     const memberModel: IMemberUpdate = MemberFormMapper.toModel(

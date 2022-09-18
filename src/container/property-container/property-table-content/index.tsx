@@ -4,8 +4,8 @@ import { DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
 import { propertySelector } from "@/features/reducers/property-reducer";
 import { IProperty } from "@/features/types";
-import { FormatService } from "@/utils";
 
+import { PropertyTableMapper } from "../mapper";
 import { TablePropertySkeleton } from "../property-skeleton";
 
 type TProps = {
@@ -13,7 +13,10 @@ type TProps = {
   onDelete: (property: IProperty) => void;
 };
 
-export const TableAssetContent: React.FC<TProps> = ({ onEdit, onDelete }) => {
+export const TablePropertyContent: React.FC<TProps> = ({
+  onEdit,
+  onDelete,
+}) => {
   const [currentDeleteId, setCurrentDeleteId] = useState<number>();
   const propertyList = useAppSelector(propertySelector.selectAll);
   const propertyStore = useAppSelector((state) => state.property);
@@ -36,35 +39,36 @@ export const TableAssetContent: React.FC<TProps> = ({ onEdit, onDelete }) => {
   }
   return (
     <Table.Body>
-      {propertyList.map((item, index) => (
-        <Table.Row key={item.id} index={index}>
-          <Table.Cell textAlign="center" width="5rem">
-            {index + 1}
-          </Table.Cell>
-          <Table.Cell>{item.name}</Table.Cell>
-          <Table.Cell width="7rem" textAlign="right">
-            {item.quantity}
-          </Table.Cell>
-          <Table.Cell width="6rem" textAlign="right">
-            {item.price
-              ? `${FormatService.toCurrency(Number(item.price))}`
-              : "--"}
-          </Table.Cell>
+      {propertyList.map((item, index) => {
+        const propertyTableItem = PropertyTableMapper.fromModel(item);
+        return (
+          <Table.Row key={item.id} index={index}>
+            <Table.Cell textAlign="center" width="5rem">
+              {index + 1}
+            </Table.Cell>
+            <Table.Cell>{propertyTableItem.assetName}</Table.Cell>
+            <Table.Cell width="7rem" textAlign="right">
+              {propertyTableItem.quantity}
+            </Table.Cell>
+            <Table.Cell width="6rem" textAlign="right">
+              {propertyTableItem.price}
+            </Table.Cell>
 
-          <Table.Cell width="14rem">{item.incharger.first_name}</Table.Cell>
-          <Table.Cell width="11rem">{item.prop_owner}</Table.Cell>
+            <Table.Cell width="14rem">{propertyTableItem.inCharge}</Table.Cell>
+            <Table.Cell width="8rem">{propertyTableItem.owner}</Table.Cell>
 
-          <Table.CellAction>
-            <DeleteAndEditField
-              title="Xóa tài sản?"
-              handleEvent={{
-                edit: handleEdit(item),
-                delete: handleDelete(item),
-              }}
-            />
-          </Table.CellAction>
-        </Table.Row>
-      ))}
+            <Table.CellAction>
+              <DeleteAndEditField
+                title="Xóa tài sản?"
+                handleEvent={{
+                  edit: handleEdit(item),
+                  delete: handleDelete(item),
+                }}
+              />
+            </Table.CellAction>
+          </Table.Row>
+        );
+      })}
     </Table.Body>
   );
 };

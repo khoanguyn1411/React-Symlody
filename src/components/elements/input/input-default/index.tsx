@@ -10,11 +10,11 @@ export const Input: React.FC<TInputDefaultProps> = ({
   className,
   disable = false,
   onChange,
-  handleSideEffect,
+  onInputSideEffect,
 }) => {
   const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (handleSideEffect) {
-      const returnValue = handleSideEffect(event);
+    if (onInputSideEffect) {
+      const returnValue = onInputSideEffect(event);
       const newValue = returnValue.newValue;
       return onChange(newValue);
     }

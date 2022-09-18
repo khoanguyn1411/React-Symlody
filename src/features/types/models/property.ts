@@ -13,8 +13,8 @@ export interface IProperty {
   is_archived: boolean;
   prop_owner: string;
   name: string;
-  price: number;
-  quantity: number;
+  price: string;
+  quantity: string;
   is_club_property: boolean;
   note: string;
   archived_by: number;
