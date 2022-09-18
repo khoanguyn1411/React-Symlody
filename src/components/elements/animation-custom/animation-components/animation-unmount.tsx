@@ -14,14 +14,11 @@ export const AnimationUnmount: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
 }) => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  const [isCancel, setIsCancel] = useState<boolean>(false);
   useEffect(() => {
     if (isShowing) {
       setIsMounted(true);
-      setIsCancel(false);
       return;
     }
-    setIsCancel(true);
     const unMountedId = setTimeout(() => {
       setIsMounted(false);
     }, ANIMATION_DEFAULT_TIME);
@@ -35,7 +32,7 @@ export const AnimationUnmount: GlobalTypes.FCPropsWithChildren<TProps> = ({
     return;
   }
   return (
-    <div className={classNames(isCancel && "pointer-events-none")}>
+    <div className={classNames(!isShowing && "pointer-events-none")}>
       {children}
     </div>
   );
