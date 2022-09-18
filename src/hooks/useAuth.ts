@@ -31,6 +31,8 @@ export function useAuth() {
     const token = Api.getToken();
     if (!token) return false;
 
+    Api.setToken(token);
+
     const result = await dispatch(getMeAsync());
     if (!result.payload) {
       await dispatch(refreshTokenAsync({ token: token })).then((res) => {
