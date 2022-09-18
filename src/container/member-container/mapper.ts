@@ -80,7 +80,7 @@ export class DepartmentFormMapper {
     formData: string
   ): IDepartmentCreateUpdate {
     return {
-      id: model.find((item) => item.name === formData).id,
+      ...model.find((item) => item.name === formData),
     };
   }
 }

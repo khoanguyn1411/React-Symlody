@@ -9,6 +9,6 @@ export class DepartmentMapper {
   public static toDto(
     model: IDepartmentCreateUpdate
   ): IDepartmentCreateUpdateDto {
-    return { id: model.id };
+    return { id: model.id, name: model.name };
   }
 }

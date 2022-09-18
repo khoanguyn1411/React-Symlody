@@ -10,6 +10,7 @@ interface IMemberGeneral {
   readonly phone_number: string;
   readonly home_town: string;
   readonly dob: string;
+  readonly is_archived: boolean;
 }
 
 export interface IMember extends IMemberGeneral {
@@ -20,7 +21,6 @@ export interface IMember extends IMemberGeneral {
 }
 
 export interface IMemberCreate extends IMemberGeneral {
-  readonly is_archived: boolean;
   readonly department: IDepartmentCreateUpdate;
 }
 

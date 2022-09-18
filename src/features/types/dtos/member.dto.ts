@@ -10,6 +10,7 @@ interface IMemberGeneralDto {
   readonly phone_number: string;
   readonly home_town: string;
   readonly dob: string;
+  readonly is_archived: boolean;
 }
 
 export interface IMemberDto extends IMemberGeneralDto {
@@ -20,7 +21,6 @@ export interface IMemberDto extends IMemberGeneralDto {
 }
 
 export interface IMemberCreateDto extends IMemberGeneralDto {
-  readonly is_archived: boolean;
   readonly department: IDepartmentCreateUpdateDto;
 }
 

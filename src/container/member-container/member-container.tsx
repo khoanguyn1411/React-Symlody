@@ -16,6 +16,7 @@ import {
   getMembersAsync,
   memberSelectors,
   setListQueryMember,
+  updateMemberAsync,
 } from "@/features/reducers";
 import { IMember } from "@/features/types";
 import { useModal, useSearch } from "@/hooks";
@@ -89,6 +90,21 @@ export const MemberContainer: React.FC = () => {
     toast.success(MEMBER_MESSAGE.delete.error);
   };
 
+  const handleRestore = async (item: IMember) => {
+    const result = await dispatch(
+      updateMemberAsync({
+        payload: { ...item, is_archived: false },
+        id: item.id,
+        isRestore: true,
+      })
+    );
+    if (!result.payload) {
+      toast.error(MEMBER_MESSAGE.update.error);
+      return;
+    }
+    toast.success(MEMBER_MESSAGE.update.success);
+  };
+
   const showNoData = false;
   if (showNoData) {
     return (
@@ -136,7 +152,11 @@ export const MemberContainer: React.FC = () => {
             <Table.CellHead width="12rem">Vị trí</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
-          <TableMemberContent onEdit={handleEdit} onDelete={handleDelete} />
+          <TableMemberContent
+            onEdit={handleEdit}
+            onRestore={handleRestore}
+            onDelete={handleDelete}
+          />
         </Table.Container>
 
         {memberCount > 0 && (

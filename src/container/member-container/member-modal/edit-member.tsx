@@ -38,7 +38,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
       editInfo
     );
     const result = await dispatch(
-      updateMemberAsync({ payload: memberModel, id: data.id })
+      updateMemberAsync({ payload: memberModel, id: data.id, isRestore: false })
     );
     if (!result.payload) {
       toast.error(MEMBER_MESSAGE.update.error);

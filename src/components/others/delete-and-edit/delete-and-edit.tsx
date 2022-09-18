@@ -8,13 +8,16 @@ type TProps = {
   handleEvent: {
     edit: () => void;
     delete: () => void;
+    restore?: () => void;
   };
   isShowLoading?: boolean;
+  isShowRestore?: boolean;
 };
 
 export const DeleteAndEditField: React.FC<TProps> = ({
   title,
-  isShowLoading,
+  isShowLoading = false,
+  isShowRestore = false,
   handleEvent,
 }) => {
   return (
@@ -33,28 +36,45 @@ export const DeleteAndEditField: React.FC<TProps> = ({
           />
         </Button>
       </Tooltip>
-      <DropdownConfirm
-        title={title}
-        placement={"bottom-right"}
-        handleEvent={{ title: "Xóa", event: handleEvent.delete }}
-      >
-        <Tooltip content="Xoá">
+
+      {isShowRestore ? (
+        <Tooltip content="Khôi phục">
           <Button
-            className="flex items-center justify-center group"
             style="none"
             isIconOnly
             isShowLoading={isShowLoading}
+            onClick={handleEvent.restore}
+            className="flex items-center justify-center group"
           >
             {!isShowLoading && (
-              <Icon.Trash
-                customColor="gray"
-                size="small"
-                className="group-hover:text-black transition-all duration-200"
-              />
+              <i className="text-gray-400 transition-all duration-200 group-hover:text-black fas fa-trash-restore-alt"></i>
             )}
           </Button>
         </Tooltip>
-      </DropdownConfirm>
+      ) : (
+        <DropdownConfirm
+          title={title}
+          placement={"bottom-right"}
+          handleEvent={{ title: "Xóa", event: handleEvent.delete }}
+        >
+          <Tooltip content="Xoá">
+            <Button
+              className="flex items-center justify-center group"
+              style="none"
+              isIconOnly
+              isShowLoading={isShowLoading}
+            >
+              {!isShowLoading && (
+                <Icon.Trash
+                  customColor="gray"
+                  size="small"
+                  className="group-hover:text-black transition-all duration-200"
+                />
+              )}
+            </Button>
+          </Tooltip>
+        </DropdownConfirm>
+      )}
     </div>
   );
 };

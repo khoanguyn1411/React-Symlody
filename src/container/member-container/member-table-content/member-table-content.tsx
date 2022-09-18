@@ -11,21 +11,31 @@ import { TableMemberSkeleton } from "../member-skeleton";
 type TProps = {
   onEdit: (member: IMember) => void;
   onDelete: (member: IMember) => void;
+  onRestore: (member: IMember) => void;
 };
 
-export const TableMemberContent: React.FC<TProps> = ({ onEdit, onDelete }) => {
+export const TableMemberContent: React.FC<TProps> = ({
+  onEdit,
+  onRestore,
+  onDelete,
+}) => {
   const memberStore = useAppSelector((state) => state.member);
   const memberCount = useAppSelector(memberSelectors.selectTotal);
   const memberList = useAppSelector(memberSelectors.selectAll);
 
-  const [currentDeleteId, setCurrentDeleteId] = useState<number>();
+  const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
 
   const handleEdit = (item: IMember) => () => {
     onEdit(item);
   };
   const handleDelete = (item: IMember) => () => {
     onDelete(item);
-    setCurrentDeleteId(item.id);
+    setCurrentInteractiveId(item.id);
+  };
+
+  const handleRestore = (item: IMember) => () => {
+    onRestore(item);
+    setCurrentInteractiveId(item.id);
   };
 
   if (memberStore.pending) {
@@ -71,10 +81,14 @@ export const TableMemberContent: React.FC<TProps> = ({ onEdit, onDelete }) => {
             <Table.CellAction>
               <DeleteAndEditField
                 isShowLoading={
-                  memberStore.pendingDeleteMember && currentDeleteId === item.id
+                  (memberStore.pendingDeleteMember ||
+                    memberStore.pendingRestoreMember) &&
+                  currentInteractiveId === item.id
                 }
+                isShowRestore={item.is_archived}
                 title="Xóa thành viên?"
                 handleEvent={{
+                  restore: handleRestore(item),
                   edit: handleEdit(item),
                   delete: handleDelete(item),
                 }}

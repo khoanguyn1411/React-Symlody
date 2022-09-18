@@ -5,6 +5,7 @@ import {
   RequestCreateMembersResult,
   RequestDeleteMembersResult,
   RequestGetMembersResult,
+  RequestUpdateMembersResult,
 } from "@/api";
 import { RootState } from "@/features/store";
 import { MemberMapper } from "@/features/types/mappers";
@@ -50,15 +51,29 @@ export const getMembersAsync = createAsyncThunk(
 
 export const updateMemberAsync = createAsyncThunk(
   "update/member",
-  async ({ payload, id }: { payload: IMemberUpdate; id: IMember["id"] }) => {
-    const result: RequestCreateMembersResult = await MemberApi.updateMember(
+  async ({
+    payload,
+    id,
+    isRestore,
+  }: {
+    payload: IMemberUpdate;
+    id: IMember["id"];
+    isRestore: boolean;
+  }) => {
+    const result: RequestUpdateMembersResult = await MemberApi.updateMember(
       id,
       MemberMapper.toUpdateDto(payload)
     );
     if (result.kind === "ok") {
-      return MemberMapper.fromDto(result.result);
+      return {
+        result: MemberMapper.fromDto(result.result),
+        isRestore,
+      };
     }
-    return null;
+    return {
+      result: null,
+      isRestore,
+    };
   }
 );
 
@@ -96,11 +111,21 @@ export const memberSlice = createSlice({
       .addCase(deleteMemberAsync.rejected, (state) => {
         state.pendingDeleteMember = false;
       })
-
+      .addCase(updateMemberAsync.pending, (state) => {
+        state.pendingRestoreMember = true;
+      })
+      .addCase(updateMemberAsync.rejected, (state) => {
+        state.pendingRestoreMember = false;
+      })
       .addCase(updateMemberAsync.fulfilled, (state, action) => {
+        if (action.payload.isRestore) {
+          state.pendingRestoreMember = false;
+          memberAdapter.removeOne(state, action.payload.result.id);
+          return;
+        }
         memberAdapter.updateOne(state, {
-          id: action.payload.id,
-          changes: action.payload,
+          id: action.payload.result.id,
+          changes: action.payload.result,
         });
       });
   },
