@@ -5,14 +5,16 @@ import { Icon } from "@/assets/icons";
 import { Avatar } from "@/components/elements";
 import { useAppSelector } from "@/features";
 
+import { SidebarMobile } from "../sidebar";
 import { UserDropdown } from "./UserDropdown";
 
 type TProps = {
   className?: string;
   isCompactSidebar: boolean;
+  pageKey: string;
 };
 
-export const Header: React.FC<TProps> = ({ isCompactSidebar }) => {
+export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
   const userStore = useAppSelector((state) => state.user);
 
   return (
@@ -22,6 +24,8 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar }) => {
         isCompactSidebar ? "xl:ml-sidebar-compact " : "xl:ml-sidebar"
       )}
     >
+      <SidebarMobile pageKey={pageKey} />
+
       <div className="flex items-center space-x-4">
         <span className="flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full shadow-inner cursor-pointer hover:bg-gray-300 transition-all duration-300">
           <i className="text-sm fas fa-question" />

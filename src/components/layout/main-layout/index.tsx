@@ -7,7 +7,7 @@ import { GlobalTypes } from "@/global";
 import { Page_Key } from "@/routes";
 
 import { Header } from "../header";
-import { Sidebar } from "../sidebar";
+import { SidebarDesktop } from "../sidebar";
 
 type TProps = {
   pageKey: Page_Key;
@@ -30,12 +30,17 @@ export const MainLayout: GlobalTypes.FCPropsWithChildren<TProps> = ({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header isCompactSidebar={commonState.isCompactSidebar} />
-      <Sidebar
+      <Header
+        isCompactSidebar={commonState.isCompactSidebar}
+        pageKey={pageKey}
+      />
+
+      <SidebarDesktop
         pageKey={pageKey}
         isCompactSidebar={commonState.isCompactSidebar}
         onToggleCompactSidebar={onToggleCompactSidebar}
       />
+
       <div
         className={classNames(
           "transition-all duration-300",

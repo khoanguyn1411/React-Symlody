@@ -37,7 +37,8 @@ class Api {
   }
 
   public static getToken() {
-    return Api.token;
+    const token = localStorage.getItem(APP_CONSTANTS.AUTH);
+    return token;
   }
 
   public static setToken(token: string) {

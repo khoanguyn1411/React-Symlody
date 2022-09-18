@@ -3,6 +3,7 @@ export * from "./avatar";
 export * from "./button";
 export * from "./checkbox";
 export * from "./date-picker";
+export * from "./drawer";
 export * from "./dropdown";
 export * from "./editor";
 export * from "./form-item";
