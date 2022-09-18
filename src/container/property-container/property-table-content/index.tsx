@@ -43,7 +43,7 @@ export const TableAssetContent: React.FC<TProps> = ({ onEdit, onDelete }) => {
           </Table.Cell>
           <Table.Cell>{item.name}</Table.Cell>
           <Table.Cell width="7rem" textAlign="right">
-            {item.organization}
+            {item.quantity}
           </Table.Cell>
           <Table.Cell width="6rem" textAlign="right">
             {item.price
