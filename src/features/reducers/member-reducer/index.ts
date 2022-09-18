@@ -99,7 +99,9 @@ export const memberSlice = createSlice({
         memberAdapter.setAll(state, []);
       })
       .addCase(createMemberAsync.fulfilled, (state, action) => {
-        memberAdapter.addOne(state, action.payload);
+        if (state.listQueryMember.is_archived !== true) {
+          memberAdapter.addOne(state, action.payload);
+        }
       })
       .addCase(deleteMemberAsync.pending, (state) => {
         state.pendingDeleteMember = true;

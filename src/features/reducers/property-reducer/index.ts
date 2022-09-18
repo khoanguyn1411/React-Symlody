@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { PropertyApi, RequestGetPropertiesResult } from "@/api/property-api";
+import {
+  PropertyApi,
+  RequestCreatePropertyResult,
+  RequestGetPropertiesResult,
+} from "@/api/property-api";
 import { RootState } from "@/features/store";
 import { PropertyMapper } from "@/features/types";
 
@@ -13,6 +17,18 @@ export const getPropertyAsync = createAsyncThunk("get/properties", async () => {
   }
   return [];
 });
+
+export const createPropertyAsync = createAsyncThunk(
+  "create/property",
+  async () => {
+    const result: RequestCreatePropertyResult =
+      await PropertyApi.createProperty();
+    if (result.kind === "ok") {
+      return PropertyMapper.fromDto(result.result);
+    }
+    return null;
+  }
+);
 
 export const propertySlice = createSlice({
   name: "property",
@@ -30,6 +46,10 @@ export const propertySlice = createSlice({
       .addCase(getPropertyAsync.rejected, (state) => {
         state.pending = false;
         propertyAdapter.setAll(state, []);
+      })
+      .addCase(createPropertyAsync.fulfilled, (state, action) => {
+        state.pending = false;
+        propertyAdapter.addOne(state, action.payload);
       });
   },
 });

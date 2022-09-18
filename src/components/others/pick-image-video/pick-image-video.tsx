@@ -90,7 +90,7 @@ export const PickImageVideo: React.FC<TProps> = ({
         onClick={handleResetInput}
         onChange={handleUploadFile}
       />
-      {!fileData && (
+      {!fileData.url && (
         <>
           <Button
             style="outline"
@@ -106,15 +106,15 @@ export const PickImageVideo: React.FC<TProps> = ({
         </>
       )}
 
-      {fileData && (
+      {fileData.url && (
         <div className="w-full">
-          {fileData && fileData.type === "video.*" && (
+          {fileData.type === "video.*" && (
             <video src={fileData.url.toString()} controls className="w-full">
               <track kind="captions" />
             </video>
           )}
 
-          {fileData && fileData.type === "image.*" && (
+          {fileData.type === "image.*" && (
             <div className="relative h-44 w-[fit-content] drop-shadow-md">
               <img
                 alt="img-preview"

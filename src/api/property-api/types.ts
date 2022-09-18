@@ -8,3 +8,10 @@ export type RequestGetPropertiesResult =
       result: IPropertyDto[];
     }
   | GeneralApiProblem;
+
+export type RequestCreatePropertyResult =
+  | {
+      kind: `ok`;
+      result: IPropertyDto;
+    }
+  | GeneralApiProblem;

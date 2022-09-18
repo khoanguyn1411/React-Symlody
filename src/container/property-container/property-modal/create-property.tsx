@@ -26,12 +26,12 @@ export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
       renderTabs={[
         {
           title: "Thêm 1 tài sản",
-          children: <TabCreateAnAsset />,
+          children: <TabCreateAnProperty />,
           key: "AddAnAsset",
         },
         {
           title: "Thêm nhiều tài sản",
-          children: <TabCreateMultipleAssets />,
+          children: <TabCreateMultipleProperties />,
           key: "AddMultipleAsset",
         },
       ]}
@@ -39,19 +39,19 @@ export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
   );
 };
 
-const TabCreateAnAsset: React.FC = () => {
+const TabCreateAnProperty: React.FC = () => {
   const propsForm = useForm<IFormPropertyInfo>({
     resolver: yupResolver(schema),
   });
   const { handleSubmit } = propsForm;
 
-  const handleCreateAsset = async (data: IFormPropertyInfo) => {
+  const handleCreateAnProperty = async (data: IFormPropertyInfo) => {
     console.log(data);
   };
   return (
     <ModalTab
       handleEvent={{
-        event: handleSubmit(handleCreateAsset),
+        event: handleSubmit(handleCreateAnProperty),
         isLoading: false,
       }}
     >
@@ -60,7 +60,7 @@ const TabCreateAnAsset: React.FC = () => {
   );
 };
 
-const TabCreateMultipleAssets: React.FC = () => {
+const TabCreateMultipleProperties: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>(null);
   const [message, setMessage] = useState<string>(
     PICK_FILE_MESSAGE.defaultExtension

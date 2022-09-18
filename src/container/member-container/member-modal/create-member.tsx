@@ -10,7 +10,7 @@ import {
   PickFile,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { createMemberAsync, getMembersAsync } from "@/features/reducers";
+import { createMemberAsync } from "@/features/reducers";
 import { THookModalProps } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
@@ -29,7 +29,6 @@ const TabCreateAMember: React.FC = () => {
     formState: { isSubmitting },
   } = propsForm;
   const dispatch = useAppDispatch();
-  const memberStore = useAppSelector((state) => state.member);
   const departmentStore = useAppSelector((state) => state.department);
 
   const handleCreateMember = async (data: IFormMemberInfo) => {
@@ -38,14 +37,12 @@ const TabCreateAMember: React.FC = () => {
       data
     );
     const res = await dispatch(createMemberAsync(memberModel));
-    console.log(res);
     if (!res.payload) {
       toast.error(MEMBER_MESSAGE.create.error);
       return;
     }
     toast.success(MEMBER_MESSAGE.create.success);
     reset();
-    dispatch(getMembersAsync(memberStore.listQueryMember));
   };
   return (
     <ModalTab

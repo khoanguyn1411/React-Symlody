@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { TabHost, TTab } from "../../tab-host";
-import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
-import { TPropsModalMultipleTabs, TPropsModalTab, TTabs } from "../types";
+import { ModalWrapper } from "../modal-components";
+import { TPropsModalMultipleTabs, TTabs } from "../types";
 import {
   ModalMultipleTabsProvider,
   useModalMultipleTabsContext,
@@ -73,33 +73,5 @@ const ModalMultipleTabsContent: React.FC = () => {
       {/* Children */}
       <div>{tabActive.children}</div>
     </ModalWrapper>
-  );
-};
-
-export const ModalTab: React.FC<TPropsModalTab> = ({
-  handleEvent,
-  children,
-  otherActions,
-}) => {
-  const { toggle, reset } = useModalMultipleTabsContext();
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleEvent.event();
-  };
-
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col max-h-[calc(100vh-10rem)]"
-      {...otherActions}
-    >
-      <ModalBody>{children}</ModalBody>
-      <ModalFooter
-        reset={reset}
-        {...handleEvent}
-        setToggle={toggle.setToggle}
-      />
-    </form>
   );
 };

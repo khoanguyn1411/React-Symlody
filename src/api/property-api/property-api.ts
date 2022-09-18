@@ -1,4 +1,4 @@
-import { ApiResponse, ApisauceInstance } from "apisauce";
+import { ApisauceInstance } from "apisauce";
 
 import { IPropertyDto } from "@/features/types";
 
@@ -17,7 +17,13 @@ const routes = {
 export const PropertyApi = {
   async getProperties(): Promise<Types.RequestGetPropertiesResult> {
     const url = routes.getProperties();
-    const result: ApiResponse<IPropertyDto[]> = await api.get(url);
+    const result = await api.get<IPropertyDto[]>(url);
+    return returnResponse(result);
+  },
+
+  async createProperty(): Promise<Types.RequestCreatePropertyResult> {
+    const url = routes.getProperties();
+    const result = await api.post<IPropertyDto>(url);
     return returnResponse(result);
   },
 };
