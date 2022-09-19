@@ -33,8 +33,8 @@ export const TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
           "px-4": !isSkeleton,
           "border-none": index === 0,
           "px-1.5": isSkeleton,
-          "pl-2": isFirst,
-          "pr-2": isLast,
+          "pl-3": isFirst && isSkeleton,
+          "pr-3": isLast && isSkeleton,
         }
       )}
     >
