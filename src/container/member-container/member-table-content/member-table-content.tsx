@@ -6,7 +6,6 @@ import { memberSelectors } from "@/features/reducers";
 import { IMember } from "@/features/types";
 
 import { MemberTableMapper } from "../mapper";
-import { TableMemberSkeleton } from "../member-skeleton";
 
 type TProps = {
   onEdit: (member: IMember) => void;
@@ -39,7 +38,7 @@ export const TableMemberContent: React.FC<TProps> = ({
   };
 
   if (memberStore.pending) {
-    return <TableMemberSkeleton />;
+    return <Table.Skeleton colsNumber={6} />;
   }
 
   if (memberCount === 0) {

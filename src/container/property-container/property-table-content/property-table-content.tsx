@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 import { DeleteAndEditField, Table } from "@/components";
+import { TableSimpleSkeleton } from "@/components/elements/table/table-component/table-skeleton";
 import { useAppSelector } from "@/features";
 import { propertySelector } from "@/features/reducers/property-reducer";
 import { IProperty } from "@/features/types";
 
 import { PropertyTableMapper } from "../mapper";
-import { TablePropertySkeleton } from "../property-skeleton";
 
 type TProps = {
   onEdit: (property: IProperty) => void;
@@ -37,7 +37,7 @@ export const TablePropertyContent: React.FC<TProps> = ({
   };
 
   if (propertyStore.pending) {
-    return <TablePropertySkeleton />;
+    return <TableSimpleSkeleton colsNumber={7} />;
   }
 
   if (propertyCount === 0) {

@@ -6,3 +6,4 @@ export * from "./table-container";
 export * from "./table-head";
 export * from "./table-nodata";
 export * from "./table-row";
+export * from "./table-skeleton";
