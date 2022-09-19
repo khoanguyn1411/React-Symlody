@@ -19,7 +19,7 @@ import {
   updateMemberAsync,
 } from "@/features/reducers";
 import { IMember, IMemberUpdate } from "@/features/types";
-import { useModal, useSearch } from "@/hooks";
+import { useModal, useDebounce } from "@/hooks";
 
 import {
   MEMBER_FILTER_OPTIONS,
@@ -36,7 +36,7 @@ const getFilterValue = (key: string) => {
 export const MemberContainer: React.FC = () => {
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<IMember>();
-  const propsSearch = useSearch();
+  const propsSearch = useDebounce();
 
   const memberStore = useAppSelector((state) => state.member);
   const memberCount = useAppSelector(memberSelectors.selectTotal);

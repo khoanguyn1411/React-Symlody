@@ -9,7 +9,7 @@ import {
   Select,
   Table,
 } from "@/components";
-import { useModal, useSearch } from "@/hooks";
+import { useDebounce, useModal } from "@/hooks";
 
 import {
   EVENT_NO_DATA_CONFIG,
@@ -21,7 +21,7 @@ import { ModalCreateEvent } from "./event-modals";
 
 export const EventContainer: React.FC = () => {
   const propsModalCreateEvent = useModal({ isHotkeyOpen: true });
-  const propsSearch = useSearch();
+  const propsSearch = useDebounce();
   const [filterStatus, setFilterStatus] = useState<string>(
     EVENT_STATUS_LIST_OPTIONS[0].value
   );

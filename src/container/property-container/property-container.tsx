@@ -18,7 +18,7 @@ import {
   setListQueryProperty,
 } from "@/features/reducers/property-reducer";
 import { IProperty } from "@/features/types";
-import { useModal, useSearch } from "@/hooks";
+import { useDebounce, useModal } from "@/hooks";
 
 import {
   ASSET_NO_DATA_CONFIG,
@@ -36,7 +36,7 @@ const getFilterValue = (key: string) => {
 export const PropertyContainer: React.FC = () => {
   const propsModal = useModal({ isHotkeyOpen: true });
   const propsModalEdit = useModal<IProperty>();
-  const propsSearch = useSearch();
+  const propsSearch = useDebounce();
   const dispatch = useAppDispatch();
 
   const propertyCount = useAppSelector(propertySelector.selectTotal);
