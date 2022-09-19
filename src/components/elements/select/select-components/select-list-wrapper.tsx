@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React from "react";
 
 import { AnimationCustom } from "@/components";
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import { STYLE_LIST_WRAPPER_MAPS, TSelectGeneralProps, TStyle } from "../type";
 

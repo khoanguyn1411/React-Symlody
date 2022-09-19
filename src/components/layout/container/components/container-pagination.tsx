@@ -2,8 +2,12 @@ import React from "react";
 
 import { Pagination as AppPagination } from "@/components";
 import { TPropsPagination } from "@/components/elements/pagination/context";
+import { GlobalTypes } from "@/types";
 
-type TProps = Omit<TPropsPagination, "totalPages" | "pageStep">;
+type TProps = GlobalTypes.StrictOmit<
+  TPropsPagination,
+  "totalPages" | "pageStep"
+>;
 
 export const Pagination: React.FC<TProps> = (props) => {
   return (

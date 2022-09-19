@@ -24,6 +24,4 @@ export interface IMemberCreate extends IMemberGeneral {
   readonly department: IDepartmentCreateUpdate;
 }
 
-export type IMemberUpdate = Omit<IMemberCreate, "id"> & {
-  readonly department: IDepartmentCreateUpdate;
-};
+export type IMemberUpdate = IMemberCreate;

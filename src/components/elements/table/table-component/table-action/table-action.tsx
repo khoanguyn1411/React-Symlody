@@ -1,6 +1,6 @@
 import React from "react";
 
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import { TableCell } from "../table-cell";
 import { TableCellHead } from "../table-cell-head";

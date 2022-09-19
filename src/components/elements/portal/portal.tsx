@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 export const Portal: GlobalTypes.FCChildren = ({ children }) => {
   return ReactDOM.createPortal(

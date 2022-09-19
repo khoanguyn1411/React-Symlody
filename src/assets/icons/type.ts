@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import { GlobalTypes } from "@/types";
+
 export const COLOR_MAPS_ICON = {
   default: "text-primary-800",
   primary: "text-white",
@@ -24,4 +26,4 @@ export interface TIconWrapperProps extends React.SVGProps<SVGSVGElement> {
   customColor?: keyof typeof COLOR_MAPS_ICON;
 }
 
-export type TIconProps = Omit<TIconWrapperProps, "children">;
+export type TIconProps = GlobalTypes.StrictOmit<TIconWrapperProps, "children">;

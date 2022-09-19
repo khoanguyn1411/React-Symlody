@@ -3,9 +3,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "@/assets/icons";
 import { Button } from "@/components/elements";
 
+import { EAllowFiles, PICK_IMAGE_MESSAGE } from "./contants";
+
 type TFileData = {
   url: string | ArrayBuffer;
-  type: "video.*" | "image.*";
+  type: EAllowFiles;
 };
 
 type TProps = {
@@ -14,22 +16,24 @@ type TProps = {
   setFile: (file: File) => void;
 };
 
-export const PickImageVideo: React.FC<TProps> = ({
+export const PickImage: React.FC<TProps> = ({
   file,
   defaultImageLink,
   setFile,
 }) => {
   const [fileData, setFileData] = useState<TFileData>({
     url: defaultImageLink,
-    type: "image.*",
+    type: EAllowFiles.Image,
   });
+  const [message, setMessage] = useState<string>("");
   const inputFileRef = useRef<HTMLInputElement>();
   const handleUploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     if (file.size > 10e6) {
-      // Add message for oversize image.
+      setMessage(PICK_IMAGE_MESSAGE.overSize);
       return;
     }
+    setMessage("");
     setFile(file);
   };
 
@@ -63,11 +67,6 @@ export const PickImageVideo: React.FC<TProps> = ({
     fileReader.onload = (event) => {
       const { result } = event.target;
       if (result && !isCancel) {
-        if (file.type.match("video.*")) {
-          setFileData((prev) => ({ ...prev, type: "video.*" }));
-        } else {
-          setFileData((prev) => ({ ...prev, type: "image.*" }));
-        }
         setFileData((prev) => ({ ...prev, url: result }));
       }
     };
@@ -85,7 +84,7 @@ export const PickImageVideo: React.FC<TProps> = ({
       <input
         ref={inputFileRef}
         type="file"
-        accept="image/*, video/*"
+        accept={EAllowFiles.Image}
         className="hidden"
         onClick={handleResetInput}
         onChange={handleUploadFile}
@@ -108,27 +107,26 @@ export const PickImageVideo: React.FC<TProps> = ({
 
       {fileData && fileData.url && (
         <div className="w-full">
-          {fileData.type === "video.*" && (
-            <video src={fileData.url.toString()} controls className="w-full">
-              <track kind="captions" />
-            </video>
-          )}
-
-          {fileData.type === "image.*" && (
-            <div className="relative h-44 w-[fit-content] drop-shadow-md">
-              <img
-                alt="img-preview"
-                className="object-cover object-left h-full rounded-md"
-                src={fileData.url.toString()}
-              />
-              <button
-                onClick={handleRemoveFile}
-                type="button"
-                className="absolute top-0 right-0 z-10 flex items-center justify-center w-6 h-6 m-2 text-white rounded-full cursor-pointer bg-backdrop-main"
-              >
-                <i className="far fa-times"></i>
-              </button>
-            </div>
+          {fileData.type === EAllowFiles.Image && (
+            <>
+              <div className="relative h-44 w-[fit-content] drop-shadow-md">
+                <img
+                  alt="img-preview"
+                  className="object-cover object-left h-full rounded-md"
+                  src={fileData.url.toString()}
+                />
+                <button
+                  onClick={handleRemoveFile}
+                  type="button"
+                  className="absolute top-0 right-0 z-10 flex items-center justify-center w-6 h-6 m-2 text-white rounded-full cursor-pointer bg-backdrop-main"
+                >
+                  <i className="far fa-times"></i>
+                </button>
+              </div>
+              {message && (
+                <h1 className="mt-3 italic text-alert-300">{message}</h1>
+              )}
+            </>
           )}
         </div>
       )}

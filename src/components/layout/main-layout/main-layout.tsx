@@ -3,8 +3,8 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 import { useAppDispatch, useAppSelector } from "@/features";
 import { toggleCompactSidebar } from "@/features/reducers";
-import { GlobalTypes } from "@/global";
 import { Page_Key } from "@/routes";
+import { GlobalTypes } from "@/types";
 
 import { Header } from "../header";
 import { SidebarDesktop } from "../sidebar";

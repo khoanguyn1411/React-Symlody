@@ -1,4 +1,4 @@
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 export const Header: GlobalTypes.FCChildren = ({ children }) => {
   return (

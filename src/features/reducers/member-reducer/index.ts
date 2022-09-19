@@ -11,13 +11,14 @@ import { RootState } from "@/features/store";
 import { MemberMapper } from "@/features/types/mappers";
 import { IMember, IMemberCreate, IMemberUpdate } from "@/features/types/models";
 import { TMemberParamQueryDto } from "@/features/types/queries";
+import { GlobalTypes } from "@/types";
 
 import { initialState, memberAdapter } from "./state";
 
 export const createMemberAsync = createAsyncThunk<
   IMember,
   IMemberCreate,
-  { rejectValue: null }
+  GlobalTypes.ReduxThunkRejectValue<null>
 >("create/member", async (payload, { rejectWithValue }) => {
   const result: RequestCreateMembersResult = await MemberApi.createMember(
     MemberMapper.toCreateDto(payload)
@@ -31,7 +32,7 @@ export const createMemberAsync = createAsyncThunk<
 export const deleteMemberAsync = createAsyncThunk<
   IMember["id"],
   IMember["id"],
-  { rejectValue: null }
+  GlobalTypes.ReduxThunkRejectValue<null>
 >("delete/member", async (id, { rejectWithValue }) => {
   const result: RequestDeleteMembersResult = await MemberApi.deleteMember(id);
   if (result.kind === "ok") {
@@ -43,7 +44,7 @@ export const deleteMemberAsync = createAsyncThunk<
 export const getMembersAsync = createAsyncThunk<
   IMember[],
   TMemberParamQueryDto,
-  { rejectValue: [] }
+  GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/members", async (param, { rejectWithValue }) => {
   const result: RequestGetMembersResult = await MemberApi.getMembers(param);
   if (result.kind === "ok") {
@@ -53,21 +54,9 @@ export const getMembersAsync = createAsyncThunk<
 });
 
 export const updateMemberAsync = createAsyncThunk<
-  {
-    result: IMember;
-    isRestore: boolean;
-  },
-  {
-    payload: IMemberUpdate;
-    id: IMember["id"];
-    isRestore: boolean;
-  },
-  {
-    rejectValue: {
-      result: null;
-      isRestore: boolean;
-    };
-  }
+  GlobalTypes.ReduxThunkRestoreResult<IMember>,
+  GlobalTypes.ReduxThunkRestorePayload<IMemberUpdate, IMember>,
+  GlobalTypes.ReduxThunkRestoreRejected
 >("update/member", async ({ payload, id, isRestore }, { rejectWithValue }) => {
   const result: RequestUpdateMembersResult = await MemberApi.updateMember(
     id,

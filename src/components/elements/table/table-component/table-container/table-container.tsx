@@ -1,4 +1,4 @@
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import { TableProvider, TPropsTable } from "./context";
 

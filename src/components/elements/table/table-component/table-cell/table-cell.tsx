@@ -1,6 +1,6 @@
 import classNames from "classnames";
 
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import { TEXT_ALIGN_MAP } from "../../type";
 import { useTableRowContext } from "../table-row/context";

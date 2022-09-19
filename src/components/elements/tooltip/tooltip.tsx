@@ -2,8 +2,8 @@ import classNames from "classnames";
 import { useLayoutEffect, useRef, useState } from "react";
 
 import { AnimationKeepDom, Portal } from "@/components";
-import { GlobalTypes } from "@/global";
 import { usePositionPortal } from "@/hooks";
+import { GlobalTypes } from "@/types";
 
 import { AlignedPlacement } from "../portal/type";
 

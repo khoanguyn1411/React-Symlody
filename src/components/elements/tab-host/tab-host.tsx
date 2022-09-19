@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export type TTab = {
   title: string;
@@ -22,9 +21,7 @@ type TProps = {
 export const TabHost: React.FC<TProps> = ({
   listTabs,
   onChangeTab,
-  paramChangeDependency,
   defaultActive,
-  onUrlChange,
   isStretchTab = false,
   isRounded = false,
   isNoSpace = false,
@@ -34,7 +31,7 @@ export const TabHost: React.FC<TProps> = ({
       ? listTabs.find((item) => item.key === defaultActive)
       : listTabs[0]
   );
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleClickTab = (tab: TTab) => () => {
     setActiveTab(tab);

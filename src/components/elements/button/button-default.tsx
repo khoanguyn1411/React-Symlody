@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import { BLOCK, SIZE_MAPS, STYLE_MAPS, TPropsButton } from "./types";
 

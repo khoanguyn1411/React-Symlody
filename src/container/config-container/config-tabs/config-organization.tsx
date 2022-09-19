@@ -21,7 +21,6 @@ export const TabOrganization: React.FC = () => {
   const {
     control,
     formState: { errors },
-    handleSubmit,
   } = useForm<IFormOrganizationValue>({ resolver: yupResolver(schema) });
 
   const [avatar, setAvatar] = useState("");

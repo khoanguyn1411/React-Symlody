@@ -1,4 +1,4 @@
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import { Tooltip } from "../tooltip";
 import { Button } from "./button-default";

@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 const PaginationContext = createContext<TPropsPaginationContext>({
   activePage: undefined,

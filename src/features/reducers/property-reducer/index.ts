@@ -13,13 +13,14 @@ import {
   PropertyMapper,
 } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
+import { GlobalTypes } from "@/types";
 
 import { initialState, propertyAdapter } from "./state";
 
 export const getPropertyAsync = createAsyncThunk<
   IProperty[],
   TPropertyParamQueryDto,
-  { rejectValue: [] }
+  GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/properties", async (param, { rejectWithValue }) => {
   const result: RequestGetPropertiesResult = await PropertyApi.getProperties(
     param
@@ -33,7 +34,7 @@ export const getPropertyAsync = createAsyncThunk<
 export const createPropertyAsync = createAsyncThunk<
   IProperty,
   IPropertyCreateUpdate,
-  { rejectValue: null }
+  GlobalTypes.ReduxThunkRejectValue<null>
 >("create/property", async (payload, { rejectWithValue }) => {
   const result: RequestCreatePropertyResult = await PropertyApi.createProperty(
     PropertyMapper.toDto(payload)
@@ -47,7 +48,7 @@ export const createPropertyAsync = createAsyncThunk<
 export const deletePropertyAsync = createAsyncThunk<
   IProperty["id"],
   IProperty["id"],
-  { rejectValue: null }
+  GlobalTypes.ReduxThunkRejectValue<null>
 >("delete/property", async (id, { rejectWithValue }) => {
   const result: RequestDeletePropertyResult = await PropertyApi.deleteProperty(
     id

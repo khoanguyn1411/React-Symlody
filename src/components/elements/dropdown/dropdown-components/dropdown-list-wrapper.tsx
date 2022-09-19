@@ -1,7 +1,7 @@
 import classNames from "classnames";
 
 import { AnimationCustom } from "@/components";
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 type TProps = {
   isShowContent: boolean;

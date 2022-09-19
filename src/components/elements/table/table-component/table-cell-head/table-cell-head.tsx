@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useEffect } from "react";
 
 import { Tooltip } from "@/components/elements/tooltip";
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import { TEXT_ALIGN_MAP } from "../../type";
 import { TOrdering, useTableContext } from "../table-container/context";

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 
 import { Button, Dropdown, TDropdownMethod } from "@/components";
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import { AlignedPlacement } from "../../../elements/portal/type";
 

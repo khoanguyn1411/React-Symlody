@@ -1,13 +1,7 @@
 import React from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
-import {
-  FormItem,
-  Input,
-  PickImageVideo,
-  RadioGroup,
-  TextArea,
-} from "@/components";
+import { FormItem, Input, PickImage, RadioGroup, TextArea } from "@/components";
 import { IProperty } from "@/features/types";
 import { FormatService, FormService } from "@/utils";
 
@@ -158,7 +152,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           control={control}
           name="image"
           render={({ field: { value, onChange } }) => (
-            <PickImageVideo
+            <PickImage
               file={value}
               setFile={onChange}
               defaultImageLink={defaultValue.get("imageLink")}
