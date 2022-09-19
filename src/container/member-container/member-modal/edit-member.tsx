@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateMemberAsync } from "@/features/reducers";
-import { IMember, IMemberUpdate } from "@/features/types";
+import { IMember, IMemberCreateUpdate } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
@@ -33,7 +33,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   const dispatch = useAppDispatch();
 
   const handleEditMember = async (editInfo: IFormMemberInfo) => {
-    const memberModel: IMemberUpdate = MemberFormMapper.toModel(
+    const memberModel: IMemberCreateUpdate = MemberFormMapper.toModel(
       departmentStore.department,
       editInfo
     );

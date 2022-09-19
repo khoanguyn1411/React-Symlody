@@ -1,5 +1,3 @@
-import { GlobalTypes } from "@/types";
-
 import { IAuthAccountDto } from "./auth-account.dto";
 import { IDepartmentCreateUpdateDto, IDepartmentDto } from "./department.dto";
 
@@ -22,8 +20,6 @@ export interface IMemberDto extends IMemberGeneralDto {
   readonly department: IDepartmentDto;
 }
 
-export interface IMemberCreateDto extends IMemberGeneralDto {
+export interface IMemberCreateUpdateDto extends IMemberGeneralDto {
   readonly department: IDepartmentCreateUpdateDto;
 }
-
-export type IMemberUpdateDto = IMemberCreateDto;

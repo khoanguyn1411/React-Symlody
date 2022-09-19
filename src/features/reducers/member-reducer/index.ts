@@ -9,7 +9,7 @@ import {
 } from "@/api";
 import { RootState } from "@/features/store";
 import { MemberMapper } from "@/features/types/mappers";
-import { IMember, IMemberCreate, IMemberUpdate } from "@/features/types/models";
+import { IMember, IMemberCreateUpdate } from "@/features/types/models";
 import { TMemberParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/types";
 
@@ -17,7 +17,7 @@ import { initialState, memberAdapter } from "./state";
 
 export const createMemberAsync = createAsyncThunk<
   IMember,
-  IMemberCreate,
+  IMemberCreateUpdate,
   GlobalTypes.ReduxThunkRejectValue<null>
 >("create/member", async (payload, { rejectWithValue }) => {
   const result: RequestCreateMembersResult = await MemberApi.createMember(
@@ -55,7 +55,7 @@ export const getMembersAsync = createAsyncThunk<
 
 export const updateMemberAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRestoreResult<IMember>,
-  GlobalTypes.ReduxThunkRestorePayload<IMemberUpdate, IMember>,
+  GlobalTypes.ReduxThunkRestorePayload<IMemberCreateUpdate, IMember>,
   GlobalTypes.ReduxThunkRestoreRejected
 >("update/member", async ({ payload, id, isRestore }, { rejectWithValue }) => {
   const result: RequestUpdateMembersResult = await MemberApi.updateMember(

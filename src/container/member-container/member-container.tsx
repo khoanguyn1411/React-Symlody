@@ -18,8 +18,8 @@ import {
   setListQueryMember,
   updateMemberAsync,
 } from "@/features/reducers";
-import { IMember, IMemberUpdate } from "@/features/types";
-import { useModal, useDebounce } from "@/hooks";
+import { IMember } from "@/features/types";
+import { useDebounce, useModal } from "@/hooks";
 
 import {
   MEMBER_FILTER_OPTIONS,

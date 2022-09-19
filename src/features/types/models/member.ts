@@ -20,8 +20,6 @@ export interface IMember extends IMemberGeneral {
   readonly department: IDepartment;
 }
 
-export interface IMemberCreate extends IMemberGeneral {
+export interface IMemberCreateUpdate extends IMemberGeneral {
   readonly department: IDepartmentCreateUpdate;
 }
-
-export type IMemberUpdate = IMemberCreate;

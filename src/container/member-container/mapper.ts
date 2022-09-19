@@ -5,7 +5,7 @@ import {
   IDepartment,
   IDepartmentCreateUpdate,
   IMember,
-  IMemberCreate,
+  IMemberCreateUpdate,
 } from "@/features/types";
 
 import { IFormMemberInfo, IMemberTable } from "./type";
@@ -15,7 +15,7 @@ export class MemberFormMapper {
   public static toModel(
     departmentModel: IDepartment[],
     formData: IFormMemberInfo
-  ): IMemberCreate {
+  ): IMemberCreateUpdate {
     return {
       auth_account: {
         first_name: formData.firstName,
@@ -26,7 +26,7 @@ export class MemberFormMapper {
       dob: dayjs(formData.birthday).format("YYYY-MM-DD"),
       class_name: formData.class,
       address: formData.address,
-      gender: formData.gender as IMemberCreate["gender"],
+      gender: formData.gender as IMemberCreateUpdate["gender"],
       student_id: formData.studentId,
       phone_number: formData.phone,
       home_town: formData.home,
