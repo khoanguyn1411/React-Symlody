@@ -1,6 +1,7 @@
 import { ApisauceInstance } from "apisauce";
 
 import { IPropertyDto } from "@/features/types";
+import { TPropertyParamQueryDto } from "@/features/types/queries";
 
 import { API_URL } from "../api-config";
 import { Api } from "../api-core";
@@ -15,9 +16,11 @@ const routes = {
 };
 
 export const PropertyApi = {
-  async getProperties(): Promise<Types.RequestGetPropertiesResult> {
+  async getProperties(
+    param: TPropertyParamQueryDto
+  ): Promise<Types.RequestGetPropertiesResult> {
     const url = routes.getProperties();
-    const result = await api.get<IPropertyDto[]>(url);
+    const result = await api.get<IPropertyDto[]>(url, param);
     return returnResponse(result);
   },
 

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import {
   PropertyApi,
@@ -7,16 +7,22 @@ import {
 } from "@/api/property-api";
 import { RootState } from "@/features/store";
 import { PropertyMapper } from "@/features/types";
+import { TPropertyParamQueryDto } from "@/features/types/queries";
 
 import { initialState, propertyAdapter } from "./state";
 
-export const getPropertyAsync = createAsyncThunk("get/properties", async () => {
-  const result: RequestGetPropertiesResult = await PropertyApi.getProperties();
-  if (result.kind === "ok") {
-    return result.result.map((item) => PropertyMapper.fromDto(item));
+export const getPropertyAsync = createAsyncThunk(
+  "get/properties",
+  async (param: TPropertyParamQueryDto) => {
+    const result: RequestGetPropertiesResult = await PropertyApi.getProperties(
+      param
+    );
+    if (result.kind === "ok") {
+      return result.result.map((item) => PropertyMapper.fromDto(item));
+    }
+    return [];
   }
-  return [];
-});
+);
 
 export const createPropertyAsync = createAsyncThunk(
   "create/property",
@@ -33,7 +39,11 @@ export const createPropertyAsync = createAsyncThunk(
 export const propertySlice = createSlice({
   name: "property",
   initialState,
-  reducers: {},
+  reducers: {
+    setListQueryProperty(state, action: PayloadAction<TPropertyParamQueryDto>) {
+      state.listQueryProperty = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getPropertyAsync.pending, (state) => {
@@ -57,4 +67,5 @@ export const propertySelector = propertyAdapter.getSelectors(
   (state: RootState) => state.property
 );
 export const propertyStore = (state: RootState) => state.member;
+export const { setListQueryProperty } = propertySlice.actions;
 export default propertySlice.reducer;

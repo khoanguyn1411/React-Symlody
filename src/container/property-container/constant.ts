@@ -1,6 +1,5 @@
 import { images } from "@/assets/images";
-
-import { IFormPropertyInfo } from "./type";
+import { TItemListSelect } from "@/components";
 
 export const ASSET_NO_DATA_CONFIG = {
   title: "Thêm tài sản mới",
@@ -10,40 +9,27 @@ export const ASSET_NO_DATA_CONFIG = {
   imageSrc: images.noData.asset,
 } as const;
 
-export const assetList: IFormPropertyInfo[] = [
+export const PROPERTY_FILTER_VALUE = {
+  isArchived: "is_archived",
+  all: "get_all",
+  inUse: "in_use",
+} as const;
+
+export const PROPERTY_QUERY_PARAM_KEY = {
+  filter: "filter",
+} as const;
+
+export const PROPERTY_FILTER_OPTIONS: readonly TItemListSelect[] = [
   {
-    assetName: "Lamborghini",
-    quantity: "30",
-    price: "",
-    inCharge: "Nguyễn Thị A",
-    owner: "Câu lạc bộ",
+    key: PROPERTY_FILTER_VALUE.inUse,
+    value: "Đang sử dụng",
   },
   {
-    assetName: "Voi 9 ngà",
-    quantity: "30",
-    price: "120000",
-    inCharge: "Nguyễn Thị A",
-    owner: "Câu lạc bộ",
+    key: PROPERTY_FILTER_VALUE.isArchived,
+    value: "Đã lưu trữ",
   },
   {
-    assetName: "Gà chín cựa ",
-    quantity: "30",
-    price: "120000",
-    inCharge: "Nguyễn Thị A",
-    owner: "Khoa Nguyen",
-  },
-  {
-    assetName: "Ngựa chín sừng heo",
-    quantity: "30",
-    price: "120000",
-    inCharge: "Nguyễn Thị A",
-    owner: "Câu lạc bộ",
-  },
-  {
-    assetName: "Mặt trăng",
-    quantity: "30",
-    price: "1230000",
-    inCharge: "Nguyễn Thị A",
-    owner: "Câu lạc bộ",
+    key: PROPERTY_FILTER_VALUE.all,
+    value: "Tất cả tài sản",
   },
 ];

@@ -1,17 +1,34 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import { ButtonCreate, Container, NoData, Search, Table } from "@/components";
+import {
+  ButtonCreate,
+  Container,
+  NoData,
+  Search,
+  Select,
+  Table,
+  TItemListSelect,
+} from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getPropertyAsync,
   propertySelector,
+  setListQueryProperty,
 } from "@/features/reducers/property-reducer";
 import { IProperty } from "@/features/types";
 import { useModal, useSearch } from "@/hooks";
 
-import { ASSET_NO_DATA_CONFIG } from "./constant";
+import {
+  ASSET_NO_DATA_CONFIG,
+  PROPERTY_FILTER_OPTIONS,
+  PROPERTY_FILTER_VALUE,
+} from "./constant";
 import { ModalCreateProperty, ModalEditProperty } from "./property-modal";
 import { TablePropertyContent } from "./property-table-content";
+
+const getFilterValue = (key: string) => {
+  return PROPERTY_FILTER_OPTIONS.find((item) => item.key === key).value;
+};
 
 export const PropertyContainer: React.FC = () => {
   const propsModal = useModal({ isHotkeyOpen: true });
@@ -19,6 +36,38 @@ export const PropertyContainer: React.FC = () => {
   const propsSearch = useSearch();
   const dispatch = useAppDispatch();
   const propertyCount = useAppSelector(propertySelector.selectTotal);
+  const propertyStore = useAppSelector((state) => state.property);
+
+  const [filter, setFilter] = useState<string>(() => {
+    switch (propertyStore.listQueryProperty.is_archived) {
+      case true:
+        return getFilterValue(PROPERTY_FILTER_VALUE.isArchived);
+      case false:
+        return getFilterValue(PROPERTY_FILTER_VALUE.inUse);
+      case undefined:
+        return getFilterValue(PROPERTY_FILTER_VALUE.all);
+    }
+  });
+
+  const handleSetFilter = useCallback(
+    (item: TItemListSelect) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { is_archived, ...rest } = propertyStore.listQueryProperty;
+      switch (item.key) {
+        case PROPERTY_FILTER_VALUE.all:
+          dispatch(setListQueryProperty(rest));
+          break;
+        case PROPERTY_FILTER_VALUE.isArchived:
+          dispatch(setListQueryProperty({ ...rest, is_archived: true }));
+          break;
+        case PROPERTY_FILTER_VALUE.inUse:
+          dispatch(setListQueryProperty({ ...rest, is_archived: false }));
+          break;
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [filter]
+  );
 
   const handleEdit = (item: IProperty) => {
     propsModalEdit.setData(item);
@@ -33,8 +82,8 @@ export const PropertyContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(getPropertyAsync());
-  }, [dispatch]);
+    dispatch(getPropertyAsync(propertyStore.listQueryProperty));
+  }, [dispatch, propertyStore.listQueryProperty]);
 
   const isNodata = false;
   if (isNodata) {
@@ -57,6 +106,13 @@ export const PropertyContainer: React.FC = () => {
         <Container.Title>QUẢN LÝ TÀI SẢN</Container.Title>
         <Container.HeaderRight>
           <Search placeholder="Tìm kiếm ..." {...propsSearch} />
+          <Select
+            className="w-44"
+            list={PROPERTY_FILTER_OPTIONS}
+            value={filter}
+            onChangeSideEffect={handleSetFilter}
+            onChange={setFilter}
+          />
           <ButtonCreate onClick={handleOpenModal}>Thêm tài sản</ButtonCreate>
         </Container.HeaderRight>
       </Container.Header>
