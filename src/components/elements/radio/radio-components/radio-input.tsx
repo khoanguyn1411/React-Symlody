@@ -23,6 +23,14 @@ export const RadioInput: React.FC<TProps> = ({ value, label }) => {
   };
 
   useEffect(() => {
+    if (activeValue == null) {
+      setChecked("");
+      setInputValue("");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeValue]);
+
+  useEffect(() => {
     if (checked === value) {
       setActiveValue(inputValue);
     }

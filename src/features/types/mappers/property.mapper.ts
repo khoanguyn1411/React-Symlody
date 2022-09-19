@@ -1,5 +1,5 @@
-import { IPropertyDto } from "../dtos";
-import { IProperty } from "../models";
+import { IPropertyCreateUpdateDto, IPropertyDto } from "../dtos";
+import { IProperty, IPropertyCreateUpdate } from "../models";
 import { ProfileMapper } from "./profile.mapper";
 
 export class PropertyMapper {
@@ -12,12 +12,11 @@ export class PropertyMapper {
     };
   }
 
-  public static toDto(model: IProperty): IPropertyDto {
+  public static toDto(model: IPropertyCreateUpdate): IPropertyCreateUpdateDto {
     return {
       ...model,
       price: model.price && Number(model.price),
       quantity: model.quantity && Number(model.quantity),
-      incharger: ProfileMapper.toDto(model.incharger),
     };
   }
 }

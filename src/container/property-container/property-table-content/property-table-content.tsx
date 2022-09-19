@@ -49,19 +49,15 @@ export const TablePropertyContent: React.FC<TProps> = ({
         const propertyTableItem = PropertyTableMapper.fromModel(item);
         return (
           <Table.Row key={item.id} index={index}>
-            <Table.Cell textAlign="center" width="5rem">
-              {index + 1}
-            </Table.Cell>
+            <Table.Cell textAlign="center">{index + 1}</Table.Cell>
             <Table.Cell>{propertyTableItem.assetName}</Table.Cell>
-            <Table.Cell width="7rem" textAlign="right">
+            <Table.Cell textAlign="right">
               {propertyTableItem.quantity}
             </Table.Cell>
-            <Table.Cell width="6rem" textAlign="right">
-              {propertyTableItem.price}
-            </Table.Cell>
+            <Table.Cell textAlign="right">{propertyTableItem.price}</Table.Cell>
 
-            <Table.Cell width="14rem">{propertyTableItem.inCharge}</Table.Cell>
-            <Table.Cell width="8rem">{propertyTableItem.owner}</Table.Cell>
+            <Table.Cell>{propertyTableItem.inCharge}</Table.Cell>
+            <Table.Cell>{propertyTableItem.owner}</Table.Cell>
 
             <Table.CellAction>
               <DeleteAndEditField

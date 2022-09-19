@@ -52,9 +52,7 @@ export const TableMemberContent: React.FC<TProps> = ({
         const memberTableItem = MemberTableMapper.fromModel(item);
         return (
           <Table.Row key={memberTableItem.id} index={index}>
-            <Table.Cell width="5rem" textAlign="center">
-              {index + 1}
-            </Table.Cell>
+            <Table.Cell textAlign="center">{index + 1}</Table.Cell>
             <Table.Cell>
               <div className="flex items-center">
                 <div className="mr-3">
@@ -72,11 +70,11 @@ export const TableMemberContent: React.FC<TProps> = ({
                 </div>
               </div>
             </Table.Cell>
-            <Table.Cell keySorting="department" width="10rem">
+            <Table.Cell keySorting="department">
               {memberTableItem.department}
             </Table.Cell>
-            <Table.Cell width="8rem">{memberTableItem.birthday}</Table.Cell>
-            <Table.Cell width="12rem">{memberTableItem.roles}</Table.Cell>
+            <Table.Cell>{memberTableItem.birthday}</Table.Cell>
+            <Table.Cell>{memberTableItem.roles}</Table.Cell>
 
             <Table.CellAction>
               <DeleteAndEditField

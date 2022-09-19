@@ -3,6 +3,7 @@ export type IFormPropertyInfo = {
   quantity: string;
   price: string;
   inCharge: string;
+  inChargeId?: number;
   note?: string;
   owner: string;
   image?: File;

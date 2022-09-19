@@ -154,7 +154,7 @@ export const PropertyContainer: React.FC = () => {
             <Table.CellHead width="14rem">
               Người chịu trách nhiệm
             </Table.CellHead>
-            <Table.CellHead width="8rem">Chủ sở hữu</Table.CellHead>
+            <Table.CellHead width="10rem">Chủ sở hữu</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
           <TablePropertyContent

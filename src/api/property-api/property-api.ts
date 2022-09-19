@@ -1,6 +1,10 @@
 import { ApisauceInstance } from "apisauce";
 
-import { IProperty, IPropertyDto } from "@/features/types";
+import {
+  IProperty,
+  IPropertyCreateUpdateDto,
+  IPropertyDto,
+} from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
 
 import { API_URL } from "../api-config";
@@ -25,9 +29,11 @@ export const PropertyApi = {
     return returnResponse(result);
   },
 
-  async createProperty(): Promise<Types.RequestCreatePropertyResult> {
+  async createProperty(
+    body: IPropertyCreateUpdateDto
+  ): Promise<Types.RequestCreatePropertyResult> {
     const url = routes.getProperties();
-    const result = await api.post<IPropertyDto>(url);
+    const result = await api.post<IPropertyDto>(url, body);
     return returnResponse(result);
   },
 

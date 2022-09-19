@@ -19,3 +19,8 @@ export interface IPropertyDto {
   note: string;
   archived_by: number;
 }
+
+export type IPropertyCreateUpdateDto = Pick<
+  IPropertyDto,
+  "name" | "quantity" | "price" | "prop_owner" | "note" | "is_club_property"
+> & { incharger_id: IProfileDto["id"]; image?: FormData };

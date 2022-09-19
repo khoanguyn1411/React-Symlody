@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 import { IMemberCreateDto, IMemberDto, IMemberUpdateDto } from "../dtos";
-import { IMember, IMemberCreate } from "../models";
+import { IMember, IMemberCreate, IMemberUpdate } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 import { DepartmentMapper } from "./department.mapper";
 
@@ -27,7 +27,7 @@ export class MemberMapper {
     };
   }
 
-  public static toUpdateDto(model: IMemberCreate): IMemberUpdateDto {
+  public static toUpdateDto(model: IMemberUpdate): IMemberUpdateDto {
     return {
       ...model,
       dob: dayjs(model.dob).format("YYYY-MM-DD"),

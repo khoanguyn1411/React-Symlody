@@ -7,7 +7,11 @@ import {
   RequestGetPropertiesResult,
 } from "@/api/property-api";
 import { RootState } from "@/features/store";
-import { IProperty, PropertyMapper } from "@/features/types";
+import {
+  IProperty,
+  IPropertyCreateUpdate,
+  PropertyMapper,
+} from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
 
 import { initialState, propertyAdapter } from "./state";
@@ -26,10 +30,11 @@ export const getPropertyAsync = createAsyncThunk(
 );
 
 export const createPropertyAsync = createAsyncThunk(
-  "create/property",
-  async () => {
+  "create/member",
+  async (payload: IPropertyCreateUpdate) => {
+    console.log(PropertyMapper.toDto(payload));
     const result: RequestCreatePropertyResult =
-      await PropertyApi.createProperty();
+      await PropertyApi.createProperty(PropertyMapper.toDto(payload));
     if (result.kind === "ok") {
       return PropertyMapper.fromDto(result.result);
     }

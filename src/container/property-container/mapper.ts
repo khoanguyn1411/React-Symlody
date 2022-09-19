@@ -1,4 +1,4 @@
-import { IProperty } from "@/features/types";
+import { IProperty, IPropertyCreateUpdate } from "@/features/types";
 import { FormatService } from "@/utils";
 
 import { IFormPropertyInfo, IPropertyTable } from "./type";
@@ -13,9 +13,32 @@ export class PropertyFormMapper {
           ? FormatService.toCurrency(Number(model.price))
           : "",
       inCharge: model.incharger.last_name + " " + model.incharger.first_name,
+      inChargeId: model.incharger.id,
       owner: model.prop_owner,
       note: model.note,
       imageLink: model.image,
+    };
+  }
+  public static toModel(
+    propertyFormData: IFormPropertyInfo
+  ): IPropertyCreateUpdate {
+    const formData = new FormData();
+    if (propertyFormData.image) {
+      formData.append(
+        "myFile",
+        propertyFormData.image,
+        propertyFormData.image.name
+      );
+    }
+    return {
+      name: propertyFormData.assetName,
+      quantity: propertyFormData.quantity,
+      price: propertyFormData.price.replaceAll(".", ""),
+      prop_owner: propertyFormData.owner,
+      note: propertyFormData.note ?? "",
+      incharger_id: 1,
+      image: !propertyFormData.image ? null : formData,
+      is_club_property: propertyFormData.owner === "CLB",
     };
   }
 }

@@ -19,3 +19,8 @@ export interface IProperty {
   note: string;
   archived_by: number;
 }
+
+export type IPropertyCreateUpdate = Pick<
+  IProperty,
+  "name" | "quantity" | "price" | "prop_owner" | "note" | "is_club_property"
+> & { incharger_id: IProfile["id"]; image?: FormData };
