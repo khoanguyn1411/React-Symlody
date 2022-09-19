@@ -5,6 +5,7 @@ import "./assets/FontAwesomePro/css/fontawesome.min.css";
 import "./assets/FontAwesomePro/css/solid.min.css";
 import "./assets/FontAwesomePro/css/regular.min.css";
 import "react-image-crop/dist/ReactCrop.css";
+import "rc-drawer/assets/index.css";
 
 import React from "react";
 import ReactDOM from "react-dom/client";

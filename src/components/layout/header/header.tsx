@@ -1,8 +1,9 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { Avatar } from "@/components/elements";
+import { Media } from "@/components/media";
 import { useAppSelector } from "@/features";
 
 import { SidebarMobile } from "../sidebar";
@@ -17,14 +18,34 @@ type TProps = {
 export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
   const userStore = useAppSelector((state) => state.user);
 
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
+  const toggleSidebar = () => {
+    setIsOpenSidebar((v) => !v);
+  };
+
   return (
     <header
       className={classNames(
-        "flex items-center bg-white z-10 justify-end px-4 h-header sticky top-0 mx-0 transition-margin  duration-300  border-b border-gray-200",
+        "flex items-center bg-white z-10 justify-between xl:justify-end px-4 h-header sticky top-0 mx-0 transition-margin  duration-300  border-b border-gray-200",
         isCompactSidebar ? "xl:ml-sidebar-compact " : "xl:ml-sidebar"
       )}
     >
-      <SidebarMobile pageKey={pageKey} />
+      <Media lessThan="xl">
+        <div className="flex-1">
+          <span
+            aria-hidden="true"
+            onClick={toggleSidebar}
+            className="cursor-pointer"
+          >
+            <i className="fas fa-bars" />
+          </span>
+        </div>
+        <SidebarMobile
+          pageKey={pageKey}
+          visible={isOpenSidebar}
+          onClose={() => setIsOpenSidebar(false)}
+        />
+      </Media>
 
       <div className="flex items-center space-x-4">
         <span className="flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full shadow-inner cursor-pointer hover:bg-gray-300 transition-all duration-300">

@@ -51,9 +51,7 @@ export const TableMemberContent: React.FC<TProps> = ({ onEdit, onDelete }) => {
                   <Avatar
                     size="medium"
                     src={memberTableItem.avatar}
-                    fullName={
-                      item.auth_account.first_name.split(" ").splice(-1)[0]
-                    }
+                    fullName={memberTableItem.name}
                   />
                 </div>
                 <div>

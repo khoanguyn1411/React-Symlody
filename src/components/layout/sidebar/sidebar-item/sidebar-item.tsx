@@ -8,7 +8,7 @@ import { ITabSidebar } from "../type";
 type TProps = {
   tab: ITabSidebar;
   isActive: boolean;
-  isCompactSidebar: boolean;
+  isCompactSidebar?: boolean;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 

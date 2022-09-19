@@ -3,8 +3,6 @@ import UploadPreview from "@rpldy/upload-preview";
 import Uploady from "@rpldy/uploady";
 import React, { useRef } from "react";
 
-import { Api } from "@/api";
-
 import { ButtonUpload } from "./UploadButton";
 import { ItemPreviewWithCrop } from "./UploadCrop";
 
