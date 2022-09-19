@@ -11,7 +11,7 @@ export interface PropertiesStateInner {
 }
 
 export const propertyAdapter = createEntityAdapter<IProperty>({
-  selectId: (member) => member.id,
+  selectId: (property) => property.id,
 });
 
 export const initialState =

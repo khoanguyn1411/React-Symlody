@@ -14,68 +14,73 @@ import { TMemberParamQueryDto } from "@/features/types/queries";
 
 import { initialState, memberAdapter } from "./state";
 
-export const createMemberAsync = createAsyncThunk(
-  "create/member",
-  async (payload: IMemberCreate) => {
-    const result: RequestCreateMembersResult = await MemberApi.createMember(
-      MemberMapper.toCreateDto(payload)
-    );
-    if (result.kind === "ok") {
-      return MemberMapper.fromDto(result.result);
-    }
-    return null;
+export const createMemberAsync = createAsyncThunk<
+  IMember,
+  IMemberCreate,
+  { rejectValue: null }
+>("create/member", async (payload, { rejectWithValue }) => {
+  const result: RequestCreateMembersResult = await MemberApi.createMember(
+    MemberMapper.toCreateDto(payload)
+  );
+  if (result.kind === "ok") {
+    return MemberMapper.fromDto(result.result);
   }
-);
+  return rejectWithValue(null);
+});
 
-export const deleteMemberAsync = createAsyncThunk(
-  "delete/member",
-  async (id: IMember["id"]) => {
-    const result: RequestDeleteMembersResult = await MemberApi.deleteMember(id);
-    if (result.kind === "ok") {
-      return id;
-    }
-    return null;
+export const deleteMemberAsync = createAsyncThunk<
+  IMember["id"],
+  IMember["id"],
+  { rejectValue: null }
+>("delete/member", async (id, { rejectWithValue }) => {
+  const result: RequestDeleteMembersResult = await MemberApi.deleteMember(id);
+  if (result.kind === "ok") {
+    return id;
   }
-);
+  return rejectWithValue(null);
+});
 
-export const getMembersAsync = createAsyncThunk(
-  "get/members",
-  async (param: TMemberParamQueryDto) => {
-    const result: RequestGetMembersResult = await MemberApi.getMembers(param);
-    if (result.kind === "ok") {
-      return result.result.map((item) => MemberMapper.fromDto(item));
-    }
-    return [];
+export const getMembersAsync = createAsyncThunk<
+  IMember[],
+  TMemberParamQueryDto,
+  { rejectValue: [] }
+>("get/members", async (param, { rejectWithValue }) => {
+  const result: RequestGetMembersResult = await MemberApi.getMembers(param);
+  if (result.kind === "ok") {
+    return result.result.map((item) => MemberMapper.fromDto(item));
   }
-);
+  return rejectWithValue([]);
+});
 
-export const updateMemberAsync = createAsyncThunk(
-  "update/member",
-  async ({
-    payload,
-    id,
-    isRestore,
-  }: {
+export const updateMemberAsync = createAsyncThunk<
+  {
+    result: IMember;
+    isRestore: boolean;
+  },
+  {
     payload: IMemberUpdate;
     id: IMember["id"];
     isRestore: boolean;
-  }) => {
-    const result: RequestUpdateMembersResult = await MemberApi.updateMember(
-      id,
-      MemberMapper.toUpdateDto(payload)
-    );
-    if (result.kind === "ok") {
-      return {
-        result: MemberMapper.fromDto(result.result),
-        isRestore,
-      };
-    }
+  },
+  {
+    rejectValue: {
+      result: null;
+      isRestore: boolean;
+    };
+  }
+>("update/member", async ({ payload, id, isRestore }, { rejectWithValue }) => {
+  const result: RequestUpdateMembersResult = await MemberApi.updateMember(
+    id,
+    MemberMapper.toUpdateDto(payload)
+  );
+  if (result.kind === "ok") {
     return {
-      result: null,
+      result: MemberMapper.fromDto(result.result),
       isRestore,
     };
   }
-);
+  return rejectWithValue({ result: null, isRestore });
+});
 
 export const memberSlice = createSlice({
   name: "member",
@@ -115,9 +120,6 @@ export const memberSlice = createSlice({
       })
       .addCase(updateMemberAsync.pending, (state) => {
         state.pendingRestoreMember = true;
-      })
-      .addCase(updateMemberAsync.rejected, (state) => {
-        state.pendingRestoreMember = false;
       })
       .addCase(updateMemberAsync.fulfilled, (state, action) => {
         state.pendingRestoreMember = false;

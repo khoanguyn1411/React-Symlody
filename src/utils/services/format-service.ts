@@ -10,6 +10,10 @@ export class FormatService {
     return formattedPrice;
   }
 
+  public static removeFormatCurrency(price: string): string {
+    return price.replaceAll(".", "");
+  }
+
   public static toNormalNumber(value: string): string {
     return value.replaceAll(".", "");
   }

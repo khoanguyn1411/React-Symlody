@@ -15,7 +15,7 @@ export class PropertyFormMapper {
       inCharge: model.incharger.last_name + " " + model.incharger.first_name,
       inChargeId: model.incharger.id,
       owner: model.prop_owner,
-      note: model.note,
+      note: model.note ?? "",
       imageLink: model.image,
     };
   }
@@ -33,10 +33,10 @@ export class PropertyFormMapper {
     return {
       name: propertyFormData.assetName,
       quantity: propertyFormData.quantity,
-      price: propertyFormData.price.replaceAll(".", ""),
+      price: FormatService.removeFormatCurrency(propertyFormData.price),
       prop_owner: propertyFormData.owner,
-      note: propertyFormData.note ?? "",
-      incharger_id: 1,
+      note: propertyFormData.note,
+      incharger_id: 1, // Need to discuss with Backend.
       image: !propertyFormData.image ? null : formData,
       is_club_property: propertyFormData.owner === "CLB",
     };

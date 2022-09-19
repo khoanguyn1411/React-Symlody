@@ -18,7 +18,7 @@ import {
   setListQueryMember,
   updateMemberAsync,
 } from "@/features/reducers";
-import { IMember } from "@/features/types";
+import { IMember, IMemberUpdate } from "@/features/types";
 import { useModal, useSearch } from "@/hooks";
 
 import {
@@ -98,7 +98,7 @@ export const MemberContainer: React.FC = () => {
         isRestore: true,
       })
     );
-    if (!result.payload) {
+    if (!result.payload.result) {
       toast.error(MEMBER_MESSAGE.update.error);
       return;
     }

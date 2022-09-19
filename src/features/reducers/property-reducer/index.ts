@@ -16,43 +16,47 @@ import { TPropertyParamQueryDto } from "@/features/types/queries";
 
 import { initialState, propertyAdapter } from "./state";
 
-export const getPropertyAsync = createAsyncThunk(
-  "get/properties",
-  async (param: TPropertyParamQueryDto) => {
-    const result: RequestGetPropertiesResult = await PropertyApi.getProperties(
-      param
-    );
-    if (result.kind === "ok") {
-      return result.result.map((item) => PropertyMapper.fromDto(item));
-    }
-    return [];
+export const getPropertyAsync = createAsyncThunk<
+  IProperty[],
+  TPropertyParamQueryDto,
+  { rejectValue: [] }
+>("get/properties", async (param, { rejectWithValue }) => {
+  const result: RequestGetPropertiesResult = await PropertyApi.getProperties(
+    param
+  );
+  if (result.kind === "ok") {
+    return result.result.map((item) => PropertyMapper.fromDto(item));
   }
-);
+  return rejectWithValue([]);
+});
 
-export const createPropertyAsync = createAsyncThunk(
-  "create/member",
-  async (payload: IPropertyCreateUpdate) => {
-    console.log(PropertyMapper.toDto(payload));
-    const result: RequestCreatePropertyResult =
-      await PropertyApi.createProperty(PropertyMapper.toDto(payload));
-    if (result.kind === "ok") {
-      return PropertyMapper.fromDto(result.result);
-    }
-    return null;
+export const createPropertyAsync = createAsyncThunk<
+  IProperty,
+  IPropertyCreateUpdate,
+  { rejectValue: null }
+>("create/property", async (payload, { rejectWithValue }) => {
+  const result: RequestCreatePropertyResult = await PropertyApi.createProperty(
+    PropertyMapper.toDto(payload)
+  );
+  if (result.kind === "ok") {
+    return PropertyMapper.fromDto(result.result);
   }
-);
+  return rejectWithValue(null);
+});
 
-export const deletePropertyAsync = createAsyncThunk(
-  "delete/property",
-  async (id: IProperty["id"]) => {
-    const result: RequestDeletePropertyResult =
-      await PropertyApi.deleteProperty(id);
-    if (result.kind === "ok") {
-      return id;
-    }
-    return null;
+export const deletePropertyAsync = createAsyncThunk<
+  IProperty["id"],
+  IProperty["id"],
+  { rejectValue: null }
+>("delete/property", async (id, { rejectWithValue }) => {
+  const result: RequestDeletePropertyResult = await PropertyApi.deleteProperty(
+    id
+  );
+  if (result.kind === "ok") {
+    return id;
   }
-);
+  return rejectWithValue(null);
+});
 
 export const propertySlice = createSlice({
   name: "property",
