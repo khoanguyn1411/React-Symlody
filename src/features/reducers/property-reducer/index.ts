@@ -3,10 +3,11 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   PropertyApi,
   RequestCreatePropertyResult,
+  RequestDeletePropertyResult,
   RequestGetPropertiesResult,
 } from "@/api/property-api";
 import { RootState } from "@/features/store";
-import { PropertyMapper } from "@/features/types";
+import { IProperty, PropertyMapper } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
 
 import { initialState, propertyAdapter } from "./state";
@@ -36,6 +37,18 @@ export const createPropertyAsync = createAsyncThunk(
   }
 );
 
+export const deletePropertyAsync = createAsyncThunk(
+  "delete/property",
+  async (id: IProperty["id"]) => {
+    const result: RequestDeletePropertyResult =
+      await PropertyApi.deleteProperty(id);
+    if (result.kind === "ok") {
+      return id;
+    }
+    return null;
+  }
+);
+
 export const propertySlice = createSlice({
   name: "property",
   initialState,
@@ -60,12 +73,23 @@ export const propertySlice = createSlice({
       .addCase(createPropertyAsync.fulfilled, (state, action) => {
         state.pending = false;
         propertyAdapter.addOne(state, action.payload);
+      })
+
+      .addCase(deletePropertyAsync.pending, (state) => {
+        state.pendingDeleteProperty = true;
+      })
+      .addCase(deletePropertyAsync.fulfilled, (state, action) => {
+        state.pendingDeleteProperty = false;
+        propertyAdapter.removeOne(state, action.payload);
+      })
+      .addCase(deletePropertyAsync.rejected, (state) => {
+        state.pendingDeleteProperty = false;
       });
   },
 });
 export const propertySelector = propertyAdapter.getSelectors(
   (state: RootState) => state.property
 );
-export const propertyStore = (state: RootState) => state.member;
+export const propertyStore = (state: RootState) => state.property;
 export const { setListQueryProperty } = propertySlice.actions;
 export default propertySlice.reducer;

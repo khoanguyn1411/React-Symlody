@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import {
   ButtonCreate,
@@ -11,6 +12,7 @@ import {
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
+  deletePropertyAsync,
   getPropertyAsync,
   propertySelector,
   setListQueryProperty,
@@ -22,6 +24,7 @@ import {
   ASSET_NO_DATA_CONFIG,
   PROPERTY_FILTER_OPTIONS,
   PROPERTY_FILTER_VALUE,
+  PROPERTY_MESSAGE,
 } from "./constant";
 import { ModalCreateProperty, ModalEditProperty } from "./property-modal";
 import { TablePropertyContent } from "./property-table-content";
@@ -35,6 +38,7 @@ export const PropertyContainer: React.FC = () => {
   const propsModalEdit = useModal<IProperty>();
   const propsSearch = useSearch();
   const dispatch = useAppDispatch();
+
   const propertyCount = useAppSelector(propertySelector.selectTotal);
   const propertyStore = useAppSelector((state) => state.property);
 
@@ -68,15 +72,21 @@ export const PropertyContainer: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [filter]
   );
-
   const handleEdit = (item: IProperty) => {
     propsModalEdit.setData(item);
     propsModalEdit.toggle.setToggle();
   };
-  const handleDelete = (item: IProperty) => {
-    alert("Deleted");
+  const handleDelete = async (item: IProperty) => {
+    const result = await dispatch(deletePropertyAsync(item.id));
+    if (result.payload) {
+      toast.success(PROPERTY_MESSAGE.delete.success);
+      return;
+    }
+    toast.success(PROPERTY_MESSAGE.delete.error);
   };
-
+  const handleRestore = (item: IProperty) => {
+    console.log(item);
+  };
   const handleOpenModal = () => {
     propsModal.toggle.setToggle();
   };
@@ -147,7 +157,11 @@ export const PropertyContainer: React.FC = () => {
             <Table.CellHead width="8rem">Chủ sở hữu</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
-          <TablePropertyContent onEdit={handleEdit} onDelete={handleDelete} />
+          <TablePropertyContent
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onRestore={handleRestore}
+          />
         </Table.Container>
         {propertyCount > 0 && (
           <Container.Pagination

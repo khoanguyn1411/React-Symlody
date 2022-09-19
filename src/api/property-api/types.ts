@@ -15,3 +15,10 @@ export type RequestCreatePropertyResult =
       result: IPropertyDto;
     }
   | GeneralApiProblem;
+
+export type RequestDeletePropertyResult =
+  | {
+      kind: `ok`;
+      result: unknown;
+    }
+  | GeneralApiProblem;

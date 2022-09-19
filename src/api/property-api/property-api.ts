@@ -1,6 +1,6 @@
 import { ApisauceInstance } from "apisauce";
 
-import { IPropertyDto } from "@/features/types";
+import { IProperty, IPropertyDto } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
 
 import { API_URL } from "../api-config";
@@ -13,6 +13,7 @@ const api: ApisauceInstance = Api.getInstance();
 
 const routes = {
   getProperties: () => `${prefix}/property/`,
+  deleteProperty: (id) => `${prefix}/property/${id}`,
 };
 
 export const PropertyApi = {
@@ -27,6 +28,15 @@ export const PropertyApi = {
   async createProperty(): Promise<Types.RequestCreatePropertyResult> {
     const url = routes.getProperties();
     const result = await api.post<IPropertyDto>(url);
+    return returnResponse(result);
+  },
+
+  async deleteProperty(
+    id: IProperty["id"]
+  ): Promise<Types.RequestDeletePropertyResult> {
+    const url = routes.deleteProperty(id);
+    const result = await api.delete<Types.RequestDeletePropertyResult>(url);
+
     return returnResponse(result);
   },
 };

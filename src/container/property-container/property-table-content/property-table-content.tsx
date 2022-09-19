@@ -11,22 +11,29 @@ import { TablePropertySkeleton } from "../property-skeleton";
 type TProps = {
   onEdit: (property: IProperty) => void;
   onDelete: (property: IProperty) => void;
+  onRestore: (property: IProperty) => void;
 };
 
 export const TablePropertyContent: React.FC<TProps> = ({
   onEdit,
   onDelete,
+  onRestore,
 }) => {
-  const [currentDeleteId, setCurrentDeleteId] = useState<number>();
+  const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
   const propertyList = useAppSelector(propertySelector.selectAll);
-  const propertyStore = useAppSelector((state) => state.property);
   const propertyCount = useAppSelector(propertySelector.selectTotal);
+  const propertyStore = useAppSelector((state) => state.property);
+
   const handleEdit = (item: IProperty) => () => {
     onEdit(item);
   };
   const handleDelete = (item: IProperty) => () => {
     onDelete(item);
-    setCurrentDeleteId(item.id);
+    setCurrentInteractiveId(item.id);
+  };
+
+  const handleRestore = (item: IProperty) => () => {
+    onRestore(item);
   };
 
   if (propertyStore.pending) {
@@ -58,10 +65,17 @@ export const TablePropertyContent: React.FC<TProps> = ({
 
             <Table.CellAction>
               <DeleteAndEditField
+                isShowLoading={
+                  (propertyStore.pendingDeleteProperty ||
+                    propertyStore.pendingRestoreProperty) &&
+                  currentInteractiveId === item.id
+                }
+                isShowRestore={item.is_archived}
                 title="Xóa tài sản?"
                 handleEvent={{
                   edit: handleEdit(item),
                   delete: handleDelete(item),
+                  restore: handleRestore(item),
                 }}
               />
             </Table.CellAction>

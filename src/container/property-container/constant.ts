@@ -33,3 +33,18 @@ export const PROPERTY_FILTER_OPTIONS: readonly TItemListSelect[] = [
     value: "Tất cả tài sản",
   },
 ];
+
+export const PROPERTY_MESSAGE = {
+  delete: {
+    success: "Xóa tài sản thành công.",
+    error: "Xóa tài sản thất bại.",
+  },
+  create: {
+    error: `Tạo tài sản thất bại.`,
+    success: `Tạo tài sản thành công.`,
+  },
+  update: {
+    error: `Cập nhật tài sản thất bại.`,
+    success: `Cập nhật tài sản thành công.`,
+  },
+} as const;
