@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 import { FormItem, Input, PickImage, RadioGroup, TextArea } from "@/components";
-import { SelectSearch } from "@/components/elements/select/select-search";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync, memberSelectors } from "@/features/reducers";
 import { IProperty } from "@/features/types";
 import { FormatService, FormService } from "@/utils";
 
 import { PropertyFormMapper } from "../mapper";
+import { PropertyOwnerSelect } from "../property-owner";
 import { IFormPropertyInfo } from "../type";
 
 type TProps = {
@@ -164,7 +164,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         />
       </FormItem>
 
-      <SelectSearch>123</SelectSearch>
+      <PropertyOwnerSelect></PropertyOwnerSelect>
 
       <FormItem label="Hình ảnh / Video">
         <Controller

@@ -2,11 +2,13 @@ export const STYLE = {
   modal: "modal",
   default: "default",
   disable: "disable",
+  none: "none",
 } as const;
 
 export const STYLE_INPUT_DEFAULT = {
-  [STYLE.modal]: "bg-gray-100",
-  [STYLE.default]: "border",
+  [STYLE.modal]: "bg-gray-100 border-gray-200 text-black",
+  [STYLE.default]: "border border-gray-200 text-black",
+  [STYLE.none]: "bg-transparent",
 } as const;
 
 export const STYLE_INPUT_TEXT_AREA = {

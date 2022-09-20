@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 import {
   ERoles,
   IDepartment,
@@ -7,6 +5,7 @@ import {
   IMember,
   IMemberCreateUpdate,
 } from "@/features/types";
+import { FormatService } from "@/utils";
 
 import { IFormMemberInfo, IMemberTable } from "./type";
 
@@ -23,7 +22,7 @@ export class MemberFormMapper {
         email: formData.email,
         groups: [ERoles.Member],
       },
-      dob: dayjs(formData.birthday).format("YYYY-MM-DD"),
+      dob: FormatService.toDate(formData.birthday, "US"),
       class_name: formData.class,
       address: formData.address,
       gender: formData.gender as IMemberCreateUpdate["gender"],
@@ -59,10 +58,10 @@ export class MemberTableMapper {
   public static fromModel(model: IMember): IMemberTable {
     return {
       id: model.id,
-      name: model.auth_account.last_name + " " + model.auth_account.first_name,
+      name: model.full_name,
       email: model.auth_account.email,
       department: model.department.name,
-      birthday: dayjs(model.dob).format("DD/MM/YYYY"),
+      birthday: FormatService.toDate(model.dob, "VN"),
       roles:
         model.auth_account.groups.length === 1 &&
         model.auth_account.groups[0] === ERoles.Member

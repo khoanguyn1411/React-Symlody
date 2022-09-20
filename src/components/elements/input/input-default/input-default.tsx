@@ -30,7 +30,8 @@ const _Input: React.FC<TInputDefaultProps> = ({
       onChange={handleChangeEvent}
       placeholder={placeholder}
       className={classNames(
-        "w-full p-2 border-gray-200 text-black focus:outline-none rounded-md",
+        style !== "none" && "w-full p-2",
+        "focus:outline-none rounded-md",
         className,
         STYLE_INPUT_DEFAULT[style]
       )}
