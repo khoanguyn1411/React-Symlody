@@ -85,7 +85,7 @@ const _PropertyContainer: React.FC = () => {
     toast.success(PROPERTY_MESSAGE.delete.error);
   };
   const handleRestore = (item: IProperty) => {
-    console.log(item);
+    //TODO: Handle restore property.
   };
   const handleOpenModal = () => {
     propsModal.toggle.setToggle();
@@ -163,12 +163,7 @@ const _PropertyContainer: React.FC = () => {
             onRestore={handleRestore}
           />
         </Table.Container>
-        {propertyCount > 0 && (
-          <Container.Pagination
-            onRowQuantityChange={(activeRows) => console.log(activeRows)}
-            onPaginationChange={(activePage) => console.log(activePage)}
-          />
-        )}
+        {propertyCount > 0 && <Container.Pagination />}
       </Container.Body>
       <ModalCreateProperty {...propsModal} />
       <ModalEditProperty {...propsModalEdit} />

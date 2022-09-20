@@ -26,7 +26,7 @@ const _ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
   } = propsForm;
 
   const handleEditProperty = (editInfo: IFormPropertyInfo) => {
-    console.log(editInfo);
+    //TODO: Handle update property.
   };
   return (
     <Modal

@@ -93,7 +93,7 @@ export const ActionConfigDepartment: React.FC = () => {
     toggle.setToggle();
   };
   const handleCreateDepartment = () => {
-    console.log("Demo test");
+    //TODO: Handle create department.
   };
   return (
     <>

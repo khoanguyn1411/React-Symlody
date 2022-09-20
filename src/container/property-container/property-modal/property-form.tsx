@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 import { FormItem, Input, PickImage, RadioGroup, TextArea } from "@/components";
@@ -16,7 +16,8 @@ type TProps = {
   formProps: UseFormReturn<IFormPropertyInfo, any>;
 };
 
-const _FormItems: React.FC<TProps> = ({ data, formProps }) => {
+/** This component cannot apply memo. */
+export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
   let dataForm: IFormPropertyInfo = null;
   if (data) {
     dataForm = PropertyFormMapper.fromModel(data);
@@ -24,7 +25,6 @@ const _FormItems: React.FC<TProps> = ({ data, formProps }) => {
   const dispatch = useAppDispatch();
   const memberList = useAppSelector(memberSelectors.selectAll);
   const memberStore = useAppSelector((state) => state.member);
-
   useEffect(() => {
     if (
       memberList.length > 0 &&
@@ -198,5 +198,3 @@ const _FormItems: React.FC<TProps> = ({ data, formProps }) => {
     </>
   );
 };
-
-export const FormItems = memo(_FormItems);

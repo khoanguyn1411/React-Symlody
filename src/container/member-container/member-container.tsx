@@ -159,12 +159,7 @@ const _MemberContainer: React.FC = () => {
           />
         </Table.Container>
 
-        {memberCount > 0 && (
-          <Container.Pagination
-            onRowQuantityChange={(activeRows) => console.log(activeRows)}
-            onPaginationChange={(activePage) => console.log(activePage)}
-          />
-        )}
+        {memberCount > 0 && <Container.Pagination />}
       </Container.Body>
       <ModalCreateMember {...propsModalCreateMember} />
       <ModalEditMember {...propsModalEditMember} />

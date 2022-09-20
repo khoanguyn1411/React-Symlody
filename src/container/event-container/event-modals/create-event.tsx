@@ -20,7 +20,7 @@ export const ModalCreateEvent: React.FC<THookModalProps<undefined>> = ({
   const { handleSubmit } = propsForm;
 
   const handleCreateEvent = (editInfo: TFormEventInfo) => {
-    console.log(editInfo);
+    //TODO: Handle create event.
   };
 
   return (

@@ -91,10 +91,7 @@ export const EventContainer: React.FC = () => {
             ))}
           </Table.Body>
         </Table.Container>
-        <Container.Pagination
-          onRowQuantityChange={(activeRows) => console.log(activeRows)}
-          onPaginationChange={(activePage) => console.log(activePage)}
-        />
+        <Container.Pagination />
       </Container.Body>
       <ModalCreateEvent {...propsModalCreateEvent} />
     </>

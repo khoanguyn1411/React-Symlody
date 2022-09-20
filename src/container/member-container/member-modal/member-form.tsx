@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 import { AppDatePicker, FormItem, Input, Select } from "@/components";
@@ -15,7 +15,8 @@ type TProps = {
   formProps: UseFormReturn<IFormMemberInfo>;
 };
 
-const _FormItems: React.FC<TProps> = ({ data, formProps }) => {
+/** This component cannot apply memo. */
+export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
   let dataForm: IFormMemberInfo = null;
   if (data) {
     dataForm = MemberFormMapper.fromModel(data);
@@ -219,5 +220,3 @@ const _FormItems: React.FC<TProps> = ({ data, formProps }) => {
     </>
   );
 };
-
-export const FormItems = memo(_FormItems);
