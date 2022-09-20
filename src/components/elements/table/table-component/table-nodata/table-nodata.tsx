@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { Table } from "@/components";
 
@@ -6,7 +6,7 @@ type TProps = {
   colsNumber: number;
 };
 
-export const TableNoData: React.FC<TProps> = ({ colsNumber }) => {
+const _TableNoData: React.FC<TProps> = ({ colsNumber }) => {
   return (
     <Table.Body>
       <Table.Row index={0}>
@@ -17,3 +17,5 @@ export const TableNoData: React.FC<TProps> = ({ colsNumber }) => {
     </Table.Body>
   );
 };
+
+export const TableNoData = memo(_TableNoData);

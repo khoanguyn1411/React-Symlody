@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { Select, TField, TItemListSelect, TValueQuery } from "@/components";
 
@@ -12,7 +12,7 @@ type TProps = {
   setIsAscending: (isAscending: boolean) => void;
 };
 
-export const SortIncludeValues: React.FC<TProps> = ({
+const _SortIncludeValues: React.FC<TProps> = ({
   sortSelected,
   valueToQuery,
   fields,
@@ -83,3 +83,5 @@ export const SortIncludeValues: React.FC<TProps> = ({
     </div>
   );
 };
+
+export const SortIncludeValues = memo(_SortIncludeValues);

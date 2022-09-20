@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 
 import { useDebounce, useHideOnClickOutside, usePositionPortal } from "@/hooks";
 import { GlobalTypes } from "@/types";
@@ -11,9 +11,10 @@ type TSelectSearchProps = {
   placeholder?: string;
 };
 
-export const SelectSearch: GlobalTypes.FCPropsWithChildren<
-  TSelectSearchProps
-> = ({ placeholder = "test", children }) => {
+const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
+  placeholder = "test",
+  children,
+}) => {
   const { inputValue, setInputValue } = useDebounce();
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const { listRef, displayRef } = useHideOnClickOutside(
@@ -62,3 +63,5 @@ export const SelectSearch: GlobalTypes.FCPropsWithChildren<
     </div>
   );
 };
+
+export const SelectSearch = memo(_SelectSearch);

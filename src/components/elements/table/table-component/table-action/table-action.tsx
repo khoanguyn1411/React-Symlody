@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { GlobalTypes } from "@/types";
 
@@ -13,10 +13,12 @@ export const TableCellHeadAction: React.FC = () => {
   );
 };
 
-export const TableCellAction: GlobalTypes.FCChildren = ({ children }) => {
+const _TableCellAction: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <TableCell width="8rem" textAlign="right">
       <div className="flex justify-center">{children}</div>
     </TableCell>
   );
 };
+
+export const TableCellAction = memo(_TableCellAction);

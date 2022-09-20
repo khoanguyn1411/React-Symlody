@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { ReactNode, useEffect } from "react";
+import React, { memo, ReactNode, useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { AnimationCustom, Portal } from "@/components";
@@ -9,7 +9,7 @@ import { TPropsModalGeneral } from "../types";
 type TProps = {
   children: ReactNode;
 };
-export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
+const _ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
   isShowing,
   toggle,
   closeWhenClickOutside,
@@ -66,3 +66,5 @@ export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
     </div>
   );
 };
+
+export const ModalWrapper = memo(_ModalWrapper);

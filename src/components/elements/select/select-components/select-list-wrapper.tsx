@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { memo } from "react";
 
 import { AnimationCustom } from "@/components";
 import { GlobalTypes } from "@/types";
@@ -13,7 +13,7 @@ type TProps = {
   isPortal: TSelectGeneralProps["isPortal"];
 };
 
-export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
+const _SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   style,
   isShowContent,
@@ -37,3 +37,5 @@ export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </AnimationCustom>
   );
 };
+
+export const SelectListWrapper = memo(_SelectListWrapper);

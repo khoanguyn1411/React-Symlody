@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 import { InputUnderLine, Radio } from "@/components";
 
@@ -8,7 +8,7 @@ type TProps = {
   value: string;
   label?: string;
 };
-export const RadioInput: React.FC<TProps> = ({ value, label }) => {
+const _RadioInput: React.FC<TProps> = ({ value, label }) => {
   const { setActiveValue, setChecked, listNormalRadios, activeValue, checked } =
     useRadioGroupContext();
   const [inputValue, setInputValue] = useState<string>(
@@ -56,3 +56,5 @@ export const RadioInput: React.FC<TProps> = ({ value, label }) => {
     </div>
   );
 };
+
+export const RadioInput = memo(_RadioInput);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 
 import { DeleteAndEditField, Table } from "@/components";
 import { TableSimpleSkeleton } from "@/components/elements/table/table-component/table-skeleton";
@@ -14,7 +14,7 @@ type TProps = {
   onRestore: (property: IProperty) => void;
 };
 
-export const TablePropertyContent: React.FC<TProps> = ({
+const _TablePropertyContent: React.FC<TProps> = ({
   onEdit,
   onDelete,
   onRestore,
@@ -81,3 +81,5 @@ export const TablePropertyContent: React.FC<TProps> = ({
     </Table.Body>
   );
 };
+
+export const TablePropertyContent = memo(_TablePropertyContent);

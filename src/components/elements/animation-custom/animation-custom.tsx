@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import {
   AnimationEffects,
@@ -7,11 +7,7 @@ import {
 } from "./animation-components";
 import { TAnimationEffectsProps } from "./type";
 
-/**
- * For toggle element, such as dropdown, select, tooltip, modal, ... please wrap the toggle
- * component with an AnimationCustom component in order to apply fade animation.
- */
-export const AnimationCustom: React.FC<TAnimationEffectsProps> = ({
+const _AnimationCustom: React.FC<TAnimationEffectsProps> = ({
   className,
   children,
   isShowing,
@@ -30,11 +26,7 @@ export const AnimationCustom: React.FC<TAnimationEffectsProps> = ({
   );
 };
 
-/**
- * For toggle element, such as dropdown, select, tooltip, modal, ... please wrap the toggle
- * component with an AnimationCustom component in order to apply fade animation.
- */
-export const AnimationKeepDom: React.FC<TAnimationEffectsProps> = ({
+const _AnimationKeepDom: React.FC<TAnimationEffectsProps> = ({
   className,
   children,
   isShowing,
@@ -52,3 +44,15 @@ export const AnimationKeepDom: React.FC<TAnimationEffectsProps> = ({
     </AnimationHide>
   );
 };
+
+/**
+ * For toggle element, such as dropdown, select, tooltip, modal, ... please wrap the toggle
+ * component with an AnimationCustom component in order to apply fade animation.
+ */
+export const AnimationCustom = memo(_AnimationCustom);
+
+/**
+ * For toggle element, such as dropdown, select, tooltip, modal, ... please wrap the toggle
+ * component with an AnimationCustom component in order to apply fade animation.
+ */
+export const AnimationKeepDom = memo(_AnimationKeepDom);

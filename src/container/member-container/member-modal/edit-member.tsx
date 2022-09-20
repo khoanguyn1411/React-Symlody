@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { memo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -15,7 +15,7 @@ import { schema } from "../schema";
 import { IFormMemberInfo } from "../type";
 import { FormItems } from "./member-form";
 
-export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
+const _ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   data,
   isShowing,
   toggle,
@@ -65,3 +65,5 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     </Modal>
   );
 };
+
+export const ModalEditMember = memo(_ModalEditMember);

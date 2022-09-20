@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
@@ -33,7 +33,7 @@ const getFilterValue = (key: string) => {
   return PROPERTY_FILTER_OPTIONS.find((item) => item.key === key).value;
 };
 
-export const PropertyContainer: React.FC = () => {
+const _PropertyContainer: React.FC = () => {
   const propsModal = useModal({ isHotkeyOpen: true });
   const propsModalEdit = useModal<IProperty>();
   const propsSearch = useDebounce();
@@ -175,3 +175,5 @@ export const PropertyContainer: React.FC = () => {
     </>
   );
 };
+
+export const PropertyContainer = memo(_PropertyContainer);

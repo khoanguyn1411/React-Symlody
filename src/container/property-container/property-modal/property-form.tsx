@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 import { FormItem, Input, PickImage, RadioGroup, TextArea } from "@/components";
@@ -16,7 +16,7 @@ type TProps = {
   formProps: UseFormReturn<IFormPropertyInfo, any>;
 };
 
-export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
+const _FormItems: React.FC<TProps> = ({ data, formProps }) => {
   let dataForm: IFormPropertyInfo = null;
   if (data) {
     dataForm = PropertyFormMapper.fromModel(data);
@@ -198,3 +198,5 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
     </>
   );
 };
+
+export const FormItems = memo(_FormItems);

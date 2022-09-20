@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { Skeleton, Table } from "@/components";
 
@@ -7,7 +7,7 @@ type TProps = {
   rowsNumber?: number;
 };
 
-export const TableSimpleSkeleton: React.FC<TProps> = ({
+const _TableSimpleSkeleton: React.FC<TProps> = ({
   colsNumber,
   rowsNumber = 5,
 }) => {
@@ -29,3 +29,5 @@ export const TableSimpleSkeleton: React.FC<TProps> = ({
     </Table.Body>
   );
 };
+
+export const TableSimpleSkeleton = memo(_TableSimpleSkeleton);

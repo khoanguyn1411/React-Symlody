@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import { Input } from "@/components";
 
 type TProps = {
@@ -7,14 +9,7 @@ type TProps = {
   setInputValue: (inputValue: string) => void;
 };
 
-/**
- * To use Search component, please provide inputValue and setInputValue props from
- * useDebounce() hook.
- * @example
- * const propsSearch = useDebounce();
- * <Search {...propsSearch} />
- */
-export const Search: React.FC<TProps> = ({
+const _Search: React.FC<TProps> = ({
   inputValue,
   placeholder,
   isShowSearchIcon = true,
@@ -38,3 +33,12 @@ export const Search: React.FC<TProps> = ({
     </div>
   );
 };
+
+/**
+ * To use Search component, please provide inputValue and setInputValue props from
+ * useDebounce() hook.
+ * @example
+ * const propsSearch = useDebounce();
+ * <Search {...propsSearch} />
+ */
+export const Search = memo(_Search);

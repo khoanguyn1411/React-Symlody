@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
@@ -33,7 +33,7 @@ import { TableMemberContent } from "./member-table-content";
 const getFilterValue = (key: string) => {
   return MEMBER_FILTER_OPTIONS.find((item) => item.key === key).value;
 };
-export const MemberContainer: React.FC = () => {
+const _MemberContainer: React.FC = () => {
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<IMember>();
   const propsSearch = useDebounce();
@@ -171,3 +171,5 @@ export const MemberContainer: React.FC = () => {
     </>
   );
 };
+
+export const MemberContainer = memo(_MemberContainer);

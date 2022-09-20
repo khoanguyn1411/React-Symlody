@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
@@ -13,7 +13,7 @@ type TProps = {
   onRestore: (member: IMember) => void;
 };
 
-export const TableMemberContent: React.FC<TProps> = ({
+const _TableMemberContent: React.FC<TProps> = ({
   onEdit,
   onRestore,
   onDelete,
@@ -97,3 +97,5 @@ export const TableMemberContent: React.FC<TProps> = ({
     </Table.Body>
   );
 };
+
+export const TableMemberContent = memo(_TableMemberContent);

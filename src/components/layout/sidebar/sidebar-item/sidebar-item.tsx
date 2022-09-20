@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, { memo } from "react";
 
 import { Tooltip } from "@/components";
 
@@ -12,7 +12,7 @@ type TProps = {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-export const SidebarItem: React.FC<TProps> = ({
+const _SidebarItem: React.FC<TProps> = ({
   tab,
   isActive,
   isCompactSidebar,
@@ -52,3 +52,5 @@ export const SidebarItem: React.FC<TProps> = ({
 
   return children;
 };
+
+export const SidebarItem = memo(_SidebarItem);

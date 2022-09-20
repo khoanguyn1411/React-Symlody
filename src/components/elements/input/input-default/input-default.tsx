@@ -1,8 +1,9 @@
 import classNames from "classnames";
+import { memo } from "react";
 
 import { STYLE_INPUT_DEFAULT, TInputDefaultProps } from "../type";
 
-export const Input: React.FC<TInputDefaultProps> = ({
+const _Input: React.FC<TInputDefaultProps> = ({
   type,
   value = "",
   placeholder,
@@ -36,3 +37,5 @@ export const Input: React.FC<TInputDefaultProps> = ({
     />
   );
 };
+
+export const Input = memo(_Input);

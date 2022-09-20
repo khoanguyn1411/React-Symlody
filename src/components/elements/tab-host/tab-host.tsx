@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 export type TTab = {
   title: string;
@@ -18,7 +18,7 @@ type TProps = {
   onUrlChange?: (tab: TTab) => void;
 };
 
-export const TabHost: React.FC<TProps> = ({
+const _TabHost: React.FC<TProps> = ({
   listTabs,
   onChangeTab,
   defaultActive,
@@ -72,3 +72,5 @@ export const TabHost: React.FC<TProps> = ({
     </div>
   );
 };
+
+export const TabHost = memo(_TabHost);

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { Button } from "@/components/elements";
@@ -16,11 +16,7 @@ type TProps = {
   setFile: (file: File) => void;
 };
 
-export const PickImage: React.FC<TProps> = ({
-  file,
-  defaultImageLink,
-  setFile,
-}) => {
+const _PickImage: React.FC<TProps> = ({ file, defaultImageLink, setFile }) => {
   const [fileData, setFileData] = useState<TFileData>({
     url: defaultImageLink,
     type: EAllowFiles.Image,
@@ -133,3 +129,5 @@ export const PickImage: React.FC<TProps> = ({
     </div>
   );
 };
+
+export const PickImage = memo(_PickImage);

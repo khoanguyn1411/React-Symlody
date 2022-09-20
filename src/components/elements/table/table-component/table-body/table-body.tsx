@@ -1,5 +1,9 @@
+import { memo } from "react";
+
 import { GlobalTypes } from "@/types";
 
-export const TableBody: GlobalTypes.FCChildren = ({ children }) => {
+const _TableBody: GlobalTypes.FCChildren = ({ children }) => {
   return <tbody>{children}</tbody>;
 };
+
+export const TableBody = memo(_TableBody);

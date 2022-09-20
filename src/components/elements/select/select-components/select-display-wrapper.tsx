@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { forwardRef, ReactNode } from "react";
+import React, { forwardRef, memo, ReactNode } from "react";
 
 import {
   STYLE_DISPLAY_WRAPPER_MAPS,
@@ -16,7 +16,7 @@ type TProps = {
 };
 
 // eslint-disable-next-line react/display-name
-export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
+const _SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
   (
     { classNameDisplay, style, isNonePadding = false, children, onClick },
     ref
@@ -40,3 +40,5 @@ export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
     );
   }
 );
+
+export const SelectDisplayWrapper = memo(_SelectDisplayWrapper);

@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -19,7 +19,7 @@ import { schema } from "../schema";
 import { IFormPropertyInfo } from "../type";
 import { FormItems } from "./property-form";
 
-export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
+const _ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
   isShowing,
   toggle,
 }) => {
@@ -44,7 +44,7 @@ export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
   );
 };
 
-const TabCreateAProperty: React.FC = () => {
+const _TabCreateAProperty: React.FC = () => {
   const propsForm = useForm<IFormPropertyInfo>({
     resolver: yupResolver(schema),
   });
@@ -78,7 +78,7 @@ const TabCreateAProperty: React.FC = () => {
   );
 };
 
-const TabCreateMultipleProperties: React.FC = () => {
+const _TabCreateMultipleProperties: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>(null);
   const [message, setMessage] = useState<string>(
     PICK_FILE_MESSAGE.defaultExtension
@@ -108,3 +108,7 @@ const TabCreateMultipleProperties: React.FC = () => {
     </ModalTab>
   );
 };
+
+export const ModalCreateProperty = memo(_ModalCreateProperty);
+const TabCreateMultipleProperties = memo(_TabCreateMultipleProperties);
+const TabCreateAProperty = memo(_TabCreateAProperty);

@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { memo } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { useAppDispatch, useAppSelector } from "@/features";
@@ -13,7 +14,7 @@ type TProps = {
   pageKey: Page_Key;
 };
 
-export const MainLayout: GlobalTypes.FCPropsWithChildren<TProps> = ({
+const _MainLayout: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   pageKey,
 }) => {
@@ -54,3 +55,5 @@ export const MainLayout: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </div>
   );
 };
+
+export const MainLayout = memo(_MainLayout);

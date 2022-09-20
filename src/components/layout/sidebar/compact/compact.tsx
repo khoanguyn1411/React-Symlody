@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { memo } from "react";
 
 import { Tooltip } from "@/components";
 
@@ -7,7 +8,7 @@ type Props = {
   onSetIsCompact: () => void;
 };
 
-export const CompactSidebar: React.FC<Props> = ({
+const _CompactSidebar: React.FC<Props> = ({
   isCompactSidebar,
   onSetIsCompact,
 }) => {
@@ -43,3 +44,5 @@ export const CompactSidebar: React.FC<Props> = ({
     </div>
   );
 };
+
+export const CompactSidebar = memo(_CompactSidebar);

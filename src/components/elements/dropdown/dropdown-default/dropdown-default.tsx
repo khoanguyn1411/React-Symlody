@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, {
   forwardRef,
+  memo,
   ReactNode,
   useImperativeHandle,
   useState,
@@ -33,7 +34,7 @@ export type TDropdownMethod = {
 };
 
 // eslint-disable-next-line react/display-name
-export const Dropdown = forwardRef<TDropdownMethod, TProps>(
+const _Dropdown = forwardRef<TDropdownMethod, TProps>(
   (
     {
       listSetting,
@@ -121,3 +122,5 @@ export const Dropdown = forwardRef<TDropdownMethod, TProps>(
     );
   }
 );
+
+export const Dropdown = memo(_Dropdown);

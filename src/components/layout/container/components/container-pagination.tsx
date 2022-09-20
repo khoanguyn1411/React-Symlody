@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { Pagination as AppPagination } from "@/components";
 import { TPropsPagination } from "@/components/elements/pagination/context";
@@ -9,10 +9,12 @@ type TProps = GlobalTypes.StrictOmit<
   "totalPages" | "pageStep"
 >;
 
-export const Pagination: React.FC<TProps> = (props) => {
+export const _Pagination: React.FC<TProps> = (props) => {
   return (
     <div className="flex justify-end w-full mt-5">
       <AppPagination {...props} totalPages={150} pageStep={1} />
     </div>
   );
 };
+
+export const Pagination = memo(_Pagination);

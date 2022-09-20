@@ -1,11 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 
 type TProps = {
   checked: boolean;
   readOnly?: boolean;
 };
 
-export const Checkbox: React.FC<TProps> = ({ checked, readOnly = false }) => {
+const _Checkbox: React.FC<TProps> = ({ checked, readOnly = false }) => {
   return (
     <div className="inline-flex items-center">
       <label
@@ -40,3 +40,5 @@ export const Checkbox: React.FC<TProps> = ({ checked, readOnly = false }) => {
     </div>
   );
 };
+
+export const Checkbox = memo(_Checkbox);

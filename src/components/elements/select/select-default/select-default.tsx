@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { ReactNode, useLayoutEffect, useState } from "react";
+import React, { memo, ReactNode, useLayoutEffect, useState } from "react";
 
 import { Portal } from "@/components";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
@@ -32,7 +32,7 @@ type TProps = {
   onChangeSideEffect?: (item: TItemListSelect) => void;
 };
 
-export const Select: React.FC<TProps> = ({
+const _Select: React.FC<TProps> = ({
   classNameDisplay,
   className,
   suffix,
@@ -163,3 +163,5 @@ export const Select: React.FC<TProps> = ({
     </div>
   );
 };
+
+export const Select = memo(_Select);
