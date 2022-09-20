@@ -32,12 +32,12 @@ const _ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
         {
           title: "Thêm 1 tài sản",
           children: <TabCreateAProperty />,
-          key: "AddAnAsset",
+          key: "AddAProperty",
         },
         {
           title: "Thêm nhiều tài sản",
           children: <TabCreateMultipleProperties />,
-          key: "AddMultipleAsset",
+          key: "AddMultipleProperty",
         },
       ]}
     />
