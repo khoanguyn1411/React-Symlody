@@ -25,10 +25,10 @@ export function interceptToken(config: AxiosRequestConfig): AxiosRequestConfig {
 }
 
 let isAlreadyRefreshToken = false;
-let isErrorRefresh = false;
 
 export function refreshToken(instance: ApisauceInstance) {
   return async (error: AxiosError): Promise<AxiosResponse> => {
+    const config = error.config;
     const token = TokenService.getToken();
     if (token == null) {
       return Promise.reject(error);
@@ -38,28 +38,22 @@ export function refreshToken(instance: ApisauceInstance) {
       return Promise.reject(error);
     }
 
-    if (isErrorRefresh) {
-      isErrorRefresh = false;
-      TokenService.clearToken();
-      return Promise.reject(error);
-    }
-
     if (error.response.status === 401) {
-      isAlreadyRefreshToken = false;
       if (error.config.url?.includes("refresh")) {
-        isErrorRefresh = true;
+        return Promise.reject(error);
       }
       if (!isAlreadyRefreshToken) {
         isAlreadyRefreshToken = true;
         const result = await TokenService.refreshToken(token, instance);
         if (result.kind !== "ok") {
+          TokenService.clearToken();
           return Promise.reject(error);
         }
         const newTokenModel = TokenMapper.fromRefreshTokenDto(result.result);
         TokenService.setToken(newTokenModel);
-        return instance.axiosInstance.request(error.config);
       }
-      return instance.axiosInstance.request(error.config);
+      config.headers["Authorization"] = token.access;
+      return instance.axiosInstance.request(config);
     }
     return Promise.reject(error);
   };

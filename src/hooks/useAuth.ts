@@ -16,12 +16,16 @@ export function useAuth() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    setIsLoading(true);
+  const checkIsSignIn = () => {
     checkAuth().then((res) => {
       dispatch(setIsAuth(res));
       setIsLoading(false);
     });
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    checkIsSignIn();
     getIsCompact();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isAuth]);
@@ -29,6 +33,14 @@ export function useAuth() {
   useEffect(() => {
     dispatch(getMeAsync());
   }, [dispatch]);
+
+  useEffect(() => {
+    window.addEventListener("storage", checkIsSignIn);
+    return () => {
+      window.removeEventListener("storage", checkIsSignIn);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const checkAuth = async () => {
     if (!TokenService.isValid()) {

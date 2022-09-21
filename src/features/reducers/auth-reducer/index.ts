@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AuthApi, RequestGetProfileResult } from "@/api";
 import { RootState } from "@/features/store";
-import { IToken } from "@/features/types";
 import { IUser } from "@/features/types/dtos/user";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 import { GlobalTypes } from "@/types";
@@ -24,29 +23,15 @@ export const loginAsync = createAsyncThunk<
   boolean,
   { username: string; password: string },
   GlobalTypes.ReduxThunkRejectValue<false>
->("auth/login", async (payload) => {
+>("auth/login", async (payload, { rejectWithValue }) => {
   const result = await AuthApi.login(payload.username, payload.password);
 
   if (result.kind === "ok") {
     TokenService.setToken(TokenMapper.fromDto(result.result));
     return true;
   }
-  return false;
+  return rejectWithValue(false);
 });
-
-// export const refreshTokenAsync = createAsyncThunk<
-//   boolean,
-//   IToken,
-//   GlobalTypes.ReduxThunkRejectValue<false>
-// >("auth/refresh/token", async (payload, { rejectWithValue }) => {
-//   const result = await AuthApi.refreshToken(payload);
-
-//   if (result.kind === "ok") {
-//     TokenService.setToken(result.result);
-//     return true;
-//   }
-//   return rejectWithValue(false);
-// });
 
 export const getMeAsync = createAsyncThunk("auth/login/me", async () => {
   const result: RequestGetProfileResult = await AuthApi.getProfile();

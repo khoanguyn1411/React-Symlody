@@ -29,5 +29,6 @@ export class LocalStoreService {
    */
   public static remove(key: string): void {
     localStorage.removeItem(key);
+    window.dispatchEvent(new Event("storage"));
   }
 }
