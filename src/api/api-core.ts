@@ -1,4 +1,5 @@
 import { ApisauceInstance, create } from "apisauce";
+import { AxiosRequestConfig } from "axios";
 
 import { APP_CONSTANTS } from "@/constants";
 
@@ -14,10 +15,16 @@ class Api {
 
       Api.instance.axiosInstance.interceptors.request.use(
         (request) => {
-          request.headers = {
-            Accept: "*/*",
-            Authorization: Api.token ? "Bearer " + Api.token : undefined,
-          };
+          if (this.shouldInterceptToken(request)) {
+            request.headers = {
+              Accept: "*/*",
+              Authorization: Api.token ? "Bearer " + Api.token : undefined,
+            };
+          } else {
+            request.headers = {
+              Accept: "*/*",
+            };
+          }
           return request;
         },
         (error) => {
@@ -34,6 +41,13 @@ class Api {
       );
     }
     return Api.instance;
+  }
+
+  public static shouldInterceptToken(request: AxiosRequestConfig) {
+    if (request.url.includes("login") && request.method === "post") {
+      return false;
+    }
+    return true;
   }
 
   public static getToken() {

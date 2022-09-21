@@ -1,5 +1,6 @@
 import { images } from "@/assets/images";
 import { TItemListSelect } from "@/components";
+import { GeneratorService } from "@/utils";
 
 export const MEMBER_FILTER_VALUE = {
   isArchived: "is_archived",
@@ -26,21 +27,6 @@ export const MEMBER_FILTER_OPTIONS: readonly TItemListSelect[] = [
   },
 ];
 
-export const MEMBER_MESSAGE = {
-  delete: {
-    success: "Xóa thành viên thành công.",
-    error: "Xóa thành viên thất bại.",
-  },
-  create: {
-    error: `Tạo thành viên thất bại.`,
-    success: `Tạo thành viên thành công.`,
-  },
-  update: {
-    error: `Cập nhật thành viên thất bại.`,
-    success: `Cập nhật thành viên thành công.`,
-  },
-} as const;
-
 export const MEMBER_NO_DATA_CONFIG = {
   title: "Tạo thành viên",
   content:
@@ -48,3 +34,6 @@ export const MEMBER_NO_DATA_CONFIG = {
   buttonTitle: "Tạo thành viên",
   imageSrc: images.noData.member,
 } as const;
+
+export const MEMBER_MESSAGE =
+  GeneratorService.generateStatusMessageFor("thành viên");

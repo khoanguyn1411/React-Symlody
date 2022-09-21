@@ -122,24 +122,8 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         />
       </FormItem>
 
-      <FormItem
-        label="Người chịu trách nhiệm"
-        isRequired
-        error={errors.inCharge?.message}
-      >
-        <Controller
-          control={control}
-          defaultValue={defaultValue.get("inCharge")}
-          name="inCharge"
-          render={({ field: { value, onChange } }) => (
-            <Input
-              style="modal"
-              value={value}
-              onChange={onChange}
-              placeholder="Người chịu trách nhiệm"
-            />
-          )}
-        />
+      <FormItem label="Người chịu trách nhiệm" isRequired>
+        <PropertyOwnerSelect />
       </FormItem>
 
       <FormItem
@@ -163,8 +147,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           }}
         />
       </FormItem>
-
-      <PropertyOwnerSelect></PropertyOwnerSelect>
 
       <FormItem label="Hình ảnh / Video">
         <Controller

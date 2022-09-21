@@ -20,7 +20,7 @@ type TSelectSearchProps = {
 
 const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
   children,
-  postNode = 222,
+  postNode,
   inputValue,
   debounceValue,
   isShowContent,

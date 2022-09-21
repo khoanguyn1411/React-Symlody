@@ -1,7 +1,8 @@
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 import { Avatar, SelectSearch } from "@/components";
+import { PLACEHOLDER_IMAGE } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync, memberSelectors } from "@/features/reducers";
 import { IMember } from "@/features/types";
@@ -11,64 +12,69 @@ import { FormatService } from "@/utils";
 export const PropertyOwnerSelect = () => {
   const dispatch = useAppDispatch();
   const memberList = useAppSelector(memberSelectors.selectAll);
-  const propsInputSearch = useDebounce();
+  const { inputValue, setInputValue, debounceValue } = useDebounce();
 
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
   const [memberSelected, setMemberSelected] = useState<IMember>();
   const [currentMemberList, setCurrentMemberList] =
     useState<IMember[]>(memberList);
 
+  const handleInputChange = (value: string): void => {
+    setInputValue(value);
+    setIsSearching(true);
+  };
+
   const handleSearchValueChange = (value: string): void => {
     if (!value) {
+      if (memberSelected) {
+        setCurrentMemberList(
+          memberList.filter((item) => item.id !== memberSelected.id)
+        );
+        return;
+      }
       setCurrentMemberList(memberList);
       return;
     }
-    // setIsShowContent(true);
+
     const newMemberFilterList = memberList.filter((item) =>
       FormatService.toCleanedString(item.full_name).includes(
         FormatService.toCleanedString(value)
       )
     );
-    if (memberSelected) {
-      setCurrentMemberList(
-        newMemberFilterList.filter((item) => item.id !== memberSelected.id)
-      );
-      return;
-    }
     setCurrentMemberList(newMemberFilterList);
   };
   const handleSelectMember = (member: IMember) => () => {
     setMemberSelected(member);
     setIsShowContent(false);
-    propsInputSearch.setInputValue(member.full_name);
+    setInputValue(member.full_name);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isShowContent && memberSelected) {
-      propsInputSearch.setInputValue(memberSelected.full_name);
+      setInputValue(memberSelected.full_name);
+      setIsSearching(false);
+    }
+    if (isShowContent && !isSearching) {
+      setCurrentMemberList(memberList);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isShowContent]);
+  }, [isShowContent, isSearching]);
 
   useEffect(() => {
     dispatch(getMembersAsync(null));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   useEffect(() => {
     setCurrentMemberList(memberList);
   }, [memberList]);
 
-  console.log(
-    currentMemberList.filter((item) =>
-      memberSelected ? item.id !== memberSelected.id : item
-    )
-  );
-
   return (
     <div>
       <SelectSearch
-        {...propsInputSearch}
+        setInputValue={handleInputChange}
+        inputValue={inputValue}
+        debounceValue={debounceValue}
         isShowContent={isShowContent}
         setIsShowContent={setIsShowContent}
         placeholder={"Người chịu trách nhiệm"}
@@ -77,15 +83,18 @@ export const PropertyOwnerSelect = () => {
             size="small"
             fullName={
               memberSelected &&
-              propsInputSearch.debounceValue === memberSelected.full_name &&
+              inputValue === memberSelected.full_name &&
               memberSelected.auth_account.first_name
             }
-            src=""
+            src={
+              (!memberSelected || inputValue !== memberSelected.full_name) &&
+              PLACEHOLDER_IMAGE
+            }
           />
         }
         onSearchChange={handleSearchValueChange}
       >
-        {memberSelected && !propsInputSearch.debounceValue && (
+        {memberSelected && !debounceValue && (
           <button
             className={classNames(
               "flex p-2 w-full space-x-3 items-center bg-primary-50"
@@ -114,7 +123,7 @@ export const PropertyOwnerSelect = () => {
               onClick={handleSelectMember(item)}
               key={item.id}
               className={classNames(
-                "flex p-2 w-full space-x-3 items-center",
+                "flex p-2 w-full space-x-3 items-center hover:bg-gray-100 transition-colors duration-200",
                 isSelectedItemInList && "bg-primary-50"
               )}
             >

@@ -84,7 +84,7 @@ const _PropertyContainer: React.FC = () => {
     }
     toast.success(PROPERTY_MESSAGE.delete.error);
   };
-  const handleRestore = (item: IProperty) => {
+  const handleRestore = () => {
     //TODO: Handle restore property.
   };
   const handleOpenModal = () => {
