@@ -1,12 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { memo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateMemberAsync } from "@/features/reducers";
-import { IMember, IMemberUpdate } from "@/features/types";
+import { IMember, IMemberCreateUpdate } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
@@ -15,7 +15,7 @@ import { schema } from "../schema";
 import { IFormMemberInfo } from "../type";
 import { FormItems } from "./member-form";
 
-export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
+const _ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   data,
   isShowing,
   toggle,
@@ -33,12 +33,12 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   const dispatch = useAppDispatch();
 
   const handleEditMember = async (editInfo: IFormMemberInfo) => {
-    const memberModel: IMemberUpdate = MemberFormMapper.toModel(
+    const memberModel: IMemberCreateUpdate = MemberFormMapper.toModel(
       departmentStore.department,
       editInfo
     );
     const result = await dispatch(
-      updateMemberAsync({ payload: memberModel, id: data.id })
+      updateMemberAsync({ payload: memberModel, id: data.id, isRestore: false })
     );
     if (!result.payload) {
       toast.error(MEMBER_MESSAGE.update.error);
@@ -65,3 +65,5 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     </Modal>
   );
 };
+
+export const ModalEditMember = memo(_ModalEditMember);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { Button } from "../elements";
 
@@ -10,7 +10,7 @@ type TProps = {
   onCreateNew: () => void;
 };
 
-export const NoData: React.FC<TProps> = ({
+const _NoData: React.FC<TProps> = ({
   imageSrc,
   title,
   buttonTitle,
@@ -36,3 +36,5 @@ export const NoData: React.FC<TProps> = ({
     </div>
   );
 };
+
+export const NoData = memo(_NoData);

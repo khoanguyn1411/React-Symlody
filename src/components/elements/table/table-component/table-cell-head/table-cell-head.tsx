@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 import { Tooltip } from "@/components/elements/tooltip";
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import { TEXT_ALIGN_MAP } from "../../type";
 import { TOrdering, useTableContext } from "../table-container/context";
@@ -15,7 +15,7 @@ type TProps = {
   keySorting?: string;
   onSort?: (ordering: TOrdering) => void;
 };
-export const TableCellHead: GlobalTypes.FCPropsWithChildren<TProps> = ({
+const _TableCellHead: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   textAlign = "left",
   width = "auto",
@@ -139,3 +139,5 @@ export const TableCellHead: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </th>
   );
 };
+
+export const TableCellHead = memo(_TableCellHead);

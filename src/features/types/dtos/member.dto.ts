@@ -10,6 +10,7 @@ interface IMemberGeneralDto {
   readonly phone_number: string;
   readonly home_town: string;
   readonly dob: string;
+  readonly is_archived: boolean;
 }
 
 export interface IMemberDto extends IMemberGeneralDto {
@@ -19,11 +20,6 @@ export interface IMemberDto extends IMemberGeneralDto {
   readonly department: IDepartmentDto;
 }
 
-export interface IMemberCreateDto extends IMemberGeneralDto {
-  readonly is_archived: boolean;
+export interface IMemberCreateUpdateDto extends IMemberGeneralDto {
   readonly department: IDepartmentCreateUpdateDto;
 }
-
-export type IMemberUpdateDto = Omit<IMemberCreateDto, "id"> & {
-  readonly department: IDepartmentCreateUpdateDto;
-};

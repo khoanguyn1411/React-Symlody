@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { Icon } from "@/assets/icons";
 import { DatePortal } from "@/components";
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 type AppProviderProps = {
   children: React.ReactNode;

@@ -6,6 +6,7 @@ import {
 } from "@/api/department-api";
 import { RootState } from "@/features/store";
 import { IDepartment } from "@/features/types";
+import { GlobalTypes } from "@/types";
 
 export type DepartmentState = {
   pending: boolean;
@@ -17,18 +18,19 @@ const initialState: DepartmentState = {
   department: [],
 };
 
-export const getDepartmentAsync = createAsyncThunk(
-  "get/department",
-  async () => {
-    const result: RequestGetDepartmentResult =
-      await DepartmentApi.getDepartments();
-    if (result.kind === "ok") {
-      return result.result;
-    }
-
-    return [];
+export const getDepartmentAsync = createAsyncThunk<
+  IDepartment[],
+  null,
+  GlobalTypes.ReduxThunkRejectValue<[]>
+>("get/department", async (payload, { rejectWithValue }) => {
+  const result: RequestGetDepartmentResult =
+    await DepartmentApi.getDepartments();
+  if (result.kind === "ok") {
+    return result.result;
   }
-);
+
+  return rejectWithValue([]);
+});
 
 export const departmentSlice = createSlice({
   name: "department",

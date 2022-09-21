@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import { ANIMATION_DEFAULT_TIME } from "../constants";
 
@@ -9,7 +9,7 @@ type TProps = {
   isShowing: boolean;
 };
 
-export const AnimationHide: GlobalTypes.FCPropsWithChildren<TProps> = ({
+const _AnimationHide: GlobalTypes.FCPropsWithChildren<TProps> = ({
   isShowing,
   children,
 }) => {
@@ -34,3 +34,5 @@ export const AnimationHide: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </div>
   );
 };
+
+export const AnimationHide = memo(_AnimationHide);

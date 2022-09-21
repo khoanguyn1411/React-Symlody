@@ -1,37 +1,43 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 
 import { DeleteAndEditField, Table } from "@/components";
+import { TableSimpleSkeleton } from "@/components/elements/table/table-component/table-skeleton";
 import { useAppSelector } from "@/features";
 import { propertySelector } from "@/features/reducers/property-reducer";
 import { IProperty } from "@/features/types";
 
 import { PropertyTableMapper } from "../mapper";
-import { TablePropertySkeleton } from "../property-skeleton";
 
 type TProps = {
   onEdit: (property: IProperty) => void;
   onDelete: (property: IProperty) => void;
+  onRestore: (property: IProperty) => void;
 };
 
-export const TablePropertyContent: React.FC<TProps> = ({
+const _TablePropertyContent: React.FC<TProps> = ({
   onEdit,
   onDelete,
+  onRestore,
 }) => {
-  const [currentDeleteId, setCurrentDeleteId] = useState<number>();
+  const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
   const propertyList = useAppSelector(propertySelector.selectAll);
-  const propertyStore = useAppSelector((state) => state.property);
   const propertyCount = useAppSelector(propertySelector.selectTotal);
-  console.log(propertyList);
+  const propertyStore = useAppSelector((state) => state.property);
+
   const handleEdit = (item: IProperty) => () => {
     onEdit(item);
   };
   const handleDelete = (item: IProperty) => () => {
     onDelete(item);
-    setCurrentDeleteId(item.id);
+    setCurrentInteractiveId(item.id);
+  };
+
+  const handleRestore = (item: IProperty) => () => {
+    onRestore(item);
   };
 
   if (propertyStore.pending) {
-    return <TablePropertySkeleton />;
+    return <TableSimpleSkeleton colsNumber={7} />;
   }
 
   if (propertyCount === 0) {
@@ -43,26 +49,29 @@ export const TablePropertyContent: React.FC<TProps> = ({
         const propertyTableItem = PropertyTableMapper.fromModel(item);
         return (
           <Table.Row key={item.id} index={index}>
-            <Table.Cell textAlign="center" width="5rem">
-              {index + 1}
-            </Table.Cell>
+            <Table.Cell textAlign="center">{index + 1}</Table.Cell>
             <Table.Cell>{propertyTableItem.assetName}</Table.Cell>
-            <Table.Cell width="7rem" textAlign="right">
+            <Table.Cell textAlign="right">
               {propertyTableItem.quantity}
             </Table.Cell>
-            <Table.Cell width="6rem" textAlign="right">
-              {propertyTableItem.price}
-            </Table.Cell>
+            <Table.Cell textAlign="right">{propertyTableItem.price}</Table.Cell>
 
-            <Table.Cell width="14rem">{propertyTableItem.inCharge}</Table.Cell>
-            <Table.Cell width="8rem">{propertyTableItem.owner}</Table.Cell>
+            <Table.Cell>{propertyTableItem.inCharge}</Table.Cell>
+            <Table.Cell>{propertyTableItem.owner}</Table.Cell>
 
             <Table.CellAction>
               <DeleteAndEditField
+                isShowLoading={
+                  (propertyStore.pendingDeleteProperty ||
+                    propertyStore.pendingRestoreProperty) &&
+                  currentInteractiveId === item.id
+                }
+                isShowRestore={item.is_archived}
                 title="Xóa tài sản?"
                 handleEvent={{
                   edit: handleEdit(item),
                   delete: handleDelete(item),
+                  restore: handleRestore(item),
                 }}
               />
             </Table.CellAction>
@@ -72,3 +81,5 @@ export const TablePropertyContent: React.FC<TProps> = ({
     </Table.Body>
   );
 };
+
+export const TablePropertyContent = memo(_TablePropertyContent);

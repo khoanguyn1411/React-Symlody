@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { memo, ReactNode, useState } from "react";
 
 import { Dropdown } from "@/components/elements";
 import { useEffectSkipFirstRender } from "@/hooks";
@@ -27,11 +27,7 @@ type TProps = {
   onSortChange?: (sortValue: TValueQuery) => void;
 };
 
-export const Sort: React.FC<TProps> = ({
-  fields,
-  defaultSortBy,
-  onSortChange,
-}) => {
+const _Sort: React.FC<TProps> = ({ fields, defaultSortBy, onSortChange }) => {
   const [sortSelected, setSortSelected] = useState<TField>(
     defaultSortBy
       ? fields.find((item) => item.title === defaultSortBy.field)
@@ -105,3 +101,5 @@ export const Sort: React.FC<TProps> = ({
     </Dropdown>
   );
 };
+
+export const Sort = memo(_Sort);

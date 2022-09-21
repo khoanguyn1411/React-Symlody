@@ -1,8 +1,9 @@
 import classNames from "classnames";
+import { memo } from "react";
 
 import { STYLE_INPUT_DEFAULT, TInputDefaultProps } from "../type";
 
-export const Input: React.FC<TInputDefaultProps> = ({
+const _Input: React.FC<TInputDefaultProps> = ({
   type,
   value = "",
   placeholder,
@@ -29,10 +30,13 @@ export const Input: React.FC<TInputDefaultProps> = ({
       onChange={handleChangeEvent}
       placeholder={placeholder}
       className={classNames(
-        "w-full p-2 border-gray-200 text-black focus:outline-none rounded-md",
+        style !== "none" && "w-full p-2 rounded-md",
+        "focus:outline-none",
         className,
         STYLE_INPUT_DEFAULT[style]
       )}
     />
   );
 };
+
+export const Input = memo(_Input);

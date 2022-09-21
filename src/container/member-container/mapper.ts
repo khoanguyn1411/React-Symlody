@@ -1,12 +1,11 @@
-import dayjs from "dayjs";
-
 import {
   ERoles,
   IDepartment,
   IDepartmentCreateUpdate,
   IMember,
-  IMemberCreate,
+  IMemberCreateUpdate,
 } from "@/features/types";
+import { FormatService } from "@/utils";
 
 import { IFormMemberInfo, IMemberTable } from "./type";
 
@@ -15,7 +14,7 @@ export class MemberFormMapper {
   public static toModel(
     departmentModel: IDepartment[],
     formData: IFormMemberInfo
-  ): IMemberCreate {
+  ): IMemberCreateUpdate {
     return {
       auth_account: {
         first_name: formData.firstName,
@@ -23,10 +22,10 @@ export class MemberFormMapper {
         email: formData.email,
         groups: [ERoles.Member],
       },
-      dob: dayjs(formData.birthday).format("YYYY-MM-DD"),
+      dob: FormatService.toDate(formData.birthday, "US"),
       class_name: formData.class,
       address: formData.address,
-      gender: formData.gender as IMemberCreate["gender"],
+      gender: formData.gender as IMemberCreateUpdate["gender"],
       student_id: formData.studentId,
       phone_number: formData.phone,
       home_town: formData.home,
@@ -59,10 +58,10 @@ export class MemberTableMapper {
   public static fromModel(model: IMember): IMemberTable {
     return {
       id: model.id,
-      name: model.auth_account.last_name + " " + model.auth_account.first_name,
+      name: model.full_name,
       email: model.auth_account.email,
       department: model.department.name,
-      birthday: dayjs(model.dob).format("DD/MM/YYYY"),
+      birthday: FormatService.toDate(model.dob, "VN"),
       roles:
         model.auth_account.groups.length === 1 &&
         model.auth_account.groups[0] === ERoles.Member
@@ -80,7 +79,7 @@ export class DepartmentFormMapper {
     formData: string
   ): IDepartmentCreateUpdate {
     return {
-      id: model.find((item) => item.name === formData).id,
+      ...model.find((item) => item.name === formData),
     };
   }
 }

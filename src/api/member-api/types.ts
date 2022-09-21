@@ -1,13 +1,9 @@
-import {
-  IMemberCreateDto,
-  IMemberDto,
-  IMemberUpdateDto,
-} from "@/features/types/dtos";
+import { IMemberCreateUpdateDto, IMemberDto } from "@/features/types/dtos";
 
 import { GeneralApiProblem } from "../api-problem";
 
-export type RequestCreateMemberBody = IMemberCreateDto;
-export type RequestUpdateMemberBody = IMemberUpdateDto;
+export type RequestCreateMemberBody = IMemberCreateUpdateDto;
+export type RequestUpdateMemberBody = IMemberCreateUpdateDto;
 
 export type RequestGetMembersResult =
   | {

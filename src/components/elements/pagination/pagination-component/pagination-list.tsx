@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
+import React, { Fragment, memo } from "react";
 
 import { usePaginationContext } from "../context";
 import { PaginationDot } from "./pagination-dot";
 import { PaginationItem } from "./pagination-item";
 
-export const PaginationList: React.FC = () => {
+const _PaginationList: React.FC = () => {
   const { activePage, totalPages, pageStep } = usePaginationContext();
   return (
     <ul className="flex items-baseline">
@@ -39,3 +39,5 @@ export const PaginationList: React.FC = () => {
     </ul>
   );
 };
+
+export const PaginationList = memo(_PaginationList);

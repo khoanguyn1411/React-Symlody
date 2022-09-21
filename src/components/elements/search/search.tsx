@@ -1,21 +1,18 @@
+import { memo } from "react";
+
 import { Input } from "@/components";
 
 type TProps = {
   inputValue: string;
   placeholder?: string;
+  isShowSearchIcon?: boolean;
   setInputValue: (inputValue: string) => void;
 };
 
-/**
- * To use Search component, please provide inputValue and setInputValue props from
- * useSearch() hook.
- * @example
- * const propsSearch = useSearch();
- * <Search {...propsSearch} />
- */
-export const Search: React.FC<TProps> = ({
+const _Search: React.FC<TProps> = ({
   inputValue,
   placeholder,
+  isShowSearchIcon = true,
   setInputValue,
 }) => {
   return (
@@ -28,9 +25,20 @@ export const Search: React.FC<TProps> = ({
         placeholder={placeholder}
         value={inputValue}
       />
-      <span className="absolute top-0 bottom-0 flex  items-center text-sm text-gray-400 cursor-pointer right-3">
-        <i className="far fa-search" />
-      </span>
+      {isShowSearchIcon && (
+        <span className="absolute top-0 bottom-0 flex  items-center text-sm text-gray-400 cursor-pointer right-3">
+          <i className="far fa-search" />
+        </span>
+      )}
     </div>
   );
 };
+
+/**
+ * To use Search component, please provide inputValue and setInputValue props from
+ * useDebounce() hook.
+ * @example
+ * const propsSearch = useDebounce();
+ * <Search {...propsSearch} />
+ */
+export const Search = memo(_Search);

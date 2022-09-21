@@ -1,6 +1,7 @@
 import classNames from "classnames";
+import { memo } from "react";
 
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import {
   TableRowProvider,
@@ -8,14 +9,14 @@ import {
   useTableRowContext,
 } from "./context";
 
-export const TableRowContent: GlobalTypes.FCChildren = ({ children }) => {
+const _TableRowContent: GlobalTypes.FCChildren = ({ children }) => {
   const { isSkeleton } = useTableRowContext();
   return (
     <tr className={classNames(isSkeleton && "animate-skeleton")}>{children}</tr>
   );
 };
 
-export const TableRow: GlobalTypes.FCPropsWithChildren<TPropsTableRow> = ({
+const _TableRow: GlobalTypes.FCPropsWithChildren<TPropsTableRow> = ({
   children,
   ...props
 }) => {
@@ -25,3 +26,6 @@ export const TableRow: GlobalTypes.FCPropsWithChildren<TPropsTableRow> = ({
     </TableRowProvider>
   );
 };
+
+export const TableRow = memo(_TableRow);
+export const TableRowContent = memo(_TableRowContent);

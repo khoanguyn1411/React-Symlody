@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
@@ -6,30 +6,39 @@ import { memberSelectors } from "@/features/reducers";
 import { IMember } from "@/features/types";
 
 import { MemberTableMapper } from "../mapper";
-import { TableMemberSkeleton } from "../member-skeleton";
 
 type TProps = {
   onEdit: (member: IMember) => void;
   onDelete: (member: IMember) => void;
+  onRestore: (member: IMember) => void;
 };
 
-export const TableMemberContent: React.FC<TProps> = ({ onEdit, onDelete }) => {
+const _TableMemberContent: React.FC<TProps> = ({
+  onEdit,
+  onRestore,
+  onDelete,
+}) => {
   const memberStore = useAppSelector((state) => state.member);
   const memberCount = useAppSelector(memberSelectors.selectTotal);
   const memberList = useAppSelector(memberSelectors.selectAll);
 
-  const [currentDeleteId, setCurrentDeleteId] = useState<number>();
+  const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
 
   const handleEdit = (item: IMember) => () => {
     onEdit(item);
   };
   const handleDelete = (item: IMember) => () => {
     onDelete(item);
-    setCurrentDeleteId(item.id);
+    setCurrentInteractiveId(item.id);
+  };
+
+  const handleRestore = (item: IMember) => () => {
+    onRestore(item);
+    setCurrentInteractiveId(item.id);
   };
 
   if (memberStore.pending) {
-    return <TableMemberSkeleton />;
+    return <Table.Skeleton colsNumber={6} />;
   }
 
   if (memberCount === 0) {
@@ -42,9 +51,7 @@ export const TableMemberContent: React.FC<TProps> = ({ onEdit, onDelete }) => {
         const memberTableItem = MemberTableMapper.fromModel(item);
         return (
           <Table.Row key={memberTableItem.id} index={index}>
-            <Table.Cell width="5rem" textAlign="center">
-              {index + 1}
-            </Table.Cell>
+            <Table.Cell textAlign="center">{index + 1}</Table.Cell>
             <Table.Cell>
               <div className="flex items-center">
                 <div className="mr-3">
@@ -60,19 +67,23 @@ export const TableMemberContent: React.FC<TProps> = ({ onEdit, onDelete }) => {
                 </div>
               </div>
             </Table.Cell>
-            <Table.Cell keySorting="department" width="10rem">
+            <Table.Cell keySorting="department">
               {memberTableItem.department}
             </Table.Cell>
-            <Table.Cell width="8rem">{memberTableItem.birthday}</Table.Cell>
-            <Table.Cell width="12rem">{memberTableItem.roles}</Table.Cell>
+            <Table.Cell>{memberTableItem.birthday}</Table.Cell>
+            <Table.Cell>{memberTableItem.roles}</Table.Cell>
 
             <Table.CellAction>
               <DeleteAndEditField
                 isShowLoading={
-                  memberStore.pendingDeleteMember && currentDeleteId === item.id
+                  (memberStore.pendingDeleteMember ||
+                    memberStore.pendingRestoreMember) &&
+                  currentInteractiveId === item.id
                 }
+                isShowRestore={item.is_archived}
                 title="Xóa thành viên?"
                 handleEvent={{
+                  restore: handleRestore(item),
                   edit: handleEdit(item),
                   delete: handleDelete(item),
                 }}
@@ -84,3 +95,5 @@ export const TableMemberContent: React.FC<TProps> = ({ onEdit, onDelete }) => {
     </Table.Body>
   );
 };
+
+export const TableMemberContent = memo(_TableMemberContent);

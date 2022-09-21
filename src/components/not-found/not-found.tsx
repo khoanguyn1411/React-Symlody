@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
@@ -8,7 +9,7 @@ type Props = {
   description?: string;
 };
 
-export const NotFound: React.FC<Props> = ({
+const _NotFound: React.FC<Props> = ({
   imageHeight = "512px",
   title,
   description,
@@ -48,3 +49,5 @@ export const NotFound: React.FC<Props> = ({
     </div>
   );
 };
+
+export const NotFound = memo(_NotFound);

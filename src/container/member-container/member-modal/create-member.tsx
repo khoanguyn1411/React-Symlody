@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -10,7 +10,7 @@ import {
   PickFile,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { createMemberAsync, getMembersAsync } from "@/features/reducers";
+import { createMemberAsync } from "@/features/reducers";
 import { THookModalProps } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
@@ -19,7 +19,7 @@ import { schema } from "../schema";
 import { IFormMemberInfo } from "../type";
 import { FormItems } from "./member-form";
 
-const TabCreateAMember: React.FC = () => {
+const _TabCreateAMember: React.FC = () => {
   const propsForm = useForm<IFormMemberInfo>({
     resolver: yupResolver(schema),
   });
@@ -29,7 +29,6 @@ const TabCreateAMember: React.FC = () => {
     formState: { isSubmitting },
   } = propsForm;
   const dispatch = useAppDispatch();
-  const memberStore = useAppSelector((state) => state.member);
   const departmentStore = useAppSelector((state) => state.department);
 
   const handleCreateMember = async (data: IFormMemberInfo) => {
@@ -38,14 +37,12 @@ const TabCreateAMember: React.FC = () => {
       data
     );
     const res = await dispatch(createMemberAsync(memberModel));
-    console.log(res);
     if (!res.payload) {
       toast.error(MEMBER_MESSAGE.create.error);
       return;
     }
     toast.success(MEMBER_MESSAGE.create.success);
     reset();
-    dispatch(getMembersAsync(memberStore.listQueryMember));
   };
   return (
     <ModalTab
@@ -59,7 +56,7 @@ const TabCreateAMember: React.FC = () => {
   );
 };
 
-const TabCreateMultipleMembers: React.FC = () => {
+const _TabCreateMultipleMembers: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>(null);
   const [message, setMessage] = useState<string>(
     PICK_FILE_MESSAGE.defaultExtension
@@ -91,7 +88,7 @@ const TabCreateMultipleMembers: React.FC = () => {
   );
 };
 
-export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
+const _ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
   isShowing,
   toggle,
 }) => {
@@ -115,3 +112,7 @@ export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
     />
   );
 };
+
+const TabCreateAMember = memo(_TabCreateAMember);
+const TabCreateMultipleMembers = memo(_TabCreateMultipleMembers);
+export const ModalCreateMember = memo(_ModalCreateMember);

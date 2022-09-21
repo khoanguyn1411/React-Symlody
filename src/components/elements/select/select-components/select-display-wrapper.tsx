@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { forwardRef, ReactNode } from "react";
+import React, { forwardRef, memo, ReactNode } from "react";
 
 import {
   STYLE_DISPLAY_WRAPPER_MAPS,
@@ -11,12 +11,16 @@ type TProps = {
   classNameDisplay?: TSelectGeneralProps["classNameDisplay"];
   style?: TStyle;
   children: ReactNode;
+  isNonePadding?: boolean;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
 // eslint-disable-next-line react/display-name
-export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
-  ({ classNameDisplay, style, children, onClick }, ref) => {
+const _SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
+  (
+    { classNameDisplay, style, isNonePadding = false, children, onClick },
+    ref
+  ) => {
     return (
       <div
         role={"listbox"}
@@ -25,8 +29,9 @@ export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
         tabIndex={0}
         ref={ref}
         className={classNames(
-          "flex justify-between w-full items-center p-2 pr-5 rounded-lg text-black",
+          "flex justify-between w-full items-center rounded-lg text-black",
           classNameDisplay,
+          !isNonePadding && "p-2 pr-5",
           STYLE_DISPLAY_WRAPPER_MAPS[style]
         )}
       >
@@ -35,3 +40,5 @@ export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
     );
   }
 );
+
+export const SelectDisplayWrapper = memo(_SelectDisplayWrapper);

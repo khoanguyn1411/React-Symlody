@@ -1,7 +1,11 @@
-import { GlobalTypes } from "@/global";
+import { memo } from "react";
 
-export const HeaderRight: GlobalTypes.FCChildren = ({ children }) => {
+import { GlobalTypes } from "@/types";
+
+const _HeaderRight: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <div className="flex items-center justify-center space-x-4">{children}</div>
   );
 };
+
+export const HeaderRight = memo(_HeaderRight);

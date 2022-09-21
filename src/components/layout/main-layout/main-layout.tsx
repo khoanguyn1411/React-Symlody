@@ -1,10 +1,11 @@
 import classNames from "classnames";
+import { memo } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { useAppDispatch, useAppSelector } from "@/features";
 import { toggleCompactSidebar } from "@/features/reducers";
-import { GlobalTypes } from "@/global";
 import { Page_Key } from "@/routes";
+import { GlobalTypes } from "@/types";
 
 import { Header } from "../header";
 import { SidebarDesktop } from "../sidebar";
@@ -13,7 +14,7 @@ type TProps = {
   pageKey: Page_Key;
 };
 
-export const MainLayout: GlobalTypes.FCPropsWithChildren<TProps> = ({
+const _MainLayout: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   pageKey,
 }) => {
@@ -54,3 +55,5 @@ export const MainLayout: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </div>
   );
 };
+
+export const MainLayout = memo(_MainLayout);

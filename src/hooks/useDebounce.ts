@@ -6,7 +6,7 @@ type THookSearch = {
   setInputValue: (inputValue: string) => void;
 };
 
-export const useSearch = (): THookSearch => {
+export const useDebounce = (): THookSearch => {
   const [inputValue, setInputValue] = useState<string>("");
   const [debounceValue, setDebounceValue] = useState<string>("");
   useEffect(() => {

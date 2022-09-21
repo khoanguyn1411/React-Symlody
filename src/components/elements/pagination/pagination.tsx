@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { PaginationProvider, TPropsPagination } from "./context";
 import {
@@ -7,7 +7,7 @@ import {
   PaginationPickRows,
 } from "./pagination-component";
 
-export const Pagination: React.FC<TPropsPagination> = (props) => {
+const _Pagination: React.FC<TPropsPagination> = (props) => {
   return (
     <PaginationProvider {...props}>
       <PaginationContent />
@@ -15,7 +15,7 @@ export const Pagination: React.FC<TPropsPagination> = (props) => {
   );
 };
 
-const PaginationContent: React.FC = () => {
+const _PaginationContent: React.FC = () => {
   return (
     <div className="flex items-center">
       <div className="flex items-center bg-white border border-gray-300 h-[fit-content] rounded-md">
@@ -26,3 +26,6 @@ const PaginationContent: React.FC = () => {
     </div>
   );
 };
+
+export const Pagination = memo(_Pagination);
+const PaginationContent = memo(_PaginationContent);

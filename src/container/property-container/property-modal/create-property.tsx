@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 import {
   ModalMultipleTabs,
@@ -8,13 +9,17 @@ import {
   PICK_FILE_MESSAGE,
   PickFile,
 } from "@/components";
+import { useAppDispatch } from "@/features";
+import { createPropertyAsync } from "@/features/reducers/property-reducer";
 import { THookModalProps } from "@/hooks";
 
+import { PROPERTY_MESSAGE } from "../constant";
+import { PropertyFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { IFormPropertyInfo } from "../type";
 import { FormItems } from "./property-form";
 
-export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
+const _ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
   isShowing,
   toggle,
 }) => {
@@ -26,33 +31,45 @@ export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
       renderTabs={[
         {
           title: "Thêm 1 tài sản",
-          children: <TabCreateAnAsset />,
-          key: "AddAnAsset",
+          children: <TabCreateAProperty />,
+          key: "AddAProperty",
         },
         {
           title: "Thêm nhiều tài sản",
-          children: <TabCreateMultipleAssets />,
-          key: "AddMultipleAsset",
+          children: <TabCreateMultipleProperties />,
+          key: "AddMultipleProperty",
         },
       ]}
     />
   );
 };
 
-const TabCreateAnAsset: React.FC = () => {
+const _TabCreateAProperty: React.FC = () => {
   const propsForm = useForm<IFormPropertyInfo>({
     resolver: yupResolver(schema),
   });
-  const { handleSubmit } = propsForm;
+  const {
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = propsForm;
+  const dispatch = useAppDispatch();
 
-  const handleCreateAsset = async (data: IFormPropertyInfo) => {
-    console.log(data);
+  const handleCreateAProperty = async (propertyData: IFormPropertyInfo) => {
+    const propertyModel = PropertyFormMapper.toModel(propertyData);
+    const result = await dispatch(createPropertyAsync(propertyModel));
+    if (!result.payload) {
+      toast.error(PROPERTY_MESSAGE.create.error);
+      return;
+    }
+    toast.success(PROPERTY_MESSAGE.create.success);
+    reset();
   };
   return (
     <ModalTab
       handleEvent={{
-        event: handleSubmit(handleCreateAsset),
-        isLoading: false,
+        event: handleSubmit(handleCreateAProperty),
+        isLoading: isSubmitting,
       }}
     >
       <FormItems formProps={propsForm} />
@@ -60,7 +77,7 @@ const TabCreateAnAsset: React.FC = () => {
   );
 };
 
-const TabCreateMultipleAssets: React.FC = () => {
+const _TabCreateMultipleProperties: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>(null);
   const [message, setMessage] = useState<string>(
     PICK_FILE_MESSAGE.defaultExtension
@@ -90,3 +107,7 @@ const TabCreateMultipleAssets: React.FC = () => {
     </ModalTab>
   );
 };
+
+export const ModalCreateProperty = memo(_ModalCreateProperty);
+const TabCreateMultipleProperties = memo(_TabCreateMultipleProperties);
+const TabCreateAProperty = memo(_TabCreateAProperty);

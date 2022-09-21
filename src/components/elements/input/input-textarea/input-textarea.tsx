@@ -1,9 +1,9 @@
 import classNames from "classnames";
-import React from "react";
+import React, { memo } from "react";
 
 import { STYLE_INPUT_TEXT_AREA, TInputTextAreaProps } from "../type";
 
-export const TextArea: React.FC<TInputTextAreaProps> = ({
+const _TextArea: React.FC<TInputTextAreaProps> = ({
   value = "",
   placeholder,
   style = "default",
@@ -33,3 +33,5 @@ export const TextArea: React.FC<TInputTextAreaProps> = ({
     />
   );
 };
+
+export const TextArea = memo(_TextArea);

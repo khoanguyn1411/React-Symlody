@@ -2,7 +2,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import styled from "@emotion/styled";
 import classNames from "classnames";
-import React from "react";
+import React, { memo } from "react";
 import DatePicker from "react-datepicker";
 
 import { Icon } from "@/assets/icons";
@@ -59,7 +59,7 @@ export const DatePortal: React.FC = () => {
   );
 };
 
-export const AppDatePicker: React.FC<TProps> = ({
+const _AppDatePicker: React.FC<TProps> = ({
   isTimePicker = false,
   style,
   value,
@@ -97,3 +97,5 @@ export const AppDatePicker: React.FC<TProps> = ({
     </WrapperModule>
   );
 };
+
+export const AppDatePicker = memo(_AppDatePicker);

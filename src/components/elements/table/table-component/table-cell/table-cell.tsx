@@ -1,6 +1,7 @@
 import classNames from "classnames";
+import { memo } from "react";
 
-import { GlobalTypes } from "@/global";
+import { GlobalTypes } from "@/types";
 
 import { TEXT_ALIGN_MAP } from "../../type";
 import { useTableRowContext } from "../table-row/context";
@@ -12,7 +13,7 @@ type TProps = {
   isLast?: boolean;
   keySorting?: string;
 };
-export const TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
+const _TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
   textAlign = "left",
   width = "auto",
   children,
@@ -33,8 +34,8 @@ export const TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
           "px-4": !isSkeleton,
           "border-none": index === 0,
           "px-1.5": isSkeleton,
-          "pl-2": isFirst,
-          "pr-2": isLast,
+          "pl-3": isFirst && isSkeleton,
+          "pr-3": isLast && isSkeleton,
         }
       )}
     >
@@ -42,3 +43,5 @@ export const TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </td>
   );
 };
+
+export const TableCell = memo(_TableCell);

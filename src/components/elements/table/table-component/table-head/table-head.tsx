@@ -1,9 +1,13 @@
-import { GlobalTypes } from "@/global";
+import { memo } from "react";
 
-export const TableHead: GlobalTypes.FCChildren = ({ children }) => {
+import { GlobalTypes } from "@/types";
+
+const _TableHead: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <thead className="sticky top-0 z-[1] bg-primary-50">
       <tr>{children}</tr>
     </thead>
   );
 };
+
+export const TableHead = memo(_TableHead);

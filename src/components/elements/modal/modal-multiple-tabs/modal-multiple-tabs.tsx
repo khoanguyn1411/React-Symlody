@@ -1,31 +1,14 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 
 import { TabHost, TTab } from "../../tab-host";
-import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
-import { TPropsModalMultipleTabs, TPropsModalTab, TTabs } from "../types";
+import { ModalWrapper } from "../modal-components";
+import { TPropsModalMultipleTabs, TTabs } from "../types";
 import {
   ModalMultipleTabsProvider,
   useModalMultipleTabsContext,
 } from "./context";
 
-/**
- * - To get value of isShowing and toggle functions, please use useModal hook and pass
- * such values to corresponding props of modal (isShowing = isShowing and toggle = toggle)
- * - To use this multiple tabs modal, please use ModalTab for rendering content of tab
- * for better handling event of such tab.
- * @example
- *  const {setToggle, isShowing} = useModal();
- *  <ModalMultipleTabs
-      toggle={{ setToggle }}
-      size="lg"
-      isShowing={isShowing}
-      renderTabs={[
-        { title: "Thêm 1 tài sản", children: <ModalTab>...</ModalTab> },
-        { title: "Thêm nhiều tài sản", children: <ModalTab>...</ModalTab> },
-      ]}
-    />
- */
-export const ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
+const _ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
   return (
     <ModalMultipleTabsProvider {...props}>
       <ModalMultipleTabsContent />
@@ -33,7 +16,7 @@ export const ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
   );
 };
 
-const ModalMultipleTabsContent: React.FC = () => {
+const _ModalMultipleTabsContent: React.FC = () => {
   const props = useModalMultipleTabsContext();
   const { renderTabs, toggle, reset } = props;
 
@@ -76,30 +59,23 @@ const ModalMultipleTabsContent: React.FC = () => {
   );
 };
 
-export const ModalTab: React.FC<TPropsModalTab> = ({
-  handleEvent,
-  children,
-  otherActions,
-}) => {
-  const { toggle, reset } = useModalMultipleTabsContext();
+const ModalMultipleTabsContent = memo(_ModalMultipleTabsContent);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleEvent.event();
-  };
-
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col max-h-[calc(100vh-10rem)]"
-      {...otherActions}
-    >
-      <ModalBody>{children}</ModalBody>
-      <ModalFooter
-        reset={reset}
-        {...handleEvent}
-        setToggle={toggle.setToggle}
-      />
-    </form>
-  );
-};
+/**
+ * - To get value of isShowing and toggle functions, please use useModal hook and pass
+ * such values to corresponding props of modal (isShowing = isShowing and toggle = toggle)
+ * - To use this multiple tabs modal, please use ModalTab for rendering content of tab
+ * for better handling event of such tab.
+ * @example
+ *  const {setToggle, isShowing} = useModal();
+ *  <ModalMultipleTabs
+      toggle={{ setToggle }}
+      size="lg"
+      isShowing={isShowing}
+      renderTabs={[
+        { title: "Thêm 1 tài sản", children: <ModalTab>...</ModalTab> },
+        { title: "Thêm nhiều tài sản", children: <ModalTab>...</ModalTab> },
+      ]}
+    />
+ */
+export const ModalMultipleTabs = memo(_ModalMultipleTabs);

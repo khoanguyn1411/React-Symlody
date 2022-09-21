@@ -1,17 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
-import {
-  FormItem,
-  Input,
-  PickImageVideo,
-  RadioGroup,
-  TextArea,
-} from "@/components";
+import { FormItem, Input, PickImage, RadioGroup, TextArea } from "@/components";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { getMembersAsync, memberSelectors } from "@/features/reducers";
 import { IProperty } from "@/features/types";
 import { FormatService, FormService } from "@/utils";
 
 import { PropertyFormMapper } from "../mapper";
+import { PropertyOwnerSelect } from "../property-owner-select";
 import { IFormPropertyInfo } from "../type";
 
 type TProps = {
@@ -19,11 +16,25 @@ type TProps = {
   formProps: UseFormReturn<IFormPropertyInfo, any>;
 };
 
+/** This component cannot apply memo. */
 export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
   let dataForm: IFormPropertyInfo = null;
   if (data) {
     dataForm = PropertyFormMapper.fromModel(data);
   }
+  const dispatch = useAppDispatch();
+  const memberList = useAppSelector(memberSelectors.selectAll);
+  const memberStore = useAppSelector((state) => state.member);
+  useEffect(() => {
+    if (
+      memberList.length > 0 &&
+      memberStore.listQueryMember.is_archived == null
+    ) {
+      return;
+    }
+    dispatch(getMembersAsync(memberStore.listQueryMember));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     control,
@@ -111,24 +122,8 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         />
       </FormItem>
 
-      <FormItem
-        label="Người chịu trách nhiệm"
-        isRequired
-        error={errors.inCharge?.message}
-      >
-        <Controller
-          control={control}
-          defaultValue={defaultValue.get("inCharge")}
-          name="inCharge"
-          render={({ field: { value, onChange } }) => (
-            <Input
-              style="modal"
-              value={value}
-              onChange={onChange}
-              placeholder="Người chịu trách nhiệm"
-            />
-          )}
-        />
+      <FormItem label="Người chịu trách nhiệm" isRequired>
+        <PropertyOwnerSelect />
       </FormItem>
 
       <FormItem
@@ -154,7 +149,17 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
       </FormItem>
 
       <FormItem label="Hình ảnh / Video">
-        <PickImageVideo />
+        <Controller
+          control={control}
+          name="image"
+          render={({ field: { value, onChange } }) => (
+            <PickImage
+              file={value}
+              setFile={onChange}
+              defaultImageLink={defaultValue.get("imageLink")}
+            />
+          )}
+        />
       </FormItem>
 
       <FormItem label="Ghi chú">

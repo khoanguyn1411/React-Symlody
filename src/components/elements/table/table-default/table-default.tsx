@@ -9,6 +9,7 @@ import {
   TableNoData,
   TableRow,
 } from "../table-component";
+import { TableSimpleSkeleton } from "../table-component/table-skeleton";
 
 export const Table = {
   Container: TableContainer,
@@ -20,4 +21,5 @@ export const Table = {
   Head: TableHead,
   Row: TableRow,
   NoData: TableNoData,
+  Skeleton: TableSimpleSkeleton,
 } as const;

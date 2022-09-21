@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useRef, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 
 import { Checkbox, Portal } from "@/components";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
@@ -8,7 +8,7 @@ import { SelectDisplayWrapper } from "../select-components";
 import { SelectListWrapper } from "../select-components/select-list-wrapper";
 import { TSelectMultipleProps } from "../type";
 
-export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
+const _SelectMultiple: React.FC<TSelectMultipleProps> = ({
   list,
   value = [],
   placeHolder,
@@ -132,3 +132,5 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
     </div>
   );
 };
+
+export const SelectMultiple = memo(_SelectMultiple);

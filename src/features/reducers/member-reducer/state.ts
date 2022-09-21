@@ -5,6 +5,7 @@ import { TMemberParamQueryDto } from "@/features/types/queries";
 
 export interface MemberStateInner {
   pending: boolean;
+  pendingRestoreMember: boolean;
   pendingDeleteMember: boolean;
   listQueryMember: TMemberParamQueryDto;
 }
@@ -16,6 +17,7 @@ export const memberAdapter = createEntityAdapter<IMember>({
 export const initialState = memberAdapter.getInitialState<MemberStateInner>({
   pending: false,
   pendingDeleteMember: false,
+  pendingRestoreMember: false,
   listQueryMember: { is_archived: false },
 });
 

@@ -10,6 +10,8 @@ interface IMemberGeneral {
   readonly phone_number: string;
   readonly home_town: string;
   readonly dob: string;
+  readonly full_name?: string;
+  readonly is_archived: boolean;
 }
 
 export interface IMember extends IMemberGeneral {
@@ -19,11 +21,6 @@ export interface IMember extends IMemberGeneral {
   readonly department: IDepartment;
 }
 
-export interface IMemberCreate extends IMemberGeneral {
-  readonly is_archived: boolean;
+export interface IMemberCreateUpdate extends IMemberGeneral {
   readonly department: IDepartmentCreateUpdate;
 }
-
-export type IMemberUpdate = Omit<IMemberCreate, "id"> & {
-  readonly department: IDepartmentCreateUpdate;
-};

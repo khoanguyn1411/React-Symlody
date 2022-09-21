@@ -15,7 +15,7 @@ export const schema = yup.object().shape({
   class: yup
     .string()
     .required("Vui lòng nhập trường này")
-    .max(8, "Họ không được vượt quá 8 ký tự"),
+    .max(8, "Mã lớp không được vượt quá 8 ký tự"),
   studentId: yup
     .string()
     .required("Vui lòng nhập trường này")

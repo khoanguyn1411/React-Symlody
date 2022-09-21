@@ -1,8 +1,10 @@
+import { memo } from "react";
+
 import { Select, TItemListSelect } from "@/components";
 
 import { usePaginationContext } from "../context";
 
-export const PaginationPickRows: React.FC = () => {
+const _PaginationPickRows: React.FC = () => {
   const {
     quantityDisplay,
     rowsQuantity,
@@ -32,3 +34,5 @@ export const PaginationPickRows: React.FC = () => {
     </div>
   );
 };
+
+export const PaginationPickRows = memo(_PaginationPickRows);

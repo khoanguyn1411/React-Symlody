@@ -1,10 +1,17 @@
+import { GlobalTypes } from "@/types";
+
 export interface IDepartment {
   readonly id: number;
   readonly name: string;
   readonly abbreviation_name?: string | null;
 }
 
-export type IDepartmentCreateUpdate = Omit<
+// export type IDepartmentCreateUpdate = GlobalTypes.StrictOmit<
+//   IDepartment,
+//   "name" | "abbreviation_name"
+// >;
+
+export type IDepartmentCreateUpdate = GlobalTypes.StrictOmit<
   IDepartment,
-  "name" | "abbreviation_name"
+  "abbreviation_name"
 >;

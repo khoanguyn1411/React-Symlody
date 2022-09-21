@@ -1,5 +1,9 @@
-import { GlobalTypes } from "@/global";
+import { memo } from "react";
 
-export const Body: GlobalTypes.FCChildren = ({ children }) => {
+import { GlobalTypes } from "@/types";
+
+const _Body: GlobalTypes.FCChildren = ({ children }) => {
   return <div className="p-default">{children}</div>;
 };
+
+export const Body = memo(_Body);

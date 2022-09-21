@@ -1,3 +1,5 @@
+import { GlobalTypes } from "@/types";
+
 import { IProfileDto } from "./profile.dto";
 
 export interface IPropertyDto {
@@ -19,3 +21,8 @@ export interface IPropertyDto {
   note: string;
   archived_by: number;
 }
+
+export type IPropertyCreateUpdateDto = GlobalTypes.StrictPick<
+  IPropertyDto,
+  "name" | "quantity" | "price" | "prop_owner" | "note" | "is_club_property"
+> & { incharger_id: IProfileDto["id"]; image?: FormData };

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-export const PaginationPickPage: React.FC = () => {
+const _PaginationPickPage: React.FC = () => {
   return (
     <div className="flex border-l border-gray-300 place-self-stretch">
       <input
@@ -11,3 +11,5 @@ export const PaginationPickPage: React.FC = () => {
     </div>
   );
 };
+
+export const PaginationPickPage = memo(_PaginationPickPage);

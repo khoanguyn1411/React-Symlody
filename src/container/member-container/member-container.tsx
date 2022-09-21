@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
@@ -16,9 +16,10 @@ import {
   getMembersAsync,
   memberSelectors,
   setListQueryMember,
+  updateMemberAsync,
 } from "@/features/reducers";
 import { IMember } from "@/features/types";
-import { useModal, useSearch } from "@/hooks";
+import { useDebounce, useModal } from "@/hooks";
 
 import {
   MEMBER_FILTER_OPTIONS,
@@ -32,10 +33,10 @@ import { TableMemberContent } from "./member-table-content";
 const getFilterValue = (key: string) => {
   return MEMBER_FILTER_OPTIONS.find((item) => item.key === key).value;
 };
-export const MemberContainer: React.FC = () => {
+const _MemberContainer: React.FC = () => {
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<IMember>();
-  const propsSearch = useSearch();
+  const propsSearch = useDebounce();
 
   const memberStore = useAppSelector((state) => state.member);
   const memberCount = useAppSelector(memberSelectors.selectTotal);
@@ -89,6 +90,21 @@ export const MemberContainer: React.FC = () => {
     toast.success(MEMBER_MESSAGE.delete.error);
   };
 
+  const handleRestore = async (item: IMember) => {
+    const result = await dispatch(
+      updateMemberAsync({
+        payload: { ...item, is_archived: false },
+        id: item.id,
+        isRestore: true,
+      })
+    );
+    if (!result.payload.result) {
+      toast.error(MEMBER_MESSAGE.update.error);
+      return;
+    }
+    toast.success(MEMBER_MESSAGE.update.success);
+  };
+
   const showNoData = false;
   if (showNoData) {
     return (
@@ -136,18 +152,19 @@ export const MemberContainer: React.FC = () => {
             <Table.CellHead width="12rem">Vị trí</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
-          <TableMemberContent onEdit={handleEdit} onDelete={handleDelete} />
+          <TableMemberContent
+            onEdit={handleEdit}
+            onRestore={handleRestore}
+            onDelete={handleDelete}
+          />
         </Table.Container>
 
-        {memberCount > 0 && (
-          <Container.Pagination
-            onRowQuantityChange={(activeRows) => console.log(activeRows)}
-            onPaginationChange={(activePage) => console.log(activePage)}
-          />
-        )}
+        {memberCount > 0 && <Container.Pagination />}
       </Container.Body>
       <ModalCreateMember {...propsModalCreateMember} />
       <ModalEditMember {...propsModalEditMember} />
     </>
   );
 };
+
+export const MemberContainer = memo(_MemberContainer);

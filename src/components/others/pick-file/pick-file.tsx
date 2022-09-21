@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useRef, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { Button } from "@/components";
@@ -14,7 +14,7 @@ type TProps = {
   setMessage: (message: string) => void;
 };
 export * from "./constant";
-export const PickFile: React.FC<TProps> = ({
+const _PickFile: React.FC<TProps> = ({
   selectedFile,
   message,
   setSelectedFile,
@@ -150,3 +150,5 @@ export const PickFile: React.FC<TProps> = ({
     </>
   );
 };
+
+export const PickFile = memo(_PickFile);
