@@ -3,6 +3,7 @@ import { memo, ReactNode, useEffect } from "react";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 import { GlobalTypes } from "@/types";
 
+import { Button } from "../../button";
 import { Input } from "../../input";
 import { Portal } from "../../portal";
 import { SelectDisplayWrapper, SelectListWrapper } from "../select-components";
@@ -16,6 +17,7 @@ type TSelectSearchProps = {
   setIsShowContent: (isShowContent: boolean) => void;
   setInputValue: (value: string) => void;
   onSearchChange: (value: string) => void;
+  onClearSearch?: () => void;
 };
 
 const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
@@ -28,21 +30,28 @@ const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
   setIsShowContent,
   onSearchChange,
   setInputValue,
+  onClearSearch,
 }) => {
   const { listRef, displayRef } = useHideOnClickOutside(
     isShowContent,
     setIsShowContent
   );
-  const handleToggleContent = () => {
-    setPositionList();
-    setIsShowContent(true);
-  };
   const { position, setPositionList } = usePositionPortal<HTMLDivElement>({
     displayRef,
     isPortal: true,
     isShowing: isShowContent,
     placement: "bottom-left",
   });
+
+  const handleToggleContent = () => {
+    setPositionList();
+    setIsShowContent(true);
+  };
+
+  const handleClearMember = () => {
+    setInputValue("");
+    onClearSearch?.();
+  };
 
   useEffect(() => {
     onSearchChange(inputValue);
@@ -71,15 +80,18 @@ const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
       >
         <div className="relative w-full">
           {postNode && (
-            <div className="absolute top-0 bottom-0 left-0 flex items-center w-full ml-3">
+            <div className="absolute top-0 bottom-0 left-0 flex items-center w-full px-3">
               {postNode}
               <Input
                 style="none"
                 placeholder={placeholder}
                 value={inputValue}
                 onChange={setInputValue}
-                className="ml-2"
+                className="w-full ml-2 box-border"
               />
+              <Button isIconOnly style="none" onClick={handleClearMember}>
+                <i className="fas fa-times" />
+              </Button>
             </div>
           )}
           <div className="bg-gray-100 h-11 rounded-md" />

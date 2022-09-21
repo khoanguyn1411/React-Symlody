@@ -50,6 +50,10 @@ export const PropertyOwnerSelect = () => {
     setInputValue(member.full_name);
   };
 
+  const handleClearMemberSelected = () => {
+    setMemberSelected(null);
+  };
+
   useLayoutEffect(() => {
     if (!isShowContent && memberSelected) {
       setInputValue(memberSelected.full_name);
@@ -76,6 +80,7 @@ export const PropertyOwnerSelect = () => {
         inputValue={inputValue}
         debounceValue={debounceValue}
         isShowContent={isShowContent}
+        onClearSearch={handleClearMemberSelected}
         setIsShowContent={setIsShowContent}
         placeholder={"Người chịu trách nhiệm"}
         postNode={
@@ -123,7 +128,7 @@ export const PropertyOwnerSelect = () => {
               onClick={handleSelectMember(item)}
               key={item.id}
               className={classNames(
-                "flex p-2 w-full space-x-3 items-center hover:bg-gray-100 transition-colors duration-200",
+                "flex py-2 px-3 w-full space-x-3 items-center hover:bg-gray-100 transition-colors duration-200",
                 isSelectedItemInList && "bg-primary-50"
               )}
             >
