@@ -101,8 +101,15 @@ export const memberSlice = createSlice({
         state.pendingDeleteMember = true;
       })
       .addCase(deleteMemberAsync.fulfilled, (state, action) => {
-        memberAdapter.removeOne(state, action.payload);
         state.pendingDeleteMember = false;
+        if (state.listQueryMember.is_archived == null) {
+          memberAdapter.updateOne(state, {
+            id: action.payload,
+            changes: { is_archived: true },
+          });
+          return;
+        }
+        memberAdapter.removeOne(state, action.payload);
       })
       .addCase(deleteMemberAsync.rejected, (state) => {
         state.pendingDeleteMember = false;

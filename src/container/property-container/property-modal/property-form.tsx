@@ -8,7 +8,7 @@ import { IProperty } from "@/features/types";
 import { FormatService, FormService } from "@/utils";
 
 import { PropertyFormMapper } from "../mapper";
-import { PropertyOwnerSelect } from "../property-owner";
+import { PropertyOwnerSelect } from "../property-owner-select";
 import { IFormPropertyInfo } from "../type";
 
 type TProps = {

@@ -23,12 +23,18 @@ export const PropertyOwnerSelect = () => {
       setCurrentMemberList(memberList);
       return;
     }
-    setIsShowContent(true);
+    // setIsShowContent(true);
     const newMemberFilterList = memberList.filter((item) =>
       FormatService.toCleanedString(item.full_name).includes(
         FormatService.toCleanedString(value)
       )
     );
+    if (memberSelected) {
+      setCurrentMemberList(
+        newMemberFilterList.filter((item) => item.id !== memberSelected.id)
+      );
+      return;
+    }
     setCurrentMemberList(newMemberFilterList);
   };
   const handleSelectMember = (member: IMember) => () => {
@@ -53,12 +59,19 @@ export const PropertyOwnerSelect = () => {
     setCurrentMemberList(memberList);
   }, [memberList]);
 
+  console.log(
+    currentMemberList.filter((item) =>
+      memberSelected ? item.id !== memberSelected.id : item
+    )
+  );
+
   return (
     <div>
       <SelectSearch
         {...propsInputSearch}
         isShowContent={isShowContent}
         setIsShowContent={setIsShowContent}
+        placeholder={"Người chịu trách nhiệm"}
         postNode={
           <Avatar
             size="small"
@@ -72,19 +85,63 @@ export const PropertyOwnerSelect = () => {
         }
         onSearchChange={handleSearchValueChange}
       >
-        {currentMemberList.map((item) => (
-          <div
-            aria-hidden
-            onClick={handleSelectMember(item)}
-            key={item.id}
+        {memberSelected && !propsInputSearch.debounceValue && (
+          <button
             className={classNames(
-              memberSelected && item.id === memberSelected.id && "text-red-600"
+              "flex p-2 w-full space-x-3 items-center bg-primary-50"
             )}
           >
-            {item.full_name}
-          </div>
-        ))}
-        {currentMemberList.length === 0 && <div>No data</div>}
+            <Avatar
+              size="medium"
+              fullName={memberSelected.auth_account.first_name}
+              src=""
+            />
+            <div className="flex flex-col">
+              <h1
+                className={classNames("text-left text-primary-800 font-medium")}
+              >
+                {memberSelected.full_name}
+              </h1>
+              <h2 className="text-sm">{memberSelected.auth_account.email}</h2>
+            </div>
+          </button>
+        )}
+        {currentMemberList.map((item) => {
+          const isSelectedItemInList =
+            memberSelected && item.id === memberSelected.id;
+          return (
+            <button
+              onClick={handleSelectMember(item)}
+              key={item.id}
+              className={classNames(
+                "flex p-2 w-full space-x-3 items-center",
+                isSelectedItemInList && "bg-primary-50"
+              )}
+            >
+              <Avatar
+                size="medium"
+                fullName={item.auth_account.first_name}
+                src=""
+              />
+              <div className="flex flex-col">
+                <h1
+                  className={classNames(
+                    "text-left",
+                    isSelectedItemInList && "text-primary-800 font-medium"
+                  )}
+                >
+                  {item.full_name}
+                </h1>
+                {isSelectedItemInList && (
+                  <h2 className="text-sm">{item.auth_account.email}</h2>
+                )}
+              </div>
+            </button>
+          );
+        })}
+        {currentMemberList.length === 0 && (
+          <div className="p-2">Không có dữ liệu thành viên</div>
+        )}
       </SelectSearch>
     </div>
   );

@@ -13,7 +13,7 @@ type TSelectSearchProps = {
   debounceValue: string;
   isShowContent: boolean;
   postNode?: ReactNode;
-  setIsShowContent: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowContent: (isShowContent: boolean) => void;
   setInputValue: (value: string) => void;
   onSearchChange: (value: string) => void;
 };
@@ -24,6 +24,7 @@ const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
   inputValue,
   debounceValue,
   isShowContent,
+  placeholder,
   setIsShowContent,
   onSearchChange,
   setInputValue,
@@ -34,7 +35,7 @@ const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
   );
   const handleToggleContent = () => {
     setPositionList();
-    setIsShowContent((prev) => !prev);
+    setIsShowContent(true);
   };
   const { position, setPositionList } = usePositionPortal<HTMLDivElement>({
     displayRef,
@@ -74,6 +75,7 @@ const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
               {postNode}
               <Input
                 style="none"
+                placeholder={placeholder}
                 value={inputValue}
                 onChange={setInputValue}
                 className="ml-2"

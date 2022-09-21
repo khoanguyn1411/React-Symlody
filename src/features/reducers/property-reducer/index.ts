@@ -90,6 +90,13 @@ export const propertySlice = createSlice({
       })
       .addCase(deletePropertyAsync.fulfilled, (state, action) => {
         state.pendingDeleteProperty = false;
+        if (state.listQueryProperty.is_archived == null) {
+          propertyAdapter.updateOne(state, {
+            id: action.payload,
+            changes: { is_archived: true },
+          });
+          return;
+        }
         propertyAdapter.removeOne(state, action.payload);
       })
       .addCase(deletePropertyAsync.rejected, (state) => {

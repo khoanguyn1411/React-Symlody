@@ -11,7 +11,9 @@ const _TableNoData: React.FC<TProps> = ({ colsNumber }) => {
     <Table.Body>
       <Table.Row index={0}>
         <Table.Cell colSpans={colsNumber}>
-          <div className="flex items-center justify-center p-4">No data</div>
+          <div className="flex items-center justify-center p-4">
+            Không có dữ liệu
+          </div>
         </Table.Cell>
       </Table.Row>
     </Table.Body>
