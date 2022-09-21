@@ -1,19 +1,12 @@
-/* eslint-disable prettier/prettier */
+import { ITokenDto, ITokenRefreshDto } from "@/features/types";
 import { IUser } from "@/features/types/dtos/user";
 
 import { GeneralApiProblem } from "../api-problem";
 
-export type RespondResult = {
-  access: string;
-  token_type: string;
-  expires_in: string;
-  refresh: string;
-};
-
 export type RequestLoginResult =
   | {
       kind: `ok`;
-      result: RespondResult;
+      result: ITokenDto;
     }
   | GeneralApiProblem;
 
@@ -24,14 +17,9 @@ export type RequestGetProfileResult =
     }
   | GeneralApiProblem;
 
-export type RespondRefreshResult = {
-  access: string;
-  refresh: string;
-};
-
 export type RequestRefreshResult =
   | {
       kind: `ok`;
-      result: RespondRefreshResult;
+      result: ITokenRefreshDto;
     }
   | GeneralApiProblem;

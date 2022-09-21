@@ -1,5 +1,6 @@
-import { ApiResponse, ApisauceInstance } from "apisauce";
+import { ApisauceInstance } from "apisauce";
 
+import { ITokenDto } from "@/features/types";
 import { IUser } from "@/features/types/dtos/user";
 
 import { API_URL } from "../api-config";
@@ -14,7 +15,7 @@ const api: ApisauceInstance = Api.getInstance();
 const routes = {
   login: () => `${prefix}/login/`,
   refreshToken: () => `${prefix}/login/refresh/`,
-  geProfile: () => `${prefix}/login/`,
+  getProfile: () => `${prefix}/login/`,
 };
 
 export const AuthApi = {
@@ -23,30 +24,25 @@ export const AuthApi = {
     password: string
   ): Promise<Types.RequestLoginResult> {
     const url = routes.login();
-    const result: ApiResponse<Types.RespondResult> = await api.post(url, {
+    const result = await api.post<ITokenDto>(url, {
       username,
       password,
     });
-
     return returnResponse(result);
   },
 
   async getProfile(): Promise<Types.RequestGetProfileResult> {
-    const url = routes.geProfile();
-    const result: ApiResponse<IUser> = await api.get(url);
+    const url = routes.getProfile();
+    const result = await api.get<IUser>(url);
 
     return returnResponse(result);
   },
 
-  async refreshToken(token: string): Promise<Types.RequestRefreshResult> {
-    const url = routes.refreshToken();
-    const result: ApiResponse<Types.RespondRefreshResult> = await api.post(
-      url,
-      {
-        refresh: token,
-      }
-    );
+  // async refreshToken(token: IToken): Promise<Types.RequestRefreshResult> {
+  //   const tokenRefreshDto = TokenMapper.toParamRefreshDto(token);
+  //   const url = routes.refreshToken();
+  //   const result = await api.post<ITokenRefreshDto>(url, tokenRefreshDto);
 
-    return returnResponse(result);
-  },
+  //   return returnResponse(result);
+  // },
 };

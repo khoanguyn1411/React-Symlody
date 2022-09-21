@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { Api } from "@/api";
 import { APP_CONSTANTS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getMeAsync,
-  refreshTokenAsync,
   setIsAuth,
   setIsCompactSidebar,
 } from "@/features/reducers";
+import { TokenService } from "@/utils";
 
 export function useAuth() {
   const dispatch = useAppDispatch();
@@ -27,22 +26,14 @@ export function useAuth() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isAuth]);
 
+  useEffect(() => {
+    dispatch(getMeAsync());
+  }, [dispatch]);
+
   const checkAuth = async () => {
-    const token = Api.getToken();
-    if (!token) return false;
-
-    Api.setToken(token);
-
-    const result = await dispatch(getMeAsync());
-    if (!result.payload) {
-      await dispatch(refreshTokenAsync({ token: token })).then((res) => {
-        if (res.payload) {
-          return true;
-        }
-      });
+    if (!TokenService.isValid()) {
       return false;
     }
-
     return true;
   };
 

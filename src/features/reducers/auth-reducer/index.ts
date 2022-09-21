@@ -1,15 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import {
-  Api,
-  AuthApi,
-  RequestGetProfileResult,
-  RequestLoginResult,
-  RequestRefreshResult,
-} from "@/api";
-import { APP_CONSTANTS } from "@/constants";
+import { AuthApi, RequestGetProfileResult } from "@/api";
 import { RootState } from "@/features/store";
+import { IToken } from "@/features/types";
 import { IUser } from "@/features/types/dtos/user";
+import { TokenMapper } from "@/features/types/mappers/token.mapper";
+import { GlobalTypes } from "@/types";
+import { TokenService } from "@/utils";
 
 export type AuthState = {
   pending: boolean;
@@ -23,38 +20,33 @@ const initialState: AuthState = {
   isAuth: false,
 };
 
-export const loginAsync = createAsyncThunk(
-  "auth/login",
-  async (payload: { username: string; password: string }) => {
-    const result: RequestLoginResult = await AuthApi.login(
-      payload.username,
-      payload.password
-    );
+export const loginAsync = createAsyncThunk<
+  boolean,
+  { username: string; password: string },
+  GlobalTypes.ReduxThunkRejectValue<false>
+>("auth/login", async (payload) => {
+  const result = await AuthApi.login(payload.username, payload.password);
 
-    if (result.kind === "ok") {
-      localStorage.setItem(APP_CONSTANTS.AUTH, result.result.access);
-      Api.setToken(result.result.access);
-      return true;
-    }
-    return false;
+  if (result.kind === "ok") {
+    TokenService.setToken(TokenMapper.fromDto(result.result));
+    return true;
   }
-);
+  return false;
+});
 
-export const refreshTokenAsync = createAsyncThunk(
-  "auth/refresh/token",
-  async (payload: { token: string }) => {
-    const result: RequestRefreshResult = await AuthApi.refreshToken(
-      payload.token
-    );
+// export const refreshTokenAsync = createAsyncThunk<
+//   boolean,
+//   IToken,
+//   GlobalTypes.ReduxThunkRejectValue<false>
+// >("auth/refresh/token", async (payload, { rejectWithValue }) => {
+//   const result = await AuthApi.refreshToken(payload);
 
-    if (result.kind === "ok") {
-      localStorage.setItem(APP_CONSTANTS.AUTH, result.result.access);
-      Api.setToken(result.result.access);
-      return true;
-    }
-    return false;
-  }
-);
+//   if (result.kind === "ok") {
+//     TokenService.setToken(result.result);
+//     return true;
+//   }
+//   return rejectWithValue(false);
+// });
 
 export const getMeAsync = createAsyncThunk("auth/login/me", async () => {
   const result: RequestGetProfileResult = await AuthApi.getProfile();
@@ -74,7 +66,7 @@ export const authSlice = createSlice({
     },
     logout: (state) => {
       state.isAuth = false;
-      Api.clearToken();
+      TokenService.clearToken();
     },
   },
   extraReducers: (builder) => {
