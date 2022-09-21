@@ -78,6 +78,7 @@ export const PropertyOwnerSelect = () => {
       <SelectSearch
         setInputValue={handleInputChange}
         inputValue={inputValue}
+        isShowClearSearch={inputValue !== "" || memberSelected != null}
         debounceValue={debounceValue}
         isShowContent={isShowContent}
         onClearSearch={handleClearMemberSelected}

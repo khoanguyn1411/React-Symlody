@@ -41,7 +41,7 @@ export const Avatar: React.FC<IProps> = ({
       role="img"
       aria-label={fullName}
       className={classNames(
-        "flex items-center justify-center text-white overflow-hidden font-normal select-none relative bg-cover",
+        "flex items-center justify-center min-w-max text-white overflow-hidden font-normal select-none relative bg-cover",
         SIZE_MAPS[size],
         {
           "border-2 border-white": isBorder,

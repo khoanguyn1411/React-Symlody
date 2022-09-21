@@ -25,7 +25,7 @@ const _ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
     formState: { dirtyFields, isSubmitting },
   } = propsForm;
 
-  const handleEditProperty = (editInfo: IFormPropertyInfo) => {
+  const handleEditProperty = () => {
     //TODO: Handle update property.
   };
   return (

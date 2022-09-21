@@ -14,6 +14,7 @@ type TSelectSearchProps = {
   debounceValue: string;
   isShowContent: boolean;
   postNode?: ReactNode;
+  isShowClearSearch?: boolean;
   setIsShowContent: (isShowContent: boolean) => void;
   setInputValue: (value: string) => void;
   onSearchChange: (value: string) => void;
@@ -27,6 +28,7 @@ const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
   debounceValue,
   isShowContent,
   placeholder,
+  isShowClearSearch,
   setIsShowContent,
   onSearchChange,
   setInputValue,
@@ -89,9 +91,11 @@ const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
                 onChange={setInputValue}
                 className="w-full ml-2 box-border"
               />
-              <Button isIconOnly style="none" onClick={handleClearMember}>
-                <i className="fas fa-times" />
-              </Button>
+              {isShowClearSearch && (
+                <Button isIconOnly style="none" onClick={handleClearMember}>
+                  <i className="fas fa-times" />
+                </Button>
+              )}
             </div>
           )}
           <div className="bg-gray-100 h-11 rounded-md" />
