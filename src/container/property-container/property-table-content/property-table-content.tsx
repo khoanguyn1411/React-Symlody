@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 
 import { DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
@@ -23,17 +23,26 @@ const _TablePropertyContent: React.FC<TProps> = ({
   const propertyCount = useAppSelector(propertySelector.selectTotal);
   const propertyStore = useAppSelector((state) => state.property);
 
-  const handleEdit = (item: IProperty) => () => {
-    onEdit(item);
-  };
-  const handleDelete = (item: IProperty) => () => {
-    onDelete(item);
-    setCurrentInteractiveId(item.id);
-  };
+  const handleEdit = useCallback(
+    (item: IProperty) => () => {
+      onEdit(item);
+    },
+    [onEdit]
+  );
+  const handleDelete = useCallback(
+    (item: IProperty) => () => {
+      onDelete(item);
+      setCurrentInteractiveId(item.id);
+    },
+    [onDelete]
+  );
 
-  const handleRestore = (item: IProperty) => () => {
-    onRestore(item);
-  };
+  const handleRestore = useCallback(
+    (item: IProperty) => () => {
+      onRestore(item);
+    },
+    [onRestore]
+  );
 
   if (propertyStore.pending) {
     return <Table.Skeleton colsNumber={7} />;

@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -27,19 +27,23 @@ const _TabCreateAMember: React.FC = () => {
   const dispatch = useAppDispatch();
   const departmentStore = useAppSelector((state) => state.department);
 
-  const handleCreateMember = async (data: IFormMemberInfo) => {
-    const memberModel = MemberFormMapper.toModel(
-      departmentStore.department,
-      data
-    );
-    const res = await dispatch(createMemberAsync(memberModel));
-    if (!res.payload) {
-      toast.error(MEMBER_MESSAGE.create.error);
-      return;
-    }
-    toast.success(MEMBER_MESSAGE.create.success);
-    reset();
-  };
+  const handleCreateMember = useCallback(
+    async (data: IFormMemberInfo) => {
+      const memberModel = MemberFormMapper.toModel(
+        departmentStore.department,
+        data
+      );
+      const res = await dispatch(createMemberAsync(memberModel));
+      if (!res.payload) {
+        toast.error(MEMBER_MESSAGE.create.error);
+        return;
+      }
+      toast.success(MEMBER_MESSAGE.create.success);
+      reset();
+    },
+    [departmentStore.department, dispatch, reset]
+  );
+
   return (
     <ModalTab
       handleEvent={{
@@ -55,9 +59,9 @@ const _TabCreateAMember: React.FC = () => {
 const _TabCreateMultipleMembers: React.FC = () => {
   const propsFile = usePickFile();
 
-  const handleSubmitFile = () => {
+  const handleSubmitFile = useCallback(() => {
     propsFile.setIsSubmitFile(true);
-  };
+  }, [propsFile]);
 
   return (
     <ModalTab

@@ -69,27 +69,36 @@ const _PropertyContainer: React.FC = () => {
           break;
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [filter]
+    [dispatch, propertyStore.listQueryProperty]
   );
-  const handleEdit = (item: IProperty) => {
-    propsModalEdit.setData(item);
-    propsModalEdit.toggle.setToggle();
-  };
-  const handleDelete = async (item: IProperty) => {
-    const result = await dispatch(deletePropertyAsync(item.id));
-    if (result.payload) {
-      toast.success(PROPERTY_MESSAGE.delete.success);
-      return;
-    }
-    toast.success(PROPERTY_MESSAGE.delete.error);
-  };
+
+  const handleEdit = useCallback(
+    (item: IProperty) => {
+      propsModalEdit.setData(item);
+      propsModalEdit.toggle.setToggle();
+    },
+    [propsModalEdit]
+  );
+
+  const handleDelete = useCallback(
+    async (item: IProperty) => {
+      const result = await dispatch(deletePropertyAsync(item.id));
+      if (result.payload) {
+        toast.success(PROPERTY_MESSAGE.delete.success);
+        return;
+      }
+      toast.success(PROPERTY_MESSAGE.delete.error);
+    },
+    [dispatch]
+  );
+
   const handleRestore = () => {
     //TODO: Handle restore property.
   };
-  const handleOpenModal = () => {
+
+  const handleOpenModal = useCallback(() => {
     propsModal.toggle.setToggle();
-  };
+  }, [propsModal.toggle]);
 
   useEffect(() => {
     dispatch(getPropertyAsync(propertyStore.listQueryProperty));

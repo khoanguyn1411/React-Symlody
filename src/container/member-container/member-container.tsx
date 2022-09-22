@@ -69,41 +69,50 @@ const _MemberContainer: React.FC = () => {
           break;
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [filter]
+    [dispatch, memberStore.listQueryMember]
   );
 
   useEffect(() => {
     dispatch(getMembersAsync(memberStore.listQueryMember));
   }, [dispatch, memberStore.listQueryMember]);
 
-  const handleEdit = (item: IMember) => {
-    propsModalEditMember.setData(item);
-    propsModalEditMember.toggle.setShow();
-  };
-  const handleDelete = async (item: IMember) => {
-    const result = await dispatch(deleteMemberAsync(item.id));
-    if (result.payload) {
-      toast.success(MEMBER_MESSAGE.delete.success);
-      return;
-    }
-    toast.success(MEMBER_MESSAGE.delete.error);
-  };
+  const handleEdit = useCallback(
+    (item: IMember) => {
+      propsModalEditMember.setData(item);
+      propsModalEditMember.toggle.setShow();
+    },
+    [propsModalEditMember]
+  );
 
-  const handleRestore = async (item: IMember) => {
-    const result = await dispatch(
-      updateMemberAsync({
-        payload: { ...item, is_archived: false },
-        id: item.id,
-        isRestore: true,
-      })
-    );
-    if (!result.payload.result) {
-      toast.error(MEMBER_MESSAGE.update.error);
-      return;
-    }
-    toast.success(MEMBER_MESSAGE.update.success);
-  };
+  const handleDelete = useCallback(
+    async (item: IMember) => {
+      const result = await dispatch(deleteMemberAsync(item.id));
+      if (result.payload) {
+        toast.success(MEMBER_MESSAGE.delete.success);
+        return;
+      }
+      toast.success(MEMBER_MESSAGE.delete.error);
+    },
+    [dispatch]
+  );
+
+  const handleRestore = useCallback(
+    async (item: IMember) => {
+      const result = await dispatch(
+        updateMemberAsync({
+          payload: { ...item, is_archived: false },
+          id: item.id,
+          isRestore: true,
+        })
+      );
+      if (!result.payload.result) {
+        toast.error(MEMBER_MESSAGE.update.error);
+        return;
+      }
+      toast.success(MEMBER_MESSAGE.update.success);
+    },
+    [dispatch]
+  );
 
   const showNoData = false;
   if (showNoData) {

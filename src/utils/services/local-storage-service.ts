@@ -1,4 +1,4 @@
-export class LocalStoreService {
+export class LocalStorageService {
   /**
    * Get values by key from local storage.
    * @param key The key by which the value is stored.

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { APP_CONSTANTS } from "@/constants";
 import { RootState } from "@/features/store";
+import { LocalStorageService } from "@/utils";
 
 export type CommonState = {
   isCompactSidebar: boolean;
@@ -17,8 +18,10 @@ export const commonSlice = createSlice({
   reducers: {
     toggleCompactSidebar: (state) => {
       state.isCompactSidebar = !state.isCompactSidebar;
-      const isCompact = state.isCompactSidebar ? "true" : "false";
-      localStorage.setItem(APP_CONSTANTS.IS_COMPACT_SIDEBAR, isCompact);
+      LocalStorageService.setValue<boolean>(
+        APP_CONSTANTS.IS_COMPACT_SIDEBAR,
+        state.isCompactSidebar
+      );
       setTimeout(() => {
         window.dispatchEvent(new Event("resize"));
       }, 280);

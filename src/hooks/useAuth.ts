@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { APP_CONSTANTS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
@@ -7,7 +7,7 @@ import {
   setIsAuth,
   setIsCompactSidebar,
 } from "@/features/reducers";
-import { TokenService } from "@/utils";
+import { LocalStorageService, TokenService } from "@/utils";
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
@@ -16,14 +16,14 @@ export const useAuth = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const checkIsSignIn = () => {
+  const checkIsSignIn = useCallback(() => {
     setIsLoading(false);
     if (TokenService.isValid()) {
       dispatch(setIsAuth(true));
       return;
     }
     dispatch(setIsAuth(false));
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     if (state.isAuth) {
@@ -45,9 +45,8 @@ export const useAuth = () => {
 
   const getIsCompact = () => {
     const isCompact =
-      (localStorage.getItem(APP_CONSTANTS.IS_COMPACT_SIDEBAR) || "false") ===
-      "true";
-
+      LocalStorageService.getValue<boolean>(APP_CONSTANTS.IS_COMPACT_SIDEBAR) ??
+      false;
     dispatch(setIsCompactSidebar(isCompact));
   };
 

@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 import { Modal } from "@/components";
@@ -25,9 +25,9 @@ const _ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
     formState: { dirtyFields, isSubmitting },
   } = propsForm;
 
-  const handleEditProperty = () => {
+  const handleEditProperty = useCallback(() => {
     //TODO: Handle update property.
-  };
+  }, []);
   return (
     <Modal
       reset={reset}

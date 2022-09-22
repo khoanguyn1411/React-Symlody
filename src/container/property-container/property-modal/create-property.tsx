@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -50,16 +50,19 @@ const _TabCreateAProperty: React.FC = () => {
   } = propsForm;
   const dispatch = useAppDispatch();
 
-  const handleCreateAProperty = async (propertyData: IFormPropertyInfo) => {
-    const propertyModel = PropertyFormMapper.toModel(propertyData);
-    const result = await dispatch(createPropertyAsync(propertyModel));
-    if (!result.payload) {
-      toast.error(PROPERTY_MESSAGE.create.error);
-      return;
-    }
-    toast.success(PROPERTY_MESSAGE.create.success);
-    reset();
-  };
+  const handleCreateAProperty = useCallback(
+    async (propertyData: IFormPropertyInfo) => {
+      const propertyModel = PropertyFormMapper.toModel(propertyData);
+      const result = await dispatch(createPropertyAsync(propertyModel));
+      if (!result.payload) {
+        toast.error(PROPERTY_MESSAGE.create.error);
+        return;
+      }
+      toast.success(PROPERTY_MESSAGE.create.success);
+      reset();
+    },
+    [dispatch, reset]
+  );
   return (
     <ModalTab
       handleEvent={{

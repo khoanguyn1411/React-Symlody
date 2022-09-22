@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useCallback, useState } from "react";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
@@ -24,18 +24,27 @@ const _TableMemberContent: React.FC<TProps> = ({
 
   const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
 
-  const handleEdit = (item: IMember) => () => {
-    onEdit(item);
-  };
-  const handleDelete = (item: IMember) => () => {
-    onDelete(item);
-    setCurrentInteractiveId(item.id);
-  };
+  const handleEdit = useCallback(
+    (item: IMember) => () => {
+      onEdit(item);
+    },
+    [onEdit]
+  );
+  const handleDelete = useCallback(
+    (item: IMember) => () => {
+      onDelete(item);
+      setCurrentInteractiveId(item.id);
+    },
+    [onDelete]
+  );
 
-  const handleRestore = (item: IMember) => () => {
-    onRestore(item);
-    setCurrentInteractiveId(item.id);
-  };
+  const handleRestore = useCallback(
+    (item: IMember) => () => {
+      onRestore(item);
+      setCurrentInteractiveId(item.id);
+    },
+    [onRestore]
+  );
 
   if (memberStore.pending) {
     return <Table.Skeleton colsNumber={6} />;

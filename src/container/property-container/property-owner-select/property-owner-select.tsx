@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 
 import { Avatar, SelectSearch } from "@/components";
 import { PLACEHOLDER_IMAGE } from "@/constants";
@@ -9,7 +9,7 @@ import { IMember } from "@/features/types";
 import { useDebounce } from "@/hooks";
 import { FormatService } from "@/utils";
 
-export const PropertyOwnerSelect = () => {
+export const PropertyOwnerSelect: React.FC = () => {
   const dispatch = useAppDispatch();
   const memberList = useAppSelector(memberSelectors.selectAll);
   const { inputValue, setInputValue, debounceValue } = useDebounce();
@@ -20,39 +20,49 @@ export const PropertyOwnerSelect = () => {
   const [currentMemberList, setCurrentMemberList] =
     useState<IMember[]>(memberList);
 
-  const handleInputChange = (value: string): void => {
-    setInputValue(value);
-    setIsSearching(true);
-  };
+  const handleInputChange = useCallback(
+    (value: string): void => {
+      setInputValue(value);
+      setIsSearching(true);
+    },
+    [setInputValue]
+  );
 
-  const handleSearchValueChange = (value: string): void => {
-    if (!value) {
-      if (memberSelected) {
-        setCurrentMemberList(
-          memberList.filter((item) => item.id !== memberSelected.id)
-        );
+  const handleSearchValueChange = useCallback(
+    (value: string): void => {
+      if (!value) {
+        if (memberSelected) {
+          setCurrentMemberList(
+            memberList.filter((item) => item.id !== memberSelected.id)
+          );
+          return;
+        }
+        setCurrentMemberList(memberList);
         return;
       }
-      setCurrentMemberList(memberList);
-      return;
-    }
 
-    const newMemberFilterList = memberList.filter((item) =>
-      FormatService.toCleanedString(item.auth_account.full_name).includes(
-        FormatService.toCleanedString(value)
-      )
-    );
-    setCurrentMemberList(newMemberFilterList);
-  };
-  const handleSelectMember = (member: IMember) => () => {
-    setMemberSelected(member);
-    setIsShowContent(false);
-    setInputValue(memberSelected.auth_account.full_name);
-  };
+      const newMemberFilterList = memberList.filter((item) =>
+        FormatService.toCleanedString(item.auth_account.full_name).includes(
+          FormatService.toCleanedString(value)
+        )
+      );
+      setCurrentMemberList(newMemberFilterList);
+    },
+    [memberList, memberSelected]
+  );
 
-  const handleClearMemberSelected = () => {
+  const handleSelectMember = useCallback(
+    (member: IMember) => () => {
+      setMemberSelected(member);
+      setIsShowContent(false);
+      setInputValue(member.auth_account.full_name);
+    },
+    [setInputValue]
+  );
+
+  const handleClearMemberSelected = useCallback(() => {
     setMemberSelected(null);
-  };
+  }, []);
 
   useLayoutEffect(() => {
     if (!isShowContent && memberSelected) {
