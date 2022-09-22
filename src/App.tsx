@@ -12,6 +12,7 @@ import { CustomRoute, routesConfigs } from "./routes";
 
 function App() {
   const { isLoading } = useAuth();
+  console.log(isLoading, "--isLoading");
   if (isLoading) {
     return (
       <div className="flex items-center justify-center w-screen h-screen">

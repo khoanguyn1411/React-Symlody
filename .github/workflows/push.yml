@@ -39,4 +39,4 @@ jobs:
             yarn build
             cd ..
             ls
-            docker-compose up -d --no-deps --build club_ui
+            docker-compose up -d --no-deps --build clubui
