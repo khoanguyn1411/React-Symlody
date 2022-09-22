@@ -1,11 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import {
-  DepartmentApi,
-  RequestGetDepartmentResult,
-} from "@/api/department-api";
+import { DepartmentApi } from "@/api/department-api";
 import { RootState } from "@/features/store";
-import { IDepartment } from "@/features/types";
+import { DepartmentMapper, IDepartment } from "@/features/types";
 import { GlobalTypes } from "@/types";
 
 export type DepartmentState = {
@@ -23,10 +20,9 @@ export const getDepartmentAsync = createAsyncThunk<
   null,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/department", async (payload, { rejectWithValue }) => {
-  const result: RequestGetDepartmentResult =
-    await DepartmentApi.getDepartments();
+  const result = await DepartmentApi.getDepartments();
   if (result.kind === "ok") {
-    return result.result;
+    return result.result.map((item) => DepartmentMapper.fromDto(item));
   }
 
   return rejectWithValue([]);

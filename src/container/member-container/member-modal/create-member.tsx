@@ -1,17 +1,13 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import {
-  ModalMultipleTabs,
-  ModalTab,
-  PICK_FILE_MESSAGE,
-  PickFile,
-} from "@/components";
+import { ModalMultipleTabs, ModalTab, PickFile } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { createMemberAsync } from "@/features/reducers";
 import { THookModalProps } from "@/hooks";
+import { usePickFile } from "@/hooks/usePickFile";
 
 import { MEMBER_MESSAGE } from "../constant";
 import { MemberFormMapper } from "../mapper";
@@ -57,18 +53,10 @@ const _TabCreateAMember: React.FC = () => {
 };
 
 const _TabCreateMultipleMembers: React.FC = () => {
-  const [selectedFile, setSelectedFile] = useState<File>(null);
-  const [message, setMessage] = useState<string>(
-    PICK_FILE_MESSAGE.defaultExtension
-  );
+  const propsFile = usePickFile();
 
   const handleSubmitFile = () => {
-    if (!selectedFile) {
-      setMessage(PICK_FILE_MESSAGE.notPickFile);
-      return;
-    }
-    setMessage(PICK_FILE_MESSAGE.defaultExtension);
-    alert("Submitted!");
+    propsFile.setIsSubmitFile(true);
   };
 
   return (
@@ -78,12 +66,7 @@ const _TabCreateMultipleMembers: React.FC = () => {
         isLoading: false,
       }}
     >
-      <PickFile
-        message={message}
-        setMessage={setMessage}
-        selectedFile={selectedFile}
-        setSelectedFile={setSelectedFile}
-      />
+      <PickFile {...propsFile} />
     </ModalTab>
   );
 };

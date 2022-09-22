@@ -14,7 +14,9 @@ export const useHideOnClickOutside = (
   useEffect(() => {
     const elementList = listRef?.current;
     const elementDisplay = displayRef?.current;
-    if (!elementList || !elementDisplay) return;
+    if (!elementList || !elementDisplay) {
+      return;
+    }
     const handleCloseListDiv = (event: Event) => {
       if (
         !elementList.contains(event.target as Node) &&

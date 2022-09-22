@@ -19,6 +19,6 @@ export type RequestCreatePropertyResult =
 export type RequestDeletePropertyResult =
   | {
       kind: `ok`;
-      result: unknown;
+      result: boolean;
     }
   | GeneralApiProblem;

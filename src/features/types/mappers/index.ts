@@ -4,3 +4,4 @@ export * from "./group.mapper";
 export * from "./member.mapper";
 export * from "./profile.mapper";
 export * from "./property.mapper";
+export * from "./user.mapper";

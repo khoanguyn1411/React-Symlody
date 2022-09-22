@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { AuthApi, RequestGetProfileResult } from "@/api";
+import { AuthApi } from "@/api";
 import { RootState } from "@/features/store";
-import { IUser } from "@/features/types/dtos/user";
+import { ILogin, IUser, UserMapper } from "@/features/types";
+import { LoginMapper } from "@/features/types/mappers/login.mapper";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 import { GlobalTypes } from "@/types";
 import { TokenService } from "@/utils";
@@ -21,11 +22,11 @@ const initialState: AuthState = {
 
 export const loginAsync = createAsyncThunk<
   boolean,
-  { username: string; password: string },
+  ILogin,
   GlobalTypes.ReduxThunkRejectValue<false>
 >("auth/login", async (payload, { rejectWithValue }) => {
-  const result = await AuthApi.login(payload.username, payload.password);
-
+  const loginInfoDto = LoginMapper.toDto(payload);
+  const result = await AuthApi.login(loginInfoDto);
   if (result.kind === "ok") {
     TokenService.setToken(TokenMapper.fromDto(result.result));
     return true;
@@ -36,11 +37,11 @@ export const loginAsync = createAsyncThunk<
 export const getMeAsync = createAsyncThunk<
   IUser,
   null,
-  GlobalTypes.ReduxThunkRejectValue<IUser>
+  GlobalTypes.ReduxThunkRejectValue<null>
 >("auth/login/me", async (payload, { rejectWithValue }) => {
-  const result: RequestGetProfileResult = await AuthApi.getProfile();
+  const result = await AuthApi.getProfile();
   if (result.kind === "ok") {
-    return result.result;
+    return UserMapper.fromDto(result.result);
   }
 
   return rejectWithValue(null);

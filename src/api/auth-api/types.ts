@@ -1,5 +1,4 @@
-import { ITokenDto, ITokenRefreshDto } from "@/features/types";
-import { IUser } from "@/features/types/dtos/user";
+import { ITokenDto, ITokenRefreshDto, IUserDto } from "@/features/types";
 
 import { GeneralApiProblem } from "../api-problem";
 
@@ -13,7 +12,7 @@ export type RequestLoginResult =
 export type RequestGetProfileResult =
   | {
       kind: `ok`;
-      result: IUser;
+      result: IUserDto;
     }
   | GeneralApiProblem;
 

@@ -1,5 +1,3 @@
-import { ApisauceInstance } from "apisauce";
-
 import {
   IProperty,
   IPropertyCreateUpdateDto,
@@ -7,17 +5,13 @@ import {
 } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
 
-import { API_URL } from "../api-config";
 import { Api } from "../api-core";
 import { returnResponse } from "../api-utilities";
 import * as Types from "./types";
 
-const prefix = API_URL + "/api";
-const api: ApisauceInstance = Api.getInstance();
-
 const routes = {
-  getProperties: () => `${prefix}/property/`,
-  deleteProperty: (id) => `${prefix}/property/${id}`,
+  getProperties: () => `property/`,
+  deleteProperty: (id: IProperty["id"]) => `property/${id}`,
 };
 
 export const PropertyApi = {
@@ -25,7 +19,7 @@ export const PropertyApi = {
     param: TPropertyParamQueryDto
   ): Promise<Types.RequestGetPropertiesResult> {
     const url = routes.getProperties();
-    const result = await api.get<IPropertyDto[]>(url, param);
+    const result = await Api.http.get<IPropertyDto[]>(url, param);
     return returnResponse(result);
   },
 
@@ -33,7 +27,7 @@ export const PropertyApi = {
     body: IPropertyCreateUpdateDto
   ): Promise<Types.RequestCreatePropertyResult> {
     const url = routes.getProperties();
-    const result = await api.post<IPropertyDto>(url, body);
+    const result = await Api.http.post<IPropertyDto>(url, body);
     return returnResponse(result);
   },
 
@@ -41,7 +35,7 @@ export const PropertyApi = {
     id: IProperty["id"]
   ): Promise<Types.RequestDeletePropertyResult> {
     const url = routes.deleteProperty(id);
-    const result = await api.delete<Types.RequestDeletePropertyResult>(url);
+    const result = await Api.http.delete<boolean>(url);
 
     return returnResponse(result);
   },

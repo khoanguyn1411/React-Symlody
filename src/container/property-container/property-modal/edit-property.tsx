@@ -37,9 +37,9 @@ const _ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
       isShowing={isShowing}
       handleEvent={{
         title: "Cập nhật",
-        event: handleSubmit(handleEditProperty),
         isLoading: isSubmitting,
         isDisable: Object.keys(dirtyFields).length === 0,
+        event: handleSubmit(handleEditProperty),
       }}
     >
       <FormItems data={data} formProps={propsForm} />

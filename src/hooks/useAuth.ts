@@ -9,7 +9,7 @@ import {
 } from "@/features/reducers";
 import { TokenService } from "@/utils";
 
-export function useAuth() {
+export const useAuth = () => {
   const dispatch = useAppDispatch();
 
   const state = useAppSelector((state) => state.user);
@@ -17,10 +17,12 @@ export function useAuth() {
   const [isLoading, setIsLoading] = useState(true);
 
   const checkIsSignIn = () => {
-    checkAuth().then((res) => {
-      dispatch(setIsAuth(res));
-      setIsLoading(false);
-    });
+    setIsLoading(false);
+    if (TokenService.isValid()) {
+      dispatch(setIsAuth(true));
+      return;
+    }
+    dispatch(setIsAuth(false));
   };
 
   useEffect(() => {
@@ -31,23 +33,15 @@ export function useAuth() {
   }, [state.isAuth]);
 
   useEffect(() => {
-    dispatch(getMeAsync());
-  }, [dispatch]);
-
-  useEffect(() => {
+    if (TokenService.isValid()) {
+      dispatch(getMeAsync());
+    }
     window.addEventListener("storage", checkIsSignIn);
     return () => {
       window.removeEventListener("storage", checkIsSignIn);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const checkAuth = async () => {
-    if (!TokenService.isValid()) {
-      return false;
-    }
-    return true;
-  };
 
   const getIsCompact = () => {
     const isCompact =
@@ -58,4 +52,4 @@ export function useAuth() {
   };
 
   return { isAuth: state.isAuth, isLoading };
-}
+};

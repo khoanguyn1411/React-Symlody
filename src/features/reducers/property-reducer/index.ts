@@ -1,11 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import {
-  PropertyApi,
-  RequestCreatePropertyResult,
-  RequestDeletePropertyResult,
-  RequestGetPropertiesResult,
-} from "@/api/property-api";
+import { PropertyApi } from "@/api/property-api";
 import { RootState } from "@/features/store";
 import {
   IProperty,
@@ -22,9 +17,7 @@ export const getPropertyAsync = createAsyncThunk<
   TPropertyParamQueryDto,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/properties", async (param, { rejectWithValue }) => {
-  const result: RequestGetPropertiesResult = await PropertyApi.getProperties(
-    param
-  );
+  const result = await PropertyApi.getProperties(param);
   if (result.kind === "ok") {
     return result.result.map((item) => PropertyMapper.fromDto(item));
   }
@@ -36,7 +29,7 @@ export const createPropertyAsync = createAsyncThunk<
   IPropertyCreateUpdate,
   GlobalTypes.ReduxThunkRejectValue<null>
 >("create/property", async (payload, { rejectWithValue }) => {
-  const result: RequestCreatePropertyResult = await PropertyApi.createProperty(
+  const result = await PropertyApi.createProperty(
     PropertyMapper.toDto(payload)
   );
   if (result.kind === "ok") {
@@ -50,9 +43,7 @@ export const deletePropertyAsync = createAsyncThunk<
   IProperty["id"],
   GlobalTypes.ReduxThunkRejectValue<null>
 >("delete/property", async (id, { rejectWithValue }) => {
-  const result: RequestDeletePropertyResult = await PropertyApi.deleteProperty(
-    id
-  );
+  const result = await PropertyApi.deleteProperty(id);
   if (result.kind === "ok") {
     return id;
   }

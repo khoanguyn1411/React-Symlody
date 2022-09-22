@@ -5,27 +5,18 @@ import { TokenMapper } from "@/features/types/mappers/token.mapper";
 import { TokenService } from "@/utils";
 
 export function interceptToken(config: AxiosRequestConfig): AxiosRequestConfig {
-  const { headers } = config;
-
   if (!TokenService.shouldInterceptToken(config)) {
     return config;
   }
   const token = TokenService.getToken();
-
   if (token == null) {
     return config;
   }
-  return {
-    ...config,
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${token.access}`,
-    },
-  };
+  config.headers["Authorization"] = `Bearer ${token.access}`;
+  return config;
 }
 
 let isAlreadyRefreshToken = false;
-
 export function refreshToken(instance: ApisauceInstance) {
   return async (error: AxiosError): Promise<AxiosResponse> => {
     const config = error.config;
@@ -39,7 +30,7 @@ export function refreshToken(instance: ApisauceInstance) {
     }
 
     if (error.response.status === 401) {
-      if (error.config.url?.includes("refresh")) {
+      if (config.url?.includes("refresh")) {
         return Promise.reject(error);
       }
       if (!isAlreadyRefreshToken) {

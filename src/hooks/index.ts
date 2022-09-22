@@ -3,6 +3,7 @@ export * from "./useDebounce";
 export * from "./useEffectSkipFirstRender";
 export * from "./useHideOnClickOutside";
 export * from "./useModal";
+export * from "./usePickFile";
 export * from "./usePositionPortal";
 export * from "./useQueryParam";
 export * from "./useWindowSize";

@@ -1,5 +1,5 @@
 export interface IProfileDto {
-  id: number;
-  first_name: string;
-  last_name: string;
+  readonly id: number;
+  readonly first_name: string;
+  readonly last_name: string;
 }

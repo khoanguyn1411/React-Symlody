@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { memo, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { Button } from "@/components";
@@ -7,22 +7,25 @@ import { FileService } from "@/utils";
 
 import { PICK_FILE_MESSAGE } from "./constant";
 
-type TProps = {
+export type TPropsPickFile = {
   selectedFile: File;
-  message: string;
+  isSubmitFile: boolean;
+  setIsSubmitFile: (isSubmitFile: boolean) => void;
   setSelectedFile: (file: File) => void;
-  setMessage: (message: string) => void;
 };
 export * from "./constant";
-const _PickFile: React.FC<TProps> = ({
+const _PickFile: React.FC<TPropsPickFile> = ({
   selectedFile,
-  message,
+  isSubmitFile,
+  setIsSubmitFile,
   setSelectedFile,
-  setMessage,
 }) => {
   const inputFileRef = useRef<HTMLInputElement>();
   const [isDragActive, setIsDragActive] = useState<boolean>(false);
   const [dragCounter, setDragCounter] = useState<number>(0);
+  const [message, setMessage] = useState<string>(
+    PICK_FILE_MESSAGE.defaultExtension
+  );
 
   const handlePickFile = () => {
     if (!inputFileRef.current) {
@@ -75,6 +78,20 @@ const _PickFile: React.FC<TProps> = ({
       return;
     }
   };
+
+  useEffect(() => {
+    setIsSubmitFile(false);
+    if (!isSubmitFile) {
+      return;
+    }
+    if (!selectedFile) {
+      setMessage(PICK_FILE_MESSAGE.notPickFile);
+      return;
+    }
+    setMessage(PICK_FILE_MESSAGE.defaultExtension);
+    alert("Submitted!");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmitFile]);
 
   return (
     <>

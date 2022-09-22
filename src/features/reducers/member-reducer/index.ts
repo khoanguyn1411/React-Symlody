@@ -1,12 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import {
-  MemberApi,
-  RequestCreateMembersResult,
-  RequestDeleteMembersResult,
-  RequestGetMembersResult,
-  RequestUpdateMembersResult,
-} from "@/api";
+import { MemberApi } from "@/api";
 import { RootState } from "@/features/store";
 import { MemberMapper } from "@/features/types/mappers";
 import { IMember, IMemberCreateUpdate } from "@/features/types/models";
@@ -20,7 +14,7 @@ export const createMemberAsync = createAsyncThunk<
   IMemberCreateUpdate,
   GlobalTypes.ReduxThunkRejectValue<null>
 >("create/member", async (payload, { rejectWithValue }) => {
-  const result: RequestCreateMembersResult = await MemberApi.createMember(
+  const result = await MemberApi.createMember(
     MemberMapper.toCreateDto(payload)
   );
   if (result.kind === "ok") {
@@ -34,7 +28,7 @@ export const deleteMemberAsync = createAsyncThunk<
   IMember["id"],
   GlobalTypes.ReduxThunkRejectValue<null>
 >("delete/member", async (id, { rejectWithValue }) => {
-  const result: RequestDeleteMembersResult = await MemberApi.deleteMember(id);
+  const result = await MemberApi.deleteMember(id);
   if (result.kind === "ok") {
     return id;
   }
@@ -46,7 +40,7 @@ export const getMembersAsync = createAsyncThunk<
   TMemberParamQueryDto,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/members", async (param, { rejectWithValue }) => {
-  const result: RequestGetMembersResult = await MemberApi.getMembers(param);
+  const result = await MemberApi.getMembers(param);
   if (result.kind === "ok") {
     return result.result.map((item) => MemberMapper.fromDto(item));
   }
@@ -58,7 +52,7 @@ export const updateMemberAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRestorePayload<IMemberCreateUpdate, IMember>,
   GlobalTypes.ReduxThunkRestoreRejected
 >("update/member", async ({ payload, id, isRestore }, { rejectWithValue }) => {
-  const result: RequestUpdateMembersResult = await MemberApi.updateMember(
+  const result = await MemberApi.updateMember(
     id,
     MemberMapper.toUpdateDto(payload)
   );

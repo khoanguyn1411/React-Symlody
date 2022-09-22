@@ -1,5 +1,6 @@
 import "animate.css";
 
+import React from "react";
 import { Route } from "react-router-dom";
 
 import { Icon } from "./assets/icons";
@@ -10,9 +11,8 @@ import { useAuth } from "./hooks";
 import { AppProvider, ThemeProvider } from "./provider";
 import { CustomRoute, routesConfigs } from "./routes";
 
-function App() {
-  const { isLoading } = useAuth();
-  console.log(isLoading, "--isLoading");
+export const App: React.FC = () => {
+  const { isLoading, isAuth } = useAuth();
   if (isLoading) {
     return (
       <div className="flex items-center justify-center w-screen h-screen">
@@ -32,7 +32,7 @@ function App() {
                   path={route.path}
                   key={`privateRoute_${index}`}
                   element={
-                    <AuthorizedGuard>
+                    <AuthorizedGuard isAuth={isAuth}>
                       <MainLayout pageKey={route.pageKey}>
                         {route.component}
                       </MainLayout>
@@ -48,7 +48,7 @@ function App() {
                   path={route.path}
                   key={`publicRoute_${index}`}
                   element={
-                    <UnauthorizedGuard>
+                    <UnauthorizedGuard isAuth={isAuth}>
                       <>{route.component}</>
                     </UnauthorizedGuard>
                   }
@@ -60,6 +60,6 @@ function App() {
       </MediaContextProvider>
     </AppProvider>
   );
-}
+};
 
 export default App;

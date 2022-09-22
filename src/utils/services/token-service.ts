@@ -10,9 +10,7 @@ import { LocalStoreService } from "./local-storage-service";
 
 const prefix = API_URL + "/api";
 const routes = {
-  login: () => `${prefix}/login/`,
   refreshToken: () => `${prefix}/login/refresh/`,
-  getProfile: () => `${prefix}/login/`,
 };
 
 export class TokenService {

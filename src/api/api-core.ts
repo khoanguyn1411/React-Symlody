@@ -8,7 +8,7 @@ class Api {
 
   public static getInstance(): ApisauceInstance {
     if (!Api.instance) {
-      Api.instance = create({ baseURL: API_URL });
+      Api.instance = create({ baseURL: `${API_URL}/api/` });
 
       Api.instance.axiosInstance.interceptors.request.use(interceptToken);
       Api.instance.axiosInstance.interceptors.response.use((response) => {
@@ -17,6 +17,7 @@ class Api {
     }
     return Api.instance;
   }
+  public static http = this.getInstance();
 }
 
 export { Api };

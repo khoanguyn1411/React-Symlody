@@ -22,7 +22,7 @@ export type RequestCreateMembersResult =
 export type RequestDeleteMembersResult =
   | {
       kind: `ok`;
-      result: unknown;
+      result: boolean;
     }
   | GeneralApiProblem;
 
