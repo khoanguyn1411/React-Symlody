@@ -33,13 +33,17 @@ export const loginAsync = createAsyncThunk<
   return rejectWithValue(false);
 });
 
-export const getMeAsync = createAsyncThunk("auth/login/me", async () => {
+export const getMeAsync = createAsyncThunk<
+  IUser,
+  null,
+  GlobalTypes.ReduxThunkRejectValue<IUser>
+>("auth/login/me", async (payload, { rejectWithValue }) => {
   const result: RequestGetProfileResult = await AuthApi.getProfile();
   if (result.kind === "ok") {
     return result.result;
   }
 
-  return null;
+  return rejectWithValue(null);
 });
 
 export const authSlice = createSlice({

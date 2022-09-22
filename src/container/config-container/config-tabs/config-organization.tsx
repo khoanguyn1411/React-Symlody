@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 
+import { images } from "@/assets/images";
 import { AvatarUpload, Editor, FormItem, Input } from "@/components";
-import { PLACEHOLDER_IMAGE } from "@/constants";
 
 const schema = yup.object().shape({
   name: yup.string().required("Vui lòng nhập thông tin"),
@@ -39,7 +39,7 @@ export const TabOrganization: React.FC = () => {
         <FormItem label="Logo tổ chức">
           <AvatarUpload
             char=""
-            avatar={avatar || PLACEHOLDER_IMAGE}
+            avatar={avatar || images.Logo}
             onResponse={onResponse}
           />
         </FormItem>

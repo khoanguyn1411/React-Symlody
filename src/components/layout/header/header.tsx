@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React, { useState } from "react";
 
 import { Icon } from "@/assets/icons";
+import { images } from "@/assets/images";
 import { Avatar } from "@/components/elements";
 import { Media } from "@/components/media";
 import { useAppSelector } from "@/features";
@@ -58,8 +59,8 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
 
         <div className="flex items-center py-1 pl-3 pr-2 bg-white border  shadow-sm rounded-md space-x-4">
           <div className="flex items-center space-x-2">
-            <Avatar src="" fullName="Logo" />
-            <span className="font-medium">Logo</span>
+            <Avatar src={images.Logo} fullName="Logo" />
+            <span className="font-medium"></span>
           </div>
           <UserDropdown user={userStore.user} />
         </div>

@@ -31,7 +31,7 @@ const _SidebarItem: React.FC<TProps> = ({
         className={classNames(
           "group-hover:text-primary-800 min-w-max",
           "transition-all duration-300",
-          isActive ? "text-primary-800" : "text-black"
+          isActive ? "text-primary-800" : "text-gray-400"
         )}
       />
 
