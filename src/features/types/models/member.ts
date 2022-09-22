@@ -10,7 +10,6 @@ interface IMemberGeneral {
   readonly phone_number: string;
   readonly home_town: string;
   readonly dob: string;
-  readonly full_name?: string;
   readonly is_archived: boolean;
 }
 

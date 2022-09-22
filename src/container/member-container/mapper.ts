@@ -58,7 +58,7 @@ export class MemberTableMapper {
   public static fromModel(model: IMember): IMemberTable {
     return {
       id: model.id,
-      name: model.full_name,
+      name: model.auth_account.full_name,
       email: model.auth_account.email,
       department: model.department.name,
       birthday: FormatService.toDate(model.dob, "VN"),

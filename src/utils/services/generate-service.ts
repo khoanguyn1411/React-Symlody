@@ -15,4 +15,24 @@ export class GeneratorService {
       },
     } as const;
   }
+  public static generateFullName(lastName: string, firstName: string): string {
+    return lastName + " " + firstName;
+  }
+
+  public static generateReverseDto<
+    Model extends string | number | symbol,
+    Dto extends string | number | symbol
+  >(
+    model: Readonly<Record<Dto, Model>>,
+    isNumberModel = false
+  ): Readonly<Record<Model, Dto>> {
+    let obj: Readonly<Record<Model, Dto>>;
+    Object.entries(model).forEach(([key, value]) => {
+      obj = {
+        ...obj,
+        [value as Dto]: !isNumberModel ? (key as Model) : Number(key),
+      };
+    });
+    return obj;
+  }
 }

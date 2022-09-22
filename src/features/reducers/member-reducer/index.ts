@@ -108,6 +108,9 @@ export const memberSlice = createSlice({
       .addCase(deleteMemberAsync.rejected, (state) => {
         state.pendingDeleteMember = false;
       })
+      .addCase(updateMemberAsync.rejected, (state) => {
+        state.pendingRestoreMember = false;
+      })
       .addCase(updateMemberAsync.pending, (state) => {
         state.pendingRestoreMember = true;
       })

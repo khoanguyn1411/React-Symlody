@@ -38,7 +38,7 @@ export const PropertyOwnerSelect = () => {
     }
 
     const newMemberFilterList = memberList.filter((item) =>
-      FormatService.toCleanedString(item.full_name).includes(
+      FormatService.toCleanedString(item.auth_account.full_name).includes(
         FormatService.toCleanedString(value)
       )
     );
@@ -47,7 +47,7 @@ export const PropertyOwnerSelect = () => {
   const handleSelectMember = (member: IMember) => () => {
     setMemberSelected(member);
     setIsShowContent(false);
-    setInputValue(member.full_name);
+    setInputValue(memberSelected.auth_account.full_name);
   };
 
   const handleClearMemberSelected = () => {
@@ -56,7 +56,7 @@ export const PropertyOwnerSelect = () => {
 
   useLayoutEffect(() => {
     if (!isShowContent && memberSelected) {
-      setInputValue(memberSelected.full_name);
+      setInputValue(memberSelected.auth_account.full_name);
       setIsSearching(false);
     }
     if (isShowContent && !isSearching) {
@@ -89,11 +89,12 @@ export const PropertyOwnerSelect = () => {
             size="small"
             fullName={
               memberSelected &&
-              inputValue === memberSelected.full_name &&
+              inputValue === memberSelected.auth_account.full_name &&
               memberSelected.auth_account.first_name
             }
             src={
-              (!memberSelected || inputValue !== memberSelected.full_name) &&
+              (!memberSelected ||
+                inputValue !== memberSelected.auth_account.full_name) &&
               PLACEHOLDER_IMAGE
             }
           />
@@ -115,7 +116,7 @@ export const PropertyOwnerSelect = () => {
               <h1
                 className={classNames("text-left text-primary-800 font-medium")}
               >
-                {memberSelected.full_name}
+                {memberSelected.auth_account.full_name}
               </h1>
               <h2 className="text-sm">{memberSelected.auth_account.email}</h2>
             </div>
@@ -145,7 +146,7 @@ export const PropertyOwnerSelect = () => {
                     isSelectedItemInList && "text-primary-800 font-medium"
                   )}
                 >
-                  {item.full_name}
+                  {item.auth_account.full_name}
                 </h1>
                 {isSelectedItemInList && (
                   <h2 className="text-sm">{item.auth_account.email}</h2>

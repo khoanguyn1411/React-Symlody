@@ -1,4 +1,4 @@
-import { FormatService } from "@/utils";
+import { GeneratorService } from "@/utils";
 
 import { ERolesDto, IAuthAccountDto } from "../dtos";
 import { ERoles, IAuthAccount } from "../models";
@@ -13,10 +13,10 @@ export const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
   [ERolesDto.Lead]: ERoles.Lead,
 };
 
-export const ROLE_MAP_TO_DTO = FormatService.reverseToDto<ERoles, ERolesDto>(
-  ROLE_MAP_FROM_DTO,
-  true
-);
+export const ROLE_MAP_TO_DTO = GeneratorService.generateReverseDto<
+  ERoles,
+  ERolesDto
+>(ROLE_MAP_FROM_DTO, true);
 
 export class GroupMapper {
   public static fromDto(

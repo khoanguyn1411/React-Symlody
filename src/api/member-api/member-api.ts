@@ -7,8 +7,8 @@ import * as Types from "./types";
 const routes = {
   createMember: () => `member/`,
   getMembers: () => `member/`,
-  updateMember: (id: IMember["id"]) => `member/${id}/`,
-  deleteMember: (id: IMember["id"]) => `member/archive/${id}/`,
+  updateMember: (id: IMember["id"]) => `member/${id}`,
+  deleteMember: (id: IMember["id"]) => `member/archive/${id}`,
 };
 
 export const MemberApi = {

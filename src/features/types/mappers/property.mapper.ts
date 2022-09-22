@@ -1,3 +1,5 @@
+import { FormatService } from "@/utils";
+
 import { IPropertyCreateUpdateDto, IPropertyDto } from "../dtos";
 import { IProperty, IPropertyCreateUpdate } from "../models";
 import { ProfileMapper } from "./profile.mapper";
@@ -6,9 +8,10 @@ export class PropertyMapper {
   public static fromDto(dto: IPropertyDto): IProperty {
     return {
       ...dto,
-      price: dto.price.toString(),
-      quantity: dto.quantity.toString(),
+      price: FormatService.toString(dto.price),
+      quantity: FormatService.toString(dto.quantity),
       incharger: ProfileMapper.fromDto(dto.incharger),
+      created_by: ProfileMapper.fromDto(dto.created_by),
     };
   }
 

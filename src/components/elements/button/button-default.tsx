@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React, { memo } from "react";
 
 import { GlobalTypes } from "@/types";
+import { FormatService } from "@/utils";
 
 import { BLOCK, SIZE_MAPS, STYLE_MAPS, TPropsButton } from "./types";
 
@@ -38,7 +39,7 @@ const _Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
           (disable || isShowLoading) && style !== "none" ? "disable" : style
         ],
         SIZE_MAPS[size],
-        BLOCK[block.toString()],
+        BLOCK[FormatService.toString(block)],
         {
           "px-3": !isIconOnly,
         }

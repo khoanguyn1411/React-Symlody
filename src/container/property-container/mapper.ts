@@ -7,7 +7,7 @@ export class PropertyFormMapper {
   public static fromModel(model: IProperty): IFormPropertyInfo {
     return {
       assetName: model.name,
-      quantity: model.quantity.toString(),
+      quantity: FormatService.toString(model.quantity),
       price:
         model.price !== "0"
           ? FormatService.toCurrency(Number(model.price))
@@ -52,7 +52,7 @@ export class PropertyTableMapper {
         model.price !== "0"
           ? FormatService.toCurrency(Number(model.price))
           : "--",
-      inCharge: model.incharger.last_name + " " + model.incharger.first_name,
+      inCharge: model.incharger.full_name,
       owner: model.prop_owner,
     };
   }

@@ -2,6 +2,7 @@ import React, { memo, useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { Button } from "@/components/elements";
+import { FormatService } from "@/utils";
 
 import { EAllowFiles, PICK_IMAGE_MESSAGE } from "./contants";
 
@@ -109,7 +110,7 @@ const _PickImage: React.FC<TProps> = ({ file, defaultImageLink, setFile }) => {
                 <img
                   alt="img-preview"
                   className="object-cover object-left h-full rounded-md"
-                  src={fileData.url.toString()}
+                  src={FormatService.toString(fileData.url)}
                 />
                 <button
                   onClick={handleRemoveFile}

@@ -38,7 +38,6 @@ export const LoginContainer: React.FC = () => {
       return;
     }
     dispatch(setIsAuth(true));
-    // Api.getToken();
     navigate(pathLocation || "/");
     toast.success("Đăng nhập thành công");
   };

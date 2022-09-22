@@ -12,9 +12,10 @@ export class TokenMapper {
   }
 
   public static fromRefreshTokenDto(dto: ITokenRefreshDto): IToken {
+    const currentToken = TokenService.getToken();
     return {
       access: dto.access,
-      refresh: TokenService.getToken().refresh,
+      refresh: currentToken.refresh,
     };
   }
 

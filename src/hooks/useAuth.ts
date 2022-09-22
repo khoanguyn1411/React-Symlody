@@ -26,6 +26,9 @@ export const useAuth = () => {
   };
 
   useEffect(() => {
+    if (state.isAuth) {
+      dispatch(getMeAsync());
+    }
     setIsLoading(true);
     checkIsSignIn();
     getIsCompact();
@@ -33,9 +36,6 @@ export const useAuth = () => {
   }, [state.isAuth]);
 
   useEffect(() => {
-    if (TokenService.isValid()) {
-      dispatch(getMeAsync());
-    }
     window.addEventListener("storage", checkIsSignIn);
     return () => {
       window.removeEventListener("storage", checkIsSignIn);

@@ -16,6 +16,14 @@ export class FormatService {
     return price.replaceAll(".", "");
   }
 
+  public static toString(entity: any): string {
+    try {
+      return entity.toString();
+    } catch (error) {
+      throw new Error("Cannot cast this entity to string: ", entity);
+    }
+  }
+
   public static toNormalNumber(value: string): string {
     return value.replaceAll(".", "");
   }
@@ -32,22 +40,5 @@ export class FormatService {
       return dayjs(value).format("YYYY-MM-DD");
     }
     return dayjs(value).format("DD/MM/YYYY");
-  }
-
-  public static reverseToDto<
-    Model extends string | number | symbol,
-    Dto extends string | number | symbol
-  >(
-    model: Readonly<Record<Dto, Model>>,
-    isNumberModel = false
-  ): Readonly<Record<Model, Dto>> {
-    let obj: Readonly<Record<Model, Dto>>;
-    Object.entries(model).forEach(([key, value]) => {
-      obj = {
-        ...obj,
-        [value as Dto]: !isNumberModel ? (key as Model) : Number(key),
-      };
-    });
-    return obj;
   }
 }

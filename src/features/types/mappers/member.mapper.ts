@@ -9,7 +9,6 @@ export class MemberMapper {
   public static fromDto(dto: IMemberDto): IMember {
     return {
       ...dto,
-      full_name: dto.auth_account.last_name + " " + dto.auth_account.first_name,
       gender: dto.gender === 1 ? "Nam" : "Nữ",
       dob: FormatService.toDate(dto.dob, "US"),
       last_modified_date: FormatService.toDate(dto.last_modified_date, "US"),
