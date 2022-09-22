@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -29,19 +30,21 @@ export const LoginContainer: React.FC = () => {
     handleSubmit,
   } = useForm<IFormLoginValue>({ resolver: yupResolver(schema) });
 
-  const onSubmit = async (data: IFormLoginValue) => {
-    const res = await dispatch(
-      loginAsync({ username: data.username, password: data.password })
-    );
-    if (!res.payload) {
-      toast.error("Đăng nhập thất bại");
-      return;
-    }
-    dispatch(setIsAuth(true));
-    navigate(pathLocation || "/");
-    toast.success("Đăng nhập thành công");
-  };
-
+  const onSubmit = useCallback(
+    async (data: IFormLoginValue) => {
+      const res = await dispatch(
+        loginAsync({ username: data.username, password: data.password })
+      );
+      if (!res.payload) {
+        toast.error("Đăng nhập thất bại");
+        return;
+      }
+      dispatch(setIsAuth(true));
+      navigate(pathLocation || "/");
+      toast.success("Đăng nhập thành công");
+    },
+    [dispatch, navigate, pathLocation]
+  );
   return (
     <div className="grid grid-cols-2">
       <div className="flex h-screen col-span-1">
