@@ -5,14 +5,13 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "release" ]
+    branches: ["release"]
   pull_request:
-    branches: [ "release" ]
+    branches: ["release"]
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     strategy:
       matrix:
@@ -20,22 +19,24 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: SSH Remote Commands
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_SERVER }}
-        key: ${{ secrets.PRIVATE_KEY }}
-        username: root
-        port: 22
-        script: |
-          cd ${{ secrets.PROJECT_DIR }}
-          git pull origin release
-          yarn
-          yarn build
-          yarn pm2:reload 
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_SERVER }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          username: halo
+          port: 22
+          script: |
+            cd ${{ secrets.PROJECT_DIR }}
+            git pull origin release
+            yarn
+            yarn build
+            cd ..
+            ls
+            docker-compose up -d --no-deps --build club_ui
