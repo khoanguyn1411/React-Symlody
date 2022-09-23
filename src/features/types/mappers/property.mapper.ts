@@ -18,8 +18,8 @@ export class PropertyMapper {
   public static toDto(model: IPropertyCreateUpdate): IPropertyCreateUpdateDto {
     return {
       ...model,
-      price: model.price && Number(model.price),
-      quantity: model.quantity && Number(model.quantity),
+      price: model.price && FormatService.toNumber(model.price),
+      quantity: model.quantity && FormatService.toNumber(model.quantity),
     };
   }
 }

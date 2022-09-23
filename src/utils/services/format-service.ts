@@ -1,8 +1,12 @@
 import dayjs from "dayjs";
 
 export class FormatService {
-  public static toCurrency(price: number): string {
-    const formattedPrice = price
+  public static toCurrency(price: number | string): string {
+    let _price = price;
+    if (typeof price === "string") {
+      _price = FormatService.toNumber(price);
+    }
+    const formattedPrice = _price
       .toLocaleString("it-IT", {
         style: "currency",
         currency: "VND",
@@ -24,7 +28,15 @@ export class FormatService {
     }
   }
 
-  public static toNormalNumber(value: string): string {
+  public static toNumber(entity: any): number {
+    try {
+      return Number(entity);
+    } catch (error) {
+      throw new Error("Cannot cast this entity to string: ", entity);
+    }
+  }
+
+  public static normalizeStringNumber(value: string): string {
     return value.replaceAll(".", "");
   }
 

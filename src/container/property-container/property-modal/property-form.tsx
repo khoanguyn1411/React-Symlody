@@ -77,8 +77,8 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
               value={value}
               onInputSideEffect={(event) => {
                 if (
-                  Number(event.target.value) &&
-                  Number(event.target.value) < 1
+                  FormatService.toNumber(event.target.value) &&
+                  FormatService.toNumber(event.target.value) < 1
                 ) {
                   return { newValue: "1" };
                 }
@@ -100,13 +100,13 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             <Input
               onInputSideEffect={(event) => {
                 const value = event.target.value;
-                const splitValue = FormatService.toNormalNumber(value);
+                const splitValue = FormatService.normalizeStringNumber(value);
                 if (value) {
-                  if (isNaN(Number(splitValue))) {
+                  if (isNaN(FormatService.toNumber(splitValue))) {
                     return { newValue: "" };
                   }
                   const valueFormatted = FormatService.toCurrency(
-                    Number(splitValue)
+                    FormatService.toNumber(splitValue)
                   );
                   return { newValue: valueFormatted };
                 }

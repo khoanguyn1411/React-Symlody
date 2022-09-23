@@ -1,3 +1,5 @@
+import { FormatService } from "./format-service";
+
 export class GeneratorService {
   public static generateStatusMessageFor(entity: string) {
     return {
@@ -30,7 +32,9 @@ export class GeneratorService {
     Object.entries(model).forEach(([key, value]) => {
       obj = {
         ...obj,
-        [value as Dto]: !isNumberModel ? (key as Model) : Number(key),
+        [value as Dto]: !isNumberModel
+          ? (key as Model)
+          : FormatService.toNumber(key),
       };
     });
     return obj;

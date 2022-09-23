@@ -8,11 +8,8 @@ export class PropertyFormMapper {
     return {
       assetName: model.name,
       quantity: FormatService.toString(model.quantity),
-      price:
-        model.price !== "0"
-          ? FormatService.toCurrency(Number(model.price))
-          : "",
-      inCharge: model.incharger.last_name + " " + model.incharger.first_name,
+      price: model.price !== "0" ? FormatService.toCurrency(model.price) : "",
+      inCharge: model.incharger.full_name,
       inChargeId: model.incharger.id,
       owner: model.prop_owner,
       note: model.note ?? "",
@@ -48,10 +45,7 @@ export class PropertyTableMapper {
     return {
       assetName: model.name,
       quantity: model.quantity,
-      price:
-        model.price !== "0"
-          ? FormatService.toCurrency(Number(model.price))
-          : "--",
+      price: model.price !== "0" ? FormatService.toCurrency(model.price) : "--",
       inCharge: model.incharger.full_name,
       owner: model.prop_owner,
     };

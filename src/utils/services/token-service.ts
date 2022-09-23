@@ -1,16 +1,15 @@
 import { ApisauceInstance } from "apisauce";
 import { AxiosRequestConfig } from "axios";
 
-import { API_URL, RequestRefreshResult, returnResponse } from "@/api";
+import { RequestRefreshResult, returnResponse } from "@/api";
 import { APP_CONSTANTS } from "@/constants";
 import { IToken, ITokenRefreshDto } from "@/features/types";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 
 import { LocalStorageService } from "./local-storage-service";
 
-const prefix = API_URL + "/api";
 const routes = {
-  refreshToken: () => `${prefix}/login/refresh/`,
+  refreshToken: () => `login/refresh/`,
 };
 
 export class TokenService {
