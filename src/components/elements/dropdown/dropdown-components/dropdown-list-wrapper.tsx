@@ -26,9 +26,8 @@ const _DropdownListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
         "w-full min-w-max",
         "bg-white",
         "drop-shadow-lg",
-        "border border-gray-200",
         "rounded-md",
-        "mt-2",
+        "mt-2 py-1.5",
         "fixed z-10",
         {
           "overflow-auto": isOverflow,
