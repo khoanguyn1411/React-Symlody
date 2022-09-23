@@ -1,11 +1,15 @@
 import { Navigate } from "react-router-dom";
 
-import { useAuth } from "@/hooks";
 import { GlobalTypes } from "@/types";
 
-export const UnauthorizedGuard: GlobalTypes.FCChildren = ({ children }) => {
-  const { isAuth } = useAuth();
+type TProps = {
+  isAuth: boolean;
+};
 
+export const UnauthorizedGuard: GlobalTypes.FCPropsWithChildren<TProps> = ({
+  children,
+  isAuth,
+}) => {
   if (!isAuth) {
     return <>{children}</>;
   }

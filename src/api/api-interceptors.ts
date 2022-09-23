@@ -51,8 +51,8 @@ export function refreshToken(instance: ApisauceInstance) {
         }
         const newTokenModel = TokenMapper.fromRefreshTokenDto(result.result);
         TokenService.setToken(newTokenModel);
+        config.headers["Authorization"] = `Bearer ${newTokenModel.access}`;
       }
-      config.headers["Authorization"] = `Bearer ${token.access}`;
       return instance.axiosInstance.request(config);
     }
     return Promise.reject(error);

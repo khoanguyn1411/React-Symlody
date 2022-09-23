@@ -68,6 +68,10 @@ const _SidebarDesktop: React.FC<TProps> = ({
           ))}
         </div>
 
+        <div className="w-full text-xs text-right text-gray-400">
+          <h2>{APP_NAME} - version: 1.0</h2>
+        </div>
+
         <CompactSidebar
           isCompactSidebar={isCompactSidebar}
           onSetIsCompact={onToggleCompactSidebar}

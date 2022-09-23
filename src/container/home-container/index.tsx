@@ -1,7 +1,11 @@
+import { images } from "@/assets/images";
+import { NotificationImg } from "@/components";
+
 export const HomeContainer: React.FC = () => {
   return (
-    <div className="flex items-center justify-center p-4">
-      <div>home</div>
-    </div>
+    <NotificationImg
+      imgSrc={images.loginBanner}
+      title="Tính năng đang trong giai đoạn phát triển"
+    />
   );
 };

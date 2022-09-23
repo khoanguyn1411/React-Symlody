@@ -1,4 +1,4 @@
-import { NotFound } from "@/components";
+import { NotificationImg } from "@/components";
 import {
   ConfigContainer,
   EventContainer,
@@ -73,7 +73,7 @@ const privateRoutes: readonly IRoutes[] = [
   {
     path: "/*",
     component: (
-      <NotFound
+      <NotificationImg
         title="Trang bạn đang truy cập không tồn tại"
         description="Vui lòng kiểm tra lại đường dẫn hoặc liên hệ trung tâm hỗ trợ"
       />

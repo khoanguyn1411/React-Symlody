@@ -16,8 +16,11 @@ export function useAuth() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const checkIsSignIn = () => {
+  const checkIsSignIn = async () => {
     checkAuth().then((res) => {
+      if (res) {
+        dispatch(getMeAsync());
+      }
       dispatch(setIsAuth(res));
       setIsLoading(false);
     });
@@ -30,9 +33,9 @@ export function useAuth() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isAuth]);
 
-  useEffect(() => {
-    dispatch(getMeAsync());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getMeAsync());
+  // }, [dispatch]);
 
   useEffect(() => {
     window.addEventListener("storage", checkIsSignIn);
