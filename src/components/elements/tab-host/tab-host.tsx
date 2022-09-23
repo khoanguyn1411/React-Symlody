@@ -26,16 +26,22 @@ const _TabHost: React.FC<TProps> = ({
   isStretchTab = false,
   isNoSpace = false,
 }) => {
+  const refs = useRef<HTMLButtonElement[]>([]);
+
   const [activeTab, setActiveTab] = useState<TTab>(
     defaultActive
       ? listTabs.find((item) => item.key === defaultActive)
       : listTabs[0]
   );
+  const [refState, setRefState] = useState<HTMLButtonElement[]>(refs.current);
+  const [activeRef, setActiveRef] = useState<string>(activeTab.key);
+  const [isAnimatedSlider, setIsAnimatedSlider] = useState<boolean>(false);
   // const navigate = useNavigate();
 
   const handleClickTab = (tab: TTab, title: string) => () => {
     setActiveTab(tab);
     setActiveRef(title);
+    setIsAnimatedSlider(true);
     // tab.to && navigate(tab.to);
     onChangeTab && onChangeTab(tab);
   };
@@ -48,10 +54,6 @@ const _TabHost: React.FC<TProps> = ({
   //   setActiveTab(tabItem);
   //   onUrlChange(tabItem);
   // }, [paramChangeDependency]);
-
-  const refs = useRef<HTMLButtonElement[]>([]);
-  const [refState, setRefState] = useState<HTMLButtonElement[]>(refs.current);
-  const [activeRef, setActiveRef] = useState<string>(activeTab.key);
 
   const getPositionSlider = useCallback((): GlobalTypes.StrictPick<
     React.CSSProperties,
@@ -122,7 +124,8 @@ const _TabHost: React.FC<TProps> = ({
         <div
           style={positionSlider}
           className={classNames(
-            "w-full h-[2.5px] rounded-sm flex absolute bg-primary-800 transition-all bottom-0 duration-150"
+            isAnimatedSlider && "transition-all duration-150",
+            "w-full h-[2.5px] rounded-sm flex absolute bg-primary-800 bottom-0 "
           )}
         />
       </div>

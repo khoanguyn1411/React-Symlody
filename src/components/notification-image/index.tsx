@@ -24,7 +24,7 @@ const _NotificationImg: React.FC<Props> = ({
     navigation("/");
   };
   return (
-    <div className="flex items-center justify-center py-4">
+    <div className="flex items-center justify-center py-4 h-content">
       <div className="flex flex-col items-center justify-center p-4 rounded-md">
         <img
           src={imgSrc || images.notFound}

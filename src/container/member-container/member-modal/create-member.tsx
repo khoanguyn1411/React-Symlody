@@ -6,8 +6,7 @@ import { toast } from "react-toastify";
 import { ModalMultipleTabs, ModalTab, PickFile } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { createMemberAsync } from "@/features/reducers";
-import { THookModalProps } from "@/hooks";
-import { usePickFile } from "@/hooks/usePickFile";
+import { THookModalProps, usePickFile } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
 import { MemberFormMapper } from "../mapper";

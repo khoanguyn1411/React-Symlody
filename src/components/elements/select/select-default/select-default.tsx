@@ -147,10 +147,9 @@ const _Select: React.FC<TProps> = ({
           <span>
             <i
               className={classNames(
-                "fas fa-angle-down text-lg -mr-5 duration-300 transition-transform",
+                "fas fa-angle-down text-gray-400 text-lg -mr-5 duration-300 transition-transform",
                 {
                   "transform -rotate-180": isShowContent,
-                  "text-grey-400": !(style === "modal"),
                 }
               )}
             />

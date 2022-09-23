@@ -7,7 +7,12 @@ export class LocalStorageService {
   public static getValue<T>(key: string): T | null {
     const localValue = localStorage.getItem(key);
     if (localValue != null) {
-      return JSON.parse(localValue);
+      try {
+        return JSON.parse(localValue);
+      } catch (error) {
+        this.remove(key);
+        return null;
+      }
     }
     return null;
   }
