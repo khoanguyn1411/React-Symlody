@@ -1,7 +1,12 @@
 import { FormatService } from "./format-service";
 
 export class GeneratorService {
-  public static generateStatusMessageFor(entity: string) {
+  public static generateStatusMessageFor(entity: string): {
+    readonly [key in string]: {
+      readonly success: string;
+      readonly error: string;
+    };
+  } {
     return {
       delete: {
         success: `Xóa ${entity} thành công.`,
@@ -15,10 +20,10 @@ export class GeneratorService {
         error: `Cập nhật ${entity} thất bại.`,
         success: `Cập nhật ${entity} thành công.`,
       },
-    } as const;
+    };
   }
   public static generateFullName(lastName: string, firstName: string): string {
-    return lastName + " " + firstName;
+    return `${lastName} ${firstName}`;
   }
 
   public static generateReverseDto<
