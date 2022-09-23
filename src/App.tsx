@@ -26,11 +26,11 @@ export const App: React.FC = () => {
       <MediaContextProvider>
         <ThemeProvider>
           <CustomRoute>
-            {routesConfigs.privateRoutes.map((route, index) => {
+            {routesConfigs.privateRoutes.map((route) => {
               return (
                 <Route
                   path={route.path}
-                  key={`privateRoute_${index}`}
+                  key={route.pageKey}
                   element={
                     <AuthorizedGuard isAuth={isAuth}>
                       <MainLayout pageKey={route.pageKey}>
@@ -42,14 +42,14 @@ export const App: React.FC = () => {
               );
             })}
 
-            {routesConfigs.publicRoutes.map((route, index) => {
+            {routesConfigs.publicRoutes.map((route) => {
               return (
                 <Route
                   path={route.path}
-                  key={`publicRoute_${index}`}
+                  key={route.pageKey}
                   element={
                     <UnauthorizedGuard isAuth={isAuth}>
-                      <>{route.component}</>
+                      {route.component}
                     </UnauthorizedGuard>
                   }
                 />

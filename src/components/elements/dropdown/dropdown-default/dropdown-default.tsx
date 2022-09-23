@@ -99,10 +99,10 @@ const _Dropdown = forwardRef<TDropdownMethod, TProps>(
             >
               {renderCustom}
               {!renderCustom &&
-                listSetting.map((item, index: number) => (
+                listSetting.map((item) => (
                   <li
                     role={"menuitem"}
-                    key={index}
+                    key={item.key}
                     tabIndex={0}
                     onKeyDown={null}
                     onClick={handleClickItem(item)}

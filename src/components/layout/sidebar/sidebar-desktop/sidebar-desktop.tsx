@@ -57,9 +57,9 @@ const _SidebarDesktop: React.FC<TProps> = ({
           </h1>
         </div>
         <div className="flex-1 w-full mt-4">
-          {tabsSidebar.map((tab, index) => (
+          {tabsSidebar.map((tab) => (
             <SidebarItem
-              key={index}
+              key={tab.pageActive}
               tab={tab}
               isActive={pageKey === tab.pageActive}
               isCompactSidebar={isCompactSidebar}

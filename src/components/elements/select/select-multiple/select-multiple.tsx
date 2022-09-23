@@ -96,10 +96,10 @@ const _SelectMultiple: React.FC<TSelectMultipleProps> = ({
             <h1 className="text-gray-400">{placeHolder}</h1>
           ) : (
             <div className="flex flex-wrap gap-3" ref={wrapperSelectRef}>
-              {value.map((item: string, index: number) => (
+              {value.map((item: string) => (
                 <div
                   className="relative px-2 py-1 pr-5 text-xs bg-gray-200 min-w-max rounded-md"
-                  key={index}
+                  key={item}
                 >
                   {item}
                   <span

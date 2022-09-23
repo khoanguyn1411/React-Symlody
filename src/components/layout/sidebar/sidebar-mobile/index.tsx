@@ -49,9 +49,9 @@ export const SidebarMobile: React.FC<TProps> = ({
           </h1>
         </div>
 
-        {tabsSidebar.map((tab, index) => (
+        {tabsSidebar.map((tab) => (
           <SidebarItem
-            key={index}
+            key={tab.pageActive}
             tab={tab}
             isActive={pageKey === tab.pageActive}
             onClick={handleSwitchTab(tab.to)}

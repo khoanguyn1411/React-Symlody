@@ -50,7 +50,7 @@ export const TabConfigDepartment: React.FC = () => {
         </Table.Head>
         <Table.Body>
           {listTest.map((item, index) => (
-            <Table.Row key={index}>
+            <Table.Row key={`${item.department}-${index}`}>
               <Table.Cell width="5rem" textAlign="center">
                 {index + 1}
               </Table.Cell>

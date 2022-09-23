@@ -68,7 +68,7 @@ export const EventContainer: React.FC = () => {
           </Table.Head>
           <Table.Body>
             {TABLE_EVENT_DATA.map((item, index) => (
-              <Table.Row key={index} index={index}>
+              <Table.Row key={`${item.eventName}-${index}`} index={index}>
                 <Table.Cell>{item.eventName}</Table.Cell>
                 <Table.Cell>{item.time}</Table.Cell>
                 <Table.Cell>
