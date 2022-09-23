@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { APP_CONSTANTS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
@@ -14,44 +14,35 @@ export const useAuth = () => {
   const dispatch = useAppDispatch();
 
   const state = useAppSelector((state) => state.user);
+  const isAlreadyGetMe = useRef(false);
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const checkIsSignIn = useCallback(() => {
-    if (!TokenService.isValid()) {
-      dispatch(setIsAuth(false));
-      return false;
-    }
-    return true;
-  }, [dispatch]);
-
   useEffect(() => {
     setIsLoading(true);
-    if (!checkIsSignIn()) {
+    if (!TokenService.isValid()) {
       setIsLoading(false);
       return;
     }
-    if (state.isAuth) {
+
+    if (isAlreadyGetMe.current) {
       setIsLoading(false);
       return;
     }
+
     dispatch(getMeAsync()).then((res) => {
       setIsLoading(false);
       if (res.payload) {
         dispatch(setIsAuth(true));
+        isAlreadyGetMe.current = true;
         return;
       }
       dispatch(logout());
     });
-  }, [checkIsSignIn, dispatch, state.isAuth]);
+  }, [dispatch, state.isAuth]);
 
   useEffect(() => {
     getIsCompact();
-
-    window.addEventListener("storage", checkIsSignIn);
-    return () => {
-      window.removeEventListener("storage", checkIsSignIn);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
