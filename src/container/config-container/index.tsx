@@ -35,7 +35,6 @@ export const ConfigContainer: React.FC = () => {
     <div>
       <div className="flex justify-between w-full py-3 bg-white border-b px-default">
         <TabHost
-          isRounded
           listTabs={[
             { key: "organization", title: "Tổ chức" },
             { key: "department", title: "Phòng ban" },

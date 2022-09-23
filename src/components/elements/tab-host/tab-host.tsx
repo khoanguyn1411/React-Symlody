@@ -1,5 +1,7 @@
 import classNames from "classnames";
-import { memo, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+
+import { GlobalTypes } from "@/types";
 
 export type TTab = {
   title: string;
@@ -11,7 +13,6 @@ type TProps = {
   listTabs: TTab[];
   defaultActive?: TTab["key"];
   paramChangeDependency?: string;
-  isRounded?: boolean;
   isNoSpace?: boolean;
   isStretchTab?: boolean;
   onChangeTab?: (tab: TTab) => void;
@@ -23,7 +24,6 @@ const _TabHost: React.FC<TProps> = ({
   onChangeTab,
   defaultActive,
   isStretchTab = false,
-  isRounded = false,
   isNoSpace = false,
 }) => {
   const [activeTab, setActiveTab] = useState<TTab>(
@@ -33,8 +33,9 @@ const _TabHost: React.FC<TProps> = ({
   );
   // const navigate = useNavigate();
 
-  const handleClickTab = (tab: TTab) => () => {
+  const handleClickTab = (tab: TTab, title: string) => () => {
     setActiveTab(tab);
+    setActiveRef(title);
     // tab.to && navigate(tab.to);
     onChangeTab && onChangeTab(tab);
   };
@@ -48,27 +49,83 @@ const _TabHost: React.FC<TProps> = ({
   //   onUrlChange(tabItem);
   // }, [paramChangeDependency]);
 
+  const refs = useRef<HTMLButtonElement[]>([]);
+  const [refState, setRefState] = useState<HTMLButtonElement[]>(refs.current);
+  const [activeRef, setActiveRef] = useState<string>(activeTab.key);
+
+  const getPositionSlider = useCallback((): GlobalTypes.StrictPick<
+    React.CSSProperties,
+    "left" | "width"
+  > => {
+    if (refState.length === 0) {
+      return;
+    }
+    const refIndex = refState
+      .map((item, index) => ({
+        element: item,
+        key: item.ariaLabel,
+        index,
+      }))
+      .find((item) => item.key === activeRef);
+
+    if (refIndex.element == null) {
+      return;
+    }
+
+    return {
+      left: refIndex.element.offsetLeft,
+      width: refIndex.element.offsetWidth,
+    };
+  }, [activeRef, refState]);
+
+  const [positionSlider, setPositionSlider] = useState(() =>
+    getPositionSlider()
+  );
+
+  const addToRefs = (element: HTMLButtonElement) => {
+    if (element && !refs.current.includes(element)) {
+      refs.current.push(element);
+    }
+  };
+
+  useEffect(() => {
+    setRefState(refs.current);
+  }, [refs]);
+
+  useEffect(() => {
+    setPositionSlider(getPositionSlider());
+  }, [getPositionSlider, refState]);
+
   return (
     <div className={classNames(!isNoSpace && "space-x-2", "flex w-full")}>
-      {listTabs.map((item) => (
-        <button
+      <div className="relative flex w-full">
+        {listTabs.map((item) => (
+          <button
+            ref={addToRefs}
+            key={item.key}
+            aria-label={item.key}
+            className={classNames(
+              "px-5 py-2",
+              "font-medium",
+              "transition-colors duration-200",
+              {
+                "hover:bg-gray-50 border-transparent":
+                  item.key !== activeTab.key,
+                "flex-1": isStretchTab,
+              }
+            )}
+            onClick={handleClickTab(item, item.key)}
+          >
+            {item.title}
+          </button>
+        ))}
+        <div
+          style={positionSlider}
           className={classNames(
-            "px-5 py-2",
-            "font-medium",
-            "transition-colors duration-200",
-            {
-              "bg-primary-50 text-primary-800": item.key === activeTab.key,
-              "hover:bg-gray-50": item.key !== activeTab.key,
-              "rounded-md": isRounded,
-              "flex-1": isStretchTab,
-            }
+            "w-full h-[2.5px] rounded-sm flex absolute bg-primary-800 transition-all bottom-0 duration-150"
           )}
-          key={item.key}
-          onClick={handleClickTab(item)}
-        >
-          {item.title}
-        </button>
-      ))}
+        />
+      </div>
     </div>
   );
 };
