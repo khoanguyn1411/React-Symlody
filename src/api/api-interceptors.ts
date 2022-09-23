@@ -29,10 +29,12 @@ export function refreshToken(instance: ApisauceInstance) {
       return Promise.reject(error);
     }
 
+    if (config.url?.includes("refresh")) {
+      TokenService.clearToken();
+      return Promise.reject(error);
+    }
+
     if (error.response.status === 401) {
-      if (config.url?.includes("refresh")) {
-        return Promise.reject(error);
-      }
       if (!isAlreadyRefreshToken) {
         isAlreadyRefreshToken = true;
         const result = await TokenService.refreshToken(token, instance);
@@ -42,8 +44,8 @@ export function refreshToken(instance: ApisauceInstance) {
         }
         const newTokenModel = TokenMapper.fromRefreshTokenDto(result.result);
         TokenService.setToken(newTokenModel);
+        config.headers["Authorization"] = `Bearer ${newTokenModel.access}`;
       }
-      config.headers["Authorization"] = `Bearer ${token.access}`;
       return instance.axiosInstance.request(config);
     }
     return Promise.reject(error);

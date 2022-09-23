@@ -4,6 +4,7 @@ import { APP_CONSTANTS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getMeAsync,
+  logout,
   setIsAuth,
   setIsCompactSidebar,
 } from "@/features/reducers";
@@ -17,25 +18,36 @@ export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const checkIsSignIn = useCallback(() => {
-    setIsLoading(false);
-    if (TokenService.isValid()) {
-      dispatch(setIsAuth(true));
-      return;
+    if (!TokenService.isValid()) {
+      dispatch(setIsAuth(false));
+      return false;
     }
-    dispatch(setIsAuth(false));
+    return true;
   }, [dispatch]);
 
   useEffect(() => {
-    if (state.isAuth) {
-      dispatch(getMeAsync());
-    }
     setIsLoading(true);
-    checkIsSignIn();
-    getIsCompact();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.isAuth]);
+    if (!checkIsSignIn()) {
+      setIsLoading(false);
+      return;
+    }
+    if (state.isAuth) {
+      setIsLoading(false);
+      return;
+    }
+    dispatch(getMeAsync()).then((res) => {
+      setIsLoading(false);
+      if (res.payload) {
+        dispatch(setIsAuth(true));
+        return;
+      }
+      dispatch(logout());
+    });
+  }, [checkIsSignIn, dispatch, state.isAuth]);
 
   useEffect(() => {
+    getIsCompact();
+
     window.addEventListener("storage", checkIsSignIn);
     return () => {
       window.removeEventListener("storage", checkIsSignIn);
