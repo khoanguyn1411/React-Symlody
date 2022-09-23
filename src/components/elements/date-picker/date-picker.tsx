@@ -92,7 +92,7 @@ const _AppDatePicker: React.FC<TProps> = ({
         showTimeSelect={isTimePicker}
       />
       <div className="absolute top-0 bottom-0 right-0 flex items-center mr-2 pointer-events-none">
-        <Icon.Calendar customColor="gray" />
+        <Icon.Calendar size="small" customColor="gray" />
       </div>
     </WrapperModule>
   );

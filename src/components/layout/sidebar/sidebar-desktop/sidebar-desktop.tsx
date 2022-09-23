@@ -46,11 +46,17 @@ const _SidebarDesktop: React.FC<TProps> = ({
             !isCompactSidebar && "space-x-3"
           )}
         >
-          <img src={images.Logo} alt="logo" width={40} height={40} />
+          <img
+            src={images.Logo}
+            alt="logo"
+            width={40}
+            height={40}
+            className="ml-1"
+          />
           <h1
             className={classNames(
-              "transition-width overflow-hidden text-xl font-medium duration-200",
-              isCompactSidebar && "w-0"
+              "transition-opacity overflow-hidden text-xl font-medium duration-300",
+              isCompactSidebar && "opacity-0 invisible"
             )}
           >
             {APP_NAME}
@@ -69,7 +75,8 @@ const _SidebarDesktop: React.FC<TProps> = ({
         </div>
 
         <div className="w-full text-xs text-right text-gray-400">
-          <h2>{APP_NAME} - version: 1.0</h2>
+          {!isCompactSidebar && <h2>{APP_NAME} - version: 1.0</h2>}
+          {isCompactSidebar && <h2>{APP_NAME} - v1.0</h2>}
         </div>
 
         <CompactSidebar

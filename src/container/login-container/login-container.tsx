@@ -48,8 +48,10 @@ export const LoginContainer: React.FC = () => {
   return (
     <div className="grid grid-cols-2">
       <div className="flex h-screen col-span-1">
-        <div className="flex items-center justify-center w-full bg-primary-50">
+        <div className="flex flex-col items-center justify-center w-full bg-primary-50">
           <img src={images.loginBanner} alt="Login banner" className="w-5/6" />
+          <span className="text-sm italic">Phát triển bởi: Symlody team</span>
+          <span className="text-sm italic font-medium">Version: 1.0</span>
         </div>
       </div>
       <div className="relative flex items-center justify-center col-span-1 min-w-[400px]">

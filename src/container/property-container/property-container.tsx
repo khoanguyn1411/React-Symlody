@@ -136,7 +136,7 @@ const _PropertyContainer: React.FC = () => {
         </Container.HeaderRight>
       </Container.Header>
       <Container.Body>
-        <Table.Container defaultSortActive="name" defaultOrderActive="asc">
+        <Table.Container defaultOrderActive="asc">
           <Table.Head>
             <Table.CellHead isFirst textAlign="center" width="5rem">
               STT
