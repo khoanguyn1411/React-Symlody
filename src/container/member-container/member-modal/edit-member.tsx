@@ -26,7 +26,7 @@ const _ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   });
   const {
     handleSubmit,
-    formState: { dirtyFields, isSubmitting },
+    formState: { isSubmitting, isDirty },
   } = propsForm;
 
   const departmentStore = useAppSelector((state) => state.department);
@@ -65,7 +65,7 @@ const _ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         title: "Cập nhật",
         event: handleSubmit(handleEditMember),
         isLoading: isSubmitting,
-        isDisable: Object.keys(dirtyFields).length === 0,
+        isDisable: !isDirty,
       }}
     >
       <FormItems data={data} formProps={propsForm} />

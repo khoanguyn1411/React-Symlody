@@ -4,7 +4,8 @@ import { Icon } from "@/assets/icons";
 import { Button } from "@/components/elements";
 import { FormatService } from "@/utils";
 
-import { EAllowFiles, PICK_IMAGE_MESSAGE } from "./contants";
+import { PICK_IMAGE_MESSAGE } from "./contants";
+import { EAllowFiles } from "./type";
 
 type TFileData = {
   url: string | ArrayBuffer;

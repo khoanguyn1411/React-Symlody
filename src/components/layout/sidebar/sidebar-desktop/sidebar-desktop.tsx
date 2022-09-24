@@ -74,9 +74,13 @@ const _SidebarDesktop: React.FC<TProps> = ({
           ))}
         </div>
 
-        <div className="w-full text-xs text-right text-gray-400">
-          {!isCompactSidebar && <h2>{APP_NAME} - version: 1.0</h2>}
-          {isCompactSidebar && <h2>{APP_NAME} - v1.0</h2>}
+        <div className="w-full text-xs text-gray-400">
+          {!isCompactSidebar && (
+            <h1 className="text-center">{APP_NAME} - version: 1.0</h1>
+          )}
+          {isCompactSidebar && (
+            <h1 className="text-right">{APP_NAME} - v1.0</h1>
+          )}
         </div>
 
         <CompactSidebar

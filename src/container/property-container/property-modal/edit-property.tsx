@@ -22,7 +22,7 @@ const _ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
   const {
     handleSubmit,
     reset,
-    formState: { dirtyFields, isSubmitting },
+    formState: { isDirty, isSubmitting },
   } = propsForm;
 
   const handleEditProperty = useCallback(() => {
@@ -38,7 +38,7 @@ const _ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
       handleEvent={{
         title: "Cập nhật",
         isLoading: isSubmitting,
-        isDisable: Object.keys(dirtyFields).length === 0,
+        isDisable: !isDirty,
         event: handleSubmit(handleEditProperty),
       }}
     >
