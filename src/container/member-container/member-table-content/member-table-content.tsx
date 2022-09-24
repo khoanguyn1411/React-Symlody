@@ -20,7 +20,6 @@ const _TableMemberContent: React.FC<TProps> = ({
 }) => {
   const memberStore = useAppSelector((state) => state.member);
   const memberCount = useAppSelector(memberSelectors.selectTotal);
-  const memberList = useAppSelector(memberSelectors.selectAll);
 
   const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
 
@@ -56,7 +55,7 @@ const _TableMemberContent: React.FC<TProps> = ({
 
   return (
     <Table.Body>
-      {memberList.map((item, index) => {
+      {memberStore.memberListPagination.map((item, index) => {
         const memberTableItem = MemberTableMapper.fromModel(item);
         return (
           <Table.Row key={memberTableItem.id} index={index}>

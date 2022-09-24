@@ -14,7 +14,6 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deleteMemberAsync,
   getMembersAsync,
-  memberSelectors,
   setListQueryMember,
   updateMemberAsync,
 } from "@/features/reducers";
@@ -28,20 +27,21 @@ import {
   MEMBER_NO_DATA_CONFIG,
 } from "./constant";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
+import { MemberPagination } from "./member-pagination";
 import { TableMemberContent } from "./member-table-content";
 
 const getFilterValue = (key: string) => {
   return MEMBER_FILTER_OPTIONS.find((item) => item.key === key).value;
 };
 const _MemberContainer: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  const memberStore = useAppSelector((state) => state.member);
+
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<IMember>();
   const propsSearch = useDebounce();
 
-  const memberStore = useAppSelector((state) => state.member);
-  const memberCount = useAppSelector(memberSelectors.selectTotal);
-
-  const dispatch = useAppDispatch();
   const [filter, setFilter] = useState<string>(() => {
     switch (memberStore.listQueryMember.is_archived) {
       case true:
@@ -71,19 +71,6 @@ const _MemberContainer: React.FC = () => {
     },
     [dispatch, memberStore.listQueryMember]
   );
-
-  useEffect(() => {
-    dispatch(getMembersAsync(memberStore.listQueryMember));
-  }, [dispatch, memberStore.listQueryMember]);
-
-  const handleEdit = useCallback(
-    (item: IMember) => {
-      propsModalEditMember.setData(item);
-      propsModalEditMember.toggle.setShow();
-    },
-    [propsModalEditMember]
-  );
-
   const handleDelete = useCallback(
     async (item: IMember) => {
       const result = await dispatch(deleteMemberAsync(item.id));
@@ -95,7 +82,6 @@ const _MemberContainer: React.FC = () => {
     },
     [dispatch]
   );
-
   const handleRestore = useCallback(
     async (item: IMember) => {
       const result = await dispatch(
@@ -113,6 +99,17 @@ const _MemberContainer: React.FC = () => {
     },
     [dispatch]
   );
+  const handleEdit = useCallback(
+    (item: IMember) => {
+      propsModalEditMember.setData(item);
+      propsModalEditMember.toggle.setShow();
+    },
+    [propsModalEditMember]
+  );
+
+  useEffect(() => {
+    dispatch(getMembersAsync(memberStore.listQueryMember));
+  }, [dispatch, memberStore.listQueryMember]);
 
   const showNoData = false;
   if (showNoData) {
@@ -167,8 +164,7 @@ const _MemberContainer: React.FC = () => {
             onDelete={handleDelete}
           />
         </Table.Container>
-
-        {memberCount > 0 && <Container.Pagination />}
+        <MemberPagination />
       </Container.Body>
       <ModalCreateMember {...propsModalCreateMember} />
       <ModalEditMember {...propsModalEditMember} />

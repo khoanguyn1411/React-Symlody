@@ -8,11 +8,11 @@ type TProps = {
 };
 
 const _PaginationItem: React.FC<TProps> = ({ pageIndex }) => {
-  const { activePage, setActivePage, onPaginationChange } =
+  const { activePage, setActivePage, onPaginationChange, rowsQuantity } =
     usePaginationContext();
   const handleChangeActivePage = () => {
     setActivePage(pageIndex);
-    onPaginationChange && onPaginationChange(pageIndex);
+    onPaginationChange && onPaginationChange(pageIndex, rowsQuantity);
   };
 
   return (

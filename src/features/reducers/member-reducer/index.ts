@@ -72,6 +72,21 @@ export const memberSlice = createSlice({
     setListQueryMember(state, action: PayloadAction<TMemberParamQueryDto>) {
       state.listQueryMember = action.payload;
     },
+    getPaginationMember(
+      state,
+      action: PayloadAction<
+        GlobalTypes.StrictPick<TMemberParamQueryDto, "limit" | "page"> & {
+          memberList: IMember[];
+        }
+      >
+    ) {
+      const { memberList, limit, page } = action.payload;
+      const memberListPagination = memberList.slice(
+        (page - 1) * limit,
+        page * limit
+      );
+      state.memberListPagination = memberListPagination;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -135,6 +150,6 @@ export const memberStore = (state: RootState) => state.member;
 export const memberSelectors = memberAdapter.getSelectors(
   (state: RootState) => state.member
 );
-export const { setListQueryMember } = memberSlice.actions;
+export const { setListQueryMember, getPaginationMember } = memberSlice.actions;
 
 export default memberSlice.reducer;
