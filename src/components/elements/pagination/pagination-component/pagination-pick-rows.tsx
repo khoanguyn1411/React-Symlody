@@ -1,21 +1,19 @@
 import { memo } from "react";
 
 import { Select, TItemListSelect } from "@/components";
+import { FormatService } from "@/utils";
 
 import { usePaginationContext } from "../context";
 
 const _PaginationPickRows: React.FC = () => {
-  const {
-    quantityDisplay,
-    rowsQuantity,
-    setRowsQuantity,
-    onRowQuantityChange,
-  } = usePaginationContext();
+  const { quantityDisplay, limit, activePage, setLimit, onRowQuantityChange } =
+    usePaginationContext();
 
-  const handleRowsChange = (row: string) => {
-    setRowsQuantity(row);
-    if (row !== rowsQuantity) {
-      onRowQuantityChange && onRowQuantityChange(row);
+  const handleRowsChange = (_limit: string) => {
+    const limitAsNumber = FormatService.toNumber(_limit);
+    setLimit(limitAsNumber);
+    if (limit !== limitAsNumber) {
+      onRowQuantityChange && onRowQuantityChange(activePage, limitAsNumber);
     }
   };
 
@@ -28,7 +26,7 @@ const _PaginationPickRows: React.FC = () => {
         suffix="hàng"
         placement="top-left"
         list={quantityDisplay.map((item): TItemListSelect => ({ value: item }))}
-        value={rowsQuantity}
+        value={FormatService.toString(limit)}
         onChange={handleRowsChange}
       />
     </div>

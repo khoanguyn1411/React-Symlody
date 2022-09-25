@@ -7,6 +7,7 @@ export interface PropertiesStateInner {
   pending: boolean;
   listQueryProperty: TPropertyParamQueryDto;
   pendingRestoreProperty: boolean;
+  propertyListPagination: IProperty[];
   pendingDeleteProperty: boolean;
 }
 
@@ -17,6 +18,7 @@ export const propertyAdapter = createEntityAdapter<IProperty>({
 export const initialState =
   propertyAdapter.getInitialState<PropertiesStateInner>({
     pending: false,
+    propertyListPagination: [],
     listQueryProperty: { is_archived: false },
     pendingRestoreProperty: false,
     pendingDeleteProperty: false,

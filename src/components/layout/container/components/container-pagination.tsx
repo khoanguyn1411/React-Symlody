@@ -9,7 +9,11 @@ type TProps = GlobalTypes.StrictOmit<TPropsPagination, "pageStep">;
 export const _Pagination: React.FC<TProps> = (props) => {
   return (
     <div className="flex justify-end w-full mt-5">
-      <AppPagination {...props} quantityDisplay={["5", "7", "9"]} />
+      <AppPagination
+        {...props}
+        quantityDisplay={["1", "7", "9"]}
+        pageStep={1}
+      />
     </div>
   );
 };

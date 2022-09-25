@@ -57,6 +57,21 @@ export const propertySlice = createSlice({
     setListQueryProperty(state, action: PayloadAction<TPropertyParamQueryDto>) {
       state.listQueryProperty = action.payload;
     },
+    getPaginationProperty(
+      state,
+      action: PayloadAction<
+        GlobalTypes.StrictPick<TPropertyParamQueryDto, "limit" | "page"> & {
+          propertyList: IProperty[];
+        }
+      >
+    ) {
+      const { propertyList, limit, page } = action.payload;
+      const propertyListPagination = propertyList.slice(
+        (page - 1) * limit,
+        page * limit
+      );
+      state.propertyListPagination = propertyListPagination;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -95,9 +110,10 @@ export const propertySlice = createSlice({
       });
   },
 });
-export const propertySelector = propertyAdapter.getSelectors(
+export const propertySelectors = propertyAdapter.getSelectors(
   (state: RootState) => state.property
 );
 export const propertyStore = (state: RootState) => state.property;
-export const { setListQueryProperty } = propertySlice.actions;
+export const { setListQueryProperty, getPaginationProperty } =
+  propertySlice.actions;
 export default propertySlice.reducer;

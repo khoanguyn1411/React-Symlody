@@ -2,7 +2,7 @@ import React, { memo, useCallback, useState } from "react";
 
 import { DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
-import { propertySelector } from "@/features/reducers/property-reducer";
+import { propertySelectors } from "@/features/reducers/property-reducer";
 import { IProperty } from "@/features/types";
 
 import { PropertyTableMapper } from "../mapper";
@@ -19,8 +19,7 @@ const _TablePropertyContent: React.FC<TProps> = ({
   onRestore,
 }) => {
   const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
-  const propertyList = useAppSelector(propertySelector.selectAll);
-  const propertyCount = useAppSelector(propertySelector.selectTotal);
+  const propertyCount = useAppSelector(propertySelectors.selectTotal);
   const propertyStore = useAppSelector((state) => state.property);
 
   const handleEdit = useCallback(
@@ -53,7 +52,7 @@ const _TablePropertyContent: React.FC<TProps> = ({
   }
   return (
     <Table.Body>
-      {propertyList.map((item, index) => {
+      {propertyStore.propertyListPagination.map((item, index) => {
         const propertyTableItem = PropertyTableMapper.fromModel(item);
         return (
           <Table.Row key={item.id} index={index}>

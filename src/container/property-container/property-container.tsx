@@ -14,7 +14,6 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deletePropertyAsync,
   getPropertyAsync,
-  propertySelector,
   setListQueryProperty,
 } from "@/features/reducers/property-reducer";
 import { IProperty } from "@/features/types";
@@ -27,6 +26,7 @@ import {
   PROPERTY_MESSAGE,
 } from "./constant";
 import { ModalCreateProperty, ModalEditProperty } from "./property-modal";
+import { PropertyPagination } from "./property-pagination";
 import { TablePropertyContent } from "./property-table-content";
 
 const getFilterValue = (key: string) => {
@@ -39,7 +39,6 @@ const _PropertyContainer: React.FC = () => {
   const propsSearch = useDebounce();
   const dispatch = useAppDispatch();
 
-  const propertyCount = useAppSelector(propertySelector.selectTotal);
   const propertyStore = useAppSelector((state) => state.property);
 
   const [filter, setFilter] = useState<string>(() => {
@@ -172,7 +171,7 @@ const _PropertyContainer: React.FC = () => {
             onRestore={handleRestore}
           />
         </Table.Container>
-        {propertyCount > 0 && <Container.Pagination />}
+        <PropertyPagination />
       </Container.Body>
       <ModalCreateProperty {...propsModal} />
       <ModalEditProperty {...propsModalEdit} />

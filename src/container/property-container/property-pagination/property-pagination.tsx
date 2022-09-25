@@ -3,31 +3,31 @@ import { useCallback } from "react";
 import { Container } from "@/components";
 import { APP_CONSTANTS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getPaginationMember, memberSelectors } from "@/features/reducers";
+import { getPaginationProperty, propertySelectors } from "@/features/reducers";
 
-export const MemberPagination = () => {
+export const PropertyPagination: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const memberCount = useAppSelector(memberSelectors.selectTotal);
-  const memberList = useAppSelector(memberSelectors.selectAll);
+  const propertyCount = useAppSelector(propertySelectors.selectTotal);
+  const propertyList = useAppSelector(propertySelectors.selectAll);
 
   const handlePaginationChange = useCallback(
     (page: number, limit: number) => {
       dispatch(
-        getPaginationMember({
-          memberList,
+        getPaginationProperty({
+          propertyList,
           page,
           limit,
         })
       );
     },
-    [dispatch, memberList]
+    [dispatch, propertyList]
   );
 
   const handleResetPagination = (limit: number) => {
     dispatch(
-      getPaginationMember({
-        memberList,
+      getPaginationProperty({
+        propertyList,
         page: 1,
         limit,
       })
@@ -36,21 +36,21 @@ export const MemberPagination = () => {
 
   const handleLimitChange = (page: number, limit: number) => {
     dispatch(
-      getPaginationMember({
-        memberList,
+      getPaginationProperty({
+        propertyList,
         page: 1,
         limit,
       })
     );
   };
 
-  if (memberCount > 0) {
+  if (propertyCount > 0) {
     return (
       <Container.Pagination
-        count={memberCount}
+        count={propertyCount}
         defaultLimit={APP_CONSTANTS.DEFAULT_PAGINATION_LIMIT}
         onResetPagination={{
-          changeListener: [memberList],
+          changeListener: [propertyList],
           callback: handleResetPagination,
         }}
         onRowQuantityChange={handleLimitChange}

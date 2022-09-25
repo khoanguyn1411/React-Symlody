@@ -3,7 +3,7 @@ export const APP_NAME = "Symlody";
 export const APP_CONSTANTS = {
   AUTH: `@Symlody/AUTH`,
   IS_COMPACT_SIDEBAR: "@Symlody/IS_COMPACT_SIDEBAR",
-  DEFAULT_PAGINATION_LIMIT: 5,
+  DEFAULT_PAGINATION_LIMIT: 1,
 };
 
 export const PLACEHOLDER_IMAGE = "https://via.placeholder.com/150";
