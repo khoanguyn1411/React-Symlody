@@ -18,14 +18,22 @@ const _PaginationList: React.FC = () => {
       {[...Array(isPageRangeOverTotal ? totalPages : pageStep * 2 + 1)].map(
         (item, index) => {
           if (activePage <= pageStep || isPageRangeOverTotal) {
-            return <PaginationItem pageIndex={index + 1} />;
+            return <PaginationItem key={index} pageIndex={index + 1} />;
           }
           if (activePage > pageStep && activePage < totalPages - pageStep) {
-            return <PaginationItem pageIndex={activePage + index - pageStep} />;
+            return (
+              <PaginationItem
+                key={index}
+                pageIndex={activePage + index - pageStep}
+              />
+            );
           }
           if (activePage >= totalPages - pageStep) {
             return (
-              <PaginationItem pageIndex={totalPages - pageStep * 2 + index} />
+              <PaginationItem
+                key={index}
+                pageIndex={totalPages - pageStep * 2 + index}
+              />
             );
           }
         }
