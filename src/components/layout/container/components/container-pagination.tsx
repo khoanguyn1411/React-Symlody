@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 
 import { Pagination as AppPagination } from "@/components";
 import { TPropsPagination } from "@/components/elements/pagination/context";
@@ -11,10 +11,22 @@ type TProps = GlobalTypes.StrictOmit<TPropsPagination, "pageStep">;
 export const _Pagination: React.FC<TProps> = (props) => {
   const dispatch = useAppDispatch();
   const common = useAppSelector((state) => state.common);
-  const onLimitChange = (page: number, limit: number) => {
-    dispatch(setPaginationLimit(limit));
-    props.onLimitChange?.(page, limit);
-  };
+
+  const onLimitChange = useCallback(
+    (page: number, limit: number) => {
+      dispatch(setPaginationLimit(limit));
+      props.onLimitChange?.(page, limit);
+    },
+    [dispatch, props]
+  );
+
+  if (!props.totalPages && !props.count) {
+    return;
+  }
+  if (props.count === 0) {
+    return;
+  }
+
   return (
     <div className="flex justify-end w-full mt-5">
       <AppPagination
