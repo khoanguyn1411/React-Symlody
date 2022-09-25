@@ -32,7 +32,7 @@ export type TPropsPagination = {
   totalPages?: number;
   quantityDisplay?: string[];
   onPaginationChange?: (activePage: number, limit: number) => void;
-  onRowQuantityChange?: (activePage: number, limit: number) => void;
+  onLimitChange?: (activePage: number, limit: number) => void;
   onResetPagination?: {
     changeListener: DependencyList;
     callback: (limit: number) => void;

@@ -6,14 +6,14 @@ import { FormatService } from "@/utils";
 import { usePaginationContext } from "../context";
 
 const _PaginationPickRows: React.FC = () => {
-  const { quantityDisplay, limit, activePage, setLimit, onRowQuantityChange } =
+  const { quantityDisplay, limit, activePage, setLimit, onLimitChange } =
     usePaginationContext();
 
   const handleRowsChange = (_limit: string) => {
     const limitAsNumber = FormatService.toNumber(_limit);
     setLimit(limitAsNumber);
     if (limit !== limitAsNumber) {
-      onRowQuantityChange && onRowQuantityChange(activePage, limitAsNumber);
+      onLimitChange && onLimitChange(activePage, limitAsNumber);
     }
   };
 

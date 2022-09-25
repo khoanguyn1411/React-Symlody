@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 
 import { Container } from "@/components";
-import { APP_CONSTANTS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getPaginationMember, memberSelectors } from "@/features/reducers";
 
@@ -48,12 +47,11 @@ export const MemberPagination = () => {
     return (
       <Container.Pagination
         count={memberCount}
-        defaultLimit={APP_CONSTANTS.DEFAULT_PAGINATION_LIMIT}
         onResetPagination={{
           changeListener: [memberList],
           callback: handleResetPagination,
         }}
-        onRowQuantityChange={handleLimitChange}
+        onLimitChange={handleLimitChange}
         onPaginationChange={handlePaginationChange}
       />
     );

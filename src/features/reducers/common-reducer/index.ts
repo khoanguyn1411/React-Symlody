@@ -6,10 +6,12 @@ import { LocalStorageService } from "@/utils";
 
 export type CommonState = {
   isCompactSidebar: boolean;
+  paginationLimit: number;
 };
 
 const initialState: CommonState = {
   isCompactSidebar: false,
+  paginationLimit: APP_CONSTANTS.DEFAULT_PAGINATION_LIMIT,
 };
 
 export const commonSlice = createSlice({
@@ -29,11 +31,14 @@ export const commonSlice = createSlice({
     setIsCompactSidebar: (state, action: PayloadAction<boolean>) => {
       state.isCompactSidebar = action.payload;
     },
+    setPaginationLimit: (state, action: PayloadAction<number>) => {
+      state.paginationLimit = action.payload;
+    },
   },
 });
 export const commonStore = (state: RootState) => state.common;
 
-export const { setIsCompactSidebar, toggleCompactSidebar } =
+export const { setIsCompactSidebar, toggleCompactSidebar, setPaginationLimit } =
   commonSlice.actions;
 
 export default commonSlice.reducer;
