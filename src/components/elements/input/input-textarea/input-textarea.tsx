@@ -8,6 +8,7 @@ const _TextArea: React.FC<TInputTextAreaProps> = ({
   placeholder,
   style = "default",
   disable = false,
+  otherProps,
   onChange,
   onInputSideEffect,
 }) => {
@@ -30,6 +31,7 @@ const _TextArea: React.FC<TInputTextAreaProps> = ({
         "w-full p-2 border-gray-200 h-28 resize-none text-black outline-none rounded-md",
         STYLE_INPUT_TEXT_AREA[style]
       )}
+      {...otherProps}
     />
   );
 };

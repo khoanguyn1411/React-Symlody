@@ -18,6 +18,7 @@ const _Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
   prefix = null,
   disable = false,
   isShowLoading = null,
+  otherProps,
 }) => {
   const handleOnClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -45,6 +46,7 @@ const _Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
         }
       )}
       onClick={handleOnClick}
+      {...otherProps}
     >
       <i
         className={classNames(

@@ -24,6 +24,7 @@ const _Search: React.FC<TProps> = ({
       <Input
         className="h-10 pr-12"
         style="default"
+        otherProps={{ role: "searchbox" }}
         onChange={setInputValue}
         placeholder={placeholder}
         value={inputValue}

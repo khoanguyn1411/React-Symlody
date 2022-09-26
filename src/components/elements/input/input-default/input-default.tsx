@@ -12,6 +12,7 @@ const _Input: React.FC<TInputDefaultProps> = ({
   disable = false,
   onChange,
   onInputSideEffect,
+  otherProps,
 }) => {
   const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (onInputSideEffect) {
@@ -35,6 +36,7 @@ const _Input: React.FC<TInputDefaultProps> = ({
         className,
         STYLE_INPUT_DEFAULT[style]
       )}
+      {...otherProps}
     />
   );
 };
