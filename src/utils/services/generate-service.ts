@@ -44,4 +44,10 @@ export class GeneratorService {
     });
     return obj;
   }
+
+  public static generateArrayWithNoDuplicate<T>(arr: T[]) {
+    const s = new Set(arr);
+    const it = s.values();
+    return Array.from(it);
+  }
 }

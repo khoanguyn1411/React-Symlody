@@ -2,56 +2,56 @@ import { memo, useCallback } from "react";
 
 import { Container } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getPaginationMember, memberSelectors } from "@/features/reducers";
+import { getPaginationMember } from "@/features/reducers";
 
 export const _MemberPagination: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const memberCount = useAppSelector(memberSelectors.selectTotal);
-  const memberList = useAppSelector(memberSelectors.selectAll);
+  const memberStore = useAppSelector((state) => state.member);
+
+  // TO_UPDATE: When BE release pagination, change it to the original memberCount:
+  // const memberCount = useAppSelector(memberSelectors.selectTotal);
+  const memberCount = memberStore.currentMemberList.length;
 
   const handlePaginationChange = useCallback(
     (page: number, limit: number) => {
       dispatch(
         getPaginationMember({
-          memberList,
           page,
           limit,
         })
       );
     },
-    [dispatch, memberList]
+    [dispatch]
   );
   const handleResetPagination = useCallback(
     (limit: number) => {
       dispatch(
         getPaginationMember({
-          memberList,
           page: 1,
           limit,
         })
       );
     },
-    [dispatch, memberList]
+    [dispatch]
   );
   const handleLimitChange = useCallback(
     (page: number, limit: number) => {
       dispatch(
         getPaginationMember({
-          memberList,
           page: 1,
           limit,
         })
       );
     },
-    [dispatch, memberList]
+    [dispatch]
   );
 
   return (
     <Container.Pagination
       count={memberCount}
       onResetPagination={{
-        changeListener: [memberList],
+        changeListener: [memberStore.listQueryMember],
         callback: handleResetPagination,
       }}
       onLimitChange={handleLimitChange}

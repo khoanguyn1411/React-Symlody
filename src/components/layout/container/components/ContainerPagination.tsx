@@ -33,7 +33,7 @@ export const _Pagination: React.FC<TProps> = (props) => {
         {...props}
         onLimitChange={onLimitChange}
         defaultLimit={common.paginationLimit}
-        quantityDisplay={["1", "7", "9"]}
+        quantityDisplay={["1", "10", "20", "30", "40", "50"]}
         pageStep={1}
       />
     </div>

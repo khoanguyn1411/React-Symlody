@@ -6,11 +6,7 @@ import { Icon } from "@/assets/icons";
 import { DatePortal } from "@/components";
 import { GlobalTypes } from "@/utils";
 
-type AppProviderProps = {
-  children: React.ReactNode;
-};
-
-export const AppProvider = ({ children }: AppProviderProps) => {
+export const AppProvider: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <React.Suspense
       fallback={

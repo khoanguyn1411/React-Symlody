@@ -1,2 +1,2 @@
-export * from "./authorized-guard";
-export * from "./unauthorized-guard";
+export * from "./AuthorizedGuard";
+export * from "./UnauthorizedGuard";

@@ -6,9 +6,9 @@ type THookSearch = {
   setInputValue: (inputValue: string) => void;
 };
 
-export const useDebounce = (): THookSearch => {
-  const [inputValue, setInputValue] = useState<string>("");
-  const [debounceValue, setDebounceValue] = useState<string>("");
+export const useDebounce = (initialValue?: string): THookSearch => {
+  const [inputValue, setInputValue] = useState<string>(initialValue ?? "");
+  const [debounceValue, setDebounceValue] = useState<string>(inputValue);
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setDebounceValue(inputValue);
@@ -17,5 +17,6 @@ export const useDebounce = (): THookSearch => {
       clearTimeout(timeoutId);
     };
   }, [inputValue]);
+
   return { debounceValue, inputValue, setInputValue };
 };

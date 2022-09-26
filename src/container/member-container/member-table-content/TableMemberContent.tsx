@@ -2,7 +2,6 @@ import { memo, useCallback, useState } from "react";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
-import { memberSelectors } from "@/features/reducers";
 import { IMember } from "@/features/types";
 
 import { MemberTableMapper } from "../mapper";
@@ -19,7 +18,10 @@ const _TableMemberContent: React.FC<TProps> = ({
   onDelete,
 }) => {
   const memberStore = useAppSelector((state) => state.member);
-  const memberCount = useAppSelector(memberSelectors.selectTotal);
+
+  // TO_UPDATE: When BE release pagination, change it to the original memberCount:
+  // const memberCount = useAppSelector(memberSelectors.selectTotal);
+  const memberCount = memberStore.currentMemberList.length;
 
   const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
 

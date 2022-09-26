@@ -14,11 +14,13 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deleteMemberAsync,
   getMembersAsync,
+  getPaginationMember,
+  memberSelectors,
   setListQueryMember,
   updateMemberAsync,
 } from "@/features/reducers";
 import { IMember } from "@/features/types";
-import { useDebounce, useModal } from "@/hooks";
+import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
 
 import {
   MEMBER_FILTER_OPTIONS,
@@ -37,10 +39,11 @@ const _MemberContainer: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const memberStore = useAppSelector((state) => state.member);
+  const memberList = useAppSelector(memberSelectors.selectAll);
 
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<IMember>();
-  const propsSearch = useDebounce();
+  const propsSearch = useDebounce(memberStore.listQueryMemberFE.search);
 
   const [filter, setFilter] = useState<string>(() => {
     switch (memberStore.listQueryMember.is_archived) {
@@ -110,6 +113,26 @@ const _MemberContainer: React.FC = () => {
   useEffect(() => {
     dispatch(getMembersAsync(memberStore.listQueryMember));
   }, [dispatch, memberStore.listQueryMember]);
+
+  // TO_UPDATE: When BE release pagination.
+  // Using useEffect but not useEffectSkipFirstRender in order to get the currentList pagination from memberList.
+  useEffectSkipFirstRender(() => {
+    dispatch(
+      getPaginationMember({
+        memberList,
+        search: propsSearch.debounceValue,
+        page: 1,
+      })
+    );
+  }, [propsSearch.debounceValue]);
+
+  useEffect(() => {
+    dispatch(
+      getPaginationMember({
+        memberList,
+      })
+    );
+  }, [dispatch, memberList]);
 
   const showNoData = false;
   if (showNoData) {
