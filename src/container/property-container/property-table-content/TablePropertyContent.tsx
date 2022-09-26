@@ -2,7 +2,6 @@ import React, { memo, useCallback, useState } from "react";
 
 import { DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
-import { propertySelectors } from "@/features/reducers/property-reducer";
 import { IProperty } from "@/features/types";
 
 import { PropertyTableMapper } from "../mapper";
@@ -19,8 +18,11 @@ const _TablePropertyContent: React.FC<TProps> = ({
   onRestore,
 }) => {
   const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
-  const propertyCount = useAppSelector(propertySelectors.selectTotal);
+
+  // TO_UPDATE: When BE release pagination, change it to the original propertyCount:
+  // const propertyCount = useAppSelector(propertySelectors.selectTotal);
   const propertyStore = useAppSelector((state) => state.property);
+  const propertyCount = propertyStore.currentPropertyList.length;
 
   const handleEdit = useCallback(
     (item: IProperty) => () => {

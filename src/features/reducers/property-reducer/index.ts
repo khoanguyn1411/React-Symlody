@@ -8,7 +8,7 @@ import {
   PropertyMapper,
 } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
-import { GlobalTypes } from "@/utils";
+import { FilterService, GlobalTypes } from "@/utils";
 
 import { initialState, propertyAdapter } from "./state";
 
@@ -60,17 +60,36 @@ export const propertySlice = createSlice({
     getPaginationProperty(
       state,
       action: PayloadAction<
-        GlobalTypes.StrictPick<TPropertyParamQueryDto, "limit" | "page"> & {
-          propertyList: IProperty[];
+        GlobalTypes.StrictOmit<TPropertyParamQueryDto, "is_archived"> & {
+          propertyList?: IProperty[];
         }
       >
     ) {
-      const { propertyList, limit, page } = action.payload;
-      const propertyListPagination = propertyList.slice(
+      const { propertyList, ...rest } = action.payload;
+      if (propertyList) {
+        state.currentPropertyList = propertyList;
+      }
+      state.listQueryPropertyFE = { ...state.listQueryPropertyFE, ...rest };
+      const { limit, page, search } = state.listQueryPropertyFE;
+      const propertyListPagination = state.currentPropertyList.slice(
         (page - 1) * limit,
         page * limit
       );
-      state.propertyListPagination = propertyListPagination;
+      if (!search) {
+        if (propertyList) {
+          state.currentPropertyList = propertyList;
+        }
+        state.propertyListPagination = propertyListPagination;
+        return;
+      }
+      const listPropertyAfterFilterByName = state.currentPropertyList.filter(
+        (item) => FilterService.fromText(item.name, search)
+      );
+      state.currentPropertyList = listPropertyAfterFilterByName;
+      state.propertyListPagination = listPropertyAfterFilterByName.slice(
+        (page - 1) * limit,
+        page * limit
+      );
     },
   },
   extraReducers: (builder) => {

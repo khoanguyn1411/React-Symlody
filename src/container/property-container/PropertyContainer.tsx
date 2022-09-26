@@ -13,11 +13,13 @@ import {
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deletePropertyAsync,
+  getPaginationProperty,
   getPropertyAsync,
+  propertySelectors,
   setListQueryProperty,
 } from "@/features/reducers/property-reducer";
 import { IProperty } from "@/features/types";
-import { useDebounce, useModal } from "@/hooks";
+import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
 
 import {
   ASSET_NO_DATA_CONFIG,
@@ -34,12 +36,14 @@ const getFilterValue = (key: string) => {
 };
 
 const _PropertyContainer: React.FC = () => {
-  const propsModal = useModal({ isHotkeyOpen: true });
-  const propsModalEdit = useModal<IProperty>();
-  const propsSearch = useDebounce();
   const dispatch = useAppDispatch();
 
   const propertyStore = useAppSelector((state) => state.property);
+  const propertyList = useAppSelector(propertySelectors.selectAll);
+
+  const propsModal = useModal({ isHotkeyOpen: true });
+  const propsModalEdit = useModal<IProperty>();
+  const propsSearch = useDebounce(propertyStore.listQueryPropertyFE.search);
 
   const [filter, setFilter] = useState<string>(() => {
     switch (propertyStore.listQueryProperty.is_archived) {
@@ -102,6 +106,26 @@ const _PropertyContainer: React.FC = () => {
   useEffect(() => {
     dispatch(getPropertyAsync(propertyStore.listQueryProperty));
   }, [dispatch, propertyStore.listQueryProperty]);
+
+  // TO_UPDATE: When BE release pagination.
+  // Using useEffect but not useEffectSkipFirstRender in order to get the currentList pagination from memberList.
+  useEffectSkipFirstRender(() => {
+    dispatch(
+      getPaginationProperty({
+        propertyList,
+        search: propsSearch.debounceValue,
+        page: 1,
+      })
+    );
+  }, [propsSearch.debounceValue]);
+
+  useEffect(() => {
+    dispatch(
+      getPaginationProperty({
+        propertyList,
+      })
+    );
+  }, [dispatch, propertyList]);
 
   const isNodata = false;
   if (isNodata) {

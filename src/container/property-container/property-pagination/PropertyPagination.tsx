@@ -2,56 +2,55 @@ import { memo, useCallback } from "react";
 
 import { Container } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getPaginationProperty, propertySelectors } from "@/features/reducers";
+import { getPaginationProperty } from "@/features/reducers";
 
 export const _PropertyPagination: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const propertyCount = useAppSelector(propertySelectors.selectTotal);
-  const propertyList = useAppSelector(propertySelectors.selectAll);
+  // TO_UPDATE: When BE release pagination, change it to the original propertyCount:
+  // const propertyCount = useAppSelector(propertySelectors.selectTotal);
+  const propertyStore = useAppSelector((state) => state.property);
+  const propertyCount = propertyStore.currentPropertyList.length;
 
   const handlePaginationChange = useCallback(
     (page: number, limit: number) => {
       dispatch(
         getPaginationProperty({
-          propertyList,
           page,
           limit,
         })
       );
     },
-    [dispatch, propertyList]
+    [dispatch]
   );
   const handleResetPagination = useCallback(
     (limit: number) => {
       dispatch(
         getPaginationProperty({
-          propertyList,
           page: 1,
           limit,
         })
       );
     },
-    [dispatch, propertyList]
+    [dispatch]
   );
   const handleLimitChange = useCallback(
     (page: number, limit: number) => {
       dispatch(
         getPaginationProperty({
-          propertyList,
           page: 1,
           limit,
         })
       );
     },
-    [dispatch, propertyList]
+    [dispatch]
   );
 
   return (
     <Container.Pagination
       count={propertyCount}
       onResetPagination={{
-        changeListener: [propertyList],
+        changeListener: [propertyStore.listQueryProperty],
         callback: handleResetPagination,
       }}
       onLimitChange={handleLimitChange}
