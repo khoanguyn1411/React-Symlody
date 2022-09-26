@@ -37,6 +37,4 @@ jobs:
             git pull origin release
             yarn
             yarn build
-            cd ..
-            ls
             docker-compose up -d --no-deps --build clubui
