@@ -1,7 +1,7 @@
 import { memo } from "react";
 import ReactDOM from "react-dom";
 
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 export const _Portal: GlobalTypes.FCChildren = ({ children }) => {
   return ReactDOM.createPortal(

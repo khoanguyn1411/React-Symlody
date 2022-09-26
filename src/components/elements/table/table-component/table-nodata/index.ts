@@ -1,1 +1,1 @@
-export * from "./table-nodata";
+export * from "./TableNoData";

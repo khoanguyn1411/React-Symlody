@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import { APP_CONSTANTS } from "@/constants";
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 const PaginationContext = createContext<TPropsPaginationContext>({
   activePage: undefined,

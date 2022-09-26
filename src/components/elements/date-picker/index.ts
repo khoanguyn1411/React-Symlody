@@ -1,1 +1,1 @@
-export * from "./date-picker";
+export * from "./AppDatePicker";

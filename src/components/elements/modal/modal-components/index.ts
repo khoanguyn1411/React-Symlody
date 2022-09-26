@@ -1,3 +1,3 @@
-export * from "./modal-body";
-export * from "./modal-footer";
-export * from "./modal-wrapper";
+export * from "./ModalBody";
+export * from "./ModalFooter";
+export * from "./ModalWrapper";

@@ -1,1 +1,1 @@
-export * from "./table-cell-head";
+export * from "./TableCellHead";

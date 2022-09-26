@@ -1,1 +1,1 @@
-export * from "./property-container";
+export * from "./PropertyContainer";

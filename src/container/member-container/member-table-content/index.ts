@@ -1,1 +1,1 @@
-export * from "./member-table-content";
+export * from "./TableMemberContent";

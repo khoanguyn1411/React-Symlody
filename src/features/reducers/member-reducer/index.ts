@@ -5,7 +5,7 @@ import { RootState } from "@/features/store";
 import { MemberMapper } from "@/features/types/mappers";
 import { IMember, IMemberCreateUpdate } from "@/features/types/models";
 import { TMemberParamQueryDto } from "@/features/types/queries";
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 import { initialState, memberAdapter } from "./state";
 

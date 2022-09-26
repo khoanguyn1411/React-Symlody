@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 
 import { AnimationKeepDom, Portal } from "@/components";
 import { usePositionPortal } from "@/hooks";
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 import { AlignedPlacement } from "../portal/type";
 

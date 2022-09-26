@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { DepartmentApi } from "@/api/department-api";
 import { RootState } from "@/features/store";
 import { DepartmentMapper, IDepartment } from "@/features/types";
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 export type DepartmentState = {
   pending: boolean;

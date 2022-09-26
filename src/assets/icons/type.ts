@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 export const COLOR_MAPS_ICON = {
   default: "text-primary-800",

@@ -8,7 +8,7 @@ import {
   PropertyMapper,
 } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 import { initialState, propertyAdapter } from "./state";
 

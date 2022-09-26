@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 type TProps = {
   isAuth: boolean;

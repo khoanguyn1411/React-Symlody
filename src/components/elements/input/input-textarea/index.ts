@@ -1,1 +1,1 @@
-export * from "./input-textarea";
+export * from "./TextArea";

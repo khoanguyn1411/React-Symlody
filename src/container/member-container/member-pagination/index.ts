@@ -1,1 +1,1 @@
-export * from "./member-pagination";
+export * from "./MemberPagination";

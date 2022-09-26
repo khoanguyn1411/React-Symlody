@@ -1,4 +1,4 @@
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 import { IProfileDto } from "./profile.dto";
 

@@ -1,2 +1,2 @@
-export * from "./button-create";
-export * from "./button-default";
+export * from "./Button";
+export * from "./ButtonCreate";
