@@ -41,7 +41,7 @@ export class FormatService {
   }
 
   public static toCleanedString(value: string): string {
-    return this.removeAccent(value);
+    return this.removeAccent(value).toLowerCase().trim();
   }
 
   public static toDate(value: string, type: "VN" | "US" | "API"): string {
@@ -54,16 +54,7 @@ export class FormatService {
     return dayjs(value).format("DD/MM/YYYY");
   }
   public static removeAccent(str: string): string {
-    const initStr = str;
-    str = str
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[&/\\#@^,+()$~%-.!'":*?<>{}]/g, "")
-      .trim()
-      .replace(/\s+/g, "-")
-      .toLowerCase();
-    if (str === "") str = encodeURIComponent(initStr);
-    else str = encodeURIComponent(str);
+    str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     return str;
   }
 }
