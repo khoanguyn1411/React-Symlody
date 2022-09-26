@@ -35,7 +35,7 @@ const _FormItem: React.FC<IFormItemProps> = ({
         hidden: isHidden,
       })}
     >
-      <div className="flex items-center justify-between mb-1">
+      <div className="flex items-center justify-between">
         {label && (
           <label
             htmlFor="title"

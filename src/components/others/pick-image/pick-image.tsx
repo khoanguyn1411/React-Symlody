@@ -98,7 +98,7 @@ const _PickImage: React.FC<TProps> = ({ file, defaultImageLink, setFile }) => {
             Thêm file
           </Button>
           <span className="mt-2 italic text-gray-400">
-            Cho phép upload file dưới 10Mb
+            Cho phép upload file dưới 10kB
           </span>
         </>
       )}

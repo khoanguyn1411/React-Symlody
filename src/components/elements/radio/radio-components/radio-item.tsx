@@ -21,8 +21,8 @@ const _Radio: React.FC<TProps> = ({
   };
   return (
     <div className="w-full">
-      <label className={classNames("flex items-center cursor-pointer")}>
-        <div className="relative flex items-center p-2 -ml-2 overflow-hidden rounded-full cursor-pointer">
+      <label className={classNames("flex items-center cursor-pointer ml-1")}>
+        <div className="relative flex items-center p-1 mr-1 -ml-2 overflow-hidden rounded-full cursor-pointer">
           <input
             type="radio"
             name="has"

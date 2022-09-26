@@ -1,6 +1,6 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 
-import { Input } from "@/components";
+import { Button, Input } from "@/components";
 
 type TProps = {
   inputValue: string;
@@ -15,20 +15,33 @@ const _Search: React.FC<TProps> = ({
   isShowSearchIcon = true,
   setInputValue,
 }) => {
+  const handleClearSearch = useCallback(() => {
+    setInputValue("");
+  }, [setInputValue]);
+
   return (
     <div className="relative w-64">
       <Input
-        type={"search"}
-        className="h-10 pr-8"
+        className="h-10 pr-12"
         style="default"
         onChange={setInputValue}
         placeholder={placeholder}
         value={inputValue}
       />
       {isShowSearchIcon && (
-        <span className="absolute top-0 bottom-0 flex  items-center text-sm text-gray-400 cursor-pointer right-3">
-          <i className="far fa-search" />
-        </span>
+        <div className="absolute top-0 bottom-0 flex items-center text-sm text-gray-400 right-3">
+          {inputValue && (
+            <Button
+              isIconOnly
+              onClick={handleClearSearch}
+              style="none"
+              className="mr-2 hover:text-primary-800 transition-colors duration-150"
+            >
+              <i className="text-base far fa-times" />
+            </Button>
+          )}
+          <i className="cursor-pointer far fa-search" />
+        </div>
       )}
     </div>
   );

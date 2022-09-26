@@ -5,7 +5,8 @@ import { FormatService } from "@/utils";
 import { usePaginationContext } from "../context";
 
 const _PaginationPickPage: React.FC = () => {
-  const { totalPages, setActivePage } = usePaginationContext();
+  const { totalPages, setActivePage, onPaginationChange, limit } =
+    usePaginationContext();
   const adjustPagination = useMemo(
     () => (target: HTMLInputElement) => {
       const _value = target.value;
@@ -16,15 +17,18 @@ const _PaginationPickPage: React.FC = () => {
       const page = FormatService.toNumber(_value);
       if (page > totalPages) {
         setActivePage(totalPages);
+        onPaginationChange(totalPages, limit);
         return;
       }
       if (page < 1) {
         setActivePage(1);
+        onPaginationChange(1, limit);
         return;
       }
       setActivePage(page);
+      onPaginationChange(page, limit);
     },
-    [setActivePage, totalPages]
+    [limit, onPaginationChange, setActivePage, totalPages]
   );
 
   const handlePickPageOnBlur = (

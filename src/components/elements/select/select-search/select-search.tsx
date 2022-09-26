@@ -89,7 +89,7 @@ const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
                 placeholder={placeholder}
                 value={inputValue}
                 onChange={setInputValue}
-                className="w-full ml-2 box-border"
+                className="flex-1 ml-2 box-border"
               />
               {isShowClearSearch && (
                 <Button isIconOnly style="none" onClick={handleClearMember}>
