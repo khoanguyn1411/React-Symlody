@@ -10,23 +10,21 @@ export const PropertyPagination: React.FC = () => {
   const propertyStore = useAppSelector((state) => state.property);
   const propertyCount = propertyStore.currentPropertyList.length;
 
-  const handlePaginationChange = (page: number, limit: number) => {
+  const handlePaginationChange = (page: number) => {
     dispatch(
       getPaginationProperty({
         page,
-        limit,
       })
     );
   };
-  const handleResetPagination = (limit: number) => {
+  const handleResetPagination = () => {
     dispatch(
       getPaginationProperty({
         page: 1,
-        limit,
       })
     );
   };
-  const handleLimitChange = (page: number, limit: number) => {
+  const handleLimitChange = (_page: number, limit: number) => {
     dispatch(
       getPaginationProperty({
         page: 1,
@@ -38,6 +36,7 @@ export const PropertyPagination: React.FC = () => {
   return (
     <Container.Pagination
       count={propertyCount}
+      defaultLimit={propertyStore.listQueryPropertyFE.limit}
       onResetPagination={{
         changeListener: [
           propertyStore.listQueryProperty,

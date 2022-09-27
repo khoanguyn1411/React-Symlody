@@ -1,5 +1,6 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
+import { APP_CONSTANTS } from "@/constants";
 import { IMember } from "@/features/types";
 import { TMemberParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
@@ -32,7 +33,7 @@ export const initialState = memberAdapter.getInitialState<MemberStateInner>({
   // Used for pagination and searching in front-end.
   currentMemberList: [],
   memberListPagination: [],
-  listQueryMemberFE: {},
+  listQueryMemberFE: { page: 1, limit: APP_CONSTANTS.DEFAULT_PAGINATION_LIMIT },
 });
 
 export type MemberState = typeof initialState;

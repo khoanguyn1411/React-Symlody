@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useAppDispatch, useAppSelector } from "@/features";
+import { useAppDispatch } from "@/features";
 import { setPaginationLimit } from "@/features/reducers";
 import { GlobalTypes } from "@/utils";
 
@@ -11,7 +11,6 @@ type TProps = GlobalTypes.StrictOmit<TPropsPagination, "pageStep">;
 
 export const Pagination: React.FC<TProps> = (props) => {
   const dispatch = useAppDispatch();
-  const common = useAppSelector((state) => state.common);
 
   const onLimitChange = (page: number, limit: number) => {
     dispatch(setPaginationLimit(limit));
@@ -30,7 +29,6 @@ export const Pagination: React.FC<TProps> = (props) => {
       <AppPagination
         {...props}
         onLimitChange={onLimitChange}
-        defaultLimit={common.paginationLimit}
         quantityDisplay={["1", "10", "20", "30", "40", "50"]}
         pageStep={1}
       />

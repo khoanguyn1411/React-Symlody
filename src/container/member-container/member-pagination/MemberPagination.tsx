@@ -11,23 +11,21 @@ export const MemberPagination: React.FC = () => {
   // const memberCount = useAppSelector(memberSelectors.selectTotal);
   const memberCount = memberStore.currentMemberList.length;
 
-  const handlePaginationChange = (page: number, limit: number) => {
+  const handlePaginationChange = (page: number) => {
     dispatch(
       getPaginationMember({
         page,
-        limit,
       })
     );
   };
-  const handleResetPagination = (limit: number) => {
+  const handleResetPagination = () => {
     dispatch(
       getPaginationMember({
         page: 1,
-        limit,
       })
     );
   };
-  const handleLimitChange = (page: number, limit: number) => {
+  const handleLimitChange = (_page: number, limit: number) => {
     dispatch(
       getPaginationMember({
         page: 1,
@@ -39,6 +37,7 @@ export const MemberPagination: React.FC = () => {
   return (
     <Container.Pagination
       count={memberCount}
+      defaultLimit={memberStore.listQueryMemberFE.limit}
       onResetPagination={{
         changeListener: [
           memberStore.listQueryMember,

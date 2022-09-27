@@ -1,5 +1,6 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
+import { APP_CONSTANTS } from "@/constants";
 import { IProperty } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
@@ -33,7 +34,10 @@ export const initialState =
     // Used for pagination and searching in front-end.
     currentPropertyList: [],
     propertyListPagination: [],
-    listQueryPropertyFE: {},
+    listQueryPropertyFE: {
+      page: 1,
+      limit: APP_CONSTANTS.DEFAULT_PAGINATION_LIMIT,
+    },
   });
 
 export type PropertyState = typeof initialState;
