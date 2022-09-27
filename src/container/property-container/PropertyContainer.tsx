@@ -108,13 +108,11 @@ const _PropertyContainer: React.FC = () => {
   }, [dispatch, propertyStore.listQueryProperty]);
 
   // TO_UPDATE: When BE release pagination.
-  // Using useEffect but not useEffectSkipFirstRender in order to get the currentList pagination from memberList.
   useEffectSkipFirstRender(() => {
     dispatch(
       getPaginationProperty({
         propertyList,
         search: propsSearch.debounceValue,
-        page: 1,
       })
     );
   }, [propsSearch.debounceValue]);
@@ -164,23 +162,15 @@ const _PropertyContainer: React.FC = () => {
             <Table.CellHead isFirst textAlign="center" width="5rem">
               STT
             </Table.CellHead>
-            <Table.CellHead isSort keySorting="name">
-              Tài sản
-            </Table.CellHead>
+            <Table.CellHead keySorting="name">Tài sản</Table.CellHead>
             <Table.CellHead
-              isSort
               keySorting="quantity"
               width="7rem"
               textAlign="right"
             >
               Số lượng
             </Table.CellHead>
-            <Table.CellHead
-              keySorting="price"
-              isSort
-              width="6rem"
-              textAlign="right"
-            >
+            <Table.CellHead keySorting="price" width="6rem" textAlign="right">
               Đơn giá
             </Table.CellHead>
             <Table.CellHead width="14rem">

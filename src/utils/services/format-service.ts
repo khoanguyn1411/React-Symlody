@@ -53,6 +53,7 @@ export class FormatService {
     }
     return dayjs(value).format("DD/MM/YYYY");
   }
+
   public static removeAccent(str: string): string {
     str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     return str;

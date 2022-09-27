@@ -51,7 +51,10 @@ export const _MemberPagination: React.FC = () => {
     <Container.Pagination
       count={memberCount}
       onResetPagination={{
-        changeListener: [memberStore.listQueryMember],
+        changeListener: [
+          memberStore.listQueryMember,
+          memberStore.listQueryMemberFE.search,
+        ],
         callback: handleResetPagination,
       }}
       onLimitChange={handleLimitChange}

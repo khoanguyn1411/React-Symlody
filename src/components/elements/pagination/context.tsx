@@ -50,6 +50,7 @@ const PaginationProvider: GlobalTypes.FCPropsWithChildren<TPropsPagination> = ({
   const [limit, setLimit] = useState<number>(
     defaultLimit ?? APP_CONSTANTS.DEFAULT_PAGINATION_LIMIT
   );
+
   const _totalPage = useMemo(() => {
     if (props.totalPages) {
       return props.totalPages;

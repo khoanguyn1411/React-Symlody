@@ -115,13 +115,11 @@ const _MemberContainer: React.FC = () => {
   }, [dispatch, memberStore.listQueryMember]);
 
   // TO_UPDATE: When BE release pagination.
-  // Using useEffect but not useEffectSkipFirstRender in order to get the currentList pagination from memberList.
   useEffectSkipFirstRender(() => {
     dispatch(
       getPaginationMember({
         memberList,
         search: propsSearch.debounceValue,
-        page: 1,
       })
     );
   }, [propsSearch.debounceValue]);

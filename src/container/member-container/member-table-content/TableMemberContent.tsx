@@ -68,11 +68,11 @@ const _TableMemberContent: React.FC<TProps> = ({
                   <Avatar
                     size="medium"
                     src={memberTableItem.avatar}
-                    fullName={memberTableItem.name}
+                    fullName={memberTableItem.firstName}
                   />
                 </div>
                 <div>
-                  <h1 className="font-semibold">{memberTableItem.name}</h1>
+                  <h1 className="font-semibold">{memberTableItem.fullName}</h1>
                   <h1 className="text-sm">{memberTableItem.email}</h1>
                 </div>
               </div>
