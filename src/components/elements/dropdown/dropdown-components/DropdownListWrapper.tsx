@@ -1,8 +1,9 @@
 import classNames from "classnames";
 import { memo } from "react";
 
-import { AnimationCustom } from "@/components";
 import { GlobalTypes } from "@/utils";
+
+import { AnimationCustom } from "../../animation-custom";
 
 type TProps = {
   isShowContent: boolean;

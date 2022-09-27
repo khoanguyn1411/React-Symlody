@@ -2,8 +2,8 @@ import classNames from "classnames";
 import React, { memo, ReactNode, useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import { AnimationCustom, Portal } from "@/components";
-
+import { AnimationCustom } from "../../animation-custom";
+import { Portal } from "../../portal";
 import { TPropsModalGeneral } from "../types";
 
 type TProps = {

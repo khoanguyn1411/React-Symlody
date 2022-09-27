@@ -2,9 +2,9 @@ import classNames from "classnames";
 import React, { memo, useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
-import { Button } from "@/components";
 import { FileService } from "@/utils";
 
+import { Button } from "../../elements";
 import { PICK_FILE_MESSAGE } from "./constant";
 
 export type TPropsPickFile = {

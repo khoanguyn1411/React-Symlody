@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { memo } from "react";
 
-import { Tooltip } from "@/components";
+import { Tooltip } from "../../../elements";
 
 type Props = {
   isCompactSidebar: boolean;

@@ -2,9 +2,9 @@ import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
-import { Drawer } from "@/components/elements";
 import { APP_NAME } from "@/constants";
 
+import { Drawer } from "../../../elements";
 import { SidebarItem } from "../sidebar-item";
 import { getTabsSidebar } from "../sidebar-tab";
 

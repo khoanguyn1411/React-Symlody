@@ -1,9 +1,9 @@
 import React, { memo, useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
-import { Button } from "@/components/elements";
 import { FormatService } from "@/utils";
 
+import { Button } from "../../elements";
 import { PICK_IMAGE_MESSAGE } from "./contants";
 import { EAllowFiles } from "./type";
 

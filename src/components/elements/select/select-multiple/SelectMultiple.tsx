@@ -1,9 +1,10 @@
 import classNames from "classnames";
 import React, { memo, useRef, useState } from "react";
 
-import { Checkbox, Portal } from "@/components";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
+import { Checkbox } from "../../checkbox";
+import { Portal } from "../../portal";
 import { SelectDisplayWrapper } from "../select-components";
 import { SelectListWrapper } from "../select-components/SelectListWrapper";
 import { TSelectMultipleProps } from "../type";

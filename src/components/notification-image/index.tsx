@@ -2,7 +2,8 @@ import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
-import { Button } from "@/components";
+
+import { Button } from "../elements";
 type Props = {
   imgSrc?: string;
   imageHeight?: string;

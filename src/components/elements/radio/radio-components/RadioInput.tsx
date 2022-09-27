@@ -1,8 +1,8 @@
 import React, { memo, useEffect, useState } from "react";
 
-import { InputUnderLine, Radio } from "@/components";
-
+import { InputUnderLine } from "../../input";
 import { useRadioGroupContext } from "../context";
+import { Radio } from "./Radio";
 
 type TProps = {
   value: string;

@@ -1,8 +1,8 @@
 import React, { memo, ReactNode, useState } from "react";
 
-import { Dropdown } from "@/components/elements";
 import { useEffectSkipFirstRender } from "@/hooks";
 
+import { Dropdown } from "../../elements";
 import { SortIncludeValues } from "./sort-component/SortIncludeValues";
 
 type TChildrenField = {

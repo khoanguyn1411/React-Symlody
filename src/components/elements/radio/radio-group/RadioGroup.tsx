@@ -1,12 +1,11 @@
 import { Fragment, memo } from "react";
 
-import { Radio, RadioInput } from "@/components";
-
 import {
   RadioGroupProvider,
   TRadioGroupProvider,
   useRadioGroupContext,
 } from "../context";
+import { Radio, RadioInput } from "../radio-components";
 
 const _RadioGroup: React.FC<TRadioGroupProvider> = (props) => {
   return (

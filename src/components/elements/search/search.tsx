@@ -1,6 +1,7 @@
 import { memo, useCallback } from "react";
 
-import { Button, Input } from "@/components";
+import { Button } from "../button";
+import { Input } from "../input";
 
 type TProps = {
   inputValue: string;

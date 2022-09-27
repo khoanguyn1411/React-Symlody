@@ -1,7 +1,8 @@
 import React, { memo } from "react";
 
 import { Icon } from "@/assets/icons";
-import { Button, DropdownConfirm, Tooltip } from "@/components";
+
+import { Button, DropdownConfirm, Tooltip } from "../../elements";
 
 type TProps = {
   title: string;

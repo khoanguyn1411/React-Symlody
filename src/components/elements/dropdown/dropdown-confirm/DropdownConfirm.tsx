@@ -1,9 +1,10 @@
 import { memo, useRef } from "react";
 
-import { Button, Dropdown, TDropdownMethod } from "@/components";
 import { GlobalTypes } from "@/utils";
 
+import { Button } from "../../button";
 import { AlignedPlacement } from "../../portal/type";
+import { Dropdown, TDropdownMethod } from "../dropdown-default";
 
 type TProps = {
   title: string;

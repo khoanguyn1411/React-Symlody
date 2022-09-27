@@ -1,10 +1,11 @@
 import classNames from "classnames";
 import { memo, useLayoutEffect, useRef, useState } from "react";
 
-import { AnimationKeepDom, Portal } from "@/components";
 import { usePositionPortal } from "@/hooks";
 import { GlobalTypes } from "@/utils";
 
+import { AnimationKeepDom } from "../animation-custom";
+import { Portal } from "../portal";
 import { AlignedPlacement } from "../portal/type";
 
 type TProps = {

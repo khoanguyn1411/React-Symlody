@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { memo, useEffect } from "react";
 
-import { Tooltip } from "@/components/elements/tooltip";
 import { GlobalTypes } from "@/utils";
 
+import { Tooltip } from "../../../tooltip";
 import { TEXT_ALIGN_MAP } from "../../type";
 import { TOrdering, useTableContext } from "../table-container/context";
 type TProps = {

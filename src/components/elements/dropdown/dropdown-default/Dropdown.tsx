@@ -7,10 +7,11 @@ import React, {
   useState,
 } from "react";
 
-import { DropdownListWrapper, Portal } from "@/components";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
+import { Portal } from "../../portal";
 import { AlignedPlacement } from "../../portal/type";
+import { DropdownListWrapper } from "../dropdown-components";
 
 type TListSetting = {
   prefix?: ReactNode;

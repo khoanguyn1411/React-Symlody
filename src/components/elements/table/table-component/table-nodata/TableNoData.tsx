@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-import { Table } from "@/components";
+import { Table } from "../../table-default";
 
 type TProps = {
   colsNumber: number;

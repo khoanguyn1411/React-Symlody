@@ -1,8 +1,7 @@
 import classNames from "classnames";
 import React, { memo } from "react";
 
-import { Tooltip } from "@/components";
-
+import { Tooltip } from "../../../elements";
 import { ITabSidebar } from "../type";
 
 type TProps = {

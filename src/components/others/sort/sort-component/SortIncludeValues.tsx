@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 
-import { Select, TField, TItemListSelect, TValueQuery } from "@/components";
+import { Select, TItemListSelect } from "../../../elements";
+import { TField, TValueQuery } from "../Sort";
 
 type TProps = {
   sortSelected: TField;

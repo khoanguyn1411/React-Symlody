@@ -1,8 +1,8 @@
 import { memo } from "react";
 
-import { Select, TItemListSelect } from "@/components";
 import { FormatService } from "@/utils";
 
+import { Select, TItemListSelect } from "../../select";
 import { usePaginationContext } from "../context";
 
 const _PaginationPickRows: React.FC = () => {
