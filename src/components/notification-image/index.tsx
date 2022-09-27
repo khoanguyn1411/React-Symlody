@@ -1,8 +1,8 @@
-import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
-import { Button } from "@/components";
+
+import { Button } from "../elements";
 type Props = {
   imgSrc?: string;
   imageHeight?: string;
@@ -11,7 +11,7 @@ type Props = {
   hasButton?: boolean;
 };
 
-const _NotificationImg: React.FC<Props> = ({
+export const NotificationImg: React.FC<Props> = ({
   imgSrc,
   imageHeight = "512px",
   title,
@@ -55,5 +55,3 @@ const _NotificationImg: React.FC<Props> = ({
     </div>
   );
 };
-
-export const NotificationImg = memo(_NotificationImg);

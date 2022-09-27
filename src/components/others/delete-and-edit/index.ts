@@ -1,1 +1,1 @@
-export * from "./delete-and-edit";
+export * from "./DeleteAndEditField";

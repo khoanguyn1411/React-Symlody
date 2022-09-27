@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 export type TOrdering = "asc" | "des";
 

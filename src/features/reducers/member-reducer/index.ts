@@ -5,7 +5,7 @@ import { RootState } from "@/features/store";
 import { MemberMapper } from "@/features/types/mappers";
 import { IMember, IMemberCreateUpdate } from "@/features/types/models";
 import { TMemberParamQueryDto } from "@/features/types/queries";
-import { GlobalTypes } from "@/types";
+import { FilterService, GeneratorService, GlobalTypes } from "@/utils";
 
 import { initialState, memberAdapter } from "./state";
 
@@ -75,17 +75,43 @@ export const memberSlice = createSlice({
     getPaginationMember(
       state,
       action: PayloadAction<
-        GlobalTypes.StrictPick<TMemberParamQueryDto, "limit" | "page"> & {
-          memberList: IMember[];
+        GlobalTypes.StrictOmit<TMemberParamQueryDto, "is_archived"> & {
+          memberList?: IMember[];
         }
       >
     ) {
-      const { memberList, limit, page } = action.payload;
-      const memberListPagination = memberList.slice(
+      const { memberList, ...rest } = action.payload;
+      if (memberList) {
+        state.currentMemberList = memberList;
+      }
+      state.listQueryMemberFE = { ...state.listQueryMemberFE, ...rest };
+      const { limit, page, search } = state.listQueryMemberFE;
+      const memberListPagination = state.currentMemberList.slice(
         (page - 1) * limit,
         page * limit
       );
-      state.memberListPagination = memberListPagination;
+      if (!search) {
+        if (memberList) {
+          state.currentMemberList = memberList;
+        }
+        state.memberListPagination = memberListPagination;
+        return;
+      }
+      const listMemberAfterFilterByName = state.currentMemberList.filter(
+        (item) => FilterService.fromText(item.auth_account.full_name, search)
+      );
+      const listMemberAfterFilterByEmail = state.currentMemberList.filter(
+        (item) => FilterService.fromText(item.auth_account.email, search)
+      );
+
+      const newMemberList = GeneratorService.generateArrayWithNoDuplicate(
+        listMemberAfterFilterByName.concat(listMemberAfterFilterByEmail)
+      );
+      state.currentMemberList = newMemberList;
+      state.memberListPagination = newMemberList.slice(
+        (page - 1) * limit,
+        page * limit
+      );
     },
   },
   extraReducers: (builder) => {

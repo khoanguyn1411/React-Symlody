@@ -14,8 +14,9 @@ export interface IFormMemberInfo {
 
 export interface IMemberTable {
   readonly id: number;
+  readonly firstName: string;
   readonly avatar?: string;
-  readonly name: string;
+  readonly fullName: string;
   readonly email: string;
   readonly department: string;
   readonly birthday: string;

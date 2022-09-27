@@ -1,1 +1,1 @@
-export * from "./dropdown-confirm";
+export * from "./DropdownConfirm";

@@ -30,5 +30,6 @@ export type TPropsButton = {
   size?: keyof typeof SIZE_MAPS;
   disable?: boolean;
   block?: boolean;
+  otherProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };

@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import { APP_CONSTANTS } from "@/constants";
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 const PaginationContext = createContext<TPropsPaginationContext>({
   activePage: undefined,
@@ -50,6 +50,7 @@ const PaginationProvider: GlobalTypes.FCPropsWithChildren<TPropsPagination> = ({
   const [limit, setLimit] = useState<number>(
     defaultLimit ?? APP_CONSTANTS.DEFAULT_PAGINATION_LIMIT
   );
+
   const _totalPage = useMemo(() => {
     if (props.totalPages) {
       return props.totalPages;
