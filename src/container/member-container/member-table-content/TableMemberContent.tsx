@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
@@ -24,6 +24,14 @@ const _TableMemberContent: React.FC<TProps> = ({
   const memberCount = memberStore.currentMemberList.length;
 
   const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
+
+  const getMemberIndex = useMemo(() => {
+    return (index: number) =>
+      (memberStore.listQueryMemberFE.page - 1) *
+        memberStore.listQueryMemberFE.limit +
+      index +
+      1;
+  }, [memberStore.listQueryMemberFE.limit, memberStore.listQueryMemberFE.page]);
 
   const handleEdit = useCallback(
     (item: IMember) => () => {
@@ -61,7 +69,7 @@ const _TableMemberContent: React.FC<TProps> = ({
         const memberTableItem = MemberTableMapper.fromModel(item);
         return (
           <Table.Row key={memberTableItem.id} index={index}>
-            <Table.Cell textAlign="center">{index + 1}</Table.Cell>
+            <Table.Cell textAlign="center">{getMemberIndex(index)}</Table.Cell>
             <Table.Cell>
               <div className="flex items-center">
                 <div className="mr-3">
