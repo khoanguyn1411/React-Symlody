@@ -5,7 +5,7 @@ export const HomeContainer: React.FC = () => {
   return (
     <NotificationImg
       imgSrc={images.loginBanner}
-      title="Tính năng đang trong giai đoạn phát triểnn"
+      title="Tính năng đang trong giai đoạn phát triển"
     />
   );
 };
