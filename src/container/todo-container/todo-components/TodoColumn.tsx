@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
+import { Container, Draggable } from "react-smooth-dnd";
 
 import { SortService } from "@/utils";
 
 import { TTodoCard, TTodoColumn } from "../type";
 import { TodoCard } from "./TodoCard";
-
-// const _Container =
-//   Container as unknown as GlobalTypes.FCPropsWithChildren<ContainerOptions>;
 
 type TProps = {
   columnData: TTodoColumn;
@@ -34,9 +32,24 @@ export const TodoColumn: React.FC<TProps> = ({ columnData }) => {
       </div>
 
       <div className="flex flex-col px-3 pb-3 space-y-3">
-        {listCard.map((cardProps) => (
-          <TodoCard key={cardProps.id} {...cardProps} />
-        ))}
+        <Container
+          groupName="col"
+          onDragStart={(e) => console.log("213")}
+          onDragEnd={(e) => console.log("213")}
+          onDrop={(e) => console.log("213")}
+          onDragEnter={() => console.log("12312")}
+          dropPlaceholder={{
+            animationDuration: 150,
+            showOnTop: true,
+          }}
+          animationDuration={200}
+        >
+          {listCard.map((cardProps) => (
+            <Draggable key={cardProps.id}>
+              <TodoCard {...cardProps} />
+            </Draggable>
+          ))}
+        </Container>
       </div>
     </div>
   );

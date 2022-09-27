@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 
 import {
   Button,
@@ -12,7 +12,7 @@ import {
 import { TODO_NO_DATA_CONFIG } from "./constant";
 import { TodoBoard } from "./todo-components";
 
-const _TodoContainer: React.FC = () => {
+export const TodoContainer: React.FC = () => {
   const isNoData = false;
   if (isNoData)
     return (
@@ -50,5 +50,3 @@ const _TodoContainer: React.FC = () => {
     </>
   );
 };
-
-export const TodoContainer = memo(_TodoContainer);
