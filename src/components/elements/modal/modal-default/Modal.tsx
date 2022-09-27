@@ -4,7 +4,7 @@ import { memo } from "react";
 import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
 import { TPropsModalDefault } from "../types";
 
-export const _Modal: React.FC<TPropsModalDefault> = (props) => {
+const _Modal: React.FC<TPropsModalDefault> = (props) => {
   const { children, title, toggle, handleEvent, reset } = props;
   const handleSetHidden = () => {
     toggle.setToggle();
