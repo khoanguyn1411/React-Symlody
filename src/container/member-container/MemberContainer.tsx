@@ -102,7 +102,7 @@ export const MemberContainer: React.FC = () => {
     dispatch(getMembersAsync(memberStore.listQueryMember));
   }, [dispatch, memberStore.listQueryMember]);
 
-  // TO_UPDATE: When BE release pagination.
+  // TO_UPDATE: When BE release pagination...
   useEffectSkipFirstRender(() => {
     dispatch(
       getPaginationMember({
