@@ -1,1 +1,1 @@
-export * from "./tab-host";
+export * from "./TabHost";

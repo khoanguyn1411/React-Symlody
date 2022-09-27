@@ -1,1 +1,1 @@
-export * from "./property-pagination";
+export * from "./PropertyPagination";

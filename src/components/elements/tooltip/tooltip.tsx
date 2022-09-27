@@ -1,9 +1,9 @@
 import classNames from "classnames";
-import { useLayoutEffect, useRef, useState } from "react";
+import { memo, useLayoutEffect, useRef, useState } from "react";
 
 import { AnimationKeepDom, Portal } from "@/components";
 import { usePositionPortal } from "@/hooks";
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 import { AlignedPlacement } from "../portal/type";
 
@@ -13,7 +13,7 @@ type TProps = {
   className?: string;
 };
 
-export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
+const _Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   content,
   className,
@@ -82,3 +82,5 @@ export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </>
   );
 };
+
+export const Tooltip = memo(_Tooltip);

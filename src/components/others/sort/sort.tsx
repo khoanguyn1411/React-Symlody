@@ -3,7 +3,7 @@ import React, { memo, ReactNode, useState } from "react";
 import { Dropdown } from "@/components/elements";
 import { useEffectSkipFirstRender } from "@/hooks";
 
-import { SortIncludeValues } from "./sort-component/sort-include-values";
+import { SortIncludeValues } from "./sort-component/SortIncludeValues";
 
 type TChildrenField = {
   title: string;

@@ -6,7 +6,7 @@ import { APP_NAME } from "@/constants";
 type Props = {
   pageTitle: string;
 };
-export const _Head: React.FC<Props> = ({ pageTitle }) => {
+const _Head: React.FC<Props> = ({ pageTitle }) => {
   const title = pageTitle ? `${pageTitle} | ${APP_NAME}` : APP_NAME;
   const description = "Symphony Software `with Powerful for Club";
 

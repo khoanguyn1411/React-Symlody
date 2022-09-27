@@ -1,4 +1,5 @@
 export * from "./file-service";
+export * from "./filter-service";
 export * from "./form-service";
 export * from "./format-service";
 export * from "./generate-service";

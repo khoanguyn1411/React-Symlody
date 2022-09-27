@@ -1,1 +1,1 @@
-export * from "./member-container";
+export * from "./MemberContainer";

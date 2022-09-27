@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Routes, useLocation } from "react-router-dom";
 import TopBarProgress from "react-topbar-progress-indicator";
 
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 TopBarProgress.config({
   barColors: {

@@ -1,1 +1,1 @@
-export * from "./dropdown-list-wrapper";
+export * from "./DropdownListWrapper";

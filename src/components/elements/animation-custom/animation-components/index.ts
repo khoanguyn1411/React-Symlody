@@ -1,3 +1,3 @@
-export * from "./animation-effects";
-export * from "./animation-hide";
-export * from "./animation-unmount";
+export * from "./AnimationEffects";
+export * from "./AnimationHide";
+export * from "./AnimationUnmount";

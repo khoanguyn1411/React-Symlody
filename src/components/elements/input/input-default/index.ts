@@ -1,1 +1,1 @@
-export * from "./input-default";
+export * from "./Input";
