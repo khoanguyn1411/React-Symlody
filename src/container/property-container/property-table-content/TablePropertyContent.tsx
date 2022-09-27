@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 
 import { DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
@@ -23,6 +23,17 @@ const _TablePropertyContent: React.FC<TProps> = ({
   // const propertyCount = useAppSelector(propertySelectors.selectTotal);
   const propertyStore = useAppSelector((state) => state.property);
   const propertyCount = propertyStore.currentPropertyList.length;
+
+  const getPropertyIndex = useMemo(() => {
+    return (index: number) =>
+      (propertyStore.listQueryPropertyFE.page - 1) *
+        propertyStore.listQueryPropertyFE.limit +
+      index +
+      1;
+  }, [
+    propertyStore.listQueryPropertyFE.limit,
+    propertyStore.listQueryPropertyFE.page,
+  ]);
 
   const handleEdit = useCallback(
     (item: IProperty) => () => {
@@ -58,7 +69,9 @@ const _TablePropertyContent: React.FC<TProps> = ({
         const propertyTableItem = PropertyTableMapper.fromModel(item);
         return (
           <Table.Row key={item.id} index={index}>
-            <Table.Cell textAlign="center">{index + 1}</Table.Cell>
+            <Table.Cell textAlign="center">
+              {getPropertyIndex(index)}
+            </Table.Cell>
             <Table.Cell>{propertyTableItem.assetName}</Table.Cell>
             <Table.Cell textAlign="right">
               {propertyTableItem.quantity}
