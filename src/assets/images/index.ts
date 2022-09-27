@@ -18,7 +18,7 @@ export const images = {
     member: noDataMember,
     event: noDataEvent,
     target: noDataTarget,
-    todos: NoDataTodos,
+    todo: NoDataTodos,
   },
   Logo,
   comingSoon,

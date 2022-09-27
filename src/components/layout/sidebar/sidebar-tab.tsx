@@ -30,8 +30,8 @@ export const getTabsSidebar = (): ITabSidebar[] => [
   {
     icon: Icon.List,
     title: "Công việc",
-    to: "/todos",
-    pageActive: "Todos",
+    to: "/todo",
+    pageActive: "Todo",
   },
   {
     icon: Icon.Target,

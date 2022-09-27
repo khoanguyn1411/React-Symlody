@@ -7,7 +7,7 @@ import {
   MemberContainer,
   PropertyContainer,
   TargetContainer,
-  TodosContainer,
+  TodoContainer,
 } from "@/container";
 
 export type Page_Key =
@@ -16,7 +16,7 @@ export type Page_Key =
   | "Property"
   | "Config"
   | "Event"
-  | "Todos"
+  | "Todo"
   | "Target";
 interface IRoutes {
   path: string;
@@ -58,9 +58,9 @@ const privateRoutes: readonly IRoutes[] = [
     pageTitle: "Trang sự kiện",
   },
   {
-    path: "/todos",
-    component: <TodosContainer />,
-    pageKey: "Todos",
+    path: "/todo",
+    component: <TodoContainer />,
+    pageKey: "Todo",
     pageTitle: "Trang công việc",
   },
   {
