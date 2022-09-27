@@ -1,11 +1,5 @@
 import classNames from "classnames";
-import React, {
-  forwardRef,
-  memo,
-  ReactNode,
-  useImperativeHandle,
-  useState,
-} from "react";
+import { forwardRef, ReactNode, useImperativeHandle, useState } from "react";
 
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
@@ -35,7 +29,7 @@ export type TDropdownMethod = {
 };
 
 // eslint-disable-next-line react/display-name
-const _Dropdown = forwardRef<TDropdownMethod, TProps>(
+export const Dropdown = forwardRef<TDropdownMethod, TProps>(
   (
     {
       listSetting,
@@ -123,5 +117,3 @@ const _Dropdown = forwardRef<TDropdownMethod, TProps>(
     );
   }
 );
-
-export const Dropdown = memo(_Dropdown);

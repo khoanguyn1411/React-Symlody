@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { memo } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
@@ -16,7 +16,7 @@ type TProps = {
   onToggleCompactSidebar: () => void;
 };
 
-const _SidebarDesktop: React.FC<TProps> = ({
+export const SidebarDesktop: React.FC<TProps> = ({
   className,
   pageKey,
   isCompactSidebar,
@@ -91,5 +91,3 @@ const _SidebarDesktop: React.FC<TProps> = ({
     </div>
   );
 };
-
-export const SidebarDesktop = memo(_SidebarDesktop);

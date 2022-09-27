@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { useState } from "react";
 
 import { TabHost, TTab } from "../../tab-host";
 import { ModalWrapper } from "../modal-components";
@@ -8,7 +8,24 @@ import {
   useModalMultipleTabsContext,
 } from "./context";
 
-const _ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
+/**
+ * - To get value of isShowing and toggle functions, please use useModal hook and pass
+ * such values to corresponding props of modal (isShowing = isShowing and toggle = toggle)
+ * - To use this multiple tabs modal, please use ModalTab for rendering content of tab
+ * for better handling event of such tab.
+ * @example
+ *  const {setToggle, isShowing} = useModal();
+ *  <ModalMultipleTabs
+      toggle={{ setToggle }}
+      size="lg"
+      isShowing={isShowing}
+      renderTabs={[
+        { title: "Thêm 1 tài sản", children: <ModalTab>...</ModalTab> },
+        { title: "Thêm nhiều tài sản", children: <ModalTab>...</ModalTab> },
+      ]}
+    />
+ */
+export const ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
   return (
     <ModalMultipleTabsProvider {...props}>
       <ModalMultipleTabsContent />
@@ -16,7 +33,7 @@ const _ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
   );
 };
 
-const _ModalMultipleTabsContent: React.FC = () => {
+export const ModalMultipleTabsContent: React.FC = () => {
   const props = useModalMultipleTabsContext();
   const { renderTabs, toggle, reset } = props;
 
@@ -58,24 +75,3 @@ const _ModalMultipleTabsContent: React.FC = () => {
     </ModalWrapper>
   );
 };
-
-const ModalMultipleTabsContent = memo(_ModalMultipleTabsContent);
-
-/**
- * - To get value of isShowing and toggle functions, please use useModal hook and pass
- * such values to corresponding props of modal (isShowing = isShowing and toggle = toggle)
- * - To use this multiple tabs modal, please use ModalTab for rendering content of tab
- * for better handling event of such tab.
- * @example
- *  const {setToggle, isShowing} = useModal();
- *  <ModalMultipleTabs
-      toggle={{ setToggle }}
-      size="lg"
-      isShowing={isShowing}
-      renderTabs={[
-        { title: "Thêm 1 tài sản", children: <ModalTab>...</ModalTab> },
-        { title: "Thêm nhiều tài sản", children: <ModalTab>...</ModalTab> },
-      ]}
-    />
- */
-export const ModalMultipleTabs = memo(_ModalMultipleTabs);

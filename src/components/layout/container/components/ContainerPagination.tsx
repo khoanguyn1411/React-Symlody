@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React from "react";
 
 import { useAppDispatch, useAppSelector } from "@/features";
 import { setPaginationLimit } from "@/features/reducers";
@@ -9,17 +9,14 @@ import { TPropsPagination } from "../../../elements/pagination/context";
 
 type TProps = GlobalTypes.StrictOmit<TPropsPagination, "pageStep">;
 
-export const _Pagination: React.FC<TProps> = (props) => {
+export const Pagination: React.FC<TProps> = (props) => {
   const dispatch = useAppDispatch();
   const common = useAppSelector((state) => state.common);
 
-  const onLimitChange = useCallback(
-    (page: number, limit: number) => {
-      dispatch(setPaginationLimit(limit));
-      props.onLimitChange?.(page, limit);
-    },
-    [dispatch, props]
-  );
+  const onLimitChange = (page: number, limit: number) => {
+    dispatch(setPaginationLimit(limit));
+    props.onLimitChange?.(page, limit);
+  };
 
   if (!props.totalPages && !props.count) {
     return;
@@ -40,5 +37,3 @@ export const _Pagination: React.FC<TProps> = (props) => {
     </div>
   );
 };
-
-export const Pagination = memo(_Pagination);

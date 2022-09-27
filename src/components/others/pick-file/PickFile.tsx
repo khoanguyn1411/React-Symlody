@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { FileService } from "@/utils";
@@ -14,7 +14,7 @@ export type TPropsPickFile = {
   setSelectedFile: (file: File) => void;
 };
 export * from "./constant";
-const _PickFile: React.FC<TPropsPickFile> = ({
+export const PickFile: React.FC<TPropsPickFile> = ({
   selectedFile,
   isSubmitFile,
   setIsSubmitFile,
@@ -167,5 +167,3 @@ const _PickFile: React.FC<TPropsPickFile> = ({
     </>
   );
 };
-
-export const PickFile = memo(_PickFile);

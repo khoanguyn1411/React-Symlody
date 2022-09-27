@@ -1,4 +1,4 @@
-import { Fragment, memo } from "react";
+import { Fragment } from "react";
 
 import {
   RadioGroupProvider,
@@ -7,7 +7,7 @@ import {
 } from "../context";
 import { Radio, RadioInput } from "../radio-components";
 
-const _RadioGroup: React.FC<TRadioGroupProvider> = (props) => {
+export const RadioGroup: React.FC<TRadioGroupProvider> = (props) => {
   return (
     <RadioGroupProvider {...props}>
       <RadioGroupContent />
@@ -15,7 +15,7 @@ const _RadioGroup: React.FC<TRadioGroupProvider> = (props) => {
   );
 };
 
-const _RadioGroupContent: React.FC = () => {
+const RadioGroupContent: React.FC = () => {
   const { listNormalRadios, isHaveOther, labelOther } = useRadioGroupContext();
   return (
     <div className="flex flex-col space-y-1">
@@ -28,6 +28,3 @@ const _RadioGroupContent: React.FC = () => {
     </div>
   );
 };
-
-export const RadioGroup = memo(_RadioGroup);
-const RadioGroupContent = memo(_RadioGroupContent);

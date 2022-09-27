@@ -1,10 +1,8 @@
-import { memo } from "react";
-
 import { ModalBody, ModalFooter } from "../modal-components";
 import { TPropsModalTab } from "../types";
 import { useModalMultipleTabsContext } from "./context";
 
-const _ModalTab: React.FC<TPropsModalTab> = ({
+export const ModalTab: React.FC<TPropsModalTab> = ({
   handleEvent,
   children,
   otherActions,
@@ -31,5 +29,3 @@ const _ModalTab: React.FC<TPropsModalTab> = ({
     </form>
   );
 };
-
-export const ModalTab = memo(_ModalTab);

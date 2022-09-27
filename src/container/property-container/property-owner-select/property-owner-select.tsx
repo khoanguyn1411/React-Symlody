@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 import { Avatar, SelectSearch } from "@/components";
 import { PLACEHOLDER_IMAGE } from "@/constants";
@@ -20,49 +20,40 @@ export const PropertyOwnerSelect: React.FC = () => {
   const [currentMemberList, setCurrentMemberList] =
     useState<IMember[]>(memberList);
 
-  const handleInputChange = useCallback(
-    (value: string): void => {
-      setInputValue(value);
-      setIsSearching(true);
-    },
-    [setInputValue]
-  );
+  const handleInputChange = (value: string): void => {
+    setInputValue(value);
+    setIsSearching(true);
+  };
 
-  const handleSearchValueChange = useCallback(
-    (value: string): void => {
-      if (!value) {
-        if (memberSelected) {
-          setCurrentMemberList(
-            memberList.filter((item) => item.id !== memberSelected.id)
-          );
-          return;
-        }
-        setCurrentMemberList(memberList);
+  const handleSearchValueChange = (value: string): void => {
+    if (!value) {
+      if (memberSelected) {
+        setCurrentMemberList(
+          memberList.filter((item) => item.id !== memberSelected.id)
+        );
         return;
       }
+      setCurrentMemberList(memberList);
+      return;
+    }
 
-      const newMemberFilterList = memberList.filter((item) =>
-        FormatService.toCleanedString(item.auth_account.full_name).includes(
-          FormatService.toCleanedString(value)
-        )
-      );
-      setCurrentMemberList(newMemberFilterList);
-    },
-    [memberList, memberSelected]
-  );
+    const newMemberFilterList = memberList.filter((item) =>
+      FormatService.toCleanedString(item.auth_account.full_name).includes(
+        FormatService.toCleanedString(value)
+      )
+    );
+    setCurrentMemberList(newMemberFilterList);
+  };
 
-  const handleSelectMember = useCallback(
-    (member: IMember) => () => {
-      setMemberSelected(member);
-      setIsShowContent(false);
-      setInputValue(member.auth_account.full_name);
-    },
-    [setInputValue]
-  );
+  const handleSelectMember = (member: IMember) => () => {
+    setMemberSelected(member);
+    setIsShowContent(false);
+    setInputValue(member.auth_account.full_name);
+  };
 
-  const handleClearMemberSelected = useCallback(() => {
+  const handleClearMemberSelected = () => {
     setMemberSelected(null);
-  }, []);
+  };
 
   useLayoutEffect(() => {
     if (!isShowContent && memberSelected) {

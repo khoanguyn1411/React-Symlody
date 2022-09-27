@@ -1,9 +1,9 @@
-import React, { memo } from "react";
+import React from "react";
 
 import { Button } from "../../button";
 import { TEventModal, TToggleModal } from "../types";
 
-const _ModalFooter: React.FC<
+export const ModalFooter: React.FC<
   TEventModal & TToggleModal & { reset: () => void }
 > = ({ isLoading, isDisable, title, reset, setToggle }) => {
   const handleSetHidden = () => {
@@ -30,5 +30,3 @@ const _ModalFooter: React.FC<
     </div>
   );
 };
-
-export const ModalFooter = memo(_ModalFooter);

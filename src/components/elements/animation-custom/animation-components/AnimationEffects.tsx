@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import classNames from "classnames";
-import React, { memo } from "react";
+import React from "react";
 
 import { ANIMATION_DEFAULT_TIME } from "../constants";
 import { TAnimationEffectsProps } from "../type";
@@ -9,7 +9,7 @@ const AnimateModule = styled.div`
   --animate-duration: ${ANIMATION_DEFAULT_TIME / 1000}s;
 `;
 
-const _AnimationEffects: React.FC<TAnimationEffectsProps> = ({
+export const AnimationEffects: React.FC<TAnimationEffectsProps> = ({
   className,
   isShowing,
   children,
@@ -28,5 +28,3 @@ const _AnimationEffects: React.FC<TAnimationEffectsProps> = ({
     </AnimateModule>
   );
 };
-
-export const AnimationEffects = memo(_AnimationEffects);

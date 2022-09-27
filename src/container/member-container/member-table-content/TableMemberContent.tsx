@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
@@ -12,7 +12,7 @@ type TProps = {
   onRestore: (member: IMember) => void;
 };
 
-const _TableMemberContent: React.FC<TProps> = ({
+export const TableMemberContent: React.FC<TProps> = ({
   onEdit,
   onRestore,
   onDelete,
@@ -33,27 +33,18 @@ const _TableMemberContent: React.FC<TProps> = ({
       1;
   }, [memberStore.listQueryMemberFE.limit, memberStore.listQueryMemberFE.page]);
 
-  const handleEdit = useCallback(
-    (item: IMember) => () => {
-      onEdit(item);
-    },
-    [onEdit]
-  );
-  const handleDelete = useCallback(
-    (item: IMember) => () => {
-      onDelete(item);
-      setCurrentInteractiveId(item.id);
-    },
-    [onDelete]
-  );
+  const handleEdit = (item: IMember) => () => {
+    onEdit(item);
+  };
+  const handleDelete = (item: IMember) => () => {
+    onDelete(item);
+    setCurrentInteractiveId(item.id);
+  };
 
-  const handleRestore = useCallback(
-    (item: IMember) => () => {
-      onRestore(item);
-      setCurrentInteractiveId(item.id);
-    },
-    [onRestore]
-  );
+  const handleRestore = (item: IMember) => () => {
+    onRestore(item);
+    setCurrentInteractiveId(item.id);
+  };
 
   if (memberStore.pending) {
     return <Table.Skeleton colsNumber={6} />;
@@ -113,5 +104,3 @@ const _TableMemberContent: React.FC<TProps> = ({
     </Table.Body>
   );
 };
-
-export const TableMemberContent = memo(_TableMemberContent);

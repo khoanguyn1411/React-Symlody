@@ -1,4 +1,4 @@
-import { memo, useRef } from "react";
+import { useRef } from "react";
 
 import { GlobalTypes } from "@/utils";
 
@@ -16,7 +16,7 @@ type TProps = {
   isShowLoading?: boolean;
 };
 
-const _DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   handleEvent,
   title,
@@ -69,5 +69,3 @@ const _DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </Dropdown>
   );
 };
-
-export const DropdownConfirm = memo(_DropdownConfirm);

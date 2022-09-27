@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
@@ -35,7 +35,7 @@ const getFilterValue = (key: string) => {
   return PROPERTY_FILTER_OPTIONS.find((item) => item.key === key).value;
 };
 
-const _PropertyContainer: React.FC = () => {
+export const PropertyContainer: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const propertyStore = useAppSelector((state) => state.property);
@@ -56,52 +56,43 @@ const _PropertyContainer: React.FC = () => {
     }
   });
 
-  const handleSetFilter = useCallback(
-    (item: TItemListSelect) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { is_archived, ...rest } = propertyStore.listQueryProperty;
-      switch (item.key) {
-        case PROPERTY_FILTER_VALUE.all:
-          dispatch(setListQueryProperty(rest));
-          break;
-        case PROPERTY_FILTER_VALUE.isArchived:
-          dispatch(setListQueryProperty({ ...rest, is_archived: true }));
-          break;
-        case PROPERTY_FILTER_VALUE.inUse:
-          dispatch(setListQueryProperty({ ...rest, is_archived: false }));
-          break;
-      }
-    },
-    [dispatch, propertyStore.listQueryProperty]
-  );
+  const handleSetFilter = (item: TItemListSelect) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { is_archived, ...rest } = propertyStore.listQueryProperty;
+    switch (item.key) {
+      case PROPERTY_FILTER_VALUE.all:
+        dispatch(setListQueryProperty(rest));
+        break;
+      case PROPERTY_FILTER_VALUE.isArchived:
+        dispatch(setListQueryProperty({ ...rest, is_archived: true }));
+        break;
+      case PROPERTY_FILTER_VALUE.inUse:
+        dispatch(setListQueryProperty({ ...rest, is_archived: false }));
+        break;
+    }
+  };
 
-  const handleEdit = useCallback(
-    (item: IProperty) => {
-      propsModalEdit.setData(item);
-      propsModalEdit.toggle.setToggle();
-    },
-    [propsModalEdit]
-  );
+  const handleEdit = (item: IProperty) => {
+    propsModalEdit.setData(item);
+    propsModalEdit.toggle.setToggle();
+  };
 
-  const handleDelete = useCallback(
-    async (item: IProperty) => {
-      const result = await dispatch(deletePropertyAsync(item.id));
-      if (result.payload) {
-        toast.success(PROPERTY_MESSAGE.delete.success);
-        return;
-      }
-      toast.success(PROPERTY_MESSAGE.delete.error);
-    },
-    [dispatch]
-  );
+  const handleDelete = async (item: IProperty) => {
+    const result = await dispatch(deletePropertyAsync(item.id));
+    if (result.payload) {
+      toast.success(PROPERTY_MESSAGE.delete.success);
+      return;
+    }
+    toast.success(PROPERTY_MESSAGE.delete.error);
+  };
 
   const handleRestore = () => {
     //TODO: Handle restore property.
   };
 
-  const handleOpenModal = useCallback(() => {
+  const handleOpenModal = () => {
     propsModal.toggle.setToggle();
-  }, [propsModal.toggle]);
+  };
 
   useEffect(() => {
     dispatch(getPropertyAsync(propertyStore.listQueryProperty));
@@ -192,5 +183,3 @@ const _PropertyContainer: React.FC = () => {
     </>
   );
 };
-
-export const PropertyContainer = memo(_PropertyContainer);

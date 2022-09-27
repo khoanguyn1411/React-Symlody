@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 
 import { Icon } from "@/assets/icons";
 
@@ -15,7 +15,7 @@ type TProps = {
   isShowRestore?: boolean;
 };
 
-const _DeleteAndEditField: React.FC<TProps> = ({
+export const DeleteAndEditField: React.FC<TProps> = ({
   title,
   isShowLoading = false,
   isShowRestore = false,
@@ -79,5 +79,3 @@ const _DeleteAndEditField: React.FC<TProps> = ({
     </div>
   );
 };
-
-export const DeleteAndEditField = memo(_DeleteAndEditField);

@@ -1,7 +1,5 @@
-import React, { memo } from "react";
+import React from "react";
 
-export const _PaginationDot: React.FC = () => {
+export const PaginationDot: React.FC = () => {
   return <i className="px-2">...</i>;
 };
-
-export const PaginationDot = memo(_PaginationDot);

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 
 import { usePaginationContext } from "../context";
 import { PaginationDot } from "./PaginationDot";
@@ -8,7 +8,7 @@ type TProps = {
   isPageRangeOverTotal: boolean;
 };
 
-const _PaginationList: React.FC = () => {
+export const PaginationList: React.FC = () => {
   const { totalPages, pageStep, activePage } = usePaginationContext();
   const isPageRangeOverTotal = pageStep * 2 + 1 >= totalPages;
   return (
@@ -81,5 +81,3 @@ const PaginationLastNumber: React.FC<TProps> = ({ isPageRangeOverTotal }) => {
     return <PaginationItem pageIndex={totalPages} />;
   }
 };
-
-export const PaginationList = memo(_PaginationList);

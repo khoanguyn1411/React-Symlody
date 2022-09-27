@@ -1,10 +1,10 @@
-import React, { memo, useMemo } from "react";
+import React, { useMemo } from "react";
 
 import { FormatService } from "@/utils";
 
 import { usePaginationContext } from "../context";
 
-const _PaginationPickPage: React.FC = () => {
+export const PaginationPickPage: React.FC = () => {
   const { totalPages, setActivePage, onPaginationChange, limit } =
     usePaginationContext();
   const adjustPagination = useMemo(
@@ -58,5 +58,3 @@ const _PaginationPickPage: React.FC = () => {
     </div>
   );
 };
-
-export const PaginationPickPage = memo(_PaginationPickPage);

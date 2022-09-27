@@ -1,4 +1,4 @@
-import { memo, ReactNode, useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 import { GlobalTypes } from "@/utils";
@@ -21,7 +21,9 @@ type TSelectSearchProps = {
   onClearSearch?: () => void;
 };
 
-const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
+export const SelectSearch: GlobalTypes.FCPropsWithChildren<
+  TSelectSearchProps
+> = ({
   children,
   postNode,
   inputValue,
@@ -105,5 +107,3 @@ const _SelectSearch: GlobalTypes.FCPropsWithChildren<TSelectSearchProps> = ({
     </div>
   );
 };
-
-export const SelectSearch = memo(_SelectSearch);

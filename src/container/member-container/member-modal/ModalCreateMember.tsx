@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { memo, useCallback } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -14,7 +14,7 @@ import { schema } from "../schema";
 import { IFormMemberInfo } from "../type";
 import { FormItems } from "./FormItems";
 
-const _TabCreateAMember: React.FC = () => {
+const TabCreateAMember: React.FC = () => {
   const propsForm = useForm<IFormMemberInfo>({
     resolver: yupResolver(schema),
   });
@@ -26,22 +26,19 @@ const _TabCreateAMember: React.FC = () => {
   const dispatch = useAppDispatch();
   const departmentStore = useAppSelector((state) => state.department);
 
-  const handleCreateMember = useCallback(
-    async (data: IFormMemberInfo) => {
-      const memberModel = MemberFormMapper.toModel(
-        departmentStore.department,
-        data
-      );
-      const res = await dispatch(createMemberAsync(memberModel));
-      if (!res.payload) {
-        toast.error(MEMBER_MESSAGE.create.error);
-        return;
-      }
-      toast.success(MEMBER_MESSAGE.create.success);
-      reset();
-    },
-    [departmentStore.department, dispatch, reset]
-  );
+  const handleCreateMember = async (data: IFormMemberInfo) => {
+    const memberModel = MemberFormMapper.toModel(
+      departmentStore.department,
+      data
+    );
+    const res = await dispatch(createMemberAsync(memberModel));
+    if (!res.payload) {
+      toast.error(MEMBER_MESSAGE.create.error);
+      return;
+    }
+    toast.success(MEMBER_MESSAGE.create.success);
+    reset();
+  };
 
   return (
     <ModalTab
@@ -55,12 +52,12 @@ const _TabCreateAMember: React.FC = () => {
   );
 };
 
-const _TabCreateMultipleMembers: React.FC = () => {
+const TabCreateMultipleMembers: React.FC = () => {
   const propsFile = usePickFile();
 
-  const handleSubmitFile = useCallback(() => {
+  const handleSubmitFile = () => {
     propsFile.setIsSubmitFile(true);
-  }, [propsFile]);
+  };
 
   return (
     <ModalTab
@@ -74,7 +71,7 @@ const _TabCreateMultipleMembers: React.FC = () => {
   );
 };
 
-const _ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
+export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
   isShowing,
   toggle,
 }) => {
@@ -98,7 +95,3 @@ const _ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
     />
   );
 };
-
-const TabCreateAMember = memo(_TabCreateAMember);
-const TabCreateMultipleMembers = memo(_TabCreateMultipleMembers);
-export const ModalCreateMember = memo(_ModalCreateMember);

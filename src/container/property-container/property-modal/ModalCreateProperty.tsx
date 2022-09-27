@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { memo, useCallback } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -14,7 +14,7 @@ import { schema } from "../schema";
 import { IFormPropertyInfo } from "../type";
 import { FormItems } from "./FormItems";
 
-const _ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
+export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
   isShowing,
   toggle,
 }) => {
@@ -39,7 +39,7 @@ const _ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
   );
 };
 
-const _TabCreateAProperty: React.FC = () => {
+const TabCreateAProperty: React.FC = () => {
   const propsForm = useForm<IFormPropertyInfo>({
     resolver: yupResolver(schema),
   });
@@ -50,19 +50,16 @@ const _TabCreateAProperty: React.FC = () => {
   } = propsForm;
   const dispatch = useAppDispatch();
 
-  const handleCreateAProperty = useCallback(
-    async (propertyData: IFormPropertyInfo) => {
-      const propertyModel = PropertyFormMapper.toModel(propertyData);
-      const result = await dispatch(createPropertyAsync(propertyModel));
-      if (!result.payload) {
-        toast.error(PROPERTY_MESSAGE.create.error);
-        return;
-      }
-      toast.success(PROPERTY_MESSAGE.create.success);
-      reset();
-    },
-    [dispatch, reset]
-  );
+  const handleCreateAProperty = async (propertyData: IFormPropertyInfo) => {
+    const propertyModel = PropertyFormMapper.toModel(propertyData);
+    const result = await dispatch(createPropertyAsync(propertyModel));
+    if (!result.payload) {
+      toast.error(PROPERTY_MESSAGE.create.error);
+      return;
+    }
+    toast.success(PROPERTY_MESSAGE.create.success);
+    reset();
+  };
   return (
     <ModalTab
       handleEvent={{
@@ -75,7 +72,7 @@ const _TabCreateAProperty: React.FC = () => {
   );
 };
 
-const _TabCreateMultipleProperties: React.FC = () => {
+const TabCreateMultipleProperties: React.FC = () => {
   const propsFile = usePickFile();
 
   const handleSubmitFile = () => {
@@ -92,7 +89,3 @@ const _TabCreateMultipleProperties: React.FC = () => {
     </ModalTab>
   );
 };
-
-export const ModalCreateProperty = memo(_ModalCreateProperty);
-const TabCreateMultipleProperties = memo(_TabCreateMultipleProperties);
-const TabCreateAProperty = memo(_TabCreateAProperty);

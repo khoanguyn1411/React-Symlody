@@ -1,10 +1,30 @@
 import classNames from "classnames";
-import { memo } from "react";
 
 import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
 import { TPropsModalDefault } from "../types";
 
-const _Modal: React.FC<TPropsModalDefault> = (props) => {
+/**
+ * To get value of isShowing and toggle functions, please use useModal hook and pass
+ * the corresponding props provided in such hook.
+ * @example
+ * const {setToggle, isShowing} = useModal();
+ *  <Modal
+      reset={reset}
+      toggle={{ setToggle }}
+      title="Chỉnh sửa tài sản"
+      size="lg"
+      isShowing={isShowing}
+      handleEvent={{
+        title: "Cập nhật",
+        event: handleSubmit(handleEditAsset),
+        isLoading: isLoading,
+        isDisable: Object.keys(dirtyFields).length === 0,
+      }}
+    >
+      <FormItems data={data} formProps={propsForm} />
+    </Modal>
+ */
+export const Modal: React.FC<TPropsModalDefault> = (props) => {
   const { children, title, toggle, handleEvent, reset } = props;
   const handleSetHidden = () => {
     toggle.setToggle();
@@ -43,26 +63,3 @@ const _Modal: React.FC<TPropsModalDefault> = (props) => {
     </ModalWrapper>
   );
 };
-
-/**
- * To get value of isShowing and toggle functions, please use useModal hook and pass
- * the corresponding props provided in such hook.
- * @example
- * const {setToggle, isShowing} = useModal();
- *  <Modal
-      reset={reset}
-      toggle={{ setToggle }}
-      title="Chỉnh sửa tài sản"
-      size="lg"
-      isShowing={isShowing}
-      handleEvent={{
-        title: "Cập nhật",
-        event: handleSubmit(handleEditAsset),
-        isLoading: isLoading,
-        isDisable: Object.keys(dirtyFields).length === 0,
-      }}
-    >
-      <FormItems data={data} formProps={propsForm} />
-    </Modal>
- */
-export const Modal = memo(_Modal);
