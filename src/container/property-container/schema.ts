@@ -1,15 +1,16 @@
 import * as yup from "yup";
 
+import { APP_ERROR_MESSAGE } from "@/constants";
 import { FormatService } from "@/utils";
 export const schema = yup.object().shape({
-  assetName: yup.string().required("Vui lòng nhập trường này"),
-  inCharge: yup.string().required("Vui lòng nhập trường này"),
-  owner: yup.string().required("Vui lòng nhập trường này"),
+  assetName: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  inCharge: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  owner: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
   quantity: yup
     .string()
-    .required("Vui lòng nhập trường này")
-    .min(1, "Vui lòng nhập một số lớn hơn 0")
-    .test("no-leading-zero", "Vui lòng nhập một số lớn hơn 0", (value) => {
+    .required(APP_ERROR_MESSAGE.REQUIRED)
+    .min(1, APP_ERROR_MESSAGE.MIN_NUMBER(0))
+    .test("no-leading-zero", APP_ERROR_MESSAGE.MIN_NUMBER(0), (value) => {
       return value && FormatService.toNumber(value) !== 0;
     }),
 });

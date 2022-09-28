@@ -18,10 +18,7 @@ export const TodoContainer: React.FC = () => {
     return (
       <>
         <NoData
-          imageSrc={TODO_NO_DATA_CONFIG.imageSrc}
-          title={TODO_NO_DATA_CONFIG.title}
-          buttonTitle={TODO_NO_DATA_CONFIG.buttonTitle}
-          content={TODO_NO_DATA_CONFIG.content}
+          data={TODO_NO_DATA_CONFIG}
           onCreateNew={function (): void {
             throw new Error("Function not implemented.");
           }}

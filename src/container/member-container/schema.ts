@@ -1,40 +1,42 @@
 import * as yup from "yup";
+
+import { APP_ERROR_MESSAGE } from "@/constants";
 export const schema = yup.object().shape({
   firstName: yup
     .string()
-    .required("Vui lòng nhập trường này")
-    .max(150, "Tên không được vượt quá 150 ký tự"),
+    .required(APP_ERROR_MESSAGE.REQUIRED)
+    .max(150, APP_ERROR_MESSAGE.MAX(150, "Tên")),
   lastName: yup
     .string()
-    .required("Vui lòng nhập trường này")
-    .max(150, "Họ không được vượt quá 150 ký tự"),
-  gender: yup.string().required("Vui lòng nhập trường này"),
-  birthday: yup.string().required("Vui lòng nhập trường này").nullable(),
-  department: yup.string().required("Vui lòng nhập trường này"),
+    .required(APP_ERROR_MESSAGE.REQUIRED)
+    .max(150, APP_ERROR_MESSAGE.MAX(150, "Họ")),
+  gender: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  birthday: yup.string().required(APP_ERROR_MESSAGE.REQUIRED).nullable(),
+  department: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
   // role: yup.array().min(1, "Vị trí được yêu cầu").default([]),
   class: yup
     .string()
-    .required("Vui lòng nhập trường này")
-    .max(8, "Mã lớp không được vượt quá 8 ký tự"),
+    .required(APP_ERROR_MESSAGE.REQUIRED)
+    .max(8, APP_ERROR_MESSAGE.MAX(8, "Mã lớp")),
   studentId: yup
     .string()
-    .required("Vui lòng nhập trường này")
-    .max(10, "MSSV không được vượt quá 10 ký tự"),
+    .required(APP_ERROR_MESSAGE.REQUIRED)
+    .max(10, APP_ERROR_MESSAGE.MAX(10, "MSSV")),
   phone: yup
     .string()
-    .required("Vui lòng nhập trường này")
-    .max(11, "Số điện thoại không được vượt quá 11 ký tự"),
+    .required(APP_ERROR_MESSAGE.REQUIRED)
+    .max(11, APP_ERROR_MESSAGE.MAX(11, "Số điện thoại")),
   address: yup
     .string()
-    .required("Vui lòng nhập trường này")
-    .max(300, "Địa chỉ không được vượt quá 300 ký tự"),
+    .required(APP_ERROR_MESSAGE.REQUIRED)
+    .max(300, APP_ERROR_MESSAGE.MAX(300, "Địa chỉ")),
   home: yup
     .string()
-    .required("Vui lòng nhập trường này")
-    .max(100, "Quê quán không được vượt quá 100 ký tự"),
+    .required(APP_ERROR_MESSAGE.REQUIRED)
+    .max(100, APP_ERROR_MESSAGE.MAX(100, "Quê quán")),
   email: yup
     .string()
     .email("Trường này phải là email")
-    .required("Vui lòng nhập trường này")
-    .max(254, "Email không được vượt quá 254 ký tự"),
+    .required(APP_ERROR_MESSAGE.REQUIRED)
+    .max(254, APP_ERROR_MESSAGE.MAX(254, "Email")),
 });

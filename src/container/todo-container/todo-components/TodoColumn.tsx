@@ -34,10 +34,6 @@ export const TodoColumn: React.FC<TProps> = ({ columnData }) => {
       <div className="flex flex-col px-3 pb-3 space-y-3">
         <Container
           groupName="col"
-          onDragStart={(e) => console.log("213")}
-          onDragEnd={(e) => console.log("213")}
-          onDrop={(e) => console.log("213")}
-          onDragEnter={() => console.log("12312")}
           dropPlaceholder={{
             animationDuration: 150,
             showOnTop: true,

@@ -1,2 +1,2 @@
-export * from "./config-department";
-export * from "./config-organization";
+export * from "./organization";
+export * from "./TabDepartment";

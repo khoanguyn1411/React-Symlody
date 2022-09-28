@@ -23,3 +23,5 @@ export const BREAKPOINTS = {
   // 	@media (min-width: 1536px) { ... }
   "2xl": 1536,
 };
+
+export * from "./message";

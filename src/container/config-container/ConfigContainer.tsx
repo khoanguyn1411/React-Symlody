@@ -1,9 +1,9 @@
 import React, { ReactNode, useState } from "react";
 
-import { Button, TabHost, TTab } from "@/components";
+import { Button, Container, TabHost, TTab } from "@/components";
 
 import { ActionConfigDepartment, TabConfigDepartment } from "./config-tabs";
-import { TabOrganization } from "./config-tabs/config-organization";
+import { TabOrganization } from "./config-tabs/organization/TabOrganization";
 
 type ContentTab = {
   content: ReactNode;
@@ -32,8 +32,8 @@ export const ConfigContainer: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="flex justify-between w-full py-3 bg-white border-b px-default">
+    <>
+      <Container.Header>
         <TabHost
           listTabs={[
             { key: "organization", title: "Tổ chức" },
@@ -41,9 +41,9 @@ export const ConfigContainer: React.FC = () => {
           ]}
           onChangeTab={handleChangeTab}
         />
-        <div>{content.rightSide}</div>
-      </div>
-      <div className="p-default">{content.content}</div>
-    </div>
+        <Container.HeaderRight>{content.rightSide}</Container.HeaderRight>
+      </Container.Header>
+      <Container.Body>{content.content}</Container.Body>
+    </>
   );
 };

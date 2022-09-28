@@ -1,5 +1,5 @@
 import { images } from "@/assets/images";
-import { TItemListSelect } from "@/components";
+import { TItemListSelect, TNodataConfig } from "@/components";
 import { GeneratorService } from "@/utils";
 
 export const MEMBER_FILTER_VALUE = {
@@ -27,13 +27,13 @@ export const MEMBER_FILTER_OPTIONS: readonly TItemListSelect[] = [
   },
 ];
 
-export const MEMBER_NO_DATA_CONFIG = {
+export const MEMBER_NO_DATA_CONFIG: TNodataConfig = {
   title: "Tạo thành viên",
   content:
     "Lập danh sách thành viên và quản lý các thành viên một cách dễ dàng và tiện lợi.",
   buttonTitle: "Tạo thành viên",
   imageSrc: images.noData.member,
-} as const;
+};
 
 export const MEMBER_MESSAGE =
   GeneratorService.generateStatusMessageFor("thành viên");

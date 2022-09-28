@@ -1,13 +1,14 @@
 import { images } from "@/assets/images";
+import { TNodataConfig } from "@/components";
 
 import { ETodoStatusId, TODO_STATUS_MAP_FROM_ID, TTodo } from "./type";
 
-export const TODO_NO_DATA_CONFIG = {
+export const TODO_NO_DATA_CONFIG: TNodataConfig = {
   title: "Tạo công việc",
   content: "Lên lịch và quản lý các công việc một cách dễ dàng và tiện lợi.",
   buttonTitle: "Tạo công việc",
   imageSrc: images.noData.todo,
-} as const;
+};
 
 export const TODO_DATA: TTodo = {
   id: "board-1",

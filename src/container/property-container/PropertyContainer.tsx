@@ -22,10 +22,10 @@ import { IProperty } from "@/features/types";
 import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
 
 import {
-  ASSET_NO_DATA_CONFIG,
   PROPERTY_FILTER_OPTIONS,
   PROPERTY_FILTER_VALUE,
   PROPERTY_MESSAGE,
+  PROPERTY_NO_DATA_CONFIG,
 } from "./constant";
 import { ModalCreateProperty, ModalEditProperty } from "./property-modal";
 import { PropertyPagination } from "./property-pagination";
@@ -121,10 +121,7 @@ export const PropertyContainer: React.FC = () => {
     return (
       <>
         <NoData
-          imageSrc={ASSET_NO_DATA_CONFIG.imageSrc}
-          title={ASSET_NO_DATA_CONFIG.title}
-          buttonTitle={ASSET_NO_DATA_CONFIG.buttonTitle}
-          content={ASSET_NO_DATA_CONFIG.content}
+          data={PROPERTY_NO_DATA_CONFIG}
           onCreateNew={propsModal.toggle.setShow}
         />
         <ModalCreateProperty {...propsModal} />

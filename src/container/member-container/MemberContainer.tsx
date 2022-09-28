@@ -125,10 +125,7 @@ export const MemberContainer: React.FC = () => {
     return (
       <>
         <NoData
-          imageSrc={MEMBER_NO_DATA_CONFIG.imageSrc}
-          buttonTitle={MEMBER_NO_DATA_CONFIG.buttonTitle}
-          content={MEMBER_NO_DATA_CONFIG.content}
-          title={MEMBER_NO_DATA_CONFIG.title}
+          data={MEMBER_NO_DATA_CONFIG}
           onCreateNew={propsModalCreateMember.toggle.setShow}
         />
         <ModalCreateMember {...propsModalCreateMember} />

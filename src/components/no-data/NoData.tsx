@@ -2,19 +2,20 @@ import React from "react";
 
 import { Button } from "../elements";
 
-type TProps = {
-  imageSrc: string;
+export type TNodataConfig = {
   title: string;
-  buttonTitle: string;
   content: string;
+  buttonTitle: string;
+  imageSrc: string;
+};
+
+type TProps = {
+  data: TNodataConfig;
   onCreateNew: () => void;
 };
 
 export const NoData: React.FC<TProps> = ({
-  imageSrc,
-  title,
-  buttonTitle,
-  content,
+  data: { imageSrc, content, title, buttonTitle },
   onCreateNew,
 }) => {
   return (
