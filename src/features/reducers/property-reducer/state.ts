@@ -37,6 +37,7 @@ export const initialState =
     listQueryPropertyFE: {
       page: 1,
       limit: APP_PAGINATION.DEFAULT_PAGINATION_LIMIT,
+      search: "",
     },
   });
 

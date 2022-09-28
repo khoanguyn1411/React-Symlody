@@ -30,7 +30,7 @@ export const ButtonUpload = asUploadButton((props) => {
           <span className=" text-4xl text-white">{props.char}</span>
         </div>
       )}
-      <div className="absolute top-0 z-10 flex items-center justify-center w-full h-full rounded-full opacity-0 cursor-pointer bg-black/20 hover:opacity-100 transition-opacity duration-300">
+      <div className="absolute top-0 flex items-center justify-center w-full h-full rounded-full opacity-0 cursor-pointer z-1 bg-black/20 hover:opacity-100 transition-opacity duration-300">
         <i className="text-lg fas fa-camera-alt" />
       </div>
 
