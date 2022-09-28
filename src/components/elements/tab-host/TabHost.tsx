@@ -13,7 +13,7 @@ type TProps = {
   listTabs: TTab[];
   defaultActive?: TTab["key"];
   paramChangeDependency?: string;
-  isNoSpace?: boolean;
+  isNoPaddingTab?: boolean;
   isStretchTab?: boolean;
   onChangeTab?: (tab: TTab) => void;
   onUrlChange?: (tab: TTab) => void;
@@ -24,7 +24,7 @@ export const TabHost: React.FC<TProps> = ({
   onChangeTab,
   defaultActive,
   isStretchTab = false,
-  isNoSpace = false,
+  isNoPaddingTab = false,
 }) => {
   const refs = useRef<HTMLButtonElement[]>([]);
 
@@ -99,36 +99,35 @@ export const TabHost: React.FC<TProps> = ({
   }, [getPositionSlider, refState]);
 
   return (
-    <div className={classNames(!isNoSpace && "space-x-2", "flex w-full")}>
-      <div className="relative flex w-full">
-        {listTabs.map((item) => (
-          <button
-            ref={addToRefs}
-            key={item.key}
-            aria-label={item.key}
-            className={classNames(
-              "px-5 py-2",
-              "font-medium",
-              "transition-colors duration-200",
-              {
-                "hover:bg-gray-50 border-transparent":
-                  item.key !== activeTab.key,
-                "flex-1": isStretchTab,
-              }
-            )}
-            onClick={handleClickTab(item, item.key)}
-          >
-            {item.title}
-          </button>
-        ))}
-        <div
-          style={positionSlider}
+    <div className="relative flex w-full">
+      {listTabs.map((item) => (
+        <button
+          ref={addToRefs}
+          key={item.key}
+          aria-label={item.key}
           className={classNames(
-            isAnimatedSlider && "transition-all duration-150",
-            "w-full h-[2.5px] rounded-sm flex absolute bg-primary-800 bottom-0 "
+            "py-2",
+            "font-medium",
+            "transition-colors duration-200",
+            {
+              "hover:bg-gray-50 border-transparent": item.key !== activeTab.key,
+              "flex-1": isStretchTab,
+              "px-5": !isNoPaddingTab,
+              "mr-8 px-1": isNoPaddingTab,
+            }
           )}
-        />
-      </div>
+          onClick={handleClickTab(item, item.key)}
+        >
+          {item.title}
+        </button>
+      ))}
+      <div
+        style={positionSlider}
+        className={classNames(
+          isAnimatedSlider && "transition-all duration-150",
+          "w-full h-[2.5px] rounded-sm flex absolute bg-primary-800 bottom-0 "
+        )}
+      />
     </div>
   );
 };

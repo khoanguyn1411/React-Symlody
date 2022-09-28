@@ -13,7 +13,7 @@ export const STYLE_MAPS = {
 export const SIZE_MAPS = {
   small: "h-8 text-xs",
   default: "h-10",
-  large: "h12 text-lg",
+  large: "h-12 text-lg",
 } as const;
 
 export const BLOCK = {

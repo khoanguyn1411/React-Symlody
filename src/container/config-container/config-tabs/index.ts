@@ -1,2 +1,4 @@
+export * from "./change-password";
+export * from "./department";
 export * from "./organization";
-export * from "./TabDepartment";
+export * from "./personal-info";

@@ -1,43 +1,75 @@
 import React, { ReactNode, useState } from "react";
 
-import { Button, Container, TabHost, TTab } from "@/components";
+import { Container, TabHost, TTab } from "@/components";
 
-import { ActionConfigDepartment, TabConfigDepartment } from "./config-tabs";
-import { TabOrganization } from "./config-tabs/organization/TabOrganization";
+import {
+  TabChangePassword,
+  TabConfigDepartment,
+  TabOrganization,
+  TabPersonalInfo,
+} from "./config-tabs";
+import { EConfigTabKey, EConfigTabReadableString } from "./type";
 
 type ContentTab = {
   content: ReactNode;
-  rightSide: ReactNode;
+  rightSide?: ReactNode;
 };
 
-const getContentTab = (key: TTab["key"]): ContentTab => {
-  if (key === "organization") {
-    return {
-      content: <TabOrganization />,
-      rightSide: <Button className="w-20">Lưu</Button>,
-    };
+const getContentTab = (key: EConfigTabKey): ContentTab => {
+  switch (key) {
+    case EConfigTabKey.Organization:
+      return {
+        content: <TabOrganization />,
+      };
+    case EConfigTabKey.PersonalInfo:
+      return {
+        content: <TabPersonalInfo />,
+      };
+    case EConfigTabKey.ChangePassword:
+      return {
+        content: <TabChangePassword />,
+      };
+    case EConfigTabKey.Department:
+      return {
+        content: <TabConfigDepartment />,
+      };
+    default:
+      return {
+        content: <TabConfigDepartment />,
+      };
   }
-  return {
-    content: <TabConfigDepartment />,
-    rightSide: <ActionConfigDepartment />,
-  };
 };
 
 export const ConfigContainer: React.FC = () => {
   const [content, setContent] = useState<ContentTab>(
-    getContentTab("organization")
+    getContentTab(EConfigTabKey.Organization)
   );
   const handleChangeTab = (tab: TTab) => {
-    setContent(getContentTab(tab.key));
+    setContent(getContentTab(tab.key as EConfigTabKey));
   };
 
   return (
     <>
       <Container.Header>
         <TabHost
+          isNoPaddingTab
           listTabs={[
-            { key: "organization", title: "Tổ chức" },
-            { key: "department", title: "Phòng ban" },
+            {
+              key: EConfigTabKey.Organization,
+              title: EConfigTabReadableString.Organization,
+            },
+            {
+              key: EConfigTabKey.Department,
+              title: EConfigTabReadableString.Department,
+            },
+            {
+              key: EConfigTabKey.PersonalInfo,
+              title: EConfigTabReadableString.PersonalInfo,
+            },
+            {
+              key: EConfigTabKey.ChangePassword,
+              title: EConfigTabReadableString.ChangePassword,
+            },
           ]}
           onChangeTab={handleChangeTab}
         />

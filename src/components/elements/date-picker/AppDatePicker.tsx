@@ -61,7 +61,7 @@ export const DatePortal: React.FC = () => {
 
 export const AppDatePicker: React.FC<TProps> = ({
   isTimePicker = false,
-  style,
+  style = "default",
   value,
   onChange,
 }) => {

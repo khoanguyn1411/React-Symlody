@@ -53,7 +53,6 @@ export const ModalMultipleTabsContent: React.FC = () => {
       {/* Title */}
       <div className="flex justify-between px-5 mt-4 border-b">
         <TabHost
-          isNoSpace
           defaultActive={tabActive.key}
           isStretchTab
           onChangeTab={handleChangeTab}

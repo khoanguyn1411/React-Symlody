@@ -1,9 +1,9 @@
-export type IFormOrganizationValue = {
-  name: string;
-  shortName: string;
-  description?: string;
-  email: string;
-  phone: string;
-  schoolBelonged: string;
-  address: string;
+export type IFormOrganizationConfig = {
+  readonly name: string;
+  readonly shortName: string;
+  readonly description?: string;
+  readonly email: string;
+  readonly phone: string;
+  readonly schoolBelonged: string;
+  readonly address: string;
 };
