@@ -32,7 +32,7 @@ export const TodoContainer: React.FC = () => {
         <Container.HeaderRight>
           <Search
             inputValue={""}
-            setInputValue={function (inputValue: string): void {
+            setInputValue={function (): void {
               throw new Error("Function not implemented.");
             }}
           />
