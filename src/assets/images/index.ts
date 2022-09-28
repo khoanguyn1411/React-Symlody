@@ -6,6 +6,7 @@ import Logo from "./logo/Logo.png";
 import noDataAsset from "./no-data/NoDataAsset.png";
 import noDataEvent from "./no-data/NoDataEvent.png";
 import noDataMember from "./no-data/NoDataMember.png";
+import NoDataTable from "./no-data/NoDataTable.png";
 import noDataTarget from "./no-data/NoDataTarget.png";
 import NoDataTodos from "./no-data/NoDataTodos.png";
 
@@ -19,6 +20,7 @@ export const images = {
     event: noDataEvent,
     target: noDataTarget,
     todo: NoDataTodos,
+    table: NoDataTable,
   },
   Logo,
   comingSoon,

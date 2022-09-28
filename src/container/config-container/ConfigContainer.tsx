@@ -3,6 +3,7 @@ import React, { ReactNode, useState } from "react";
 import { Container, TabHost, TTab } from "@/components";
 
 import {
+  ActionConfigDepartment,
   TabChangePassword,
   TabConfigDepartment,
   TabOrganization,
@@ -32,6 +33,7 @@ const getContentTab = (key: EConfigTabKey): ContentTab => {
     case EConfigTabKey.Department:
       return {
         content: <TabConfigDepartment />,
+        rightSide: <ActionConfigDepartment />,
       };
     default:
       return {

@@ -3,7 +3,7 @@ import React from "react";
 import { GlobalTypes } from "@/utils";
 
 type TProps = {
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
+  onSubmit?: React.FormEventHandler<HTMLFormElement>;
 };
 
 export const ConfigTabContentContainer: GlobalTypes.FCPropsWithChildren<
