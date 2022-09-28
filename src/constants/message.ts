@@ -9,4 +9,4 @@ export const APP_ERROR_MESSAGE = {
     )} ký tự`,
   MIN_NUMBER: (minValue: number) =>
     `Vui lòng nhập một số lớn hơn ${FormatService.toString(minValue)}`,
-};
+} as const;

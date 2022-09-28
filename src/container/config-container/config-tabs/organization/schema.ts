@@ -1,13 +1,15 @@
 import * as yup from "yup";
 
+import { APP_ERROR_MESSAGE } from "@/constants";
+
 export const schema = yup.object().shape({
-  name: yup.string().required("Vui lòng nhập thông tin"),
-  shortName: yup.string().required("Vui lòng nhập thông tin"),
+  name: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  shortName: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
   email: yup
     .string()
-    .email("Trường này phải là email.")
-    .required("Vui lòng nhập thông tin"),
-  phone: yup.string().required("Vui lòng nhập thông tin"),
-  schoolBelonged: yup.string().required("Vui lòng nhập thông tin"),
-  address: yup.string().required("Vui lòng nhập thông tin"),
+    .email(APP_ERROR_MESSAGE.EMAIL)
+    .required(APP_ERROR_MESSAGE.REQUIRED),
+  phone: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  schoolBelonged: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  address: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
 });
