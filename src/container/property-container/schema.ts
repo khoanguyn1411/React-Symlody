@@ -2,7 +2,14 @@ import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
 import { FormatService } from "@/utils";
-export const schema = yup.object().shape({
+import { StrictPick } from "@/utils/types";
+
+import { IFormPropertyInfo } from "./type";
+type IPropertySchema = StrictPick<
+  IFormPropertyInfo,
+  "assetName" | "inCharge" | "owner" | "quantity"
+>;
+export const schema: yup.SchemaOf<IPropertySchema> = yup.object().shape({
   assetName: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
   inCharge: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
   owner: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),

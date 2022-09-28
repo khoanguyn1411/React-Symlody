@@ -1,5 +1,9 @@
 import * as yup from "yup";
-export const schema = yup.object().shape({
-  username: yup.string().required("Tên đăng nhập được yêu cầu"),
-  password: yup.string().required("Mật khẩu được yêu cầu"),
+
+import { APP_ERROR_MESSAGE } from "@/constants";
+
+import { IFormLoginValue } from "./type";
+export const schema: yup.SchemaOf<IFormLoginValue> = yup.object().shape({
+  username: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  password: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
 });

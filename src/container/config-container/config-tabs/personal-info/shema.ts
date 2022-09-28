@@ -1,7 +1,9 @@
 import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
-export const schema = yup.object().shape({
+
+import { IFormUserConfig } from "./type";
+export const schema: yup.SchemaOf<IFormUserConfig> = yup.object().shape({
   firstName: yup
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)
