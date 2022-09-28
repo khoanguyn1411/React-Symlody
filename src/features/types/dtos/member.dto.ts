@@ -1,8 +1,7 @@
-import { IAuthAccountDto } from "./auth-account.dto";
 import { IDepartmentCreateUpdateDto, IDepartmentDto } from "./department.dto";
+import { ERolesDto } from "./group.dto";
 
 interface IMemberGeneralDto {
-  readonly auth_account: IAuthAccountDto;
   readonly gender: number;
   readonly class_name: string;
   readonly student_id: string;
@@ -11,6 +10,10 @@ interface IMemberGeneralDto {
   readonly home_town: string;
   readonly dob: string;
   readonly is_archived: boolean;
+  readonly first_name: string;
+  readonly last_name: string;
+  readonly email: string;
+  readonly groups: ERolesDto[];
 }
 
 export interface IMemberDto extends IMemberGeneralDto {
