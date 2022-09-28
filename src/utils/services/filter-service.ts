@@ -1,9 +1,5 @@
-import { FormatService } from "./format-service";
+import { toCleanedString } from "./format-service";
 
-export class FilterService {
-  public static fromText(text: string, includedText: string): boolean {
-    return FormatService.toCleanedString(text).includes(
-      FormatService.toCleanedString(includedText)
-    );
-  }
+export function fromText(text: string, includedText: string): boolean {
+  return toCleanedString(text).includes(toCleanedString(includedText));
 }

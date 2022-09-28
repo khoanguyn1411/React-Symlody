@@ -1,6 +1,6 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
-import { APP_CONSTANTS } from "@/constants";
+import { APP_PAGINATION } from "@/constants";
 import { IProperty } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
@@ -36,7 +36,7 @@ export const initialState =
     propertyListPagination: [],
     listQueryPropertyFE: {
       page: 1,
-      limit: APP_CONSTANTS.DEFAULT_PAGINATION_LIMIT,
+      limit: APP_PAGINATION.DEFAULT_PAGINATION_LIMIT,
     },
   });
 

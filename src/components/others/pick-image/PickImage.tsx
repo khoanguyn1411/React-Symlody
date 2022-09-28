@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
+import { EFile } from "@/constants";
 import { FormatService } from "@/utils";
 
 import { Button } from "../../elements";
 import { PICK_IMAGE_MESSAGE } from "./contants";
-import { EAllowFiles } from "./type";
 
 type TFileData = {
   url: string | ArrayBuffer;
-  type: EAllowFiles;
+  type: EFile;
 };
 
 type TProps = {
@@ -25,7 +25,7 @@ export const PickImage: React.FC<TProps> = ({
 }) => {
   const [fileData, setFileData] = useState<TFileData>({
     url: defaultImageLink,
-    type: EAllowFiles.Image,
+    type: EFile.Image,
   });
   const [message, setMessage] = useState<string>("");
   const inputFileRef = useRef<HTMLInputElement>();
@@ -86,7 +86,7 @@ export const PickImage: React.FC<TProps> = ({
       <input
         ref={inputFileRef}
         type="file"
-        accept={EAllowFiles.Image}
+        accept={EFile.Image}
         className="hidden"
         onClick={handleResetInput}
         onChange={handleUploadFile}
@@ -109,7 +109,7 @@ export const PickImage: React.FC<TProps> = ({
 
       {fileData && fileData.url && (
         <div className="w-full">
-          {fileData.type === EAllowFiles.Image && (
+          {fileData.type === EFile.Image && (
             <>
               <div className="relative h-44 w-[fit-content] drop-shadow-md">
                 <img
