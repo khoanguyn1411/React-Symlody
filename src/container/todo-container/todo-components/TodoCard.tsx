@@ -21,7 +21,7 @@ export const TodoCard: React.FC<TTodoCardProps> = ({
   assignee,
 }) => {
   return (
-    <div className="p-2 bg-white shadow-lg cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md">
+    <div className="p-2 my-1 bg-white cursor-pointer drop-shadow-md hover:bg-gray-50 transition-colors duration-100 rounded-md">
       <h1>{title}</h1>
       <div className="flex items-center justify-between mt-3">
         <h2 className="">{date}</h2>

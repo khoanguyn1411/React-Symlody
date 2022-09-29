@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Container, Draggable } from "react-smooth-dnd";
+import { useLayoutEffect, useState } from "react";
+import { Container, Draggable, DropResult } from "react-smooth-dnd";
 
 import { SortService } from "@/utils";
 
@@ -8,20 +8,25 @@ import { TodoCard } from "./TodoCard";
 
 type TProps = {
   columnData: TTodoColumn;
+  onCardDrop: (dropResult: DropResult, columnData: TTodoColumn) => void;
 };
 
-export const TodoColumn: React.FC<TProps> = ({ columnData }) => {
+export const TodoColumn: React.FC<TProps> = ({ columnData, onCardDrop }) => {
   const [listCard, setListCard] = useState<TTodoCard[]>([]);
-
-  useEffect(() => {
+  const getChildPayload = (index: number) => {
+    return listCard[index];
+  };
+  const handleCardDrop = (dropResult: DropResult) => {
+    onCardDrop(dropResult, columnData);
+  };
+  useLayoutEffect(() => {
     const sortedCardList = SortService.mapOrder<TTodoCard>(
       columnData.cards,
       columnData.cardOrder,
       "id"
     );
     setListCard(sortedCardList);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [columnData]);
 
   return (
     <div className="flex-1 h-full bg-gray-100  rounded-lg min-w-[200px]">
@@ -31,9 +36,13 @@ export const TodoColumn: React.FC<TProps> = ({ columnData }) => {
         </h1>
       </div>
 
-      <div className="flex flex-col px-3 pb-3 space-y-3">
+      <div className="flex flex-col px-3 pb-3">
         <Container
-          groupName="col"
+          style={{ minHeight: 130 }}
+          groupName={"symlody-cols"}
+          onDrop={handleCardDrop}
+          dragBeginDelay={50}
+          getChildPayload={getChildPayload}
           dropPlaceholder={{
             animationDuration: 150,
             showOnTop: true,

@@ -25,6 +25,9 @@ module.exports = {
       inter: ["Inter"],
     },
     extend: {
+      gridTemplateColumns: {
+        '4-1fr': 'repeat(4, 1fr)',
+      },
       fontSize: {
         default: toPx(14),
       },
