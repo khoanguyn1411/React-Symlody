@@ -1,10 +1,8 @@
-import { memo } from "react";
-
 import { GlobalTypes } from "@/utils";
 
 import { TableProvider, TPropsTable } from "./context";
 
-const _TableContainerContent: GlobalTypes.FCChildren = ({ children }) => {
+export const TableContainerContent: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <div className="h-table">
       <div className="border border-t-0 rounded-md">
@@ -20,7 +18,7 @@ const _TableContainerContent: GlobalTypes.FCChildren = ({ children }) => {
   );
 };
 
-const _TableContainer: GlobalTypes.FCPropsWithChildren<TPropsTable> = ({
+export const TableContainer: GlobalTypes.FCPropsWithChildren<TPropsTable> = ({
   children,
   ...props
 }) => {
@@ -30,6 +28,3 @@ const _TableContainer: GlobalTypes.FCPropsWithChildren<TPropsTable> = ({
     </TableProvider>
   );
 };
-
-const TableContainerContent = memo(_TableContainerContent);
-export const TableContainer = memo(_TableContainer);

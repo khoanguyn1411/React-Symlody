@@ -1,12 +1,11 @@
 import classNames from "classnames";
-import React, { memo } from "react";
+import React from "react";
 
-import { GlobalTypes } from "@/utils";
-import { FormatService } from "@/utils";
+import { FormatService, GlobalTypes } from "@/utils";
 
 import { BLOCK, SIZE_MAPS, STYLE_MAPS, TPropsButton } from "./types";
 
-const _Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
+export const Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
   onClick,
   className = "",
   children,
@@ -59,5 +58,3 @@ const _Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
     </button>
   );
 };
-
-export const Button = memo(_Button);

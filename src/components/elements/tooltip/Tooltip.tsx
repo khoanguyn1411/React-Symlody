@@ -1,10 +1,11 @@
 import classNames from "classnames";
-import { memo, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
-import { AnimationKeepDom, Portal } from "@/components";
 import { usePositionPortal } from "@/hooks";
 import { GlobalTypes } from "@/utils";
 
+import { AnimationKeepDom } from "../animation-custom";
+import { Portal } from "../portal";
 import { AlignedPlacement } from "../portal/type";
 
 type TProps = {
@@ -13,7 +14,7 @@ type TProps = {
   className?: string;
 };
 
-const _Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   content,
   className,
@@ -82,5 +83,3 @@ const _Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </>
   );
 };
-
-export const Tooltip = memo(_Tooltip);

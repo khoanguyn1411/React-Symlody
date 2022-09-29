@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { memo } from "react";
 
 import { GlobalTypes } from "@/utils";
 
@@ -13,7 +12,7 @@ type TProps = {
   isLast?: boolean;
   keySorting?: string;
 };
-const _TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
   textAlign = "left",
   width = "auto",
   children,
@@ -43,5 +42,3 @@ const _TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </td>
   );
 };
-
-export const TableCell = memo(_TableCell);

@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { memo, useCallback } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
 import { Modal } from "@/components";
@@ -10,7 +10,7 @@ import { schema } from "../schema";
 import { IFormPropertyInfo } from "../type";
 import { FormItems } from "./FormItems";
 
-const _ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
+export const ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
   data,
   isShowing,
   toggle,
@@ -25,9 +25,9 @@ const _ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
     formState: { isDirty, isSubmitting },
   } = propsForm;
 
-  const handleEditProperty = useCallback(() => {
+  const handleEditProperty = () => {
     //TODO: Handle update property.
-  }, []);
+  };
   return (
     <Modal
       reset={reset}
@@ -46,5 +46,3 @@ const _ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
     </Modal>
   );
 };
-
-export const ModalEditProperty = memo(_ModalEditProperty);

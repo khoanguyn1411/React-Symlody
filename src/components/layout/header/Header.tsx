@@ -3,10 +3,10 @@ import React, { useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { images } from "@/assets/images";
-import { Avatar } from "@/components/elements";
-import { Media } from "@/components/media";
 import { useAppSelector } from "@/features";
 
+import { Avatar } from "../../elements";
+import { Media } from "../../media";
 import { SidebarMobile } from "../sidebar";
 import { UserDropdown } from "./UserDropdown";
 

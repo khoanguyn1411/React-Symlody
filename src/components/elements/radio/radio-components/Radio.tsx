@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { memo, ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 import { useRadioGroupContext } from "../context";
 
@@ -9,7 +9,7 @@ type TProps = {
   value: string;
 };
 
-const _Radio: React.FC<TProps> = ({
+export const Radio: React.FC<TProps> = ({
   isChecked = undefined,
   children,
   value,
@@ -50,5 +50,3 @@ const _Radio: React.FC<TProps> = ({
     </div>
   );
 };
-
-export const Radio = memo(_Radio);

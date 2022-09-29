@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { memo, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 type IFormItemProps = {
   label?: string;
@@ -12,7 +12,7 @@ type IFormItemProps = {
   children: JSX.Element;
 };
 
-const _FormItem: React.FC<IFormItemProps> = ({
+export const FormItem: React.FC<IFormItemProps> = ({
   label,
   error,
   description,
@@ -67,5 +67,3 @@ const _FormItem: React.FC<IFormItemProps> = ({
     </div>
   );
 };
-
-export const FormItem = memo(_FormItem);

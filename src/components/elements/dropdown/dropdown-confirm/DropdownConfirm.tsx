@@ -1,9 +1,10 @@
-import { memo, useRef } from "react";
+import { useRef } from "react";
 
-import { Button, Dropdown, TDropdownMethod } from "@/components";
 import { GlobalTypes } from "@/utils";
 
+import { Button } from "../../button";
 import { AlignedPlacement } from "../../portal/type";
+import { Dropdown, TDropdownMethod } from "../dropdown-default";
 
 type TProps = {
   title: string;
@@ -15,7 +16,7 @@ type TProps = {
   isShowLoading?: boolean;
 };
 
-const _DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   handleEvent,
   title,
@@ -68,5 +69,3 @@ const _DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </Dropdown>
   );
 };
-
-export const DropdownConfirm = memo(_DropdownConfirm);

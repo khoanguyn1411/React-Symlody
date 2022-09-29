@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
 
@@ -19,7 +19,7 @@ type TProps = {
   onUrlChange?: (tab: TTab) => void;
 };
 
-const _TabHost: React.FC<TProps> = ({
+export const TabHost: React.FC<TProps> = ({
   listTabs,
   onChangeTab,
   defaultActive,
@@ -132,5 +132,3 @@ const _TabHost: React.FC<TProps> = ({
     </div>
   );
 };
-
-export const TabHost = memo(_TabHost);

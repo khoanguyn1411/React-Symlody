@@ -1,16 +1,11 @@
 import classNames from "classnames";
-import React, {
-  forwardRef,
-  memo,
-  ReactNode,
-  useImperativeHandle,
-  useState,
-} from "react";
+import { forwardRef, ReactNode, useImperativeHandle, useState } from "react";
 
-import { DropdownListWrapper, Portal } from "@/components";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
+import { Portal } from "../../portal";
 import { AlignedPlacement } from "../../portal/type";
+import { DropdownListWrapper } from "../dropdown-components";
 
 type TListSetting = {
   prefix?: ReactNode;
@@ -34,7 +29,7 @@ export type TDropdownMethod = {
 };
 
 // eslint-disable-next-line react/display-name
-const _Dropdown = forwardRef<TDropdownMethod, TProps>(
+export const Dropdown = forwardRef<TDropdownMethod, TProps>(
   (
     {
       listSetting,
@@ -122,5 +117,3 @@ const _Dropdown = forwardRef<TDropdownMethod, TProps>(
     );
   }
 );
-
-export const Dropdown = memo(_Dropdown);

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { memo } from "react";
+import React from "react";
 
 import { usePaginationContext } from "../context";
 
@@ -7,7 +7,7 @@ type TProps = {
   pageIndex: number;
 };
 
-const _PaginationItem: React.FC<TProps> = ({ pageIndex }) => {
+export const PaginationItem: React.FC<TProps> = ({ pageIndex }) => {
   const { activePage, setActivePage, onPaginationChange, limit } =
     usePaginationContext();
   const handleChangeActivePage = () => {
@@ -31,5 +31,3 @@ const _PaginationItem: React.FC<TProps> = ({ pageIndex }) => {
     </button>
   );
 };
-
-export const PaginationItem = memo(_PaginationItem);

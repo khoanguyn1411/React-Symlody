@@ -35,6 +35,4 @@ jobs:
           script: |
             cd ${{ secrets.PROJECT_DIR }}
             git pull origin release
-            yarn
-            yarn build
             docker-compose up -d --no-deps --build clubui

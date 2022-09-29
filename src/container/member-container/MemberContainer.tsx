@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
@@ -35,7 +35,7 @@ import { TableMemberContent } from "./member-table-content";
 const getFilterValue = (key: string) => {
   return MEMBER_FILTER_OPTIONS.find((item) => item.key === key).value;
 };
-const _MemberContainer: React.FC = () => {
+export const MemberContainer: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const memberStore = useAppSelector((state) => state.member);
@@ -56,65 +56,53 @@ const _MemberContainer: React.FC = () => {
     }
   });
 
-  const handleSetFilter = useCallback(
-    (item: TItemListSelect) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { is_archived, ...rest } = memberStore.listQueryMember;
-      switch (item.key) {
-        case MEMBER_FILTER_VALUE.all:
-          dispatch(setListQueryMember(rest));
-          break;
-        case MEMBER_FILTER_VALUE.isArchived:
-          dispatch(setListQueryMember({ ...rest, is_archived: true }));
-          break;
-        case MEMBER_FILTER_VALUE.active:
-          dispatch(setListQueryMember({ ...rest, is_archived: false }));
-          break;
-      }
-    },
-    [dispatch, memberStore.listQueryMember]
-  );
-  const handleDelete = useCallback(
-    async (item: IMember) => {
-      const result = await dispatch(deleteMemberAsync(item.id));
-      if (result.payload) {
-        toast.success(MEMBER_MESSAGE.delete.success);
-        return;
-      }
-      toast.success(MEMBER_MESSAGE.delete.error);
-    },
-    [dispatch]
-  );
-  const handleRestore = useCallback(
-    async (item: IMember) => {
-      const result = await dispatch(
-        updateMemberAsync({
-          payload: { ...item, is_archived: false },
-          id: item.id,
-          isRestore: true,
-        })
-      );
-      if (!result.payload.result) {
-        toast.error(MEMBER_MESSAGE.update.error);
-        return;
-      }
-      toast.success(MEMBER_MESSAGE.update.success);
-    },
-    [dispatch]
-  );
-  const handleEdit = useCallback(
-    (item: IMember) => {
-      propsModalEditMember.setData(item);
-      propsModalEditMember.toggle.setShow();
-    },
-    [propsModalEditMember]
-  );
+  const handleSetFilter = (item: TItemListSelect) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { is_archived, ...rest } = memberStore.listQueryMember;
+    switch (item.key) {
+      case MEMBER_FILTER_VALUE.all:
+        dispatch(setListQueryMember(rest));
+        break;
+      case MEMBER_FILTER_VALUE.isArchived:
+        dispatch(setListQueryMember({ ...rest, is_archived: true }));
+        break;
+      case MEMBER_FILTER_VALUE.active:
+        dispatch(setListQueryMember({ ...rest, is_archived: false }));
+        break;
+    }
+  };
+  const handleDelete = async (item: IMember) => {
+    const result = await dispatch(deleteMemberAsync(item.id));
+    if (result.payload) {
+      toast.success(MEMBER_MESSAGE.delete.success);
+      return;
+    }
+    toast.success(MEMBER_MESSAGE.delete.error);
+  };
+  const handleRestore = async (item: IMember) => {
+    const result = await dispatch(
+      updateMemberAsync({
+        payload: { ...item, is_archived: false },
+        id: item.id,
+        isRestore: true,
+      })
+    );
+    if (!result.payload.result) {
+      toast.error(MEMBER_MESSAGE.update.error);
+      return;
+    }
+    toast.success(MEMBER_MESSAGE.update.success);
+  };
+  const handleEdit = (item: IMember) => {
+    propsModalEditMember.setData(item);
+    propsModalEditMember.toggle.setShow();
+  };
 
   useEffect(() => {
     dispatch(getMembersAsync(memberStore.listQueryMember));
   }, [dispatch, memberStore.listQueryMember]);
 
-  // TO_UPDATE: When BE release pagination.
+  // TO_UPDATE: When BE release pagination...
   useEffectSkipFirstRender(() => {
     dispatch(
       getPaginationMember({
@@ -192,5 +180,3 @@ const _MemberContainer: React.FC = () => {
     </>
   );
 };
-
-export const MemberContainer = memo(_MemberContainer);

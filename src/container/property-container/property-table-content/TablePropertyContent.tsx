@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
@@ -12,7 +12,7 @@ type TProps = {
   onRestore: (property: IProperty) => void;
 };
 
-const _TablePropertyContent: React.FC<TProps> = ({
+export const TablePropertyContent: React.FC<TProps> = ({
   onEdit,
   onDelete,
   onRestore,
@@ -35,26 +35,16 @@ const _TablePropertyContent: React.FC<TProps> = ({
     propertyStore.listQueryPropertyFE.page,
   ]);
 
-  const handleEdit = useCallback(
-    (item: IProperty) => () => {
-      onEdit(item);
-    },
-    [onEdit]
-  );
-  const handleDelete = useCallback(
-    (item: IProperty) => () => {
-      onDelete(item);
-      setCurrentInteractiveId(item.id);
-    },
-    [onDelete]
-  );
-
-  const handleRestore = useCallback(
-    (item: IProperty) => () => {
-      onRestore(item);
-    },
-    [onRestore]
-  );
+  const handleEdit = (item: IProperty) => () => {
+    onEdit(item);
+  };
+  const handleDelete = (item: IProperty) => () => {
+    onDelete(item);
+    setCurrentInteractiveId(item.id);
+  };
+  const handleRestore = (item: IProperty) => () => {
+    onRestore(item);
+  };
 
   if (propertyStore.pending) {
     return <Table.Skeleton colsNumber={7} />;
@@ -103,5 +93,3 @@ const _TablePropertyContent: React.FC<TProps> = ({
     </Table.Body>
   );
 };
-
-export const TablePropertyContent = memo(_TablePropertyContent);

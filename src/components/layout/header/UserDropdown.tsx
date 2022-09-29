@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 
-import { Avatar, Dropdown } from "@/components/elements";
 import { useAppDispatch } from "@/features";
 import { logout } from "@/features/reducers";
 import { IUser } from "@/features/types";
+
+import { Avatar, Dropdown } from "../../elements";
 
 const MENUS = [
   {

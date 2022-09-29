@@ -16,7 +16,6 @@ type TProps = {
   formProps: UseFormReturn<IFormPropertyInfo, any>;
 };
 
-/** This component cannot apply memo. */
 export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
   let dataForm: IFormPropertyInfo = null;
   if (data) {

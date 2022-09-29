@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
 
@@ -9,7 +9,7 @@ type TProps = {
   isShowing: boolean;
 };
 
-const _AnimationUnmount: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const AnimationUnmount: GlobalTypes.FCPropsWithChildren<TProps> = ({
   isShowing,
   children,
 }) => {
@@ -37,5 +37,3 @@ const _AnimationUnmount: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </div>
   );
 };
-
-export const AnimationUnmount = memo(_AnimationUnmount);

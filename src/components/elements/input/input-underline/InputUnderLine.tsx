@@ -1,8 +1,8 @@
-import React, { memo } from "react";
+import React from "react";
 
 import { TInputUnderLine } from "../type";
 
-const _InputUnderLine: React.FC<TInputUnderLine> = ({
+export const InputUnderLine: React.FC<TInputUnderLine> = ({
   value = "",
   label = "Khác",
   disable = false,
@@ -36,5 +36,3 @@ const _InputUnderLine: React.FC<TInputUnderLine> = ({
     </div>
   );
 };
-
-export const InputUnderLine = memo(_InputUnderLine);

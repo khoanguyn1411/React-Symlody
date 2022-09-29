@@ -1,12 +1,10 @@
-import { memo } from "react";
-
 import { GlobalTypes } from "@/utils";
 
 import { Tooltip } from "../tooltip";
 import { Button } from "./Button";
 import { TPropsButton } from "./types";
 
-const _ButtonCreate: GlobalTypes.FCPropsWithChildren<TPropsButton> = (
+export const ButtonCreate: GlobalTypes.FCPropsWithChildren<TPropsButton> = (
   props
 ) => {
   return (
@@ -20,5 +18,3 @@ const _ButtonCreate: GlobalTypes.FCPropsWithChildren<TPropsButton> = (
     </Tooltip>
   );
 };
-
-export const ButtonCreate = memo(_ButtonCreate);

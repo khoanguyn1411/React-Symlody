@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { memo, useCallback } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -15,7 +15,7 @@ import { schema } from "../schema";
 import { IFormMemberInfo } from "../type";
 import { FormItems } from "./FormItems";
 
-const _ModalEditMember: React.FC<THookModalProps<IMember>> = ({
+export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   data,
   isShowing,
   toggle,
@@ -32,28 +32,25 @@ const _ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   const departmentStore = useAppSelector((state) => state.department);
   const dispatch = useAppDispatch();
 
-  const handleEditMember = useCallback(
-    async (editInfo: IFormMemberInfo) => {
-      const memberModel: IMemberCreateUpdate = MemberFormMapper.toModel(
-        departmentStore.department,
-        editInfo
-      );
-      const result = await dispatch(
-        updateMemberAsync({
-          payload: memberModel,
-          id: data.id,
-          isRestore: false,
-        })
-      );
-      if (!result.payload) {
-        toast.error(MEMBER_MESSAGE.update.error);
-        return;
-      }
-      toast.success(MEMBER_MESSAGE.update.success);
-      toggle.setHidden();
-    },
-    [data, departmentStore.department, dispatch, toggle]
-  );
+  const handleEditMember = async (editInfo: IFormMemberInfo) => {
+    const memberModel: IMemberCreateUpdate = MemberFormMapper.toModel(
+      departmentStore.department,
+      editInfo
+    );
+    const result = await dispatch(
+      updateMemberAsync({
+        payload: memberModel,
+        id: data.id,
+        isRestore: false,
+      })
+    );
+    if (!result.payload) {
+      toast.error(MEMBER_MESSAGE.update.error);
+      return;
+    }
+    toast.success(MEMBER_MESSAGE.update.success);
+    toggle.setHidden();
+  };
 
   return (
     <Modal
@@ -72,5 +69,3 @@ const _ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     </Modal>
   );
 };
-
-export const ModalEditMember = memo(_ModalEditMember);

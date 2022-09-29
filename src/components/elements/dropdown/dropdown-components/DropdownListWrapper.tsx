@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import { memo } from "react";
 
-import { AnimationCustom } from "@/components";
 import { GlobalTypes } from "@/utils";
+
+import { AnimationCustom } from "../../animation-custom";
 
 type TProps = {
   isShowContent: boolean;
@@ -11,7 +11,7 @@ type TProps = {
   position: React.CSSProperties;
 };
 
-const _DropdownListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const DropdownListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
   isShowContent,
   children,
   widthContainer = "320px",
@@ -38,5 +38,3 @@ const _DropdownListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
     </AnimationCustom>
   );
 };
-
-export const DropdownListWrapper = memo(_DropdownListWrapper);

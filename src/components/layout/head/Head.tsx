@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
 
 import { APP_NAME } from "@/constants";
@@ -6,7 +6,7 @@ import { APP_NAME } from "@/constants";
 type Props = {
   pageTitle: string;
 };
-const _Head: React.FC<Props> = ({ pageTitle }) => {
+export const Head: React.FC<Props> = ({ pageTitle }) => {
   const title = pageTitle ? `${pageTitle} | ${APP_NAME}` : APP_NAME;
   const description = "Symphony Software `with Powerful for Club";
 
@@ -19,5 +19,3 @@ const _Head: React.FC<Props> = ({ pageTitle }) => {
     </Helmet>
   );
 };
-
-export const Head = memo(_Head);

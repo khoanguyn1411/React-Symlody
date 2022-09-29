@@ -1,18 +1,17 @@
 import classNames from "classnames";
-import { memo } from "react";
 
 import { STYLE_INPUT_DEFAULT, TInputDefaultProps } from "../type";
 
-const _Input: React.FC<TInputDefaultProps> = ({
+export const Input: React.FC<TInputDefaultProps> = ({
   type,
   value = "",
   placeholder,
   style = "default",
   className,
   disable = false,
+  otherProps,
   onChange,
   onInputSideEffect,
-  otherProps,
 }) => {
   const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (onInputSideEffect) {
@@ -40,5 +39,3 @@ const _Input: React.FC<TInputDefaultProps> = ({
     />
   );
 };
-
-export const Input = memo(_Input);
