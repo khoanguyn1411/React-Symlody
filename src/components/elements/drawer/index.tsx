@@ -13,14 +13,14 @@ interface IProps {
   placement?: "left" | "right";
   level?: string;
   width?: string | number;
-  onClose: () => void;
-  afterVisibleChange?: (visible: boolean) => void;
   footer?: JSX.Element;
   id?: string;
   shouldResponsive?: boolean;
   className?: string;
   isBackdropBlur?: boolean;
   children: React.ReactNode;
+  onClose: () => void;
+  afterVisibleChange?: (visible: boolean) => void;
 }
 
 const Header = ({ title, subTitle, right, onClose, level }) => (
@@ -134,10 +134,7 @@ export const Drawer: React.FC<IProps> = ({
         />
       )}
 
-      <div
-        className="px-6 py-4 overflow-auto overflow-x-hidden"
-        style={{ height: maxHeight }}
-      >
+      <div className="px-6 py-4" style={{ height: maxHeight }}>
         {children}
       </div>
 
