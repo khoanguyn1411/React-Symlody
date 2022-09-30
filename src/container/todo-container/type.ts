@@ -3,8 +3,13 @@ import { TTodoCardProps } from "./todo-components/TodoCard";
 export enum ETodoStatus {
   Todo = "Cần làm",
   InProgress = "Đang làm",
-  Review = "Xem lại",
+  Review = "Kiểm duyệt",
   Done = "Đã xong",
+}
+
+export enum EPriority {
+  High = "Cao",
+  Normal = "Bình thường",
 }
 
 export enum ETodoStatusId {
@@ -41,3 +46,12 @@ export type TTodo = {
   id: string;
   columns: TTodoColumn[];
 };
+
+export interface IFormTodoInfo {
+  readonly name: string;
+  readonly priority: string;
+  readonly expiredDate: string;
+  readonly assignee: string;
+  readonly reporter: string;
+  readonly description: string;
+}

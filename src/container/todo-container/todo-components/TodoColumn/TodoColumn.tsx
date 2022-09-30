@@ -3,8 +3,9 @@ import { Container, Draggable, DropResult } from "react-smooth-dnd";
 
 import { SortService } from "@/utils";
 
-import { TTodoCard, TTodoColumn } from "../type";
-import { TodoCard } from "./TodoCard";
+import { TTodoCard, TTodoColumn } from "../../type";
+import { TodoCard } from "../TodoCard";
+import styles from "./TodoColumn.module.css";
 
 type TProps = {
   columnData: TTodoColumn;
@@ -30,7 +31,7 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, onCardDrop }) => {
 
   return (
     <div className="flex-1 h-full bg-gray-100  rounded-lg min-w-[200px]">
-      <div className="sticky top-0 z-10 bg-gray-50">
+      <div className="sticky top-0 z-[2] bg-gray-50">
         <h1 className="px-3 py-4 font-medium bg-gray-100 rounded-t-lg">
           {columnData.title}
         </h1>
@@ -46,6 +47,7 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, onCardDrop }) => {
           dropPlaceholder={{
             animationDuration: 150,
             showOnTop: true,
+            className: styles["drop-preview"],
           }}
           animationDuration={200}
         >

@@ -1,0 +1,6 @@
+.drop-preview {
+    background-color: rgba(150, 150, 200, 0.1);
+    border: 1px dashed #abc;
+    margin: 5px;
+    border-radius: 6px;
+  }

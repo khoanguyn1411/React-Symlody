@@ -8,11 +8,19 @@ import {
   Search,
   Sort,
 } from "@/components";
+import { useModal } from "@/hooks";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
 import { TodoBoard } from "./todo-components";
+import { ModalCreateTodo } from "./todo-modals";
 
 export const TodoContainer: React.FC = () => {
+  const propsModal = useModal({ isHotkeyOpen: true });
+
+  const handleOpenCreateTodoModal = () => {
+    propsModal.toggle.setShow();
+  };
+
   const isNoData = false;
   if (isNoData)
     return (
@@ -40,10 +48,13 @@ export const TodoContainer: React.FC = () => {
           <Button prefix={<i className="mr-2 fas fa-filter" />} style="none">
             Bộ lọc
           </Button>
-          <ButtonCreate>Tạo công việc</ButtonCreate>
+          <ButtonCreate onClick={handleOpenCreateTodoModal}>
+            Tạo công việc
+          </ButtonCreate>
         </Container.HeaderRight>
       </Container.Header>
       <TodoBoard />
+      <ModalCreateTodo {...propsModal} />
     </>
   );
 };
