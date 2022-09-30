@@ -1,13 +1,10 @@
 import React from "react";
-import { Controller, UseFormReturn } from "react-hook-form";
-
-import { FormItem, Input, Select } from "@/components";
-import { IMember } from "@/features/types";
+import { UseFormReturn } from "react-hook-form";
 
 import { IFormTodoInfo } from "../type";
 
 type TProps = {
-  data?: IMember;
+  data?: any;
   formProps: UseFormReturn<IFormTodoInfo>;
 };
 
@@ -31,7 +28,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
 
   return (
     <>
-      <FormItem label="Tên công việc" isRequired error={errors?.name.message}>
+      {/* <FormItem label="Tên công việc" isRequired error={errors?.name.message}>
         <Controller
           control={control}
           name="name"
@@ -74,7 +71,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             />
           )}
         />
-      </FormItem>
+      </FormItem> */}
     </>
   );
 };

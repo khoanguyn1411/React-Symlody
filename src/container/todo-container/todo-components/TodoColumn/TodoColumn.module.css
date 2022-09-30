@@ -4,3 +4,7 @@
   margin: 5px;
   border-radius: 6px;
 }
+
+.drag-card {
+  z-index: 9999;
+}

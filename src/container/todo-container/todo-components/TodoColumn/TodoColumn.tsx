@@ -30,35 +30,34 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, onCardDrop }) => {
   }, [columnData]);
 
   return (
-    <div className="relative">
-      <div className="sticky flex-1 h-full bg-gray-100 rounded-lg min-w-[200px]">
-        <div className="sticky top-0 z-10 bg-gray-50">
-          <h1 className="px-3 py-4 font-medium bg-gray-100 rounded-t-lg">
-            {columnData.title}
-          </h1>
-        </div>
+    <div className="flex-1 h-full bg-gray-100 rounded-lg min-w-[200px]">
+      <div className="sticky top-0 z-[2] bg-gray-50">
+        <h1 className="px-3 py-4 font-medium bg-gray-100 rounded-t-lg">
+          {columnData.title}
+        </h1>
+      </div>
 
-        <div className="flex flex-col px-3 pb-3">
-          <Container
-            style={{ minHeight: 130 }}
-            groupName={"symlody-cols"}
-            onDrop={handleCardDrop}
-            dragBeginDelay={50}
-            getChildPayload={getChildPayload}
-            dropPlaceholder={{
-              animationDuration: 150,
-              showOnTop: true,
-              className: styles["drop-preview"],
-            }}
-            animationDuration={200}
-          >
-            {listCard.map((cardProps) => (
-              <Draggable key={cardProps.id}>
-                <TodoCard {...cardProps} />
-              </Draggable>
-            ))}
-          </Container>
-        </div>
+      <div className="flex flex-col px-3 pb-3">
+        <Container
+          style={{ minHeight: 130 }}
+          groupName={"symlody-cols"}
+          onDrop={handleCardDrop}
+          dragBeginDelay={50}
+          getChildPayload={getChildPayload}
+          dragClass={styles["drag-card"]}
+          dropPlaceholder={{
+            animationDuration: 150,
+            showOnTop: true,
+            className: styles["drop-preview"],
+          }}
+          animationDuration={200}
+        >
+          {listCard.map((cardProps) => (
+            <Draggable key={cardProps.id}>
+              <TodoCard {...cardProps} />
+            </Draggable>
+          ))}
+        </Container>
       </div>
     </div>
   );
