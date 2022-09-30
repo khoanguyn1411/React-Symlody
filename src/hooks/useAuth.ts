@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { APP_CONSTANTS } from "@/constants";
+import { APP_LOCAL_STORAGE_KEYS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getMeAsync,
@@ -48,8 +48,9 @@ export const useAuth = () => {
 
   const getIsCompact = () => {
     const isCompact =
-      LocalStorageService.getValue<boolean>(APP_CONSTANTS.IS_COMPACT_SIDEBAR) ??
-      false;
+      LocalStorageService.getValue<boolean>(
+        APP_LOCAL_STORAGE_KEYS.IS_COMPACT_SIDEBAR
+      ) ?? false;
     dispatch(setIsCompactSidebar(isCompact));
   };
 

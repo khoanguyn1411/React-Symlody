@@ -1,5 +1,5 @@
 import { images } from "@/assets/images";
-import { TItemListSelect } from "@/components";
+import { TItemListSelect, TNodataConfig } from "@/components";
 
 import { TEventTable } from "./type";
 
@@ -27,12 +27,12 @@ export const TABLE_EVENT_DATA: TEventTable[] = [
   },
 ];
 
-export const EVENT_NO_DATA_CONFIG = {
+export const EVENT_NO_DATA_CONFIG: TNodataConfig = {
   title: "Tạo sự kiện",
   content: "Lên lịch và quản lý các sự kiện một cách dễ dàng và tiện lợi.",
   buttonTitle: "Tạo sự kiện",
   imageSrc: images.noData.event,
-} as const;
+};
 
 export const EVENT_STATUS_LIST_OPTIONS: TItemListSelect[] = [
   "Tất cả sự kiện",

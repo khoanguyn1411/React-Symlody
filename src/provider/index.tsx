@@ -4,13 +4,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { Icon } from "@/assets/icons";
 import { DatePortal } from "@/components";
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
-type AppProviderProps = {
-  children: React.ReactNode;
-};
-
-export const AppProvider = ({ children }: AppProviderProps) => {
+export const AppProvider: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <React.Suspense
       fallback={

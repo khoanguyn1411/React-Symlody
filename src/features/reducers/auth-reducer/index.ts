@@ -5,7 +5,7 @@ import { RootState } from "@/features/store";
 import { ILogin, IUser, UserMapper } from "@/features/types";
 import { LoginMapper } from "@/features/types/mappers/login.mapper";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 import { TokenService } from "@/utils";
 
 export type AuthState = {

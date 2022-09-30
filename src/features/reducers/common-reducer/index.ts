@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { APP_CONSTANTS } from "@/constants";
+import { APP_LOCAL_STORAGE_KEYS, APP_PAGINATION } from "@/constants";
 import { RootState } from "@/features/store";
 import { LocalStorageService } from "@/utils";
 
@@ -11,7 +11,7 @@ export type CommonState = {
 
 const initialState: CommonState = {
   isCompactSidebar: false,
-  paginationLimit: APP_CONSTANTS.DEFAULT_PAGINATION_LIMIT,
+  paginationLimit: APP_PAGINATION.DEFAULT_PAGINATION_LIMIT,
 };
 
 export const commonSlice = createSlice({
@@ -21,7 +21,7 @@ export const commonSlice = createSlice({
     toggleCompactSidebar: (state) => {
       state.isCompactSidebar = !state.isCompactSidebar;
       LocalStorageService.setValue<boolean>(
-        APP_CONSTANTS.IS_COMPACT_SIDEBAR,
+        APP_LOCAL_STORAGE_KEYS.IS_COMPACT_SIDEBAR,
         state.isCompactSidebar
       );
       setTimeout(() => {
@@ -31,14 +31,11 @@ export const commonSlice = createSlice({
     setIsCompactSidebar: (state, action: PayloadAction<boolean>) => {
       state.isCompactSidebar = action.payload;
     },
-    setPaginationLimit: (state, action: PayloadAction<number>) => {
-      state.paginationLimit = action.payload;
-    },
   },
 });
 export const commonStore = (state: RootState) => state.common;
 
-export const { setIsCompactSidebar, toggleCompactSidebar, setPaginationLimit } =
+export const { setIsCompactSidebar, toggleCompactSidebar } =
   commonSlice.actions;
 
 export default commonSlice.reducer;

@@ -1,2 +1,2 @@
-export * from "./select-display-wrapper";
-export * from "./select-list-wrapper";
+export * from "./SelectDisplayWrapper";
+export * from "./SelectListWrapper";

@@ -1,7 +1,7 @@
 import { GeneratorService } from "@/utils";
 
-import { ERolesDto, IAuthAccountDto } from "../dtos";
-import { ERoles, IAuthAccount } from "../models";
+import { ERolesDto, IMemberDto } from "../dtos";
+import { ERoles, IMember } from "../models";
 
 export const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
   [ERolesDto.EventManager]: ERoles.EventManager,
@@ -19,15 +19,11 @@ export const ROLE_MAP_TO_DTO = GeneratorService.generateReverseDto<
 >(ROLE_MAP_FROM_DTO, true);
 
 export class GroupMapper {
-  public static fromDto(
-    dto: IAuthAccountDto["groups"]
-  ): IAuthAccount["groups"] {
+  public static fromDto(dto: IMemberDto["groups"]): IMember["groups"] {
     return dto.map((id) => ROLE_MAP_FROM_DTO[id]);
   }
 
-  public static toDto(
-    model: IAuthAccount["groups"]
-  ): IAuthAccountDto["groups"] {
+  public static toDto(model: IMember["groups"]): IMemberDto["groups"] {
     const roleDto = model.map((model) => ROLE_MAP_TO_DTO[model] as ERolesDto);
     if (roleDto.includes(ERolesDto.Member)) {
       return roleDto;

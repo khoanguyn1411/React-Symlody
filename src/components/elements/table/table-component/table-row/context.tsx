@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-import { GlobalTypes } from "@/types";
+import { GlobalTypes } from "@/utils";
 
 type TPropsTableRowContext = {
   index?: number;

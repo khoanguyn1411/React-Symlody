@@ -3,6 +3,8 @@ import UploadPreview from "@rpldy/upload-preview";
 import Uploady from "@rpldy/uploady";
 import React, { useRef } from "react";
 
+import { EFile } from "@/constants";
+
 import { ButtonUpload } from "./UploadButton";
 import { ItemPreviewWithCrop } from "./UploadCrop";
 
@@ -22,7 +24,7 @@ export const AvatarUpload: React.FC<Props> = ({ onResponse, avatar, char }) => {
         onprogress: (props) => console.log(props),
       }}
       formatServerResponse={onResponse}
-      accept="image/*"
+      accept={EFile.Image}
       destination={{
         url: "",
         // headers: { Authorization: `Bearer ${Api.getToken()}` },

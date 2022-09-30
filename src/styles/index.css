@@ -53,6 +53,10 @@ ol {
   z-index: auto !important;
 }
 
+.SymphonyEditor .ck-editor__editable {
+  min-height: 150px;
+}
+
 /* Drawer */
 .drawer {
   position: fixed;

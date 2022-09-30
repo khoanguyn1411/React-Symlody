@@ -1,2 +1,2 @@
-export * from "./create-property";
-export * from "./edit-property";
+export * from "./ModalCreateProperty";
+export * from "./ModalEditProperty";

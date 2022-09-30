@@ -1,1 +1,1 @@
-export * from "./table-action";
+export * from "./TableCellAction";

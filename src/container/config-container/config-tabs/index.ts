@@ -1,2 +1,4 @@
-export * from "./config-department";
-export * from "./config-organization";
+export * from "./change-password";
+export * from "./department";
+export * from "./organization";
+export * from "./personal-info";

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 import { Avatar, SelectSearch } from "@/components";
 import { PLACEHOLDER_IMAGE } from "@/constants";
@@ -20,53 +20,44 @@ export const PropertyOwnerSelect: React.FC = () => {
   const [currentMemberList, setCurrentMemberList] =
     useState<IMember[]>(memberList);
 
-  const handleInputChange = useCallback(
-    (value: string): void => {
-      setInputValue(value);
-      setIsSearching(true);
-    },
-    [setInputValue]
-  );
+  const handleInputChange = (value: string): void => {
+    setInputValue(value);
+    setIsSearching(true);
+  };
 
-  const handleSearchValueChange = useCallback(
-    (value: string): void => {
-      if (!value) {
-        if (memberSelected) {
-          setCurrentMemberList(
-            memberList.filter((item) => item.id !== memberSelected.id)
-          );
-          return;
-        }
-        setCurrentMemberList(memberList);
+  const handleSearchValueChange = (value: string): void => {
+    if (!value) {
+      if (memberSelected) {
+        setCurrentMemberList(
+          memberList.filter((item) => item.id !== memberSelected.id)
+        );
         return;
       }
+      setCurrentMemberList(memberList);
+      return;
+    }
 
-      const newMemberFilterList = memberList.filter((item) =>
-        FormatService.toCleanedString(item.auth_account.full_name).includes(
-          FormatService.toCleanedString(value)
-        )
-      );
-      setCurrentMemberList(newMemberFilterList);
-    },
-    [memberList, memberSelected]
-  );
+    const newMemberFilterList = memberList.filter((item) =>
+      FormatService.toCleanedString(item.full_name).includes(
+        FormatService.toCleanedString(value)
+      )
+    );
+    setCurrentMemberList(newMemberFilterList);
+  };
 
-  const handleSelectMember = useCallback(
-    (member: IMember) => () => {
-      setMemberSelected(member);
-      setIsShowContent(false);
-      setInputValue(member.auth_account.full_name);
-    },
-    [setInputValue]
-  );
+  const handleSelectMember = (member: IMember) => () => {
+    setMemberSelected(member);
+    setIsShowContent(false);
+    setInputValue(member.full_name);
+  };
 
-  const handleClearMemberSelected = useCallback(() => {
+  const handleClearMemberSelected = () => {
     setMemberSelected(null);
-  }, []);
+  };
 
   useLayoutEffect(() => {
     if (!isShowContent && memberSelected) {
-      setInputValue(memberSelected.auth_account.full_name);
+      setInputValue(memberSelected.full_name);
       setIsSearching(false);
     }
     if (isShowContent && !isSearching) {
@@ -99,12 +90,11 @@ export const PropertyOwnerSelect: React.FC = () => {
             size="small"
             fullName={
               memberSelected &&
-              inputValue === memberSelected.auth_account.full_name &&
-              memberSelected.auth_account.first_name
+              inputValue === memberSelected.full_name &&
+              memberSelected.first_name
             }
             src={
-              (!memberSelected ||
-                inputValue !== memberSelected.auth_account.full_name) &&
+              (!memberSelected || inputValue !== memberSelected.full_name) &&
               PLACEHOLDER_IMAGE
             }
           />
@@ -117,18 +107,14 @@ export const PropertyOwnerSelect: React.FC = () => {
               "flex p-2 w-full space-x-3 items-center bg-primary-50"
             )}
           >
-            <Avatar
-              size="medium"
-              fullName={memberSelected.auth_account.first_name}
-              src=""
-            />
+            <Avatar size="medium" fullName={memberSelected.first_name} src="" />
             <div className="flex flex-col">
               <h1
                 className={classNames("text-left text-primary-800 font-medium")}
               >
-                {memberSelected.auth_account.full_name}
+                {memberSelected.full_name}
               </h1>
-              <h2 className="text-sm">{memberSelected.auth_account.email}</h2>
+              <h2 className="text-sm">{memberSelected.email}</h2>
             </div>
           </button>
         )}
@@ -144,11 +130,7 @@ export const PropertyOwnerSelect: React.FC = () => {
                 isSelectedItemInList && "bg-primary-50"
               )}
             >
-              <Avatar
-                size="medium"
-                fullName={item.auth_account.first_name}
-                src=""
-              />
+              <Avatar size="medium" fullName={item.first_name} src="" />
               <div className="flex flex-col">
                 <h1
                   className={classNames(
@@ -156,10 +138,10 @@ export const PropertyOwnerSelect: React.FC = () => {
                     isSelectedItemInList && "text-primary-800 font-medium"
                   )}
                 >
-                  {item.auth_account.full_name}
+                  {item.full_name}
                 </h1>
                 {isSelectedItemInList && (
-                  <h2 className="text-sm">{item.auth_account.email}</h2>
+                  <h2 className="text-sm">{item.email}</h2>
                 )}
               </div>
             </button>

@@ -1,1 +1,1 @@
-export * from "./pick-image";
+export * from "./PickImage";

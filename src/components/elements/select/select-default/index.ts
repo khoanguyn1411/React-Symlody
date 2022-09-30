@@ -1,1 +1,1 @@
-export * from "./select-default";
+export * from "./Select";

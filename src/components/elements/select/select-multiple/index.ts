@@ -1,1 +1,1 @@
-export * from "./select-multiple";
+export * from "./SelectMultiple";

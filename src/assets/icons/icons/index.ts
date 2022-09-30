@@ -1,6 +1,7 @@
 export * from "./bell";
 export * from "./bell";
 export * from "./calendar";
+export * from "./doubleArrowUp";
 export * from "./edit";
 export * from "./gear";
 export * from "./home";

@@ -13,7 +13,7 @@ export const STYLE_MAPS = {
 export const SIZE_MAPS = {
   small: "h-8 text-xs",
   default: "h-10",
-  large: "h12 text-lg",
+  large: "h-12 text-lg",
 } as const;
 
 export const BLOCK = {
@@ -30,5 +30,6 @@ export type TPropsButton = {
   size?: keyof typeof SIZE_MAPS;
   disable?: boolean;
   block?: boolean;
+  otherProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };

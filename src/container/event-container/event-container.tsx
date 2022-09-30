@@ -31,10 +31,7 @@ export const EventContainer: React.FC = () => {
     return (
       <>
         <NoData
-          imageSrc={EVENT_NO_DATA_CONFIG.imageSrc}
-          title={EVENT_NO_DATA_CONFIG.title}
-          buttonTitle={EVENT_NO_DATA_CONFIG.buttonTitle}
-          content={EVENT_NO_DATA_CONFIG.content}
+          data={EVENT_NO_DATA_CONFIG}
           onCreateNew={propsModalCreateEvent.toggle.setShow}
         />
         <ModalCreateEvent {...propsModalCreateEvent} />

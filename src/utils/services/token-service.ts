@@ -2,51 +2,49 @@ import { ApisauceInstance } from "apisauce";
 import { AxiosRequestConfig } from "axios";
 
 import { RequestRefreshResult, returnResponse } from "@/api";
-import { APP_CONSTANTS } from "@/constants";
+import { APP_LOCAL_STORAGE_KEYS } from "@/constants";
 import { IToken, ITokenRefreshDto } from "@/features/types";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 
-import { LocalStorageService } from "./local-storage-service";
+import { LocalStorageService } from ".";
 
 const routes = {
   refreshToken: () => `login/refresh/`,
 };
 
-export class TokenService {
-  public static shouldInterceptToken(request: AxiosRequestConfig): boolean {
-    if (request.url.includes("login") && request.method === "post") {
-      return false;
-    }
-    return true;
+export function shouldInterceptToken(request: AxiosRequestConfig): boolean {
+  if (request.url.includes("login") && request.method === "post") {
+    return false;
   }
+  return true;
+}
 
-  public static getToken(): IToken | null {
-    return LocalStorageService.getValue<IToken>(APP_CONSTANTS.AUTH);
-  }
+export function getToken(): IToken | null {
+  return LocalStorageService.getValue<IToken>(APP_LOCAL_STORAGE_KEYS.AUTH);
+}
 
-  public static setToken(token: IToken): void {
-    LocalStorageService.setValue<IToken>(APP_CONSTANTS.AUTH, token);
-  }
+export function setToken(token: IToken): void {
+  LocalStorageService.setValue<IToken>(APP_LOCAL_STORAGE_KEYS.AUTH, token);
+}
 
-  public static clearToken(): void {
-    LocalStorageService.remove(APP_CONSTANTS.AUTH);
-  }
+export function clearToken(): void {
+  LocalStorageService.remove(APP_LOCAL_STORAGE_KEYS.AUTH);
+}
 
-  public static isValid(): boolean {
-    const token = TokenService.getToken();
-    if (token == null) {
-      return false;
-    }
-    return true;
+export function isValid(): boolean {
+  const token = getToken();
+  if (token == null) {
+    return false;
   }
+  return true;
+}
 
-  public static async refreshToken(
-    token: IToken,
-    api: ApisauceInstance
-  ): Promise<RequestRefreshResult> {
-    const tokenRefreshDto = TokenMapper.toParamRefreshDto(token);
-    const url = routes.refreshToken();
-    const result = await api.post<ITokenRefreshDto>(url, tokenRefreshDto);
-    return returnResponse(result);
-  }
+export async function refreshToken(
+  token: IToken,
+  api: ApisauceInstance
+): Promise<RequestRefreshResult> {
+  const tokenRefreshDto = TokenMapper.toParamRefreshDto(token);
+  const url = routes.refreshToken();
+  const result = await api.post<ITokenRefreshDto>(url, tokenRefreshDto);
+  return returnResponse(result);
 }
