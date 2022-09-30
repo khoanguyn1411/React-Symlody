@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */ /* eslint-disable prettier/prettier */
-const SIDE_BAR_WIDTH = 256; //can be changed
-const SIDE_BAR_COMPACT_WIDTH = 72; //can be changed
+const SIDE_BAR_WIDTH = 256; //can't be changed
+const SIDE_BAR_COMPACT_WIDTH = 72; //can't be changed
 
-const HEADER_HEIGHT = 56; //can be changed
+const HEADER_HEIGHT = 56; //can't be changed
 
 const DEFAULT_PADDING = 20; //1rem - can be changed
 
