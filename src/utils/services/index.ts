@@ -1,3 +1,4 @@
+export * as CSSService from "./css-var-service";
 export * as FileService from "./file-service";
 export * as FilterService from "./filter-service";
 export * as FormService from "./form-service";
