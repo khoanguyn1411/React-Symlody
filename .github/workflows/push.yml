@@ -11,6 +11,7 @@ on:
 
 jobs:
   build:
+    name: build
     runs-on: ubuntu-latest
 
     strategy:
@@ -35,4 +36,32 @@ jobs:
           script: |
             cd ${{ secrets.PROJECT_DIR }}
             git pull origin release
+            yarn
+            yarn build
+
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_SERVER }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          username: halo
+          port: 22
+          script: |
             docker-compose up -d --no-deps --build clubui
+            docker image prune -f
