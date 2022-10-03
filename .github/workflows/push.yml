@@ -43,4 +43,4 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:release
       - name: Verify
-          run: echo ${{ steps.docker_build.outputs.digest }}
+      - run: echo ${{ steps.docker_build.outputs.digest }}
