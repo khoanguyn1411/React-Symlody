@@ -50,6 +50,7 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }}
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
 
     strategy:
