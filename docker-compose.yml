@@ -1,0 +1,15 @@
+version: "3.3"
+
+services:
+  symlody-fe:
+    image: haohuynh1101-symlody-fe:release
+    ports:
+      - 3000:3000
+    environment:
+      - WEB_GATEWAY_API=https://dev.simplamo.com
+      - BASE_PATH=
+
+    restart: unless-stopped
+
+
+
