@@ -9,13 +9,15 @@ RUN yarn install --frozen-lockfile
 # Rebuild the source code only when needed
 FROM node:14.18-alpine AS builder
 COPY . .
-COPY --from=deps /app/node_modules ./node_modules
+# COPY --from=deps /app/node_modules ./node_modules
 ARG MAX_OLD_SPACE_SIZE=8192
 ENV NODE_OPTIONS="--max-old-space-size=${MAX_OLD_SPACE_SIZE}"
 RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
 
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S reactjs -u 1001
+
+COPY --from=builder /app/craco.config.js ./
 
 USER reactjs
 
