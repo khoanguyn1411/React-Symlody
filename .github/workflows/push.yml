@@ -79,5 +79,5 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ${{ secrets.PROJECT_DIR }}
-            docker-compose up -d --build
+            docker-compose up -d --build symlody-fe
             docker image prune -f

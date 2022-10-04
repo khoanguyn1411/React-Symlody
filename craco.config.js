@@ -5,8 +5,8 @@ module.exports = {
         alias: {
             "@": path.resolve(__dirname, "src"),
         },
+        mode: 'development',
         devServer: {
-            host: '0.0.0.0',
             port: 3000
         }
     },
