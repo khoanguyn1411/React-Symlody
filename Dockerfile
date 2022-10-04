@@ -21,7 +21,7 @@ RUN addgroup -g 1001 -S nodejs
 RUN adduser -S reactjs -u 1001
 
 # You only need to copy next.config.js if you are NOT using the default configuration
-COPY --from=builder /app/craco.config.js ./
+COPY --from=build /app/craco.config.js ./
 
 
 USER reactjs

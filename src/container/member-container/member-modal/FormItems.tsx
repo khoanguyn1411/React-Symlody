@@ -172,7 +172,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           defaultValue={defaultValue.get("department")}
           render={({ field: { value, onChange } }) => (
             <Select
-              list={departmentStore.department.map((item) => ({
+              list={departmentStore.departments.map((item) => ({
                 value: item.name,
               }))}
               isLoading={departmentStore.pending}

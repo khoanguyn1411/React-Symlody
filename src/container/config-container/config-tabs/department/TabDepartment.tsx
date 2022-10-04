@@ -1,37 +1,31 @@
-import React from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import React, { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 
-import { Button, DeleteAndEditField, Modal, Table } from "@/components";
+import {
+  Button,
+  DeleteAndEditField,
+  FormItem,
+  Input,
+  Modal,
+  Table,
+} from "@/components";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { getDepartmentAsync } from "@/features/reducers";
 import { useModal } from "@/hooks";
 
-export const TabConfigDepartment: React.FC = () => {
-  const listTest = [
-    {
-      department: "Test department",
-      totalMember: 123,
-      dateCreated: "12/3/2022",
-    },
-    {
-      department: "Test department",
-      totalMember: 123,
-      dateCreated: "12/3/2022",
-    },
+import { schema } from "./schema";
+import { IFormDepartment } from "./types";
 
-    {
-      department: "Test department",
-      totalMember: 123,
-      dateCreated: "12/3/2022",
-    },
-    {
-      department: "Test department",
-      totalMember: 123,
-      dateCreated: "12/3/2022",
-    },
-    {
-      department: "Test department",
-      totalMember: 123,
-      dateCreated: "12/3/2022",
-    },
-  ];
+export const TabConfigDepartment: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const departmentState = useAppSelector((state) => state.department);
+
+  useEffect(() => {
+    dispatch(getDepartmentAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
       <Table.Container>
@@ -49,22 +43,22 @@ export const TabConfigDepartment: React.FC = () => {
           <Table.CellHeadAction />
         </Table.Head>
         <Table.Body>
-          {listTest.map((item, index) => (
-            <Table.Row key={`${item.department}-${index}`}>
+          {departmentState.departments.map((item, index) => (
+            <Table.Row key={`${item.id}-${index}`}>
               <Table.Cell width="5rem" textAlign="center">
                 {index + 1}
               </Table.Cell>
               <Table.Cell>
                 <div className="flex items-center gap-4">
                   <div className="w-8 h-8 rounded-full bg-primary-600" />
-                  <p>{item.department}</p>
+                  <p>{item.name}</p>
                 </div>
               </Table.Cell>
               <Table.Cell width="10rem" textAlign="right">
-                {item.totalMember}
+                10
               </Table.Cell>
               <Table.Cell width="8rem" textAlign="right">
-                {item.dateCreated}
+                10
               </Table.Cell>
               <Table.CellAction>
                 <DeleteAndEditField
@@ -88,13 +82,25 @@ export const TabConfigDepartment: React.FC = () => {
 };
 
 export const ActionConfigDepartment: React.FC = () => {
+  const propsForm = useForm<IFormDepartment>({
+    resolver: yupResolver(schema),
+  });
+  const {
+    handleSubmit,
+    control,
+
+    formState: { isSubmitting, errors },
+  } = propsForm;
+
   const { toggle, isShowing } = useModal();
   const handleToggleModal = () => {
     toggle.setToggle();
   };
+
   const handleCreateDepartment = () => {
     //TODO: Handle create department.
   };
+
   return (
     <>
       <Button
@@ -105,14 +111,51 @@ export const ActionConfigDepartment: React.FC = () => {
       </Button>
       <Modal
         handleEvent={{
-          event: handleCreateDepartment,
+          title: "Cập nhật",
+          event: handleSubmit(handleCreateDepartment),
+          isLoading: isSubmitting,
+          isDisable: false,
         }}
         size="lg"
         title={"Tạo phòng ban"}
         isShowing={isShowing}
         toggle={toggle}
       >
-        <div>Demo phong ban</div>
+        <FormItem label="Tên ban" isRequired error={errors.name?.message}>
+          <Controller
+            control={control}
+            name="name"
+            defaultValue={""}
+            render={({ field: { value, onChange } }) => (
+              <Input
+                style="modal"
+                value={value}
+                onChange={onChange}
+                placeholder="Tên ban"
+              />
+            )}
+          />
+        </FormItem>
+
+        <FormItem
+          label="Tên viết tắt"
+          isRequired
+          error={errors.abbreviation_name?.message}
+        >
+          <Controller
+            control={control}
+            name="abbreviation_name"
+            defaultValue={""}
+            render={({ field: { value, onChange } }) => (
+              <Input
+                style="modal"
+                value={value}
+                onChange={onChange}
+                placeholder="Tên viết tắt"
+              />
+            )}
+          />
+        </FormItem>
       </Modal>
     </>
   );

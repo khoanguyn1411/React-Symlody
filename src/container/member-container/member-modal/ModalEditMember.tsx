@@ -34,7 +34,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
 
   const handleEditMember = async (editInfo: IFormMemberInfo) => {
     const memberModel: IMemberCreateUpdate = MemberFormMapper.toModel(
-      departmentStore.department,
+      departmentStore.departments,
       editInfo
     );
     const result = await dispatch(
