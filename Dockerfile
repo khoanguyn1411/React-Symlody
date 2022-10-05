@@ -16,14 +16,18 @@ COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 ARG MAX_OLD_SPACE_SIZE=8192
 ENV NODE_OPTIONS="--max-old-space-size=${MAX_OLD_SPACE_SIZE}"
-RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
+
+
+COPY ./public /usr/src/app/public
+COPY ./src /usr/src/app/src
+COPY ./craco.config.js /usr/src/app/
+
+# RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
 
 
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S reactjs -u 1001
 
-# You only need to copy next.config.js if you are NOT using the default configuration
-COPY --from=build /app/craco.config.js ./
 
 
 USER reactjs
