@@ -28,7 +28,7 @@ const TabCreateAMember: React.FC = () => {
 
   const handleCreateMember = async (data: IFormMemberInfo) => {
     const memberModel = MemberFormMapper.toModel(
-      departmentStore.department,
+      departmentStore.departments,
       data
     );
     const res = await dispatch(createMemberAsync(memberModel));

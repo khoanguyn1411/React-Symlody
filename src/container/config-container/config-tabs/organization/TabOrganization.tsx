@@ -3,7 +3,9 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { images } from "@/assets/images";
-import { AvatarUpload, Editor, FormItem, Input } from "@/components";
+import { AvatarUpload, FormItem, Input } from "@/components";
+import { useAppSelector } from "@/features";
+import { FormService } from "@/utils";
 
 import {
   ConfigSplitColumn,
@@ -14,6 +16,8 @@ import { schema } from "./schema";
 import { IFormOrganizationConfig } from "./type";
 
 export const TabOrganization: React.FC = () => {
+  const { tenant } = useAppSelector((state) => state.department);
+
   const {
     control,
     formState: { errors },
@@ -34,9 +38,14 @@ export const TabOrganization: React.FC = () => {
     //TODO: Implement edit info feature of organization module.
   };
 
+  const defaultValue =
+    FormService.getDefaultValues<IFormOrganizationConfig>(tenant);
+
+  if (!tenant) return null;
+
   return (
     <ConfigTabContentContainer onSubmit={handleSubmit(handleEditOrgInfo)}>
-      <FormItem label="Logo tổ chức">
+      <FormItem label="Ảnh đại diện tổ chức">
         <AvatarUpload
           char=""
           avatar={avatar || images.Logo}
@@ -48,7 +57,7 @@ export const TabOrganization: React.FC = () => {
           <Controller
             control={control}
             name="name"
-            defaultValue=""
+            defaultValue={defaultValue.get("name")}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Tên tổ chức"
@@ -62,12 +71,12 @@ export const TabOrganization: React.FC = () => {
         <FormItem
           label="Tên viết tắt"
           isRequired
-          error={errors.shortName?.message}
+          error={errors.abbreviation_name?.message}
         >
           <Controller
             control={control}
-            name="shortName"
-            defaultValue=""
+            name="abbreviation_name"
+            defaultValue={defaultValue.get("abbreviation_name")}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Tên viết tẳt"
@@ -78,7 +87,10 @@ export const TabOrganization: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem label="Địa chỉ mail" isRequired error={errors.email?.message}>
+        <FormItem
+          label="Địa chỉ mail"
+          // isRequired error={errors.email?.message}
+        >
           <Controller
             control={control}
             name="email"
@@ -95,8 +107,8 @@ export const TabOrganization: React.FC = () => {
 
         <FormItem
           label="Số điện thoại"
-          isRequired
-          error={errors.phone?.message}
+          // isRequired
+          // error={errors.phone?.message}
         >
           <Controller
             control={control}
@@ -114,8 +126,8 @@ export const TabOrganization: React.FC = () => {
 
         <FormItem
           label="Trực thuộc trường"
-          isRequired
-          error={errors.schoolBelonged?.message}
+          // isRequired
+          // error={errors.schoolBelonged?.message}
         >
           <Controller
             control={control}
@@ -131,7 +143,10 @@ export const TabOrganization: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem label="Địa chỉ" isRequired error={errors.address?.message}>
+        <FormItem
+          label="Địa chỉ"
+          // isRequired error={errors.address?.message}
+        >
           <Controller
             control={control}
             name="address"
@@ -143,7 +158,7 @@ export const TabOrganization: React.FC = () => {
         </FormItem>
       </ConfigSplitColumn>
 
-      <FormItem label="Giới thiệu tổ chức" error={errors.description?.message}>
+      {/* <FormItem label="Giới thiệu tổ chức" error={errors.description?.message}>
         <Controller
           control={control}
           name="description"
@@ -152,7 +167,7 @@ export const TabOrganization: React.FC = () => {
             <Editor value={value} onChange={onChange} />
           )}
         />
-      </FormItem>
+      </FormItem> */}
       <ConfigSubmitButton>Lưu</ConfigSubmitButton>
     </ConfigTabContentContainer>
   );

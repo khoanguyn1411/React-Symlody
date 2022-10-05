@@ -1,18 +1,22 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { DepartmentApi } from "@/api/department-api";
+import { ConfigApi } from "@/api";
 import { RootState } from "@/features/store";
-import { DepartmentMapper, IDepartment } from "@/features/types";
+import { DepartmentMapper, IDepartment, ITenant } from "@/features/types";
 import { GlobalTypes } from "@/utils";
 
 export type DepartmentState = {
   pending: boolean;
-  department: IDepartment[];
+  departments: IDepartment[];
+  department: IDepartment;
+  tenant: ITenant;
 };
 
 const initialState: DepartmentState = {
   pending: false,
-  department: [],
+  departments: [],
+  department: null,
+  tenant: null,
 };
 
 export const getDepartmentAsync = createAsyncThunk<
@@ -20,7 +24,7 @@ export const getDepartmentAsync = createAsyncThunk<
   null,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/department", async (payload, { rejectWithValue }) => {
-  const result = await DepartmentApi.getDepartments();
+  const result = await ConfigApi.getDepartments();
   if (result.kind === "ok") {
     return result.result.map((item) => DepartmentMapper.fromDto(item));
   }
@@ -28,10 +32,32 @@ export const getDepartmentAsync = createAsyncThunk<
   return rejectWithValue([]);
 });
 
+export const getTenantAsync = createAsyncThunk<
+  ITenant,
+  null,
+  GlobalTypes.ReduxThunkRejectValue<null>
+>("get/tenant", async (payload, { rejectWithValue }) => {
+  const result = await ConfigApi.getTenant();
+  if (result.kind === "ok") {
+    return result.result;
+  }
+
+  return rejectWithValue(null);
+});
+
 export const departmentSlice = createSlice({
   name: "department",
   initialState,
-  reducers: {},
+  reducers: {
+    getDepartment: (state, action: PayloadAction<{ id: number }>) => {
+      const department = state.departments.find(
+        (d) => d.id === action.payload.id
+      );
+      if (department) {
+        state.department = department;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getDepartmentAsync.pending, (state) => {
@@ -39,11 +65,23 @@ export const departmentSlice = createSlice({
       })
       .addCase(getDepartmentAsync.fulfilled, (state, action) => {
         state.pending = false;
-        state.department = action.payload;
+        state.departments = action.payload;
       })
       .addCase(getDepartmentAsync.rejected, (state) => {
         state.pending = false;
-        state.department = [];
+        state.departments = [];
+      })
+      //get tenant
+      .addCase(getTenantAsync.pending, (state) => {
+        state.pending = true;
+      })
+      .addCase(getTenantAsync.fulfilled, (state, action) => {
+        state.pending = false;
+        state.tenant = action.payload;
+      })
+      .addCase(getTenantAsync.rejected, (state) => {
+        state.pending = false;
+        state.tenant = null;
       });
   },
 });

@@ -36,9 +36,12 @@ export const SidebarDesktop: React.FC<TProps> = ({
       )}
     >
       <div
-        className={classNames("h-screen flex flex-col items-center px-3 py-2", {
-          "pr-4": !isCompactSidebar,
-        })}
+        className={classNames(
+          "h-screen flex flex-col items-center px-3 py-2 overflow-auto",
+          {
+            "pr-4": !isCompactSidebar,
+          }
+        )}
       >
         <div
           className={classNames(

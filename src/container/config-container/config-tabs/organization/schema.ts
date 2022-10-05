@@ -8,13 +8,11 @@ export const schema: yup.SchemaOf<IFormOrganizationConfig> = yup
   .object()
   .shape({
     name: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-    shortName: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-    email: yup
-      .string()
-      .email(APP_ERROR_MESSAGE.EMAIL)
-      .required(APP_ERROR_MESSAGE.REQUIRED),
-    phone: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-    schoolBelonged: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-    address: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-    description: yup.string().notRequired(),
+    abbreviation_name: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+    email: yup.string().email(APP_ERROR_MESSAGE.EMAIL),
+
+    phone: yup.string(),
+    schoolBelonged: yup.string(),
+    address: yup.string(),
+    // description: yup.string().notRequired(),
   });
