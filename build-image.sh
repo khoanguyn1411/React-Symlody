@@ -2,7 +2,7 @@
 # with name is DOCKER_IMAGE and Tag of Docker Image is Git Branch Name
 
 REGISTRY=haohuynh1101
-DOCKER_IMAGE=symphomu
+DOCKER_IMAGE=symlody-fe
 
 # Replace "/" by "-", because docker tag does not allow "/"
 ORIGINAL_BRAND_NAME=$(git symbolic-ref --short HEAD)
