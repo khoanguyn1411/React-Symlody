@@ -10,6 +10,8 @@ RUN yarn install --frozen-lockfile
 # Rebuild the source code only when needed
 FROM node:14.18-alpine AS builder
 WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 ARG MAX_OLD_SPACE_SIZE=8192
