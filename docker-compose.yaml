@@ -3,15 +3,11 @@ version: "3.3"
 services:
   symlody-fe:
     container_name: symlody_ui
-    image: haohuynh1101-symlody-fe:release
+    image: haohuynh1101/symlody-fe:release
     ports:
       - 3000:3000
     environment:
       - REACT_APP_WEB_API: https://be.simlody.com
-      - REACT_APP_WEB_API_LOCAL: http://localhost:8888
-      - REACT_APP_IS_PRODUCT: 'true'
+      - REACT_APP_IS_PRODUCT: "true"
 
     restart: unless-stopped
-
-
-
