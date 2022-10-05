@@ -6,6 +6,6 @@ export * from "./api-problem";
 export * from "./api-utilities";
 //api
 export * from "./auth-api";
-export * from "./department-api";
 export * from "./member-api";
 export * from "./property-api";
+export * from "./tenant-api";

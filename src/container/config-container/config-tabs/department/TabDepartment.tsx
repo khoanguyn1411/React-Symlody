@@ -1,33 +1,38 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
-import {
-  Button,
-  DeleteAndEditField,
-  FormItem,
-  Input,
-  Modal,
-  Table,
-} from "@/components";
+import { Button, DeleteAndEditField, Modal, Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getDepartmentAsync } from "@/features/reducers";
+import { IDepartment } from "@/features/types";
 import { useModal } from "@/hooks";
 
+import { FormItems } from "./FormItems";
+import { ModalEditDepartment } from "./ModalEditDepartment";
 import { schema } from "./schema";
 import { IFormDepartment } from "./types";
 
 export const TabConfigDepartment: React.FC = () => {
   const dispatch = useAppDispatch();
   const departmentState = useAppSelector((state) => state.department);
+  const propsModalEditDepartment = useModal<IDepartment>();
 
   useEffect(() => {
     dispatch(getDepartmentAsync());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleEdit = (id: number) => {
+    const department = departmentState.departments.find((d) => d.id === id);
+    if (department) {
+      propsModalEditDepartment.setData(department);
+      propsModalEditDepartment.toggle.setShow();
+    }
+  };
+
   return (
-    <div>
+    <>
       <Table.Container>
         <Table.Head>
           <Table.CellHead isFirst width="5rem" textAlign="center">
@@ -65,7 +70,7 @@ export const TabConfigDepartment: React.FC = () => {
                   title={"Xóa phòng ban?"}
                   handleEvent={{
                     edit: function (): void {
-                      throw new Error("Function not implemented.");
+                      handleEdit(item.id);
                     },
                     delete: function (): void {
                       throw new Error("Function not implemented.");
@@ -77,7 +82,9 @@ export const TabConfigDepartment: React.FC = () => {
           ))}
         </Table.Body>
       </Table.Container>
-    </div>
+
+      <ModalEditDepartment {...propsModalEditDepartment} />
+    </>
   );
 };
 
@@ -87,9 +94,8 @@ export const ActionConfigDepartment: React.FC = () => {
   });
   const {
     handleSubmit,
-    control,
 
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = propsForm;
 
   const { toggle, isShowing } = useModal();
@@ -111,7 +117,7 @@ export const ActionConfigDepartment: React.FC = () => {
       </Button>
       <Modal
         handleEvent={{
-          title: "Cập nhật",
+          title: "Tạo",
           event: handleSubmit(handleCreateDepartment),
           isLoading: isSubmitting,
           isDisable: false,
@@ -121,41 +127,7 @@ export const ActionConfigDepartment: React.FC = () => {
         isShowing={isShowing}
         toggle={toggle}
       >
-        <FormItem label="Tên ban" isRequired error={errors.name?.message}>
-          <Controller
-            control={control}
-            name="name"
-            defaultValue={""}
-            render={({ field: { value, onChange } }) => (
-              <Input
-                style="modal"
-                value={value}
-                onChange={onChange}
-                placeholder="Tên ban"
-              />
-            )}
-          />
-        </FormItem>
-
-        <FormItem
-          label="Tên viết tắt"
-          isRequired
-          error={errors.abbreviation_name?.message}
-        >
-          <Controller
-            control={control}
-            name="abbreviation_name"
-            defaultValue={""}
-            render={({ field: { value, onChange } }) => (
-              <Input
-                style="modal"
-                value={value}
-                onChange={onChange}
-                placeholder="Tên viết tắt"
-              />
-            )}
-          />
-        </FormItem>
+        <FormItems formProps={propsForm} />
       </Modal>
     </>
   );

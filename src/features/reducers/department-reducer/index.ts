@@ -1,20 +1,22 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { DepartmentApi } from "@/api/department-api";
+import { TenantApi } from "@/api";
 import { RootState } from "@/features/store";
-import { DepartmentMapper, IDepartment } from "@/features/types";
+import { DepartmentMapper, IDepartment, ITenant } from "@/features/types";
 import { GlobalTypes } from "@/utils";
 
 export type DepartmentState = {
   pending: boolean;
   departments: IDepartment[];
   department: IDepartment;
+  tenant: ITenant;
 };
 
 const initialState: DepartmentState = {
   pending: false,
   departments: [],
   department: null,
+  tenant: null,
 };
 
 export const getDepartmentAsync = createAsyncThunk<
@@ -22,12 +24,25 @@ export const getDepartmentAsync = createAsyncThunk<
   null,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/department", async (payload, { rejectWithValue }) => {
-  const result = await DepartmentApi.getDepartments();
+  const result = await TenantApi.getDepartments();
   if (result.kind === "ok") {
     return result.result.map((item) => DepartmentMapper.fromDto(item));
   }
 
   return rejectWithValue([]);
+});
+
+export const getTenantAsync = createAsyncThunk<
+  ITenant,
+  null,
+  GlobalTypes.ReduxThunkRejectValue<null>
+>("get/tenant", async (payload, { rejectWithValue }) => {
+  const result = await TenantApi.getTenant();
+  if (result.kind === "ok") {
+    return result.result;
+  }
+
+  return rejectWithValue(null);
 });
 
 export const departmentSlice = createSlice({
@@ -55,6 +70,18 @@ export const departmentSlice = createSlice({
       .addCase(getDepartmentAsync.rejected, (state) => {
         state.pending = false;
         state.departments = [];
+      })
+      //get tenant
+      .addCase(getTenantAsync.pending, (state) => {
+        state.pending = true;
+      })
+      .addCase(getTenantAsync.fulfilled, (state, action) => {
+        state.pending = false;
+        state.tenant = action.payload;
+      })
+      .addCase(getTenantAsync.rejected, (state) => {
+        state.pending = false;
+        state.tenant = null;
       });
   },
 });

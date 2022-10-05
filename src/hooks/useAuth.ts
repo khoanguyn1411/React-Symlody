@@ -4,6 +4,7 @@ import { APP_LOCAL_STORAGE_KEYS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getMeAsync,
+  getTenantAsync,
   logout,
   setIsAuth,
   setIsCompactSidebar,
@@ -34,6 +35,7 @@ export const useAuth = () => {
       setIsLoading(false);
       if (res.payload) {
         dispatch(setIsAuth(true));
+        dispatch(getTenantAsync());
         isAlreadyGetMe.current = true;
         return;
       }
