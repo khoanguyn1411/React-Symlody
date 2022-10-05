@@ -12,7 +12,7 @@ const routes = {
   getTenant: () => `config/`,
 };
 
-export const TenantApi = {
+export const ConfigApi = {
   async getDepartments(): Promise<Types.RequestGetDepartmentResult> {
     const url = routes.getDepartments();
     const result: ApiResponse<IDepartmentDto[]> = await Api.http.get(url);

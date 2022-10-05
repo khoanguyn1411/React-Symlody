@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { TenantApi } from "@/api";
+import { ConfigApi } from "@/api";
 import { RootState } from "@/features/store";
 import { DepartmentMapper, IDepartment, ITenant } from "@/features/types";
 import { GlobalTypes } from "@/utils";
@@ -24,7 +24,7 @@ export const getDepartmentAsync = createAsyncThunk<
   null,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/department", async (payload, { rejectWithValue }) => {
-  const result = await TenantApi.getDepartments();
+  const result = await ConfigApi.getDepartments();
   if (result.kind === "ok") {
     return result.result.map((item) => DepartmentMapper.fromDto(item));
   }
@@ -37,7 +37,7 @@ export const getTenantAsync = createAsyncThunk<
   null,
   GlobalTypes.ReduxThunkRejectValue<null>
 >("get/tenant", async (payload, { rejectWithValue }) => {
-  const result = await TenantApi.getTenant();
+  const result = await ConfigApi.getTenant();
   if (result.kind === "ok") {
     return result.result;
   }
