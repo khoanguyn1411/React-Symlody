@@ -41,6 +41,7 @@ export const getMembersAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/members", async (param, { rejectWithValue }) => {
   const result = await MemberApi.getMembers(param);
+  console.log(result);
   if (result.kind === "ok") {
     return result.result.map((item) => MemberMapper.fromDto(item));
   }
@@ -98,10 +99,10 @@ export const memberSlice = createSlice({
         return;
       }
       const listMemberAfterFilterByName = state.currentMemberList.filter(
-        (item) => FilterService.fromText(item.full_name, search)
+        (item) => FilterService.fromText(item.auth_account.full_name, search)
       );
       const listMemberAfterFilterByEmail = state.currentMemberList.filter(
-        (item) => FilterService.fromText(item.email, search)
+        (item) => FilterService.fromText(item.auth_account.email, search)
       );
 
       const newMemberList = GeneratorService.generateArrayWithNoDuplicate(

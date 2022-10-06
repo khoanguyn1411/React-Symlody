@@ -38,7 +38,7 @@ export const PropertyOwnerSelect: React.FC = () => {
     }
 
     const newMemberFilterList = memberList.filter((item) =>
-      FormatService.toCleanedString(item.full_name).includes(
+      FormatService.toCleanedString(item.auth_account.full_name).includes(
         FormatService.toCleanedString(value)
       )
     );
@@ -48,7 +48,7 @@ export const PropertyOwnerSelect: React.FC = () => {
   const handleSelectMember = (member: IMember) => () => {
     setMemberSelected(member);
     setIsShowContent(false);
-    setInputValue(member.full_name);
+    setInputValue(member.auth_account.full_name);
   };
 
   const handleClearMemberSelected = () => {
@@ -57,7 +57,7 @@ export const PropertyOwnerSelect: React.FC = () => {
 
   useLayoutEffect(() => {
     if (!isShowContent && memberSelected) {
-      setInputValue(memberSelected.full_name);
+      setInputValue(memberSelected.auth_account.full_name);
       setIsSearching(false);
     }
     if (isShowContent && !isSearching) {
@@ -90,11 +90,12 @@ export const PropertyOwnerSelect: React.FC = () => {
             size="small"
             fullName={
               memberSelected &&
-              inputValue === memberSelected.full_name &&
-              memberSelected.first_name
+              inputValue === memberSelected.auth_account.full_name &&
+              memberSelected.auth_account.first_name
             }
             src={
-              (!memberSelected || inputValue !== memberSelected.full_name) &&
+              (!memberSelected ||
+                inputValue !== memberSelected.auth_account.full_name) &&
               PLACEHOLDER_IMAGE
             }
           />
@@ -107,14 +108,18 @@ export const PropertyOwnerSelect: React.FC = () => {
               "flex p-2 w-full space-x-3 items-center bg-primary-50"
             )}
           >
-            <Avatar size="medium" fullName={memberSelected.first_name} src="" />
+            <Avatar
+              size="medium"
+              fullName={memberSelected.auth_account.first_name}
+              src=""
+            />
             <div className="flex flex-col">
               <h1
                 className={classNames("text-left text-primary-800 font-medium")}
               >
-                {memberSelected.full_name}
+                {memberSelected.auth_account.full_name}
               </h1>
-              <h2 className="text-sm">{memberSelected.email}</h2>
+              <h2 className="text-sm">{memberSelected.auth_account.email}</h2>
             </div>
           </button>
         )}
@@ -130,7 +135,11 @@ export const PropertyOwnerSelect: React.FC = () => {
                 isSelectedItemInList && "bg-primary-50"
               )}
             >
-              <Avatar size="medium" fullName={item.first_name} src="" />
+              <Avatar
+                size="medium"
+                fullName={item.auth_account.first_name}
+                src=""
+              />
               <div className="flex flex-col">
                 <h1
                   className={classNames(
@@ -138,10 +147,10 @@ export const PropertyOwnerSelect: React.FC = () => {
                     isSelectedItemInList && "text-primary-800 font-medium"
                   )}
                 >
-                  {item.full_name}
+                  {item.auth_account.full_name}
                 </h1>
                 {isSelectedItemInList && (
-                  <h2 className="text-sm">{item.email}</h2>
+                  <h2 className="text-sm">{item.auth_account.email}</h2>
                 )}
               </div>
             </button>

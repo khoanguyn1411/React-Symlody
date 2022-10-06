@@ -1,9 +1,17 @@
 export enum ERolesDto {
-  SystemAdmin = 1,
-  Lead = 2,
-  MemberManager = 3,
-  PropertyManager = 4,
-  NotificationManager = 5,
-  EventManager = 6,
-  Member = 7,
+  SystemAdmin = "system_admin",
+  Lead = "lead",
+  MemberManager = "member_manager",
+  PropertyManager = "property_manager",
+  NotificationManager = "notification_manager",
+  EventManager = "event_manager",
+  Member = "member",
+}
+export interface IGroupDto {
+  readonly id: number;
+  readonly name: string;
+}
+
+export interface IGroupCreateUpdateDto {
+  readonly name: string;
 }
