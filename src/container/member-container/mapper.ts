@@ -1,6 +1,5 @@
 import {
   ERoles,
-  ERolesID,
   IDepartment,
   IDepartmentCreateUpdate,
   IMember,
@@ -14,14 +13,14 @@ export class MemberFormMapper {
   /** Use for map data from form values to member model. */
   public static toModel(
     departmentModel: IDepartment[],
-    formData: IFormMemberInfo
+    formData: IFormMemberInfo,
+    isArchived: IMember["is_archived"]
   ): IMemberCreateUpdate {
     return {
       auth_account: {
         first_name: formData.firstName,
         last_name: formData.lastName,
         email: formData.email,
-        groups: [{ id: ERolesID.Member, name: ERoles.Member }],
         full_name: GeneratorService.generateFullName(
           formData.lastName,
           formData.firstName
@@ -39,7 +38,7 @@ export class MemberFormMapper {
         departmentModel,
         formData.department
       ),
-      is_archived: false,
+      is_archived: isArchived,
     };
   }
   /** Use for map data from model to form values. */

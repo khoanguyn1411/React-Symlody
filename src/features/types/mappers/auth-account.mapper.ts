@@ -1,6 +1,10 @@
 import { GeneratorService } from "@/utils";
 
-import { ERolesDto, IAuthAccountDto } from "../dtos";
+import {
+  ERolesDto,
+  IAuthAccountCreateUpdateDto,
+  IAuthAccountDto,
+} from "../dtos";
 import { IAuthAccount, IGroup } from "../models";
 import { GroupMapper } from "./group.mapper";
 
@@ -16,7 +20,7 @@ export class AuthAccountMapper {
     };
   }
 
-  public static toDto(model: IAuthAccount): IAuthAccountDto {
+  public static toDto(model: IAuthAccount): IAuthAccountCreateUpdateDto {
     let groupMapped = model.groups.map((item) => GroupMapper.toDto(item));
     const groupMappedName = groupMapped.map((item) => item.name as ERolesDto);
     if (!groupMappedName.includes(ERolesDto.Member)) {
@@ -24,7 +28,6 @@ export class AuthAccountMapper {
     }
     return {
       ...model,
-      groups: groupMapped,
     };
   }
 }

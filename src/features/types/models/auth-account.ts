@@ -1,3 +1,5 @@
+import { GlobalTypes } from "@/utils";
+
 import { IGroup } from "./group";
 
 export interface IAuthAccount {
@@ -7,3 +9,8 @@ export interface IAuthAccount {
   readonly last_name: string;
   readonly full_name: string;
 }
+
+export type IAuthAccountCreateUpdate = GlobalTypes.StrictOmit<
+  IAuthAccount,
+  "groups"
+>;

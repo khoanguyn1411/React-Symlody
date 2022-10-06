@@ -1,8 +1,10 @@
-import { IAuthAccountDto } from "./auth-account.dto";
+import {
+  IAuthAccountCreateUpdateDto,
+  IAuthAccountDto,
+} from "./auth-account.dto";
 import { IDepartmentCreateUpdateDto, IDepartmentDto } from "./department.dto";
 
 interface IMemberGeneralDto {
-  readonly auth_account: IAuthAccountDto;
   readonly gender: number;
   readonly class_name: string;
   readonly student_id: string;
@@ -15,6 +17,7 @@ interface IMemberGeneralDto {
 }
 
 export interface IMemberDto extends IMemberGeneralDto {
+  readonly auth_account: IAuthAccountDto;
   readonly id: number;
   readonly last_modified_date: string;
   readonly created_by: {
@@ -25,5 +28,6 @@ export interface IMemberDto extends IMemberGeneralDto {
 }
 
 export interface IMemberCreateUpdateDto extends IMemberGeneralDto {
+  readonly auth_account: IAuthAccountCreateUpdateDto;
   readonly department: IDepartmentCreateUpdateDto;
 }

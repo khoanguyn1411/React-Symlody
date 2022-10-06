@@ -1,8 +1,7 @@
-import { IAuthAccount } from "./auth-account";
+import { IAuthAccount, IAuthAccountCreateUpdate } from "./auth-account";
 import { IDepartment, IDepartmentCreateUpdate } from "./department";
 
 interface IMemberGeneral {
-  readonly auth_account: IAuthAccount;
   readonly gender: "Nam" | "Nữ";
   readonly class_name: string;
   readonly student_id: string;
@@ -15,6 +14,7 @@ interface IMemberGeneral {
 }
 
 export interface IMember extends IMemberGeneral {
+  readonly auth_account: IAuthAccount;
   readonly id: number;
   readonly last_modified_date: string;
   readonly created_by: {
@@ -25,5 +25,6 @@ export interface IMember extends IMemberGeneral {
 }
 
 export interface IMemberCreateUpdate extends IMemberGeneral {
+  readonly auth_account: IAuthAccountCreateUpdate;
   readonly department: IDepartmentCreateUpdate;
 }
