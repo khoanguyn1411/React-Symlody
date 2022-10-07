@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode, useState } from "react";
 
 import {
   Button,
@@ -7,14 +7,45 @@ import {
   NoData,
   Search,
   Sort,
+  TabHost,
+  TTab,
 } from "@/components";
 import { useModal } from "@/hooks";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
 import { TodoBoard } from "./todo-components";
 import { ModalCreateTodo } from "./todo-modals";
+import { ETodoTab, ETodoTabReadableString } from "./type";
+
+type ContentTab = {
+  content: ReactNode;
+  rightSide?: ReactNode;
+};
+
+const getContentTab = (key: ETodoTab): ContentTab => {
+  switch (key) {
+    case ETodoTab.Kanban:
+      return {
+        content: <TodoBoard />,
+      };
+    case ETodoTab.Board:
+      return {
+        content: <div>Demo</div>,
+      };
+    default:
+      return {
+        content: <TodoBoard />,
+      };
+  }
+};
 
 export const TodoContainer: React.FC = () => {
+  const [content, setContent] = useState<ContentTab>(
+    getContentTab(ETodoTab.Kanban)
+  );
+  const handleChangeTab = (tab: TTab) => {
+    setContent(getContentTab(tab.key as ETodoTab));
+  };
   const propsModal = useModal({ isHotkeyOpen: true });
 
   const handleOpenCreateTodoModal = () => {
@@ -36,7 +67,20 @@ export const TodoContainer: React.FC = () => {
   return (
     <>
       <Container.Header>
-        <Container.Title>QUẢN LÝ CÔNG VIỆC</Container.Title>
+        <TabHost
+          isNoPaddingTab
+          listTabs={[
+            {
+              key: ETodoTab.Kanban,
+              title: ETodoTabReadableString.Kanban,
+            },
+            {
+              key: ETodoTab.Board,
+              title: ETodoTabReadableString.Board,
+            },
+          ]}
+          onChangeTab={handleChangeTab}
+        />
         <Container.HeaderRight>
           <Search
             inputValue={""}
@@ -53,7 +97,7 @@ export const TodoContainer: React.FC = () => {
           </ButtonCreate>
         </Container.HeaderRight>
       </Container.Header>
-      <TodoBoard />
+      {content.content}
       <ModalCreateTodo {...propsModal} />
     </>
   );

@@ -55,3 +55,13 @@ export interface IFormTodoInfo {
   readonly reporter: string;
   readonly description: string;
 }
+
+export enum ETodoTabReadableString {
+  Kanban = "Kanban",
+  Board = "Bảng",
+}
+
+export enum ETodoTab {
+  Kanban = "kanban",
+  Board = "board",
+}

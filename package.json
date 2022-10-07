@@ -57,7 +57,6 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "postinstall": "npx patch-package",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
