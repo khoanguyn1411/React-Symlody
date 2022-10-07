@@ -22,7 +22,7 @@ export const TodoCard: React.FC<TTodoCardProps> = ({
   assignee,
 }) => {
   return (
-    <div className="px-2 py-3 my-1 bg-white cursor-pointer drop-shadow-md hover:bg-gray-50 transition-colors duration-100 rounded-md">
+    <div className="px-2 py-3 mb-3 bg-white cursor-pointer drop-shadow-md hover:bg-gray-50 transition-colors duration-100 rounded-md">
       <div className="flex justify-between space-x-3">
         <h1>{title}</h1>
         <Button isIconOnly style="none">
