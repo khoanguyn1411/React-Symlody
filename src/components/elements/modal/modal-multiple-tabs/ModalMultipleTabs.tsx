@@ -9,8 +9,8 @@ import {
 } from "./context";
 
 /**
- * - To get value of isShowing and toggle functions, please use useModal hook and pass
- * such values to corresponding props of modal (isShowing = isShowing and toggle = toggle)
+ * - To get value of `isShowing` and toggle functions, please use `useModal` hook and pass
+ * such values to corresponding props of modal (`isShowing` = `isShowing` and `toggle` = `toggle`)
  * - To use this multiple tabs modal, please use ModalTab for rendering content of tab
  * for better handling event of such tab.
  * @example
