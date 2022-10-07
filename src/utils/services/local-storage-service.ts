@@ -1,7 +1,7 @@
 /**
  * Get values by key from local storage.
  * @param key The key by which the value is stored.
- * @returns Return null if there is no value or key, otherwise return value corresponding.
+ * @returns Return null if there is no value or key, otherwise return corresponding value.
  */
 export function getValue<T>(key: string): T | null {
   const localValue = localStorage.getItem(key);

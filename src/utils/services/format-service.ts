@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 /**
- * Format text to currency (VND)
+ * Format text to currency (VND).
  * @param price Number as string need to be formatted to currency.
  */
 export function toCurrency(price: number | string): string {
@@ -20,7 +20,7 @@ export function toCurrency(price: number | string): string {
 }
 
 /**
- * Remove format currency of text (remove . from text)
+ * Remove format currency of text (remove . from text).
  * @param price Text need to remove format currency.
  */
 export function removeFormatCurrency(price: string): string {

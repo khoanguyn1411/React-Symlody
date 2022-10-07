@@ -47,7 +47,7 @@ export function clearToken(): void {
 }
 
 /**
- * Check if token is valid (Check if token != null)
+ * Check if token is valid (Check if token != null).
  * @returns Return false when token is null, otherwise true.
  */
 export function isValid(): boolean {

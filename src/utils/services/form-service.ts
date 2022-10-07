@@ -1,5 +1,5 @@
 /**
- * Get form default values (from api)
+ * Get form default values (from api).
  * @param data Default values of form.
  */
 export function getDefaultValues<T>(data: T) {
