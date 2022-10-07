@@ -1,5 +1,9 @@
 import dayjs from "dayjs";
 
+/**
+ * Format text to currency (VND)
+ * @param price Number as string need to be formatted to currency.
+ */
 export function toCurrency(price: number | string): string {
   let _price = price;
   if (typeof price === "string") {
@@ -15,10 +19,18 @@ export function toCurrency(price: number | string): string {
   return formattedPrice;
 }
 
+/**
+ * Remove format currency of text (remove . from text)
+ * @param price Text need to remove format currency.
+ */
 export function removeFormatCurrency(price: string): string {
   return price.replaceAll(".", "");
 }
 
+/**
+ * Cast entity to string.
+ * @param entity Entity need to be casted to string.
+ */
 export function toString(entity: any): string {
   try {
     return entity.toString();
@@ -27,6 +39,10 @@ export function toString(entity: any): string {
   }
 }
 
+/**
+ * Cast entity to number.
+ * @param entity Entity need to be casted to number.
+ */
 export function toNumber(entity: any): number {
   try {
     return Number(entity);
@@ -35,14 +51,19 @@ export function toNumber(entity: any): number {
   }
 }
 
-export function normalizeStringNumber(value: string): string {
-  return value.replaceAll(".", "");
-}
-
+/**
+ * Clean text (remove accents, lowercase and trim).
+ * @param value Text need to be cleaned.
+ */
 export function toCleanedString(value: string): string {
   return removeAccent(value).toLowerCase().trim();
 }
 
+/**
+ * Format text to date as string.
+ * @param value Text need to be formatted to Date.
+ * @param type Type of format.
+ */
 export function toDate(value: string, type: "VN" | "US" | "API"): string {
   if (type === "US") {
     return dayjs(value).format("MM/DD/YYYY");
@@ -53,6 +74,10 @@ export function toDate(value: string, type: "VN" | "US" | "API"): string {
   return dayjs(value).format("DD/MM/YYYY");
 }
 
+/**
+ * Remove accents from text.
+ * @param str Text need to remove accents.
+ */
 export function removeAccent(str: string): string {
   str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   return str;

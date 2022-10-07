@@ -83,7 +83,7 @@ export const propertySlice = createSlice({
         return;
       }
       const listPropertyAfterFilterByName = state.currentPropertyList.filter(
-        (item) => FilterService.fromText(item.name, search)
+        (item) => FilterService.isTextIncludedIn(item.name, search)
       );
       state.currentPropertyList = listPropertyAfterFilterByName;
       state.propertyListPagination = listPropertyAfterFilterByName.slice(

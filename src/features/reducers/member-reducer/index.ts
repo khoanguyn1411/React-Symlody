@@ -99,10 +99,12 @@ export const memberSlice = createSlice({
         return;
       }
       const listMemberAfterFilterByName = state.currentMemberList.filter(
-        (item) => FilterService.fromText(item.auth_account.full_name, search)
+        (item) =>
+          FilterService.isTextIncludedIn(item.auth_account.full_name, search)
       );
       const listMemberAfterFilterByEmail = state.currentMemberList.filter(
-        (item) => FilterService.fromText(item.auth_account.email, search)
+        (item) =>
+          FilterService.isTextIncludedIn(item.auth_account.email, search)
       );
 
       const newMemberList = GeneratorService.generateArrayWithNoDuplicate(

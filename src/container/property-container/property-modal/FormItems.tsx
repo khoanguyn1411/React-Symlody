@@ -99,7 +99,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             <Input
               onInputSideEffect={(event) => {
                 const value = event.target.value;
-                const splitValue = FormatService.normalizeStringNumber(value);
+                const splitValue = FormatService.removeFormatCurrency(value);
                 if (value) {
                   if (isNaN(FormatService.toNumber(splitValue))) {
                     return { newValue: "" };
