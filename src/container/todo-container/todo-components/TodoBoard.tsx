@@ -3,7 +3,7 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import { TODO_DATA } from "../constant";
 import { TTodoColumn } from "../type";
-import { TodoColumn } from "./TodoColumn";
+import { TodoColumn } from "./todo-column";
 
 export const TodoBoard: React.FC = () => {
   const [columnList, setColumnList] = useState<TTodoColumn[]>(
