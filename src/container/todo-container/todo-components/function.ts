@@ -29,7 +29,8 @@ export const onDragEnd = (
     const sourceCards = [...sourceColumn.cards];
     const destinationCards = [...destinationColumn.cards];
     const [removed] = sourceCards.splice(source.index, 1);
-    destinationCards.splice(destination.index, 0, removed);
+    // Replace destination.index with 0 to move dragging item into 1st position when drop it.
+    destinationCards.splice(0, 0, removed);
     setColumnList((prev) =>
       prev.map((item) => {
         if (item.id === source.droppableId) {
