@@ -30,7 +30,7 @@ export const ModalEditDepartment: React.FC<THookModalProps<IDepartment>> = ({
         title: "Tạo",
         event: handleSubmit(null),
         isLoading: isSubmitting,
-        isDisable: FormService.isDirtyFields(dirtyFields),
+        isDisable: !FormService.isDirtyFields(dirtyFields),
       }}
       size="lg"
       title={"Tạo phòng ban"}

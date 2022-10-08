@@ -22,14 +22,14 @@ export function getDefaultValues<T>(data: T) {
 
 /**
  * Check if value is changed or not on edit modal view.
- * - Why not using `isDirty` prop from formState directly but through this function?
+ * - Why not using `isDirty` prop from `formState` directly but through this function?
  * - Because `isDirty` prop keep its state when reset form values (or closing edit modal).
  *   Therefore, we have to replace it with dirtyFields and check its change through this
  *   function to make sure every closing modal action will reset the state of dirty value.
  * ----------------------------------
- * @param dirtyFields `dirtyFields` from `formState` of useForm.
+ * @param dirtyFields `dirtyFields` from `formState` of `useForm` hook.
  * @returns Return `true` when the quantity of keys in dirtyFields = 0, otherwise `false`.
  */
 export function isDirtyFields(dirtyFields: unknown): boolean {
-  return Object.keys(dirtyFields).length === 0;
+  return Object.keys(dirtyFields).length > 0;
 }

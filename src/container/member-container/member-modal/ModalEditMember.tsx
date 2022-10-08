@@ -64,7 +64,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         title: "Cập nhật",
         event: handleSubmit(handleEditMember),
         isLoading: isSubmitting,
-        isDisable: FormService.isDirtyFields(dirtyFields),
+        isDisable: !FormService.isDirtyFields(dirtyFields),
       }}
     >
       <FormItems data={data} formProps={propsForm} />

@@ -39,7 +39,7 @@ export const ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
       handleEvent={{
         title: "Cập nhật",
         isLoading: isSubmitting,
-        isDisable: FormService.isDirtyFields(dirtyFields),
+        isDisable: !FormService.isDirtyFields(dirtyFields),
         event: handleSubmit(handleEditProperty),
       }}
     >
