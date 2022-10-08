@@ -71,7 +71,8 @@ export const TodoColumn: React.FC<TProps> = ({
                     "border-gray-500 bg-green-100 border-dashed":
                       snapshot.isDraggingOver,
                     "bg-gray-200 border-gray-500  border-dashed":
-                      cardHiddenStatus.isCardDragging,
+                      cardHiddenStatus.isCardDragging &&
+                      !snapshot.isDraggingOver,
                     "border-transparent": !cardHiddenStatus.isCardDragging,
                   }
                 )}
