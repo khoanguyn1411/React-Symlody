@@ -4,7 +4,7 @@ FROM node:14.18-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json yarn.lock ./
-COPY ./patches ./patches
+# COPY ./patches ./patches
 RUN yarn install --frozen-lockfile --unsafe-perm
 
 
