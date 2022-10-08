@@ -11,7 +11,7 @@ export const TodoBoard: React.FC = () => {
   const [columnList, setColumnList] = useState<TTodoColumn[]>(
     TODO_DATA.columns
   );
-  const [cardHiddenStatus, setCardHiddenStatus] = useState<TCardHiddenStatus>({
+  const [draggingCard, setCardHiddenStatus] = useState<TCardHiddenStatus>({
     cardId: null,
     isCardDragging: false,
     columnId: null,
@@ -22,7 +22,7 @@ export const TodoBoard: React.FC = () => {
     setCardHiddenStatus({
       cardId: null,
       isCardDragging: false,
-      columnId: dropResult.source.droppableId,
+      columnId: null,
     });
   };
   const handleDragStart = (initial: DragStart) => {
@@ -38,7 +38,7 @@ export const TodoBoard: React.FC = () => {
       <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         {columnList.map((column) => (
           <TodoColumn
-            cardHiddenStatus={cardHiddenStatus}
+            draggingCard={draggingCard}
             key={column.id}
             columnData={column}
           />

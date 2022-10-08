@@ -10,13 +10,10 @@ import { TCardHiddenStatus } from "./type";
 
 type TProps = {
   columnData: TTodoColumn;
-  cardHiddenStatus: TCardHiddenStatus;
+  draggingCard: TCardHiddenStatus;
 };
 
-export const TodoColumn: React.FC<TProps> = ({
-  columnData,
-  cardHiddenStatus,
-}) => {
+export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
   const [listCard, setListCard] = useState<TTodoCard[]>([]);
 
   useLayoutEffect(() => {
@@ -30,8 +27,7 @@ export const TodoColumn: React.FC<TProps> = ({
   }, [columnData]);
 
   const isColumnDraggingFrom =
-    columnData.id === cardHiddenStatus.columnId ||
-    !cardHiddenStatus.isCardDragging;
+    columnData.id === draggingCard.columnId || !draggingCard.isCardDragging;
 
   return (
     <div className="flex-1 h-full bg-gray-100 rounded-lg min-w-[200px]">
@@ -40,9 +36,8 @@ export const TodoColumn: React.FC<TProps> = ({
           {columnData.title}
         </h1>
         <div
+          hidden={isColumnDraggingFrom}
           className={classNames({
-            hidden: isColumnDraggingFrom,
-
             "flex items-center justify-center absolute w-full top-20 px-4":
               !isColumnDraggingFrom,
           })}
@@ -50,7 +45,7 @@ export const TodoColumn: React.FC<TProps> = ({
           <h1 className="p-2">
             Từ{" "}
             <span className="font-medium bg-primary-100 p-0.5 text-primary-800">
-              {TODO_STATUS_MAP_FROM_ID[cardHiddenStatus.columnId]}
+              {TODO_STATUS_MAP_FROM_ID[draggingCard.columnId]}
             </span>{" "}
             sang{" "}
             <span className="font-medium bg-secondary-100 p-0.5 text-secondary-800">
@@ -60,50 +55,60 @@ export const TodoColumn: React.FC<TProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-col px-3 pb-3 h-[calc(100%-3.8rem)]">
+      <div
+        className={classNames("flex flex-col px-3 pb-3 h-[calc(100%-3.8rem)]", {
+          "overflow-y-hidden":
+            draggingCard.columnId !== columnData.id &&
+            draggingCard.isCardDragging,
+        })}
+      >
         <Droppable droppableId={columnData.id}>
           {(providedDrop, snapshot) => {
             return (
-              <div
-                className={classNames(
-                  "transition-colors duration-150 h-full border-2 rounded-md",
-                  {
-                    "border-gray-500 bg-green-100 border-dashed":
-                      snapshot.isDraggingOver,
-                    "bg-gray-200 border-gray-500  border-dashed":
-                      cardHiddenStatus.isCardDragging &&
-                      !snapshot.isDraggingOver,
-                    "border-transparent": !cardHiddenStatus.isCardDragging,
-                  }
-                )}
-                ref={providedDrop.innerRef}
-                {...providedDrop.droppableProps}
-              >
-                {listCard.map((cardProps, index) => (
-                  <Draggable
-                    key={cardProps.id}
-                    index={index}
-                    draggableId={cardProps.id}
-                  >
-                    {(provided) => (
-                      <div
-                        className={
-                          cardProps.id !== snapshot.draggingFromThisWith &&
-                          cardHiddenStatus.isCardDragging
-                            ? "opacity-0"
-                            : undefined
-                        }
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <TodoCard {...cardProps} />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {providedDrop.placeholder}
-              </div>
+              <>
+                <div
+                  className={classNames(
+                    "transition-colors duration-150 h-full border-2 rounded-md",
+                    {
+                      "border-gray-500 bg-green-100 border-dashed":
+                        snapshot.isDraggingOver,
+                      "bg-gray-200 border-gray-500  border-dashed":
+                        draggingCard.isCardDragging && !snapshot.isDraggingOver,
+                      "border-transparent": !draggingCard.isCardDragging,
+                    }
+                  )}
+                  ref={providedDrop.innerRef}
+                  {...providedDrop.droppableProps}
+                >
+                  {listCard.map((cardProps, index) => (
+                    <Draggable
+                      key={cardProps.id}
+                      index={index}
+                      draggableId={cardProps.id}
+                    >
+                      {(provided) => (
+                        <div
+                          className={
+                            cardProps.id !== snapshot.draggingFromThisWith &&
+                            draggingCard.isCardDragging &&
+                            columnData.id !== draggingCard.columnId
+                              ? "hidden"
+                              : undefined
+                          }
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <TodoCard {...cardProps} />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  <div hidden={columnData.id !== draggingCard.columnId}>
+                    {providedDrop.placeholder}
+                  </div>
+                </div>
+              </>
             );
           }}
         </Droppable>
