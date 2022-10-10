@@ -56,5 +56,5 @@ export const useAuth = () => {
     dispatch(setIsCompactSidebar(isCompact));
   };
 
-  return { isAuth: !state.isAuth, isLoading };
+  return { isAuth: state.isAuth, isLoading };
 };

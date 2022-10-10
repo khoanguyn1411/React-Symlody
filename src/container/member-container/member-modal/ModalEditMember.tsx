@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateMemberAsync } from "@/features/reducers";
-import { IMember } from "@/features/types";
+import { IMember, IMemberCreateUpdate } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 import { FormService } from "@/utils";
 
@@ -39,14 +39,25 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
       editInfo,
       data.is_archived
     );
+
+    let _memberModel: IMemberCreateUpdate;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { email, ...authAccountWithoutEmail } = memberModel.auth_account;
+
+    if (editInfo.email === data.auth_account.email) {
+      _memberModel = { ...memberModel, auth_account: authAccountWithoutEmail };
+    } else {
+      _memberModel = memberModel;
+    }
+
     const result = await dispatch(
       updateMemberAsync({
-        payload: memberModel,
+        payload: _memberModel,
         id: data.id,
         isRestore: false,
       })
     );
-    if (!result.payload) {
+    if (!result.payload.result) {
       toast.error(MEMBER_MESSAGE.update.error);
       return;
     }
