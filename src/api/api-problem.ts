@@ -52,7 +52,7 @@ export type GeneralApiProblem =
  */
 export function getGeneralApiProblem<T>(
   response: ApiResponse<T>
-): GeneralApiProblem | void {
+): GeneralApiProblem {
   switch (response.problem) {
     case `CONNECTION_ERROR`:
       return { kind: `cannot-connect`, temporary: true };

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { MemberApi } from "@/api";
+import { MemberApi, RequestCreateMembersResult } from "@/api";
 import { RootState } from "@/features/store";
 import { MemberMapper } from "@/features/types/mappers";
 import { IMember, IMemberCreateUpdate } from "@/features/types/models";
@@ -12,15 +12,16 @@ import { initialState, memberAdapter } from "./state";
 export const createMemberAsync = createAsyncThunk<
   IMember,
   IMemberCreateUpdate,
-  GlobalTypes.ReduxThunkRejectValue<null>
+  GlobalTypes.ReduxThunkRejectValue<RequestCreateMembersResult>
 >("create/member", async (payload, { rejectWithValue }) => {
   const result = await MemberApi.createMember(
     MemberMapper.toCreateDto(payload)
   );
+  console.log(result);
   if (result.kind === "ok") {
     return MemberMapper.fromDto(result.result);
   }
-  return rejectWithValue(null);
+  return rejectWithValue(result);
 });
 
 export const deleteMemberAsync = createAsyncThunk<

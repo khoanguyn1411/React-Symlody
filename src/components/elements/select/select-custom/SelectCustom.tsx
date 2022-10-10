@@ -65,7 +65,7 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
       _setIsShowContent(!_isShowContent);
     }
 
-    if (elementDisplay != e.target) {
+    if (!elementDisplay.contains(e.target as Node)) {
       return;
     }
     setPositionList();
