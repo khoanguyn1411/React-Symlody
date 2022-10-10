@@ -52,9 +52,9 @@ export const ConfigContainer: React.FC = () => {
 
   return (
     <>
-      <Container.Header>
+      <Container.HeaderForTabHost>
         <TabHost
-          isNoPaddingTab
+          isHeaderTabHost
           listTabs={[
             {
               key: EConfigTabKey.Organization,
@@ -76,7 +76,7 @@ export const ConfigContainer: React.FC = () => {
           onChangeTab={handleChangeTab}
         />
         <Container.HeaderRight>{content.rightSide}</Container.HeaderRight>
-      </Container.Header>
+      </Container.HeaderForTabHost>
       <Container.Body>{content.content}</Container.Body>
     </>
   );

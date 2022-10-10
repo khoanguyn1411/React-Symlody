@@ -47,7 +47,11 @@ export const SidebarItem: React.FC<TProps> = ({
   );
 
   if (isCompactSidebar) {
-    return <Tooltip content={tab.title}>{children}</Tooltip>;
+    return (
+      <Tooltip placement="top-left" content={tab.title}>
+        {children}
+      </Tooltip>
+    );
   }
 
   return children;

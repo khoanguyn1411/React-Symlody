@@ -66,9 +66,9 @@ export const TodoContainer: React.FC = () => {
     );
   return (
     <>
-      <Container.Header>
+      <Container.HeaderForTabHost>
         <TabHost
-          isNoPaddingTab
+          isHeaderTabHost
           listTabs={[
             {
               key: ETodoTab.Kanban,
@@ -96,7 +96,7 @@ export const TodoContainer: React.FC = () => {
             Tạo công việc
           </ButtonCreate>
         </Container.HeaderRight>
-      </Container.Header>
+      </Container.HeaderForTabHost>
       {content.content}
       <ModalCreateTodo {...propsModal} />
     </>

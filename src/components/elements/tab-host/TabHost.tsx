@@ -13,7 +13,7 @@ type TProps = {
   listTabs: TTab[];
   defaultActive?: TTab["key"];
   paramChangeDependency?: string;
-  isNoPaddingTab?: boolean;
+  isHeaderTabHost?: boolean;
   isStretchTab?: boolean;
   onChangeTab?: (tab: TTab) => void;
   onUrlChange?: (tab: TTab) => void;
@@ -24,7 +24,7 @@ export const TabHost: React.FC<TProps> = ({
   onChangeTab,
   defaultActive,
   isStretchTab = false,
-  isNoPaddingTab = false,
+  isHeaderTabHost = false,
 }) => {
   const refs = useRef<HTMLButtonElement[]>([]);
 
@@ -112,8 +112,8 @@ export const TabHost: React.FC<TProps> = ({
             {
               "hover:bg-gray-50 border-transparent": item.key !== activeTab.key,
               "flex-1": isStretchTab,
-              "px-5": !isNoPaddingTab,
-              "mr-8 px-1": isNoPaddingTab,
+              "px-5": !isHeaderTabHost,
+              "mr-8 px-2 pb-4": isHeaderTabHost,
             }
           )}
           onClick={handleClickTab(item, item.key)}
