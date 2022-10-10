@@ -11,14 +11,14 @@ import { TodoCircleBorderWrapper } from "./TodoCircleBorderWrapper";
 
 type TProps = {
   memberList: string[];
-  selectedMember: string[];
-  setSelectedMember: GlobalTypes.ReactStateAction<string[]>;
+  selectedMembers: string[];
+  setSelectedMembers: GlobalTypes.ReactStateAction<string[]>;
 };
 
 export const TodoNumberHolder: React.FC<TProps> = ({
   memberList,
-  selectedMember,
-  setSelectedMember,
+  selectedMembers,
+  setSelectedMembers,
 }) => {
   const [_memberList, _setMemberList] = useState<string[]>(memberList);
   const [_selectNumberList, _setSelectNumberList] = useState<string[]>([]);
@@ -41,7 +41,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
       return [...prev, selectedItem];
     });
 
-    setSelectedMember((prev) => {
+    setSelectedMembers((prev) => {
       if (prev.includes(selectedItem)) {
         return prev.filter((item) => item !== selectedItem);
       }
@@ -81,7 +81,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
                   onClick={handleAddMemberToSelectList(item)}
                   className="flex items-center w-full px-1 cursor-pointer transition-colors hover:bg-primary-100"
                 >
-                  <Checkbox checked={selectedMember.includes(item)} />
+                  <Checkbox checked={selectedMembers.includes(item)} />
                   <Avatar size="xsmall" fullName={item} />
                   <h1 className="ml-2 text-sm">{item}</h1>
                 </button>

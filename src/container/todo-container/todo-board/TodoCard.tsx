@@ -26,9 +26,6 @@ export const TodoCard: React.FC<TTodoCardProps> = ({
       <div className="px-2 py-3 bg-white cursor-pointer drop-shadow-md hover:bg-gray-50 transition-colors duration-100 rounded-md">
         <div className="flex justify-between space-x-3">
           <h1>{title}</h1>
-          <Button isIconOnly style="none">
-            <Icon.Dots3 />
-          </Button>
         </div>
         <div className="flex items-center justify-between mt-3">
           <h2 className={classNames({ "text-primary-800 font-medium": true })}>

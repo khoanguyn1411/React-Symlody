@@ -10,21 +10,21 @@ import { TodoCircleBorderWrapper } from "./TodoCircleBorderWrapper";
 type TProps = {
   item: string;
   index: number;
-  selectedMember: string[];
-  setSelectedMember: GlobalTypes.ReactStateAction<string[]>;
+  selectedMembers: string[];
+  setSelectedMembers: GlobalTypes.ReactStateAction<string[]>;
 };
 
 export const TodoAvatar: React.FC<TProps> = ({
   item,
   index,
-  selectedMember,
-  setSelectedMember,
+  selectedMembers,
+  setSelectedMembers,
 }) => {
   const getZIndex = useMemo(() => {
-    return selectedMember.includes(item)
+    return selectedMembers.includes(item)
       ? ZINDEX_SETTING.ON_SELECT + DEFAULT_DISPLAY_MEMBER_COUNT - index
       : DEFAULT_DISPLAY_MEMBER_COUNT - index;
-  }, [index, item, selectedMember]);
+  }, [index, item, selectedMembers]);
 
   const [zIndex, setZIndex] = useState<number>(getZIndex);
 
@@ -34,7 +34,7 @@ export const TodoAvatar: React.FC<TProps> = ({
 
   const handleSetSelectedMember = () => {
     const selectedItem = item;
-    setSelectedMember((prev) => {
+    setSelectedMembers((prev) => {
       if (prev.includes(selectedItem)) {
         return prev.filter((item) => item !== selectedItem);
       }
@@ -55,8 +55,8 @@ export const TodoAvatar: React.FC<TProps> = ({
       onMouseOut={handleChangeZIndexOnMouseOut}
       onClick={handleSetSelectedMember}
       className={classNames("transition-all duration-200 hover:mb-2", {
-        "border-white": !selectedMember.includes(item),
-        "border-primary-800": selectedMember.includes(item),
+        "border-white": !selectedMembers.includes(item),
+        "border-primary-800": selectedMembers.includes(item),
       })}
       zIndex={zIndex}
     >
