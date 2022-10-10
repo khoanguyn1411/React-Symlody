@@ -34,7 +34,7 @@ export const TodoBoard: React.FC = () => {
   };
 
   return (
-    <div className="h-full pb-5 mt-5 overflow-auto px-default grid gap-5 grid-cols-4-1fr h-[calc(100vh-8.8rem)]">
+    <div className="h-full pb-5 mt-5 overflow-auto px-default grid gap-7 grid-cols-4-1fr h-[calc(100vh-8.8rem)]">
       <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         {columnList.map((column) => (
           <TodoColumn

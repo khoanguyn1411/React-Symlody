@@ -13,9 +13,10 @@ import { getDepartmentAsync } from "@/features/reducers";
 import { useModal } from "@/hooks";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
-import { TodoBoard } from "./todo-board";
+import { TodoBoard } from "./todo-kanban";
 import { TodoMemberView } from "./todo-member-view";
 import { ModalCreateTodo } from "./todo-modals";
+import { TodoTable } from "./todo-table";
 import { ETodoTab, ETodoTabReadableString } from "./type";
 
 type ContentTab = {
@@ -31,7 +32,7 @@ const getContentTab = (key: ETodoTab): ContentTab => {
       };
     case ETodoTab.Board:
       return {
-        content: <div>Demo</div>,
+        content: <TodoTable />,
       };
     default:
       return {

@@ -1,4 +1,4 @@
-import { TTodoCardProps } from "./todo-board";
+import { TTodoCardProps } from "./todo-kanban";
 
 export enum ETodoStatus {
   Todo = "Cần làm",
