@@ -11,6 +11,8 @@ type TProps = {
   isShowContent: boolean;
   position?: React.CSSProperties;
   isPortal: TSelectGeneralProps["isPortal"];
+  classNameList?: string;
+  isNoPaddingY?: boolean;
 };
 
 export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
@@ -18,17 +20,21 @@ export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
   style,
   isShowContent,
   position,
+  classNameList,
   isPortal,
+  isNoPaddingY = false,
 }) => {
   return (
     <AnimationCustom
       attrs={{ style: position }}
       className={classNames(
-        "w-full rounded-md max-h-40 py-1.5 overflow-auto shadow-md mt-2",
+        "w-full min-w-[fit-content] rounded-md max-h-52 overflow-auto shadow-md mt-2",
         {
           "z-30 fixed": isPortal,
           "z-10 absolute top-8": !isPortal,
+          "py-1.5": !isNoPaddingY,
         },
+        classNameList,
         STYLE_LIST_WRAPPER_MAPS[style]
       )}
       isShowing={isShowContent}

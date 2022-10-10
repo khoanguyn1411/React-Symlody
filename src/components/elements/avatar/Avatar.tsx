@@ -19,16 +19,26 @@ type IProps = {
   isBorder?: boolean;
   rounded?: "md" | "full";
   avatarTextLength?: number;
+  isFullText?: boolean;
+  backgroundColor?: string;
+  fontSize?: number;
+  fontColor?: string;
+  fontWeight?: number;
 };
 
 export const Avatar: React.FC<IProps> = ({
+  isFullText = false,
   fullName = "Simplamo®",
   src,
   size = "default",
   className,
+  backgroundColor,
   isBorder = false,
   rounded = "full",
   avatarTextLength,
+  fontSize,
+  fontColor,
+  fontWeight,
 }) => {
   // const char =
   //   typeof fullName === "string"
@@ -51,7 +61,7 @@ export const Avatar: React.FC<IProps> = ({
         className
       )}
       style={{
-        backgroundColor: getColorFromText(text),
+        backgroundColor: backgroundColor ?? getColorFromText(text),
         backgroundImage: src && `url(${src})`,
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -69,12 +79,13 @@ export const Avatar: React.FC<IProps> = ({
           <text
             x="20"
             y="22"
-            fontSize={avatarTextLength > 1 ? 18 : 20}
-            fill="white"
+            fontSize={fontSize ?? (avatarTextLength > 1 ? 18 : 20)}
+            fill={fontColor ?? "white"}
+            fontWeight={fontWeight}
             textAnchor="middle"
             dominantBaseline="middle"
           >
-            {text}
+            {isFullText ? fullName : text}
           </text>
         </svg>
       ) : null}

@@ -80,9 +80,15 @@ export const MemberContainer: React.FC = () => {
     toast.success(MEMBER_MESSAGE.delete.error);
   };
   const handleRestore = async (item: IMember) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { email, ...authAccountWithoutEmail } = item.auth_account;
     const result = await dispatch(
       updateMemberAsync({
-        payload: { ...item, is_archived: false },
+        payload: {
+          ...item,
+          auth_account: authAccountWithoutEmail,
+          is_archived: false,
+        },
         id: item.id,
         isRestore: true,
       })

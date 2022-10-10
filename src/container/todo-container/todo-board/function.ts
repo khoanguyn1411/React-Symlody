@@ -21,7 +21,7 @@ export const onDragEnd = (
   if (!sourceColumn || !destination) {
     return;
   }
-  // Handle dragging action in 1 column.
+  // Handle dragging action from an column to another column.
   if (source.droppableId !== destination.droppableId) {
     const destinationColumn = columnList.find(
       (col) => col.id === destination.droppableId
@@ -52,7 +52,7 @@ export const onDragEnd = (
     );
     return;
   }
-  // Handle dragging action from an column to another column.
+  // Handle dragging action in 1 column.
   const copiedItem = [...sourceColumn.cards];
   const [removed] = copiedItem.splice(source.index, 1);
   copiedItem.splice(destination.index, 0, removed);

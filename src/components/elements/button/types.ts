@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import { GlobalTypes } from "@/utils";
+
 export const STYLE_MAPS = {
   none: "h-[fit-content]",
   default: "bg-primary-800 hover:bg-primary-900 text-white",
@@ -30,6 +32,6 @@ export type TPropsButton = {
   size?: keyof typeof SIZE_MAPS;
   disable?: boolean;
   block?: boolean;
-  otherProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  otherProps?: GlobalTypes.ReactButtonProps;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };

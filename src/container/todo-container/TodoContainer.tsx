@@ -1,19 +1,19 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useLayoutEffect, useState } from "react";
 
 import {
-  Button,
   ButtonCreate,
   Container,
   NoData,
-  Search,
-  Sort,
+  Select,
   TabHost,
   TTab,
 } from "@/components";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { getDepartmentAsync } from "@/features/reducers";
 import { useModal } from "@/hooks";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
-import { TodoBoard } from "./todo-components";
+import { TodoBoard } from "./todo-board";
 import { ModalCreateTodo } from "./todo-modals";
 import { ETodoTab, ETodoTabReadableString } from "./type";
 
@@ -40,6 +40,28 @@ const getContentTab = (key: ETodoTab): ContentTab => {
 };
 
 export const TodoContainer: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const departmentStore = useAppSelector((state) => state.department);
+  const [filterDepartment, setFilterDepartment] = useState<string>(
+    departmentStore.departments[0] ? departmentStore.departments[0].name : ""
+  );
+
+  useLayoutEffect(() => {
+    if (departmentStore.departments && departmentStore.departments.length > 0) {
+      return;
+    }
+    dispatch(getDepartmentAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useLayoutEffect(() => {
+    if (filterDepartment) {
+      return;
+    }
+    setFilterDepartment(departmentStore.departments[0]?.name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [departmentStore.departments]);
+
   const [content, setContent] = useState<ContentTab>(
     getContentTab(ETodoTab.Kanban)
   );
@@ -82,16 +104,15 @@ export const TodoContainer: React.FC = () => {
           onChangeTab={handleChangeTab}
         />
         <Container.HeaderRight>
-          <Search
-            inputValue={""}
-            setInputValue={function (): void {
-              throw new Error("Function not implemented.");
-            }}
+          <Select
+            className="w-52"
+            placeHolder="Chọn phòng ban"
+            list={departmentStore.departments.map((department) => ({
+              value: department.name,
+            }))}
+            value={filterDepartment}
+            onChange={setFilterDepartment}
           />
-          <Sort fields={[]} />
-          <Button prefix={<i className="mr-2 fas fa-filter" />} style="none">
-            Bộ lọc
-          </Button>
           <ButtonCreate onClick={handleOpenCreateTodoModal}>
             Tạo công việc
           </ButtonCreate>

@@ -99,7 +99,7 @@ export const TabHost: React.FC<TProps> = ({
   }, [getPositionSlider, refState]);
 
   return (
-    <div className="relative flex w-full">
+    <div className={classNames("relative flex", { "w-full": isStretchTab })}>
       {listTabs.map((item) => (
         <button
           ref={addToRefs}
