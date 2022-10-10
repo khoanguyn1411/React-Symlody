@@ -4,7 +4,7 @@ import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
 import { TPropsModalDefault } from "../types";
 
 /**
- * To get value of isShowing and toggle functions, please use useModal hook and pass
+ * To get value of `isShowing` and toggle functions, please use `useModal` hook and pass
  * the corresponding props provided in such hook.
  * @example
  * const {setToggle, isShowing} = useModal();

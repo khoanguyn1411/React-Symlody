@@ -1,5 +1,9 @@
 import { toNumber } from "./format-service";
 
+/**
+ * Generate messages for an specific entity.
+ * @param entity Entity of message.
+ */
 export function generateStatusMessageFor(entity: string): {
   readonly [key in string]: {
     readonly success: string;
@@ -21,10 +25,21 @@ export function generateStatusMessageFor(entity: string): {
     },
   };
 }
+
+/**
+ * Generate full name.
+ * @param lastName Last name.
+ * @param firstName First name.
+ */
 export function generateFullName(lastName: string, firstName: string): string {
   return `${lastName} ${firstName}`;
 }
 
+/**
+ * Generate an reverse version from dto.
+ * @param model Model of entity.
+ * @param isNumberModel Whether model is number or not.
+ */
 export function generateReverseDto<
   Model extends string | number | symbol,
   Dto extends string | number | symbol
@@ -42,6 +57,10 @@ export function generateReverseDto<
   return obj;
 }
 
+/**
+ * Generate an array with no duplicate entity.
+ * @param arr Root array to generate.
+ */
 export function generateArrayWithNoDuplicate<T>(arr: T[]) {
   const s = new Set(arr);
   const it = s.values();

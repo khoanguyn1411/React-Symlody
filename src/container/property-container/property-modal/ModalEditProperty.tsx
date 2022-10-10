@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Modal } from "@/components";
 import { IProperty } from "@/features/types";
 import { THookModalProps } from "@/hooks";
+import { FormService } from "@/utils";
 
 import { schema } from "../schema";
 import { IFormPropertyInfo } from "../type";
@@ -22,7 +23,7 @@ export const ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
   const {
     handleSubmit,
     reset,
-    formState: { isDirty, isSubmitting },
+    formState: { dirtyFields, isSubmitting },
   } = propsForm;
 
   const handleEditProperty = () => {
@@ -38,7 +39,7 @@ export const ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
       handleEvent={{
         title: "Cập nhật",
         isLoading: isSubmitting,
-        isDisable: !isDirty,
+        isDisable: !FormService.isDirtyFields(dirtyFields),
         event: handleSubmit(handleEditProperty),
       }}
     >

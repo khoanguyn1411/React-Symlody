@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Modal } from "@/components";
 import { IDepartment } from "@/features/types";
 import { THookModalProps } from "@/hooks";
+import { FormService } from "@/utils";
 
 import { FormItems } from "./FormItems";
 import { schema } from "./schema";
@@ -20,7 +21,7 @@ export const ModalEditDepartment: React.FC<THookModalProps<IDepartment>> = ({
   const {
     handleSubmit,
 
-    formState: { isSubmitting, isDirty },
+    formState: { isSubmitting, dirtyFields },
   } = propsForm;
 
   return (
@@ -29,7 +30,7 @@ export const ModalEditDepartment: React.FC<THookModalProps<IDepartment>> = ({
         title: "Tạo",
         event: handleSubmit(null),
         isLoading: isSubmitting,
-        isDisable: !isDirty,
+        isDisable: !FormService.isDirtyFields(dirtyFields),
       }}
       size="lg"
       title={"Tạo phòng ban"}

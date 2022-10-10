@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import { updateMemberAsync } from "@/features/reducers";
 import { IMember } from "@/features/types";
 import { THookModalProps } from "@/hooks";
+import { FormService } from "@/utils";
 
 import { MEMBER_MESSAGE } from "../constant";
 import { MemberFormMapper } from "../mapper";
@@ -26,7 +27,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   });
   const {
     handleSubmit,
-    formState: { isSubmitting, isDirty },
+    formState: { isSubmitting, dirtyFields },
   } = propsForm;
 
   const departmentStore = useAppSelector((state) => state.department);
@@ -63,7 +64,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         title: "Cập nhật",
         event: handleSubmit(handleEditMember),
         isLoading: isSubmitting,
-        isDisable: !isDirty,
+        isDisable: !FormService.isDirtyFields(dirtyFields),
       }}
     >
       <FormItems data={data} formProps={propsForm} />
