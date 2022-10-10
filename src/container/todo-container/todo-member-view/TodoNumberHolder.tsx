@@ -95,7 +95,6 @@ export const TodoNumberHolder: React.FC<TProps> = ({
           fontWeight={600}
           backgroundColor="#e5e7eb"
           isFullText
-          size="small"
           fullName={`+${memberList && memberList.length}`}
         />
       </SelectCustom>
