@@ -1,11 +1,12 @@
 import { toNumber } from "./format-service";
 
+type TStatusMessage = "update" | "achieve" | "create" | "delete";
 /**
  * Generate messages for an specific entity.
  * @param entity Entity of message.
  */
 export function generateStatusMessageFor(entity: string): {
-  readonly [key in string]: {
+  readonly [key in TStatusMessage]: {
     readonly success: string;
     readonly error: string;
   };
@@ -14,6 +15,10 @@ export function generateStatusMessageFor(entity: string): {
     delete: {
       success: `Xóa ${entity} thành công.`,
       error: `Xóa ${entity} thất bại.`,
+    },
+    achieve: {
+      success: `Lưu trữ ${entity} thành công.`,
+      error: `Lưu trữ ${entity} thất bại.`,
     },
     create: {
       error: `Tạo ${entity} thất bại.`,

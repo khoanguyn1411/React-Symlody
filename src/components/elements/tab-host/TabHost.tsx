@@ -113,7 +113,7 @@ export const TabHost: React.FC<TProps> = ({
               "hover:bg-gray-50 border-transparent": item.key !== activeTab.key,
               "flex-1": isStretchTab,
               "px-5": !isHeaderTabHost,
-              "mr-8 px-2 mb-2": isHeaderTabHost,
+              "mr-8 px-2 mb-3": isHeaderTabHost,
             }
           )}
           onClick={handleClickTab(item, item.key)}

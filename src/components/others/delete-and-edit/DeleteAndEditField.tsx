@@ -56,9 +56,9 @@ export const DeleteAndEditField: React.FC<TProps> = ({
         <DropdownConfirm
           title={title}
           placement={"bottom-right"}
-          handleEvent={{ title: "Xóa", event: handleEvent.delete }}
+          handleEvent={{ title: "Lưu trữ", event: handleEvent.delete }}
         >
-          <Tooltip content="Xoá">
+          <Tooltip content="Lưu trữ">
             <Button
               className="flex items-center justify-center group"
               style="none"

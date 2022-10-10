@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React from "react";
 
 import { Icon } from "@/assets/icons";
-import { Avatar, Button } from "@/components";
+import { Avatar } from "@/components";
 import { IMember } from "@/features/types";
 
 import { ETodoStatus } from "../type";

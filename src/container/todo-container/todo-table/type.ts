@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 import { ETodoStatusId } from "../type";
 
 export interface ITodoTable {
@@ -8,3 +10,8 @@ export interface ITodoTable {
   readonly isPriority: boolean;
   readonly assignee: string;
 }
+
+export type TPriority = {
+  isPriority: boolean;
+  icon: ReactNode;
+};

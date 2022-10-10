@@ -12,6 +12,7 @@ import { TSelectCustomProps } from "../type";
 export const SelectCustom: GlobalTypes.FCPropsWithChildren<
   TSelectCustomProps
 > = ({
+  classNameDisplay,
   classNameList,
   renderListItem,
   style = "default",
@@ -20,19 +21,32 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
   children,
   placement = "bottom-left",
   isNoPaddingY,
+  isShowContent,
+  setIsShowContent,
 }) => {
-  const [isShowContent, setIsShowContent] = useState<boolean>(false);
+  let _isShowContent: boolean,
+    _setIsShowContent: GlobalTypes.ReactStateAction<boolean>;
+
+  if (isShowContent != null && setIsShowContent != null) {
+    _isShowContent = isShowContent;
+    _setIsShowContent = setIsShowContent;
+  } else {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [isShowContent, setIsShowContent] = useState<boolean>(false);
+    _isShowContent = isShowContent;
+    _setIsShowContent = setIsShowContent;
+  }
 
   const iconRef = useRef(null);
 
   const { listRef, displayRef } = useHideOnClickOutside(
-    isShowContent,
-    setIsShowContent
+    _isShowContent,
+    _setIsShowContent
   );
   const { setPositionList, position } = usePositionPortal({
     displayRef,
     isPortal,
-    isShowing: isShowContent,
+    isShowing: _isShowContent,
     placement: placement,
   });
   const handleToggleContent = (
@@ -40,14 +54,22 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
   ) => {
     const elementDisplay = displayRef?.current;
     const elementIcon = iconRef?.current;
+    if (elementIcon) {
+      if (
+        !elementDisplay.contains(e.target as Node) &&
+        !elementIcon.contains(e.target)
+      ) {
+        return;
+      }
+      setPositionList();
+      _setIsShowContent(!_isShowContent);
+    }
 
-    const isEventContainIcon = elementIcon && !elementIcon.contains(e.target);
-
-    if (elementDisplay != e.target && isEventContainIcon) {
+    if (elementDisplay != e.target) {
       return;
     }
     setPositionList();
-    setIsShowContent(!isShowContent);
+    _setIsShowContent(!_isShowContent);
   };
   const ListComponent: JSX.Element = (
     <ul ref={listRef}>
@@ -57,7 +79,7 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
         position={position}
         style={style}
         classNameList={classNameList}
-        isShowContent={isShowContent}
+        isShowContent={_isShowContent}
       >
         <div className="bg-white">{renderListItem}</div>
       </SelectListWrapper>
@@ -65,33 +87,38 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
   );
 
   return (
-    <div>
-      <div className="relative cursor-pointer">
-        {/* Display */}
-        <SelectDisplayWrapper
-          ref={displayRef}
-          onClick={handleToggleContent}
-          aria-hidden="true"
-          style={style}
-        >
-          {children}
-          {isShowArrow && (
-            <span ref={iconRef}>
-              <i
-                className={classNames(
-                  "fas fa-angle-down duration-300 -mr-5 transition-transform text-base",
-                  {
-                    "transform -rotate-180": isShowContent,
-                  }
-                )}
-              />
-            </span>
-          )}
-        </SelectDisplayWrapper>
-        {/* List */}
-        {isPortal && <Portal>{ListComponent}</Portal>}
-        {!isPortal && ListComponent}
-      </div>
+    <div className="relative flex items-center cursor-pointer">
+      {/* Display */}
+      <SelectDisplayWrapper
+        ref={displayRef}
+        classNameDisplay={classNameDisplay}
+        onClick={handleToggleContent}
+        aria-hidden="true"
+        style={style}
+      >
+        {children}
+        {isShowArrow && (
+          <span
+            ref={iconRef}
+            className={classNames(
+              "ml-2 text-gray-400 flex mt-2 items-center justify-center duration-300 transition-transform text-base",
+              {
+                "mb-2 mt-0": _isShowContent,
+              }
+            )}
+          >
+            <i
+              className={classNames("fas", {
+                "fa-sort-down": _isShowContent,
+                "fa-sort-up": !_isShowContent,
+              })}
+            />
+          </span>
+        )}
+      </SelectDisplayWrapper>
+      {/* List */}
+      {isPortal && <Portal>{ListComponent}</Portal>}
+      {!isPortal && ListComponent}
     </div>
   );
 };

@@ -54,13 +54,13 @@ export const TodoAvatar: React.FC<TProps> = ({
       onMouseOver={handleChangeZIndexOnMouseOver}
       onMouseOut={handleChangeZIndexOnMouseOut}
       onClick={handleSetSelectedMember}
-      className={classNames("transition-all duration-200 hover:mb-2", {
-        "border-white": !selectedMembers.includes(item),
-        "border-primary-800": selectedMembers.includes(item),
+      className={classNames("transition-all duration-200 group-hover:mb-3", {
+        "border-white bg-white": !selectedMembers.includes(item),
+        "border-primary-800 bg-primary-800": selectedMembers.includes(item),
       })}
       zIndex={zIndex}
     >
-      <Tooltip space={10} content={item}>
+      <Tooltip space={8} content={item}>
         <Avatar fullName={item} />
       </Tooltip>
     </TodoCircleBorderWrapper>

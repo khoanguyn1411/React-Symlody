@@ -2,7 +2,7 @@ import React from "react";
 
 import { Container, Table } from "@/components";
 
-import { TableTodoContent } from "./TableTodoContent";
+import { TodoTableContent } from "./TodoTableContent";
 
 export const TodoTable: React.FC = () => {
   return (
@@ -13,13 +13,15 @@ export const TodoTable: React.FC = () => {
             STT
           </Table.CellHead>
           <Table.CellHead>Công việc</Table.CellHead>
-          <Table.CellHead width="10rem">Ngày hết hạn</Table.CellHead>
-          <Table.CellHead width="16rem">Trạng thái</Table.CellHead>
+          <Table.CellHead textAlign="right" width="10rem">
+            Ngày hết hạn
+          </Table.CellHead>
+          <Table.CellHead width="12rem">Trạng thái</Table.CellHead>
           <Table.CellHead width="12rem">Người được giao</Table.CellHead>
           <Table.CellHeadAction />
         </Table.Head>
         {/* TODO: Update actions later */}
-        <TableTodoContent />
+        <TodoTableContent />
       </Table.Container>
     </Container.Body>
   );

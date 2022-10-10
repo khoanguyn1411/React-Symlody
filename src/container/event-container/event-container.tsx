@@ -73,7 +73,7 @@ export const EventContainer: React.FC = () => {
                 </Table.Cell>
                 <Table.CellAction>
                   <DeleteAndEditField
-                    title="Xóa tài sản?"
+                    title="Lưu trữ tài sản?"
                     handleEvent={{
                       edit: function (): void {
                         throw new Error("Function not implemented.");

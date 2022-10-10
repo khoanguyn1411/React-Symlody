@@ -91,7 +91,7 @@ export const TodoContainer: React.FC = () => {
   return (
     <>
       <Container.HeaderForTabHost>
-        <div className="flex">
+        <div className="flex items-center">
           <TabHost
             isHeaderTabHost
             listTabs={[

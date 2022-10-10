@@ -29,7 +29,7 @@ export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
             !isNonePadding && "p-2 pr-5",
             STYLE_DISPLAY_WRAPPER_MAPS[style]
           )
-        : "";
+        : classNameDisplay;
     return (
       <div
         role={"listbox"}

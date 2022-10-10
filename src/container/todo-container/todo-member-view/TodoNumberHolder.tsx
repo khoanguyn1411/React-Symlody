@@ -55,8 +55,8 @@ export const TodoNumberHolder: React.FC<TProps> = ({
       className={classNames(
         "hover:border-primary-600 transition-colors duration-200",
         {
-          "border-primary-800": _selectNumberList.length > 0,
-          "border-white": _selectNumberList.length === 0,
+          "border-primary-800 bg-primary-800": _selectNumberList.length > 0,
+          "border-white bg-white": _selectNumberList.length === 0,
         }
       )}
     >

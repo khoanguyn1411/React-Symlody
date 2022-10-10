@@ -30,7 +30,7 @@ import {
 } from "./constant";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { MemberPagination } from "./member-pagination";
-import { TableMemberContent } from "./member-table-content";
+import { MemberTableContent } from "./member-table-content";
 
 const getFilterValue = (key: string) => {
   return MEMBER_FILTER_OPTIONS.find((item) => item.key === key).value;
@@ -74,10 +74,10 @@ export const MemberContainer: React.FC = () => {
   const handleDelete = async (item: IMember) => {
     const result = await dispatch(deleteMemberAsync(item.id));
     if (result.payload) {
-      toast.success(MEMBER_MESSAGE.delete.success);
+      toast.success(MEMBER_MESSAGE.achieve.success);
       return;
     }
-    toast.success(MEMBER_MESSAGE.delete.error);
+    toast.success(MEMBER_MESSAGE.achieve.error);
   };
   const handleRestore = async (item: IMember) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -170,7 +170,7 @@ export const MemberContainer: React.FC = () => {
             <Table.CellHead width="12rem">Vị trí</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
-          <TableMemberContent
+          <MemberTableContent
             onEdit={handleEdit}
             onRestore={handleRestore}
             onDelete={handleDelete}

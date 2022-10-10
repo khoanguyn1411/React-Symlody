@@ -1,1 +1,1 @@
-export * from "./TablePropertyContent";
+export * from "./PropertyTableContent";

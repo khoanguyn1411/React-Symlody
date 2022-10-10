@@ -12,7 +12,7 @@ type TProps = {
   onRestore: (property: IProperty) => void;
 };
 
-export const TablePropertyContent: React.FC<TProps> = ({
+export const PropertyTableContent: React.FC<TProps> = ({
   onEdit,
   onDelete,
   onRestore,
@@ -79,7 +79,7 @@ export const TablePropertyContent: React.FC<TProps> = ({
                   currentInteractiveId === item.id
                 }
                 isShowRestore={item.is_archived}
-                title="Xóa tài sản?"
+                title="Lưu trữ tài sản?"
                 handleEvent={{
                   edit: handleEdit(item),
                   delete: handleDelete(item),

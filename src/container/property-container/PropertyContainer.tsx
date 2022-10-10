@@ -29,7 +29,7 @@ import {
 } from "./constant";
 import { ModalCreateProperty, ModalEditProperty } from "./property-modal";
 import { PropertyPagination } from "./property-pagination";
-import { TablePropertyContent } from "./property-table-content";
+import { PropertyTableContent } from "./property-table-content";
 
 const getFilterValue = (key: string) => {
   return PROPERTY_FILTER_OPTIONS.find((item) => item.key === key).value;
@@ -167,7 +167,7 @@ export const PropertyContainer: React.FC = () => {
             <Table.CellHead width="10rem">Chủ sở hữu</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
-          <TablePropertyContent
+          <PropertyTableContent
             onEdit={handleEdit}
             onDelete={handleDelete}
             onRestore={handleRestore}

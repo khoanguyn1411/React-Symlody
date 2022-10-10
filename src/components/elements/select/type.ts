@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import { GlobalTypes } from "@/utils";
+
 import { AlignedPlacement } from "../portal/type";
 
 export const STYLE = {
@@ -48,4 +50,6 @@ export type TSelectMultipleProps = {
 export type TSelectCustomProps = {
   isShowArrow?: boolean;
   renderListItem: ReactNode;
+  isShowContent?: boolean;
+  setIsShowContent?: GlobalTypes.ReactStateAction<boolean>;
 } & TSelectGeneralProps;

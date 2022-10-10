@@ -3,10 +3,12 @@ import React from "react";
 import { DeleteAndEditField, Table } from "@/components";
 
 import { MOCK_DATA_TODO } from "./constant";
+import { TodoSelectPriority } from "./TodoSelectPriority";
 
-export const TableTodoContent: React.FC = () => {
+export const TodoTableContent: React.FC = () => {
   const isPending = false;
   const isCount0 = false;
+
   if (isPending) {
     return <Table.Skeleton colsNumber={6} />;
   }
@@ -21,7 +23,12 @@ export const TableTodoContent: React.FC = () => {
         return (
           <Table.Row key={index} index={index}>
             <Table.Cell textAlign="center">{index + 1}</Table.Cell>
-            <Table.Cell>{item.job}</Table.Cell>
+            <Table.Cell>
+              <div className="flex space-x-4">
+                <span>{item.job}</span>
+                <TodoSelectPriority isPriority={item.isPriority} />
+              </div>
+            </Table.Cell>
             <Table.Cell textAlign="right">{item.expiredDate}</Table.Cell>
             <Table.Cell textAlign="left">{item.status}</Table.Cell>
             <Table.Cell>{item.assignee}</Table.Cell>

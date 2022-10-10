@@ -12,7 +12,7 @@ type TProps = {
   onRestore: (member: IMember) => void;
 };
 
-export const TableMemberContent: React.FC<TProps> = ({
+export const MemberTableContent: React.FC<TProps> = ({
   onEdit,
   onRestore,
   onDelete,
@@ -90,7 +90,7 @@ export const TableMemberContent: React.FC<TProps> = ({
                   currentInteractiveId === item.id
                 }
                 isShowRestore={item.is_archived}
-                title="Xóa thành viên?"
+                title="Lưu trữ thành viên?"
                 handleEvent={{
                   restore: handleRestore(item),
                   edit: handleEdit(item),
