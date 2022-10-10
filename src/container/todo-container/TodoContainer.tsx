@@ -14,6 +14,7 @@ import { useModal } from "@/hooks";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
 import { TodoBoard } from "./todo-board";
+import { TodoMemberView } from "./todo-member-view";
 import { ModalCreateTodo } from "./todo-modals";
 import { ETodoTab, ETodoTabReadableString } from "./type";
 
@@ -89,20 +90,23 @@ export const TodoContainer: React.FC = () => {
   return (
     <>
       <Container.HeaderForTabHost>
-        <TabHost
-          isHeaderTabHost
-          listTabs={[
-            {
-              key: ETodoTab.Kanban,
-              title: ETodoTabReadableString.Kanban,
-            },
-            {
-              key: ETodoTab.Board,
-              title: ETodoTabReadableString.Board,
-            },
-          ]}
-          onChangeTab={handleChangeTab}
-        />
+        <div className="flex">
+          <TabHost
+            isHeaderTabHost
+            listTabs={[
+              {
+                key: ETodoTab.Kanban,
+                title: ETodoTabReadableString.Kanban,
+              },
+              {
+                key: ETodoTab.Board,
+                title: ETodoTabReadableString.Board,
+              },
+            ]}
+            onChangeTab={handleChangeTab}
+          />
+          <TodoMemberView />
+        </div>
         <Container.HeaderRight>
           <Select
             className="w-52"
