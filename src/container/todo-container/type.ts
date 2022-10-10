@@ -35,6 +35,7 @@ export type TTodoCard = {
 } & TTodoCardProps;
 
 export type TTodoColumn = {
+  color?: "green" | "blue";
   id: ETodoStatusId;
   boardId: TTodo["id"];
   title: ETodoStatus;

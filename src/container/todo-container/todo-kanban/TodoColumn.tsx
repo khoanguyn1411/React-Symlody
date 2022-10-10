@@ -1,9 +1,10 @@
 import classNames from "classnames";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
 import { SortService } from "@/utils";
 
+import { TODO_DATA } from "../constant";
 import { TODO_STATUS_MAP_FROM_ID, TTodoCard, TTodoColumn } from "../type";
 import { TodoCard } from "./TodoCard";
 import { TCardHiddenStatus } from "./type";
@@ -26,8 +27,22 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columnData]);
 
-  const isColumnDraggingFrom =
-    columnData.id === draggingCard.columnId || !draggingCard.isCardDragging;
+  const isColumnDraggingFrom = useMemo(() => {
+    return (
+      columnData.id === draggingCard.columnId || !draggingCard.isCardDragging
+    );
+  }, [columnData.id, draggingCard.columnId, draggingCard.isCardDragging]);
+
+  const shouldHaveColor = useMemo(
+    () => (color: TTodoColumn["color"]) => {
+      return (
+        draggingCard.columnId &&
+        TODO_DATA.columns.find((item) => item.id === draggingCard.columnId)
+          .color === color
+      );
+    },
+    [draggingCard.columnId]
+  );
 
   return (
     <div className="flex-1 h-full bg-gray-100 rounded-lg min-w-[200px]">
@@ -44,16 +59,30 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
               !isColumnDraggingFrom,
           })}
         >
-          <h1 className="p-2">
-            Từ{" "}
-            <span className="font-medium bg-primary-100 p-0.5 text-primary-800">
-              {TODO_STATUS_MAP_FROM_ID[draggingCard.columnId]}
-            </span>{" "}
-            sang{" "}
-            <span className="font-medium bg-secondary-100 p-0.5 text-secondary-800">
-              {columnData.title}
-            </span>
-          </h1>
+          <div>
+            <div className="flex flex-wrap items-start w-full p-2">
+              <span
+                className={classNames("font-medium px-2 mb-2 py-1 rounded-lg", {
+                  "bg-green-400 text-green-800": shouldHaveColor("green"),
+                  "bg-primary-100 text-primary-800": shouldHaveColor("blue"),
+                })}
+              >
+                {TODO_STATUS_MAP_FROM_ID[draggingCard.columnId]}
+              </span>
+              <span className="mx-2 mt-1">
+                <i className="fas fa-arrow-right" />
+              </span>
+              <span
+                className={classNames("font-medium px-2 py-1 rounded-lg", {
+                  "bg-green-400 text-green-800": columnData.color === "green",
+                  "bg-primary-100 text-primary-800":
+                    columnData.color === "blue",
+                })}
+              >
+                {columnData.title}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -72,7 +101,7 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
                   className={classNames(
                     "transition-colors duration-150 h-full border-2 rounded-md",
                     {
-                      "border-gray-500 bg-green-100 border-dashed":
+                      "border-primary-800 bg-primary-50 border-dashed":
                         snapshot.isDraggingOver,
                       "bg-gray-200 border-gray-500  border-dashed":
                         draggingCard.isCardDragging && !snapshot.isDraggingOver,

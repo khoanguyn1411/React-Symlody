@@ -14,6 +14,7 @@ export const TODO_DATA: TTodo = {
   id: "board-1",
   columns: [
     {
+      color: "blue",
       boardId: "board-1",
       id: ETodoStatusId.Todo,
       title: TODO_STATUS_MAP_FROM_ID[ETodoStatusId.Todo],
@@ -46,6 +47,7 @@ export const TODO_DATA: TTodo = {
       ],
     },
     {
+      color: "blue",
       boardId: "board-1",
       id: ETodoStatusId.InProgress,
       title: TODO_STATUS_MAP_FROM_ID[ETodoStatusId.InProgress],
@@ -53,6 +55,7 @@ export const TODO_DATA: TTodo = {
       cards: [],
     },
     {
+      color: "blue",
       boardId: "board-1",
       id: ETodoStatusId.Review,
       title: TODO_STATUS_MAP_FROM_ID[ETodoStatusId.Review],
@@ -60,6 +63,7 @@ export const TODO_DATA: TTodo = {
       cards: [],
     },
     {
+      color: "green",
       boardId: "board-1",
       id: ETodoStatusId.Done,
       title: TODO_STATUS_MAP_FROM_ID[ETodoStatusId.Done],
