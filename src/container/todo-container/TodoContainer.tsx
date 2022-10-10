@@ -1,10 +1,9 @@
-import React, { ReactNode, useEffect, useLayoutEffect, useState } from "react";
+import React, { ReactNode, useLayoutEffect, useState } from "react";
 
 import {
   ButtonCreate,
   Container,
   NoData,
-  Search,
   Select,
   TabHost,
   TTab,
@@ -14,8 +13,8 @@ import { getDepartmentAsync } from "@/features/reducers";
 import { useModal } from "@/hooks";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
-import { TodoBoard } from "./todo-components";
-import { TodoMemberView } from "./todo-components/todo-member-view";
+import { TodoBoard } from "./todo-board";
+import { TodoMemberView } from "./todo-member-view";
 import { ModalCreateTodo } from "./todo-modals";
 import { ETodoTab, ETodoTabReadableString } from "./type";
 
