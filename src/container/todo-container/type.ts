@@ -3,7 +3,7 @@ import { TTodoCardProps } from "./todo-board";
 export enum ETodoStatus {
   Todo = "Cần làm",
   InProgress = "Đang làm",
-  Review = "Kiểm duyệt",
+  Review = "Cần duyệt",
   Done = "Đã xong",
 }
 

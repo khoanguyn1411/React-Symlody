@@ -63,12 +63,15 @@ export const TodoNumberHolder: React.FC<TProps> = ({
       <SelectCustom
         style="none"
         isNoPaddingY
-        placement="bottom-right"
         classNameList="w-32 border border-gray-200 bg-white"
         renderListItem={
           <>
             <div className="sticky top-0 z-10 px-3 py-2 bg-white">
-              <Search inputValue={inputValue} setInputValue={setInputValue} />
+              <Search
+                placeholder="Tìm kiếm ..."
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+              />
             </div>
             {_memberList.length === 0 && <h1 className="px-2 py-2">No data</h1>}
             {_memberList.length > 0 &&
@@ -90,7 +93,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
           fontSize={15}
           fontColor={"black"}
           fontWeight={600}
-          backgroundColor="#dadee0"
+          backgroundColor="#e5e7eb"
           isFullText
           size="small"
           fullName={`+${memberList && memberList.length}`}

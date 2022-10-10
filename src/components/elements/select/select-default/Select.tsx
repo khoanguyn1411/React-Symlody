@@ -2,7 +2,6 @@ import classNames from "classnames";
 import React, { ReactNode, useLayoutEffect, useState } from "react";
 
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
-import { GlobalTypes } from "@/utils";
 
 import { Portal } from "../../portal";
 import { AlignedPlacement } from "../../portal/type";

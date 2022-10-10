@@ -33,7 +33,9 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
     <div className="flex-1 h-full bg-gray-100 rounded-lg min-w-[200px]">
       <div className="sticky top-0 z-[2] bg-gray-50">
         <h1 className="px-3 py-4 font-medium bg-gray-100 rounded-t-lg">
-          {columnData.title}
+          {columnData.title}{" "}
+          {columnData.cards.length > 0 &&
+            `${columnData.cards.length} công việc`}
         </h1>
         <div
           hidden={isColumnDraggingFrom}
