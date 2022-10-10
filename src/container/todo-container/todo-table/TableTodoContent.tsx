@@ -1,15 +1,12 @@
 import React from "react";
 
-import { Avatar, DeleteAndEditField, Table } from "@/components";
-import { MemberTableMapper } from "@/container/member-container/mapper";
-import { memberStore } from "@/features/reducers";
+import { DeleteAndEditField, Table } from "@/components";
 
 import { MOCK_DATA_TODO } from "./constant";
 
 export const TableTodoContent: React.FC = () => {
   const isPending = false;
   const isCount0 = false;
-
   if (isPending) {
     return <Table.Skeleton colsNumber={6} />;
   }
