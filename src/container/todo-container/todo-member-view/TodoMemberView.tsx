@@ -1,22 +1,8 @@
 import React, { useState } from "react";
 
-import { DEFAULT_DISPLAY_MEMBER_COUNT } from "./constant";
+import { DEFAULT_DISPLAY_MEMBER_COUNT, members } from "./constant";
 import { TodoAvatar } from "./TodoAvatar";
 import { TodoNumberHolder } from "./TodoNumberHolder";
-
-const members = [
-  "Khoa",
-  "Lam",
-  "Truong",
-  "Ca",
-  "Linh",
-  "Hao",
-  "Conan",
-  "Hoang",
-  "Nguyen",
-  "Funny",
-  "Sad",
-];
 
 export const TodoMemberView: React.FC = () => {
   const [selectedMember, setSelectedMember] = useState<typeof members>([]);
@@ -33,6 +19,8 @@ export const TodoMemberView: React.FC = () => {
       ))}
       {members.length > DEFAULT_DISPLAY_MEMBER_COUNT && (
         <TodoNumberHolder
+          setSelectedMember={setSelectedMember}
+          selectedMember={selectedMember}
           memberList={members.slice(
             DEFAULT_DISPLAY_MEMBER_COUNT,
             members.length

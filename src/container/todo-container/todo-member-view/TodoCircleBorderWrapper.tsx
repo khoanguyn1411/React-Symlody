@@ -23,7 +23,7 @@ export const TodoCircleBorderWrapper: GlobalTypes.FCPropsWithChildren<
       onMouseOut={onMouseOut}
       onClick={onClick}
       className={classNames(
-        "border-white rounded-full cursor-pointer border-[1.8px] ",
+        "rounded-full cursor-pointer border-[1.8px]",
         className
       )}
     >

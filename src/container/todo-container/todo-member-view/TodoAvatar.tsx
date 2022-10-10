@@ -55,7 +55,8 @@ export const TodoAvatar: React.FC<TProps> = ({
       onMouseOut={handleChangeZIndexOnMouseOut}
       onClick={handleSetSelectedMember}
       className={classNames("transition-all duration-200", {
-        "border-green-800": selectedMember.includes(item),
+        "border-white": !selectedMember.includes(item),
+        "border-primary-800": selectedMember.includes(item),
         "mb-2": zIndex === ZINDEX_SETTING.ON_TOP,
       })}
       zIndex={zIndex}

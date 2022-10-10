@@ -1,11 +1,17 @@
+import classNames from "classnames";
 import React from "react";
 
 type TProps = {
   checked: boolean;
   readOnly?: boolean;
+  size?: "small" | "medium";
 };
 
-export const Checkbox: React.FC<TProps> = ({ checked, readOnly = false }) => {
+export const Checkbox: React.FC<TProps> = ({
+  checked,
+  readOnly = false,
+  size = "small",
+}) => {
   return (
     <div className="inline-flex items-center">
       <label
@@ -18,7 +24,13 @@ export const Checkbox: React.FC<TProps> = ({ checked, readOnly = false }) => {
           disabled={readOnly}
           type={"checkbox"}
           id={"checkbox"}
-          className="relative w-5 h-5 border border-gray-400 appearance-none cursor-pointer peer rounded-md transition-all before:content[''] before:block before:bg-blue-grey-500 before:w-12 before:h-12 before:rounded-full before:absolute before:top-2/4 before:left-2/4 before:-translate-y-2/4 before:-translate-x-2/4 before:opacity-0 hover:before:opacity-10 before:transition-opacity checked:bg-primary-800 checked:border-primary-800 checked:before:bg-primary-800"
+          className={classNames(
+            "relative border border-gray-400 appearance-none cursor-pointer peer rounded-md transition-all before:content[''] before:block before:bg-blue-grey-500 before:w-12 before:h-12 before:rounded-full before:absolute before:top-2/4 before:left-2/4 before:-translate-y-2/4 before:-translate-x-2/4 before:opacity-0 hover:before:opacity-10 before:transition-opacity checked:bg-primary-800 checked:border-primary-800 checked:before:bg-primary-800",
+            {
+              "w-5 h-5 ": size === "small",
+              "w-6 h-6 ": size === "medium",
+            }
+          )}
         />
         <div className="absolute text-white opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100 transition-opacity">
           <svg

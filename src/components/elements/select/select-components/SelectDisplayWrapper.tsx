@@ -21,6 +21,15 @@ export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
     { classNameDisplay, style, isNonePadding = false, children, onClick },
     ref
   ) => {
+    const _style =
+      style !== "none"
+        ? classNames(
+            "flex justify-between w-full items-center rounded-lg text-black",
+            classNameDisplay,
+            !isNonePadding && "p-2 pr-5",
+            STYLE_DISPLAY_WRAPPER_MAPS[style]
+          )
+        : "";
     return (
       <div
         role={"listbox"}
@@ -28,12 +37,7 @@ export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
         onKeyDown={null}
         tabIndex={0}
         ref={ref}
-        className={classNames(
-          "flex justify-between w-full items-center rounded-lg text-black",
-          classNameDisplay,
-          !isNonePadding && "p-2 pr-5",
-          STYLE_DISPLAY_WRAPPER_MAPS[style]
-        )}
+        className={_style}
       >
         {children}
       </div>

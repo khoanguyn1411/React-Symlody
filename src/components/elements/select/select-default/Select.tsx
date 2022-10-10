@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React, { ReactNode, useLayoutEffect, useState } from "react";
 
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
+import { GlobalTypes } from "@/utils";
 
 import { Portal } from "../../portal";
 import { AlignedPlacement } from "../../portal/type";
@@ -21,6 +22,7 @@ type TProps = {
   style?: TStyle;
   placeHolder?: string;
   classNameDisplay?: TSelectGeneralProps["classNameDisplay"];
+  classNameList?: string;
   className?: TSelectGeneralProps["className"];
   isPortal?: TSelectGeneralProps["isPortal"];
   value: string;
@@ -28,6 +30,7 @@ type TProps = {
   paramChangeDependency?: string;
   placement?: AlignedPlacement;
   isLoading?: boolean;
+  children?: ReactNode;
   onChange: (value: string) => void;
   onChangeSideEffect?: (item: TItemListSelect) => void;
 };
@@ -35,9 +38,11 @@ type TProps = {
 export const Select: React.FC<TProps> = ({
   classNameDisplay,
   className,
+  classNameList,
   suffix,
   placeHolder,
   list,
+  children,
   value,
   onChange,
   onChangeSideEffect,
@@ -96,6 +101,7 @@ export const Select: React.FC<TProps> = ({
         position={position}
         isShowContent={isShowContent}
         style={style}
+        classNameList={classNameList}
       >
         {!isLoading && list.length === 0 && (
           <div className="px-4 py-5">No data</div>
@@ -137,23 +143,28 @@ export const Select: React.FC<TProps> = ({
         {/* Display */}
         <SelectDisplayWrapper
           classNameDisplay={classNameDisplay}
-          style={style}
+          style={children ? "none" : style}
           ref={displayRef}
           onClick={handleToggleContent}
         >
-          <h1 className={classNames("pr-3", { "text-gray-400": !value })}>
-            {value ? value + " " + (suffix ? suffix : "") : placeHolder}
-          </h1>
-          <span>
-            <i
-              className={classNames(
-                "fas fa-angle-down text-gray-400 text-lg -mr-5 duration-300 transition-transform",
-                {
-                  "transform -rotate-180": isShowContent,
-                }
-              )}
-            />
-          </span>
+          {!children && (
+            <>
+              <h1 className={classNames("pr-3", { "text-gray-400": !value })}>
+                {value ? value + " " + (suffix ? suffix : "") : placeHolder}
+              </h1>
+              <span>
+                <i
+                  className={classNames(
+                    "fas fa-angle-down text-gray-400 text-lg -mr-5 duration-300 transition-transform",
+                    {
+                      "transform -rotate-180": isShowContent,
+                    }
+                  )}
+                />
+              </span>
+            </>
+          )}
+          {children}
         </SelectDisplayWrapper>
         {/* List */}
         {isPortal && <Portal>{ListComponent}</Portal>}
