@@ -2,11 +2,16 @@ import React from "react";
 
 import { Avatar } from "@/components";
 
+import { ZINDEX_SETTING } from "./constant";
 import { TodoCircleBorderWrapper } from "./TodoCircleBorderWrapper";
 
-export const TodoNumberHolder: React.FC = () => {
+type TProps = {
+  memberList: string[];
+};
+
+export const TodoNumberHolder: React.FC<TProps> = ({ memberList }) => {
   return (
-    <TodoCircleBorderWrapper zIndex={0}>
+    <TodoCircleBorderWrapper zIndex={ZINDEX_SETTING.NUMBER_HOLDER}>
       <Avatar
         fontSize={15}
         fontColor={"black"}
@@ -14,7 +19,7 @@ export const TodoNumberHolder: React.FC = () => {
         backgroundColor="#dadee0"
         isFullText
         size="small"
-        fullName="+15"
+        fullName={`+${memberList && memberList.length}`}
       />
     </TodoCircleBorderWrapper>
   );

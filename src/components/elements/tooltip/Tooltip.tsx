@@ -12,6 +12,7 @@ type TProps = {
   content: string;
   placement?: AlignedPlacement;
   className?: string;
+  space?: number;
 };
 
 export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
@@ -19,6 +20,7 @@ export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
   content,
   className,
   placement = "top-center",
+  space = 5,
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const refChildren = useRef<HTMLDivElement>(null);
@@ -28,7 +30,7 @@ export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
     displayRef: refChildren,
     isPortal: true,
     placement,
-    space: 5,
+    space: space,
     isShowing: isActive,
     toggleRef,
   });

@@ -109,7 +109,8 @@ export const TodoContainer: React.FC = () => {
         </div>
         <Container.HeaderRight>
           <Select
-            className="w-40"
+            className="w-50"
+            placeHolder="Chọn phòng ban"
             list={departmentStore.departments.map((department) => ({
               value: department.name,
             }))}
