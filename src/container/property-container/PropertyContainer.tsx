@@ -94,9 +94,17 @@ export const PropertyContainer: React.FC = () => {
     propsModal.toggle.setToggle();
   };
 
-  useEffect(() => {
+  useEffectSkipFirstRender(() => {
     dispatch(getPropertyAsync(propertyStore.listQueryProperty));
   }, [dispatch, propertyStore.listQueryProperty]);
+
+  useEffect(() => {
+    if (propertyList && propertyList.length > 0) {
+      return;
+    }
+    dispatch(getPropertyAsync(propertyStore.listQueryProperty));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // TO_UPDATE: When BE release pagination.
   useEffectSkipFirstRender(() => {

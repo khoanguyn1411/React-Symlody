@@ -14,6 +14,7 @@ type TSelectSearchProps = {
   debounceValue: string;
   isShowContent: boolean;
   postNode?: ReactNode;
+  isSearching: boolean;
   isShowClearSearch?: boolean;
   setIsShowContent: (isShowContent: boolean) => void;
   setInputValue: (value: string) => void;
@@ -28,6 +29,7 @@ export const SelectSearch: GlobalTypes.FCPropsWithChildren<
   postNode,
   inputValue,
   debounceValue,
+  isSearching,
   isShowContent,
   placeholder,
   isShowClearSearch,
@@ -58,7 +60,9 @@ export const SelectSearch: GlobalTypes.FCPropsWithChildren<
   };
 
   useEffect(() => {
-    onSearchChange(inputValue);
+    if (isSearching) {
+      onSearchChange(inputValue);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceValue]);
 

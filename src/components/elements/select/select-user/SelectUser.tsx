@@ -4,21 +4,20 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { Avatar, SelectSearch } from "@/components";
 import { PLACEHOLDER_IMAGE } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getMembersAsync, memberSelectors } from "@/features/reducers";
-import { IMember } from "@/features/types";
+import { getUsersAsync, userSelectors } from "@/features/reducers";
+import { IUser } from "@/features/types";
 import { useDebounce } from "@/hooks";
 import { FormatService } from "@/utils";
 
-export const PropertyOwnerSelect: React.FC = () => {
+export const SelectUser: React.FC = () => {
   const dispatch = useAppDispatch();
-  const memberList = useAppSelector(memberSelectors.selectAll);
+  const userList = useAppSelector(userSelectors.selectAll);
   const { inputValue, setInputValue, debounceValue } = useDebounce();
 
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [memberSelected, setMemberSelected] = useState<IMember>();
-  const [currentMemberList, setCurrentMemberList] =
-    useState<IMember[]>(memberList);
+  const [userSelected, setUserSelected] = useState<IUser>();
+  const [currentUserList, setCurrentUserList] = useState<IUser[]>(userList);
 
   const handleInputChange = (value: string): void => {
     setInputValue(value);
@@ -27,59 +26,61 @@ export const PropertyOwnerSelect: React.FC = () => {
 
   const handleSearchValueChange = (value: string): void => {
     if (!value) {
-      if (memberSelected) {
-        setCurrentMemberList(
-          memberList.filter((item) => item.id !== memberSelected.id)
+      if (userSelected) {
+        setCurrentUserList(
+          userList.filter((item) => item.id !== userSelected.id)
         );
         return;
       }
-      setCurrentMemberList(memberList);
+      setCurrentUserList(userList);
       return;
     }
 
-    const newMemberFilterList = memberList.filter((item) =>
-      FormatService.toCleanedString(item.auth_account.full_name).includes(
+    const newMemberFilterList = userList.filter((item) =>
+      FormatService.toCleanedString(item.full_name).includes(
         FormatService.toCleanedString(value)
       )
     );
-    setCurrentMemberList(newMemberFilterList);
+    setCurrentUserList(newMemberFilterList);
   };
 
-  const handleSelectMember = (member: IMember) => () => {
-    setMemberSelected(member);
+  const handleSelectMember = (member: IUser) => () => {
+    setUserSelected(member);
     setIsShowContent(false);
-    setInputValue(member.auth_account.full_name);
+    setInputValue(member.full_name);
+    setIsSearching(false);
   };
 
   const handleClearMemberSelected = () => {
-    setMemberSelected(null);
+    setUserSelected(null);
   };
 
   useLayoutEffect(() => {
-    if (!isShowContent && memberSelected) {
-      setInputValue(memberSelected.auth_account.full_name);
+    if (!isShowContent && userSelected) {
+      setInputValue(userSelected.full_name);
       setIsSearching(false);
     }
     if (isShowContent && !isSearching) {
-      setCurrentMemberList(memberList);
+      setCurrentUserList(userList);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isShowContent, isSearching]);
+  }, [isShowContent]);
 
   useEffect(() => {
-    dispatch(getMembersAsync(null));
+    dispatch(getUsersAsync());
   }, [dispatch]);
 
   useEffect(() => {
-    setCurrentMemberList(memberList);
-  }, [memberList]);
+    setCurrentUserList(userList);
+  }, [userList]);
 
   return (
     <div>
       <SelectSearch
         setInputValue={handleInputChange}
         inputValue={inputValue}
-        isShowClearSearch={inputValue !== "" || memberSelected != null}
+        isSearching={isSearching}
+        isShowClearSearch={inputValue !== "" || userSelected != null}
         debounceValue={debounceValue}
         isShowContent={isShowContent}
         onClearSearch={handleClearMemberSelected}
@@ -89,43 +90,38 @@ export const PropertyOwnerSelect: React.FC = () => {
           <Avatar
             size="small"
             fullName={
-              memberSelected &&
-              inputValue === memberSelected.auth_account.full_name &&
-              memberSelected.auth_account.first_name
+              userSelected &&
+              inputValue === userSelected.full_name &&
+              userSelected.first_name
             }
             src={
-              (!memberSelected ||
-                inputValue !== memberSelected.auth_account.full_name) &&
+              (!userSelected || inputValue !== userSelected.full_name) &&
               PLACEHOLDER_IMAGE
             }
           />
         }
         onSearchChange={handleSearchValueChange}
       >
-        {memberSelected && !debounceValue && (
+        {userSelected && !debounceValue && (
           <button
             className={classNames(
               "flex p-2 w-full space-x-3 items-center bg-primary-50"
             )}
           >
-            <Avatar
-              size="medium"
-              fullName={memberSelected.auth_account.first_name}
-              src=""
-            />
+            <Avatar size="medium" fullName={userSelected.first_name} src="" />
             <div className="flex flex-col">
               <h1
                 className={classNames("text-left text-primary-800 font-medium")}
               >
-                {memberSelected.auth_account.full_name}
+                {userSelected.full_name}
               </h1>
-              <h2 className="text-sm">{memberSelected.auth_account.email}</h2>
+              <h2 className="text-sm">{userSelected.email}</h2>
             </div>
           </button>
         )}
-        {currentMemberList.map((item) => {
+        {currentUserList.map((item) => {
           const isSelectedItemInList =
-            memberSelected && item.id === memberSelected.id;
+            userSelected && item.id === userSelected.id;
           return (
             <button
               onClick={handleSelectMember(item)}
@@ -135,11 +131,7 @@ export const PropertyOwnerSelect: React.FC = () => {
                 isSelectedItemInList && "bg-primary-50"
               )}
             >
-              <Avatar
-                size="default"
-                fullName={item.auth_account.first_name}
-                src=""
-              />
+              <Avatar size="default" fullName={item.first_name} src="" />
               <div className="flex flex-col">
                 <h1
                   className={classNames(
@@ -147,16 +139,16 @@ export const PropertyOwnerSelect: React.FC = () => {
                     isSelectedItemInList && "text-primary-800 font-medium"
                   )}
                 >
-                  {item.auth_account.full_name}
+                  {item.full_name}
                 </h1>
                 {isSelectedItemInList && (
-                  <h2 className="text-sm">{item.auth_account.email}</h2>
+                  <h2 className="text-sm">{item.email}</h2>
                 )}
               </div>
             </button>
           );
         })}
-        {currentMemberList.length === 0 && (
+        {currentUserList.length === 0 && (
           <div className="p-2">Không có dữ liệu thành viên</div>
         )}
       </SelectSearch>

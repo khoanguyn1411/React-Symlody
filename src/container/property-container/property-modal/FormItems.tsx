@@ -1,14 +1,20 @@
 import React, { useEffect } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
-import { FormItem, Input, PickImage, RadioGroup, TextArea } from "@/components";
+import {
+  FormItem,
+  Input,
+  PickImage,
+  RadioGroup,
+  SelectUser,
+  TextArea,
+} from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getMembersAsync, memberSelectors } from "@/features/reducers";
 import { IProperty } from "@/features/types";
 import { FormatService, FormService } from "@/utils";
 
 import { PropertyFormMapper } from "../mapper";
-import { PropertyOwnerSelect } from "../property-owner-select";
 import { IFormPropertyInfo } from "../type";
 
 type TProps = {
@@ -122,7 +128,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
       </FormItem>
 
       <FormItem label="Người chịu trách nhiệm" isRequired>
-        <PropertyOwnerSelect />
+        <SelectUser />
       </FormItem>
 
       <FormItem

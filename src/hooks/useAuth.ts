@@ -14,7 +14,7 @@ import { LocalStorageService, TokenService } from "@/utils";
 export const useAuth = () => {
   const dispatch = useAppDispatch();
 
-  const state = useAppSelector((state) => state.user);
+  const state = useAppSelector((state) => state.auth);
   const isAlreadyGetMe = useRef(false);
 
   const [isLoading, setIsLoading] = useState(true);

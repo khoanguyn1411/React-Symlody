@@ -17,7 +17,7 @@ type TProps = {
 };
 
 export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
-  const userStore = useAppSelector((state) => state.user);
+  const authStore = useAppSelector((state) => state.auth);
 
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const toggleSidebar = () => {
@@ -68,7 +68,7 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
             <Avatar src={images.Logo} fullName="Logo" />
             <span className="font-medium"></span>
           </div>
-          <UserDropdown user={userStore.user} />
+          <UserDropdown user={authStore.user} />
         </div>
       </div>
     </header>

@@ -2,11 +2,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AuthApi } from "@/api";
 import { RootState } from "@/features/store";
-import { ILogin, IProfile, ProfileMapper, UserMapper } from "@/features/types";
+import { ILogin, IProfile, ProfileMapper } from "@/features/types";
 import { LoginMapper } from "@/features/types/mappers/login.mapper";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
-import { GlobalTypes } from "@/utils";
-import { TokenService } from "@/utils";
+import { GlobalTypes, TokenService } from "@/utils";
 
 export type AuthState = {
   pending: boolean;
@@ -48,7 +47,7 @@ export const getMeAsync = createAsyncThunk<
 });
 
 export const authSlice = createSlice({
-  name: "user",
+  name: "auth",
   initialState,
   reducers: {
     setIsAuth: (state, action: PayloadAction<boolean>) => {

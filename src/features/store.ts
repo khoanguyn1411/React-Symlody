@@ -5,10 +5,12 @@ import commonReducer from "./reducers/common-reducer";
 import departmentReducer from "./reducers/department-reducer";
 import memberReducer from "./reducers/member-reducer";
 import propertyReducer from "./reducers/property-reducer";
+import userReducer from "./reducers/user-reducer";
 
 export const store = configureStore({
   reducer: {
-    user: authReducer,
+    auth: authReducer,
+    user: userReducer,
     common: commonReducer,
     member: memberReducer,
     department: departmentReducer,
