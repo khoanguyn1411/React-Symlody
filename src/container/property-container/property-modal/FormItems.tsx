@@ -69,7 +69,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           )}
         />
       </FormItem>
-
       <FormItem label="Số lượng" isRequired error={errors.quantity?.message}>
         <Controller
           control={control}
@@ -95,7 +94,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           )}
         />
       </FormItem>
-
       <FormItem label="Đơn giá">
         <Controller
           control={control}
@@ -126,11 +124,10 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           )}
         />
       </FormItem>
-
+      {/* TODO: Edit form type. */}
       <FormItem label="Người chịu trách nhiệm" isRequired>
         <SelectUser />
       </FormItem>
-
       <FormItem
         label="Chủ sở hữu tài sản"
         isRequired
@@ -152,7 +149,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           }}
         />
       </FormItem>
-
       <FormItem label="Hình ảnh / Video">
         <Controller
           control={control}
@@ -166,7 +162,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           )}
         />
       </FormItem>
-
       <FormItem label="Ghi chú">
         <Controller
           control={control}
