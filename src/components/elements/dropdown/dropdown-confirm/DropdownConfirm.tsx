@@ -36,7 +36,7 @@ export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
     <Dropdown
       ref={dropdownRef}
       renderCustom={
-        <div className="w-full p-4 space-y-4">
+        <div className="w-full px-3 py-2 space-y-4">
           <div className="flex items-center">
             <span className="flex items-center justify-center w-8 h-8 mr-2 rounded-full shadow-inner bg-red-50">
               <i className="text-red-400 fas fa-question" />
@@ -47,10 +47,17 @@ export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
           </div>
 
           <div className="flex items-center w-full space-x-4">
-            <Button size="small" style="text" block onClick={handleCancel}>
+            <Button
+              className="text-xs"
+              size="small"
+              style="text"
+              block
+              onClick={handleCancel}
+            >
               Hủy
             </Button>
             <Button
+              className="text-xs"
               size="small"
               block
               style="danger"
