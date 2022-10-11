@@ -1,9 +1,9 @@
-import { IProfile } from "./profile";
+import { IUser } from "./user";
 
 export interface IProperty {
   readonly id: number;
-  readonly incharger: IProfile;
-  readonly created_by: IProfile;
+  readonly incharger: IUser;
+  readonly created_by: IUser;
   readonly last_modified_by: string | null;
   readonly image: string | null;
   readonly organization: string;
@@ -23,4 +23,4 @@ export interface IProperty {
 export type IPropertyCreateUpdate = Pick<
   IProperty,
   "name" | "quantity" | "price" | "prop_owner" | "note" | "is_club_property"
-> & { incharger_id: IProfile["id"]; image?: FormData };
+> & { incharger_id: IUser["id"]; image?: FormData };

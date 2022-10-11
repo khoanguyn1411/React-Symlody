@@ -1,4 +1,4 @@
-import { ILoginDto, ITokenDto, IUserDto } from "@/features/types";
+import { ILoginDto, IProfileDto, ITokenDto } from "@/features/types";
 
 import { Api } from "../api-core";
 import { returnResponse } from "../api-utilities";
@@ -19,7 +19,7 @@ export const AuthApi = {
 
   async getProfile(): Promise<Types.RequestGetProfileResult> {
     const url = routes.getProfile();
-    const result = await Api.http.get<IUserDto>(url);
+    const result = await Api.http.get<IProfileDto>(url);
 
     return returnResponse(result);
   },

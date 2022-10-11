@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AuthApi } from "@/api";
 import { RootState } from "@/features/store";
-import { ILogin, IUser, UserMapper } from "@/features/types";
+import { ILogin, IProfile, ProfileMapper, UserMapper } from "@/features/types";
 import { LoginMapper } from "@/features/types/mappers/login.mapper";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 import { GlobalTypes } from "@/utils";
@@ -10,7 +10,7 @@ import { TokenService } from "@/utils";
 
 export type AuthState = {
   pending: boolean;
-  user: IUser;
+  user: IProfile;
   isAuth: boolean;
 };
 
@@ -35,13 +35,13 @@ export const loginAsync = createAsyncThunk<
 });
 
 export const getMeAsync = createAsyncThunk<
-  IUser,
+  IProfile,
   null,
   GlobalTypes.ReduxThunkRejectValue<null>
 >("auth/login/me", async (payload, { rejectWithValue }) => {
   const result = await AuthApi.getProfile();
   if (result.kind === "ok") {
-    return UserMapper.fromDto(result.result);
+    return ProfileMapper.fromDto(result.result);
   }
 
   return rejectWithValue(null);

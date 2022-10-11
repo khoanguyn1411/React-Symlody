@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch } from "@/features";
 import { logout } from "@/features/reducers";
-import { IUser } from "@/features/types";
+import { IProfile } from "@/features/types";
 
 import { Avatar, Dropdown } from "../../elements";
 
@@ -18,7 +18,7 @@ const MENUS = [
 ];
 
 type TProps = {
-  user: IUser;
+  user: IProfile;
 };
 export const UserDropdown: React.FC<TProps> = ({ user }) => {
   const dispatch = useAppDispatch();
