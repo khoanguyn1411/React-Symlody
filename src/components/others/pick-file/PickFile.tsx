@@ -8,6 +8,7 @@ import { Button } from "../../elements";
 import { PICK_FILE_MESSAGE } from "./constant";
 
 export type TPropsPickFile = {
+  linkFile?: string;
   selectedFile: File;
   isSubmitFile: boolean;
   setIsSubmitFile: (isSubmitFile: boolean) => void;
@@ -15,6 +16,7 @@ export type TPropsPickFile = {
 };
 export * from "./constant";
 export const PickFile: React.FC<TPropsPickFile> = ({
+  linkFile,
   selectedFile,
   isSubmitFile,
   setIsSubmitFile,
@@ -161,7 +163,9 @@ export const PickFile: React.FC<TPropsPickFile> = ({
           {message}
         </span>
         <span className="mt-1 font-semibold underline cursor-pointer text-primary-800">
-          Tải file mẫu (.xslx)
+          <a href={linkFile} download>
+            Tải file mẫu (.xslx)
+          </a>
         </span>
       </div>
     </>

@@ -67,7 +67,10 @@ const TabCreateMultipleMembers: React.FC = () => {
         isLoading: false,
       }}
     >
-      <PickFile {...propsFile} />
+      <PickFile
+        linkFile={"/excels/member_create_template.xlsx"}
+        {...propsFile}
+      />
     </ModalTab>
   );
 };

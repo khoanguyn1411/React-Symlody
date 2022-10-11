@@ -136,7 +136,7 @@ export const PropertyOwnerSelect: React.FC = () => {
               )}
             >
               <Avatar
-                size="medium"
+                size="default"
                 fullName={item.auth_account.first_name}
                 src=""
               />

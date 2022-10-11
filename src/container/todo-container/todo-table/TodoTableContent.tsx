@@ -36,7 +36,8 @@ export const TodoTableContent: React.FC = () => {
             <Table.Cell>{item.assignee}</Table.Cell>
             <Table.CellAction>
               <DeleteAndEditField
-                title="Xóa thành viên?"
+                titleDelete="Xóa"
+                title="Xóa sự kiện?"
                 handleEvent={{
                   edit: function (): void {
                     throw new Error("Function not implemented.");
