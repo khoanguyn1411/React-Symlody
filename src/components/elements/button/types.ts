@@ -13,9 +13,9 @@ export const STYLE_MAPS = {
 } as const;
 
 export const SIZE_MAPS = {
-  small: "h-8 text-xs",
+  small: "h-8",
   default: "h-10",
-  large: "h-12 text-lg",
+  large: "h-12",
 } as const;
 
 export const BLOCK = {

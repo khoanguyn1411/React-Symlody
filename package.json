@@ -113,6 +113,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-tailwind": "^0.2.1",
     "lint-staged": "^11.0.0",
-    "tsconfig-paths-webpack-plugin": "^3.5.2"
+    "tsconfig-paths-webpack-plugin": "^3.5.2",
+    "@reactour/tour": "^3.0.5"
   }
 }

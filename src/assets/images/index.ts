@@ -9,6 +9,9 @@ import noDataMember from "./no-data/NoDataMember.png";
 import NoDataTable from "./no-data/NoDataTable.png";
 import noDataTarget from "./no-data/NoDataTarget.png";
 import NoDataTodos from "./no-data/NoDataTodos.png";
+import Congratulation from "./tour/congratulation.png";
+import Sidebar from "./tour/sidebar.png";
+import Welcome from "./tour/welcome.png";
 
 export const images = {
   loginBanner,
@@ -24,4 +27,9 @@ export const images = {
   },
   Logo,
   comingSoon,
+  tour: {
+    sidebar: Sidebar,
+    congratulation: Congratulation,
+    welcome: Welcome,
+  },
 };

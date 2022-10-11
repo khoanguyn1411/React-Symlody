@@ -3,11 +3,17 @@ import { Icon } from "@/assets/icons";
 import { ITabSidebar } from "./type";
 
 export const getTabsSidebar = (): ITabSidebar[] => [
+  // {
+  //   icon: Icon.Home,
+  //   title: "Trang chủ",
+  //   to: "/",
+  //   pageActive: "Home",
+  // },
   {
-    icon: Icon.Home,
-    title: "Trang chủ",
-    to: "/",
-    pageActive: "Home",
+    icon: Icon.List,
+    title: "Công việc",
+    to: "/todo",
+    pageActive: "Todo",
   },
   {
     icon: Icon.Users,
@@ -21,24 +27,19 @@ export const getTabsSidebar = (): ITabSidebar[] => [
     to: "/property",
     pageActive: "Property",
   },
-  {
-    icon: Icon.Calendar,
-    title: "Sự kiện",
-    to: "/event",
-    pageActive: "Event",
-  },
-  {
-    icon: Icon.List,
-    title: "Công việc",
-    to: "/todo",
-    pageActive: "Todo",
-  },
-  {
-    icon: Icon.Target,
-    title: "Mục tiêu",
-    to: "/target",
-    pageActive: "Target",
-  },
+  // {
+  //   icon: Icon.Calendar,
+  //   title: "Sự kiện",
+  //   to: "/event",
+  //   pageActive: "Event",
+  // },
+
+  // {
+  //   icon: Icon.Target,
+  //   title: "Mục tiêu",
+  //   to: "/target",
+  //   pageActive: "Target",
+  // },
   {
     icon: Icon.Gear,
     title: "Cấu hình",
