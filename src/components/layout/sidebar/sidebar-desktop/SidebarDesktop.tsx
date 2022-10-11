@@ -29,8 +29,10 @@ export const SidebarDesktop: React.FC<TProps> = ({
   };
   return (
     <div
+      data-tour-id="layout__sidebar"
       className={classNames(
-        "fixed hidden border-r bg-white border-gray-200 -mt-header xl:block transition-width duration-300",
+        "fixed hidden border-r  -mt-header xl:block transition-width duration-300",
+        "bg-white border-gray-200",
         isCompactSidebar ? "w-sidebar-compact" : "w-sidebar",
         className
       )}

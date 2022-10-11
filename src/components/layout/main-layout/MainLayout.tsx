@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { useHotkeys } from "react-hotkeys-hook";
 
+import { useTourLayout } from "@/components/tour";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { toggleCompactSidebar } from "@/features/reducers";
 import { Page_Key } from "@/routes";
@@ -23,6 +24,8 @@ export const MainLayout: GlobalTypes.FCPropsWithChildren<TProps> = ({
   useHotkeys("b,command+b,ctrl+b", () => {
     dispatch(toggleCompactSidebar());
   });
+
+  useTourLayout();
 
   const onToggleCompactSidebar = () => {
     dispatch(toggleCompactSidebar());
