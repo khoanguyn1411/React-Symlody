@@ -63,7 +63,7 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
             <div className="flex flex-wrap items-start w-full p-2">
               <span
                 className={classNames("font-medium px-2 mb-2 py-1 rounded-lg", {
-                  "bg-green-400 text-green-800": shouldHaveColor("green"),
+                  "bg-green-300 text-green-800": shouldHaveColor("green"),
                   "bg-primary-100 text-primary-800": shouldHaveColor("blue"),
                 })}
               >
@@ -74,7 +74,7 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
               </span>
               <span
                 className={classNames("font-medium px-2 py-1 rounded-lg", {
-                  "bg-green-400 text-green-800": columnData.color === "green",
+                  "bg-green-300 text-green-800": columnData.color === "green",
                   "bg-primary-100 text-primary-800":
                     columnData.color === "blue",
                 })}

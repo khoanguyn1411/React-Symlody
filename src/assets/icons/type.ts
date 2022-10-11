@@ -5,12 +5,14 @@ import { GlobalTypes } from "@/utils";
 export const COLOR_MAPS_ICON = {
   default: "text-primary-800",
   primary: "text-white",
+  secondary: "text-secondary-500",
   gray: "text-gray-400",
   warning: "text-warning-400",
   info: "text-blue-400",
   text: "text-black",
   "text-primary": "text-primary-400",
   success: "text-white",
+  yellow: "text-yellow-500",
   transparent: "text-transparent",
 } as const;
 export const SIZE_MAPS_ICON = {

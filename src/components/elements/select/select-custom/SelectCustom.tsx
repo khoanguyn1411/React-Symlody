@@ -103,14 +103,14 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
             className={classNames(
               "ml-2 text-gray-400 flex mt-2 items-center justify-center duration-300 transition-transform text-base",
               {
-                "mb-2 mt-0": _isShowContent,
+                "mb-2 mt-0": !_isShowContent,
               }
             )}
           >
             <i
               className={classNames("fas", {
-                "fa-sort-down": _isShowContent,
-                "fa-sort-up": !_isShowContent,
+                "fa-sort-up": _isShowContent,
+                "fa-sort-down": !_isShowContent,
               })}
             />
           </span>

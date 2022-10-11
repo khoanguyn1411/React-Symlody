@@ -3,7 +3,7 @@ import React from "react";
 import { DeleteAndEditField, Table } from "@/components";
 
 import { MOCK_DATA_TODO } from "./constant";
-import { TodoSelectPriority } from "./TodoSelectPriority";
+import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
 export const TodoTableContent: React.FC = () => {
   const isPending = false;
@@ -30,7 +30,9 @@ export const TodoTableContent: React.FC = () => {
               </div>
             </Table.Cell>
             <Table.Cell textAlign="right">{item.expiredDate}</Table.Cell>
-            <Table.Cell textAlign="left">{item.status}</Table.Cell>
+            <Table.Cell textAlign="left">
+              <TodoSelectStatus status={item.status} />
+            </Table.Cell>
             <Table.Cell>{item.assignee}</Table.Cell>
             <Table.CellAction>
               <DeleteAndEditField

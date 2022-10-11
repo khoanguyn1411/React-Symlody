@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 
-import { Icon } from "@/assets/icons";
 import { SelectCustom } from "@/components";
 
-import { PRIORITY_LIST } from "./constant";
-import { TPriority } from "./type";
+import { TodoPriorityIcon } from "../../TodoPriorityIcon";
+import { EPriority } from "../../type";
+import { PRIORITY_LIST } from "../constant";
 
 type TProps = {
   isPriority: boolean;
@@ -15,9 +15,9 @@ export const TodoSelectPriority: React.FC<TProps> = ({ isPriority }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const [_isPriority, _setIsPriority] = useState<boolean>(isPriority);
 
-  const handleChangePriority = (item: TPriority) => () => {
+  const handleChangePriority = (isPriority: boolean) => () => {
     setIsShowContent(false);
-    _setIsPriority(item.isPriority);
+    _setIsPriority(isPriority);
   };
   return (
     <SelectCustom
@@ -31,28 +31,22 @@ export const TodoSelectPriority: React.FC<TProps> = ({ isPriority }) => {
       renderListItem={PRIORITY_LIST.map((item, index) => (
         <button
           onClick={handleChangePriority(item)}
-          className="flex items-center justify-center px-2 py-1 hover:bg-primary-50 duration-200 transition-colors space-x-2"
+          className="flex items-center justify-start w-full px-2 py-1 hover:bg-primary-50 duration-200 transition-colors space-x-2"
           key={index}
         >
-          <span>{item.icon}</span>
+          <TodoPriorityIcon isPriority={item} />
           <span
             className={classNames(
-              item.isPriority ? "text-warning-500" : "text-primary-800",
+              item ? "text-secondary-500" : "text-yellow-400",
               "font-medium"
             )}
           >
-            {item.isPriority ? "Priority" : "Normal"}
+            {item ? EPriority.High : EPriority.Normal}
           </span>
         </button>
       ))}
     >
-      <button>
-        {_isPriority ? (
-          <Icon.ArrowUp size="small" customColor="warning" />
-        ) : (
-          <Icon.Hamburger2 size="small" />
-        )}
-      </button>
+      <TodoPriorityIcon isPriority={_isPriority} />
     </SelectCustom>
   );
 };

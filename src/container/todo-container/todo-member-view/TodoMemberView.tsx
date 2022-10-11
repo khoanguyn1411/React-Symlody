@@ -9,7 +9,7 @@ export const TodoMemberView: React.FC = () => {
     members[0],
   ]);
   return (
-    <div className="flex items-center mb-2 h-9 space-x-[-5px]">
+    <div className="flex items-center mb-2 h-9 space-x-[-8px]">
       {members.slice(0, DEFAULT_DISPLAY_MEMBER_COUNT).map((item, index) => (
         <TodoAvatar
           setSelectedMembers={setSelectedMembers}

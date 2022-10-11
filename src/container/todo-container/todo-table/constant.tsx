@@ -1,18 +1,7 @@
-import { Icon } from "@/assets/icons";
-
 import { ETodoStatusId } from "../type";
-import { ITodoTable, TPriority } from "./type";
+import { ITodoTable } from "./type";
 
-export const PRIORITY_LIST: TPriority[] = [
-  {
-    isPriority: true,
-    icon: <Icon.ArrowUp size="small" customColor="warning" />,
-  },
-  {
-    isPriority: false,
-    icon: <Icon.Hamburger2 size="small" />,
-  },
-];
+export const PRIORITY_LIST: boolean[] = [true, false];
 
 export const MOCK_DATA_TODO: ITodoTable[] = [
   {

@@ -27,7 +27,9 @@ export const TodoCircleBorderWrapper: GlobalTypes.FCPropsWithChildren<
           className
         )}
       >
-        {children}
+        <span className="block bg-white border border-white rounded-full h-[fit-content]">
+          {children}
+        </span>
       </button>
     </div>
   );
