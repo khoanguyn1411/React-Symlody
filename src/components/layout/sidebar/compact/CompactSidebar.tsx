@@ -16,8 +16,9 @@ export const CompactSidebar: React.FC<Props> = ({
   };
   return (
     <div
+      id="sidebar-desktop-hover-btn"
       className={classNames(
-        "absolute  bottom-1/2",
+        "absolute bottom-1/2 group-hover:opacity-100  opacity-0 invisible transition-all duration-200",
         isCompactSidebar ? "-right-4" : "-right-3"
       )}
     >
@@ -27,7 +28,7 @@ export const CompactSidebar: React.FC<Props> = ({
           onClick={setIsCompact}
           className={classNames(
             "flex items-center justify-center",
-            " w-6 h-6 text-sm  bg-white rounded-full shadow transition-all duration-300 hover:bg-gray-50 cursor-pointer"
+            " w-6 h-6 text-sm  bg-white rounded-full shadow transition-all duration-200 hover:bg-primary-400 hover:text-white cursor-pointer"
           )}
         >
           <i

@@ -8,7 +8,7 @@ import { ModalTour } from "../components";
 import { ITourStepType } from "../types";
 import { useBootstrapTour } from "./useBootstrapTour";
 
-const TOUR_STEPS_SELECTOUR = {
+const TOUR_STEPS_SELECTOR = {
   LAYOUT_SIDEBAR: '[data-tour-id="layout__sidebar"]',
   LAYOUT_USER_DROPDOWN: '[data-tour-id="layout__userDropdown"]',
 };
@@ -52,7 +52,8 @@ export const useTourLayout = () => {
       disableActions: false,
     },
     {
-      selector: TOUR_STEPS_SELECTOUR.LAYOUT_SIDEBAR,
+      selector: TOUR_STEPS_SELECTOR.LAYOUT_SIDEBAR,
+
       content: function Content() {
         return (
           <ModalTour
@@ -72,7 +73,7 @@ export const useTourLayout = () => {
       disableActions: false,
     },
     {
-      selector: TOUR_STEPS_SELECTOUR.LAYOUT_USER_DROPDOWN,
+      selector: TOUR_STEPS_SELECTOR.LAYOUT_USER_DROPDOWN,
       padding: {
         mask: 7,
       },
@@ -117,7 +118,7 @@ export const useTourLayout = () => {
   ];
 
   useBootstrapTour({
-    isOpen: isOpen,
+    isOpen: true,
     currentStep: 0,
     steps,
     onOpen: () => {

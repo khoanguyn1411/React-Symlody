@@ -38,7 +38,7 @@ export const LoginContainer: React.FC = () => {
       return;
     }
     dispatch(setIsAuth(true));
-    navigate(pathLocation || "/");
+    navigate(pathLocation || "/todo");
     toast.success("Đăng nhập thành công");
   };
 

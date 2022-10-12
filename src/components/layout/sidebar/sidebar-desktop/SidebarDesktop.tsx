@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import classNames from "classnames";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +17,16 @@ type TProps = {
   onToggleCompactSidebar: () => void;
 };
 
+const S4SidebarDesktop = styled.div`
+  &:hover {
+    #sidebar-desktop-hover,
+    #sidebar-desktop-hover-btn {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+`;
+
 export const SidebarDesktop: React.FC<TProps> = ({
   className,
   pageKey,
@@ -28,8 +39,9 @@ export const SidebarDesktop: React.FC<TProps> = ({
     navigate(path);
   };
   return (
-    <div
+    <S4SidebarDesktop
       data-tour-id="layout__sidebar"
+      id="sidebar-desktop-hover"
       className={classNames(
         "fixed hidden border-r  -mt-header xl:block transition-width duration-300",
         "bg-white border-gray-200",
@@ -93,6 +105,6 @@ export const SidebarDesktop: React.FC<TProps> = ({
           onSetIsCompact={onToggleCompactSidebar}
         />
       </div>
-    </div>
+    </S4SidebarDesktop>
   );
 };
