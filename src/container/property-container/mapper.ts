@@ -9,7 +9,6 @@ export class PropertyFormMapper {
       assetName: model.name,
       quantity: FormatService.toString(model.quantity),
       price: model.price !== "0" ? FormatService.toCurrency(model.price) : "",
-      inCharge: model.incharger.full_name,
       inChargeId: model.incharger.id,
       owner: model.prop_owner,
       note: model.note ?? "",
@@ -33,7 +32,7 @@ export class PropertyFormMapper {
       price: FormatService.removeFormatCurrency(propertyFormData.price),
       prop_owner: propertyFormData.owner,
       note: propertyFormData.note,
-      incharger_id: 1, // Need to discuss with Backend.
+      incharger_id: propertyFormData.inChargeId,
       image: !propertyFormData.image ? null : formData,
       is_club_property: propertyFormData.owner === "CLB",
     };

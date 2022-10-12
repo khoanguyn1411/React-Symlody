@@ -7,12 +7,12 @@ import { StrictPick } from "@/utils/types";
 import { IFormPropertyInfo } from "./type";
 type IPropertySchema = StrictPick<
   IFormPropertyInfo,
-  "assetName" | "inCharge" | "owner" | "quantity"
+  "assetName" | "inChargeId" | "owner" | "quantity"
 >;
 export const schema: yup.SchemaOf<IPropertySchema> = yup.object().shape({
   assetName: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-  inCharge: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
   owner: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  inChargeId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED).nullable(),
   quantity: yup
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)

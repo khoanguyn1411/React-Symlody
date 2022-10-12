@@ -9,13 +9,23 @@ import { IUser } from "@/features/types";
 import { useDebounce } from "@/hooks";
 import { FormatService } from "@/utils";
 
-export const SelectUser: React.FC = () => {
+export type TProps = {
+  inChargerId: number;
+  setInChargerId: (inChargerId: number) => void;
+};
+
+export const SelectUser: React.FC<TProps> = ({
+  inChargerId,
+  setInChargerId,
+}) => {
   const userList = useAppSelector(userSelectors.selectAll);
   const { inputValue, setInputValue, debounceValue } = useDebounce();
-
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [userSelected, setUserSelected] = useState<IUser>();
+  const [userSelected, setUserSelected] = useState<IUser>(() => {
+    return userList.find((item) => item.id === inChargerId);
+  });
+
   const [currentUserList, setCurrentUserList] = useState<IUser[]>(userList);
 
   const handleInputChange = (value: string): void => {
@@ -35,22 +45,24 @@ export const SelectUser: React.FC = () => {
       return;
     }
 
-    const newMemberFilterList = userList.filter((item) =>
+    const newUserFilterList = userList.filter((item) =>
       FormatService.toCleanedString(item.full_name).includes(
         FormatService.toCleanedString(value)
       )
     );
-    setCurrentUserList(newMemberFilterList);
+    setCurrentUserList(newUserFilterList);
   };
 
-  const handleSelectMember = (member: IUser) => () => {
-    setUserSelected(member);
+  const handleSelectMember = (user: IUser) => () => {
+    setUserSelected(user);
     setIsShowContent(false);
-    setInputValue(member.full_name);
+    setInputValue(user.full_name);
     setIsSearching(false);
+    setInChargerId(user.id);
   };
 
   const handleClearMemberSelected = () => {
+    setInChargerId(null);
     setUserSelected(null);
   };
 

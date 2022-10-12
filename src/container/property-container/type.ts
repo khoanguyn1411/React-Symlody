@@ -2,8 +2,7 @@ export type IFormPropertyInfo = {
   readonly assetName: string;
   readonly quantity: string;
   readonly price: string;
-  readonly inCharge: string;
-  readonly inChargeId?: number;
+  readonly inChargeId: number | null;
   readonly note?: string;
   readonly owner: string;
   readonly image?: File;

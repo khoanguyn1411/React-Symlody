@@ -29,7 +29,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
     control,
     formState: { errors },
   } = formProps;
-
   const defaultValue =
     FormService.getDefaultValues<IFormPropertyInfo>(dataForm);
   return (
@@ -109,8 +108,23 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         />
       </FormItem>
       {/* TODO: Edit form type. */}
-      <FormItem label="Người chịu trách nhiệm" isRequired>
-        <SelectUser />
+      <FormItem
+        label="Người chịu trách nhiệm"
+        isRequired
+        error={errors.inChargeId?.message}
+      >
+        <Controller
+          control={control}
+          defaultValue={
+            defaultValue.get("inChargeId")
+              ? FormatService.toNumber(defaultValue.get("inChargeId"))
+              : undefined
+          }
+          name="inChargeId"
+          render={({ field: { value, onChange } }) => {
+            return <SelectUser inChargerId={value} setInChargerId={onChange} />;
+          }}
+        />
       </FormItem>
       <FormItem
         label="Chủ sở hữu tài sản"
