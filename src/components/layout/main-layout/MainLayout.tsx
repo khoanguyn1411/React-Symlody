@@ -4,14 +4,14 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useTourLayout } from "@/components/tour";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { toggleCompactSidebar } from "@/features/reducers";
-import { Page_Key } from "@/routes";
+import { PageKey } from "@/routes";
 import { GlobalTypes } from "@/utils";
 
 import { Header } from "../header";
 import { SidebarDesktop } from "../sidebar";
 
 type TProps = {
-  pageKey: Page_Key;
+  pageKey: PageKey;
 };
 
 export const MainLayout: GlobalTypes.FCPropsWithChildren<TProps> = ({

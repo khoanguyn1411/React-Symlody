@@ -71,6 +71,10 @@ export const SelectUser: React.FC<TProps> = ({
       setInputValue(userSelected.full_name);
       setIsSearching(false);
     }
+    if (!isShowContent && !userSelected) {
+      setInputValue("");
+      setIsSearching(false);
+    }
     if (isShowContent && !isSearching) {
       setCurrentUserList(userList);
     }

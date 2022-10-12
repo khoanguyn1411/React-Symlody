@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 import {
@@ -9,6 +9,8 @@ import {
   SelectUser,
   TextArea,
 } from "@/components";
+import { useAppSelector } from "@/features";
+import { userSelectors } from "@/features/reducers";
 import { IProperty } from "@/features/types";
 import { FormatService, FormService } from "@/utils";
 
@@ -22,6 +24,8 @@ type TProps = {
 
 export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
   let dataForm: IFormPropertyInfo = null;
+
+  const userIds = useAppSelector(userSelectors.selectIds);
   if (data) {
     dataForm = PropertyFormMapper.fromModel(data);
   }
@@ -31,6 +35,19 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
   } = formProps;
   const defaultValue =
     FormService.getDefaultValues<IFormPropertyInfo>(dataForm);
+
+  const getInChargeIdDefaultValue = useMemo(() => {
+    const defaultInChargeId = defaultValue.get("inChargeId");
+    if (!defaultInChargeId) {
+      return null;
+    }
+    const inChargeIdAsNumber = FormatService.toNumber(defaultInChargeId);
+    if (!userIds.includes(inChargeIdAsNumber)) {
+      return null;
+    }
+    return inChargeIdAsNumber;
+  }, [defaultValue, userIds]);
+
   return (
     <>
       <FormItem
@@ -115,11 +132,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
       >
         <Controller
           control={control}
-          defaultValue={
-            defaultValue.get("inChargeId")
-              ? FormatService.toNumber(defaultValue.get("inChargeId"))
-              : undefined
-          }
+          defaultValue={getInChargeIdDefaultValue}
           name="inChargeId"
           render={({ field: { value, onChange } }) => {
             return <SelectUser inChargerId={value} setInChargerId={onChange} />;

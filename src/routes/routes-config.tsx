@@ -10,61 +10,48 @@ import {
   TodoContainer,
 } from "@/container";
 
-export type Page_Key =
-  | "Home"
-  | "Member"
-  | "Property"
-  | "Config"
-  | "Event"
-  | "Todo"
-  | "Target";
-interface IRoutes {
-  path: string;
-  component: React.ReactNode | JSX.Element;
-  pageKey: Page_Key;
-  pageTitle: string;
-  // layout?: React.FC;
-}
+import { APP_ROUTE_PATHS } from "./constants";
+import { IRoutes } from "./types";
 
 const privateRoutes: readonly IRoutes[] = [
   {
-    path: "/",
+    path: APP_ROUTE_PATHS.Home,
     component: <HomeContainer />,
     pageKey: "Home",
     pageTitle: "Trang chủ",
   },
   {
-    path: "/member",
+    path: APP_ROUTE_PATHS.Member,
     component: <MemberContainer />,
     pageKey: "Member",
     pageTitle: "Trang thành viên",
   },
   {
-    path: "/property",
+    path: APP_ROUTE_PATHS.Property,
     component: <PropertyContainer />,
     pageKey: "Property",
     pageTitle: "Trang tài sản",
   },
   {
-    path: "/config",
+    path: APP_ROUTE_PATHS.Config,
     component: <ConfigContainer />,
     pageKey: "Config",
     pageTitle: "Trang cấu hình",
   },
   {
-    path: "/event",
+    path: APP_ROUTE_PATHS.Event,
     component: <EventContainer />,
     pageKey: "Event",
     pageTitle: "Trang sự kiện",
   },
   {
-    path: "/todo",
+    path: APP_ROUTE_PATHS.Todo,
     component: <TodoContainer />,
     pageKey: "Todo",
     pageTitle: "Trang công việc",
   },
   {
-    path: "/target",
+    path: APP_ROUTE_PATHS.Target,
     component: <TargetContainer />,
     pageKey: "Target",
     pageTitle: "Trang mục tiêu",
