@@ -1,11 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { ModalMultipleTabs, ModalTab, PickFile } from "@/components";
+import { Loading, ModalMultipleTabs, ModalTab, PickFile } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { createMemberAsync } from "@/features/reducers";
+import { createMemberAsync, getDepartmentAsync } from "@/features/reducers";
 import { THookModalProps, usePickFile } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
@@ -25,6 +25,12 @@ const TabCreateAMember: React.FC = () => {
   } = propsForm;
   const dispatch = useAppDispatch();
   const departmentStore = useAppSelector((state) => state.department);
+
+  useEffect(() => {
+    if (departmentStore.departments.length === 0) {
+      dispatch(getDepartmentAsync());
+    }
+  }, [departmentStore.departments.length, dispatch]);
 
   const handleCreateMember = async (data: IFormMemberInfo) => {
     const memberModel = MemberFormMapper.toModel(
@@ -48,7 +54,11 @@ const TabCreateAMember: React.FC = () => {
         isLoading: isSubmitting,
       }}
     >
-      <FormItems formProps={propsForm} />
+      {departmentStore.pending ? (
+        <Loading />
+      ) : (
+        <FormItems formProps={propsForm} />
+      )}
     </ModalTab>
   );
 };

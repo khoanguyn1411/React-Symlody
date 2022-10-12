@@ -1,4 +1,7 @@
+import classNames from "classnames";
 import { useState } from "react";
+
+import { Loading } from "@/components";
 
 import { TabHost, TTab } from "../../tab-host";
 import { ModalWrapper } from "../modal-components";
@@ -35,7 +38,7 @@ export const ModalMultipleTabs: React.FC<TPropsModalMultipleTabs> = (props) => {
 
 export const ModalMultipleTabsContent: React.FC = () => {
   const props = useModalMultipleTabsContext();
-  const { renderTabs, toggle, reset } = props;
+  const { renderTabs, toggle, reset, isLoading } = props;
 
   const [tabActive, setTabActive] = useState<TTabs>(renderTabs[0]);
 
@@ -70,7 +73,15 @@ export const ModalMultipleTabsContent: React.FC = () => {
         </span>
       </div>
       {/* Children */}
-      <div>{tabActive.children}</div>
+      <div
+        className={classNames(
+          "min-h-[8rem] place-content-center",
+          isLoading ? "grid" : "hidden"
+        )}
+      >
+        <Loading />
+      </div>
+      <div hidden={isLoading}>{tabActive.children}</div>
     </ModalWrapper>
   );
 };

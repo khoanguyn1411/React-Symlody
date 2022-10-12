@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, { ReactNode, useLayoutEffect, useState } from "react";
 
+import { Loading } from "@/components";
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
 import { Portal } from "../../portal";
@@ -105,11 +106,7 @@ export const Select: React.FC<TProps> = ({
         {!isLoading && list.length === 0 && (
           <div className="px-4 py-5">No data</div>
         )}
-        {isLoading && (
-          <span className="flex items-center justify-center w-full p-4">
-            <i className="animate-spin fas fa-spinner-third" />
-          </span>
-        )}
+        {isLoading && <Loading />}
 
         {!isLoading &&
           list.map((item, index: number) => (

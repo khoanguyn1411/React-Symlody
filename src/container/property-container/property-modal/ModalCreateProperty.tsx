@@ -1,10 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { ModalMultipleTabs, ModalTab, PickFile } from "@/components";
-import { useAppDispatch } from "@/features";
+import { Loading, ModalMultipleTabs, ModalTab, PickFile } from "@/components";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { createPropertyAsync } from "@/features/reducers/property-reducer";
 import { THookModalProps, usePickFile } from "@/hooks";
 
@@ -49,6 +50,13 @@ const TabCreateAProperty: React.FC = () => {
     formState: { isSubmitting },
   } = propsForm;
   const dispatch = useAppDispatch();
+  const userCount = useAppSelector(userSelectors.selectTotal);
+  const userStore = useAppSelector((state) => state.user);
+  useEffect(() => {
+    if (userCount === 0) {
+      dispatch(getUsersAsync());
+    }
+  }, [dispatch, userCount]);
 
   const handleCreateAProperty = async (propertyData: IFormPropertyInfo) => {
     const propertyModel = PropertyFormMapper.toModel(propertyData);
@@ -67,7 +75,7 @@ const TabCreateAProperty: React.FC = () => {
         isLoading: isSubmitting,
       }}
     >
-      <FormItems formProps={propsForm} />
+      {userStore.pending ? <Loading /> : <FormItems formProps={propsForm} />}
     </ModalTab>
   );
 };

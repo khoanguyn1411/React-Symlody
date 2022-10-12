@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 import { AppDatePicker, FormItem, Input, Select } from "@/components";
-import { useAppDispatch, useAppSelector } from "@/features";
-import { getDepartmentAsync } from "@/features/reducers/department-reducer";
+import { useAppSelector } from "@/features";
 import { IMember } from "@/features/types";
 import { FormService } from "@/utils";
 
@@ -21,12 +20,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
     dataForm = MemberFormMapper.fromModel(data);
   }
 
-  const dispatch = useAppDispatch();
   const departmentStore = useAppSelector((state) => state.department);
-
-  useEffect(() => {
-    dispatch(getDepartmentAsync());
-  }, [dispatch]);
 
   const {
     control,

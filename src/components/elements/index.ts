@@ -8,6 +8,7 @@ export * from "./dropdown";
 export * from "./editor";
 export * from "./form-item";
 export * from "./input";
+export * from "./loading";
 export * from "./modal";
 export * from "./pagination";
 export * from "./portal";

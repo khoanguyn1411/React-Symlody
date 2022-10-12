@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 import {
@@ -9,8 +9,6 @@ import {
   SelectUser,
   TextArea,
 } from "@/components";
-import { useAppDispatch, useAppSelector } from "@/features";
-import { getMembersAsync, memberSelectors } from "@/features/reducers";
 import { IProperty } from "@/features/types";
 import { FormatService, FormService } from "@/utils";
 
@@ -27,20 +25,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
   if (data) {
     dataForm = PropertyFormMapper.fromModel(data);
   }
-  const dispatch = useAppDispatch();
-  const memberList = useAppSelector(memberSelectors.selectAll);
-  const memberStore = useAppSelector((state) => state.member);
-  useEffect(() => {
-    if (
-      memberList.length > 0 &&
-      memberStore.listQueryMember.is_archived == null
-    ) {
-      return;
-    }
-    dispatch(getMembersAsync(memberStore.listQueryMember));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const {
     control,
     formState: { errors },

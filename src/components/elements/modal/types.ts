@@ -18,6 +18,7 @@ export type TEventModal = {
 
 export type TPropsModalGeneral = {
   size?: size;
+  isLoading?: boolean;
   isShowing: boolean;
   closeWhenClickOutside?: boolean;
   toggle: TToggleModal;

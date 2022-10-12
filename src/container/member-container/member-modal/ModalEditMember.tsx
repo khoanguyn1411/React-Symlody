@@ -1,11 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { updateMemberAsync } from "@/features/reducers";
+import { getDepartmentAsync, updateMemberAsync } from "@/features/reducers";
 import { IMember, IMemberCreateUpdate } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 import { FormService } from "@/utils";
@@ -65,8 +65,15 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     toggle.setHidden();
   };
 
+  useEffect(() => {
+    if (isShowing && departmentStore.departments.length === 0) {
+      dispatch(getDepartmentAsync());
+    }
+  }, [departmentStore.departments.length, dispatch, isShowing]);
+
   return (
     <Modal
+      isLoading={departmentStore.pending}
       toggle={toggle}
       title="Chỉnh sửa thành viên"
       size="lg"

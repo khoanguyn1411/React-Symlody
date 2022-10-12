@@ -3,14 +3,13 @@ import { useEffect, useLayoutEffect, useState } from "react";
 
 import { Avatar, SelectSearch } from "@/components";
 import { PLACEHOLDER_IMAGE } from "@/constants";
-import { useAppDispatch, useAppSelector } from "@/features";
-import { getUsersAsync, userSelectors } from "@/features/reducers";
+import { useAppSelector } from "@/features";
+import { userSelectors } from "@/features/reducers";
 import { IUser } from "@/features/types";
 import { useDebounce } from "@/hooks";
 import { FormatService } from "@/utils";
 
 export const SelectUser: React.FC = () => {
-  const dispatch = useAppDispatch();
   const userList = useAppSelector(userSelectors.selectAll);
   const { inputValue, setInputValue, debounceValue } = useDebounce();
 
@@ -65,10 +64,6 @@ export const SelectUser: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isShowContent]);
-
-  useEffect(() => {
-    dispatch(getUsersAsync());
-  }, [dispatch]);
 
   useEffect(() => {
     setCurrentUserList(userList);

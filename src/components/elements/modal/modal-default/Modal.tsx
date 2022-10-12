@@ -1,5 +1,7 @@
 import classNames from "classnames";
 
+import { Loading } from "@/components";
+
 import { ModalBody, ModalFooter, ModalWrapper } from "../modal-components";
 import { TPropsModalDefault } from "../types";
 
@@ -25,7 +27,7 @@ import { TPropsModalDefault } from "../types";
     </Modal>
  */
 export const Modal: React.FC<TPropsModalDefault> = (props) => {
-  const { children, title, toggle, handleEvent, reset } = props;
+  const { children, title, toggle, handleEvent, isLoading, reset } = props;
   const handleSetHidden = () => {
     toggle.setToggle();
     reset && reset();
@@ -53,7 +55,17 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
         onSubmit={handleSubmit}
         className="flex flex-col max-h-[calc(100vh-10rem)]"
       >
-        <ModalBody>{children}</ModalBody>
+        <ModalBody>
+          <div
+            className={classNames(
+              "min-h-[8rem] place-content-center",
+              isLoading ? "grid" : "hidden"
+            )}
+          >
+            <Loading />
+          </div>
+          <div hidden={isLoading}>{children}</div>
+        </ModalBody>
         <ModalFooter
           reset={reset}
           {...handleEvent}
