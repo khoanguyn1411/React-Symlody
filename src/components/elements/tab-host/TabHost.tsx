@@ -114,7 +114,11 @@ export const TabHost: React.FC<TProps> = ({
   }, [getPositionSlider, refState]);
 
   return (
-    <div className={classNames("relative flex", { "w-full": isStretchTab })}>
+    <div
+      className={classNames("relative flex", {
+        "w-full": isStretchTab,
+      })}
+    >
       {listTabs.map((item) => (
         <button
           ref={addToRefs}
@@ -124,11 +128,13 @@ export const TabHost: React.FC<TProps> = ({
             "py-2",
             "font-medium",
             "transition-colors duration-200",
+            "border-transparent rounded-sm",
             {
-              "hover:bg-gray-50 border-transparent": item.key !== activeTab.key,
+              "text-primary-800": item.key === activeTab.key,
               "flex-1": isStretchTab,
-              "px-5": !isHeaderTabHost,
-              "mr-8 px-2 mb-3": isHeaderTabHost,
+              "px-5 hover:bg-gray-50": !isHeaderTabHost,
+              "px-3 mr-5 mb-3 hover:bg-primary-50 hover:text-primary-800":
+                isHeaderTabHost,
             }
           )}
           onClick={handleClickTab(item, item.key)}
