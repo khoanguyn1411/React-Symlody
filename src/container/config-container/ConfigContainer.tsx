@@ -1,6 +1,8 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
 import { Container, TabHost, TTab } from "@/components";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { setActiveTab } from "@/features/reducers";
 
 import {
   ActionConfigDepartment,
@@ -37,23 +39,31 @@ const getContentTab = (key: EConfigTabKey): ContentTab => {
       };
     default:
       return {
-        content: <TabConfigDepartment />,
+        content: <TabOrganization />,
       };
   }
 };
 
 export const ConfigContainer: React.FC = () => {
+  const commonStore = useAppSelector((state) => state.common);
+  const dispatch = useAppDispatch();
   const [content, setContent] = useState<ContentTab>(
-    getContentTab(EConfigTabKey.Organization)
+    getContentTab(commonStore.activeTab.config)
   );
   const handleChangeTab = (tab: TTab) => {
-    setContent(getContentTab(tab.key as EConfigTabKey));
+    dispatch(setActiveTab({ config: tab.key as EConfigTabKey }));
   };
+
+  useEffect(() => {
+    setContent(getContentTab(commonStore.activeTab.config));
+  }, [commonStore.activeTab.config]);
 
   return (
     <>
       <Container.HeaderForTabHost>
         <TabHost
+          defaultActive={commonStore.activeTab.config}
+          tabChangeDependOnChangeOf={commonStore.activeTab.config}
           isHeaderTabHost
           listTabs={[
             {

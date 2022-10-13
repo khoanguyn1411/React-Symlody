@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
 
@@ -15,6 +15,7 @@ type TProps = {
   paramChangeDependency?: string;
   isHeaderTabHost?: boolean;
   isStretchTab?: boolean;
+  tabChangeDependOnChangeOf?: TTab["key"];
   onChangeTab?: (tab: TTab) => void;
   onUrlChange?: (tab: TTab) => void;
 };
@@ -24,15 +25,19 @@ export const TabHost: React.FC<TProps> = ({
   onChangeTab,
   defaultActive,
   isStretchTab = false,
+  tabChangeDependOnChangeOf,
   isHeaderTabHost = false,
 }) => {
   const refs = useRef<HTMLButtonElement[]>([]);
 
-  const [activeTab, setActiveTab] = useState<TTab>(
-    defaultActive
-      ? listTabs.find((item) => item.key === defaultActive)
-      : listTabs[0]
+  const getTabActive = useMemo(
+    () => (key: TTab["key"]) => {
+      return key ? listTabs.find((item) => item.key === key) : listTabs[0];
+    },
+    [listTabs]
   );
+
+  const [activeTab, setActiveTab] = useState<TTab>(getTabActive(defaultActive));
   const [refState, setRefState] = useState<HTMLButtonElement[]>(refs.current);
   const [activeRef, setActiveRef] = useState<string>(activeTab.key);
   const [isAnimatedSlider, setIsAnimatedSlider] = useState<boolean>(false);
@@ -45,6 +50,16 @@ export const TabHost: React.FC<TProps> = ({
     // tab.to && navigate(tab.to);
     onChangeTab && onChangeTab(tab);
   };
+
+  if (tabChangeDependOnChangeOf) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      const activeTab = getTabActive(tabChangeDependOnChangeOf);
+      setActiveTab(activeTab);
+      setActiveRef(activeTab.key);
+      setIsAnimatedSlider(true);
+    }, [getTabActive, tabChangeDependOnChangeOf]);
+  }
 
   // useEffectSkipFirstRender(() => {
   //   if (!onUrlChange) {

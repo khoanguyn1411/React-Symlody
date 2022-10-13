@@ -62,7 +62,7 @@ export enum ETodoTabReadableString {
   Board = "Bảng",
 }
 
-export enum ETodoTab {
+export enum ETodoTabKey {
   Kanban = "kanban",
   Board = "board",
 }

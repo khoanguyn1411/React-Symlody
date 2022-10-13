@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
+import { EConfigTabKey } from "@/container/config-container/type";
 import { useAppDispatch } from "@/features";
-import { logout } from "@/features/reducers";
+import { logout, setActiveTab } from "@/features/reducers";
 import { IProfile } from "@/features/types";
 import { EPagePath } from "@/routes";
 
-import { Avatar, Dropdown } from "../../elements";
+import { Avatar, Dropdown, TItemListSelect } from "../../elements";
 
-const MENUS = [
+const MENUS: TItemListSelect[] = [
   {
     key: "PROFILE",
     value: "Thông tin cá nhân",
@@ -30,15 +31,21 @@ export const UserDropdown: React.FC<TProps> = ({ user }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleChangeMenu = (item) => {
+  const handleChangeMenu = (item: TItemListSelect) => {
     if (item.key === "LOGOUT") {
       dispatch(logout());
       navigate(EPagePath.Login);
       return;
-    } else if (item.key === "PROFILE") {
-      console.log("navigate to profile");
-    } else if (item.key === "CHANGE_PASSWORD") {
-      console.log("navigate to change password");
+    }
+    if (item.key === "PROFILE") {
+      dispatch(setActiveTab({ config: EConfigTabKey.PersonalInfo }));
+      navigate(EPagePath.Config);
+      return;
+    }
+    if (item.key === "CHANGE_PASSWORD") {
+      dispatch(setActiveTab({ config: EConfigTabKey.ChangePassword }));
+      navigate(EPagePath.Config);
+      return;
     }
   };
   return (

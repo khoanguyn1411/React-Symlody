@@ -9,7 +9,7 @@ import {
   TTab,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getDepartmentAsync } from "@/features/reducers";
+import { getDepartmentAsync, setActiveTab } from "@/features/reducers";
 import { useModal } from "@/hooks";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
@@ -17,20 +17,20 @@ import { TodoBoard } from "./todo-kanban";
 import { TodoMemberView } from "./todo-member-view";
 import { ModalCreateTodo } from "./todo-modals";
 import { TodoTable } from "./todo-table";
-import { ETodoTab, ETodoTabReadableString } from "./type";
+import { ETodoTabKey, ETodoTabReadableString } from "./type";
 
 type ContentTab = {
   content: ReactNode;
   rightSide?: ReactNode;
 };
 
-const getContentTab = (key: ETodoTab): ContentTab => {
+const getContentTab = (key: ETodoTabKey): ContentTab => {
   switch (key) {
-    case ETodoTab.Kanban:
+    case ETodoTabKey.Kanban:
       return {
         content: <TodoBoard />,
       };
-    case ETodoTab.Board:
+    case ETodoTabKey.Board:
       return {
         content: <TodoTable />,
       };
@@ -44,6 +44,8 @@ const getContentTab = (key: ETodoTab): ContentTab => {
 export const TodoContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const departmentStore = useAppSelector((state) => state.department);
+  const commonStore = useAppSelector((state) => state.common);
+
   const [filterDepartment, setFilterDepartment] = useState<string>(
     departmentStore.departments[0] ? departmentStore.departments[0].name : ""
   );
@@ -65,10 +67,11 @@ export const TodoContainer: React.FC = () => {
   }, [departmentStore.departments]);
 
   const [content, setContent] = useState<ContentTab>(
-    getContentTab(ETodoTab.Kanban)
+    getContentTab(commonStore.activeTab.todo)
   );
   const handleChangeTab = (tab: TTab) => {
-    setContent(getContentTab(tab.key as ETodoTab));
+    setContent(getContentTab(tab.key as ETodoTabKey));
+    dispatch(setActiveTab({ todo: tab.key as ETodoTabKey }));
   };
   const propsModal = useModal({ isHotkeyOpen: true });
 
@@ -93,14 +96,15 @@ export const TodoContainer: React.FC = () => {
       <Container.HeaderForTabHost>
         <div className="flex items-center">
           <TabHost
+            defaultActive={commonStore.activeTab.todo}
             isHeaderTabHost
             listTabs={[
               {
-                key: ETodoTab.Kanban,
+                key: ETodoTabKey.Kanban,
                 title: ETodoTabReadableString.Kanban,
               },
               {
-                key: ETodoTab.Board,
+                key: ETodoTabKey.Board,
                 title: ETodoTabReadableString.Board,
               },
             ]}

@@ -5,23 +5,17 @@ import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
 import { Portal } from "../../portal";
 import { AlignedPlacement } from "../../portal/type";
+import { TItemListSelect } from "../../select";
 import { DropdownListWrapper } from "../dropdown-components";
-
-type TListSetting = {
-  prefix?: ReactNode;
-  suffix?: ReactNode;
-  key: string;
-  value: string;
-};
 
 type TProps = {
   children: ReactNode;
-  listSetting?: TListSetting[];
+  listSetting?: TItemListSelect[];
   widthContainer?: string;
   isOverflow?: boolean;
   renderCustom?: ReactNode;
   placement?: AlignedPlacement;
-  onChange?: (item: TListSetting) => void;
+  onChange?: (item: TItemListSelect) => void;
 };
 
 export type TDropdownMethod = {
@@ -65,7 +59,7 @@ export const Dropdown = forwardRef<TDropdownMethod, TProps>(
       setPositionList();
       setIsShowContent((prev) => !prev);
     };
-    const handleClickItem = (item: TListSetting) => () => {
+    const handleClickItem = (item: TItemListSelect) => () => {
       onChange && onChange(item);
       setIsShowContent(false);
     };
