@@ -118,7 +118,7 @@ export const useTourLayout = () => {
   ];
 
   useBootstrapTour({
-    isOpen: true,
+    isOpen: isOpen,
     currentStep: 0,
     steps,
     onOpen: () => {
