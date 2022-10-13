@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
+import { APP_DEFAULT_PAGE, EPagePath } from "@/routes";
 
 import { Button } from "../elements";
 type Props = {
@@ -21,7 +22,7 @@ export const NotificationImg: React.FC<Props> = ({
   const navigation = useNavigate();
 
   const onBackToHome = () => {
-    navigation("/");
+    navigation(APP_DEFAULT_PAGE);
   };
   return (
     <div className="flex items-center justify-center py-4 h-content">
