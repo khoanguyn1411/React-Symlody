@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/features";
 import { logout } from "@/features/reducers";
 import { IProfile } from "@/features/types";
+import { EPagePath } from "@/routes";
 
 import { Avatar, Dropdown } from "../../elements";
 
@@ -27,7 +28,7 @@ export const UserDropdown: React.FC<TProps> = ({ user }) => {
   const handleChangeMenu = (item) => {
     if (item.key === "LOGOUT") {
       dispatch(logout());
-      navigate("/login");
+      navigate(EPagePath.Login);
       return;
     }
   };

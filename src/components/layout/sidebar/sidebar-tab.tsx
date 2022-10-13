@@ -1,49 +1,41 @@
 import { Icon } from "@/assets/icons";
+import { TIconProps } from "@/assets/icons/type";
+import { EPageKey, RouteMapper } from "@/routes";
+import { FormatService } from "@/utils";
 
 import { ITabSidebar } from "./type";
 
-export const getTabsSidebar = (): ITabSidebar[] => [
-  // {
-  //   icon: Icon.Home,
-  //   title: "Trang chủ",
-  //   to: "/",
-  //   pageActive: "Home",
-  // },
-  {
-    icon: Icon.List,
-    title: "Công việc",
-    to: "/todo",
-    pageActive: "Todo",
-  },
-  {
-    icon: Icon.Users,
-    title: "Thành viên",
-    to: "/member",
-    pageActive: "Member",
-  },
-  {
-    icon: Icon.Money,
-    title: "Tài sản",
-    to: "/property",
-    pageActive: "Property",
-  },
-  // {
-  //   icon: Icon.Calendar,
-  //   title: "Sự kiện",
-  //   to: "/event",
-  //   pageActive: "Event",
-  // },
+type TSidebar = {
+  pageActive: EPageKey;
+  icon: React.FC<TIconProps>;
+};
 
-  // {
-  //   icon: Icon.Target,
-  //   title: "Mục tiêu",
-  //   to: "/target",
-  //   pageActive: "Target",
-  // },
+const AVAILABLE_PAGES: TSidebar[] = [
   {
+    pageActive: EPageKey.Todo,
+    icon: Icon.List,
+  },
+  {
+    pageActive: EPageKey.Member,
+    icon: Icon.Users,
+  },
+  {
+    pageActive: EPageKey.Property,
+    icon: Icon.Money,
+  },
+  {
+    pageActive: EPageKey.Config,
     icon: Icon.Gear,
-    title: "Cấu hình",
-    to: "/config",
-    pageActive: "Config",
   },
 ];
+
+export const getTabsSidebar = (): ITabSidebar[] =>
+  AVAILABLE_PAGES.map((item) => {
+    const title = RouteMapper.toTitle(item.pageActive).replace("Trang", "");
+    return {
+      icon: item.icon,
+      title: FormatService.capitalizeFirstLetter(1, title),
+      to: RouteMapper.toPath(item.pageActive),
+      pageActive: item.pageActive,
+    };
+  });

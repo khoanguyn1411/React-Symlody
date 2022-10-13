@@ -82,3 +82,11 @@ export function removeAccent(str: string): string {
   str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   return str;
 }
+
+/**
+ * Capitalize first letter of a string.
+ * @param string String need to be capitalized first letter.
+ */
+export function capitalizeFirstLetter(index: number, string: string) {
+  return string.charAt(index).toUpperCase() + string.slice(index + 1);
+}

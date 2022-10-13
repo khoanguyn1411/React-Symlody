@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 
-import { APP_DEFAULT_PAGE } from "@/constants";
+import { APP_DEFAULT_PAGE } from "@/routes";
 import { GlobalTypes } from "@/utils";
 
 type TProps = {

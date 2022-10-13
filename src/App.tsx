@@ -16,7 +16,7 @@ export const App: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center w-screen h-screen">
-        <Icon.Spin size="large" />
+        <Icon.Spin size="medium" />
       </div>
     );
   }
