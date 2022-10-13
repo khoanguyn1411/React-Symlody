@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { MemberApi, RequestCreateMembersResult } from "@/api";
-import { RootState } from "@/features/store";
-import { MemberMapper } from "@/features/types/mappers";
+import { RootState, store } from "@/features/store";
+import { MemberMapper, UserMapper } from "@/features/types/mappers";
 import { IMember, IMemberCreateUpdate } from "@/features/types/models";
 import { TMemberParamQueryDto } from "@/features/types/queries";
 import { FilterService, GeneratorService, GlobalTypes } from "@/utils";
 
+import { userAdapter } from "../user-reducer/state";
 import { initialState, memberAdapter } from "./state";
 
 export const createMemberAsync = createAsyncThunk<
@@ -131,8 +132,12 @@ export const memberSlice = createSlice({
         memberAdapter.setAll(state, []);
       })
       .addCase(createMemberAsync.fulfilled, (state, action) => {
+        const userState = store.getState().user;
+        const newMember = action.payload;
+        const newUser = UserMapper.fromMemberModel(newMember);
+        userAdapter.addOne(userState, newUser);
         if (state.listQueryMember.is_archived !== true) {
-          memberAdapter.addOne(state, action.payload);
+          memberAdapter.addOne(state, newMember);
         }
       })
       .addCase(deleteMemberAsync.pending, (state) => {
@@ -140,14 +145,20 @@ export const memberSlice = createSlice({
       })
       .addCase(deleteMemberAsync.fulfilled, (state, action) => {
         state.pendingDeleteMember = false;
+
+        const userState = store.getState().user;
+        const removedId = action.payload;
+        userAdapter.removeOne(userState, removedId);
+
         if (state.listQueryMember.is_archived == null) {
           memberAdapter.updateOne(state, {
-            id: action.payload,
+            id: removedId,
             changes: { is_archived: true },
           });
           return;
         }
-        memberAdapter.removeOne(state, action.payload);
+
+        memberAdapter.removeOne(state, removedId);
       })
       .addCase(deleteMemberAsync.rejected, (state) => {
         state.pendingDeleteMember = false;
@@ -160,16 +171,28 @@ export const memberSlice = createSlice({
       })
       .addCase(updateMemberAsync.fulfilled, (state, action) => {
         state.pendingRestoreMember = false;
+
+        const userState = store.getState().user;
+        const newMember = action.payload.result;
+        const newUser = UserMapper.fromMemberModel(newMember);
+
+        if (action.payload.isRestore) {
+          userAdapter.addOne(userState, newUser);
+        }
         if (
           action.payload.isRestore &&
           state.listQueryMember.is_archived != null
         ) {
-          memberAdapter.removeOne(state, action.payload.result.id);
+          memberAdapter.removeOne(state, newMember.id);
           return;
         }
+        userAdapter.updateOne(userState, {
+          id: newUser.id,
+          changes: newUser,
+        });
         memberAdapter.updateOne(state, {
-          id: action.payload.result.id,
-          changes: action.payload.result,
+          id: newMember.id,
+          changes: newMember,
         });
       });
   },
