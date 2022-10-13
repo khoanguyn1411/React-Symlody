@@ -19,7 +19,6 @@ export const TodoCard: React.FC<TTodoCardProps> = ({
   title,
   date,
   isPriority,
-  assignee,
 }) => {
   return (
     <div className="pb-3">
