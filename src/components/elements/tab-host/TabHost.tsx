@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { useEffectSkipFirstRender } from "@/hooks";
 import { GlobalTypes } from "@/utils";
 
 export type TTab = {
@@ -53,7 +54,7 @@ export const TabHost: React.FC<TProps> = ({
 
   if (tabChangeDependOnChangeOf) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
+    useEffectSkipFirstRender(() => {
       const activeTab = getTabActive(tabChangeDependOnChangeOf);
       setActiveTab(activeTab);
       setActiveRef(activeTab.key);
