@@ -31,7 +31,7 @@ export const tourProviderStyles = {
       width: 10,
       height: 10,
       outline: "none !important",
-      color: "#D1D5DB",
+      color: "#9ca3af",
       right: 16,
       top: 16,
     };

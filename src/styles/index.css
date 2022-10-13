@@ -263,3 +263,11 @@ ol {
 .drawer.drawer-open .drawer-handle-icon:after {
   transform: translateY(-5px) rotate(-45deg);
 }
+
+.Symlody-tour.rt-mask {
+  opacity: 0.3 !important;
+}
+
+.Symlody-tour.rt-popover {
+  padding: 24px 32px;
+}

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
+import { images } from "@/assets/images";
 import { useAppDispatch } from "@/features";
 import { logout } from "@/features/reducers";
 import { IProfile } from "@/features/types";
@@ -11,6 +12,10 @@ const MENUS = [
   {
     key: "PROFILE",
     value: "Thông tin cá nhân",
+  },
+  {
+    key: "CHANGE_PASSWORD",
+    value: "Đổi mật khẩu",
   },
   {
     key: "LOGOUT",
@@ -30,6 +35,10 @@ export const UserDropdown: React.FC<TProps> = ({ user }) => {
       dispatch(logout());
       navigate(EPagePath.Login);
       return;
+    } else if (item.key === "PROFILE") {
+      console.log("navigate to profile");
+    } else if (item.key === "CHANGE_PASSWORD") {
+      console.log("navigate to change password");
     }
   };
   return (
@@ -39,11 +48,17 @@ export const UserDropdown: React.FC<TProps> = ({ user }) => {
       listSetting={MENUS}
       onChange={handleChangeMenu}
     >
-      <div className="flex items-center cursor-pointer space-x-2">
-        <Avatar src={user?.avatar_url} fullName={user?.full_name} />
-        <span className="">
-          <i className="fas fa-caret-down" />
-        </span>
+      <div className="flex items-center justify-between space-x-4">
+        <div className="flex items-center space-x-2">
+          <Avatar src={images.Logo} fullName="Logo" />
+          <span className="font-medium"></span>
+        </div>
+        <div className="flex items-center cursor-pointer space-x-2">
+          <Avatar src={user?.avatar_url} fullName={user?.full_name} />
+          <span className="">
+            <i className="fas fa-caret-down" />
+          </span>
+        </div>
       </div>
     </Dropdown>
   );
