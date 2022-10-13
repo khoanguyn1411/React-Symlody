@@ -28,7 +28,7 @@ export const CompactSidebar: React.FC<Props> = ({
           onClick={setIsCompact}
           className={classNames(
             "flex items-center justify-center",
-            " w-6 h-6 text-sm  bg-white rounded-full shadow transition-all duration-200 hover:bg-primary-400 hover:text-white cursor-pointer"
+            " w-6 h-6 text-sm  bg-white rounded-full shadow transition-all duration-200 hover:bg-primary-800 hover:text-white cursor-pointer"
           )}
         >
           <i

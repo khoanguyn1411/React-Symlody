@@ -2,10 +2,8 @@ import classNames from "classnames";
 import React, { useState } from "react";
 
 // import { Icon } from "@/assets/icons";
-import { images } from "@/assets/images";
 import { useAppSelector } from "@/features";
 
-import { Avatar } from "../../elements";
 import { Media } from "../../media";
 import { SidebarMobile } from "../sidebar";
 import { UserDropdown } from "./UserDropdown";
@@ -61,13 +59,9 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
           data-tour-id="layout__userDropdown"
           className={classNames(
             "flex items-center bg-white border shadow-sm rounded-md ",
-            "py-1 pl-3 pr-2 space-x-4"
+            "py-1 pl-3 pr-2"
           )}
         >
-          <div className="flex items-center space-x-2">
-            <Avatar src={images.Logo} fullName="Logo" />
-            <span className="font-medium"></span>
-          </div>
           <UserDropdown user={authStore.user} />
         </div>
       </div>

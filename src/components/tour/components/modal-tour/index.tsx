@@ -63,7 +63,7 @@ export const ModalTour: React.FC<Props> = ({
             "absolute flex cursor-pointer top-4 right-4 text-base focus:outline-none outline-none z-10",
             {
               "text-gray-300": type === "icon",
-              "text-white opacity-50": type === "image",
+              "text-gray-400": type === "image",
               "text-white opacity-60": type === "iframe",
             }
           )}

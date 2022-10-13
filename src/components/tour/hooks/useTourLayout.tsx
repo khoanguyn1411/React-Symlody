@@ -34,7 +34,7 @@ export const useTourLayout = () => {
           <ModalTour
             type="image"
             imageProps={{
-              src: "",
+              src: images.tour.welcome,
               title:
                 "Hướng dẫn sử dụng tổng quan phần mềm quản lý câu lạc bộ Symlody",
             }}
@@ -43,6 +43,7 @@ export const useTourLayout = () => {
               "Symlody là hệ thống quản lý các tác vụ quan trọng trong tổ chức. Hãy cùng xem qua một vài điểm nổi bật của ứng dụng"
             }
             width={600}
+            imageHeight={320}
             onCloseClick={handleCloseClick}
           />
         );
@@ -99,7 +100,7 @@ export const useTourLayout = () => {
           <ModalTour
             type="image"
             imageProps={{
-              src: "",
+              src: images.tour.congratulation,
               title:
                 "Hướng dẫn sử dụng tổng quan phần mềm quản lý câu lạc bộ Symlody",
             }}
@@ -108,6 +109,7 @@ export const useTourLayout = () => {
               "Sau khi làm quen với hệ thống, bạn hãy đưa dữ liệu của tổ chức lên để bắt đầu công việc quản lý của mình."
             }
             width={480}
+            imageHeight={400}
             onCloseClick={handleCloseClick}
           />
         );
