@@ -85,8 +85,9 @@ export function removeAccent(str: string): string {
 
 /**
  * Capitalize first letter of a string.
+ * @param index Index of character need to capitalize (default is 0).
  * @param string String need to be capitalized first letter.
  */
-export function capitalizeFirstLetter(index: number, string: string) {
+export function capitalizeLetter(string: string, index = 0) {
   return string.charAt(index).toUpperCase() + string.slice(index + 1);
 }

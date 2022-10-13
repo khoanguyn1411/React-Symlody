@@ -34,7 +34,7 @@ export const getTabsSidebar = (): ITabSidebar[] =>
     const title = RouteMapper.toTitle(item.pageActive).replace("Trang", "");
     return {
       icon: item.icon,
-      title: FormatService.capitalizeFirstLetter(1, title),
+      title: FormatService.capitalizeLetter(title, 1),
       to: RouteMapper.toPath(item.pageActive),
       pageActive: item.pageActive,
     };
