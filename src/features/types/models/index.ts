@@ -5,5 +5,6 @@ export * from "./login";
 export * from "./member";
 export * from "./profile";
 export * from "./property";
+export * from "./tenant";
 export * from "./token";
 export * from "./user";

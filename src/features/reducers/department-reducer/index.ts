@@ -1,8 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { ConfigApi } from "@/api";
+import { RequestCreateDepartmentResult } from "@/api/config-api/types";
 import { RootState } from "@/features/store";
-import { DepartmentMapper, IDepartment, ITenant } from "@/features/types";
+import {
+  DepartmentMapper,
+  IDepartment,
+  IDepartmentCreateUpdate,
+  ITenant,
+} from "@/features/types";
 import { GlobalTypes } from "@/utils";
 
 export type DepartmentState = {
@@ -30,6 +36,20 @@ export const getDepartmentAsync = createAsyncThunk<
   }
 
   return rejectWithValue([]);
+});
+
+export const createDepartmentAsync = createAsyncThunk<
+  IDepartment,
+  IDepartmentCreateUpdate,
+  GlobalTypes.ReduxThunkRejectValue<RequestCreateDepartmentResult>
+>("create/department", async (payload, { rejectWithValue }) => {
+  const result = await ConfigApi.createDepartment(payload);
+  if (result.kind === "ok") {
+    const department = result.result;
+    return DepartmentMapper.fromDto(department);
+  }
+
+  return rejectWithValue(null);
 });
 
 export const getTenantAsync = createAsyncThunk<
@@ -70,6 +90,19 @@ export const departmentSlice = createSlice({
       .addCase(getDepartmentAsync.rejected, (state) => {
         state.pending = false;
         state.departments = [];
+      })
+      //create department
+      .addCase(createDepartmentAsync.pending, (state) => {
+        state.pending = true;
+      })
+      .addCase(createDepartmentAsync.fulfilled, (state, action) => {
+        state.pending = false;
+        const newDepartment = action.payload;
+        state.departments = [...state.departments, newDepartment];
+      })
+      .addCase(createDepartmentAsync.rejected, (state) => {
+        state.pending = false;
+        // state.departments = [];
       })
       //get tenant
       .addCase(getTenantAsync.pending, (state) => {

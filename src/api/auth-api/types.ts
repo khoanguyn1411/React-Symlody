@@ -22,3 +22,10 @@ export type RequestRefreshResult =
       result: ITokenRefreshDto;
     }
   | GeneralApiProblem;
+
+export type RequestChangePasswordResult =
+  | {
+      kind: `ok`;
+      result: boolean;
+    }
+  | GeneralApiProblem;

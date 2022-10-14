@@ -11,7 +11,6 @@ export const AuthorizedGuard: GlobalTypes.FCPropsWithChildren<TProps> = ({
   isAuth,
 }) => {
   const location = useLocation();
-  console.log(location.pathname);
   if (isAuth) {
     return location.pathname === "/" ? (
       <Navigate to="/todo" replace state={{ path: location.pathname }} />

@@ -1,4 +1,8 @@
-import { IDepartmentDto, ITenantDto } from "@/features/types/dtos";
+import {
+  IDepartmentCreateUpdateDto,
+  IDepartmentDto,
+  ITenantDto,
+} from "@/features/types/dtos";
 
 import { GeneralApiProblem } from "../api-problem";
 
@@ -15,3 +19,12 @@ export type RequestGetTenantResult =
       result: ITenantDto;
     }
   | GeneralApiProblem;
+
+export type RequestCreateDepartmentResult =
+  | {
+      kind: `ok`;
+      result: IDepartmentDto;
+    }
+  | GeneralApiProblem;
+
+export type RequestCreateDepartmentBody = IDepartmentCreateUpdateDto;
