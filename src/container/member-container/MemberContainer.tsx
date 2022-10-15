@@ -121,6 +121,7 @@ export const MemberContainer: React.FC = () => {
     dispatch(
       getPaginationMember({
         memberList,
+        page: 1,
         search: propsSearch.debounceValue,
       })
     );

@@ -64,7 +64,9 @@ const PaginationProvider: GlobalTypes.FCPropsWithChildren<TPropsPagination> = ({
   useEffect(() => {
     if (activePage > _totalPage) {
       setActivePage(1);
+      onResetPagination?.callback(limit);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_totalPage, activePage]);
 
   useLayoutEffect(

@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 
+import { APP_DEFAULT_PAGE, EPagePath } from "@/routes";
 import { GlobalTypes } from "@/utils";
 
 type TProps = {
@@ -11,13 +12,22 @@ export const AuthorizedGuard: GlobalTypes.FCPropsWithChildren<TProps> = ({
   isAuth,
 }) => {
   const location = useLocation();
-  console.log(location.pathname);
   if (isAuth) {
-    return location.pathname === "/" ? (
-      <Navigate to="/todo" replace state={{ path: location.pathname }} />
+    return location.pathname === EPagePath.Home ? (
+      <Navigate
+        to={APP_DEFAULT_PAGE}
+        replace
+        state={{ path: location.pathname }}
+      />
     ) : (
       <>{children}</>
     );
   }
-  return <Navigate to="/login" replace state={{ path: location.pathname }} />;
+  return (
+    <Navigate
+      to={EPagePath.Login}
+      replace
+      state={{ path: location.pathname }}
+    />
+  );
 };
