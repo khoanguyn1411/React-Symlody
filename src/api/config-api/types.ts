@@ -1,17 +1,6 @@
 import { IDepartmentDto, ITenantDto } from "@/features/types/dtos";
 
-import { GeneralApiProblem } from "../api-problem";
+import { Response } from "../types";
 
-export type RequestGetDepartmentResult =
-  | {
-      kind: `ok`;
-      result: IDepartmentDto[];
-    }
-  | GeneralApiProblem;
-
-export type RequestGetTenantResult =
-  | {
-      kind: `ok`;
-      result: ITenantDto;
-    }
-  | GeneralApiProblem;
+export type RequestGetDepartmentResult = Response<IDepartmentDto[]>;
+export type RequestGetTenantResult = Response<ITenantDto>;

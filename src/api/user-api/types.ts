@@ -1,10 +1,5 @@
 import { IUserDto } from "@/features/types/dtos";
 
-import { GeneralApiProblem } from "../api-problem";
+import { Response } from "../types";
 
-export type RequestGetUsersResult =
-  | {
-      kind: `ok`;
-      result: IUserDto[];
-    }
-  | GeneralApiProblem;
+export type RequestGetUsersResult = Response<IUserDto[]>;

@@ -10,7 +10,6 @@ export type ReduxThunkRestoreResult<T> = {
   isRestore: boolean;
 };
 
-export type ReduxThunkRestoreRejected = ReduxThunkRejectValue<{
-  result: null;
-  isRestore: boolean;
-}>;
+export type ReduxThunkRestoreRejected<T> = ReduxThunkRejectValue<
+  ReduxThunkRestoreResult<T>
+>;

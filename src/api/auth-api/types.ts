@@ -1,24 +1,7 @@
 import { IProfileDto, ITokenDto, ITokenRefreshDto } from "@/features/types";
 
-import { GeneralApiProblem } from "../api-problem";
+import { Response } from "../types";
 
-export type RequestLoginResult =
-  | {
-      kind: `ok`;
-      result: ITokenDto;
-    }
-  | GeneralApiProblem;
-
-export type RequestGetProfileResult =
-  | {
-      kind: `ok`;
-      result: IProfileDto;
-    }
-  | GeneralApiProblem;
-
-export type RequestRefreshResult =
-  | {
-      kind: `ok`;
-      result: ITokenRefreshDto;
-    }
-  | GeneralApiProblem;
+export type RequestLoginResult = Response<ITokenDto>;
+export type RequestGetProfileResult = Response<IProfileDto>;
+export type RequestRefreshResult = Response<ITokenRefreshDto>;

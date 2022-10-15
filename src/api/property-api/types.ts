@@ -1,24 +1,7 @@
 import { IPropertyDto } from "@/features/types/dtos";
 
-import { GeneralApiProblem } from "../api-problem";
+import { Response } from "../types";
 
-export type RequestGetPropertiesResult =
-  | {
-      kind: `ok`;
-      result: IPropertyDto[];
-    }
-  | GeneralApiProblem;
-
-export type RequestCreatePropertyResult =
-  | {
-      kind: `ok`;
-      result: IPropertyDto;
-    }
-  | GeneralApiProblem;
-
-export type RequestDeletePropertyResult =
-  | {
-      kind: `ok`;
-      result: boolean;
-    }
-  | GeneralApiProblem;
+export type RequestGetPropertiesResult = Response<IPropertyDto[]>;
+export type RequestCreatePropertyResult = Response<IPropertyDto>;
+export type RequestDeletePropertyResult = Response<boolean>;

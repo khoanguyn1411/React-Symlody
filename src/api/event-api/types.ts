@@ -1,10 +1,5 @@
 import { IEventDto } from "@/features/types";
 
-import { GeneralApiProblem } from "../api-problem";
+import { Response } from "../types";
 
-export type RequestGetEventResult =
-  | {
-      kind: `ok`;
-      result: IEventDto[];
-    }
-  | GeneralApiProblem;
+export type RequestGetEventResult = Response<IEventDto[]>;

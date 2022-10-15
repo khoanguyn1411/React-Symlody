@@ -61,7 +61,7 @@ const TabCreateAProperty: React.FC = () => {
   const handleCreateAProperty = async (propertyData: IFormPropertyInfo) => {
     const propertyModel = PropertyFormMapper.toModel(propertyData);
     const result = await dispatch(createPropertyAsync(propertyModel));
-    if (!result.payload) {
+    if (result.meta.requestStatus === "rejected") {
       toast.error(PROPERTY_MESSAGE.create.error);
       return;
     }

@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { MemberApi, RequestCreateMembersResult } from "@/api";
+import {
+  MemberApi,
+  RequestCreateMembersResult,
+  RequestGetMembersResult,
+  RequestUpdateMembersResult,
+} from "@/api";
 import { RootState, store } from "@/features/store";
 import { MemberMapper, UserMapper } from "@/features/types/mappers";
 import { IMember, IMemberCreateUpdate } from "@/features/types/models";
@@ -13,15 +18,15 @@ import { initialState, memberAdapter } from "./state";
 export const createMemberAsync = createAsyncThunk<
   IMember,
   IMemberCreateUpdate,
-  GlobalTypes.ReduxThunkRejectValue<RequestCreateMembersResult>
+  GlobalTypes.ReduxThunkRejectValue<any>
 >("create/member", async (payload, { rejectWithValue }) => {
-  const result = await MemberApi.createMember(
+  const result: RequestCreateMembersResult = await MemberApi.createMember(
     MemberMapper.toCreateDto(payload)
   );
   if (result.kind === "ok") {
     return MemberMapper.fromDto(result.result);
   }
-  return rejectWithValue(result);
+  return rejectWithValue(result.result);
 });
 
 export const deleteMemberAsync = createAsyncThunk<
@@ -41,7 +46,7 @@ export const getMembersAsync = createAsyncThunk<
   TMemberParamQueryDto,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/members", async (param, { rejectWithValue }) => {
-  const result = await MemberApi.getMembers(param);
+  const result: RequestGetMembersResult = await MemberApi.getMembers(param);
   if (result.kind === "ok") {
     return result.result.map((item) => MemberMapper.fromDto(item));
   }
@@ -51,9 +56,9 @@ export const getMembersAsync = createAsyncThunk<
 export const updateMemberAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRestoreResult<IMember>,
   GlobalTypes.ReduxThunkRestorePayload<IMemberCreateUpdate, IMember>,
-  GlobalTypes.ReduxThunkRestoreRejected
+  GlobalTypes.ReduxThunkRestoreRejected<any>
 >("update/member", async ({ payload, id, isRestore }, { rejectWithValue }) => {
-  const result = await MemberApi.updateMember(
+  const result: RequestUpdateMembersResult = await MemberApi.updateMember(
     id,
     MemberMapper.toUpdateDto(payload)
   );
@@ -63,7 +68,7 @@ export const updateMemberAsync = createAsyncThunk<
       isRestore,
     };
   }
-  return rejectWithValue({ result: null, isRestore });
+  return rejectWithValue({ result: result.result, isRestore });
 });
 
 export const memberSlice = createSlice({

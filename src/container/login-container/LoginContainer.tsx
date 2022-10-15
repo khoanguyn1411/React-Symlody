@@ -24,7 +24,7 @@ export const LoginContainer: React.FC = () => {
     const res = await dispatch(
       loginAsync({ username: data.username, password: data.password })
     );
-    if (!res.payload) {
+    if (res.meta.requestStatus === "rejected") {
       toast.error("Đăng nhập thất bại");
       return;
     }

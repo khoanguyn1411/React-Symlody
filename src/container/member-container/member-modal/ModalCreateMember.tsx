@@ -39,7 +39,7 @@ const TabCreateAMember: React.FC = () => {
       false
     );
     const res = await dispatch(createMemberAsync(memberModel));
-    if (!res.payload) {
+    if (res.meta.requestStatus === "rejected") {
       toast.error(MEMBER_MESSAGE.create.error);
       return;
     }

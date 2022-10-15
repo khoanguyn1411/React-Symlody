@@ -57,7 +57,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         isRestore: false,
       })
     );
-    if (!result.payload.result) {
+    if (result.meta.requestStatus === "rejected") {
       toast.error(MEMBER_MESSAGE.update.error);
       return;
     }

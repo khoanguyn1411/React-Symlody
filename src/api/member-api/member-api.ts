@@ -17,7 +17,6 @@ export const MemberApi = {
   ): Promise<Types.RequestGetMembersResult> {
     const url = routes.getMembers();
     const result = await Api.http.get<IMemberDto[]>(url, { ...param });
-
     return returnResponse(result);
   },
 

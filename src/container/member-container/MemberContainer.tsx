@@ -93,7 +93,7 @@ export const MemberContainer: React.FC = () => {
         isRestore: true,
       })
     );
-    if (!result.payload.result) {
+    if (result.meta.requestStatus === "rejected") {
       toast.error(MEMBER_MESSAGE.update.error);
       return;
     }

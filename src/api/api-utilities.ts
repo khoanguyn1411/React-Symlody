@@ -1,21 +1,19 @@
 import { ApiResponse } from "apisauce";
 
-import { GeneralApiProblem, getGeneralApiProblem } from "./api-problem";
-
-export type Response<T> = (GeneralApiProblem | { kind: "ok" | "bad-data" }) & {
-  result: T;
-};
-
-export function returnResponse<T>(result: ApiResponse<T>): Response<T> {
+import { getGeneralApiProblem } from "./api-problem";
+import { Response } from "./types";
+export function returnResponse<T>(response: ApiResponse<T>): Response<T> {
   try {
-    if (result.ok) {
-      return { kind: "ok", result: result.data };
+    if (response.ok) {
+      return { kind: "ok", result: response.data };
     }
-    if (!result.ok || result.problem) {
-      const problem = getGeneralApiProblem(result);
-      if (problem) return { ...problem, result: result.data };
+    if (!response.ok || response.problem) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) {
+        return problem;
+      }
     }
   } catch {
-    return { kind: `bad-data`, result: null };
+    return { kind: "unknown", result: response };
   }
 }
