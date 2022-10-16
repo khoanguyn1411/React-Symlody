@@ -9,6 +9,8 @@ export const APP_ERROR_MESSAGE = {
     `${field || "Trường này"} không được vượt quá ${FormatService.toString(
       maxCharNumber
     )} ký tự.`,
+  MAX_NUMBER: (maxValue: number) =>
+    `Vui lòng nhập một số nhỏ hơn ${FormatService.toString(maxValue)}.`,
   MIN_NUMBER: (minValue: number) =>
     `Vui lòng nhập một số lớn hơn ${FormatService.toString(minValue)}.`,
 } as const;
