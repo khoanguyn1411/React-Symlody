@@ -29,7 +29,7 @@ export const SidebarItem: React.FC<TProps> = ({
     >
       <tab.icon
         className={classNames(
-          "group-hover:text-primary-800 min-w-max w-10 justify-center flex",
+          "group-hover:text-primary-800 w-9 justify-center flex",
           "transition-all duration-300",
           isActive ? "text-primary-800" : "text-gray-400"
         )}

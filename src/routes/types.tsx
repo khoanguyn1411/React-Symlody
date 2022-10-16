@@ -39,8 +39,8 @@ export enum EPageTitle {
   Property = "Trang tài sản",
   Config = "Trang cấu hình",
   Event = "Trang sự kiện",
-  Target = "Trang công việc",
-  Todo = "Trang mục tiêu",
+  Todo = "Trang công việc",
+  Target = "Trang mục tiêu",
   NotFound = "Không tìm thấy",
 }
 
