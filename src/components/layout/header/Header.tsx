@@ -55,13 +55,7 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
           <Icon.Bell size="small" customColor="text" />
         </span> */}
 
-        <div
-          data-tour-id="layout__userDropdown"
-          className={classNames(
-            "flex items-center bg-white border shadow-sm rounded-md ",
-            "py-1 pl-3 pr-2"
-          )}
-        >
+        <div data-tour-id="layout__userDropdown">
           <UserDropdown user={authStore.user} />
         </div>
       </div>
