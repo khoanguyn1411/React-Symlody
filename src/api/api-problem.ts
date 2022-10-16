@@ -1,6 +1,6 @@
 import { ApiResponse } from "apisauce";
 
-export type GeneralApiProblem<T> = {
+export type GeneralApiProblem = {
   kind:
     | "timeout" // Times up.
     | "cannot-connect" // Cannot connect to the server for some reason.
@@ -24,7 +24,7 @@ export type GeneralApiProblem<T> = {
  */
 export function getGeneralApiProblem<T>(
   response: ApiResponse<T>
-): GeneralApiProblem<T> {
+): GeneralApiProblem {
   switch (response.problem) {
     case "CONNECTION_ERROR":
       return { kind: "cannot-connect", temporary: true, result: response };

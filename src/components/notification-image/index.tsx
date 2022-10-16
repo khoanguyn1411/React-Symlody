@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
-import { APP_DEFAULT_PAGE, EPagePath } from "@/routes";
+import { APP_DEFAULT_PAGE } from "@/routes";
 
 import { Button } from "../elements";
 type Props = {
