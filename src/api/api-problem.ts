@@ -14,7 +14,7 @@ export type GeneralApiProblem = {
     | "bad-data" // The data we received is not in the expected format.
     | "payment-required"; // Payment required first.
   temporary?: boolean;
-  result: ApiResponse<any>;
+  result: ApiResponse<unknown>;
 };
 
 /**
