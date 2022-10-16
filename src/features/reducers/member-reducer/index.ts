@@ -6,24 +6,31 @@ import {
   RequestGetMembersResult,
   RequestUpdateMembersResult,
 } from "@/api";
-import { RootState } from "@/features/store";
-import { MemberMapper } from "@/features/types/mappers";
+import { RootState, store } from "@/features/store";
+import { MemberMapper, UserMapper } from "@/features/types/mappers";
 import { HttpErrorMapper } from "@/features/types/mappers/http-error.mapper";
 import { IMember, IMemberCreateUpdate } from "@/features/types/models";
 import { TMemberParamQueryDto } from "@/features/types/queries";
 import { FilterService, GeneratorService, GlobalTypes } from "@/utils";
 
+import {
+  getUsersAsync,
+  removeUser,
+  updateUser,
+  userSelectors,
+} from "../user-reducer";
 import { initialState, memberAdapter } from "./state";
 
 export const createMemberAsync = createAsyncThunk<
   IMember,
   IMemberCreateUpdate,
   GlobalTypes.ReduxThunkRejectValue<unknown>
->("create/member", async (payload, { rejectWithValue }) => {
+>("create/member", async (payload, { rejectWithValue, dispatch }) => {
   const result: RequestCreateMembersResult = await MemberApi.createMember(
     MemberMapper.toCreateDto(payload)
   );
   if (result.kind === "ok") {
+    dispatch(getUsersAsync());
     return MemberMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {
@@ -37,9 +44,20 @@ export const deleteMemberAsync = createAsyncThunk<
   IMember["id"],
   IMember["id"],
   GlobalTypes.ReduxThunkRejectValue<null>
->("delete/member", async (id, { rejectWithValue }) => {
+>("delete/member", async (id, { rejectWithValue, dispatch }) => {
   const result = await MemberApi.deleteMember(id);
   if (result.kind === "ok") {
+    const reduxStore = store.getState();
+    const userState = reduxStore.user;
+    if (userState.ids.length > 0) {
+      const deletedMember = memberSelectors.selectById(reduxStore, id);
+      const deletedUser = userSelectors
+        .selectAll(reduxStore)
+        .find((item) => item.email === deletedMember.auth_account.email);
+      if (deletedUser != null) {
+        dispatch(removeUser(deletedUser.id));
+      }
+    }
     return id;
   }
   return rejectWithValue(null);
@@ -61,23 +79,52 @@ export const updateMemberAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRestoreResult<IMember>,
   GlobalTypes.ReduxThunkRestorePayload<IMemberCreateUpdate, IMember>,
   GlobalTypes.ReduxThunkRestoreRejected<unknown>
->("update/member", async ({ payload, id, isRestore }, { rejectWithValue }) => {
-  const result: RequestUpdateMembersResult = await MemberApi.updateMember(
-    id,
-    MemberMapper.toUpdateDto(payload)
-  );
-  if (result.kind === "ok") {
-    return {
-      result: MemberMapper.fromDto(result.result),
-      isRestore,
-    };
+>(
+  "update/member",
+  async ({ payload, id, isRestore }, { rejectWithValue, dispatch }) => {
+    const result: RequestUpdateMembersResult = await MemberApi.updateMember(
+      id,
+      MemberMapper.toUpdateDto(payload)
+    );
+    if (result.kind === "ok") {
+      const reduxStore = store.getState();
+      const userState = reduxStore.user;
+      if (isRestore) {
+        if (userState.ids.length > 0) {
+          dispatch(getUsersAsync());
+        }
+      } else {
+        if (userState.ids.length > 0) {
+          const reduxStore = store.getState();
+          const memberUpdated = memberSelectors.selectById(reduxStore, id);
+          const updatedUser = userSelectors
+            .selectAll(reduxStore)
+            .find((item) => item.email === memberUpdated.auth_account.email);
+          const updatedUserInfo = UserMapper.fromMemberModel(payload);
+          dispatch(
+            updateUser({
+              id: updatedUser.id,
+              payload: {
+                ...updatedUserInfo,
+                email:
+                  updatedUserInfo.email ?? memberUpdated.auth_account.email,
+              },
+            })
+          );
+        }
+      }
+      return {
+        result: MemberMapper.fromDto(result.result),
+        isRestore,
+      };
+    }
+    if (result.kind === "bad-data") {
+      const errorBadData = HttpErrorMapper.fromDto(result.result.data);
+      return rejectWithValue({ result: errorBadData, isRestore: false });
+    }
+    return rejectWithValue({ result: result.result, isRestore });
   }
-  if (result.kind === "bad-data") {
-    const errorBadData = HttpErrorMapper.fromDto(result.result.data);
-    return rejectWithValue({ result: errorBadData, isRestore: false });
-  }
-  return rejectWithValue({ result: result.result, isRestore });
-});
+);
 
 export const memberSlice = createSlice({
   name: "member",
@@ -144,10 +191,7 @@ export const memberSlice = createSlice({
         memberAdapter.setAll(state, []);
       })
       .addCase(createMemberAsync.fulfilled, (state, action) => {
-        // const userState = store.getState().user;
         const newMember = action.payload;
-        // const newUser = UserMapper.fromMemberModel(newMember);
-        // userAdapter.addOne(userState, newUser);
         if (state.listQueryMember.is_archived !== true) {
           memberAdapter.addOne(state, newMember);
         }
@@ -157,11 +201,7 @@ export const memberSlice = createSlice({
       })
       .addCase(deleteMemberAsync.fulfilled, (state, action) => {
         state.pendingDeleteMember = false;
-
-        // const userState = store.getState().user;
         const removedId = action.payload;
-        // userAdapter.removeOne(userState, removedId);
-
         if (state.listQueryMember.is_archived == null) {
           memberAdapter.updateOne(state, {
             id: removedId,
@@ -183,14 +223,8 @@ export const memberSlice = createSlice({
       })
       .addCase(updateMemberAsync.fulfilled, (state, action) => {
         state.pendingRestoreMember = false;
-
-        // const userState = store.getState().user;
         const newMember = action.payload.result;
-        // const newUser = UserMapper.fromMemberModel(newMember);
 
-        // if (action.payload.isRestore) {
-        //   userAdapter.addOne(userState, newUser);
-        // }
         if (
           action.payload.isRestore &&
           state.listQueryMember.is_archived != null
@@ -198,10 +232,7 @@ export const memberSlice = createSlice({
           memberAdapter.removeOne(state, newMember.id);
           return;
         }
-        // userAdapter.updateOne(userState, {
-        //   id: newUser.id,
-        //   changes: newUser,
-        // });
+
         memberAdapter.updateOne(state, {
           id: newMember.id,
           changes: newMember,

@@ -4,8 +4,19 @@ import { UserApi } from "@/api";
 import { RootState } from "@/features/store";
 import { IUser, UserMapper } from "@/features/types";
 import { GlobalTypes } from "@/utils";
+import { StrictOmit } from "@/utils/types";
 
 import { initialState, userAdapter } from "./state";
+
+export const addUser = createAsyncThunk("user/add", (user: IUser) => user);
+export const updateUser = createAsyncThunk(
+  "user/update",
+  (param: { id: IUser["id"]; payload: StrictOmit<IUser, "id"> }) => param
+);
+export const removeUser = createAsyncThunk(
+  "user/remove",
+  (id: IUser["id"]) => id
+);
 
 export const getUsersAsync = createAsyncThunk<
   IUser[],
@@ -25,6 +36,19 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(addUser.fulfilled, (state, action) => {
+        userAdapter.addOne(state, action.payload);
+      })
+      .addCase(removeUser.fulfilled, (state, action) => {
+        userAdapter.removeOne(state, action.payload);
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        userAdapter.updateOne(state, {
+          id: action.payload.id,
+          changes: action.payload.payload,
+        });
+      })
+
       .addCase(getUsersAsync.pending, (state) => {
         state.pending = true;
       })

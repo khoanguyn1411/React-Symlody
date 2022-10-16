@@ -77,7 +77,7 @@ export const MemberContainer: React.FC = () => {
       toast.success(MEMBER_MESSAGE.achieve.success);
       return;
     }
-    toast.success(MEMBER_MESSAGE.achieve.error);
+    toast.error(MEMBER_MESSAGE.achieve.error);
   };
   const handleRestore = async (item: IMember) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
