@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Loading, ModalMultipleTabs, ModalTab, PickFile } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { createMemberAsync, getDepartmentAsync } from "@/features/reducers";
+import { DetailNestedErrorOf, HttpError, IAuthAccount } from "@/features/types";
 import { THookModalProps, usePickFile } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
@@ -19,6 +20,7 @@ const TabCreateAMember: React.FC = () => {
     resolver: yupResolver(schema),
   });
   const {
+    setError,
     handleSubmit,
     reset,
     formState: { isSubmitting },
@@ -40,6 +42,16 @@ const TabCreateAMember: React.FC = () => {
     );
     const res = await dispatch(createMemberAsync(memberModel));
     if (res.meta.requestStatus === "rejected") {
+      if (res.payload instanceof HttpError) {
+        const authAccount = res.payload.details
+          .auth_account as unknown as DetailNestedErrorOf<IAuthAccount>;
+        if (authAccount?.email) {
+          setError("email", { message: "Email này đã được đăng ký." });
+          return;
+        }
+        toast.error(MEMBER_MESSAGE.create.error);
+        return;
+      }
       toast.error(MEMBER_MESSAGE.create.error);
       return;
     }

@@ -6,7 +6,13 @@ import { toast } from "react-toastify";
 import { Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getDepartmentAsync, updateMemberAsync } from "@/features/reducers";
-import { IMember, IMemberCreateUpdate } from "@/features/types";
+import {
+  DetailNestedErrorOf,
+  HttpError,
+  IAuthAccount,
+  IMember,
+  IMemberCreateUpdate,
+} from "@/features/types";
 import { THookModalProps } from "@/hooks";
 import { FormService } from "@/utils";
 
@@ -27,6 +33,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   });
   const {
     handleSubmit,
+    setError,
     formState: { isSubmitting, dirtyFields },
   } = propsForm;
 
@@ -50,15 +57,25 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
       _memberModel = memberModel;
     }
 
-    const result = await dispatch(
+    const res = await dispatch(
       updateMemberAsync({
         payload: _memberModel,
         id: data.id,
         isRestore: false,
       })
     );
-    if (result.meta.requestStatus === "rejected") {
-      toast.error(MEMBER_MESSAGE.update.error);
+    if (res.meta.requestStatus === "rejected") {
+      if (res.payload.result instanceof HttpError) {
+        const authAccount = res.payload.result.details
+          .auth_account as unknown as DetailNestedErrorOf<IAuthAccount>;
+        if (authAccount?.email) {
+          setError("email", { message: "Email này đã được đăng ký." });
+          return;
+        }
+        toast.error(MEMBER_MESSAGE.create.error);
+        return;
+      }
+      toast.error(MEMBER_MESSAGE.create.error);
       return;
     }
     toast.success(MEMBER_MESSAGE.update.success);

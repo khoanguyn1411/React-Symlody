@@ -24,7 +24,7 @@ export class MemberMapper {
       ...model,
       dob: FormatService.toDate(model.dob, "API"),
       gender: model.gender === "Nam" ? 1 : 2,
-      department: DepartmentMapper.toDto(model.department),
+      department_id: model.department.id,
     };
   }
 
@@ -35,7 +35,7 @@ export class MemberMapper {
       ...model,
       dob: FormatService.toDate(model.dob, "API"),
       gender: model.gender === "Nam" ? 1 : 2,
-      department: DepartmentMapper.toDto(model.department),
+      department_id: model.department.id,
     };
   }
 }

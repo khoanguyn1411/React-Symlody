@@ -7,13 +7,11 @@ export function returnResponse<T>(response: ApiResponse<T>): Response<T> {
     if (response.ok) {
       return { kind: "ok", result: response.data };
     }
-    if (!response.ok || response.problem) {
-      const problem = getGeneralApiProblem(response);
-      if (problem) {
-        return problem;
-      }
+    const problem = getGeneralApiProblem(response);
+    if (problem) {
+      return problem;
     }
-  } catch {
-    return { kind: "unknown", result: response };
+  } catch (error) {
+    throw new Error("Invalid error.");
   }
 }

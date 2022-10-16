@@ -14,7 +14,7 @@ export type GeneralApiProblem<T> = {
     | "bad-data" // The data we received is not in the expected format.
     | "payment-required"; // Payment required first.
   temporary?: boolean;
-  result: ApiResponse<T>;
+  result: ApiResponse<any>;
 };
 
 /**
@@ -48,7 +48,7 @@ export function getGeneralApiProblem<T>(
           return { kind: "not-found", result: response };
         case 409:
           return { kind: "conflict", result: response };
-        case 405:
+        case 400:
           return { kind: "bad-data", result: response };
         default:
           return { kind: "rejected", result: response };

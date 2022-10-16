@@ -2,7 +2,7 @@ import {
   IAuthAccountCreateUpdateDto,
   IAuthAccountDto,
 } from "./auth-account.dto";
-import { IDepartmentCreateUpdateDto, IDepartmentDto } from "./department.dto";
+import { IDepartmentDto } from "./department.dto";
 
 interface IMemberGeneralDto {
   readonly gender: number;
@@ -29,5 +29,5 @@ export interface IMemberDto extends IMemberGeneralDto {
 
 export interface IMemberCreateUpdateDto extends IMemberGeneralDto {
   readonly auth_account: IAuthAccountCreateUpdateDto;
-  readonly department: IDepartmentCreateUpdateDto;
+  readonly department_id: number;
 }

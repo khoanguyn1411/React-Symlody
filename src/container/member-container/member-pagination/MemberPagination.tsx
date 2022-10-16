@@ -1,6 +1,6 @@
 import { Container } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getPaginationMember, memberSelectors } from "@/features/reducers";
+import { getPaginationMember } from "@/features/reducers";
 
 export const MemberPagination: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -33,8 +33,6 @@ export const MemberPagination: React.FC = () => {
       })
     );
   };
-
-  console.log(memberStore.listQueryMemberFE.page);
 
   return (
     <Container.Pagination

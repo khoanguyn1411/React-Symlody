@@ -16,6 +16,13 @@ export const store = configureStore({
     department: departmentReducer,
     property: propertyReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      // We need to disable this check to allow ES6 classes in Redux.
+      // You can find more info about this middleware in docs:
+      // https://redux-toolkit.js.org/api/serializabilityMiddleware
+      serializableCheck: false,
+    }),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
