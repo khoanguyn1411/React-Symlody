@@ -1,7 +1,7 @@
 import { GeneratorService, GlobalTypes } from "@/utils";
 
 import { IUserDto } from "../dtos";
-import { IMember, IMemberCreateUpdate, IUser } from "../models";
+import { IMemberCreateUpdate, IUser } from "../models";
 
 export class UserMapper {
   public static fromDto(dto: IUserDto): IUser {
