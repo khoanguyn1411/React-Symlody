@@ -24,7 +24,7 @@ export const DropdownListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
       isShowing={isShowContent}
       className={classNames(
         "w-full min-w-max",
-        "bg-white",
+        "bg-white border border-gray-200",
         "drop-shadow-lg",
         "rounded-md",
         "mt-2 py-1.5",
