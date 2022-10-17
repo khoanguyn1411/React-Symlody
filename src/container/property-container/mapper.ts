@@ -1,5 +1,5 @@
 import { IProperty, IPropertyCreateUpdate } from "@/features/types";
-import { FormatService } from "@/utils";
+import { FileService, FormatService } from "@/utils";
 
 import { IFormPropertyInfo, IPropertyTable } from "./type";
 
@@ -18,12 +18,10 @@ export class PropertyFormMapper {
   public static toModel(
     propertyFormData: IFormPropertyInfo
   ): IPropertyCreateUpdate {
-    const formData = new FormData();
+    let imageBase64: string | ArrayBuffer;
     if (propertyFormData.image) {
-      formData.append(
-        "myFile",
-        propertyFormData.image,
-        propertyFormData.image.name
+      FileService.convertBase64(propertyFormData.image).then(
+        (res) => (imageBase64 = res)
       );
     }
     return {
@@ -33,7 +31,7 @@ export class PropertyFormMapper {
       prop_owner: propertyFormData.owner,
       note: propertyFormData.note,
       incharger_id: propertyFormData.inChargeId,
-      image: !propertyFormData.image ? null : formData,
+      image: !propertyFormData.image ? null : imageBase64,
       is_club_property: propertyFormData.owner === "CLB",
     };
   }

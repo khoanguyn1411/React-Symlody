@@ -10,3 +10,22 @@ export function isCorrectExtension(fileName: string): boolean {
   }
   return false;
 }
+
+/**
+ * Convert image file ito base 64.
+ * @param file File need to convert.
+ */
+export function convertBase64(file: File): Promise<string | ArrayBuffer> {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}

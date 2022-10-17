@@ -27,6 +27,7 @@ export const PickImage: React.FC<TProps> = ({
     url: defaultImageLink,
     type: EFile.Image,
   });
+
   const [message, setMessage] = useState<string>("");
   const inputFileRef = useRef<HTMLInputElement>();
   const handleUploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,7 +70,7 @@ export const PickImage: React.FC<TProps> = ({
     fileReader.onload = (event) => {
       const { result } = event.target;
       if (result && !isCancel) {
-        setFileData((prev) => ({ ...prev, url: result }));
+        setFileData({ type: EFile.Image, url: result });
       }
     };
     fileReader.readAsDataURL(file);

@@ -48,6 +48,7 @@ export const PickFile: React.FC<TPropsPickFile> = ({
   };
 
   const handlePickedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("Here");
     setSelectedFile(event.target.files[0]);
     if (event.target.files) {
       setMessage(PICK_FILE_MESSAGE.defaultExtension);

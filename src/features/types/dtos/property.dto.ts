@@ -25,4 +25,4 @@ export interface IPropertyDto {
 export type IPropertyCreateUpdateDto = GlobalTypes.StrictPick<
   IPropertyDto,
   "name" | "quantity" | "price" | "prop_owner" | "note" | "is_club_property"
-> & { incharger_id: IUserDto["id"]; image?: FormData };
+> & { incharger_id: IUserDto["id"]; image?: string | ArrayBuffer };

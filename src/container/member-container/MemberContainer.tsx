@@ -104,17 +104,9 @@ export const MemberContainer: React.FC = () => {
     propsModalEditMember.toggle.setShow();
   };
 
-  useEffectSkipFirstRender(() => {
+  useEffect(() => {
     dispatch(getMembersAsync(memberStore.listQueryMember));
   }, [dispatch, memberStore.listQueryMember]);
-
-  useEffect(() => {
-    if (memberList && memberList.length > 0) {
-      return;
-    }
-    dispatch(getMembersAsync(memberStore.listQueryMember));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // TO_UPDATE: When BE release pagination...
   useEffectSkipFirstRender(() => {

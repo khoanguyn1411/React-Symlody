@@ -8,7 +8,9 @@ class Api {
 
   public static getInstance(): ApisauceInstance {
     if (!Api.instance) {
-      Api.instance = create({ baseURL: `${API_URL}/api/` });
+      Api.instance = create({
+        baseURL: `${API_URL}/api/`,
+      });
 
       Api.instance.axiosInstance.interceptors.request.use(interceptToken);
       Api.instance.axiosInstance.interceptors.response.use((response) => {
