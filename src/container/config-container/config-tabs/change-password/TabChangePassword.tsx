@@ -1,7 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
+import { AuthApi } from "@/api";
 import { FormItem, InputPassword } from "@/components";
 
 import {
@@ -14,12 +16,23 @@ import { IFormChangePassword } from "./type";
 export const TabChangePassword: React.FC = () => {
   const {
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
+    reset,
   } = useForm<IFormChangePassword>({ resolver: yupResolver(schema) });
 
-  const handleChangePassword = () => {
+  const handleChangePassword = async (data: IFormChangePassword) => {
     // TODO: Implement change password feature.
+    const result = await AuthApi.changePassword({
+      old_password: data.currentPassword,
+      new_password: data.newPassword,
+    });
+    if (result.kind !== "ok") {
+      toast.error("Đổi mật khẩu không thành công");
+      return;
+    }
+    toast.success("Đổi mật khẩu thành công");
+    reset();
   };
   return (
     <ConfigTabContentContainer onSubmit={handleSubmit(handleChangePassword)}>
@@ -77,7 +90,9 @@ export const TabChangePassword: React.FC = () => {
           )}
         />
       </FormItem>
-      <ConfigSubmitButton>Cập nhật</ConfigSubmitButton>
+      <ConfigSubmitButton isSubmitting={isSubmitting}>
+        Cập nhật
+      </ConfigSubmitButton>
     </ConfigTabContentContainer>
   );
 };
