@@ -8,5 +8,6 @@ export * from "./login.dto";
 export * from "./member.dto";
 export * from "./profile.dto";
 export * from "./property.dto";
+export * from "./task.dto";
 export * from "./token.dto";
 export * from "./user.dto";
