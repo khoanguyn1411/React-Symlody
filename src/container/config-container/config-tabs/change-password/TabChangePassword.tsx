@@ -18,16 +18,21 @@ export const TabChangePassword: React.FC = () => {
     control,
     formState: { errors, isSubmitting },
     handleSubmit,
+    reset,
   } = useForm<IFormChangePassword>({ resolver: yupResolver(schema) });
 
   const handleChangePassword = async (data: IFormChangePassword) => {
     // TODO: Implement change password feature.
-    const result = await AuthApi.changePassword(data);
-    if (!result) {
+    const result = await AuthApi.changePassword({
+      old_password: data.currentPassword,
+      new_password: data.newPassword,
+    });
+    if (result.kind !== "ok") {
       toast.error("Đổi mật khẩu không thành công");
       return;
     }
     toast.success("Đổi mật khẩu thành công");
+    reset();
   };
   return (
     <ConfigTabContentContainer onSubmit={handleSubmit(handleChangePassword)}>
