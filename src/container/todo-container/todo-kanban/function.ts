@@ -33,18 +33,19 @@ export const onDragEnd = (
     destinationCards.splice(0, 0, removed);
     setColumnList((prev) =>
       prev.map((item) => {
+        console.log(source.droppableId);
         if (item.id === source.droppableId) {
           return {
             ...item,
             cards: sourceCards,
-            cardOrder: sourceCards.map((item) => item.id),
+            // cardOrder: sourceCards.map((item) => item.id),
           };
         }
         if (item.id === destination.droppableId) {
           return {
             ...item,
             cards: destinationCards,
-            cardOrder: destinationCards.map((item) => item.id),
+            // cardOrder: destinationCards.map((item) => item.id),
           };
         }
         return item;
@@ -62,7 +63,7 @@ export const onDragEnd = (
         return {
           ...item,
           cards: copiedItem,
-          cardOrder: copiedItem.map((item) => item.id),
+          // cardOrder: copiedItem.map((item) => item.id),
         };
       }
       return item;

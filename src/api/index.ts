@@ -9,4 +9,5 @@ export * from "./auth-api";
 export * from "./config-api";
 export * from "./member-api";
 export * from "./property-api";
+export * from "./task-api";
 export * from "./user-api";

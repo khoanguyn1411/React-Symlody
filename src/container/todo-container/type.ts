@@ -1,3 +1,5 @@
+import { ITask } from "@/features/types";
+
 import { TTodoCardProps } from "./todo-kanban";
 
 export enum ETodoStatus {
@@ -39,8 +41,8 @@ export type TTodoColumn = {
   id: ETodoStatusId;
   boardId: TTodo["id"];
   title: ETodoStatus;
-  cardOrder: string[];
-  cards: TTodoCard[];
+  cardOrder: number[];
+  cards: ITask[];
 };
 
 export type TTodo = {

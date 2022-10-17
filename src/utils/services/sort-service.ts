@@ -6,7 +6,7 @@
  */
 export function mapOrder<T>(
   array: T[],
-  sortOrder: string[],
+  sortOrder: number[],
   key: keyof T
 ): T[] {
   array.sort((a, b) => {

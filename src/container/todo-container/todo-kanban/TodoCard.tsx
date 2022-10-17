@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React from "react";
 
 import { Avatar } from "@/components";
-import { IMember } from "@/features/types";
+import { IMember, ITask } from "@/features/types";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 import { ETodoStatus } from "../type";
@@ -15,9 +15,9 @@ export type TTodoCardProps = {
   status?: ETodoStatus;
 };
 
-export const TodoCard: React.FC<TTodoCardProps> = ({
+export const TodoCard: React.FC<ITask> = ({
   title,
-  date,
+  start_date,
   isPriority,
 }) => {
   return (
@@ -27,7 +27,7 @@ export const TodoCard: React.FC<TTodoCardProps> = ({
           <h1>{title}</h1>
         </div>
         <div className="flex items-center justify-between mt-3">
-          <h2 className={classNames("")}>{date}</h2>
+          <h2 className={classNames("")}>{start_date}</h2>
           <div className="flex items-center space-x-3">
             <TodoPriorityIcon isPriority={isPriority} />
             <Avatar fullName={""} />

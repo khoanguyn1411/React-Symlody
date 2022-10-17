@@ -2,10 +2,11 @@ import classNames from "classnames";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
-import { SortService } from "@/utils";
+import { ITask } from "@/features/types";
+import { FormatService, SortService } from "@/utils";
 
 import { TODO_DATA } from "../constant";
-import { TODO_STATUS_MAP_FROM_ID, TTodoCard, TTodoColumn } from "../type";
+import { TODO_STATUS_MAP_FROM_ID, TTodoColumn } from "../type";
 import { TodoCard } from "./TodoCard";
 import { TCardHiddenStatus } from "./type";
 
@@ -15,17 +16,18 @@ type TProps = {
 };
 
 export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
-  const [listCard, setListCard] = useState<TTodoCard[]>([]);
+  const [listCard, setListCard] = useState<ITask[]>(columnData.cards);
 
   useLayoutEffect(() => {
-    const sortedCardList = SortService.mapOrder<TTodoCard>(
-      columnData.cards,
-      columnData.cardOrder,
-      "id"
-    );
+    // const sortedCardList = SortService.mapOrder<ITask>(
+    //   columnData.cards,
+    //   columnData.cardOrder,
+    //   "id"
+    // );
+    const sortedCardList = columnData.cards;
     setListCard(sortedCardList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columnData]);
+  }, [columnData.cards]);
 
   const isColumnDraggingFrom = useMemo(() => {
     return (
@@ -115,12 +117,13 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
                     <Draggable
                       key={cardProps.id}
                       index={index}
-                      draggableId={cardProps.id}
+                      draggableId={FormatService.toString(cardProps.id)}
                     >
                       {(provided) => (
                         <div
                           className={
-                            cardProps.id !== snapshot.draggingFromThisWith &&
+                            FormatService.toString(cardProps.id) !==
+                              snapshot.draggingFromThisWith &&
                             draggingCard.isCardDragging &&
                             columnData.id !== draggingCard.columnId
                               ? "hidden"
