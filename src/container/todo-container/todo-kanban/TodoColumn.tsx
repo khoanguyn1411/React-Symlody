@@ -12,9 +12,14 @@ import { TCardHiddenStatus } from "./type";
 type TProps = {
   columnData: TTodoColumn;
   draggingCard: TCardHiddenStatus;
+  onClickCard?: (item: any) => void;
 };
 
-export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
+export const TodoColumn: React.FC<TProps> = ({
+  columnData,
+  draggingCard,
+  onClickCard,
+}) => {
   const [listCard, setListCard] = useState<TTodoCard[]>([]);
 
   useLayoutEffect(() => {
@@ -43,6 +48,10 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
     },
     [draggingCard.columnId]
   );
+
+  const _onCardClick = (cardInfo) => () => {
+    onClickCard(cardInfo);
+  };
 
   return (
     <div className="flex-1 h-full bg-gray-100 rounded-lg min-w-[200px]">
@@ -126,6 +135,8 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
                               ? "hidden"
                               : undefined
                           }
+                          aria-hidden
+                          onClick={_onCardClick(cardProps)}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
