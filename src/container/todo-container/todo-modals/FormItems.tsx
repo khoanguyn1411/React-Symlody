@@ -1,5 +1,7 @@
 import React from "react";
-import { UseFormReturn } from "react-hook-form";
+import { Controller, UseFormReturn } from "react-hook-form";
+
+import { FormItem, Input } from "@/components";
 
 import { IFormTodoInfo } from "../type";
 
@@ -9,18 +11,6 @@ type TProps = {
 };
 
 export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
-  //   let dataForm: IFormTodoInfo = null;
-  //   if (data) {
-  //     dataForm = MemberFormMapper.fromModel(data);
-  //   }
-
-  //   const dispatch = useAppDispatch();
-  //   const departmentStore = useAppSelector((state) => state.department);
-
-  //   useEffect(() => {
-  //     dispatch(getDepartmentAsync());
-  //   }, [dispatch]);
-
   const {
     control,
     formState: { errors },
@@ -28,7 +18,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
 
   return (
     <>
-      {/* <FormItem label="Tên công việc" isRequired error={errors?.name.message}>
+      <FormItem label="Tên công việc" isRequired error={errors.name?.message}>
         <Controller
           control={control}
           name="name"
@@ -42,23 +32,50 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           )}
         />
       </FormItem>
-
-      <FormItem label="Mức độ ưu tiên" isRequired error={errors?.name.message}>
-        <Controller
-          control={control}
-          name="name"
-          render={({ field: { value, onChange } }) => (
-            <Select
-              style="modal"
-              value={value}
-              onChange={onChange}
-              list={[{ value: "Cao" }, { value: "Thấp" }]}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="col-span-1">
+          <FormItem
+            label="Tên công việc"
+            isRequired
+            error={errors.name?.message}
+          >
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  style="modal"
+                  value={value}
+                  onChange={onChange}
+                  placeholder="Tên công việc"
+                />
+              )}
             />
-          )}
-        />
-      </FormItem>
+          </FormItem>
+        </div>
 
-      <FormItem label="Tên công việc" isRequired error={errors?.name.message}>
+        <div className="col-span-2">
+          <FormItem
+            label="Tên công việc"
+            isRequired
+            error={errors.name?.message}
+          >
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  style="modal"
+                  value={value}
+                  onChange={onChange}
+                  placeholder="Tên công việc"
+                />
+              )}
+            />
+          </FormItem>
+        </div>
+      </div>
+      <FormItem label="Tên công việc" isRequired error={errors.name?.message}>
         <Controller
           control={control}
           name="name"
@@ -71,7 +88,35 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             />
           )}
         />
-      </FormItem> */}
+      </FormItem>
+      <FormItem label="Tên công việc" isRequired error={errors.name?.message}>
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { value, onChange } }) => (
+            <Input
+              style="modal"
+              value={value}
+              onChange={onChange}
+              placeholder="Tên công việc"
+            />
+          )}
+        />
+      </FormItem>
+      <FormItem label="Tên công việc" isRequired error={errors.name?.message}>
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { value, onChange } }) => (
+            <Input
+              style="modal"
+              value={value}
+              onChange={onChange}
+              placeholder="Tên công việc"
+            />
+          )}
+        />
+      </FormItem>
     </>
   );
 };
