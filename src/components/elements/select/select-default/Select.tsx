@@ -58,6 +58,11 @@ export const Select: React.FC<TProps> = ({
     isShowContent,
     setIsShowContent
   );
+
+  const [selectedItem, setSelectedItem] = useState<TItemListSelect>(
+    list.find((item) => item.value === value) ?? null
+  );
+
   const { position, setPositionList } = usePositionPortal<HTMLDivElement>({
     displayRef,
     isPortal,
@@ -79,20 +84,24 @@ export const Select: React.FC<TProps> = ({
         return;
       })()
     );
+    setSelectedItem(item);
     onChangeSideEffect && onChangeSideEffect(item);
     setIsShowContent(false);
   };
 
-  useLayoutEffect(() => {
-    if (!isUrlInteracting) {
-      return;
-    }
-    const selectedOption = list.find(
-      (item) => item.key === paramChangeDependency
-    );
-    onChange(selectedOption ? selectedOption.value : list[0].value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paramChangeDependency]);
+  if (isUrlInteracting && paramChangeDependency) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useLayoutEffect(() => {
+      if (!isUrlInteracting) {
+        return;
+      }
+      const selectedOption = list.find(
+        (item) => item.key === paramChangeDependency
+      );
+      onChange(selectedOption ? selectedOption.value : list[0].value);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [paramChangeDependency]);
+  }
 
   const ListComponent = (
     <ul ref={listRef}>
@@ -124,8 +133,11 @@ export const Select: React.FC<TProps> = ({
                 }
               )}
             >
-              <h1>
-                {item.prefix} {item.value} {item.suffix}
+              <h1 className="flex">
+                <span className="flex items-center mr-3 w-[fit-content]">
+                  {item.prefix}
+                </span>
+                {item.value} {item.suffix}
               </h1>
             </li>
           ))}
@@ -145,7 +157,14 @@ export const Select: React.FC<TProps> = ({
         >
           {!children && (
             <>
-              <h1 className={classNames("pr-3", { "text-gray-400": !value })}>
+              <h1
+                className={classNames("pr-3 flex", {
+                  "text-gray-400": !value,
+                })}
+              >
+                <span className="flex items-center mr-3 w-[fit-content]">
+                  {selectedItem?.prefix}
+                </span>
                 {value ? value + " " + (suffix ? suffix : "") : placeHolder}
               </h1>
               <span>

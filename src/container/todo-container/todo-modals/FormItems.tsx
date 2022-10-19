@@ -11,7 +11,7 @@ import {
 } from "@/components";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
-import { IFormTodoInfo } from "../type";
+import { EPriority, IFormTodoInfo } from "../type";
 
 type TProps = {
   data?: any;
@@ -40,8 +40,8 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           )}
         />
       </FormItem>
-      <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-1">
+      <div className="grid grid-cols-5 gap-4">
+        <div className="col-span-2">
           <FormItem
             label="Mức độ ưu tiên"
             isRequired
@@ -50,6 +50,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             <Controller
               control={control}
               name="priority"
+              defaultValue={EPriority.Normal}
               render={({ field: { value, onChange } }) => (
                 <Select
                   style="modal"
@@ -58,11 +59,11 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
                   list={[
                     {
                       prefix: <TodoPriorityIcon isPriority={false} />,
-                      value: "Cao",
+                      value: EPriority.High,
                     },
                     {
                       prefix: <TodoPriorityIcon isPriority />,
-                      value: "Thấp",
+                      value: EPriority.Normal,
                     },
                   ]}
                 />
@@ -71,7 +72,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           </FormItem>
         </div>
 
-        <div className="col-span-2">
+        <div className="col-span-3">
           <FormItem
             label="Ngày hết hạn"
             isRequired
