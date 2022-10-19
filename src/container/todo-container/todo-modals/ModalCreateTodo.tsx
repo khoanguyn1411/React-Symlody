@@ -15,6 +15,7 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
 }) => {
   const propsForm = useForm<IFormTodoInfo>({
     resolver: yupResolver(schema),
+    shouldUnregister: true,
   });
   return (
     <Modal

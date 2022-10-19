@@ -135,7 +135,13 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           defaultValue={getInChargeIdDefaultValue}
           name="inChargeId"
           render={({ field: { value, onChange } }) => {
-            return <SelectUser inChargerId={value} setInChargerId={onChange} />;
+            return (
+              <SelectUser
+                placeholder="Người chịu trách nhiệm"
+                inChargerId={value}
+                setInChargerId={onChange}
+              />
+            );
           }}
         />
       </FormItem>

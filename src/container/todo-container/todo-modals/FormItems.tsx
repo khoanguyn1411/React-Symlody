@@ -1,8 +1,16 @@
 import React from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
-import { FormItem, Input } from "@/components";
+import {
+  AppDatePicker,
+  Editor,
+  FormItem,
+  Input,
+  Select,
+  SelectUser,
+} from "@/components";
 
+import { TodoPriorityIcon } from "../TodoPriorityIcon";
 import { IFormTodoInfo } from "../type";
 
 type TProps = {
@@ -35,19 +43,28 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
       <div className="grid grid-cols-3 gap-4">
         <div className="col-span-1">
           <FormItem
-            label="Tên công việc"
+            label="Mức độ ưu tiên"
             isRequired
             error={errors.name?.message}
           >
             <Controller
               control={control}
-              name="name"
+              name="priority"
               render={({ field: { value, onChange } }) => (
-                <Input
+                <Select
                   style="modal"
                   value={value}
                   onChange={onChange}
-                  placeholder="Tên công việc"
+                  list={[
+                    {
+                      prefix: <TodoPriorityIcon isPriority={false} />,
+                      value: "Cao",
+                    },
+                    {
+                      prefix: <TodoPriorityIcon isPriority />,
+                      value: "Thấp",
+                    },
+                  ]}
                 />
               )}
             />
@@ -56,63 +73,67 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
 
         <div className="col-span-2">
           <FormItem
-            label="Tên công việc"
+            label="Ngày hết hạn"
             isRequired
-            error={errors.name?.message}
+            error={errors.expiredDate?.message}
           >
             <Controller
               control={control}
-              name="name"
+              name="expiredDate"
               render={({ field: { value, onChange } }) => (
-                <Input
+                <AppDatePicker
                   style="modal"
                   value={value}
                   onChange={onChange}
-                  placeholder="Tên công việc"
                 />
               )}
             />
           </FormItem>
         </div>
       </div>
-      <FormItem label="Tên công việc" isRequired error={errors.name?.message}>
+      <FormItem
+        label="Người được giao"
+        isRequired
+        error={errors.assignee?.message}
+      >
         <Controller
           control={control}
-          name="name"
+          name="assignee"
           render={({ field: { value, onChange } }) => (
-            <Input
-              style="modal"
-              value={value}
-              onChange={onChange}
-              placeholder="Tên công việc"
+            <SelectUser
+              placeholder="Người được giao"
+              inChargerId={value}
+              setInChargerId={onChange}
             />
           )}
         />
       </FormItem>
-      <FormItem label="Tên công việc" isRequired error={errors.name?.message}>
+      <FormItem
+        label="Người theo dõi"
+        isRequired
+        error={errors.reporter?.message}
+      >
         <Controller
           control={control}
-          name="name"
+          name="reporter"
           render={({ field: { value, onChange } }) => (
-            <Input
-              style="modal"
-              value={value}
-              onChange={onChange}
-              placeholder="Tên công việc"
+            <SelectUser
+              placeholder="Người theo dõi"
+              inChargerId={value}
+              setInChargerId={onChange}
             />
           )}
         />
       </FormItem>
-      <FormItem label="Tên công việc" isRequired error={errors.name?.message}>
+      <FormItem label="Mô tả công việc" isRequired error={errors.name?.message}>
         <Controller
           control={control}
-          name="name"
+          name="description"
           render={({ field: { value, onChange } }) => (
-            <Input
-              style="modal"
+            <Editor
               value={value}
               onChange={onChange}
-              placeholder="Tên công việc"
+              placeholder="Gõ @ để nhắc đến ai đó và thông báo cho họ về công việc này."
             />
           )}
         />
