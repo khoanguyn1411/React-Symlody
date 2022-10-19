@@ -10,5 +10,5 @@ export const schema: yup.SchemaOf<IFormTodoInfo> = yup.object().shape({
   assignee: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
   expiredDate: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
   reporter: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
-  description: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  description: yup.string().notRequired(),
 });

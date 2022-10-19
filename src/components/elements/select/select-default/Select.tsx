@@ -133,10 +133,12 @@ export const Select: React.FC<TProps> = ({
                 }
               )}
             >
-              <h1 className="flex">
-                <span className="flex items-center mr-3 w-[fit-content]">
-                  {item.prefix}
-                </span>
+              <h1 className="flex gap-3">
+                {item.prefix && (
+                  <span className="flex items-center w-[fit-content]">
+                    {item.prefix}
+                  </span>
+                )}
                 {item.value} {item.suffix}
               </h1>
             </li>
@@ -158,13 +160,15 @@ export const Select: React.FC<TProps> = ({
           {!children && (
             <>
               <h1
-                className={classNames("pr-3 flex", {
+                className={classNames("pr-3 flex gap-3", {
                   "text-gray-400": !value,
                 })}
               >
-                <span className="flex items-center mr-3 w-[fit-content]">
-                  {selectedItem?.prefix}
-                </span>
+                {selectedItem?.prefix && (
+                  <span className="flex items-center w-[fit-content]">
+                    {selectedItem.prefix}
+                  </span>
+                )}
                 {value ? value + " " + (suffix ? suffix : "") : placeHolder}
               </h1>
               <span>

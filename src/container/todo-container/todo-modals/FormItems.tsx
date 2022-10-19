@@ -45,7 +45,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           <FormItem
             label="Mức độ ưu tiên"
             isRequired
-            error={errors.name?.message}
+            error={errors.priority?.message}
           >
             <Controller
               control={control}
@@ -126,7 +126,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           )}
         />
       </FormItem>
-      <FormItem label="Mô tả công việc" isRequired error={errors.name?.message}>
+      <FormItem label="Mô tả công việc" error={errors.description?.message}>
         <Controller
           control={control}
           name="description"

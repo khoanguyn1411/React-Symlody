@@ -17,12 +17,17 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
+
+  const { handleSubmit } = propsForm;
+
+  const handleCreateTask = (data: IFormTodoInfo) => {
+    console.log(data);
+  };
+
   return (
     <Modal
       handleEvent={{
-        event: function (): void {
-          throw new Error("Function not implemented.");
-        },
+        event: handleSubmit(handleCreateTask),
       }}
       title={"Tạo công việc mới"}
       isShowing={isShowing}

@@ -57,6 +57,10 @@ ol {
   min-height: 150px;
 }
 
+.SymphonyEditor .ck-content {
+  background-color: #f3f4f6 !important;
+}
+
 /* Drawer */
 .drawer {
   position: fixed;
