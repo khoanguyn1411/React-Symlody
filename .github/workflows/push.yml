@@ -79,6 +79,9 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:release
+            cd club-deployment/scripts
+            source init.sh
+            cd ~
             cd ${{ secrets.PROJECT_DIR }}
             docker-compose up -d --no-deps ${{ secrets.SERVICE_NAME }}
             docker image prune -f
