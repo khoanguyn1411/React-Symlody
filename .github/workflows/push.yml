@@ -33,7 +33,7 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-      - name: Build and Push Docker Image
+      - name: Build and Push Docker Image Staging
         uses: docker/build-push-action@v2
         id: docker_build
         if: github.ref == 'refs/heads/release' 
@@ -45,6 +45,10 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:release
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+
+      - name: Build and Push Docker Image Production
+        uses: docker/build-push-action@v2
+        id: docker_build
         if: github.ref == 'refs/heads/master'
         with:
           context: ./
@@ -58,49 +62,49 @@ jobs:
       - name: Verify
         run: echo ${{ steps.docker_build.outputs.digest }}
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+  #   strategy:
+  #     matrix:
+  #       node-version: [12.x]
+  #       # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #         cache: "npm"
 
-      - name: Login Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
-      - name: SSH Remote Commands
-        uses: appleboy/ssh-action@master
-        if: github.ref == 'refs/heads/release'
-        with:
-          host: ${{ secrets.SSH_SERVER_IP_DEV }}
-          key: ${{ secrets.PRIVATE_KEY }}
-          username: ${{ secrets.USER_NAME }}
-          port: ${{ secrets.PORT }}
-          script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:release
-            cd ${{ secrets.PROJECT_DIR }}
-            docker-compose up -d --no-deps ${{ secrets.SERVICE_NAME }}
-            docker image prune -f
-        if: github.ref == 'refs/heads/master' 
-        with:
-          host: ${{ secrets.SSH_SERVER_IP_PRODCUTION }}
-          key: ${{ secrets.PRIVATE_KEY }}
-          username: ${{ secrets.USER_NAME }}
-          port: ${{ secrets.PORT }}
-          script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:master
-            cd ${{ secrets.PROJECT_DIR }}
-            docker-compose up -d --no-deps ${{ secrets.SERVICE_NAME }}
-            docker image prune -f
+  #     - name: Login Docker Hub
+  #       uses: docker/login-action@v1
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+  #     - name: SSH Remote Commands
+  #       uses: appleboy/ssh-action@master
+  #       if: github.ref == 'refs/heads/release'
+  #       with:
+  #         host: ${{ secrets.SSH_SERVER_IP_DEV }}
+  #         key: ${{ secrets.PRIVATE_KEY }}
+  #         username: ${{ secrets.USER_NAME }}
+  #         port: ${{ secrets.PORT }}
+  #         script: |
+  #           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:release
+  #           cd ${{ secrets.PROJECT_DIR }}
+  #           docker-compose up -d --no-deps ${{ secrets.SERVICE_NAME }}
+  #           docker image prune -f
+  #       if: github.ref == 'refs/heads/master' 
+  #       with:
+  #         host: ${{ secrets.SSH_SERVER_IP_PRODCUTION }}
+  #         key: ${{ secrets.PRIVATE_KEY }}
+  #         username: ${{ secrets.USER_NAME }}
+  #         port: ${{ secrets.PORT }}
+  #         script: |
+  #           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:master
+  #           cd ${{ secrets.PROJECT_DIR }}
+  #           docker-compose up -d --no-deps ${{ secrets.SERVICE_NAME }}
+  #           docker image prune -f
