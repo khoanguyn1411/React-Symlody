@@ -14,6 +14,7 @@ type TProps = {
   titleDelete?: "Lưu trữ" | "Xóa";
   isShowLoading?: boolean;
   isShowRestore?: boolean;
+  disableSubmit?: boolean;
 };
 
 export const DeleteAndEditField: React.FC<TProps> = ({
@@ -22,6 +23,7 @@ export const DeleteAndEditField: React.FC<TProps> = ({
   isShowRestore = false,
   titleDelete = "Lưu trữ",
   handleEvent,
+  disableSubmit = false,
 }) => {
   return (
     <div className="flex items-center justify-center w-fit gap-4">
@@ -58,6 +60,7 @@ export const DeleteAndEditField: React.FC<TProps> = ({
         <DropdownConfirm
           title={title}
           placement={"bottom-right"}
+          disableSubmit={disableSubmit}
           handleEvent={{ title: titleDelete, event: handleEvent.delete }}
         >
           <Tooltip content={titleDelete} space={-2}>

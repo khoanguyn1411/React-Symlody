@@ -42,6 +42,7 @@ export const Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
         BLOCK[FormatService.toString(block)],
         {
           "px-3": !isIconOnly,
+          "cursor-not-allowed": disable,
         }
       )}
       onClick={handleOnClick}

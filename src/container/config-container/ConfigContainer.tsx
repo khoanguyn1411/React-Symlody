@@ -11,6 +11,7 @@ import {
   TabOrganization,
   TabPersonalInfo,
 } from "./config-tabs";
+import { TabRolePermission } from "./config-tabs/role-permission";
 import { EConfigTabKey, EConfigTabReadableString } from "./type";
 
 type ContentTab = {
@@ -36,6 +37,10 @@ const getContentTab = (key: EConfigTabKey): ContentTab => {
       return {
         content: <TabConfigDepartment />,
         rightSide: <ActionConfigDepartment />,
+      };
+    case EConfigTabKey.RolePermission:
+      return {
+        content: <TabRolePermission />,
       };
     default:
       return {
@@ -73,6 +78,10 @@ export const ConfigContainer: React.FC = () => {
             {
               key: EConfigTabKey.Department,
               title: EConfigTabReadableString.Department,
+            },
+            {
+              key: EConfigTabKey.RolePermission,
+              title: EConfigTabReadableString.RolePermission,
             },
             {
               key: EConfigTabKey.PersonalInfo,

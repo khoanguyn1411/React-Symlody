@@ -37,7 +37,7 @@ export const LoginContainer: React.FC = () => {
       <div className="flex h-screen col-span-1">
         <div className="flex flex-col items-center justify-center w-full bg-primary-50">
           <img src={images.loginBanner} alt="Login banner" className="w-5/6" />
-          <span className="text-sm italic">Phát triển bởi: Symlody team</span>
+          <span className="text-sm italic">Phát triển bởi: Symlody Team</span>
           <span className="text-sm italic font-medium">Version: 1.0</span>
         </div>
       </div>

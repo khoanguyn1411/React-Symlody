@@ -68,7 +68,13 @@ export const TabConfigDepartment: React.FC = () => {
               </Table.Cell>
               <Table.CellAction>
                 <DeleteAndEditField
-                  title={"Xóa phòng ban?"}
+                  title={
+                    item?.number_user > 0
+                      ? "Bạn cần cập nhật lại thành viên sang phòng ban khác trước khi xoá!"
+                      : "Xoá phòng ban"
+                  }
+                  titleDelete="Xóa"
+                  disableSubmit={item?.number_user > 0}
                   handleEvent={{
                     edit: function (): void {
                       handleEdit(item.id);

@@ -14,6 +14,7 @@ type TProps = {
     event: () => void;
   };
   isShowLoading?: boolean;
+  disableSubmit?: boolean;
 };
 
 export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
@@ -22,6 +23,7 @@ export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
   title,
   placement,
   isShowLoading,
+  disableSubmit = false,
 }) => {
   const dropdownRef = useRef<TDropdownMethod>(null);
   const handleClickItem = () => {
@@ -63,6 +65,7 @@ export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
               style="danger"
               onClick={handleClickItem}
               isShowLoading={isShowLoading}
+              disable={disableSubmit}
             >
               {handleEvent.title}
             </Button>
