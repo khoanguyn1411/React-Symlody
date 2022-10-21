@@ -4,8 +4,10 @@ import { DragDropContext, DragStart, DropResult } from "react-beautiful-dnd";
 import { Loading } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getTasksAsync, taskSelectors } from "@/features/reducers/task-reducer";
+import { useModal } from "@/hooks";
 
 import { TODO_DATA } from "../constant";
+import { ModalEditTodo } from "../todo-modals";
 import { TTodoColumn } from "../type";
 import { onDragEnd } from "./function";
 import { TodoColumn } from "./TodoColumn";
@@ -18,6 +20,7 @@ export const TodoBoard: React.FC = () => {
   const [columnList, setColumnList] = useState<TTodoColumn[]>(
     TODO_DATA.columns
   );
+  const propsModalEdit = useModal();
 
   const [draggingCard, setCardHiddenStatus] = useState<TCardHiddenStatus>({
     cardId: null,
@@ -40,6 +43,10 @@ export const TodoBoard: React.FC = () => {
       columnId: initial.source.droppableId,
     });
   };
+  const handleCardClick = (cardInfo) => {
+    propsModalEdit.toggle.setToggle();
+    console.log(cardInfo);
+  };
 
   useEffect(() => {
     dispatch(getTasksAsync());
@@ -60,6 +67,7 @@ export const TodoBoard: React.FC = () => {
           column.cards = taskList.filter((item) => item.status === column.id);
           return (
             <TodoColumn
+              onClickCard={handleCardClick}
               draggingCard={draggingCard}
               key={column.id}
               columnData={column}
@@ -67,6 +75,7 @@ export const TodoBoard: React.FC = () => {
           );
         })}
       </DragDropContext>
+      <ModalEditTodo {...propsModalEdit} />
     </div>
   );
 };

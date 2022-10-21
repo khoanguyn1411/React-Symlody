@@ -6,7 +6,13 @@ import { IFormChangePassword } from "./type";
 
 export const schema: yup.SchemaOf<IFormChangePassword> = yup.object().shape({
   currentPassword: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-  newPassword: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  newPassword: yup
+    .string()
+    .required(APP_ERROR_MESSAGE.REQUIRED)
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+      "Trường mật khẩu phải có ít nhất 8 ký tự và 1 từ viết hoa"
+    ),
   confirmNewPassword: yup
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)

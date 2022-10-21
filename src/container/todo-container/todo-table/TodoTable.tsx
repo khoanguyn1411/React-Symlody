@@ -1,10 +1,18 @@
 import React from "react";
 
 import { Container, Table } from "@/components";
+import { useModal } from "@/hooks";
 
+import { ModalEditTodo } from "../todo-modals";
 import { TodoTableContent } from "./TodoTableContent";
 
 export const TodoTable: React.FC = () => {
+  const propsModalEdit = useModal();
+
+  const handleEditTodo = () => {
+    propsModalEdit.toggle.setToggle();
+  };
+
   return (
     <Container.Body>
       <Table.Container>
@@ -21,8 +29,17 @@ export const TodoTable: React.FC = () => {
           <Table.CellHeadAction />
         </Table.Head>
         {/* TODO: Update actions later */}
-        <TodoTableContent />
+        <TodoTableContent
+          onEdit={handleEditTodo}
+          onDelete={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+          onRestore={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
       </Table.Container>
+      <ModalEditTodo {...propsModalEdit} />
     </Container.Body>
   );
 };

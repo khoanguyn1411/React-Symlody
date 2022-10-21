@@ -14,3 +14,9 @@ export type IAuthAccountCreateUpdate = GlobalTypes.StrictOmit<
   IAuthAccount,
   "groups"
 >;
+
+export interface IChangePassword {
+  readonly old_password: string;
+  readonly new_password: string;
+  // readonly confirmNewPassword: string;
+}

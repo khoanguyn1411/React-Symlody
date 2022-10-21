@@ -3,10 +3,11 @@ const SIDE_BAR_WIDTH = 256; //can't be changed
 const SIDE_BAR_COMPACT_WIDTH = 72; //can't be changed
 
 const HEADER_HEIGHT = 56; //can't be changed
+const HEADER_CONTAINER_HEIGHT = 64; // 4rem;
+
+const MODAL_MIN_WIDTH = 360;
 
 const DEFAULT_PADDING = 20; //1rem - can be changed
-
-const DEFAULT_MODAL_MIN_WIDTH = 360;
 
 const toPx = (n) => `${n}px`;
 
@@ -26,23 +27,23 @@ module.exports = {
     },
     extend: {
       gridTemplateColumns: {
-        '4-1fr': 'repeat(4, 1fr)',
+        "4-1fr": "repeat(4, 1fr)",
       },
       fontSize: {
         default: toPx(14),
       },
       animation: {
-        'skeleton': 'fade 2s linear infinite',
+        skeleton: "fade 2s linear infinite",
       },
       keyframes: {
         fade: {
-          '0%, 100%': { opacity: "1" },
-          '50%': { opacity: "0.5" },
-        }
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+        },
       },
       colors: {
         backdrop: {
-          main: "#0000006e"
+          main: "#0000006e",
         },
         primary: {
           50: "#E2F6F8",
@@ -127,8 +128,14 @@ module.exports = {
       },
       height: {
         header: `var(--header-height, ${toPx(HEADER_HEIGHT)})`, // headerHeight
+        "header-container": `var(--header-container-height, ${toPx(
+          HEADER_CONTAINER_HEIGHT
+        )})`, // container header height
         table: `calc(100vh - ${toPx(HEADER_HEIGHT)} - 163px)`,
-        content: `calc(100vh - ${toPx(HEADER_HEIGHT)})`
+        content: `calc(100vh - ${toPx(HEADER_HEIGHT)})`,
+        container: `calc(100vh - ${toPx(
+          HEADER_CONTAINER_HEIGHT + HEADER_HEIGHT + 20
+        )})`,
       },
       width: {
         sidebar: toPx(SIDE_BAR_WIDTH),
@@ -149,7 +156,7 @@ module.exports = {
         "sidebar-compact": toPx(SIDE_BAR_COMPACT_WIDTH),
       },
       minWidth: {
-        modal: toPx(DEFAULT_MODAL_MIN_WIDTH),
+        modal: toPx(MODAL_MIN_WIDTH),
       },
     },
   },

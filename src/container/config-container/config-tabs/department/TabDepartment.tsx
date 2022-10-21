@@ -1,13 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 import { Button, DeleteAndEditField, Modal, Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getDepartmentAsync } from "@/features/reducers";
+import { createDepartmentAsync, getDepartmentAsync } from "@/features/reducers";
 import { IDepartment } from "@/features/types";
 import { useModal } from "@/hooks";
 
+import { DEPARTMENT_MESSAGE } from "./constants";
 import { FormItems } from "./FormItems";
 import { ModalEditDepartment } from "./ModalEditDepartment";
 import { schema } from "./schema";
@@ -55,7 +57,6 @@ export const TabConfigDepartment: React.FC = () => {
               </Table.Cell>
               <Table.Cell>
                 <div className="flex items-center gap-4">
-                  <div className="w-8 h-8 rounded-full bg-primary-600" />
                   <p>{item.name}</p>
                 </div>
               </Table.Cell>
@@ -89,12 +90,13 @@ export const TabConfigDepartment: React.FC = () => {
 };
 
 export const ActionConfigDepartment: React.FC = () => {
+  const dispatch = useAppDispatch();
   const propsForm = useForm<IFormDepartment>({
     resolver: yupResolver(schema),
   });
   const {
     handleSubmit,
-
+    reset,
     formState: { isSubmitting },
   } = propsForm;
 
@@ -103,8 +105,16 @@ export const ActionConfigDepartment: React.FC = () => {
     toggle.setToggle();
   };
 
-  const handleCreateDepartment = () => {
+  const handleCreateDepartment = async (data: IFormDepartment) => {
     //TODO: Handle create department.
+    const result = await dispatch(createDepartmentAsync(data));
+    if (!result.payload) {
+      toast.error(DEPARTMENT_MESSAGE.create.error);
+      return;
+    }
+    toast.success(DEPARTMENT_MESSAGE.create.success);
+    reset();
+    toggle.setHidden();
   };
 
   return (

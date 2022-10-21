@@ -7,5 +7,6 @@ export * from "./member";
 export * from "./profile";
 export * from "./property";
 export * from "./task";
+export * from "./tenant";
 export * from "./token";
 export * from "./user";

@@ -11,10 +11,12 @@ import { FormatService } from "@/utils";
 
 export type TProps = {
   inChargerId: number;
+  placeholder: string;
   setInChargerId: (inChargerId: number) => void;
 };
 
 export const SelectUser: React.FC<TProps> = ({
+  placeholder,
   inChargerId,
   setInChargerId,
 }) => {
@@ -96,7 +98,7 @@ export const SelectUser: React.FC<TProps> = ({
         isShowContent={isShowContent}
         onClearSearch={handleClearMemberSelected}
         setIsShowContent={setIsShowContent}
-        placeholder={"Người chịu trách nhiệm"}
+        placeholder={placeholder}
         postNode={
           <Avatar
             size="small"

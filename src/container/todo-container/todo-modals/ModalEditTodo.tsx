@@ -9,7 +9,7 @@ import { schema } from "../shema";
 import { IFormTodoInfo } from "../type";
 import { FormItems } from "./FormItems";
 
-export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
+export const ModalEditTodo: React.FC<THookModalProps<undefined>> = ({
   isShowing,
   toggle,
 }) => {

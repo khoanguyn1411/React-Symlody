@@ -3,7 +3,7 @@ import { useLayoutEffect, useMemo, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
 import { ITask } from "@/features/types";
-import { FormatService, SortService } from "@/utils";
+import { FormatService } from "@/utils";
 
 import { TODO_DATA } from "../constant";
 import { TODO_STATUS_MAP_FROM_ID, TTodoColumn } from "../type";
@@ -13,9 +13,14 @@ import { TCardHiddenStatus } from "./type";
 type TProps = {
   columnData: TTodoColumn;
   draggingCard: TCardHiddenStatus;
+  onClickCard?: (item: any) => void;
 };
 
-export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
+export const TodoColumn: React.FC<TProps> = ({
+  columnData,
+  draggingCard,
+  onClickCard,
+}) => {
   const [listCard, setListCard] = useState<ITask[]>(columnData.cards);
 
   useLayoutEffect(() => {
@@ -45,6 +50,10 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
     },
     [draggingCard.columnId]
   );
+
+  const _onCardClick = (cardInfo) => () => {
+    onClickCard(cardInfo);
+  };
 
   return (
     <div className="flex-1 h-full bg-gray-100 rounded-lg min-w-[200px]">
@@ -129,6 +138,8 @@ export const TodoColumn: React.FC<TProps> = ({ columnData, draggingCard }) => {
                               ? "hidden"
                               : undefined
                           }
+                          aria-hidden
+                          onClick={_onCardClick(cardProps)}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}

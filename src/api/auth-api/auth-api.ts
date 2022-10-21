@@ -1,4 +1,9 @@
-import { ILoginDto, IProfileDto, ITokenDto } from "@/features/types";
+import {
+  IChangePassword,
+  ILoginDto,
+  IProfileDto,
+  ITokenDto,
+} from "@/features/types";
 
 import { Api } from "../api-core";
 import { returnResponse } from "../api-utilities";
@@ -8,6 +13,7 @@ const routes = {
   login: () => `login/`,
   refreshToken: () => `login/refresh/`,
   getProfile: () => `login/`,
+  changePassword: () => `user/change_password/`,
 };
 
 export const AuthApi = {
@@ -20,6 +26,15 @@ export const AuthApi = {
   async getProfile(): Promise<Types.RequestGetProfileResult> {
     const url = routes.getProfile();
     const result = await Api.http.get<IProfileDto>(url);
+
+    return returnResponse(result);
+  },
+
+  async changePassword(
+    body: IChangePassword
+  ): Promise<Types.RequestChangePasswordResult> {
+    const url = routes.changePassword();
+    const result = await Api.http.post<boolean>(url, { ...body });
 
     return returnResponse(result);
   },
