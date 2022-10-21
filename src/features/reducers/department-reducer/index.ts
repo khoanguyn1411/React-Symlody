@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { ConfigApi } from "@/api";
-import { RequestCreateDepartmentResult } from "@/api/config-api/types";
+import {
+  RequestCreateDepartmentResult,
+  RequestUpdateDepartmentResult,
+} from "@/api/config-api/types";
 import { RootState } from "@/features/store";
 import {
   DepartmentMapper,
@@ -52,6 +55,20 @@ export const createDepartmentAsync = createAsyncThunk<
   return rejectWithValue(null);
 });
 
+export const updateDepartmentAsync = createAsyncThunk<
+  IDepartment,
+  { id: number; body: IDepartmentCreateUpdate },
+  GlobalTypes.ReduxThunkRestoreRejected<RequestUpdateDepartmentResult>
+>("update/department", async (payload, { rejectWithValue }) => {
+  const result = await ConfigApi.updateDepartment(payload.id, payload.body);
+  if (result.kind === "ok") {
+    const department = result.result;
+    return DepartmentMapper.fromDto(department);
+  }
+
+  return rejectWithValue(null);
+});
+
 export const getTenantAsync = createAsyncThunk<
   ITenant,
   null,
@@ -91,20 +108,23 @@ export const departmentSlice = createSlice({
         state.pending = false;
         state.departments = [];
       })
-      //create department
-      .addCase(createDepartmentAsync.pending, (state) => {
-        state.pending = true;
-      })
+      //CREATE DEPARTMENT
       .addCase(createDepartmentAsync.fulfilled, (state, action) => {
-        state.pending = false;
         const newDepartment = action.payload;
         state.departments = [...state.departments, newDepartment];
       })
-      .addCase(createDepartmentAsync.rejected, (state) => {
-        state.pending = false;
-        // state.departments = [];
+      //UPDATE DEPARTMENT
+      .addCase(updateDepartmentAsync.fulfilled, (state, action) => {
+        const newDepartment = action.payload;
+        const departments = state.departments;
+
+        const index = departments.findIndex((d) => d.id === newDepartment.id);
+        if (index > -1) {
+          departments[index] = newDepartment;
+          state.departments = [...departments];
+        }
       })
-      //get tenant
+      //GET TENANT
       .addCase(getTenantAsync.pending, (state) => {
         state.pending = true;
       })

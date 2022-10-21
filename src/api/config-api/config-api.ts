@@ -7,10 +7,12 @@ import { returnResponse } from "../api-utilities";
 import * as Types from "./types";
 
 const routes = {
+  //DEPARTMENT
   getDepartments: () => `department/`,
-  updateDepartment: () => `config/`,
-  getTenant: () => `config/`,
+  updateDepartment: (id: number) => `department/${id}`,
   createDepartment: () => `department/`,
+  //TENANT
+  getTenant: () => `config/`,
 };
 
 export const ConfigApi = {
@@ -33,6 +35,18 @@ export const ConfigApi = {
   ): Promise<Types.RequestCreateDepartmentResult> {
     const url = routes.createDepartment();
     const result: ApiResponse<IDepartmentDto> = await Api.http.post(url, {
+      ...body,
+    });
+
+    return returnResponse(result);
+  },
+
+  async updateDepartment(
+    id: number,
+    body: Types.RequestUpdateDepartmentBody
+  ): Promise<Types.RequestUpdateDepartmentResult> {
+    const url = routes.updateDepartment(id);
+    const result: ApiResponse<IDepartmentDto> = await Api.http.patch(url, {
       ...body,
     });
 
