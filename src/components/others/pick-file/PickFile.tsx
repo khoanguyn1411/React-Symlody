@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
-import { FileService } from "@/utils";
+import { FileService, FormatService } from "@/utils";
 
 import { Button } from "../../elements";
 import { PICK_FILE_MESSAGE } from "./constant";
@@ -24,6 +24,7 @@ export const PickFile: React.FC<TPropsPickFile> = ({
 }) => {
   const inputFileRef = useRef<HTMLInputElement>();
   const [isDragActive, setIsDragActive] = useState<boolean>(false);
+  const [urlFile, setUrlFile] = useState<string | ArrayBuffer>();
   const [dragCounter, setDragCounter] = useState<number>(0);
   const [message, setMessage] = useState<string>(
     PICK_FILE_MESSAGE.defaultExtension
@@ -48,8 +49,12 @@ export const PickFile: React.FC<TPropsPickFile> = ({
   };
 
   const handlePickedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedFile(event.target.files[0]);
+    if (!FileService.isCorrectExtension(event.target.files[0].name)) {
+      setMessage(PICK_FILE_MESSAGE.wrongExtension);
+      return;
+    }
     if (event.target.files) {
+      setSelectedFile(event.target.files[0]);
       setMessage(PICK_FILE_MESSAGE.defaultExtension);
     }
   };
@@ -91,9 +96,31 @@ export const PickFile: React.FC<TPropsPickFile> = ({
       return;
     }
     setMessage(PICK_FILE_MESSAGE.defaultExtension);
-    alert("Submitted!");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitFile]);
+
+  useEffect(() => {
+    let fileReader: FileReader = null,
+      isCancel = false;
+    if (!selectedFile) {
+      return;
+    }
+
+    fileReader = new FileReader();
+    fileReader.onload = (event) => {
+      const { result } = event.target;
+      if (result && !isCancel) {
+        setUrlFile(result);
+      }
+    };
+    fileReader.readAsDataURL(selectedFile);
+    return () => {
+      isCancel = true;
+      if (fileReader && fileReader.readyState === 1) {
+        fileReader.abort();
+      }
+    };
+  }, [selectedFile]);
 
   return (
     <>
@@ -138,10 +165,14 @@ export const PickFile: React.FC<TPropsPickFile> = ({
       {selectedFile && (
         <div className="flex justify-between mt-3">
           <div className="w-5/6">
-            <p className="items-center block truncate cursor-pointer">
+            <a
+              className="items-center block truncate cursor-pointer"
+              download
+              href={urlFile ? FormatService.toString(urlFile) : "#"}
+            >
               <i className="max-w-full mr-3  fas fa-link" />
               {selectedFile.name}
-            </p>
+            </a>
           </div>
 
           <button type="button" onClick={handleRemoveFile}>

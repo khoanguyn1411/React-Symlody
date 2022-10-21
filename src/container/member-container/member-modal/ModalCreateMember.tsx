@@ -5,7 +5,11 @@ import { toast } from "react-toastify";
 
 import { Loading, ModalMultipleTabs, ModalTab, PickFile } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { createMemberAsync, getDepartmentAsync } from "@/features/reducers";
+import {
+  createMemberAsync,
+  getDepartmentAsync,
+  uploadMemberExcelFileAsync,
+} from "@/features/reducers";
 import { DetailNestedErrorOf, HttpError, IAuthAccount } from "@/features/types";
 import { THookModalProps, usePickFile } from "@/hooks";
 
@@ -77,16 +81,29 @@ const TabCreateAMember: React.FC = () => {
 
 const TabCreateMultipleMembers: React.FC = () => {
   const propsFile = usePickFile();
+  const dispatch = useAppDispatch();
+  const memberStore = useAppSelector((state) => state.member);
 
-  const handleSubmitFile = () => {
+  const handleSubmitFile = async () => {
     propsFile.setIsSubmitFile(true);
+    if (!propsFile.selectedFile) {
+      return;
+    }
+    const res = await dispatch(
+      uploadMemberExcelFileAsync({ file: propsFile.selectedFile })
+    );
+    if (!res.payload) {
+      toast.error(MEMBER_MESSAGE.create.error);
+      return;
+    }
+    toast.success(MEMBER_MESSAGE.create.success);
   };
 
   return (
     <ModalTab
       handleEvent={{
         event: handleSubmitFile,
-        isLoading: false,
+        isLoading: memberStore.pendingUploadFileMember,
       }}
     >
       <PickFile

@@ -1,4 +1,4 @@
-import { IMember, IMemberDto } from "@/features/types";
+import { IFileUploadedDto, IMember, IMemberDto } from "@/features/types";
 import { TMemberParamQueryDto } from "@/features/types/queries";
 
 import { Api } from "../api-core";
@@ -9,6 +9,7 @@ const routes = {
   getMembers: () => `member/`,
   updateMember: (id: IMember["id"]) => `member/${id}`,
   deleteMember: (id: IMember["id"]) => `member/archive/${id}`,
+  uploadMemberExcelFile: () => `member/bulk`,
 };
 
 export const MemberApi = {
@@ -44,6 +45,20 @@ export const MemberApi = {
   ): Promise<Types.RequestUpdateMembersResult> {
     const url = routes.updateMember(id);
     const result = await Api.http.patch<IMemberDto>(url, body);
+    return returnResponse(result);
+  },
+
+  async uploadMemberExcelFile(
+    body: Types.RequestUploadMemberExcelFile
+  ): Promise<Types.RequestUploadMemberExcelFileResult> {
+    const url = routes.uploadMemberExcelFile();
+    const result = await Api.http.post<IFileUploadedDto>(url, body, {
+      headers: {
+        "Content-Type":
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      },
+    });
+
     return returnResponse(result);
   },
 };

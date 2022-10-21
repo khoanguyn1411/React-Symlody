@@ -5,11 +5,20 @@ import {
   RequestCreateMembersResult,
   RequestGetMembersResult,
   RequestUpdateMembersResult,
+  RequestUploadMemberExcelFileResult,
 } from "@/api";
 import { RootState, store } from "@/features/store";
-import { MemberMapper, UserMapper } from "@/features/types/mappers";
+import {
+  FileUploadedMapper,
+  MemberMapper,
+  UserMapper,
+} from "@/features/types/mappers";
 import { HttpErrorMapper } from "@/features/types/mappers/http-error.mapper";
-import { IMember, IMemberCreateUpdate } from "@/features/types/models";
+import {
+  IFileUploaded,
+  IMember,
+  IMemberCreateUpdate,
+} from "@/features/types/models";
 import { TMemberParamQueryDto } from "@/features/types/queries";
 import { FilterService, GeneratorService, GlobalTypes } from "@/utils";
 
@@ -20,6 +29,20 @@ import {
   userSelectors,
 } from "../user-reducer";
 import { initialState, memberAdapter } from "./state";
+
+export const uploadMemberExcelFileAsync = createAsyncThunk<
+  any,
+  IFileUploaded,
+  GlobalTypes.ReduxThunkRejectValue<false>
+>("createMultiples/member", async (payload, { rejectWithValue, dispatch }) => {
+  const result: RequestUploadMemberExcelFileResult =
+    await MemberApi.uploadMemberExcelFile(FileUploadedMapper.toDto(payload));
+  if (result.kind === "ok") {
+    dispatch(getUsersAsync());
+    return true;
+  }
+  return rejectWithValue(false);
+});
 
 export const createMemberAsync = createAsyncThunk<
   IMember,
@@ -237,6 +260,16 @@ export const memberSlice = createSlice({
           id: newMember.id,
           changes: newMember,
         });
+      })
+
+      .addCase(uploadMemberExcelFileAsync.pending, (state) => {
+        state.pendingUploadFileMember = true;
+      })
+      .addCase(uploadMemberExcelFileAsync.fulfilled, (state) => {
+        state.pendingUploadFileMember = false;
+      })
+      .addCase(uploadMemberExcelFileAsync.rejected, (state) => {
+        state.pendingUploadFileMember = false;
       });
   },
 });

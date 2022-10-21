@@ -9,6 +9,7 @@ export interface MemberStateInner {
   pending: boolean;
   pendingRestoreMember: boolean;
   pendingDeleteMember: boolean;
+  pendingUploadFileMember: boolean;
   listQueryMember: TMemberParamQueryDto;
 
   // Used for pagination and searching in front-end.
@@ -28,6 +29,7 @@ export const initialState = memberAdapter.getInitialState<MemberStateInner>({
   pending: false,
   pendingDeleteMember: false,
   pendingRestoreMember: false,
+  pendingUploadFileMember: false,
   listQueryMember: { is_archived: false },
 
   // Used for pagination and searching in front-end.
