@@ -134,7 +134,7 @@ module.exports = {
         table: `calc(100vh - ${toPx(HEADER_HEIGHT)} - 163px)`,
         content: `calc(100vh - ${toPx(HEADER_HEIGHT)})`,
         container: `calc(100vh - ${toPx(
-          HEADER_CONTAINER_HEIGHT + HEADER_HEIGHT + 20
+          HEADER_CONTAINER_HEIGHT + HEADER_HEIGHT + 40
         )})`,
       },
       width: {

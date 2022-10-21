@@ -1,8 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-import { Modal } from "@/components";
+import { Loading, Modal } from "@/components";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { THookModalProps } from "@/hooks";
 
 import { schema } from "../shema";
@@ -13,6 +15,15 @@ export const ModalEditTodo: React.FC<THookModalProps<undefined>> = ({
   isShowing,
   toggle,
 }) => {
+  const dispatch = useAppDispatch();
+  const userCount = useAppSelector(userSelectors.selectTotal);
+  const userStore = useAppSelector((state) => state.user);
+  useEffect(() => {
+    if (userCount === 0 && isShowing) {
+      dispatch(getUsersAsync());
+    }
+  }, [dispatch, isShowing, userCount]);
+
   const propsForm = useForm<IFormTodoInfo>({
     resolver: yupResolver(schema),
     shouldUnregister: true,
@@ -33,7 +44,7 @@ export const ModalEditTodo: React.FC<THookModalProps<undefined>> = ({
       isShowing={isShowing}
       toggle={toggle}
     >
-      <FormItems formProps={propsForm} />
+      {userStore.pending ? <Loading /> : <FormItems formProps={propsForm} />}
     </Modal>
   );
 };

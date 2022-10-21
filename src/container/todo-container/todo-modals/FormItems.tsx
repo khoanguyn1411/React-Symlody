@@ -59,11 +59,11 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
                   list={[
                     {
                       prefix: <TodoPriorityIcon isPriority={false} />,
-                      value: EPriority.High,
+                      value: EPriority.Normal,
                     },
                     {
                       prefix: <TodoPriorityIcon isPriority />,
-                      value: EPriority.Normal,
+                      value: EPriority.High,
                     },
                   ]}
                 />
@@ -134,7 +134,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             <Editor
               value={value}
               onChange={onChange}
-              placeholder="Gõ @ để nhắc đến ai đó và thông báo cho họ về công việc này."
+              placeholder="Nhập mô tả cho công việc."
             />
           )}
         />

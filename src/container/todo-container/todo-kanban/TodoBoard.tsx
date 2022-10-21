@@ -61,7 +61,7 @@ export const TodoBoard: React.FC = () => {
   }
 
   return (
-    <div className="pb-5 mt-5 overflow-auto px-default grid gap-7 grid-cols-4-1fr h-[calc(100vh-8.8rem)]">
+    <div className="mt-5 overflow-auto px-default grid gap-x-7 grid-cols-4-1fr h-[calc(100vh-8.8rem)]">
       <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         {columnList.map((column) => {
           column.cards = taskList.filter((item) => item.status === column.id);
