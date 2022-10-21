@@ -29,3 +29,13 @@ export function convertBase64(file: File): Promise<string | ArrayBuffer> {
     };
   });
 }
+
+/**
+ * Convert file into form data.
+ * @param file File need to convert.
+ */
+export function convertToFormData(file: File): FormData {
+  const formData = new FormData();
+  formData.append("file", file);
+  return formData;
+}

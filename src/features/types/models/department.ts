@@ -9,11 +9,6 @@ export interface IDepartment {
   readonly createdAt?: string;
 }
 
-// export type IDepartmentCreateUpdate = GlobalTypes.StrictOmit<
-//   IDepartment,
-//   "name" | "abbreviation_name"
-// >;
-
 export type IDepartmentCreateUpdate = GlobalTypes.StrictOmit<
   IDepartment,
   "abbreviation_name"
