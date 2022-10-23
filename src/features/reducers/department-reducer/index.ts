@@ -10,7 +10,6 @@ import {
   DepartmentMapper,
   IDepartment,
   IDepartmentCreateUpdate,
-  ITenant,
 } from "@/features/types";
 import { GlobalTypes } from "@/utils";
 
@@ -18,14 +17,14 @@ export type DepartmentState = {
   pending: boolean;
   departments: IDepartment[];
   department: IDepartment;
-  tenant: ITenant;
+  // tenant: ITenant;
 };
 
 const initialState: DepartmentState = {
   pending: false,
   departments: [],
   department: null,
-  tenant: null,
+  // tenant: null,
 };
 
 export const getDepartmentAsync = createAsyncThunk<
@@ -69,18 +68,18 @@ export const updateDepartmentAsync = createAsyncThunk<
   return rejectWithValue(null);
 });
 
-export const getTenantAsync = createAsyncThunk<
-  ITenant,
-  null,
-  GlobalTypes.ReduxThunkRejectValue<null>
->("get/tenant", async (payload, { rejectWithValue }) => {
-  const result = await ConfigApi.getTenant();
-  if (result.kind === "ok") {
-    return result.result;
-  }
+// export const getTenantAsync = createAsyncThunk<
+//   ITenant,
+//   null,
+//   GlobalTypes.ReduxThunkRejectValue<null>
+// >("get/tenant", async (payload, { rejectWithValue }) => {
+//   const result = await ConfigApi.getTenant();
+//   if (result.kind === "ok") {
+//     return result.result;
+//   }
 
-  return rejectWithValue(null);
-});
+//   return rejectWithValue(null);
+// });
 
 export const departmentSlice = createSlice({
   name: "department",
@@ -123,19 +122,19 @@ export const departmentSlice = createSlice({
           departments[index] = newDepartment;
           state.departments = [...departments];
         }
-      })
-      //GET TENANT
-      .addCase(getTenantAsync.pending, (state) => {
-        state.pending = true;
-      })
-      .addCase(getTenantAsync.fulfilled, (state, action) => {
-        state.pending = false;
-        state.tenant = action.payload;
-      })
-      .addCase(getTenantAsync.rejected, (state) => {
-        state.pending = false;
-        state.tenant = null;
       });
+    //GET TENANT
+    // .addCase(getTenantAsync.pending, (state) => {
+    //   state.pending = true;
+    // })
+    // .addCase(getTenantAsync.fulfilled, (state, action) => {
+    //   state.pending = false;
+    //   state.tenant = action.payload;
+    // })
+    // .addCase(getTenantAsync.rejected, (state) => {
+    //   state.pending = false;
+    //   state.tenant = null;
+    // });
   },
 });
 export const departmentStore = (state: RootState) => state.department;

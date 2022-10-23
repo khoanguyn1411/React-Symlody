@@ -9,10 +9,11 @@ import * as Types from "./types";
 const routes = {
   //DEPARTMENT
   getDepartments: () => `department/`,
-  updateDepartment: (id: number) => `department/${id}`,
+  updateDepartment: (id: number) => `department/${id}/`,
   createDepartment: () => `department/`,
   //TENANT
   getTenant: () => `config/`,
+  updateTenant: (id: number) => `config/${id}/`,
 };
 
 export const ConfigApi = {
@@ -26,6 +27,18 @@ export const ConfigApi = {
   async getTenant(): Promise<Types.RequestGetTenantResult> {
     const url = routes.getTenant();
     const result: ApiResponse<ITenantDto> = await Api.http.get(url);
+
+    return returnResponse(result);
+  },
+
+  async updateTenant(
+    id: number,
+    body: Types.RequestUpdateTenantBody
+  ): Promise<Types.RequestUpdateTenantResult> {
+    const url = routes.updateTenant(id);
+    const result: ApiResponse<ITenantDto> = await Api.http.patch(url, {
+      ...body,
+    });
 
     return returnResponse(result);
   },
