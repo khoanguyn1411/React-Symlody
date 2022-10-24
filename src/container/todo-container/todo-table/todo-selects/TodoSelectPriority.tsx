@@ -27,13 +27,15 @@ export const TodoSelectPriority: React.FC<TProps> = ({ isPriority }) => {
       style="none"
       isShowArrow
       renderListItem={PRIORITY_LIST.map((item, index) => (
-        <button
-          onClick={handleChangePriority(item)}
+        <div
           className="flex items-center justify-center w-full px-2 py-1 mx-auto hover:bg-primary-50 duration-200 transition-colors"
           key={index}
         >
-          <TodoPriorityIcon isPriority={item} />
-        </button>
+          <TodoPriorityIcon
+            onClick={handleChangePriority(item)}
+            isPriority={item}
+          />
+        </div>
       ))}
     >
       <TodoPriorityIcon isPriority={_isPriority} />

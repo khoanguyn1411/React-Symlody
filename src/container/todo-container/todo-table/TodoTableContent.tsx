@@ -4,7 +4,6 @@ import { DeleteAndEditField, Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getTasksAsync, taskSelectors } from "@/features/reducers/task-reducer";
 
-import { MOCK_DATA_TODO } from "./constant";
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
 type TProps = {
