@@ -64,9 +64,17 @@ export const SelectUser: React.FC<TProps> = ({
   };
 
   const handleClearMemberSelected = () => {
-    setInChargerId(null);
     setUserSelected(null);
+    setInChargerId(null);
+    setInputValue("");
   };
+
+  useLayoutEffect(() => {
+    if (inChargerId == null) {
+      setInputValue("");
+      setUserSelected(null);
+    }
+  }, [inChargerId, setInputValue]);
 
   useLayoutEffect(() => {
     if (!isShowContent && userSelected) {
@@ -121,7 +129,7 @@ export const SelectUser: React.FC<TProps> = ({
               "flex p-2 w-full space-x-3 items-center bg-primary-50"
             )}
           >
-            <Avatar size="medium" fullName={userSelected.first_name} src="" />
+            <Avatar size="default" fullName={userSelected.first_name} src="" />
             <div className="flex flex-col">
               <h1
                 className={classNames("text-left text-primary-800 font-medium")}

@@ -49,15 +49,16 @@ export const MemberApi = {
   },
 
   async uploadMemberExcelFile(
-    body: Types.RequestUploadMemberExcelFile
+    body: FormData
   ): Promise<Types.RequestUploadMemberExcelFileResult> {
     const url = routes.uploadMemberExcelFile();
-    const result = await Api.http.post<IFileUploadedDto>(url, body, {
-      headers: {
-        "Content-Type":
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      },
-    });
+    // const result = await Api.http.post<IFileUploadedDto>(url, body, {
+    //   transformRequest: (data, headers) => {
+    //     delete headers["Content-Type"];
+    //     return data;
+    //   },
+    // });
+    const result = await Api.http.post<IFileUploadedDto>(url, body);
 
     return returnResponse(result);
   },

@@ -36,7 +36,9 @@ export const uploadMemberExcelFileAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRejectValue<false>
 >("createMultiples/member", async (payload, { rejectWithValue, dispatch }) => {
   const result: RequestUploadMemberExcelFileResult =
-    await MemberApi.uploadMemberExcelFile(FileUploadedMapper.toDto(payload));
+    await MemberApi.uploadMemberExcelFile(
+      FileUploadedMapper.toFormData(payload)
+    );
   if (result.kind === "ok") {
     dispatch(getUsersAsync());
     return true;

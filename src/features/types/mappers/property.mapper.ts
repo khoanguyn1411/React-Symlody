@@ -1,4 +1,4 @@
-import { FormatService } from "@/utils";
+import { FormatService, FormDataService } from "@/utils";
 
 import { IPropertyCreateUpdateDto, IPropertyDto } from "../dtos";
 import { IProperty, IPropertyCreateUpdate } from "../models";
@@ -21,5 +21,10 @@ export class PropertyMapper {
       price: model.price && FormatService.toNumber(model.price),
       quantity: model.quantity && FormatService.toNumber(model.quantity),
     };
+  }
+
+  public static toFormData(model: IPropertyCreateUpdate): FormData {
+    const dataDto = this.toDto(model);
+    return FormDataService.repairFormData(dataDto);
   }
 }

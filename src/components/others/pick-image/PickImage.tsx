@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { EFile } from "@/constants";
@@ -40,10 +40,10 @@ export const PickImage: React.FC<TProps> = ({
     setFile(file);
   };
 
-  const handleRemoveFile = () => {
+  const handleRemoveFile = useCallback(() => {
     setFile(null);
     setFileData(null);
-  };
+  }, [setFile]);
 
   const handleOpenSelectFile = () => {
     if (!inputFileRef.current) {
@@ -63,6 +63,7 @@ export const PickImage: React.FC<TProps> = ({
     let fileReader: FileReader = null,
       isCancel = false;
     if (!file) {
+      handleRemoveFile();
       return;
     }
 
@@ -80,7 +81,7 @@ export const PickImage: React.FC<TProps> = ({
         fileReader.abort();
       }
     };
-  }, [file]);
+  }, [file, handleRemoveFile]);
 
   return (
     <div className="flex flex-col">

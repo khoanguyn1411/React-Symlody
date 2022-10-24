@@ -1,8 +1,4 @@
-import {
-  IProperty,
-  IPropertyCreateUpdateDto,
-  IPropertyDto,
-} from "@/features/types";
+import { IProperty, IPropertyDto } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
 
 import { Api } from "../api-core";
@@ -24,7 +20,7 @@ export const PropertyApi = {
   },
 
   async createProperty(
-    body: IPropertyCreateUpdateDto
+    body: FormData
   ): Promise<Types.RequestCreatePropertyResult> {
     const url = routes.getProperties();
     const result = await Api.http.post<IPropertyDto>(url, body);

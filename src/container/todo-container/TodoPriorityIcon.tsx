@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Icon } from "@/assets/icons";
+import { GlobalTypes } from "@/utils";
 
 type TProps = {
   isPriority: boolean;
@@ -13,9 +14,11 @@ export const _TodoStatusIcon: React.FC<TProps> = ({ isPriority }) => {
   return <Icon.Hamburger2 size="small" customColor="yellow" />;
 };
 
-export const TodoPriorityIcon: React.FC<TProps> = ({ isPriority }) => {
+export const TodoPriorityIcon: React.FC<
+  TProps & { onClick?: GlobalTypes.ReactButtonCommonEvents }
+> = ({ isPriority, onClick }) => {
   return (
-    <button>
+    <button onClick={onClick}>
       <_TodoStatusIcon isPriority={isPriority} />
     </button>
   );

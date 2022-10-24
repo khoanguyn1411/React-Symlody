@@ -195,7 +195,7 @@ export const PickFile: React.FC<TPropsPickFile> = ({
         </span>
         <span className="mt-1 font-semibold underline cursor-pointer text-primary-800">
           <a href={linkFile} download>
-            Tải file mẫu (.xslx)
+            Tải file mẫu (.xlsx)
           </a>
         </span>
       </div>
