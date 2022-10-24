@@ -25,4 +25,4 @@ export interface IProperty {
 export type IPropertyCreateUpdate = StrictPick<
   IProperty,
   "name" | "quantity" | "price" | "prop_owner" | "note" | "is_club_property"
-> & { incharger_id: IUser["id"]; image?: string | ArrayBuffer };
+> & { incharger_id: IUser["id"]; image?: File };

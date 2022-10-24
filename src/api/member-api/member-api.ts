@@ -49,7 +49,7 @@ export const MemberApi = {
   },
 
   async uploadMemberExcelFile(
-    body: Types.RequestUploadMemberExcelFile
+    body: FormData
   ): Promise<Types.RequestUploadMemberExcelFileResult> {
     const url = routes.uploadMemberExcelFile();
     // const result = await Api.http.post<IFileUploadedDto>(url, body, {
@@ -58,11 +58,7 @@ export const MemberApi = {
     //     return data;
     //   },
     // });
-    const result = await Api.http.post<IFileUploadedDto>(url, body, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
+    const result = await Api.http.post<IFileUploadedDto>(url, body);
 
     return returnResponse(result);
   },

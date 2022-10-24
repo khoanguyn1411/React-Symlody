@@ -2,6 +2,7 @@ export * as CSSService from "./css-var-service";
 export * from "./delay-service";
 export * as FileService from "./file-service";
 export * as FilterService from "./filter-service";
+export * as FormDataService from "./form-data-service";
 export * as FormService from "./form-service";
 export * as FormatService from "./format-service";
 export * as GeneratorService from "./generate-service";

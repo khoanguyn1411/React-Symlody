@@ -18,12 +18,6 @@ export class PropertyFormMapper {
   public static toModel(
     propertyFormData: IFormPropertyInfo
   ): IPropertyCreateUpdate {
-    let imageBase64: string | ArrayBuffer;
-    if (propertyFormData.image) {
-      FileService.convertBase64(propertyFormData.image).then(
-        (res) => (imageBase64 = res)
-      );
-    }
     return {
       name: propertyFormData.assetName,
       quantity: propertyFormData.quantity,
@@ -31,7 +25,7 @@ export class PropertyFormMapper {
       prop_owner: propertyFormData.owner,
       note: propertyFormData.note,
       incharger_id: propertyFormData.inChargeId,
-      image: !propertyFormData.image ? null : imageBase64,
+      image: propertyFormData.image ?? null,
       is_club_property: propertyFormData.owner === "CLB",
     };
   }
