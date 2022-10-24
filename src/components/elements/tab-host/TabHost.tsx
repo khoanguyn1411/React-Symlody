@@ -134,7 +134,7 @@ export const TabHost: React.FC<TProps> = ({
               "text-primary-800": item.key === activeTab.key,
               "flex-1": isStretchTab,
               "px-5 hover:bg-gray-50": !isHeaderTabHost,
-              "px-3 mr-5 mb-3 hover:bg-primary-50 hover:text-primary-800":
+              "px-3 mb-3 hover:bg-primary-50 hover:text-primary-800":
                 isHeaderTabHost,
             }
           )}

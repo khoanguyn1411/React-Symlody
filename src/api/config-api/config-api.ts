@@ -4,6 +4,7 @@ import { IDepartmentDto, ITenantDto } from "@/features/types";
 
 import { Api } from "../api-core";
 import { returnResponse } from "../api-utilities";
+import { IConfigManager } from "./../../features/types/models/config-manager";
 import * as Types from "./types";
 
 const routes = {
@@ -14,6 +15,9 @@ const routes = {
   //TENANT
   getTenant: () => `config/`,
   updateTenant: (id: number) => `config/${id}/`,
+  //CONFIG MANAGER
+  getConfigManager: () => `config/managers/`,
+  updateConfigManager: () => `config/managers/`,
 };
 
 export const ConfigApi = {
@@ -62,6 +66,13 @@ export const ConfigApi = {
     const result: ApiResponse<IDepartmentDto> = await Api.http.patch(url, {
       ...body,
     });
+
+    return returnResponse(result);
+  },
+
+  async getConfigManager(): Promise<Types.RequestGetConfigManagerResult> {
+    const url = routes.getConfigManager();
+    const result: ApiResponse<IConfigManager> = await Api.http.get(url);
 
     return returnResponse(result);
   },
