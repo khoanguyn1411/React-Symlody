@@ -1,4 +1,5 @@
 import {
+  IConfigManagerUpdate,
   IDepartmentCreateUpdateDto,
   IDepartmentDto,
   ITenantCreateUpdateDto,
@@ -16,7 +17,9 @@ export type RequestCreateDepartmentResult = Response<IDepartmentDto>;
 export type RequestUpdateDepartmentResult = Response<IDepartmentDto>;
 
 export type RequestGetConfigManagerResult = Response<IConfigManager>;
+export type RequestUpdateConfigManagerResult = Response<IConfigManager>;
 
 export type RequestCreateDepartmentBody = IDepartmentCreateUpdateDto;
 export type RequestUpdateDepartmentBody = IDepartmentCreateUpdateDto;
 export type RequestUpdateTenantBody = ITenantCreateUpdateDto;
+export type RequestUpdateConfigManagerBody = IConfigManagerUpdate;

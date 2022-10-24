@@ -1,5 +1,7 @@
 import { GlobalTypes } from "@/utils";
 
+import { IGroup } from "./../models/group";
+
 export interface IDepartmentDto {
   readonly id: number;
   readonly name: string;
@@ -27,3 +29,7 @@ export interface ITenantDto {
 }
 
 export type ITenantCreateUpdateDto = GlobalTypes.StrictOmit<ITenantDto, "id">;
+
+export type IConfigManagerUpdate = {
+  groups: IGroup;
+};

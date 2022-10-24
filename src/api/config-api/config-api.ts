@@ -76,4 +76,12 @@ export const ConfigApi = {
 
     return returnResponse(result);
   },
+  async updateConfigManager(
+    body: Types.RequestUpdateConfigManagerBody
+  ): Promise<Types.RequestUpdateConfigManagerResult> {
+    const url = routes.updateConfigManager();
+    const result: ApiResponse<IConfigManager> = await Api.http.patch(url, body);
+
+    return returnResponse(result);
+  },
 };
