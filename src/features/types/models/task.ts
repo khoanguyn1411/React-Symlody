@@ -40,3 +40,22 @@ export interface ITask {
   readonly status: ETodoStatusId;
   readonly sent_email: boolean;
 }
+
+// export interface ITaskCreateUpdate {
+//   readonly id: number;
+//   readonly assignee: {
+//     readonly id: number;
+//   };
+//   readonly reporter: {
+//     readonly id: number;
+//   };
+//   readonly title: string;
+//   readonly label: string;
+//   readonly description: string;
+//   readonly start_date: string;
+//   readonly end_date: string;
+//   readonly estimation: null | string;
+//   readonly isPriority: boolean;
+//   readonly status: ETodoStatusId;
+//   readonly sent_email: boolean;
+// }

@@ -3,7 +3,9 @@ export function repairFormData<T extends Record<string, any>>(
 ): FormData {
   const formData = new FormData();
   Object.entries(value).forEach(([key, value]) => {
-    formData.append(key, value);
+    if (value !== undefined) {
+      formData.append(key, value);
+    }
   });
   return formData;
 }
