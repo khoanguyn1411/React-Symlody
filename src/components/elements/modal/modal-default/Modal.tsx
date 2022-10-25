@@ -55,7 +55,7 @@ export const Modal: React.FC<TPropsModalDefault> = (props) => {
         onSubmit={handleSubmit}
         className="flex flex-col max-h-[calc(100vh-10rem)]"
       >
-        <ModalBody>
+        <ModalBody heightContainer={props.heightContainer}>
           <div
             className={classNames(
               "min-h-[8rem] place-content-center",

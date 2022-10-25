@@ -10,6 +10,7 @@ export * from "./form-item";
 export * from "./input";
 export * from "./loading";
 export * from "./modal";
+export * from "./new-select";
 export * from "./pagination";
 export * from "./portal";
 export * from "./radio";

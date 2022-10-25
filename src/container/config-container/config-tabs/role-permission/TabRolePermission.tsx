@@ -1,22 +1,28 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import React from "react";
 
 import { ConfigApi } from "@/api";
+import { Icon } from "@/assets/icons";
 import { Table } from "@/components";
-import { IConfigInfor } from "@/features/types";
+import { IConfigInfo } from "@/features/types";
 import { useModal } from "@/hooks";
+import { lazyImport } from "@/utils/services/lazyImport";
 
-import { ModalPermission } from "./ModalPermission";
 import { TableGroup } from "./TableGroup";
-import { IConfigManagerForm } from "./types";
+
+const { ModalPermission } = lazyImport(
+  () => import("./ModalPermission"),
+  "ModalPermission"
+);
 
 export interface IConfigData {
-  dataLead: IConfigInfor[];
-  dataMemberManager: IConfigInfor[];
-  dataPropertyManager: IConfigInfor[];
+  dataLead: IConfigInfo[];
+  dataMemberManager: IConfigInfo[];
+  dataPropertyManager: IConfigInfo[];
 }
 
 export const TabRolePermission: React.FC = () => {
-  const propsModalEditDepartment = useModal<IConfigManagerForm>();
+  const propsModalEditDepartment = useModal<IConfigInfo[]>();
 
   const [configData, setConfigData] = useState<IConfigData>({
     dataLead: [],
@@ -26,7 +32,7 @@ export const TabRolePermission: React.FC = () => {
 
   const [isRendered, setIsRendered] = useState(false);
 
-  const fetchCongigManager = async () => {
+  const fetchConfigManager = async () => {
     const result = await ConfigApi.getConfigManager();
     if (result.kind === "ok") {
       const data = result.result;
@@ -50,10 +56,15 @@ export const TabRolePermission: React.FC = () => {
     setIsRendered(true);
   };
   useEffect(() => {
-    fetchCongigManager();
+    fetchConfigManager();
   }, []);
 
-  if (!isRendered) return <div>Loading</div>;
+  const handleOpenEdit = (data: IConfigInfo[]) => {
+    propsModalEditDepartment.setData(data);
+    propsModalEditDepartment.toggle.setShow();
+  };
+
+  if (!isRendered) return <Icon.Spin size="medium" />;
 
   return (
     <>
@@ -62,14 +73,16 @@ export const TabRolePermission: React.FC = () => {
           <Table.CellHead isFirst width="12rem" textAlign="left">
             Vai trò
           </Table.CellHead>
-          <Table.CellHead textAlign="left">Người dùng</Table.CellHead>
+          <Table.CellHead textAlign="left">Thành viên</Table.CellHead>
           <Table.CellHeadAction />
         </Table.Head>
 
-        <TableGroup configData={configData} />
+        <TableGroup configData={configData} onOpenEdit={handleOpenEdit} />
       </Table.Container>
 
-      <ModalPermission {...propsModalEditDepartment} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ModalPermission {...propsModalEditDepartment} />
+      </Suspense>
     </>
   );
 };

@@ -93,7 +93,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
       isLoading={departmentStore.pending}
       toggle={toggle}
       title="Chỉnh sửa thành viên"
-      size="lg"
+      widthContainer={640}
       isShowing={isShowing}
       handleEvent={{
         title: "Cập nhật",

@@ -1,6 +1,6 @@
 import { IGroup } from "./group";
 
-export interface IConfigInfor {
+export interface IConfigInfo {
   id: number;
   email: string;
   first_name?: string;
@@ -9,6 +9,6 @@ export interface IConfigInfor {
 }
 
 export interface IConfigManager {
-  leaders: IConfigInfor[];
-  managers: IConfigInfor[];
+  leaders: IConfigInfo[];
+  managers: IConfigInfo[];
 }
