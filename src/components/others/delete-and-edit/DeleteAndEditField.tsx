@@ -5,16 +5,17 @@ import { Icon } from "@/assets/icons";
 import { Button, DropdownConfirm, Tooltip } from "../../elements";
 
 type TProps = {
-  title: string;
+  title?: string;
   handleEvent: {
     edit: () => void;
-    delete: () => void;
+    delete?: () => void;
     restore?: () => void;
   };
   titleDelete?: "Lưu trữ" | "Xóa";
   isShowLoading?: boolean;
   isShowRestore?: boolean;
   disableSubmit?: boolean;
+  isShowDelete?: boolean;
 };
 
 export const DeleteAndEditField: React.FC<TProps> = ({
@@ -24,6 +25,7 @@ export const DeleteAndEditField: React.FC<TProps> = ({
   titleDelete = "Lưu trữ",
   handleEvent,
   disableSubmit = false,
+  isShowDelete = true,
 }) => {
   return (
     <div className="flex items-center justify-center w-fit gap-4">
@@ -57,29 +59,33 @@ export const DeleteAndEditField: React.FC<TProps> = ({
           </Button>
         </Tooltip>
       ) : (
-        <DropdownConfirm
-          title={title}
-          placement={"bottom-right"}
-          disableSubmit={disableSubmit}
-          handleEvent={{ title: titleDelete, event: handleEvent.delete }}
-        >
-          <Tooltip content={titleDelete} space={-2}>
-            <Button
-              className="flex items-center justify-center group"
-              style="none"
-              isIconOnly
-              isShowLoading={isShowLoading}
+        <>
+          {isShowDelete && (
+            <DropdownConfirm
+              title={title}
+              placement={"bottom-right"}
+              disableSubmit={disableSubmit}
+              handleEvent={{ title: titleDelete, event: handleEvent.delete }}
             >
-              {!isShowLoading && (
-                <Icon.Trash
-                  customColor="gray"
-                  size="small"
-                  className="group-hover:text-black transition-all duration-200"
-                />
-              )}
-            </Button>
-          </Tooltip>
-        </DropdownConfirm>
+              <Tooltip content={titleDelete} space={-2}>
+                <Button
+                  className="flex items-center justify-center group"
+                  style="none"
+                  isIconOnly
+                  isShowLoading={isShowLoading}
+                >
+                  {!isShowLoading && (
+                    <Icon.Trash
+                      customColor="gray"
+                      size="small"
+                      className="group-hover:text-black transition-all duration-200"
+                    />
+                  )}
+                </Button>
+              </Tooltip>
+            </DropdownConfirm>
+          )}
+        </>
       )}
     </div>
   );

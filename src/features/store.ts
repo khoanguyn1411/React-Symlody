@@ -6,6 +6,7 @@ import departmentReducer from "./reducers/department-reducer";
 import memberReducer from "./reducers/member-reducer";
 import propertyReducer from "./reducers/property-reducer";
 import taskReducer from "./reducers/task-reducer";
+import tenantReducer from "./reducers/tenant-reducer";
 import userReducer from "./reducers/user-reducer";
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
     department: departmentReducer,
     property: propertyReducer,
     task: taskReducer,
+    tenant: tenantReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
