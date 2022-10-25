@@ -4,7 +4,7 @@ import React from "react";
 import { ConfigApi } from "@/api";
 import { Icon } from "@/assets/icons";
 import { Table } from "@/components";
-import { IConfigInfo } from "@/features/types";
+import { IConfigInfo, IConfigManager } from "@/features/types";
 import { useModal } from "@/hooks";
 import { lazyImport } from "@/utils/services/lazyImport";
 
@@ -22,13 +22,9 @@ export interface IConfigData {
 }
 
 export const TabRolePermission: React.FC = () => {
-  const propsModalEditDepartment = useModal<IConfigInfo[]>();
+  const propsModalEditPermission = useModal<IConfigInfo>();
 
-  const [configData, setConfigData] = useState<IConfigData>({
-    dataLead: [],
-    dataMemberManager: [],
-    dataPropertyManager: [],
-  });
+  const [configData, setConfigData] = useState<IConfigManager>(null);
 
   const [isRendered, setIsRendered] = useState(false);
 
@@ -37,21 +33,9 @@ export const TabRolePermission: React.FC = () => {
     if (result.kind === "ok") {
       const data = result.result;
 
-      setConfigData({
-        dataLead: data.leaders,
-        dataMemberManager: data.managers.filter((data) =>
-          data.groups.map((g) => g.name).includes("member_manager")
-        ),
-        dataPropertyManager: data.managers.filter((data) =>
-          data.groups.map((g) => g.name).includes("property_manager")
-        ),
-      });
+      setConfigData(data);
     } else {
-      setConfigData({
-        dataLead: [],
-        dataMemberManager: [],
-        dataPropertyManager: [],
-      });
+      setConfigData(null);
     }
     setIsRendered(true);
   };
@@ -59,9 +43,9 @@ export const TabRolePermission: React.FC = () => {
     fetchConfigManager();
   }, []);
 
-  const handleOpenEdit = (data: IConfigInfo[]) => {
-    propsModalEditDepartment.setData(data);
-    propsModalEditDepartment.toggle.setShow();
+  const handleOpenEdit = (data: IConfigInfo) => {
+    propsModalEditPermission.setData(data);
+    propsModalEditPermission.toggle.setShow();
   };
 
   if (!isRendered) return <Icon.Spin size="medium" />;
@@ -70,10 +54,19 @@ export const TabRolePermission: React.FC = () => {
     <>
       <Table.Container>
         <Table.Head>
-          <Table.CellHead isFirst width="12rem" textAlign="left">
-            Vai trò
+          <Table.CellHead isFirst textAlign="left">
+            Thành viên
           </Table.CellHead>
-          <Table.CellHead textAlign="left">Thành viên</Table.CellHead>
+          <Table.CellHead width="4rem" textAlign="left">
+            Lead
+          </Table.CellHead>
+          <Table.CellHead width="4rem" textAlign="left">
+            Quản lý thành viên
+          </Table.CellHead>
+          <Table.CellHead width="4rem" textAlign="left">
+            Quản lý tài sản
+          </Table.CellHead>
+
           <Table.CellHeadAction />
         </Table.Head>
 
@@ -81,7 +74,7 @@ export const TabRolePermission: React.FC = () => {
       </Table.Container>
 
       <Suspense fallback={<div>Loading...</div>}>
-        <ModalPermission {...propsModalEditDepartment} />
+        {/* <ModalPermission {...propsModalEditPermission} /> */}
       </Suspense>
     </>
   );

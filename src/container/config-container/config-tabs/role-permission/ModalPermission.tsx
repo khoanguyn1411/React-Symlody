@@ -6,23 +6,25 @@ import * as yup from "yup";
 import {
   convertSimpleToIconOptions,
   FormItem,
-  Input,
   ISelectOption,
   Modal,
   SelectControl,
 } from "@/components";
+import { APP_ERROR_MESSAGE } from "@/constants";
 import { IConfigInfo } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 import { FormService } from "@/utils";
 
+import { PERMISSION_OPTIONS } from "./constants";
 import { IConfigManagerForm } from "./types";
 
 const schema: yup.SchemaOf<IConfigManagerForm> = yup.object().shape({
   userIds: yup
     .array()
     .of(yup.string())
-    .min(1, "Thông tin không được để trống")
-    .required("Thông tin không được để trống"),
+    .min(1, APP_ERROR_MESSAGE.REQUIRED)
+    .required(APP_ERROR_MESSAGE.REQUIRED),
+  type: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
 });
 
 export const ModalPermission: React.FC<THookModalProps<IConfigInfo[]>> = ({
@@ -83,9 +85,23 @@ export const ModalPermission: React.FC<THookModalProps<IConfigInfo[]>> = ({
       toggle={toggle}
       heightContainer={320}
     >
-      <FormItem label="Vai trò" isRequired>
-        <Input value="Leader" placeholder="Vai trò" onChange={null} disable />
+      <FormItem label="Chức vụ" isRequired>
+        <Controller
+          control={control}
+          name="type"
+          defaultValue={"MANAGER"}
+          render={({ field: { value, onChange } }) => (
+            <SelectControl
+              name="type"
+              placeholder={"Chức vụ"}
+              selected={value}
+              options={PERMISSION_OPTIONS}
+              onValueChange={onChange}
+            />
+          )}
+        />
       </FormItem>
+
       <FormItem
         label="Thành viên"
         isRequired
