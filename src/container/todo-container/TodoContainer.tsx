@@ -1,4 +1,4 @@
-import React, { ReactNode, useLayoutEffect, useState } from "react";
+import React, { ReactNode, useEffect, useLayoutEffect, useState } from "react";
 
 import {
   ButtonCreate,
@@ -9,7 +9,12 @@ import {
   TTab,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getDepartmentAsync, setActiveTab } from "@/features/reducers";
+import {
+  getDepartmentAsync,
+  getUsersAsync,
+  setActiveTab,
+  userSelectors,
+} from "@/features/reducers";
 import { useModal } from "@/hooks";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
@@ -44,11 +49,20 @@ const getContentTab = (key: ETodoTabKey): ContentTab => {
 export const TodoContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const departmentStore = useAppSelector((state) => state.department);
+  const userList = useAppSelector(userSelectors.selectAll);
   const commonStore = useAppSelector((state) => state.common);
 
   const [filterDepartment, setFilterDepartment] = useState<string>(
     departmentStore.departments[0] ? departmentStore.departments[0].name : ""
   );
+
+  useEffect(() => {
+    if (userList.length > 0) {
+      return;
+    }
+    dispatch(getUsersAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useLayoutEffect(() => {
     if (departmentStore.departments && departmentStore.departments.length > 0) {

@@ -66,8 +66,19 @@ export function generateReverseDto<
  * Generate an array with no duplicate entity.
  * @param arr Root array to generate.
  */
-export function generateArrayWithNoDuplicate<T>(arr: T[]) {
+export function generateArrayWithNoDuplicate<T>(arr: T[]): T[] {
   const s = new Set(arr);
   const it = s.values();
   return Array.from(it);
+}
+
+/**
+ * Generate placeholder for empty value.
+ * @param input Input value.
+ */
+export function generatePlaceholderEmptyValue(input: any): any {
+  if (!input) {
+    return "-";
+  }
+  return input;
 }
