@@ -1,4 +1,4 @@
 export interface IConfigManagerForm {
-  userIds: string[];
+  userId: number;
   type: string;
 }

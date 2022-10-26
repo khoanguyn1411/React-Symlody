@@ -25,11 +25,7 @@ const CheckDone: React.FC<TCheckDone> = ({ isActive }) => {
   );
 };
 
-export const ItemPermission: React.FC<TProps> = ({
-  title,
-  data,
-  onOpenEdit,
-}) => {
+export const ItemPermission: React.FC<TProps> = ({ data, onOpenEdit }) => {
   return (
     <>
       {data.length > 0 &&
@@ -71,7 +67,7 @@ export const ItemPermission: React.FC<TProps> = ({
                 isShowLoading={false}
                 isShowDelete={false}
                 handleEvent={{
-                  edit: null,
+                  edit: () => onOpenEdit(d),
                 }}
               />
             </Table.CellAction>

@@ -11,6 +11,8 @@ import {
   SelectControl,
 } from "@/components";
 import { APP_ERROR_MESSAGE } from "@/constants";
+import { useAppSelector } from "@/features";
+import { memberSelectors } from "@/features/reducers";
 import { IConfigInfo } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 import { FormService } from "@/utils";
@@ -19,19 +21,17 @@ import { PERMISSION_OPTIONS } from "./constants";
 import { IConfigManagerForm } from "./types";
 
 const schema: yup.SchemaOf<IConfigManagerForm> = yup.object().shape({
-  userIds: yup
-    .array()
-    .of(yup.string())
-    .min(1, APP_ERROR_MESSAGE.REQUIRED)
-    .required(APP_ERROR_MESSAGE.REQUIRED),
+  userId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
   type: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
 });
 
-export const ModalPermission: React.FC<THookModalProps<IConfigInfo[]>> = ({
+export const ModalEditPermission: React.FC<THookModalProps<IConfigInfo>> = ({
   isShowing,
   toggle,
   data,
 }) => {
+  const members = useAppSelector(memberSelectors.selectAll);
+
   const propsForm = useForm<IConfigManagerForm>({
     resolver: yupResolver(schema),
   });
@@ -43,10 +43,10 @@ export const ModalPermission: React.FC<THookModalProps<IConfigInfo[]>> = ({
   } = propsForm;
 
   const options: ISelectOption[] =
-    data &&
-    data.map((d) => ({
-      icon: d.email,
-      label: d.first_name + " " + d.last_name,
+    members &&
+    members.map((d) => ({
+      icon: d.auth_account.first_name,
+      label: d.auth_account.first_name + " " + d.auth_account.last_name,
       value: d.id.toString(),
     }));
 
@@ -59,11 +59,10 @@ export const ModalPermission: React.FC<THookModalProps<IConfigInfo[]>> = ({
   useEffect(() => {
     if (data) {
       reset({
-        userIds: data.map((d) => d.id.toString()),
-      });
-    } else {
-      reset({
-        userIds: [],
+        userId: data.id,
+        type: data.groups.map((g) => g.name).includes("lead")
+          ? "LEAD"
+          : "MANAGER",
       });
     }
   }, [data, reset]);
@@ -71,6 +70,9 @@ export const ModalPermission: React.FC<THookModalProps<IConfigInfo[]>> = ({
   const handleUpdate = async () => {
     console.log("");
   };
+
+  console.log(data, "--data");
+  console.log(options, "--options");
 
   return (
     <Modal
@@ -102,22 +104,16 @@ export const ModalPermission: React.FC<THookModalProps<IConfigInfo[]>> = ({
         />
       </FormItem>
 
-      <FormItem
-        label="Thành viên"
-        isRequired
-        error={(errors.userIds as any)?.message}
-      >
+      <FormItem label="Thành viên" isRequired error={errors.userId?.message}>
         <Controller
           control={control}
-          name="userIds"
-          defaultValue={[]}
+          name="userId"
           render={({ field: { value, onChange } }) => (
             <SelectControl
-              name="userIds"
+              name="userId"
               placeholder={"Thành viên"}
-              isMulti
               isClearable
-              selected={value}
+              selected={value.toString()}
               options={USER_OPTIONS}
               onValueChange={onChange}
             />

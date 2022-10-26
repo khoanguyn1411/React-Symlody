@@ -4,15 +4,17 @@ import React from "react";
 import { ConfigApi } from "@/api";
 import { Icon } from "@/assets/icons";
 import { Table } from "@/components";
+import { useAppDispatch } from "@/features";
+import { getMembersAsync } from "@/features/reducers";
 import { IConfigInfo, IConfigManager } from "@/features/types";
 import { useModal } from "@/hooks";
 import { lazyImport } from "@/utils/services/lazyImport";
 
 import { TableGroup } from "./TableGroup";
 
-const { ModalPermission } = lazyImport(
-  () => import("./ModalPermission"),
-  "ModalPermission"
+const { ModalEditPermission } = lazyImport(
+  () => import("./ModalEditPermission"),
+  "ModalEditPermission"
 );
 
 export interface IConfigData {
@@ -22,10 +24,11 @@ export interface IConfigData {
 }
 
 export const TabRolePermission: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   const propsModalEditPermission = useModal<IConfigInfo>();
 
   const [configData, setConfigData] = useState<IConfigManager>(null);
-
   const [isRendered, setIsRendered] = useState(false);
 
   const fetchConfigManager = async () => {
@@ -39,9 +42,13 @@ export const TabRolePermission: React.FC = () => {
     }
     setIsRendered(true);
   };
+
   useEffect(() => {
     fetchConfigManager();
   }, []);
+  useEffect(() => {
+    dispatch(getMembersAsync({ is_archived: undefined }));
+  }, [dispatch]);
 
   const handleOpenEdit = (data: IConfigInfo) => {
     propsModalEditPermission.setData(data);
@@ -74,7 +81,9 @@ export const TabRolePermission: React.FC = () => {
       </Table.Container>
 
       <Suspense fallback={<div>Loading...</div>}>
-        {/* <ModalPermission {...propsModalEditPermission} /> */}
+        {propsModalEditPermission.isShowing && (
+          <ModalEditPermission {...propsModalEditPermission} />
+        )}
       </Suspense>
     </>
   );
