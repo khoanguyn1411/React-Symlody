@@ -13,10 +13,10 @@ export const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
   [ERolesDto.Lead]: ERoles.Lead,
 };
 
-export const ROLE_MAP_TO_DTO = GeneratorService.generateReverseDto<
-  ERoles,
-  ERolesDto
->(ROLE_MAP_FROM_DTO, false);
+export const ROLE_MAP_TO_DTO = GeneratorService.generateReverseDto(
+  ROLE_MAP_FROM_DTO,
+  false
+);
 
 export class GroupMapper {
   public static fromDto(dto: IGroupDto): IGroup {

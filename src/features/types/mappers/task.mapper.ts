@@ -1,5 +1,17 @@
-import { EPriorityDto, ETaskStatusDto, ITaskDto } from "../dtos";
-import { ETodoStatus, ETodoStatusId, ITask } from "../models";
+import { generateReverseDto } from "@/utils/services/generate-service";
+
+import {
+  EPriorityDto,
+  ETaskStatusDto,
+  ITaskCreateUpdateDto,
+  ITaskDto,
+} from "../dtos";
+import {
+  ETodoStatus,
+  ETodoStatusId,
+  ITask,
+  ITaskCreateUpdate,
+} from "../models";
 import { UserMapper } from "./user.mapper";
 
 export const TASK_STATUS_TO_MODEL: Readonly<
@@ -11,14 +23,16 @@ export const TASK_STATUS_TO_MODEL: Readonly<
   [ETaskStatusDto.Done]: ETodoStatusId.Done,
 };
 
-export const TODO_STATUS_MAP_FROM_ID: Readonly<
-  Record<ETodoStatusId, ETodoStatus>
+export const TASK_STATUS_TO_DTO: Readonly<
+  Record<ETaskStatusDto, ETodoStatusId>
 > = {
-  [ETodoStatusId.Todo]: ETodoStatus.Todo,
-  [ETodoStatusId.InProgress]: ETodoStatus.InProgress,
-  [ETodoStatusId.Review]: ETodoStatus.Review,
-  [ETodoStatusId.Done]: ETodoStatus.Done,
+  [ETaskStatusDto.Todo]: ETodoStatusId.Todo,
+  [ETaskStatusDto.InProgress]: ETodoStatusId.InProgress,
+  [ETaskStatusDto.Review]: ETodoStatusId.Review,
+  [ETaskStatusDto.Done]: ETodoStatusId.Done,
 };
+
+export const TODO_STATUS_MAP_FROM_ID = generateReverseDto(TASK_STATUS_TO_DTO);
 
 export class TaskMapper {
   public static fromDto(dto: ITaskDto): ITask {
@@ -28,6 +42,13 @@ export class TaskMapper {
       created_by: UserMapper.fromDto(dto.created_by),
       last_modified_by: UserMapper.fromDto(dto.last_modified_by),
       status: TASK_STATUS_TO_MODEL[dto.status],
+    };
+  }
+
+  public static toDto(model: ITaskCreateUpdate): ITaskCreateUpdateDto {
+    return {
+      ...model,
+      status: TASK_STATUS_TO_DTO[model.status],
     };
   }
 }
