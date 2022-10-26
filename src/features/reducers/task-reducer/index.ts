@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { TaskApi } from "@/api";
 import { RootState } from "@/features/store";
 import { ITask, TaskMapper } from "@/features/types";
+import { ITaskCreateUpdate } from "@/features/types/models/task";
 import { GlobalTypes } from "@/utils";
 
 import { initialState, taskAdapter } from "./state";
@@ -21,7 +22,7 @@ export const getTasksAsync = createAsyncThunk<
 
 export const createTaskAsync = createAsyncThunk<
   ITask,
-  ITask,
+  ITaskCreateUpdate,
   GlobalTypes.ReduxThunkRejectValue<null>
 >("create/task", async (body, { rejectWithValue }) => {
   const taskDto = TaskMapper.toDto(body);
@@ -48,11 +49,11 @@ export const taskSlice = createSlice({
       .addCase(getTasksAsync.rejected, (state) => {
         state.pending = false;
         taskAdapter.setAll(state, []);
-      })
-
-      .addCase(createTaskAsync.fulfilled, (state, action) => {
-        taskAdapter.addOne(state, action.payload);
       });
+
+    // .addCase(createTaskAsync.fulfilled, (state, action) => {
+    //   taskAdapter.addOne(state, action.payload);
+    // });
   },
 });
 export const taskSelectors = taskAdapter.getSelectors(

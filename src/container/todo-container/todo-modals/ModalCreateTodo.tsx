@@ -1,12 +1,16 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 import { Loading, Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getUsersAsync, userSelectors } from "@/features/reducers";
+import { createTaskAsync } from "@/features/reducers/task-reducer";
 import { THookModalProps } from "@/hooks";
 
+import { TODO_MESSAGES } from "../constant";
+import { TodoFormMapper } from "../mapper";
 import { schema } from "../shema";
 import { IFormTodoInfo } from "../type";
 import { FormItems } from "./FormItems";
@@ -31,14 +35,22 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
 
   const { handleSubmit } = propsForm;
 
-  const handleCreateTask = (data: IFormTodoInfo) => {
-    console.log(data);
+  const handleCreateTask = async (data: IFormTodoInfo) => {
+    const taskModel = TodoFormMapper.toModel(data);
+    const result = await dispatch(createTaskAsync(taskModel));
+    console.log(result);
+    if (result.meta.requestStatus !== "rejected") {
+      toast.success(TODO_MESSAGES.create.success);
+      return;
+    }
+    toast.error(TODO_MESSAGES.create.error);
   };
 
   return (
     <Modal
       handleEvent={{
         event: handleSubmit(handleCreateTask),
+        isLoading: propsForm.formState.isSubmitting,
       }}
       title={"Tạo công việc mới"}
       isShowing={isShowing}

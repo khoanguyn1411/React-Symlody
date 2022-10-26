@@ -30,7 +30,7 @@ export interface ITask {
     readonly id: number;
   };
   readonly created_by: IUser;
-  readonly last_modified_by: IUser;
+  readonly last_modified_by: IUser | null;
   readonly last_modified_date: string;
   readonly title: string;
   readonly label: string;
