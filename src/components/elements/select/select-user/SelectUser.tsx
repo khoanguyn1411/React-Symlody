@@ -10,22 +10,22 @@ import { useDebounce } from "@/hooks";
 import { FormatService } from "@/utils";
 
 export type TProps = {
-  inChargerId: number;
+  userId: number;
   placeholder: string;
-  setInChargerId: (inChargerId: number) => void;
+  setUserId: (userId: number) => void;
 };
 
 export const SelectUser: React.FC<TProps> = ({
   placeholder,
-  inChargerId,
-  setInChargerId,
+  userId,
+  setUserId,
 }) => {
   const userList = useAppSelector(userSelectors.selectAll);
   const { inputValue, setInputValue, debounceValue } = useDebounce();
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [userSelected, setUserSelected] = useState<IUser>(() => {
-    return userList.find((item) => item.id === inChargerId);
+    return userList.find((item) => item.id === userId);
   });
 
   const [currentUserList, setCurrentUserList] = useState<IUser[]>(userList);
@@ -60,21 +60,21 @@ export const SelectUser: React.FC<TProps> = ({
     setIsShowContent(false);
     setInputValue(user.full_name);
     setIsSearching(false);
-    setInChargerId(user.id);
+    setUserId(user.id);
   };
 
   const handleClearMemberSelected = () => {
     setUserSelected(null);
-    setInChargerId(null);
+    setUserId(null);
     setInputValue("");
   };
 
   useLayoutEffect(() => {
-    if (inChargerId == null) {
+    if (userId == null) {
       setInputValue("");
       setUserSelected(null);
     }
-  }, [inChargerId, setInputValue]);
+  }, [userId, setInputValue]);
 
   useLayoutEffect(() => {
     if (!isShowContent && userSelected) {
