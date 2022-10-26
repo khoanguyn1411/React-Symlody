@@ -133,7 +133,7 @@ export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
         },
       ]}
       isShowing={isShowing}
-      size="lg"
+      widthContainer={640}
       toggle={toggle}
     />
   );

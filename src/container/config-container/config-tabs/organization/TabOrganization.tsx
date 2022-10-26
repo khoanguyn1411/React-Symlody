@@ -1,10 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 import { images } from "@/assets/images";
 import { AvatarUpload, FormItem, Input } from "@/components";
-import { useAppSelector } from "@/features";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { updateTenantAsync } from "@/features/reducers";
 import { FormService } from "@/utils";
 
 import {
@@ -16,11 +18,12 @@ import { schema } from "./schema";
 import { IFormOrganizationConfig } from "./type";
 
 export const TabOrganization: React.FC = () => {
-  const { tenant } = useAppSelector((state) => state.department);
+  const { tenant } = useAppSelector((state) => state.tenant);
+  const dispatch = useAppDispatch();
 
   const {
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<IFormOrganizationConfig>({ resolver: yupResolver(schema) });
 
@@ -34,8 +37,16 @@ export const TabOrganization: React.FC = () => {
     }
   };
 
-  const handleEditOrgInfo = () => {
+  const handleEditOrgInfo = async (data: IFormOrganizationConfig) => {
     //TODO: Implement edit info feature of organization module.
+    const result = await dispatch(
+      updateTenantAsync({ id: tenant.id, body: data })
+    );
+    if (!result.payload) {
+      toast.error("Cập nhật thông tin tổ chức không thành công");
+      return;
+    }
+    toast.success("Cập nhật thông tin tổ chức thành công");
   };
 
   const defaultValue =
@@ -94,7 +105,7 @@ export const TabOrganization: React.FC = () => {
           <Controller
             control={control}
             name="email"
-            defaultValue=""
+            defaultValue={defaultValue.get("email") || ""}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Địa chỉ mail"
@@ -112,11 +123,12 @@ export const TabOrganization: React.FC = () => {
         >
           <Controller
             control={control}
-            name="phone"
-            defaultValue=""
+            name="phone_number"
+            defaultValue={defaultValue.get("phone_number") || ""}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Số điện thoại"
+                type={"number"}
                 value={value}
                 onChange={onChange}
               />
@@ -131,8 +143,8 @@ export const TabOrganization: React.FC = () => {
         >
           <Controller
             control={control}
-            name="schoolBelonged"
-            defaultValue=""
+            name="school"
+            defaultValue={defaultValue.get("school") || ""}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Trực thuộc trường"
@@ -150,7 +162,7 @@ export const TabOrganization: React.FC = () => {
           <Controller
             control={control}
             name="address"
-            defaultValue=""
+            defaultValue={defaultValue.get("address") || ""}
             render={({ field: { value, onChange } }) => (
               <Input placeholder="Địa chỉ" value={value} onChange={onChange} />
             )}
@@ -168,7 +180,7 @@ export const TabOrganization: React.FC = () => {
           )}
         />
       </FormItem> */}
-      <ConfigSubmitButton>Lưu</ConfigSubmitButton>
+      <ConfigSubmitButton isSubmitting={isSubmitting}>Lưu</ConfigSubmitButton>
     </ConfigTabContentContainer>
   );
 };

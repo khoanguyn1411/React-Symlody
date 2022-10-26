@@ -18,6 +18,8 @@ export type TEventModal = {
 
 export type TPropsModalGeneral = {
   size?: size;
+  widthContainer?: string | number;
+  heightContainer?: string | number;
   isLoading?: boolean;
   isShowing: boolean;
   closeWhenClickOutside?: boolean;

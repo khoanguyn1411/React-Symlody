@@ -14,7 +14,8 @@ export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
   toggle,
   closeWhenClickOutside,
   children,
-  size = "lg",
+  // size = "lg",
+  widthContainer = 560,
 }) => {
   const handleCloseWhenClickOutside = () => {
     closeWhenClickOutside && toggle.setToggle();
@@ -50,14 +51,15 @@ export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
             aria-hidden
             onClick={handleStopPropagation}
             className={classNames(
-              "w-full drop-shadow-2xl bg-white rounded-md min-w-modal",
-              {
-                "max-w-xs": size === "xs",
-                "max-w-sm": size === "sm",
-                "max-w-md": size === "md",
-                "max-w-lg": size === "lg",
-              }
+              "w-full drop-shadow-2xl bg-white rounded-md min-w-modal"
+              // {
+              //   "max-w-xs": size === "xs",
+              //   "max-w-sm": size === "sm",
+              //   "max-w-md": size === "md",
+              //   "max-w-lg": size === "lg",
+              // }
             )}
+            style={{ width: widthContainer }}
           >
             {children}
           </div>
