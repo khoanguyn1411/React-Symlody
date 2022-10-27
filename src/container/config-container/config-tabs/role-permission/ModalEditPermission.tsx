@@ -1,37 +1,46 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 
 import {
-  convertSimpleToIconOptions,
   FormItem,
-  ISelectOption,
   Modal,
   SelectControl,
+  SelectMultiple,
+  SelectUser,
 } from "@/components";
+import { TToggleModal } from "@/components/elements/modal/types";
 import { APP_ERROR_MESSAGE } from "@/constants";
-import { useAppSelector } from "@/features";
-import { memberSelectors } from "@/features/reducers";
-import { IConfigInfo } from "@/features/types";
-import { THookModalProps } from "@/hooks";
+import { IConfigInfo, IConfigManager } from "@/features/types";
 import { FormService } from "@/utils";
 
-import { PERMISSION_OPTIONS } from "./constants";
+import { MANAGE_OPTIONS, PERMISSION_OPTIONS } from "./constants";
 import { IConfigManagerForm } from "./types";
+
+type TProps = {
+  isShowing: boolean;
+  toggle: TToggleModal;
+  data: IConfigInfo;
+  configData: IConfigManager;
+};
 
 const schema: yup.SchemaOf<IConfigManagerForm> = yup.object().shape({
   userId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
   type: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  modules: yup
+    .array()
+    .of(yup.number())
+    .min(1, APP_ERROR_MESSAGE.REQUIRED)
+    .required(APP_ERROR_MESSAGE.REQUIRED),
 });
 
-export const ModalEditPermission: React.FC<THookModalProps<IConfigInfo>> = ({
+export const ModalEditPermission: React.FC<TProps> = ({
   isShowing,
   toggle,
   data,
+  configData,
 }) => {
-  const members = useAppSelector(memberSelectors.selectAll);
-
   const propsForm = useForm<IConfigManagerForm>({
     resolver: yupResolver(schema),
   });
@@ -40,21 +49,8 @@ export const ModalEditPermission: React.FC<THookModalProps<IConfigInfo>> = ({
     control,
     formState: { isSubmitting, dirtyFields, errors },
     reset,
+    getValues,
   } = propsForm;
-
-  const options: ISelectOption[] =
-    members &&
-    members.map((d) => ({
-      icon: d.auth_account.first_name,
-      label: d.auth_account.first_name + " " + d.auth_account.last_name,
-      value: d.id.toString(),
-    }));
-
-  const USER_OPTIONS: ISelectOption[] = useMemo(() => {
-    if (data) {
-      return convertSimpleToIconOptions(options, true, true);
-    }
-  }, [data, options]);
 
   useEffect(() => {
     if (data) {
@@ -63,16 +59,19 @@ export const ModalEditPermission: React.FC<THookModalProps<IConfigInfo>> = ({
         type: data.groups.map((g) => g.name).includes("lead")
           ? "LEAD"
           : "MANAGER",
+        modules: data.groups.map((g) => g.id),
       });
     }
   }, [data, reset]);
 
-  const handleUpdate = async () => {
-    console.log("");
+  const handleUpdate = async (body: IConfigManagerForm) => {
+    if (body.type === "LEAD") {
+      //config LEAD
+    } else {
+      const userUpdate = configData.managers.find((d) => d.id === body.userId);
+      //config MANAGER
+    }
   };
-
-  console.log(data, "--data");
-  console.log(options, "--options");
 
   return (
     <Modal
@@ -104,18 +103,35 @@ export const ModalEditPermission: React.FC<THookModalProps<IConfigInfo>> = ({
         />
       </FormItem>
 
+      {getValues("type") === "MANAGER" && (
+        <FormItem label="Tính năng" isRequired>
+          <Controller
+            control={control}
+            name="modules"
+            defaultValue={[]}
+            render={({ field: { value, onChange } }) => (
+              <SelectMultiple
+                list={MANAGE_OPTIONS}
+                value={value
+                  .map(String)
+                  .filter((v) => v !== Number(7).toString())}
+                style="modal"
+                onChange={onChange}
+              />
+            )}
+          />
+        </FormItem>
+      )}
+
       <FormItem label="Thành viên" isRequired error={errors.userId?.message}>
         <Controller
           control={control}
           name="userId"
           render={({ field: { value, onChange } }) => (
-            <SelectControl
-              name="userId"
-              placeholder={"Thành viên"}
-              isClearable
-              selected={value.toString()}
-              options={USER_OPTIONS}
-              onValueChange={onChange}
+            <SelectUser
+              placeholder="Thành viên"
+              inChargerId={value}
+              setInChargerId={onChange}
             />
           )}
         />

@@ -8,3 +8,14 @@ export const PERMISSION_OPTIONS = [
     value: "MANAGER",
   },
 ];
+
+export const MANAGE_OPTIONS = [
+  {
+    label: "Thành viên",
+    value: "3",
+  },
+  {
+    label: "Tài sản",
+    value: "4",
+  },
+];

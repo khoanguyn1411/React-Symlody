@@ -4,8 +4,6 @@ import React from "react";
 import { ConfigApi } from "@/api";
 import { Icon } from "@/assets/icons";
 import { Table } from "@/components";
-import { useAppDispatch } from "@/features";
-import { getMembersAsync } from "@/features/reducers";
 import { IConfigInfo, IConfigManager } from "@/features/types";
 import { useModal } from "@/hooks";
 import { lazyImport } from "@/utils/services/lazyImport";
@@ -24,8 +22,6 @@ export interface IConfigData {
 }
 
 export const TabRolePermission: React.FC = () => {
-  const dispatch = useAppDispatch();
-
   const propsModalEditPermission = useModal<IConfigInfo>();
 
   const [configData, setConfigData] = useState<IConfigManager>(null);
@@ -46,9 +42,6 @@ export const TabRolePermission: React.FC = () => {
   useEffect(() => {
     fetchConfigManager();
   }, []);
-  useEffect(() => {
-    dispatch(getMembersAsync({ is_archived: undefined }));
-  }, [dispatch]);
 
   const handleOpenEdit = (data: IConfigInfo) => {
     propsModalEditPermission.setData(data);
@@ -82,7 +75,12 @@ export const TabRolePermission: React.FC = () => {
 
       <Suspense fallback={<div>Loading...</div>}>
         {propsModalEditPermission.isShowing && (
-          <ModalEditPermission {...propsModalEditPermission} />
+          <ModalEditPermission
+            isShowing={propsModalEditPermission.isShowing}
+            data={propsModalEditPermission.data}
+            toggle={propsModalEditPermission.toggle}
+            configData={configData}
+          />
         )}
       </Suspense>
     </>

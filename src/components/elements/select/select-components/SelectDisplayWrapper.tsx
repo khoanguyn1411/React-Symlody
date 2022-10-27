@@ -24,7 +24,7 @@ export const SelectDisplayWrapper = forwardRef<HTMLDivElement, TProps>(
     const _style =
       style !== "none"
         ? classNames(
-            "flex justify-between w-full items-center rounded-lg text-black",
+            "flex justify-between w-full items-center rounded-lg text-black focus:ring-primary-800 focus:ring-1",
             classNameDisplay,
             !isNonePadding && "p-2 pr-5",
             STYLE_DISPLAY_WRAPPER_MAPS[style]

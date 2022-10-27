@@ -4,7 +4,7 @@ import React from "react";
 import { GlobalTypes } from "@/utils";
 
 import { AnimationCustom } from "../../animation-custom";
-import { STYLE_LIST_WRAPPER_MAPS, TSelectGeneralProps, TStyle } from "../type";
+import { TSelectGeneralProps, TStyle } from "../type";
 
 type TProps = {
   style: TStyle;
@@ -17,7 +17,7 @@ type TProps = {
 
 export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
-  style,
+  // style,
   isShowContent,
   position,
   classNameList,
@@ -28,14 +28,14 @@ export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
     <AnimationCustom
       attrs={{ style: position }}
       className={classNames(
-        "w-full min-w-[fit-content] border border-gray-200 rounded-md max-h-52 overflow-auto shadow-md mt-2",
+        "w-full min-w-[fit-content] bg-white border border-gray-200 rounded-md max-h-52 overflow-auto shadow-md mt-2",
         {
           "z-30 fixed": isPortal,
           "z-10 absolute top-8": !isPortal,
           "py-1.5": !isNoPaddingY,
         },
-        classNameList,
-        STYLE_LIST_WRAPPER_MAPS[style]
+        classNameList
+        // STYLE_LIST_WRAPPER_MAPS[style]
       )}
       isShowing={isShowContent}
     >
