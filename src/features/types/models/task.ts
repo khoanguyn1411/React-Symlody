@@ -43,10 +43,18 @@ export interface ITask {
   readonly sent_email: boolean;
 }
 
-export type ITaskCreateUpdate = StrictPick<ITask, "title"> &
+export type ITaskCreateUpdate = StrictPick<
+  ITask,
+  "title" | "assignee" | "reporter"
+> &
   Partial<
     StrictOmit<
       ITask,
-      "created_by" | "last_modified_by" | "last_modified_date" | "title"
+      | "created_by"
+      | "last_modified_by"
+      | "last_modified_date"
+      | "title"
+      | "assignee"
+      | "reporter"
     >
   >;

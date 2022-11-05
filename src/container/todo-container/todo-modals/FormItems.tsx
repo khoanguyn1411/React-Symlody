@@ -73,11 +73,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         </div>
 
         <div className="col-span-3">
-          <FormItem
-            label="Ngày hết hạn"
-            isRequired
-            error={errors.expiredDate?.message}
-          >
+          <FormItem label="Ngày hết hạn" error={errors.expiredDate?.message}>
             <Controller
               control={control}
               name="expiredDate"

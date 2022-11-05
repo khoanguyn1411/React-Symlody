@@ -36,10 +36,18 @@ export interface ITaskDto {
   readonly sent_email: boolean;
 }
 
-export type ITaskCreateUpdateDto = StrictPick<ITaskDto, "title"> &
+export type ITaskCreateUpdateDto = StrictPick<
+  ITaskDto,
+  "title" | "assignee" | "reporter"
+> &
   Partial<
     StrictOmit<
       ITaskDto,
-      "created_by" | "last_modified_by" | "last_modified_date" | "title"
+      | "created_by"
+      | "last_modified_by"
+      | "last_modified_date"
+      | "title"
+      | "assignee"
+      | "reporter"
     >
   >;
