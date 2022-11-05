@@ -31,14 +31,14 @@ export const ModalEditTodo: React.FC<THookModalProps<undefined>> = ({
 
   const { handleSubmit } = propsForm;
 
-  const handleCreateTask = (data: IFormTodoInfo) => {
+  const handleEditTask = (data: IFormTodoInfo) => {
     console.log(data);
   };
 
   return (
     <Modal
       handleEvent={{
-        event: handleSubmit(handleCreateTask),
+        event: handleSubmit(handleEditTask),
       }}
       title={"Tạo công việc mới"}
       isShowing={isShowing}
