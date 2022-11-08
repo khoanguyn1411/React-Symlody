@@ -7,6 +7,7 @@ type TProps = {
   title: string;
   data: IConfigInfo[];
   onOpenEdit: (data: IConfigInfo) => void;
+  onDeleteRoleUser: (id: number) => void;
 };
 
 interface TCheckDone {
@@ -25,7 +26,11 @@ const CheckDone: React.FC<TCheckDone> = ({ isActive }) => {
   );
 };
 
-export const ItemPermission: React.FC<TProps> = ({ data, onOpenEdit }) => {
+export const ItemPermission: React.FC<TProps> = ({
+  data,
+  onOpenEdit,
+  onDeleteRoleUser,
+}) => {
   return (
     <>
       {data.length > 0 &&
@@ -65,8 +70,11 @@ export const ItemPermission: React.FC<TProps> = ({ data, onOpenEdit }) => {
             <Table.CellAction>
               <DeleteAndEditField
                 isShowLoading={false}
+                title="Bạn có chắc muốn xoá quyền thành viên này?"
+                titleDelete="Xoá"
                 handleEvent={{
                   edit: () => onOpenEdit(d),
+                  delete: () => onDeleteRoleUser(d.id),
                 }}
               />
             </Table.CellAction>

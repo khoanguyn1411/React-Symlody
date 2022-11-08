@@ -1,8 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 
+import { ConfigApi } from "@/api";
 import {
   FormItem,
   Modal,
@@ -28,7 +30,7 @@ type TProps = {
 const schema: yup.SchemaOf<IConfigManagerForm> = yup.object().shape({
   userId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
   type: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-  modules: yup
+  groupIds: yup
     .array()
     .of(yup.number())
     .min(1, APP_ERROR_MESSAGE.REQUIRED)
@@ -39,7 +41,6 @@ export const ModalEditPermission: React.FC<TProps> = ({
   isShowing,
   toggle,
   data,
-  configData,
 }) => {
   const propsForm = useForm<IConfigManagerForm>({
     resolver: yupResolver(schema),
@@ -59,7 +60,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
         type: data.groups.map((g) => g.name).includes("lead")
           ? "LEAD"
           : "MANAGER",
-        modules: data.groups.map((g) => g.id),
+        groupIds: data.groups.map((g) => g.id),
       });
     }
   }, [data, reset]);
@@ -67,9 +68,26 @@ export const ModalEditPermission: React.FC<TProps> = ({
   const handleUpdate = async (body: IConfigManagerForm) => {
     if (body.type === "LEAD") {
       //config LEAD
+      const result = await ConfigApi.updateConfigRoleUser({
+        user_id: body.userId,
+        groups: [2],
+      });
+      if (result.kind !== "ok") {
+        toast.error("Phân quyền thành viên không thành công");
+        return;
+      }
+      toast.success("Phân quyền thành viên thành công");
     } else {
-      const userUpdate = configData.managers.find((d) => d.id === body.userId);
       //config MANAGER
+      const result = await ConfigApi.updateConfigRoleUser({
+        user_id: body.userId,
+        groups: body.groupIds,
+      });
+      if (result.kind !== "ok") {
+        toast.error("Phân quyền thành viên không thành công");
+        return;
+      }
+      toast.success("Phân quyền thành viên thành công");
     }
   };
 
@@ -107,7 +125,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
         <FormItem label="Tính năng" isRequired>
           <Controller
             control={control}
-            name="modules"
+            name="groupIds"
             defaultValue={[]}
             render={({ field: { value, onChange } }) => (
               <SelectMultiple

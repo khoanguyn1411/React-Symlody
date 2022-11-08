@@ -20,6 +20,7 @@ const routes = {
   //CONFIG MANAGER
   getConfigManager: () => `config/managers/`,
   updateConfigManager: () => `config/managers/`,
+  updateConfigRoleUser: (userId: number) => `config/roles/${userId}/`,
 };
 
 export const ConfigApi = {
@@ -92,6 +93,17 @@ export const ConfigApi = {
   ): Promise<Types.RequestUpdateConfigManagerResult> {
     const url = routes.updateConfigManager();
     const result: ApiResponse<IConfigManager> = await Api.http.patch(url, body);
+
+    return returnResponse(result);
+  },
+
+  async updateConfigRoleUser(
+    params: Types.RequestParamsConfigRoleUser
+  ): Promise<Types.RequestUpdateConfigManagerResult> {
+    const url = routes.updateConfigRoleUser(params.user_id);
+    const result: ApiResponse<IConfigManager> = await Api.http.patch(url, {
+      ...params,
+    });
 
     return returnResponse(result);
   },

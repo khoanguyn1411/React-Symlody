@@ -19,8 +19,14 @@ export type RequestDeleteDepartmentResult = Response<boolean>;
 
 export type RequestGetConfigManagerResult = Response<IConfigManager>;
 export type RequestUpdateConfigManagerResult = Response<IConfigManager>;
+export type RequestUpdateConfigRoleUserResult = Response<boolean>;
 
 export type RequestCreateDepartmentBody = IDepartmentCreateUpdateDto;
 export type RequestUpdateDepartmentBody = IDepartmentCreateUpdateDto;
 export type RequestUpdateTenantBody = ITenantCreateUpdateDto;
 export type RequestUpdateConfigManagerBody = IConfigManagerUpdate;
+
+export type RequestParamsConfigRoleUser = {
+  user_id: number;
+  groups: number[];
+};

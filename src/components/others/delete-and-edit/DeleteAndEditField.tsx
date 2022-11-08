@@ -11,7 +11,7 @@ type TProps = {
     delete?: () => void;
     restore?: () => void;
   };
-  titleDelete?: "Lưu trữ" | "Xóa";
+  titleDelete?: "Lưu trữ" | "Xóa" | string;
   isShowLoading?: boolean;
   isShowRestore?: boolean;
   disableSubmit?: boolean;
