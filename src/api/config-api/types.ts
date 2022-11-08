@@ -15,6 +15,7 @@ export type RequestUpdateTenantResult = Response<ITenantDto>;
 
 export type RequestCreateDepartmentResult = Response<IDepartmentDto>;
 export type RequestUpdateDepartmentResult = Response<IDepartmentDto>;
+export type RequestDeleteDepartmentResult = Response<boolean>;
 
 export type RequestGetConfigManagerResult = Response<IConfigManager>;
 export type RequestUpdateConfigManagerResult = Response<IConfigManager>;

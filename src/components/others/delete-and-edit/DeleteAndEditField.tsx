@@ -64,6 +64,11 @@ export const DeleteAndEditField: React.FC<TProps> = ({
             <DropdownConfirm
               title={title}
               placement={"bottom-right"}
+              icon={
+                disableSubmit && (
+                  <i className="text-yellow-400 fas fa-exclamation-triangle" />
+                )
+              }
               disableSubmit={disableSubmit}
               handleEvent={{ title: titleDelete, event: handleEvent.delete }}
             >

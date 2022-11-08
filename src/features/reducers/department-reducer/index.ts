@@ -68,6 +68,19 @@ export const updateDepartmentAsync = createAsyncThunk<
   return rejectWithValue(null);
 });
 
+export const deleteDepartmentAsync = createAsyncThunk<
+  IDepartment["id"],
+  IDepartment["id"],
+  GlobalTypes.ReduxThunkRejectValue<boolean>
+>("delete/department", async (id, { rejectWithValue }) => {
+  const result = await ConfigApi.deleteDepartment(id);
+  if (result.kind === "ok") {
+    return id;
+  }
+
+  return rejectWithValue(null);
+});
+
 // export const getTenantAsync = createAsyncThunk<
 //   ITenant,
 //   null,
@@ -122,6 +135,13 @@ export const departmentSlice = createSlice({
           departments[index] = newDepartment;
           state.departments = [...departments];
         }
+      })
+      //DELETE DEPARTMENT
+      .addCase(deleteDepartmentAsync.fulfilled, (state, action) => {
+        const departmentId = action.payload;
+        const departments = state.departments;
+
+        state.departments = departments.filter((d) => d.id !== departmentId);
       });
     //GET TENANT
     // .addCase(getTenantAsync.pending, (state) => {

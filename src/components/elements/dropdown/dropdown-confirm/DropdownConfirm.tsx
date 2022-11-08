@@ -13,6 +13,7 @@ type TProps = {
     title: string;
     event: () => void;
   };
+  icon?: JSX.Element;
   isShowLoading?: boolean;
   disableSubmit?: boolean;
 };
@@ -23,6 +24,7 @@ export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
   title,
   placement,
   isShowLoading,
+  icon,
   disableSubmit = false,
 }) => {
   const dropdownRef = useRef<TDropdownMethod>(null);
@@ -40,10 +42,10 @@ export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
       renderCustom={
         <div className="w-full px-3 py-2 space-y-4">
           <div className="flex items-center">
-            <span className="flex items-center justify-center w-8 h-8 mr-2 rounded-full shadow-inner bg-red-50">
-              <i className="text-red-400 fas fa-question" />
+            <span className="flex items-center justify-center  mr-2">
+              {icon || <i className="text-red-400 fas fa-question" />}
             </span>
-            <h1 className="flex-1 w-full text-base font-medium text-black">
+            <h1 className="flex-1 w-full text-sm font-medium text-black">
               {title}
             </h1>
           </div>
@@ -72,7 +74,6 @@ export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
           </div>
         </div>
       }
-      widthContainer="12rem"
       placement={placement}
     >
       {children}

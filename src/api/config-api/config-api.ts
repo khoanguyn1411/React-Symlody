@@ -12,6 +12,8 @@ const routes = {
   getDepartments: () => `department/`,
   updateDepartment: (id: number) => `department/${id}/`,
   createDepartment: () => `department/`,
+  deleteDepartment: (id: number) => `department/${id}/`,
+
   //TENANT
   getTenant: () => `config/`,
   updateTenant: (id: number) => `config/${id}/`,
@@ -66,6 +68,15 @@ export const ConfigApi = {
     const result: ApiResponse<IDepartmentDto> = await Api.http.patch(url, {
       ...body,
     });
+
+    return returnResponse(result);
+  },
+
+  async deleteDepartment(
+    id: number
+  ): Promise<Types.RequestDeleteDepartmentResult> {
+    const url = routes.deleteDepartment(id);
+    const result: ApiResponse<boolean> = await Api.http.delete(url);
 
     return returnResponse(result);
   },

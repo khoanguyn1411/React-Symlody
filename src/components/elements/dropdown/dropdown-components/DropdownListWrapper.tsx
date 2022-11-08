@@ -23,7 +23,7 @@ export const DropdownListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
       attrs={{ style: { ...position, width: widthContainer } }}
       isShowing={isShowContent}
       className={classNames(
-        "w-full min-w-max",
+        "w-full",
         "bg-white border border-gray-200",
         "drop-shadow-lg",
         "rounded-md",

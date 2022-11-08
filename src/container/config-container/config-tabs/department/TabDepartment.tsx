@@ -1,11 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { Button, DeleteAndEditField, Modal, Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { createDepartmentAsync, getDepartmentAsync } from "@/features/reducers";
+import {
+  createDepartmentAsync,
+  deleteDepartmentAsync,
+  getDepartmentAsync,
+} from "@/features/reducers";
 import { IDepartment } from "@/features/types";
 import { useModal } from "@/hooks";
 
@@ -14,6 +20,8 @@ import { FormItems } from "./FormItems";
 import { ModalEditDepartment } from "./ModalEditDepartment";
 import { schema } from "./schema";
 import { IFormDepartment } from "./types";
+
+dayjs.extend(localizedFormat);
 
 export const TabConfigDepartment: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,6 +38,17 @@ export const TabConfigDepartment: React.FC = () => {
     if (department) {
       propsModalEditDepartment.setData(department);
       propsModalEditDepartment.toggle.setShow();
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (id) {
+      const result = await dispatch(deleteDepartmentAsync(id));
+      if (!result) {
+        toast.error("Xoá phòng ban không thành công");
+        return;
+      }
+      toast.success("Xoá phòng ban thành công");
     }
   };
 
@@ -60,27 +79,27 @@ export const TabConfigDepartment: React.FC = () => {
                   <p>{item.name}</p>
                 </div>
               </Table.Cell>
-              <Table.Cell width="10rem" textAlign="right">
-                10
+              <Table.Cell width="10rem" textAlign="center">
+                {item.member_count}
               </Table.Cell>
               <Table.Cell width="8rem" textAlign="right">
-                10
+                {dayjs(item.created_date).format("DD/MM/YYYY")}
               </Table.Cell>
               <Table.CellAction>
                 <DeleteAndEditField
                   title={
-                    item?.number_user > 0
-                      ? "Bạn cần cập nhật lại thành viên sang phòng ban khác trước khi xoá!"
-                      : "Xoá phòng ban"
+                    item?.member_count > 0
+                      ? "Bạn cần chuyển thành viên sang phòng ban khác trước khi xoá!"
+                      : "Bạn có chắc muốn xoá phòng ban?"
                   }
                   titleDelete="Xóa"
-                  disableSubmit={item?.number_user > 0}
+                  disableSubmit={item?.member_count > 0}
                   handleEvent={{
                     edit: function (): void {
                       handleEdit(item.id);
                     },
                     delete: function (): void {
-                      throw new Error("Function not implemented.");
+                      handleDelete(item.id);
                     },
                   }}
                 />
