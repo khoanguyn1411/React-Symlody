@@ -13,6 +13,7 @@ import {
   getDepartmentAsync,
 } from "@/features/reducers";
 import { IDepartment } from "@/features/types";
+import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
 
 import { DEPARTMENT_MESSAGE } from "./constants";
@@ -33,15 +34,15 @@ export const TabConfigDepartment: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleEdit = (id: number) => {
+  const handleEdit = withPermission([1, 2])((id: number) => {
     const department = departmentState.departments.find((d) => d.id === id);
     if (department) {
       propsModalEditDepartment.setData(department);
       propsModalEditDepartment.toggle.setShow();
     }
-  };
+  });
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = withPermission([1, 2])(async (id: number) => {
     if (id) {
       const result = await dispatch(deleteDepartmentAsync(id));
       if (!result) {
@@ -50,7 +51,7 @@ export const TabConfigDepartment: React.FC = () => {
       }
       toast.success("Xoá phòng ban thành công");
     }
-  };
+  });
 
   return (
     <>

@@ -9,6 +9,7 @@ import { GROUPS } from "@/constants";
 import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import { IConfigInfo } from "@/features/types";
+import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
 import { lazyImport } from "@/utils/services/lazyImport";
 
@@ -58,10 +59,10 @@ export const TabRolePermission: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleOpenEdit = (data: IConfigInfo) => {
+  const handleOpenEdit = withPermission([1, 2])((data: IConfigInfo) => {
     propsModalEditPermission.setData(data);
     propsModalEditPermission.toggle.setShow();
-  };
+  });
 
   const handleDeleteRoleUser = async (userId: number) => {
     if (userId) {
