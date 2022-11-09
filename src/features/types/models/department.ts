@@ -5,8 +5,8 @@ export interface IDepartment {
   readonly name: string;
   readonly abbreviation_name?: string | null;
   //
-  readonly number_user?: number;
-  readonly createdAt?: string;
+  readonly member_count?: number;
+  readonly created_date?: string;
 }
 
 export type IDepartmentCreateUpdate = GlobalTypes.StrictOmit<

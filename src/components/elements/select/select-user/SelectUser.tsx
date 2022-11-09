@@ -148,8 +148,8 @@ export const SelectUser: React.FC<TProps> = ({
               onClick={handleSelectMember(item)}
               key={item.id}
               className={classNames(
-                "flex py-2 px-3 w-full space-x-3 items-center hover:bg-gray-100 transition-colors duration-200",
-                isSelectedItemInList && "bg-primary-50"
+                "flex py-2 px-3 w-full space-x-3 items-center hover:bg-primary-50 transition-colors duration-200",
+                isSelectedItemInList && "bg-primary-800"
               )}
             >
               <Avatar size="default" fullName={item.first_name} src="" />
@@ -157,14 +157,14 @@ export const SelectUser: React.FC<TProps> = ({
                 <h1
                   className={classNames(
                     "text-left",
-                    isSelectedItemInList && "text-primary-800 font-medium"
+                    isSelectedItemInList && "text-white font-medium"
                   )}
                 >
                   {item.full_name}
                 </h1>
-                {isSelectedItemInList && (
+                {/* {isSelectedItemInList && (
                   <h2 className="text-sm">{item.email}</h2>
-                )}
+                )} */}
               </div>
             </button>
           );

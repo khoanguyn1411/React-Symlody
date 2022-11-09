@@ -2,32 +2,32 @@ import { Table } from "@/components";
 import { IConfigInfo } from "@/features/types";
 
 import { ItemPermission } from "./ItemPermission";
-import { IConfigData } from "./TabRolePermission";
 
 type TProps = {
-  configData: IConfigData;
-  onOpenEdit: (data: IConfigInfo[]) => void;
+  configData: IConfigInfo[];
+  onOpenEdit: (data: IConfigInfo) => void;
+  onDeleteRoleUser: (id: number) => void;
 };
-export const TableGroup: React.FC<TProps> = ({ configData, onOpenEdit }) => {
+export const TableGroup: React.FC<TProps> = ({
+  configData,
+  onOpenEdit,
+  onDeleteRoleUser,
+}) => {
   return (
     <Table.Body>
       <ItemPermission
         title="Lead"
-        data={configData.dataLead}
+        data={configData}
         onOpenEdit={onOpenEdit}
+        onDeleteRoleUser={onDeleteRoleUser}
       />
 
-      <ItemPermission
-        title="Quản lý thành viên"
-        data={configData.dataMemberManager}
+      {/* <ItemPermission
+        title="Quản lý"
+        data={configData.managers}
         onOpenEdit={onOpenEdit}
-      />
-
-      <ItemPermission
-        title="Quản lý tài sản"
-        data={configData.dataPropertyManager}
-        onOpenEdit={onOpenEdit}
-      />
+        onDeleteRoleUser={onDeleteRoleUser}
+      /> */}
     </Table.Body>
   );
 };

@@ -12,12 +12,15 @@ const routes = {
   getDepartments: () => `department/`,
   updateDepartment: (id: number) => `department/${id}/`,
   createDepartment: () => `department/`,
+  deleteDepartment: (id: number) => `department/${id}/`,
+
   //TENANT
   getTenant: () => `config/`,
   updateTenant: (id: number) => `config/${id}/`,
   //CONFIG MANAGER
   getConfigManager: () => `config/managers/`,
   updateConfigManager: () => `config/managers/`,
+  updateConfigRoleUser: (userId: number) => `config/roles/${userId}/`,
 };
 
 export const ConfigApi = {
@@ -70,6 +73,15 @@ export const ConfigApi = {
     return returnResponse(result);
   },
 
+  async deleteDepartment(
+    id: number
+  ): Promise<Types.RequestDeleteDepartmentResult> {
+    const url = routes.deleteDepartment(id);
+    const result: ApiResponse<boolean> = await Api.http.delete(url);
+
+    return returnResponse(result);
+  },
+
   async getConfigManager(): Promise<Types.RequestGetConfigManagerResult> {
     const url = routes.getConfigManager();
     const result: ApiResponse<IConfigManager> = await Api.http.get(url);
@@ -81,6 +93,18 @@ export const ConfigApi = {
   ): Promise<Types.RequestUpdateConfigManagerResult> {
     const url = routes.updateConfigManager();
     const result: ApiResponse<IConfigManager> = await Api.http.patch(url, body);
+
+    return returnResponse(result);
+  },
+
+  async updateConfigRoleUser(
+    params: Types.RequestParamsConfigRoleUser
+  ): Promise<Types.RequestUpdateConfigManagerResult> {
+    const url = routes.updateConfigRoleUser(params.user_id);
+    const result: ApiResponse<IConfigManager> = await Api.http.patch(url, {
+      ...params,
+      groups: [...params.groups],
+    });
 
     return returnResponse(result);
   },

@@ -5,9 +5,11 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getMeAsync,
   getTenantAsync,
+  getUsersAsync,
   logout,
   setIsAuth,
   setIsCompactSidebar,
+  userSelectors,
 } from "@/features/reducers";
 import { LocalStorageService, TokenService } from "@/utils";
 
@@ -15,6 +17,8 @@ export const useAuth = () => {
   const dispatch = useAppDispatch();
 
   const state = useAppSelector((state) => state.auth);
+  const userCount = useAppSelector(userSelectors.selectTotal);
+
   const isAlreadyGetMe = useRef(false);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -36,12 +40,15 @@ export const useAuth = () => {
       if (res.payload) {
         dispatch(setIsAuth(true));
         dispatch(getTenantAsync());
+        if (userCount === 0) {
+          dispatch(getUsersAsync());
+        }
         isAlreadyGetMe.current = true;
         return;
       }
       dispatch(logout());
     });
-  }, [dispatch, state.isAuth]);
+  }, [dispatch, state.isAuth, userCount]);
 
   useEffect(() => {
     getIsCompact();

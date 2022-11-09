@@ -20,8 +20,15 @@ export const STYLE_DISPLAY_WRAPPER_MAPS = {
 
 export const STYLE_LIST_WRAPPER_MAPS = {
   [STYLE.default]: "bg-white",
-  [STYLE.modal]: "bg-gray-50",
+  [STYLE.modal]: "bg-white",
 } as const;
+
+export type TOptionProps = {
+  label: string;
+  value: string;
+  suffix?: string | JSX.Element;
+  prefix?: string | JSX.Element;
+};
 
 export type TSelectGeneralProps = {
   placeHolder?: string;
@@ -42,7 +49,7 @@ export type TSelectDefaultProps = {
 } & TSelectGeneralProps;
 
 export type TSelectMultipleProps = {
-  list: readonly string[];
+  list: readonly TOptionProps[];
   value: readonly string[];
   onChange: (value: readonly string[]) => void;
 } & TSelectGeneralProps;

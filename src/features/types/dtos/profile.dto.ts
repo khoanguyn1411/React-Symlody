@@ -1,7 +1,19 @@
+import { IGroup, ITenant } from "../models";
+
 export interface IProfileDto {
-  readonly user_id: number;
-  readonly full_name: string;
+  readonly id: number;
+  readonly first_name: string;
+  readonly last_name: string;
   readonly email: string;
-  readonly roles: string[];
-  readonly avatar_url: string;
+  readonly gender: number;
+  readonly phone_number: string;
+  readonly student_id: string;
+  readonly home_town: string;
+  readonly dob: string;
+  readonly class_name: string;
+  readonly avatar: string;
+  readonly address: string;
+
+  readonly groups: IGroup[];
+  readonly organization: ITenant;
 }

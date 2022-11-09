@@ -66,17 +66,17 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
         style={style}
         isShowContent={isShowContent}
       >
-        {list.map((item: string, index: number) => (
+        {list.map((item, index: number) => (
           <li
-            key={item + index}
+            key={item.value + index}
             aria-hidden="true"
-            onClick={handleSetItem(item)}
+            onClick={handleSetItem(item.value)}
             className={classNames(
               "py-1 px-2 hover:bg-primary-50 cursor-pointer flex items-center hover:bg-grey transition-colors duration-70"
             )}
           >
-            <Checkbox checked={value && [...value].includes(item)} />
-            <h1>{item}</h1>
+            <Checkbox checked={value && [...value].includes(item.value)} />
+            <h1>{item.label}</h1>
           </li>
         ))}
       </SelectListWrapper>
@@ -97,7 +97,7 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
             <h1 className="text-gray-400">{placeHolder}</h1>
           ) : (
             <div className="flex flex-wrap gap-3" ref={wrapperSelectRef}>
-              {value.map((item: string) => (
+              {/* {value.map((item: string) => (
                 <div
                   className="relative px-2 py-1 pr-5 text-xs bg-gray-200 min-w-max rounded-md"
                   key={item}
@@ -111,14 +111,39 @@ export const SelectMultiple: React.FC<TSelectMultipleProps> = ({
                     <i className="fas fa-times"></i>
                   </span>
                 </div>
-              ))}
+              ))} */}
+
+              {value.map((v, index) => {
+                const data = list.find((i) => i.value === v);
+
+                return (
+                  <div
+                    className={classNames(
+                      "relative flex items-center px-2 py-1 text-sm shadow-md  transition-all duration-200 space-x-2 min-w-max rounded-md",
+                      style === "modal"
+                        ? "bg-white hover:bg-gray-50"
+                        : "bg-gray-100 hover:bg-gray-200"
+                    )}
+                    key={v + index}
+                  >
+                    <span>{data?.label}</span>
+                    <span
+                      className="flex items-center h-full text-gray-400"
+                      aria-hidden={true}
+                      onClick={handleSetItem(v)}
+                    >
+                      <i className="fas fa-times" />
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           )}
 
           <span ref={iconRef}>
             <i
               className={classNames(
-                "fas fa-angle-down duration-300 -mr-5 transition-transform text-base",
+                "fas fa-caret-down duration-200 transition-transform text-gray-400",
                 {
                   "transform -rotate-180": isShowContent,
                 }

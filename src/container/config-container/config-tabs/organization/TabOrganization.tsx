@@ -7,6 +7,7 @@ import { images } from "@/assets/images";
 import { AvatarUpload, FormItem, Input } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateTenantAsync } from "@/features/reducers";
+import { withPermission } from "@/hoc";
 import { FormService } from "@/utils";
 
 import {
@@ -37,17 +38,19 @@ export const TabOrganization: React.FC = () => {
     }
   };
 
-  const handleEditOrgInfo = async (data: IFormOrganizationConfig) => {
-    //TODO: Implement edit info feature of organization module.
-    const result = await dispatch(
-      updateTenantAsync({ id: tenant.id, body: data })
-    );
-    if (!result.payload) {
-      toast.error("Cập nhật thông tin tổ chức không thành công");
-      return;
+  const handleEditOrgInfo = withPermission([1, 2])(
+    async (data: IFormOrganizationConfig) => {
+      //TODO: Implement edit info feature of organization module.
+      const result = await dispatch(
+        updateTenantAsync({ id: tenant.id, body: data })
+      );
+      if (!result.payload) {
+        toast.error("Cập nhật thông tin tổ chức không thành công");
+        return;
+      }
+      toast.success("Cập nhật thông tin tổ chức thành công");
     }
-    toast.success("Cập nhật thông tin tổ chức thành công");
-  };
+  );
 
   const defaultValue =
     FormService.getDefaultValues<IFormOrganizationConfig>(tenant);

@@ -68,7 +68,7 @@ export const UserDropdown: React.FC<TProps> = ({ user }) => {
             <span className="font-medium"></span>
           </div>
           <div className="flex items-center cursor-pointer space-x-2">
-            <Avatar src={user?.avatar_url} fullName={user?.full_name} />
+            <Avatar src={user?.avatar} fullName={user?.last_name} />
             <span className="">
               <i className="fas fa-caret-down" />
             </span>
