@@ -1,20 +1,20 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 
-import { ConfigApi } from "@/api";
 import {
+  Avatar,
   FormItem,
   Modal,
   SelectControl,
   SelectMultiple,
-  SelectUser,
 } from "@/components";
 import { TToggleModal } from "@/components/elements/modal/types";
 import { APP_ERROR_MESSAGE } from "@/constants";
-import { IConfigInfo, IConfigManager } from "@/features/types";
+import { useAppSelector } from "@/features";
+import { userSelectors } from "@/features/reducers";
+import { IConfigInfo } from "@/features/types";
 import { FormService } from "@/utils";
 
 import { MANAGE_OPTIONS, PERMISSION_OPTIONS } from "./constants";
@@ -24,24 +24,25 @@ type TProps = {
   isShowing: boolean;
   toggle: TToggleModal;
   data: IConfigInfo;
-  configData: IConfigManager;
+  onUpdateUserRole: (userId: number, groups: number[]) => Promise<boolean>;
 };
 
 const schema: yup.SchemaOf<IConfigManagerForm> = yup.object().shape({
   userId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
   type: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-  groupIds: yup
-    .array()
-    .of(yup.number())
-    .min(1, APP_ERROR_MESSAGE.REQUIRED)
-    .required(APP_ERROR_MESSAGE.REQUIRED),
+  groupIds: yup.array().of(yup.number()),
+  // .min(1, APP_ERROR_MESSAGE.REQUIRED)
+  // .required(APP_ERROR_MESSAGE.REQUIRED),
 });
 
 export const ModalEditPermission: React.FC<TProps> = ({
   isShowing,
   toggle,
   data,
+  onUpdateUserRole,
 }) => {
+  const userList = useAppSelector(userSelectors.selectAll);
+
   const propsForm = useForm<IConfigManagerForm>({
     resolver: yupResolver(schema),
   });
@@ -53,41 +54,34 @@ export const ModalEditPermission: React.FC<TProps> = ({
     getValues,
   } = propsForm;
 
+  const user = userList.find((u) => u.id === getValues("userId"));
+
   useEffect(() => {
     if (data) {
       reset({
         userId: data.id,
-        type: data.groups.map((g) => g.name).includes("lead")
-          ? "LEAD"
-          : "MANAGER",
-        groupIds: data.groups.map((g) => g.id),
+        type: data.groups.map((g) => g.id).includes(2) ? "LEAD" : "MANAGER",
+        groupIds:
+          getValues("type") === "LEAD"
+            ? data.groups.map((g) => g.id).filter((g) => g === 2)
+            : data.groups.map((g) => g.id).filter((g) => g !== 2),
       });
     }
-  }, [data, reset]);
+  }, [data, getValues, reset]);
 
   const handleUpdate = async (body: IConfigManagerForm) => {
-    if (body.type === "LEAD") {
-      //config LEAD
-      const result = await ConfigApi.updateConfigRoleUser({
-        user_id: body.userId,
-        groups: [2],
-      });
-      if (result.kind !== "ok") {
-        toast.error("Phân quyền thành viên không thành công");
-        return;
+    try {
+      if (body.type === "LEAD") {
+        //config LEAD
+        await onUpdateUserRole(body.userId, [2]);
+      } else {
+        //config MANAGER
+        await onUpdateUserRole(body.userId, body.groupIds);
       }
-      toast.success("Phân quyền thành viên thành công");
-    } else {
-      //config MANAGER
-      const result = await ConfigApi.updateConfigRoleUser({
-        user_id: body.userId,
-        groups: body.groupIds,
-      });
-      if (result.kind !== "ok") {
-        toast.error("Phân quyền thành viên không thành công");
-        return;
-      }
-      toast.success("Phân quyền thành viên thành công");
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      toggle.setHidden();
     }
   };
 
@@ -142,17 +136,10 @@ export const ModalEditPermission: React.FC<TProps> = ({
       )}
 
       <FormItem label="Thành viên" isRequired error={errors.userId?.message}>
-        <Controller
-          control={control}
-          name="userId"
-          render={({ field: { value, onChange } }) => (
-            <SelectUser
-              placeholder="Thành viên"
-              inChargerId={value}
-              setInChargerId={onChange}
-            />
-          )}
-        />
+        <div className="flex items-center h-10 px-3 bg-gray-100 space-x-2 rounded-md">
+          <Avatar src={user?.avatar} fullName={user?.last_name} />
+          <span>{`${user?.first_name} ${user?.last_name}`}</span>
+        </div>
       </FormItem>
     </Modal>
   );

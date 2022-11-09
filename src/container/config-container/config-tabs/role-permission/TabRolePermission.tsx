@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { Suspense, useEffect, useState } from "react";
 import React from "react";
 import { toast } from "react-toastify";
@@ -6,9 +5,10 @@ import { toast } from "react-toastify";
 import { ConfigApi } from "@/api";
 import { Icon } from "@/assets/icons";
 import { Table } from "@/components";
+import { GROUPS } from "@/constants";
 import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
-import { IConfigInfo, IConfigManager } from "@/features/types";
+import { IConfigInfo } from "@/features/types";
 import { useModal } from "@/hooks";
 import { lazyImport } from "@/utils/services/lazyImport";
 
@@ -31,24 +31,31 @@ export const TabRolePermission: React.FC = () => {
 
   const propsModalEditPermission = useModal<IConfigInfo>();
 
-  const [configData, setConfigData] = useState<IConfigManager>(null);
+  const [configData, setConfigData] = useState<IConfigInfo[]>([]);
   const [isRendered, setIsRendered] = useState(false);
 
   const fetchConfigManager = async () => {
     const result = await ConfigApi.getConfigManager();
     if (result.kind === "ok") {
-      const data = result.result;
-      console.log(_.uniqBy(userListMap.concat(data.managers), "id"));
+      const res = result.result.leaders.concat(result.result.managers);
+      const data = userListMap.map((u) => {
+        const _user = res.find((r) => r.id === u.id);
+        if (_user) {
+          return { ..._user };
+        }
+        return { ...u };
+      });
 
       setConfigData(data);
     } else {
-      setConfigData(null);
+      setConfigData([]);
     }
     setIsRendered(true);
   };
 
   useEffect(() => {
     fetchConfigManager();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleOpenEdit = (data: IConfigInfo) => {
@@ -68,6 +75,31 @@ export const TabRolePermission: React.FC = () => {
       }
       toast.success("Xoá quyền người dùng thành công");
     }
+  };
+
+  const handleUpdateRoleUser = async (userId: number, groups: number[]) => {
+    const result = await ConfigApi.updateConfigRoleUser({
+      user_id: userId,
+      groups,
+    });
+
+    if (result.kind !== "ok") {
+      toast.error("Phân quyền không thành công");
+      return false;
+    }
+    toast.success("Phân quyền thành công");
+
+    const newUserIdx = configData.findIndex((d) => d.id === userId);
+    const newUser = configData.find((d) => d.id === userId);
+
+    const _newList = configData;
+    const _groups = GROUPS.filter((g) => groups.includes(g.id));
+
+    if (newUserIdx > -1) {
+      _newList[newUserIdx] = { ...newUser, groups: _groups };
+      setConfigData(_newList);
+    }
+    return true;
   };
 
   if (!isRendered) return <Icon.Spin size="medium" />;
@@ -105,7 +137,7 @@ export const TabRolePermission: React.FC = () => {
             isShowing={propsModalEditPermission.isShowing}
             data={propsModalEditPermission.data}
             toggle={propsModalEditPermission.toggle}
-            configData={configData}
+            onUpdateUserRole={handleUpdateRoleUser}
           />
         )}
       </Suspense>

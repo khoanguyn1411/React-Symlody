@@ -26,11 +26,7 @@ const CheckDone: React.FC<TCheckDone> = ({ isActive }) => {
   );
 };
 
-export const ItemPermission: React.FC<TProps> = ({
-  data,
-  onOpenEdit,
-  onDeleteRoleUser,
-}) => {
+export const ItemPermission: React.FC<TProps> = ({ data, onOpenEdit }) => {
   return (
     <>
       {data.length > 0 &&
@@ -72,9 +68,10 @@ export const ItemPermission: React.FC<TProps> = ({
                 isShowLoading={false}
                 title="Bạn có chắc muốn xoá quyền thành viên này?"
                 titleDelete="Xoá"
+                isShowDelete={false}
                 handleEvent={{
                   edit: () => onOpenEdit(d),
-                  delete: () => onDeleteRoleUser(d.id),
+                  // delete: () => onDeleteRoleUser(d.id),
                 }}
               />
             </Table.CellAction>

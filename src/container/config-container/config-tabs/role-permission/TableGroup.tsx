@@ -1,10 +1,10 @@
 import { Table } from "@/components";
-import { IConfigInfo, IConfigManager } from "@/features/types";
+import { IConfigInfo } from "@/features/types";
 
 import { ItemPermission } from "./ItemPermission";
 
 type TProps = {
-  configData: IConfigManager;
+  configData: IConfigInfo[];
   onOpenEdit: (data: IConfigInfo) => void;
   onDeleteRoleUser: (id: number) => void;
 };
@@ -17,17 +17,17 @@ export const TableGroup: React.FC<TProps> = ({
     <Table.Body>
       <ItemPermission
         title="Lead"
-        data={configData.leaders}
+        data={configData}
         onOpenEdit={onOpenEdit}
         onDeleteRoleUser={onDeleteRoleUser}
       />
 
-      <ItemPermission
+      {/* <ItemPermission
         title="Quản lý"
         data={configData.managers}
         onOpenEdit={onOpenEdit}
         onDeleteRoleUser={onDeleteRoleUser}
-      />
+      /> */}
     </Table.Body>
   );
 };

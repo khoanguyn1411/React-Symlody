@@ -103,6 +103,7 @@ export const ConfigApi = {
     const url = routes.updateConfigRoleUser(params.user_id);
     const result: ApiResponse<IConfigManager> = await Api.http.patch(url, {
       ...params,
+      groups: [...params.groups],
     });
 
     return returnResponse(result);
