@@ -15,6 +15,7 @@ import {
 } from "@/features/types/mappers";
 import { HttpErrorMapper } from "@/features/types/mappers/http-error.mapper";
 import {
+  HttpError,
   IFileUploaded,
   IMember,
   IMemberCreateUpdate,
@@ -49,7 +50,7 @@ export const uploadMemberExcelFileAsync = createAsyncThunk<
 export const createMemberAsync = createAsyncThunk<
   IMember,
   IMemberCreateUpdate,
-  GlobalTypes.ReduxThunkRejectValue<unknown>
+  GlobalTypes.ReduxThunkRejectValue<HttpError | null>
 >("create/member", async (payload, { rejectWithValue, dispatch }) => {
   const result: RequestCreateMembersResult = await MemberApi.createMember(
     MemberMapper.toCreateDto(payload)
@@ -62,7 +63,7 @@ export const createMemberAsync = createAsyncThunk<
     const errorBadData = HttpErrorMapper.fromDto(result.result.data);
     return rejectWithValue(errorBadData);
   }
-  return rejectWithValue([]);
+  return rejectWithValue(null);
 });
 
 export const deleteMemberAsync = createAsyncThunk<

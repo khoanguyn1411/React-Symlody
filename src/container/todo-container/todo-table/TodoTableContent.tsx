@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 
 import { DeleteAndEditField, Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
+import { userSelectors } from "@/features/reducers";
 import { getTasksAsync, taskSelectors } from "@/features/reducers/task-reducer";
+import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
@@ -17,6 +19,7 @@ export const TodoTableContent: React.FC<TProps> = ({
   onEdit,
   onRestore,
 }) => {
+  const userList = useAppSelector(userSelectors.selectAll);
   const isPending = false;
   const isCount0 = false;
 
@@ -48,35 +51,38 @@ export const TodoTableContent: React.FC<TProps> = ({
   return (
     <>
       <Table.Body>
-        {tasks.map((item, index) => {
-          return (
-            <Table.Row key={index} index={index}>
-              <Table.Cell textAlign="center">{index + 1}</Table.Cell>
-              <Table.Cell>
-                <div className="flex space-x-4">
-                  <span>{item.title}</span>
-                  <TodoSelectPriority isPriority={item.isPriority} />
-                </div>
-              </Table.Cell>
-              <Table.Cell textAlign="right">{item.end_date}</Table.Cell>
-              <Table.Cell textAlign="left">
-                <TodoSelectStatus status={item.status} />
-              </Table.Cell>
-              <Table.Cell>{item.assignee.id}</Table.Cell>
-              <Table.CellAction>
-                <DeleteAndEditField
-                  titleDelete="Xóa"
-                  title="Xóa sự kiện?"
-                  handleEvent={{
-                    edit: handleEdit(item),
-                    delete: handleDelete(item),
-                    restore: handleRestore(item),
-                  }}
-                />
-              </Table.CellAction>
-            </Table.Row>
-          );
-        })}
+        {userList.length > 0 &&
+          tasks.map((item, index) => {
+            return (
+              <Table.Row key={index} index={index}>
+                <Table.Cell textAlign="center">{index + 1}</Table.Cell>
+                <Table.Cell>
+                  <div className="flex space-x-4">
+                    <span>{generatePlaceholderEmptyValue(item.title)}</span>
+                    <TodoSelectPriority isPriority={item.isPriority} />
+                  </div>
+                </Table.Cell>
+                <Table.Cell textAlign="right">
+                  {generatePlaceholderEmptyValue(item.end_date)}
+                </Table.Cell>
+                <Table.Cell textAlign="left">
+                  <TodoSelectStatus status={item.status} />
+                </Table.Cell>
+                <Table.Cell>{item.assignee.id}</Table.Cell>
+                <Table.CellAction>
+                  <DeleteAndEditField
+                    titleDelete="Xóa"
+                    title="Xóa sự kiện?"
+                    handleEvent={{
+                      edit: handleEdit(item),
+                      delete: handleDelete(item),
+                      restore: handleRestore(item),
+                    }}
+                  />
+                </Table.CellAction>
+              </Table.Row>
+            );
+          })}
       </Table.Body>
     </>
   );

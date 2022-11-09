@@ -1,5 +1,5 @@
 import { IProperty, IPropertyCreateUpdate } from "@/features/types";
-import { FileService, FormatService } from "@/utils";
+import { FormatService } from "@/utils";
 
 import { IFormPropertyInfo, IPropertyTable } from "./type";
 

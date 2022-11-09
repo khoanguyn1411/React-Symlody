@@ -1,3 +1,5 @@
+import { StrictOmit, StrictPick } from "@/utils/types";
+
 import { IUserDto } from "./user.dto";
 
 export enum EPriorityDto {
@@ -33,3 +35,11 @@ export interface ITaskDto {
   readonly status: ETaskStatusDto;
   readonly sent_email: boolean;
 }
+
+export type ITaskCreateUpdateDto = StrictPick<ITaskDto, "title"> &
+  Partial<
+    StrictOmit<
+      ITaskDto,
+      "created_by" | "last_modified_by" | "last_modified_date" | "title"
+    >
+  >;

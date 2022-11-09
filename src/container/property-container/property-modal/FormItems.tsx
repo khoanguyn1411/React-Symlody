@@ -138,8 +138,8 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
             return (
               <SelectUser
                 placeholder="Người chịu trách nhiệm"
-                inChargerId={value}
-                setInChargerId={onChange}
+                userId={value}
+                setUserId={onChange}
               />
             );
           }}

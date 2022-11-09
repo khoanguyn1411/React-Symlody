@@ -1,5 +1,6 @@
 import { images } from "@/assets/images";
 import { TNodataConfig } from "@/components";
+import { GeneratorService } from "@/utils";
 
 import { ETodoStatusId, TODO_STATUS_MAP_FROM_ID, TTodo } from "./type";
 
@@ -9,6 +10,9 @@ export const TODO_NO_DATA_CONFIG: TNodataConfig = {
   buttonTitle: "Tạo công việc",
   imageSrc: images.noData.todo,
 };
+
+export const TODO_MESSAGES =
+  GeneratorService.generateStatusMessageFor("công việc");
 
 export const TODO_DATA: TTodo = {
   id: "board-1",
