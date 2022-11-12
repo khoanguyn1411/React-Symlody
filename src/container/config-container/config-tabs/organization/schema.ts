@@ -14,5 +14,7 @@ export const schema: yup.SchemaOf<IFormOrganizationConfig> = yup
     phone_number: yup.string(),
     school: yup.string(),
     address: yup.string(),
+    logo: yup.string(),
+
     // description: yup.string().notRequired(),
   });

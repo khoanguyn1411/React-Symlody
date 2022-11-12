@@ -7,4 +7,5 @@ export type IFormOrganizationConfig = {
   readonly phone_number?: string;
   readonly school?: string;
   readonly address?: string;
+  readonly logo?: string;
 };

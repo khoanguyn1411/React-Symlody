@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { PreviewItem } from "@rpldy/upload-preview";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -28,19 +29,18 @@ export const TabOrganization: React.FC = () => {
     handleSubmit,
   } = useForm<IFormOrganizationConfig>({ resolver: yupResolver(schema) });
 
-  const [avatar, setAvatar] = useState("");
+  const [avatar, setAvatar] = useState(tenant?.logo);
+  const [file, setFile] = useState<PreviewItem>(null);
 
-  const onResponse = (response: string, status: number) => {
-    const result = JSON.parse(response);
-
-    if (status === 200) {
-      setAvatar(result?.[0].Location);
-    }
+  const onResponse = (previews: PreviewItem) => {
+    setAvatar(previews.url);
+    setFile(previews);
   };
 
   const handleEditOrgInfo = withPermission([1, 2])(
     async (data: IFormOrganizationConfig) => {
       //TODO: Implement edit info feature of organization module.
+      console.log(avatar, "--avatar");
       const result = await dispatch(
         updateTenantAsync({ id: tenant.id, body: data })
       );
@@ -58,7 +58,7 @@ export const TabOrganization: React.FC = () => {
   if (!tenant) return null;
 
   return (
-    <ConfigTabContentContainer onSubmit={handleSubmit(handleEditOrgInfo)}>
+    <ConfigTabContentContainer>
       <FormItem label="Ảnh đại diện tổ chức">
         <AvatarUpload
           char=""
@@ -183,7 +183,12 @@ export const TabOrganization: React.FC = () => {
           )}
         />
       </FormItem> */}
-      <ConfigSubmitButton isSubmitting={isSubmitting}>Lưu</ConfigSubmitButton>
+      <ConfigSubmitButton
+        isSubmitting={isSubmitting}
+        onSubmit={handleSubmit(handleEditOrgInfo)}
+      >
+        Lưu
+      </ConfigSubmitButton>
     </ConfigTabContentContainer>
   );
 };
