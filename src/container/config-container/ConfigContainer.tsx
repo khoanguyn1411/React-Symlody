@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Container, TabHost } from "@/components";
+import { Container, NotificationImg, TabHost } from "@/components";
 import { EPagePath } from "@/routes";
 
 import {
@@ -62,11 +62,19 @@ export const ConfigContainer: React.FC = () => {
   );
 
   useEffect(() => {
-    if (tab == null) {
-      navigate(getTabUrl(EConfigTabKey.Organization));
-    }
     setContent(getContentTab(tab as EConfigTabKey));
-  }, [tab]);
+  }, [navigate, tab]);
+  if (
+    !Object.values(EConfigTabKey).includes(tab as EConfigTabKey) &&
+    tab != null
+  ) {
+    return (
+      <NotificationImg
+        title="Trang bạn đang truy cập không tồn tại"
+        description="Vui lòng kiểm tra lại đường dẫn hoặc liên hệ trung tâm hỗ trợ"
+      />
+    );
+  }
   return (
     <>
       <Container.HeaderForTabHost>
@@ -74,6 +82,7 @@ export const ConfigContainer: React.FC = () => {
           defaultActive={tab}
           tabChangeDependOnChangeOf={tab}
           isHeaderTabHost
+          isUrlInteraction
           listTabs={[
             {
               key: EConfigTabKey.Organization,

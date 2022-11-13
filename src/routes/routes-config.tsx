@@ -75,7 +75,7 @@ export const PageComponent = {
   ),
 } as const;
 
-export const APP_DEFAULT_PAGE = EPageKey.Todo;
+export const APP_DEFAULT_PAGE = EPagePath.Todo;
 const privateRoutes: readonly IRoutes[] = [
   // {
   //   path: "/",
