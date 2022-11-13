@@ -99,12 +99,12 @@ export const SelectSearch: GlobalTypes.FCPropsWithChildren<
               />
               {isShowClearSearch && (
                 <Button isIconOnly style="none" onClick={handleClearMember}>
-                  <i className="fas fa-times" />
+                  <i className="text-gray-400 fas fa-times" />
                 </Button>
               )}
             </div>
           )}
-          <div className="bg-gray-100 h-11 rounded-md" />
+          <div className="h-10 bg-gray-100 rounded-md" />
         </div>
       </SelectDisplayWrapper>
       <Portal>{ListComponent}</Portal>
