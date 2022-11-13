@@ -1,8 +1,10 @@
 import React, { ReactNode, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { Container, TabHost, TTab } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { setActiveTab } from "@/features/reducers";
+import { EPagePath, routesConfigs } from "@/routes";
 
 import {
   ActionConfigDepartment,
@@ -49,50 +51,54 @@ const getContentTab = (key: EConfigTabKey): ContentTab => {
   }
 };
 
+const getTabUrl = (url: string): string => {
+  const BASE_URL = EPagePath.Config;
+  return `${BASE_URL}/${url}`;
+};
+
 export const ConfigContainer: React.FC = () => {
-  const commonStore = useAppSelector((state) => state.common);
-  const dispatch = useAppDispatch();
+  const { tab } = useParams();
   const [content, setContent] = useState<ContentTab>(
-    getContentTab(commonStore.activeTab.config)
+    getContentTab(tab as EConfigTabKey)
   );
-  const handleChangeTab = (tab: TTab) => {
-    dispatch(setActiveTab({ config: tab.key as EConfigTabKey }));
-  };
 
   useEffect(() => {
-    setContent(getContentTab(commonStore.activeTab.config));
-  }, [commonStore.activeTab.config]);
-
+    setContent(getContentTab(tab as EConfigTabKey));
+  }, [tab]);
   return (
     <>
       <Container.HeaderForTabHost>
         <TabHost
-          defaultActive={commonStore.activeTab.config}
-          tabChangeDependOnChangeOf={commonStore.activeTab.config}
+          defaultActive={tab}
+          tabChangeDependOnChangeOf={tab}
           isHeaderTabHost
           listTabs={[
             {
               key: EConfigTabKey.Organization,
               title: EConfigTabReadableString.Organization,
+              to: getTabUrl(EConfigTabKey.Organization),
             },
             {
               key: EConfigTabKey.Department,
               title: EConfigTabReadableString.Department,
+              to: getTabUrl(EConfigTabKey.Department),
             },
             {
               key: EConfigTabKey.RolePermission,
               title: EConfigTabReadableString.RolePermission,
+              to: getTabUrl(EConfigTabKey.RolePermission),
             },
             {
               key: EConfigTabKey.PersonalInfo,
               title: EConfigTabReadableString.PersonalInfo,
+              to: getTabUrl(EConfigTabKey.PersonalInfo),
             },
             {
               key: EConfigTabKey.ChangePassword,
               title: EConfigTabReadableString.ChangePassword,
+              to: getTabUrl(EConfigTabKey.ChangePassword),
             },
           ]}
-          onChangeTab={handleChangeTab}
         />
         <Container.HeaderRight>{content.rightSide}</Container.HeaderRight>
       </Container.HeaderForTabHost>
