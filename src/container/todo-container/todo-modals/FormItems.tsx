@@ -18,7 +18,7 @@ type TProps = {
   formProps: UseFormReturn<IFormTodoInfo>;
 };
 
-export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
+export const FormItems: React.FC<TProps> = ({ formProps }) => {
   const {
     control,
     formState: { errors },

@@ -43,9 +43,8 @@ export const TodoBoard: React.FC = () => {
       columnId: initial.source.droppableId,
     });
   };
-  const handleCardClick = (cardInfo) => {
+  const handleCardClick = () => {
     propsModalEdit.toggle.setToggle();
-    console.log(cardInfo);
   };
 
   useEffect(() => {

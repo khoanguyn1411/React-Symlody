@@ -16,6 +16,7 @@ type TProps = {
 
 export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
   const authStore = useAppSelector((state) => state.auth);
+  const { tenant } = useAppSelector((state) => state.tenant);
 
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const toggleSidebar = () => {
@@ -56,7 +57,7 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
         </span> */}
 
         <div data-tour-id="layout__userDropdown">
-          <UserDropdown user={authStore.user} />
+          <UserDropdown tenant={tenant} user={authStore.user} />
         </div>
       </div>
     </header>

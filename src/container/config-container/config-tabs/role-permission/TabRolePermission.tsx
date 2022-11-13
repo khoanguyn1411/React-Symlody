@@ -85,7 +85,15 @@ export const TabRolePermission: React.FC = () => {
     });
 
     if (result.kind !== "ok") {
-      toast.error("Phân quyền không thành công");
+      const error = result.result.data.details[0];
+      if (
+        error ===
+        "An organization must have an active leader. Please add another active leader before remove this member from leader role."
+      ) {
+        toast.warning("Tổ chức phải có ít nhật 1 leader");
+      } else {
+        toast.error("Phân quyền không thành công");
+      }
       return false;
     }
     toast.success("Phân quyền thành công");

@@ -5,3 +5,6 @@ export * from "./images";
 export * from "./local-storage-key";
 export * from "./message";
 export * from "./pagination";
+import provinces from "./province.json";
+
+export { provinces };

@@ -2,15 +2,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
-import {
-  AppDatePicker,
-  FormItem,
-  Input,
-  Select,
-  SelectControl,
-} from "@/components";
-import { useAppSelector } from "@/features";
+import { MemberApi } from "@/api";
+import { AppDatePicker, FormItem, Input, SelectControl } from "@/components";
+import { provinces } from "@/constants";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { updateProfile } from "@/features/reducers";
 
 import {
   ConfigSubmitButton,
@@ -22,10 +20,16 @@ import { IFormUserConfig } from "./type";
 
 export const TabPersonalInfo: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const PROVINCES = provinces.map((p) => ({
+    value: p.city,
+    label: p.province,
+  }));
 
   const {
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
     handleSubmit,
   } = useForm<IFormUserConfig>({ resolver: yupResolver(schema) });
@@ -46,16 +50,52 @@ export const TabPersonalInfo: React.FC = () => {
       });
     }
   }, [reset, user]);
-  const handleEditPersonalInfo = () => {
+  const handleEditPersonalInfo = async (data: IFormUserConfig) => {
     //TODO: Implement edit personal info feature of config module.
+    const result = await MemberApi.updateMember(user.id, {
+      gender: Number(data.gender),
+      home_town: data.home,
+      phone_number: data.phone,
+      student_id: data.studentId,
+      class_name: data.class,
+      address: data.address,
+
+      auth_account: {
+        // email: data.email,
+        first_name: data.firstName,
+        last_name: data.lastName,
+      },
+      avatar: undefined,
+      dob: dayjs(data.birthday).format("YYYY-MM-DD").toString(),
+      department_id: undefined,
+      is_archived: undefined,
+    });
+    if (result.kind === "ok") {
+      toast.success("Cập nhật thông tin thành công");
+      dispatch(
+        updateProfile({
+          id: user.id,
+          gender: Number(data.gender),
+          home_town: data.home,
+          phone_number: data.phone,
+          student_id: data.studentId,
+          class_name: data.class,
+          address: data.address,
+          first_name: data.firstName,
+          last_name: data.lastName,
+          dob: data.birthday,
+          email: data.email,
+        })
+      );
+    }
   };
   return (
-    <ConfigTabContentContainer onSubmit={handleSubmit(handleEditPersonalInfo)}>
+    <ConfigTabContentContainer>
       <div className="grid grid-cols-3 gap-3">
         <FormItem label="Họ" isRequired error={errors.firstName?.message}>
           <Controller
             control={control}
-            name="firstName"
+            name="lastName"
             defaultValue=""
             render={({ field: { value, onChange } }) => (
               <Input
@@ -70,7 +110,7 @@ export const TabPersonalInfo: React.FC = () => {
         <FormItem label="Tên" isRequired error={errors.lastName?.message}>
           <Controller
             control={control}
-            name="lastName"
+            name="firstName"
             defaultValue=""
             render={({ field: { value, onChange } }) => (
               <Input
@@ -202,17 +242,23 @@ export const TabPersonalInfo: React.FC = () => {
             name="home"
             defaultValue=""
             render={({ field: { value, onChange } }) => (
-              <Input
+              <SelectControl
+                name="home"
+                options={PROVINCES}
+                selected={value}
                 placeholder="Quê quán"
-                style="modal"
-                value={value}
-                onChange={onChange}
+                onValueChange={(e) => onChange(e.target.value)}
               />
             )}
           />
         </FormItem>
       </div>
-      <ConfigSubmitButton>Cập nhật</ConfigSubmitButton>
+      <ConfigSubmitButton
+        isSubmitting={isSubmitting}
+        onSubmit={handleSubmit(handleEditPersonalInfo)}
+      >
+        Cập nhật
+      </ConfigSubmitButton>
     </ConfigTabContentContainer>
   );
 };

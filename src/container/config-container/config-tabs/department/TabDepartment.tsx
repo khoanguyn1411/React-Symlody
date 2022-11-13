@@ -60,7 +60,8 @@ export const TabConfigDepartment: React.FC = () => {
           <Table.CellHead isFirst width="5rem" textAlign="center">
             STT
           </Table.CellHead>
-          <Table.CellHead>Ban</Table.CellHead>
+          <Table.CellHead>Tên Ban</Table.CellHead>
+
           <Table.CellHead width="10rem" textAlign="right">
             Tổng thành viên
           </Table.CellHead>
@@ -80,6 +81,7 @@ export const TabConfigDepartment: React.FC = () => {
                   <p>{item.name}</p>
                 </div>
               </Table.Cell>
+
               <Table.Cell width="10rem" textAlign="center">
                 {item.member_count}
               </Table.Cell>

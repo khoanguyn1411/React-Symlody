@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import UploadPreview from "@rpldy/upload-preview";
+import UploadPreview, { PreviewItem } from "@rpldy/upload-preview";
 import Uploady from "@rpldy/uploady";
 import React, { useRef } from "react";
 
@@ -9,13 +9,16 @@ import { ButtonUpload } from "./UploadButton";
 import { ItemPreviewWithCrop } from "./UploadCrop";
 
 type Props = {
-  onResponse: (response: string, status: number) => void;
+  onResponse: (previews: PreviewItem) => void;
   avatar: string;
   char: string;
 };
 
 export const AvatarUpload: React.FC<Props> = ({ onResponse, avatar, char }) => {
   const previewMethodsRef = useRef();
+  const onPreviewsChanged = (previews: PreviewItem[]) => {
+    onResponse(previews[0]);
+  };
 
   return (
     <Uploady
@@ -23,7 +26,7 @@ export const AvatarUpload: React.FC<Props> = ({ onResponse, avatar, char }) => {
         onResponse: (props) => console.log(props),
         onprogress: (props) => console.log(props),
       }}
-      formatServerResponse={onResponse}
+      formatServerResponse={null}
       accept={EFile.Image}
       destination={{
         url: "",
@@ -37,7 +40,9 @@ export const AvatarUpload: React.FC<Props> = ({ onResponse, avatar, char }) => {
         PreviewComponent={ItemPreviewWithCrop}
         previewComponentProps={{ previewMethods: previewMethodsRef }}
         previewMethodsRef={previewMethodsRef}
-        fallbackUrl="https://icon-library.net/images/image-placeholder-icon/image-placeholder-icon-6.jpg"
+        rememberPreviousBatches
+        onPreviewsChanged={onPreviewsChanged}
+        // fallbackUrl="https://icon-library.net/images/image-placeholder-icon/image-placeholder-icon-6.jpg"
       />
     </Uploady>
   );
