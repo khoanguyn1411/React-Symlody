@@ -133,14 +133,12 @@ export const TabRolePermission: React.FC = () => {
       </Table.Container>
 
       <Suspense fallback={<div>Loading...</div>}>
-        {propsModalEditPermission.isShowing && (
-          <ModalEditPermission
-            isShowing={propsModalEditPermission.isShowing}
-            data={propsModalEditPermission.data}
-            toggle={propsModalEditPermission.toggle}
-            onUpdateUserRole={handleUpdateRoleUser}
-          />
-        )}
+        <ModalEditPermission
+          isShowing={propsModalEditPermission.isShowing}
+          data={propsModalEditPermission.data}
+          toggle={propsModalEditPermission.toggle}
+          onUpdateUserRole={handleUpdateRoleUser}
+        />
       </Suspense>
     </>
   );
