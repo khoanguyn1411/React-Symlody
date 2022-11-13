@@ -2,9 +2,6 @@ import classNames from "classnames";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useEffectSkipFirstRender } from "@/hooks";
-import { GlobalTypes } from "@/utils";
-
 export type TTab = {
   title: string;
   key: string;
@@ -17,6 +14,7 @@ type TProps = {
   paramChangeDependency?: string;
   isHeaderTabHost?: boolean;
   isStretchTab?: boolean;
+  isUrlInteraction?: boolean;
   tabChangeDependOnChangeOf?: TTab["key"];
   onChangeTab?: (tab: TTab) => void;
   onUrlChange?: (tab: TTab) => void;
@@ -28,6 +26,7 @@ export const TabHost: React.FC<TProps> = ({
   defaultActive,
   isStretchTab = false,
   tabChangeDependOnChangeOf,
+  isUrlInteraction = false,
   isHeaderTabHost = false,
 }) => {
   const refs = useRef<HTMLButtonElement[]>([]);
@@ -41,7 +40,6 @@ export const TabHost: React.FC<TProps> = ({
   );
 
   const [activeTab, setActiveTab] = useState<TTab>(getTabActive(defaultActive));
-  console.log(activeTab);
   const [refState, setRefState] = useState<HTMLButtonElement[]>(refs.current);
   const [activeRef, setActiveRef] = useState<string>(activeTab.key);
   const [isAnimatedSlider, setIsAnimatedSlider] = useState<boolean>(false);
@@ -54,20 +52,24 @@ export const TabHost: React.FC<TProps> = ({
     onChangeTab && onChangeTab(tab);
   };
 
-  if (tabChangeDependOnChangeOf) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffectSkipFirstRender(() => {
-      const activeTab = getTabActive(tabChangeDependOnChangeOf);
-      setActiveTab(activeTab);
-      setActiveRef(activeTab.key);
-      setIsAnimatedSlider(true);
-    }, [getTabActive, tabChangeDependOnChangeOf]);
-  }
+  useEffect(() => {
+    if (!isUrlInteraction) {
+      return;
+    }
+    if (tabChangeDependOnChangeOf == null) {
+      navigate(listTabs[0].to);
+    }
+    const activeTab = getTabActive(tabChangeDependOnChangeOf);
+    setActiveTab(activeTab);
+    setActiveRef(activeTab.key);
+    setIsAnimatedSlider(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabChangeDependOnChangeOf]);
 
-  const getPositionSlider = useCallback((): GlobalTypes.StrictPick<
-    React.CSSProperties,
-    "left" | "width"
-  > => {
+  const getPositionSlider = useCallback((): {
+    left: number;
+    width: number;
+  } => {
     if (refState.length === 0) {
       return;
     }
@@ -83,9 +85,10 @@ export const TabHost: React.FC<TProps> = ({
       return;
     }
 
+    const rect = refIndex.element.getBoundingClientRect();
     return {
-      left: refIndex.element.offsetLeft,
-      width: refIndex.element.offsetWidth,
+      left: refIndex.element.offsetLeft + window.scrollX,
+      width: rect.width,
     };
   }, [activeRef, refState]);
 
@@ -105,7 +108,7 @@ export const TabHost: React.FC<TProps> = ({
 
   useEffect(() => {
     setPositionSlider(getPositionSlider());
-  }, [getPositionSlider, refState]);
+  }, [activeRef, getPositionSlider]);
 
   return (
     <div
