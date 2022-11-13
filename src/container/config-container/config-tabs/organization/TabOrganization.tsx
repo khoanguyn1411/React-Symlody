@@ -30,19 +30,16 @@ export const TabOrganization: React.FC = () => {
   } = useForm<IFormOrganizationConfig>({ resolver: yupResolver(schema) });
 
   const [avatar, setAvatar] = useState(tenant?.logo);
-  const [file, setFile] = useState<PreviewItem>(null);
 
   const onResponse = (previews: PreviewItem) => {
-    setAvatar(previews.url);
-    setFile(previews);
+    setAvatar(previews?.url);
   };
 
   const handleEditOrgInfo = withPermission([1, 2])(
     async (data: IFormOrganizationConfig) => {
       //TODO: Implement edit info feature of organization module.
-      console.log(avatar, "--avatar");
       const result = await dispatch(
-        updateTenantAsync({ id: tenant.id, body: data })
+        updateTenantAsync({ id: tenant.id, body: { ...data } })
       );
       if (!result.payload) {
         toast.error("Cập nhật thông tin tổ chức không thành công");

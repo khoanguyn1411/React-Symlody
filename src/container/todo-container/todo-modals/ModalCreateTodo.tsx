@@ -38,7 +38,6 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
   const handleCreateTask = async (data: IFormTodoInfo) => {
     const taskModel = TodoFormMapper.toModel(data);
     const result = await dispatch(createTaskAsync(taskModel));
-    console.log(result);
     if (result.meta.requestStatus !== "rejected") {
       toast.success(TODO_MESSAGES.create.success);
       return;

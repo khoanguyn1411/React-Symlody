@@ -5,7 +5,7 @@ import { images } from "@/assets/images";
 import { EConfigTabKey } from "@/container/config-container/type";
 import { useAppDispatch } from "@/features";
 import { logout, setActiveTab } from "@/features/reducers";
-import { IProfile } from "@/features/types";
+import { IProfile, ITenant } from "@/features/types";
 import { EPagePath } from "@/routes";
 
 import { Avatar, Dropdown, TItemListSelect } from "../../elements";
@@ -27,8 +27,9 @@ const MENUS: TItemListSelect[] = [
 
 type TProps = {
   user: IProfile;
+  tenant: ITenant;
 };
-export const UserDropdown: React.FC<TProps> = ({ user }) => {
+export const UserDropdown: React.FC<TProps> = ({ user, tenant }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -64,8 +65,8 @@ export const UserDropdown: React.FC<TProps> = ({ user }) => {
       >
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-2">
-            <Avatar src={images.Logo} fullName="Logo" />
-            <span className="font-medium"></span>
+            <Avatar src={tenant?.logo || images.Logo} fullName={tenant?.name} />
+            <span className="font-medium">{tenant?.name}</span>
           </div>
           <div className="flex items-center cursor-pointer space-x-2">
             <Avatar src={user?.avatar} fullName={user?.last_name} />
