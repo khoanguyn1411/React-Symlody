@@ -1,41 +1,32 @@
 import { Icon } from "@/assets/icons";
-import { TIconProps } from "@/assets/icons/type";
-import { EPageKey, RouteMapper } from "@/routes";
-import { FormatService } from "@/utils";
+import { EPageKey } from "@/routes";
 
 import { ITabSidebar } from "./type";
 
-type TSidebar = {
-  pageActive: EPageKey;
-  icon: React.FC<TIconProps>;
-};
-
-const AVAILABLE_PAGES: TSidebar[] = [
+export const getTabsSidebar = (): ITabSidebar[] => [
   {
-    pageActive: EPageKey.Todo,
     icon: Icon.List,
+    title: "Công việc",
+    to: "/todo",
+    pageActive: EPageKey.Todo,
   },
   {
-    pageActive: EPageKey.Member,
     icon: Icon.Users,
+    title: "Thành viên",
+    to: "/member",
+    pageActive: EPageKey.Member,
   },
   {
-    pageActive: EPageKey.Property,
     icon: Icon.Money,
+    title: "Tài sản",
+    to: "/property",
+    pageActive: EPageKey.Property,
   },
+
   {
-    pageActive: EPageKey.Config,
     icon: Icon.Gear,
+    title: "Cấu hình",
+    to: "/config",
+    pageActive: EPageKey.Config,
   },
 ];
-
-export const getTabsSidebar = (): ITabSidebar[] =>
-  AVAILABLE_PAGES.map((item) => {
-    const title = RouteMapper.toTitle(item.pageActive).replace("Trang", "");
-    return {
-      icon: item.icon,
-      title: FormatService.capitalizeLetter(title, 1),
-      to: RouteMapper.toPath(item.pageActive),
-      pageActive: item.pageActive,
-    };
-  });

@@ -12,7 +12,6 @@ export const withPermission =
   ): ((...funcArgs: Parameters<T>) => ReturnType<T> | void) => {
     const { user } = useAppSelector((state) => state.auth);
     const groupIds = user.groups.map((g) => g.id);
-
     if (!alowRoles.some((g) => groupIds.includes(g))) {
       return () => {
         toast.warning("Bạn không được cấp quyền thực hiện tính năng này", {

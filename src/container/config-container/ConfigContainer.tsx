@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Container, TabHost } from "@/components";
 import { EPagePath } from "@/routes";
@@ -56,11 +56,15 @@ const getTabUrl = (url: string): string => {
 
 export const ConfigContainer: React.FC = () => {
   const { tab } = useParams();
+  const navigate = useNavigate();
   const [content, setContent] = useState<ContentTab>(
     getContentTab(tab as EConfigTabKey)
   );
 
   useEffect(() => {
+    if (tab == null) {
+      navigate(getTabUrl(EConfigTabKey.Organization));
+    }
     setContent(getContentTab(tab as EConfigTabKey));
   }, [tab]);
   return (
