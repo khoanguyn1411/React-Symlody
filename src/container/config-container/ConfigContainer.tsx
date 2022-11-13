@@ -1,10 +1,8 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Container, TabHost, TTab } from "@/components";
-import { useAppDispatch, useAppSelector } from "@/features";
-import { setActiveTab } from "@/features/reducers";
-import { EPagePath, routesConfigs } from "@/routes";
+import { Container, TabHost } from "@/components";
+import { EPagePath } from "@/routes";
 
 import {
   ActionConfigDepartment,
