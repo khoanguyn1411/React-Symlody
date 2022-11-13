@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useEffectSkipFirstRender } from "@/hooks";
 import { GlobalTypes } from "@/utils";
@@ -30,6 +31,7 @@ export const TabHost: React.FC<TProps> = ({
   isHeaderTabHost = false,
 }) => {
   const refs = useRef<HTMLButtonElement[]>([]);
+  const navigate = useNavigate();
 
   const getTabActive = useMemo(
     () => (key: TTab["key"]) => {
@@ -39,16 +41,16 @@ export const TabHost: React.FC<TProps> = ({
   );
 
   const [activeTab, setActiveTab] = useState<TTab>(getTabActive(defaultActive));
+  console.log(activeTab);
   const [refState, setRefState] = useState<HTMLButtonElement[]>(refs.current);
   const [activeRef, setActiveRef] = useState<string>(activeTab.key);
   const [isAnimatedSlider, setIsAnimatedSlider] = useState<boolean>(false);
-  // const navigate = useNavigate();
 
   const handleClickTab = (tab: TTab, title: string) => () => {
     setActiveTab(tab);
     setActiveRef(title);
     setIsAnimatedSlider(true);
-    // tab.to && navigate(tab.to);
+    tab.to && navigate(tab.to);
     onChangeTab && onChangeTab(tab);
   };
 
@@ -61,15 +63,6 @@ export const TabHost: React.FC<TProps> = ({
       setIsAnimatedSlider(true);
     }, [getTabActive, tabChangeDependOnChangeOf]);
   }
-
-  // useEffectSkipFirstRender(() => {
-  //   if (!onUrlChange) {
-  //     return;
-  //   }
-  //   const tabItem = listTabs.find((item) => item.key === paramChangeDependency);
-  //   setActiveTab(tabItem);
-  //   onUrlChange(tabItem);
-  // }, [paramChangeDependency]);
 
   const getPositionSlider = useCallback((): GlobalTypes.StrictPick<
     React.CSSProperties,

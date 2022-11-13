@@ -5,6 +5,7 @@ export const PAGE_KEY_MAP_TO_TITLE: Readonly<Record<EPageKey, EPageTitle>> = {
   [EPageKey.Member]: EPageTitle.Member,
   [EPageKey.Property]: EPageTitle.Property,
   [EPageKey.Config]: EPageTitle.Config,
+  [EPageKey.ConfigWithTab]: EPageTitle.ConfigWithTab,
   [EPageKey.Event]: EPageTitle.Event,
   [EPageKey.Target]: EPageTitle.Target,
   [EPageKey.Todo]: EPageTitle.Todo,
@@ -17,6 +18,7 @@ export const PAGE_KEY_MAP_TO_PATH: Readonly<Record<EPageKey, EPagePath>> = {
   [EPageKey.Member]: EPagePath.Member,
   [EPageKey.Property]: EPagePath.Property,
   [EPageKey.Config]: EPagePath.Config,
+  [EPageKey.ConfigWithTab]: EPagePath.ConfigWithTab,
   [EPageKey.Event]: EPagePath.Event,
   [EPageKey.Target]: EPagePath.Target,
   [EPageKey.Todo]: EPagePath.Todo,
@@ -31,6 +33,7 @@ export const PAGE_KEY_MAP_TO_COMPONENT: Readonly<
   [EPageKey.Member]: PageComponent.Member,
   [EPageKey.Property]: PageComponent.Property,
   [EPageKey.Config]: PageComponent.Config,
+  [EPageKey.ConfigWithTab]: PageComponent.Config,
   [EPageKey.Event]: PageComponent.Event,
   [EPageKey.Target]: PageComponent.Target,
   [EPageKey.Todo]: PageComponent.Todo,
@@ -47,6 +50,7 @@ export const PRIVATE_ROUTE_KEYS = [
   EPageKey.Target,
   EPageKey.Todo,
   EPageKey.NotFound,
+  EPageKey.ConfigWithTab,
 ];
 
 export const PUBLIC_ROUTE_KEYS = [EPageKey.Login];
