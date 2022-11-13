@@ -19,7 +19,7 @@ export const PaginationPickRows: React.FC = () => {
     <div className="flex items-center ml-8">
       <h1 className="mr-2 font-medium">Hiển thị: </h1>
       <Select
-        className="w-28"
+        className="w-32"
         classNameDisplay="h-9"
         suffix="hàng"
         placement="top-left"
