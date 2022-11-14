@@ -21,6 +21,9 @@ export const TodoCard: React.FC<ITask> = (task) => {
     () =>
       (item: ITask, getField: "name" | "avatar"): string => {
         const assignee = userList.find((user) => user.id === item.assignee.id);
+        if (assignee == null) {
+          return;
+        }
         if (getField === "name") {
           return assignee.full_name;
         }
