@@ -30,7 +30,7 @@ export const TodoTableContent: React.FC<TProps> = ({
   const isPending = false;
   const isCount0 = false;
 
-  const handleEdit = (item) => () => {
+  const handleEdit = (item: ITask) => () => {
     onEdit(item);
   };
   const handleDelete = (item) => () => {

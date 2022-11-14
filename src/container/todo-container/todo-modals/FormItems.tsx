@@ -10,13 +10,15 @@ import {
   SelectUser,
 } from "@/components";
 import { useAppSelector } from "@/features";
-import { FormatService } from "@/utils";
+import { ITask } from "@/features/types";
+import { FormatService, FormService } from "@/utils";
 
+import { TodoFormMapper } from "../mapper";
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 import { EPriority, IFormTodoInfo } from "../type";
 
 type TProps = {
-  data?: any;
+  data?: ITask;
   formProps: UseFormReturn<IFormTodoInfo>;
 };
 
@@ -31,8 +33,13 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
     control,
     formState: { errors },
   } = formProps;
+  let dataForm: IFormTodoInfo = null;
+  if (data) {
+    dataForm = TodoFormMapper.fromModel(data);
+  }
 
   const currentUserStore = useAppSelector((state) => state.auth);
+  const defaultValue = FormService.getDefaultValues(dataForm);
 
   return (
     <>
@@ -40,6 +47,7 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
         <Controller
           control={control}
           name="name"
+          defaultValue={defaultValue.get("name")}
           render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
@@ -60,7 +68,7 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
             <Controller
               control={control}
               name="priority"
-              defaultValue={EPriority.Normal}
+              defaultValue={defaultValue.get("priority", EPriority.Normal)}
               render={({ field: { value, onChange } }) => (
                 <Select
                   style="modal"
@@ -87,7 +95,7 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
             <Controller
               control={control}
               name="expiredDate"
-              defaultValue={data ? "" : getDayAfterWeek()}
+              defaultValue={defaultValue.get("expiredDate", getDayAfterWeek())}
               render={({ field: { value, onChange } }) => (
                 <AppDatePicker
                   style="modal"
@@ -107,6 +115,7 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
         <Controller
           control={control}
           name="assignee"
+          defaultValue={FormatService.toNumber(defaultValue.get("assignee"))}
           render={({ field: { value, onChange } }) => (
             <SelectUser
               placeholder="Người được giao"
@@ -124,7 +133,9 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
         <Controller
           control={control}
           name="reporter"
-          defaultValue={data ? null : currentUserStore.user.id}
+          defaultValue={FormatService.toNumber(
+            defaultValue.get("reporter", currentUserStore.user.id)
+          )}
           render={({ field: { value, onChange } }) => (
             <SelectUser
               placeholder="Người theo dõi"
@@ -138,6 +149,7 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
         <Controller
           control={control}
           name="description"
+          defaultValue={defaultValue.get("description")}
           render={({ field: { value, onChange } }) => (
             <Editor
               value={value}

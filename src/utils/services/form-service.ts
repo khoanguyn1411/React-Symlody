@@ -11,7 +11,7 @@ export function getDefaultValues<T>(data: T) {
      * @returns Return value of key as string if value != `null`, otherwise, return `defaultValue` and if there is
      * no `defaultValue`, return `undefined`.
      */
-    get(key: keyof T, defaultValue?: string) {
+    get(key: keyof T, defaultValue?: any) {
       if (data) {
         return data[key] as unknown as string;
       }

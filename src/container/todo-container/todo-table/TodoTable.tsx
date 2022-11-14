@@ -1,16 +1,18 @@
 import React from "react";
 
 import { Container, Table } from "@/components";
+import { ITask } from "@/features/types";
 import { useModal } from "@/hooks";
 
 import { ModalEditTodo } from "../todo-modals";
 import { TodoTableContent } from "./TodoTableContent";
 
 export const TodoTable: React.FC = () => {
-  const propsModalEdit = useModal();
+  const propsModalEdit = useModal<ITask>();
 
-  const handleEditTodo = () => {
+  const handleEditTodo = (task: ITask) => {
     propsModalEdit.toggle.setToggle();
+    propsModalEdit.setData(task);
   };
 
   return (

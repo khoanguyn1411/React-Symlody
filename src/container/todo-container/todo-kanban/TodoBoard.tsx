@@ -27,7 +27,7 @@ export const TodoBoard: React.FC = () => {
   const [columnList, setColumnList] = useState<TTodoColumn[]>(
     TODO_DATA.columns
   );
-  const propsModalEdit = useModal();
+  const propsModalEdit = useModal<ITask>();
 
   const [draggingCard, setCardHiddenStatus] = useState<TCardHiddenStatus>({
     cardId: null,
@@ -62,8 +62,9 @@ export const TodoBoard: React.FC = () => {
       columnId: initial.source.droppableId,
     });
   };
-  const handleCardClick = () => {
+  const handleCardClick = (cardInfo: ITask) => {
     propsModalEdit.toggle.setToggle();
+    propsModalEdit.setData(cardInfo);
   };
 
   useEffect(() => {

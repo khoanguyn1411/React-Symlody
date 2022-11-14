@@ -3,7 +3,7 @@ import { useLayoutEffect, useMemo, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
 import { ITask } from "@/features/types";
-import { FormatService } from "@/utils";
+import { FormatService, SortService } from "@/utils";
 
 import { TODO_DATA } from "../constant";
 import { TODO_STATUS_MAP_FROM_ID, TTodoColumn } from "../type";
@@ -24,12 +24,11 @@ export const TodoColumn: React.FC<TProps> = ({
   const [listCard, setListCard] = useState<ITask[]>(columnData.cards);
 
   useLayoutEffect(() => {
-    // const sortedCardList = SortService.mapOrder<ITask>(
-    //   columnData.cards,
-    //   columnData.cardOrder,
-    //   "id"
-    // );
-    const sortedCardList = columnData.cards;
+    const sortedCardList = SortService.mapOrder<ITask>(
+      columnData.cards,
+      columnData.cardOrder,
+      "id"
+    );
     setListCard(sortedCardList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columnData.cards]);
@@ -51,7 +50,7 @@ export const TodoColumn: React.FC<TProps> = ({
     [draggingCard.columnId]
   );
 
-  const _onCardClick = (cardInfo) => () => {
+  const _onCardClick = (cardInfo: ITask) => () => {
     onClickCard(cardInfo);
   };
 
