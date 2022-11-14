@@ -55,7 +55,7 @@ export const TodoColumn: React.FC<TProps> = ({
   };
 
   return (
-    <div className="flex-1 bg-gray-100 rounded-lg min-h-container h-[calc(100%-15px)] min-w-[200px]">
+    <div className="h-full bg-gray-100 rounded-lg min-w-[200px]">
       <div className="sticky top-0 z-[2] bg-gray-50">
         <h1 className="px-3 py-4 font-medium bg-gray-100 rounded-t-lg">
           {columnData.title}{" "}
@@ -69,39 +69,32 @@ export const TodoColumn: React.FC<TProps> = ({
               !isColumnDraggingFrom,
           })}
         >
-          <div>
-            <div className="flex flex-wrap items-start w-full p-2">
-              <span
-                className={classNames("font-medium px-2 mb-2 py-1 rounded-lg", {
-                  "bg-green-300 text-green-800": shouldHaveColor("green"),
-                  "bg-primary-100 text-primary-800": shouldHaveColor("blue"),
-                })}
-              >
-                {TODO_STATUS_MAP_FROM_ID[draggingCard.columnId]}
-              </span>
-              <span className="mx-2 mt-1">
-                <i className="fas fa-arrow-right" />
-              </span>
-              <span
-                className={classNames("font-medium px-2 py-1 rounded-lg", {
-                  "bg-green-300 text-green-800": columnData.color === "green",
-                  "bg-primary-100 text-primary-800":
-                    columnData.color === "blue",
-                })}
-              >
-                {columnData.title}
-              </span>
-            </div>
+          <div className="flex flex-wrap items-start w-full p-2">
+            <span
+              className={classNames("font-medium px-2 mb-2 py-1 rounded-lg", {
+                "bg-green-300 text-green-800": shouldHaveColor("green"),
+                "bg-primary-100 text-primary-800": shouldHaveColor("blue"),
+              })}
+            >
+              {TODO_STATUS_MAP_FROM_ID[draggingCard.columnId]}
+            </span>
+            <span className="mx-2 mt-1">
+              <i className="fas fa-arrow-right" />
+            </span>
+            <span
+              className={classNames("font-medium px-2 py-1 rounded-lg", {
+                "bg-green-300 text-green-800": columnData.color === "green",
+                "bg-primary-100 text-primary-800": columnData.color === "blue",
+              })}
+            >
+              {columnData.title}
+            </span>
           </div>
         </div>
       </div>
 
       <div
-        className={classNames("flex flex-col px-3 pb-3 h-[calc(100%-3.8rem)]", {
-          "overflow-y-hidden":
-            draggingCard.columnId !== columnData.id &&
-            draggingCard.isCardDragging,
-        })}
+        className={classNames("flex flex-col px-3 pb-3 h-[calc(100%-3.8rem)]")}
       >
         <Droppable droppableId={columnData.id}>
           {(providedDrop, snapshot) => {
