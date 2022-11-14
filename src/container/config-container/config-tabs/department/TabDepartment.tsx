@@ -26,7 +26,7 @@ dayjs.extend(localizedFormat);
 
 export const TabConfigDepartment: React.FC = () => {
   const dispatch = useAppDispatch();
-  const departmentState = useAppSelector((state) => state.department);
+  const departmentStore = useAppSelector((state) => state.department);
   const propsModalEditDepartment = useModal<IDepartment>();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const TabConfigDepartment: React.FC = () => {
   }, []);
 
   const handleEdit = withPermission([1, 2])((id: number) => {
-    const department = departmentState.departments.find((d) => d.id === id);
+    const department = departmentStore.departments.find((d) => d.id === id);
     if (department) {
       propsModalEditDepartment.setData(department);
       propsModalEditDepartment.toggle.setShow();
@@ -71,7 +71,7 @@ export const TabConfigDepartment: React.FC = () => {
           <Table.CellHeadAction />
         </Table.Head>
         <Table.Body>
-          {departmentState.departments.map((item, index) => (
+          {departmentStore.departments.map((item, index) => (
             <Table.Row key={`${item.id}-${index}`}>
               <Table.Cell width="5rem" textAlign="center">
                 {index + 1}

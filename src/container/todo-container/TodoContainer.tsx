@@ -8,7 +8,6 @@ import {
   NotificationImg,
   Select,
   TabHost,
-  TTab,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
