@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { ETodoStatusId } from "../type";
+import { ETodoStatusId } from "@/features/types";
 
 export interface ITodoTable {
   readonly id: number;

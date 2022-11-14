@@ -1,24 +1,10 @@
-import { ITask } from "@/features/types";
+import { ETodoStatus, ETodoStatusId, ITask } from "@/features/types";
 
 import { TTodoCardProps } from "./todo-kanban";
-
-export enum ETodoStatus {
-  Todo = "Cần làm",
-  InProgress = "Đang làm",
-  Review = "Cần duyệt",
-  Done = "Đã xong",
-}
 
 export enum EPriority {
   High = "Cao",
   Normal = "Bình thường",
-}
-
-export enum ETodoStatusId {
-  Todo = "todo",
-  InProgress = "in-progress",
-  Review = "review",
-  Done = "done",
 }
 
 export const TODO_STATUS_MAP_FROM_ID: Readonly<

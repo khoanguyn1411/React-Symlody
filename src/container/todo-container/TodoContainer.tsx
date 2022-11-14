@@ -108,7 +108,7 @@ export const TodoContainer: React.FC = () => {
   return (
     <>
       <Container.HeaderForTabHost>
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
           <TabHost
             defaultActive={commonStore.activeTab.todo}
             isHeaderTabHost

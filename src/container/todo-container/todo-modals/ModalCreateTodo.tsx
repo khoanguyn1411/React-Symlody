@@ -41,6 +41,7 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
     if (result.meta.requestStatus !== "rejected") {
       toast.success(TODO_MESSAGES.create.success);
       reset();
+      toggle.setHidden();
       return;
     }
     toast.error(TODO_MESSAGES.create.error);

@@ -2,21 +2,27 @@ import classNames from "classnames";
 import React, { useState } from "react";
 
 import { SelectCustom } from "@/components";
+import { ETodoStatusId, ITask } from "@/features/types";
 
-import { ETodoStatusId, TODO_STATUS_MAP_FROM_ID } from "../../type";
+import { TODO_STATUS_MAP_FROM_ID } from "../../type";
 import { COLOR_MAP } from "./type";
 
 type TProps = {
-  status: ETodoStatusId;
+  task: ITask;
+  onStatusChange: (status: ETodoStatusId, task: ITask) => void;
 };
 
-export const TodoSelectStatus: React.FC<TProps> = ({ status }) => {
+export const TodoSelectStatus: React.FC<TProps> = ({
+  task,
+  onStatusChange,
+}) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
-  const [_status, _setStatus] = useState<ETodoStatusId>(status);
+  const [_status, _setStatus] = useState<ETodoStatusId>(task.status);
 
   const handleChangeStatus = (status: ETodoStatusId) => () => {
     setIsShowContent(false);
     _setStatus(status);
+    onStatusChange(status, task);
   };
   return (
     <SelectCustom

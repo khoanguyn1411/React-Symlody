@@ -44,7 +44,11 @@ export const ModalEditTodo: React.FC<THookModalProps<undefined>> = ({
       isShowing={isShowing}
       toggle={toggle}
     >
-      {userStore.pending ? <Loading /> : <FormItems formProps={propsForm} />}
+      {userStore.pending ? (
+        <Loading />
+      ) : (
+        <FormItems data={"2123"} formProps={propsForm} />
+      )}
     </Modal>
   );
 };

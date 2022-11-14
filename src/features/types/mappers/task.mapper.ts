@@ -19,7 +19,7 @@ export const TASK_STATUS_TO_MODEL: Readonly<
   [ETaskStatusDto.Done]: ETodoStatusId.Done,
 };
 
-export const TASK_STATUS_TO_DTO: Readonly<
+export const TASK_STATUS_FROM_DTO: Readonly<
   Record<ETaskStatusDto, ETodoStatusId>
 > = {
   [ETaskStatusDto.Todo]: ETodoStatusId.Todo,
@@ -28,7 +28,7 @@ export const TASK_STATUS_TO_DTO: Readonly<
   [ETaskStatusDto.Done]: ETodoStatusId.Done,
 };
 
-export const TODO_STATUS_MAP_FROM_ID = generateReverseDto(TASK_STATUS_TO_DTO);
+export const TASK_STATUS_TO_DTO = generateReverseDto(TASK_STATUS_FROM_DTO);
 
 export class TaskMapper {
   public static fromDto(dto: ITaskDto): ITask {
@@ -64,7 +64,7 @@ export class TaskMapper {
       end_date: model.end_date
         ? FormatService.toDate(model.end_date, "API")
         : null,
-      status: TODO_STATUS_MAP_FROM_ID[model.status],
+      status: TASK_STATUS_TO_DTO[model.status],
     };
   }
 }

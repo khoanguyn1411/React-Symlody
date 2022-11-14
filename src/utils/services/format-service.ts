@@ -64,7 +64,10 @@ export function toCleanedString(value: string): string {
  * @param value Text need to be formatted to Date.
  * @param type Type of format.
  */
-export function toDate(value: string, type: "VN" | "US" | "API"): string {
+export function toDate(
+  value: string | Date,
+  type: "VN" | "US" | "API"
+): string {
   if (type === "US") {
     return dayjs(value).format("MM/DD/YYYY");
   }

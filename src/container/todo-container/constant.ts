@@ -1,8 +1,9 @@
 import { images } from "@/assets/images";
 import { TNodataConfig } from "@/components";
+import { ETodoStatusId } from "@/features/types";
 import { GeneratorService } from "@/utils";
 
-import { ETodoStatusId, TODO_STATUS_MAP_FROM_ID, TTodo } from "./type";
+import { TODO_STATUS_MAP_FROM_ID, TTodo } from "./type";
 
 export const TODO_NO_DATA_CONFIG: TNodataConfig = {
   title: "Tạo công việc",

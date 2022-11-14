@@ -1,10 +1,9 @@
 import React from "react";
 
 import { Avatar } from "@/components";
-import { IMember, ITask } from "@/features/types";
+import { ETodoStatus, IMember, ITask } from "@/features/types";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
-import { ETodoStatus } from "../type";
 
 export type TTodoCardProps = {
   title: string;

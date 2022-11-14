@@ -1,11 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
+import { toast } from "react-toastify";
 
-import { DeleteAndEditField, Table } from "@/components";
+import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
-import { getTasksAsync, taskSelectors } from "@/features/reducers/task-reducer";
+import {
+  getTasksAsync,
+  taskSelectors,
+  updateTaskAsync,
+} from "@/features/reducers/task-reducer";
+import { ETodoStatusId, ITask } from "@/features/types";
 import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
+import { TODO_MESSAGES } from "../constant";
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
 type TProps = {
@@ -36,6 +43,46 @@ export const TodoTableContent: React.FC<TProps> = ({
   const tasks = useAppSelector(taskSelectors.selectAll);
   const dispatch = useAppDispatch();
 
+  const getAssigneeBy = useMemo(
+    () =>
+      (item: ITask, getField: "name" | "avatar"): string => {
+        const assignee = userList.find((user) => user.id === item.assignee.id);
+        if (getField === "name") {
+          return assignee.full_name;
+        }
+        return assignee.avatar;
+      },
+    [userList]
+  );
+
+  const handleChangeStatus = async (status: ETodoStatusId, task: ITask) => {
+    const result = await dispatch(
+      updateTaskAsync({
+        id: task.id,
+        payload: { ...task, status },
+      })
+    );
+    if (result.meta.requestStatus === "rejected") {
+      toast.error(TODO_MESSAGES.update.error);
+      return;
+    }
+    toast.success(TODO_MESSAGES.update.success);
+  };
+
+  const handlePriorityChange = async (isPriority: boolean, task: ITask) => {
+    const result = await dispatch(
+      updateTaskAsync({
+        id: task.id,
+        payload: { ...task, isPriority },
+      })
+    );
+    if (result.meta.requestStatus === "rejected") {
+      toast.error(TODO_MESSAGES.update.error);
+      return;
+    }
+    toast.success(TODO_MESSAGES.update.success);
+  };
+
   useEffect(() => {
     dispatch(getTasksAsync());
   }, [dispatch]);
@@ -59,16 +106,30 @@ export const TodoTableContent: React.FC<TProps> = ({
                 <Table.Cell>
                   <div className="flex space-x-4">
                     <span>{generatePlaceholderEmptyValue(item.title)}</span>
-                    <TodoSelectPriority isPriority={item.isPriority} />
+                    <TodoSelectPriority
+                      task={item}
+                      onPriorityChange={handlePriorityChange}
+                    />
                   </div>
                 </Table.Cell>
                 <Table.Cell textAlign="right">
                   {generatePlaceholderEmptyValue(item.end_date)}
                 </Table.Cell>
                 <Table.Cell textAlign="left">
-                  <TodoSelectStatus status={item.status} />
+                  <TodoSelectStatus
+                    task={item}
+                    onStatusChange={handleChangeStatus}
+                  />
                 </Table.Cell>
-                <Table.Cell>{item.assignee.id}</Table.Cell>
+                <Table.Cell>
+                  <div className="flex items-center gap-3">
+                    <Avatar
+                      src={getAssigneeBy(item, "avatar")}
+                      fullName={getAssigneeBy(item, "name")}
+                    />
+                    <span>{getAssigneeBy(item, "name")}</span>
+                  </div>
+                </Table.Cell>
                 <Table.CellAction>
                   <DeleteAndEditField
                     titleDelete="Xóa"

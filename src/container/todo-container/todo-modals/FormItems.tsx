@@ -9,6 +9,8 @@ import {
   Select,
   SelectUser,
 } from "@/components";
+import { useAppSelector } from "@/features";
+import { FormatService } from "@/utils";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 import { EPriority, IFormTodoInfo } from "../type";
@@ -18,11 +20,19 @@ type TProps = {
   formProps: UseFormReturn<IFormTodoInfo>;
 };
 
-export const FormItems: React.FC<TProps> = ({ formProps }) => {
+const getDayAfterWeek = (): string => {
+  const today = new Date();
+  today.setDate(today.getDate() + 7);
+  return FormatService.toDate(today, "US");
+};
+
+export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
   const {
     control,
     formState: { errors },
   } = formProps;
+
+  const currentUserStore = useAppSelector((state) => state.auth);
 
   return (
     <>
@@ -77,6 +87,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
             <Controller
               control={control}
               name="expiredDate"
+              defaultValue={data ? "" : getDayAfterWeek()}
               render={({ field: { value, onChange } }) => (
                 <AppDatePicker
                   style="modal"
@@ -113,6 +124,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
         <Controller
           control={control}
           name="reporter"
+          defaultValue={data ? null : currentUserStore.user.id}
           render={({ field: { value, onChange } }) => (
             <SelectUser
               placeholder="Người theo dõi"

@@ -12,7 +12,7 @@ type TProps = {
 export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
   isShowing,
   toggle,
-  closeWhenClickOutside,
+  closeWhenClickOutside = true,
   children,
   // size = "lg",
   widthContainer = 560,

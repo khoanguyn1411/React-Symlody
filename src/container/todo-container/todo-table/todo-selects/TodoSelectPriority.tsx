@@ -1,21 +1,27 @@
 import React, { useState } from "react";
 
 import { SelectCustom } from "@/components";
+import { ITask } from "@/features/types";
 
 import { TodoPriorityIcon } from "../../TodoPriorityIcon";
 import { PRIORITY_LIST } from "../constant";
 
 type TProps = {
-  isPriority: boolean;
+  task: ITask;
+  onPriorityChange: (isPriority: boolean, task: ITask) => void;
 };
 
-export const TodoSelectPriority: React.FC<TProps> = ({ isPriority }) => {
+export const TodoSelectPriority: React.FC<TProps> = ({
+  task,
+  onPriorityChange,
+}) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
-  const [_isPriority, _setIsPriority] = useState<boolean>(isPriority);
+  const [_isPriority, _setIsPriority] = useState<boolean>(task.isPriority);
 
   const handleChangePriority = (isPriority: boolean) => () => {
     setIsShowContent(false);
     _setIsPriority(isPriority);
+    onPriorityChange(isPriority, task);
   };
   return (
     <SelectCustom
