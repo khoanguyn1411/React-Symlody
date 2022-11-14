@@ -39,7 +39,6 @@ export const updateTaskAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRejectValue<null>
 >("update/task", async ({ id, payload }, { rejectWithValue }) => {
   const taskDto = TaskMapper.toDto(payload);
-  console.log(taskDto);
   const result = await TaskApi.updateTask(id, taskDto);
   if (result.kind === "ok") {
     return TaskMapper.fromDto(result.result);
