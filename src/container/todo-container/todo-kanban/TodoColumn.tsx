@@ -55,7 +55,7 @@ export const TodoColumn: React.FC<TProps> = ({
   };
 
   return (
-    <div className="flex-1 bg-gray-100 rounded-lg h-container min-w-[200px]">
+    <div className="flex-1 bg-gray-100 rounded-lg min-h-container h-[calc(100%-15px)] min-w-[200px]">
       <div className="sticky top-0 z-[2] bg-gray-50">
         <h1 className="px-3 py-4 font-medium bg-gray-100 rounded-t-lg">
           {columnData.title}{" "}

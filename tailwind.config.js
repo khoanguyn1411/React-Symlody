@@ -126,6 +126,11 @@ module.exports = {
       maxHeight: {
         table: `calc(100vh - ${toPx(HEADER_HEIGHT)} - 163px)`,
       },
+      minHeight: {
+        container: `calc(100vh - ${toPx(
+          HEADER_CONTAINER_HEIGHT + HEADER_HEIGHT + 40
+        )})`,
+      },
       height: {
         header: `var(--header-height, ${toPx(HEADER_HEIGHT)})`, // headerHeight
         "header-container": `var(--header-container-height, ${toPx(
@@ -133,9 +138,6 @@ module.exports = {
         )})`, // container header height
         table: `calc(100vh - ${toPx(HEADER_HEIGHT)} - 163px)`,
         content: `calc(100vh - ${toPx(HEADER_HEIGHT)})`,
-        container: `calc(100vh - ${toPx(
-          HEADER_CONTAINER_HEIGHT + HEADER_HEIGHT + 40
-        )})`,
       },
       width: {
         sidebar: toPx(SIDE_BAR_WIDTH),
