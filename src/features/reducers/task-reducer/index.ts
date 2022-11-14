@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
 import { RootState } from "@/features/store";
-import { IMember, ITask, TaskMapper } from "@/features/types";
+import { ITask, TaskMapper } from "@/features/types";
 import { ITaskCreateUpdate } from "@/features/types/models/task";
 import { GlobalTypes } from "@/utils";
 
