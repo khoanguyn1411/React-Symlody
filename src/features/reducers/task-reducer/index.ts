@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
 import { RootState } from "@/features/store";
-import { ITask, TaskMapper } from "@/features/types";
+import { IMember, ITask, TaskMapper } from "@/features/types";
 import { ITaskCreateUpdate } from "@/features/types/models/task";
 import { GlobalTypes } from "@/utils";
 
@@ -33,6 +33,20 @@ export const createTaskAsync = createAsyncThunk<
   return rejectWithValue(null);
 });
 
+export const updateTaskAsync = createAsyncThunk<
+  ITask,
+  { id: ITask["id"]; payload: ITaskCreateUpdate },
+  GlobalTypes.ReduxThunkRejectValue<null>
+>("update/task", async ({ id, payload }, { rejectWithValue }) => {
+  const taskDto = TaskMapper.toDto(payload);
+  console.log(taskDto);
+  const result = await TaskApi.updateTask(id, taskDto);
+  if (result.kind === "ok") {
+    return TaskMapper.fromDto(result.result);
+  }
+  return rejectWithValue(null);
+});
+
 export const taskSlice = createSlice({
   name: "task",
   initialState,
@@ -49,11 +63,18 @@ export const taskSlice = createSlice({
       .addCase(getTasksAsync.rejected, (state) => {
         state.pending = false;
         taskAdapter.setAll(state, []);
-      });
+      })
 
-    // .addCase(createTaskAsync.fulfilled, (state, action) => {
-    //   taskAdapter.addOne(state, action.payload);
-    // });
+      .addCase(createTaskAsync.fulfilled, (state, action) => {
+        taskAdapter.addOne(state, action.payload);
+      })
+
+      .addCase(updateTaskAsync.fulfilled, (state, action) => {
+        taskAdapter.updateOne(state, {
+          id: action.payload.id,
+          changes: action.payload,
+        });
+      });
   },
 });
 export const taskSelectors = taskAdapter.getSelectors(

@@ -50,6 +50,7 @@ export type ITaskCreateUpdate = StrictPick<
   Partial<
     StrictOmit<
       ITask,
+      | "id"
       | "created_by"
       | "last_modified_by"
       | "last_modified_date"

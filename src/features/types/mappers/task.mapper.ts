@@ -52,10 +52,19 @@ export class TaskMapper {
 
   public static toDto(model: ITaskCreateUpdate): ITaskCreateUpdateDto {
     return {
-      ...model,
-      start_date: FormatService.toDate(model.start_date, "API"),
-      end_date: FormatService.toDate(model.end_date, "API"),
-      status: TASK_STATUS_TO_DTO[model.status],
+      assignee: model.assignee,
+      reporter: model.reporter,
+      title: model.title,
+      label: model.label,
+      priority: model.isPriority ? EPriorityDto.High : EPriorityDto.Default,
+      description: model.description,
+      start_date: model.start_date
+        ? FormatService.toDate(model.start_date, "API")
+        : null,
+      end_date: model.end_date
+        ? FormatService.toDate(model.end_date, "API")
+        : null,
+      status: TODO_STATUS_MAP_FROM_ID[model.status],
     };
   }
 }

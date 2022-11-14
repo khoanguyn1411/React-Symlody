@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, DragStart, DropResult } from "react-beautiful-dnd";
+import { toast } from "react-toastify";
 
 import { Loading } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getTasksAsync, taskSelectors } from "@/features/reducers/task-reducer";
+import {
+  getTasksAsync,
+  taskSelectors,
+  updateTaskAsync,
+} from "@/features/reducers/task-reducer";
+import { ITask } from "@/features/types";
 import { useModal } from "@/hooks";
+import { FormatService } from "@/utils";
 
-import { TODO_DATA } from "../constant";
+import { TODO_DATA, TODO_MESSAGES } from "../constant";
 import { ModalEditTodo } from "../todo-modals";
 import { TTodoColumn } from "../type";
 import { onDragEnd } from "./function";
@@ -28,13 +35,25 @@ export const TodoBoard: React.FC = () => {
     columnId: null,
   });
 
-  const handleDragEnd = (dropResult: DropResult) => {
+  const handleDragEnd = async (dropResult: DropResult) => {
     onDragEnd(dropResult, columnList, setColumnList);
     setCardHiddenStatus({
       cardId: null,
       isCardDragging: false,
       columnId: null,
     });
+    const result = await dispatch(
+      updateTaskAsync({
+        id: FormatService.toNumber(dropResult.draggableId),
+        payload: {
+          ...taskList.find((task) => task),
+          status: dropResult.destination.droppableId as ITask["status"],
+        },
+      })
+    );
+    if (result.meta.requestStatus === "rejected") {
+      toast.error(TODO_MESSAGES.update.error);
+    }
   };
   const handleDragStart = (initial: DragStart) => {
     setCardHiddenStatus({
