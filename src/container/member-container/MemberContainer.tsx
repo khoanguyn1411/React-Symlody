@@ -148,7 +148,7 @@ export const MemberContainer: React.FC = () => {
           <Search placeholder="Tìm kiếm ..." {...propsSearch} />
 
           <Select
-            className="w-44"
+            className="w-48"
             list={MEMBER_FILTER_OPTIONS}
             value={filter}
             onChangeSideEffect={handleSetFilter}

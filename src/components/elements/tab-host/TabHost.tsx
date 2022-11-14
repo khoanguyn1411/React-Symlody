@@ -2,6 +2,8 @@ import classNames from "classnames";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useEffectSkipFirstRender } from "@/hooks";
+
 export type TTab = {
   title: string;
   key: string;
@@ -40,13 +42,10 @@ export const TabHost: React.FC<TProps> = ({
   );
 
   const [activeTab, setActiveTab] = useState<TTab>(getTabActive(defaultActive));
-  const [refState, setRefState] = useState<HTMLButtonElement[]>(refs.current);
-  const [activeRef, setActiveRef] = useState<string>(activeTab.key);
   const [isAnimatedSlider, setIsAnimatedSlider] = useState<boolean>(false);
 
-  const handleClickTab = (tab: TTab, title: string) => () => {
+  const handleClickTab = (tab: TTab) => () => {
     setActiveTab(tab);
-    setActiveRef(title);
     setIsAnimatedSlider(true);
     tab.to && navigate(tab.to);
     onChangeTab && onChangeTab(tab);
@@ -61,40 +60,43 @@ export const TabHost: React.FC<TProps> = ({
     }
     const activeTab = getTabActive(tabChangeDependOnChangeOf);
     setActiveTab(activeTab);
-    setActiveRef(activeTab.key);
-    setIsAnimatedSlider(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabChangeDependOnChangeOf]);
+
+  useEffectSkipFirstRender(() => {
+    setIsAnimatedSlider(true);
   }, [tabChangeDependOnChangeOf]);
 
   const getPositionSlider = useCallback((): {
     left: number;
     width: number;
   } => {
-    if (refState.length === 0) {
+    if (refs.current.length === 0) {
       return;
     }
-    const refIndex = refState
+    const refOnActive = refs.current
       .map((item, index) => ({
         element: item,
         key: item.ariaLabel,
         index,
       }))
-      .find((item) => item.key === activeRef);
+      .find((item) => item.key === activeTab.key);
 
-    if (refIndex.element == null) {
+    if (refOnActive.element == null) {
       return;
     }
 
-    const rect = refIndex.element.getBoundingClientRect();
+    const rect = refOnActive.element.getBoundingClientRect();
     return {
-      left: refIndex.element.offsetLeft + window.scrollX,
+      left: refOnActive.element.offsetLeft + window.scrollX,
       width: rect.width,
     };
-  }, [activeRef, refState]);
+  }, [activeTab, refs]);
 
-  const [positionSlider, setPositionSlider] = useState(() =>
-    getPositionSlider()
-  );
+  const [positionSlider, setPositionSlider] = useState<{
+    left: number;
+    width: number;
+  }>({ left: 0, width: 0 });
 
   const addToRefs = (element: HTMLButtonElement) => {
     if (element && !refs.current.includes(element)) {
@@ -103,12 +105,8 @@ export const TabHost: React.FC<TProps> = ({
   };
 
   useEffect(() => {
-    setRefState(refs.current);
-  }, [refs]);
-
-  useEffect(() => {
     setPositionSlider(getPositionSlider());
-  }, [activeRef, getPositionSlider]);
+  }, [getPositionSlider, listTabs]);
 
   return (
     <div
@@ -134,7 +132,7 @@ export const TabHost: React.FC<TProps> = ({
                 isHeaderTabHost,
             }
           )}
-          onClick={handleClickTab(item, item.key)}
+          onClick={handleClickTab(item)}
         >
           {item.title}
         </button>
