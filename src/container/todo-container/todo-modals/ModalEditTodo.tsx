@@ -9,6 +9,7 @@ import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { updateTaskAsync } from "@/features/reducers/task-reducer";
 import { ITask } from "@/features/types";
 import { THookModalProps } from "@/hooks";
+import { FormService } from "@/utils";
 
 import { TODO_MESSAGES } from "../constant";
 import { TodoFormMapper } from "../mapper";
@@ -37,7 +38,7 @@ export const ModalEditTodo: React.FC<THookModalProps<ITask>> = ({
 
   const {
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, dirtyFields },
   } = propsForm;
 
   const handleEditTask = async (task: IFormTodoInfo) => {
@@ -61,8 +62,10 @@ export const ModalEditTodo: React.FC<THookModalProps<ITask>> = ({
       handleEvent={{
         event: handleSubmit(handleEditTask),
         isLoading: isSubmitting,
+        isDisable: !FormService.isDirtyFields(dirtyFields),
+        title: "Cập nhật",
       }}
-      title={"Tạo công việc mới"}
+      title={"Chỉnh sửa công việc"}
       isShowing={isShowing}
       toggle={toggle}
     >

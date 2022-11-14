@@ -7,8 +7,8 @@ import { IFormTodoInfo } from "./type";
 export const schema: yup.SchemaOf<IFormTodoInfo> = yup.object().shape({
   name: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
   priority: yup.string().notRequired(),
-  assignee: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
+  assignee: yup.number().required(APP_ERROR_MESSAGE.REQUIRED).nullable(),
   expiredDate: yup.string().notRequired(),
-  reporter: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
+  reporter: yup.number().required(APP_ERROR_MESSAGE.REQUIRED).nullable(),
   description: yup.string().notRequired(),
 });

@@ -115,7 +115,11 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
         <Controller
           control={control}
           name="assignee"
-          defaultValue={FormatService.toNumber(defaultValue.get("assignee"))}
+          defaultValue={
+            defaultValue.get("assignee")
+              ? FormatService.toNumber(defaultValue.get("assignee"))
+              : undefined
+          }
           render={({ field: { value, onChange } }) => (
             <SelectUser
               placeholder="Người được giao"
