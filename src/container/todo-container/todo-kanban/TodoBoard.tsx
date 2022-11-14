@@ -42,11 +42,17 @@ export const TodoBoard: React.FC = () => {
       isCardDragging: false,
       columnId: null,
     });
+    if (dropResult.destination.droppableId === dropResult.source.droppableId) {
+      return;
+    }
+    const currentTask = taskList.find(
+      (task) => task.id === FormatService.toNumber(dropResult.draggableId)
+    );
     const result = await dispatch(
       updateTaskAsync({
         id: FormatService.toNumber(dropResult.draggableId),
         payload: {
-          ...taskList.find((task) => task),
+          ...currentTask,
           status: dropResult.destination.droppableId as ITask["status"],
         },
       })

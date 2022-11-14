@@ -1,21 +1,21 @@
 import React from "react";
 
 import { Button } from "@/components";
+import { TPropsButton } from "@/components/elements/button/types";
 import { GlobalTypes } from "@/utils";
 
-type TProps = {
-  isSubmitting?: boolean;
+interface TProps extends TPropsButton {
   onSubmit?: () => void;
-};
+}
 
 export const ConfigSubmitButton: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
-  isSubmitting,
   onSubmit,
+  ...props
 }) => {
   return (
     <div className="flex justify-end">
-      <Button isShowLoading={isSubmitting} className="w-24" onClick={onSubmit}>
+      <Button {...props} onClick={onSubmit}>
         {children ?? "Lưu"}
       </Button>
     </div>

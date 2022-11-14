@@ -9,6 +9,7 @@ import { AppDatePicker, FormItem, Input, SelectControl } from "@/components";
 import { provinces } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateProfile } from "@/features/reducers";
+import { FormService } from "@/utils";
 
 import {
   ConfigSubmitButton,
@@ -29,7 +30,7 @@ export const TabPersonalInfo: React.FC = () => {
 
   const {
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, dirtyFields },
     reset,
     handleSubmit,
   } = useForm<IFormUserConfig>({ resolver: yupResolver(schema) });
@@ -254,7 +255,8 @@ export const TabPersonalInfo: React.FC = () => {
         </FormItem>
       </div>
       <ConfigSubmitButton
-        isSubmitting={isSubmitting}
+        disable={!FormService.isDirtyFields(dirtyFields)}
+        isShowLoading={isSubmitting}
         onSubmit={handleSubmit(handleEditPersonalInfo)}
       >
         Cập nhật

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { Avatar } from "@/components";
+import { useAppSelector } from "@/features";
+import { userSelectors } from "@/features/reducers";
 import { ETodoStatus, IMember, ITask } from "@/features/types";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
@@ -13,22 +15,33 @@ export type TTodoCardProps = {
   status?: ETodoStatus;
 };
 
-export const TodoCard: React.FC<ITask> = ({
-  title,
-  start_date,
-  isPriority,
-}) => {
+export const TodoCard: React.FC<ITask> = (task) => {
+  const userList = useAppSelector(userSelectors.selectAll);
+  const getAssigneeBy = useMemo(
+    () =>
+      (item: ITask, getField: "name" | "avatar"): string => {
+        const assignee = userList.find((user) => user.id === item.assignee.id);
+        if (getField === "name") {
+          return assignee.full_name;
+        }
+        return assignee.avatar;
+      },
+    [userList]
+  );
   return (
     <div className="pb-3">
       <div className="px-3 py-3 bg-white border border-gray-300 cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md">
         <div className="flex justify-between space-x-3">
-          <h1>{title}</h1>
+          <h1>{task.title}</h1>
         </div>
         <div className="flex items-center justify-between mt-3">
-          <h2>{start_date}</h2>
+          <h2 className="font-medium text-primary-800">{task.end_date}</h2>
           <div className="flex items-center space-x-3">
-            <TodoPriorityIcon isPriority={isPriority} />
-            <Avatar fullName={""} />
+            <TodoPriorityIcon isPriority={task.isPriority} />
+            <Avatar
+              src={getAssigneeBy(task, "avatar")}
+              fullName={getAssigneeBy(task, "name")}
+            />
           </div>
         </div>
       </div>

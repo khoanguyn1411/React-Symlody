@@ -25,7 +25,7 @@ export const TabOrganization: React.FC = () => {
 
   const {
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, dirtyFields },
     handleSubmit,
   } = useForm<IFormOrganizationConfig>({ resolver: yupResolver(schema) });
 
@@ -181,7 +181,8 @@ export const TabOrganization: React.FC = () => {
         />
       </FormItem> */}
       <ConfigSubmitButton
-        isSubmitting={isSubmitting}
+        isShowLoading={isSubmitting}
+        disable={!FormService.isDirtyFields(dirtyFields)}
         onSubmit={handleSubmit(handleEditOrgInfo)}
       >
         Lưu

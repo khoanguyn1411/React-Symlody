@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 import { AuthApi } from "@/api";
 import { FormItem, InputPassword } from "@/components";
+import { FormService } from "@/utils";
 
 import {
   ConfigSubmitButton,
@@ -16,7 +17,7 @@ import { IFormChangePassword } from "./type";
 export const TabChangePassword: React.FC = () => {
   const {
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, dirtyFields },
     handleSubmit,
     reset,
   } = useForm<IFormChangePassword>({ resolver: yupResolver(schema) });
@@ -90,7 +91,10 @@ export const TabChangePassword: React.FC = () => {
           )}
         />
       </FormItem>
-      <ConfigSubmitButton isSubmitting={isSubmitting}>
+      <ConfigSubmitButton
+        disable={!FormService.isDirtyFields(dirtyFields)}
+        isShowLoading={isSubmitting}
+      >
         Cập nhật
       </ConfigSubmitButton>
     </ConfigTabContentContainer>
