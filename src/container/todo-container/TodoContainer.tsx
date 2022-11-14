@@ -1,9 +1,11 @@
 import React, { ReactNode, useEffect, useLayoutEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   ButtonCreate,
   Container,
   NoData,
+  NotificationImg,
   Select,
   TabHost,
   TTab,
@@ -12,10 +14,10 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getDepartmentAsync,
   getUsersAsync,
-  setActiveTab,
   userSelectors,
 } from "@/features/reducers";
 import { useModal } from "@/hooks";
+import { EPagePath } from "@/routes";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
 import { TodoBoard } from "./todo-kanban";
@@ -27,6 +29,11 @@ import { ETodoTabKey, ETodoTabReadableString } from "./type";
 type ContentTab = {
   content: ReactNode;
   rightSide?: ReactNode;
+};
+
+const getTabUrl = (url: string): string => {
+  const BASE_URL = EPagePath.Todo;
+  return `${BASE_URL}/${url}`;
 };
 
 const getContentTab = (key: ETodoTabKey): ContentTab => {
@@ -50,7 +57,19 @@ export const TodoContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const departmentStore = useAppSelector((state) => state.department);
   const userList = useAppSelector(userSelectors.selectAll);
-  const commonStore = useAppSelector((state) => state.common);
+
+  const { tab } = useParams();
+  const navigate = useNavigate();
+
+  const [content, setContent] = useState<ContentTab>(
+    getContentTab(tab as ETodoTabKey)
+  );
+
+  const propsModal = useModal({ isHotkeyOpen: true });
+
+  const handleOpenCreateTodoModal = () => {
+    propsModal.toggle.setShow();
+  };
 
   const [filterDepartment, setFilterDepartment] = useState<string>(
     departmentStore.departments[0] ? departmentStore.departments[0].name : ""
@@ -80,20 +99,21 @@ export const TodoContainer: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [departmentStore.departments]);
 
-  const [content, setContent] = useState<ContentTab>(
-    getContentTab(commonStore.activeTab.todo)
-  );
-  const handleChangeTab = (tab: TTab) => {
-    setContent(getContentTab(tab.key as ETodoTabKey));
-    dispatch(setActiveTab({ todo: tab.key as ETodoTabKey }));
-  };
-  const propsModal = useModal({ isHotkeyOpen: true });
-
-  const handleOpenCreateTodoModal = () => {
-    propsModal.toggle.setShow();
-  };
+  useEffect(() => {
+    setContent(getContentTab(tab as ETodoTabKey));
+  }, [navigate, tab]);
 
   const isNoData = false;
+
+  if (!Object.values(ETodoTabKey).includes(tab as ETodoTabKey) && tab != null) {
+    return (
+      <NotificationImg
+        title="Trang bạn đang truy cập không tồn tại"
+        description="Vui lòng kiểm tra lại đường dẫn hoặc liên hệ trung tâm hỗ trợ"
+      />
+    );
+  }
+
   if (isNoData)
     return (
       <>
@@ -110,19 +130,22 @@ export const TodoContainer: React.FC = () => {
       <Container.HeaderForTabHost>
         <div className="flex items-center gap-4">
           <TabHost
-            defaultActive={commonStore.activeTab.todo}
+            defaultActive={tab}
+            tabChangeDependOnChangeOf={tab}
+            isUrlInteraction
             isHeaderTabHost
             listTabs={[
               {
                 key: ETodoTabKey.Kanban,
                 title: ETodoTabReadableString.Kanban,
+                to: getTabUrl(ETodoTabKey.Kanban),
               },
               {
                 key: ETodoTabKey.Board,
                 title: ETodoTabReadableString.Board,
+                to: getTabUrl(ETodoTabKey.Board),
               },
             ]}
-            onChangeTab={handleChangeTab}
           />
           <TodoMemberView />
         </div>

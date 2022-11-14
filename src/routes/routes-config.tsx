@@ -89,7 +89,12 @@ const privateRoutes: readonly IRoutes[] = [
     pageKey: EPageKey.Todo,
     pageTitle: "Trang công việc",
   },
-
+  {
+    path: "/todo/:tab",
+    component: <TodoContainer />,
+    pageKey: EPageKey.Todo,
+    pageTitle: "Trang công việc",
+  },
   {
     path: "/member",
     component: <MemberContainer />,
@@ -114,6 +119,7 @@ const privateRoutes: readonly IRoutes[] = [
     pageKey: EPageKey.Config,
     pageTitle: "Trang cấu hình",
   },
+
   // {
   //   path: "/event",
   //   component: <EventContainer />,

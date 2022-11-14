@@ -27,8 +27,8 @@ export const TodoTableContent: React.FC<TProps> = ({
   onRestore,
 }) => {
   const userList = useAppSelector(userSelectors.selectAll);
-  const isPending = false;
-  const isCount0 = false;
+  const taskStore = useAppSelector((state) => state.task);
+  const taskCount = useAppSelector(taskSelectors.selectTotal);
 
   const handleEdit = (item: ITask) => () => {
     onEdit(item);
@@ -48,7 +48,7 @@ export const TodoTableContent: React.FC<TProps> = ({
       (item: ITask, getField: "name" | "avatar"): string => {
         const assignee = userList.find((user) => user.id === item.assignee.id);
         if (assignee == null) {
-          return;
+          return "";
         }
         if (getField === "name") {
           return assignee.full_name;
@@ -90,63 +90,62 @@ export const TodoTableContent: React.FC<TProps> = ({
     dispatch(getTasksAsync());
   }, [dispatch]);
 
-  if (isPending) {
+  if (taskStore.pending) {
     return <Table.Skeleton colsNumber={6} />;
   }
 
-  if (isCount0) {
+  if (taskCount === 0) {
     return <Table.NoData colsNumber={6} />;
   }
 
   return (
     <>
       <Table.Body>
-        {userList.length > 0 &&
-          tasks.map((item, index) => {
-            return (
-              <Table.Row key={index} index={index}>
-                <Table.Cell textAlign="center">{index + 1}</Table.Cell>
-                <Table.Cell>
-                  <div className="flex space-x-4">
-                    <span>{generatePlaceholderEmptyValue(item.title)}</span>
-                    <TodoSelectPriority
-                      task={item}
-                      onPriorityChange={handlePriorityChange}
-                    />
-                  </div>
-                </Table.Cell>
-                <Table.Cell textAlign="right">
-                  {generatePlaceholderEmptyValue(item.end_date)}
-                </Table.Cell>
-                <Table.Cell textAlign="left">
-                  <TodoSelectStatus
+        {tasks.map((item, index) => {
+          return (
+            <Table.Row key={index} index={index}>
+              <Table.Cell textAlign="center">{index + 1}</Table.Cell>
+              <Table.Cell>
+                <div className="flex space-x-4">
+                  <span>{generatePlaceholderEmptyValue(item.title)}</span>
+                  <TodoSelectPriority
                     task={item}
-                    onStatusChange={handleChangeStatus}
+                    onPriorityChange={handlePriorityChange}
                   />
-                </Table.Cell>
-                <Table.Cell>
-                  <div className="flex items-center gap-3">
-                    <Avatar
-                      src={getAssigneeBy(item, "avatar")}
-                      fullName={getAssigneeBy(item, "name")}
-                    />
-                    <span>{getAssigneeBy(item, "name")}</span>
-                  </div>
-                </Table.Cell>
-                <Table.CellAction>
-                  <DeleteAndEditField
-                    titleDelete="Xóa"
-                    title="Xóa sự kiện?"
-                    handleEvent={{
-                      edit: handleEdit(item),
-                      delete: handleDelete(item),
-                      restore: handleRestore(item),
-                    }}
+                </div>
+              </Table.Cell>
+              <Table.Cell textAlign="right">
+                {generatePlaceholderEmptyValue(item.end_date)}
+              </Table.Cell>
+              <Table.Cell textAlign="left">
+                <TodoSelectStatus
+                  task={item}
+                  onStatusChange={handleChangeStatus}
+                />
+              </Table.Cell>
+              <Table.Cell>
+                <div className="flex items-center gap-3">
+                  <Avatar
+                    src={getAssigneeBy(item, "avatar")}
+                    fullName={getAssigneeBy(item, "name")}
                   />
-                </Table.CellAction>
-              </Table.Row>
-            );
-          })}
+                  <span>{getAssigneeBy(item, "name")}</span>
+                </div>
+              </Table.Cell>
+              <Table.CellAction>
+                <DeleteAndEditField
+                  titleDelete="Xóa"
+                  title="Xóa sự kiện?"
+                  handleEvent={{
+                    edit: handleEdit(item),
+                    delete: handleDelete(item),
+                    restore: handleRestore(item),
+                  }}
+                />
+              </Table.CellAction>
+            </Table.Row>
+          );
+        })}
       </Table.Body>
     </>
   );
