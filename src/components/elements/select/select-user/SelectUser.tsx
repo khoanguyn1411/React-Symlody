@@ -148,8 +148,8 @@ export const SelectUser: React.FC<TProps> = ({
               onClick={handleSelectMember(item)}
               key={item.id}
               className={classNames(
-                "flex py-2 px-3 w-full space-x-3 items-center hover:bg-primary-50 transition-colors duration-200",
-                isSelectedItemInList && "bg-primary-800"
+                "flex py-2 px-3 w-full space-x-3 items-center transition-colors duration-200",
+                isSelectedItemInList ? "bg-primary-800" : "hover:bg-primary-50 "
               )}
             >
               <Avatar size="default" fullName={item.first_name} src="" />
