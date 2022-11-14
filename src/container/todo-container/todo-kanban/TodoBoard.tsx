@@ -48,6 +48,17 @@ export const TodoBoard: React.FC = () => {
   };
 
   useEffect(() => {
+    const columnWithTasks: TTodoColumn[] = columnList.map((column) => {
+      return {
+        ...column,
+        cards: taskList.filter((item) => item.status === column.id),
+      };
+    });
+    setColumnList(columnWithTasks);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskList]);
+
+  useEffect(() => {
     dispatch(getTasksAsync());
   }, [dispatch]);
 
@@ -63,7 +74,6 @@ export const TodoBoard: React.FC = () => {
     <div className="mt-5 overflow-auto px-default grid gap-x-7 grid-cols-4-1fr h-[calc(100vh-8.8rem)]">
       <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         {columnList.map((column) => {
-          column.cards = taskList.filter((item) => item.status === column.id);
           return (
             <TodoColumn
               onClickCard={handleCardClick}

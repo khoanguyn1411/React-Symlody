@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import React from "react";
 
 import { Avatar } from "@/components";
@@ -27,7 +26,7 @@ export const TodoCard: React.FC<ITask> = ({
           <h1>{title}</h1>
         </div>
         <div className="flex items-center justify-between mt-3">
-          <h2 className={classNames("")}>{start_date}</h2>
+          <h2>{start_date}</h2>
           <div className="flex items-center space-x-3">
             <TodoPriorityIcon isPriority={isPriority} />
             <Avatar fullName={""} />

@@ -24,6 +24,9 @@ export const Editor: React.FC<IProps> = ({
   onBlur,
   onFocus,
 }) => {
+  if (value == null) {
+    value = "";
+  }
   const [isRendered, setIsRendered] = useState(false);
 
   useEffect(() => {
@@ -49,10 +52,6 @@ export const Editor: React.FC<IProps> = ({
           extraPlugins: [],
         }}
         data={value}
-        // onReady={(editor: string) => {
-        //   console.log("Editor is ready to use!", editor);
-        // }}
-
         onChange={(_event: any, editor: any) => {
           const data = editor.getData();
 
