@@ -28,6 +28,7 @@ export const TodoAvatar: React.FC<TProps> = ({
   }, [index, user, selectedMembers]);
 
   const [zIndex, setZIndex] = useState<number>(getZIndex);
+  const emailsSelectedMembers = selectedMembers.map((member) => member.email);
 
   useEffect(() => {
     setZIndex(getZIndex);
@@ -36,13 +37,13 @@ export const TodoAvatar: React.FC<TProps> = ({
   const handleSetSelectedMember = () => {
     const selectedItem = user;
     setSelectedMembers((prev) => {
-      if (prev.includes(selectedItem)) {
-        return prev.filter((item) => item !== selectedItem);
+      const emailsSelectedMembers = prev.map((member) => member.email);
+      if (emailsSelectedMembers.includes(selectedItem.email)) {
+        return prev.filter((item) => item.email !== selectedItem.email);
       }
       return [...prev, selectedItem];
     });
   };
-
   const handleChangeZIndexOnMouseOver = () => {
     setZIndex(ZINDEX_SETTING.ON_TOP);
   };
@@ -56,13 +57,15 @@ export const TodoAvatar: React.FC<TProps> = ({
       onMouseOut={handleChangeZIndexOnMouseOut}
       onClick={handleSetSelectedMember}
       className={classNames("transition-all duration-200 group-hover:mb-3", {
-        "border-white bg-white": !selectedMembers.includes(user),
-        "border-primary-800 bg-primary-800": selectedMembers.includes(user),
+        "border-white bg-white": !emailsSelectedMembers.includes(user.email),
+        "border-primary-800 bg-primary-800": emailsSelectedMembers.includes(
+          user.email
+        ),
       })}
       zIndex={zIndex}
     >
       <Tooltip space={8} content={user.full_name}>
-        <Avatar fullName={user.full_name} />
+        <Avatar src={user.avatar} fullName={user.full_name} />
       </Tooltip>
     </TodoCircleBorderWrapper>
   );

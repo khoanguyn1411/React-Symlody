@@ -8,6 +8,7 @@ import {
   NotificationImg,
   Select,
   TabHost,
+  TItemListSelect,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
@@ -15,6 +16,7 @@ import {
   getUsersAsync,
   userSelectors,
 } from "@/features/reducers";
+import { setListQueryTask } from "@/features/reducers/task-reducer";
 import { useModal } from "@/hooks";
 import { EPagePath } from "@/routes";
 
@@ -74,6 +76,12 @@ export const TodoContainer: React.FC = () => {
     departmentStore.departments[0] ? departmentStore.departments[0].name : ""
   );
 
+  const handleSetFilter = (item: TItemListSelect) => {
+    const departmentID = departmentStore.departments.find(
+      (department) => department.name === item.value
+    ).id;
+    dispatch(setListQueryTask({ department_id: departmentID }));
+  };
   const isNoData = false;
   const isInvalidUrl =
     !Object.values(ETodoTabKey).includes(tab as ETodoTabKey) && tab != null;
@@ -157,6 +165,7 @@ export const TodoContainer: React.FC = () => {
             list={departmentStore.departments.map((department) => ({
               value: department.name,
             }))}
+            onChangeSideEffect={handleSetFilter}
             value={filterDepartment}
             onChange={setFilterDepartment}
           />

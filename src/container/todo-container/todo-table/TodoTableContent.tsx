@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useLayoutEffect, useMemo } from "react";
 import { toast } from "react-toastify";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
@@ -87,9 +87,10 @@ export const TodoTableContent: React.FC<TProps> = ({
     toast.success(TODO_MESSAGES.update.success);
   };
 
-  useEffect(() => {
-    dispatch(getTasksAsync({ department_id: currentUser.organization.id }));
-  }, [currentUser.organization.id, dispatch]);
+  useLayoutEffect(() => {
+    const { department_id } = taskStore.listQueryTask;
+    dispatch(getTasksAsync({ department_id }));
+  }, [currentUser.organization.id, dispatch, taskStore.listQueryTask]);
 
   if (taskStore.pending) {
     return <Table.Skeleton colsNumber={6} />;
@@ -109,7 +110,7 @@ export const TodoTableContent: React.FC<TProps> = ({
               <Table.Cell textAlign="center">{index + 1}</Table.Cell>
               <Table.Cell>
                 <div className="flex space-x-4">
-                  <span>{itemTable.title}</span>
+                  <span className="ellipsis-text-1">{itemTable.title}</span>
                   <TodoSelectPriority
                     task={item}
                     onPriorityChange={handlePriorityChange}

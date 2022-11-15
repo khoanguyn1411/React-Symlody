@@ -1,7 +1,8 @@
 import { GeneratorService, GlobalTypes } from "@/utils";
+import { generateFullName } from "@/utils/services/generate-service";
 
 import { IUserDto } from "../dtos";
-import { IMemberCreateUpdate, IUser } from "../models";
+import { IMemberCreateUpdate, IProfile, IUser } from "../models";
 
 export class UserMapper {
   public static fromDto(dto: IUserDto): IUser {
@@ -11,6 +12,17 @@ export class UserMapper {
         dto.last_name,
         dto.first_name
       ),
+    };
+  }
+
+  public static fromProfile(profile: IProfile): IUser {
+    return {
+      id: profile.id,
+      avatar: profile.avatar,
+      first_name: profile.first_name,
+      last_name: profile.last_name,
+      full_name: generateFullName(profile.last_name, profile.first_name),
+      email: profile.email,
     };
   }
 

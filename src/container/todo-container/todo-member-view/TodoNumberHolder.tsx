@@ -83,7 +83,11 @@ export const TodoNumberHolder: React.FC<TProps> = ({
                   className="flex items-center w-full px-1 cursor-pointer transition-colors hover:bg-primary-100"
                 >
                   <Checkbox checked={selectedMembers.includes(item)} />
-                  <Avatar size="xsmall" fullName={item.full_name} />
+                  <Avatar
+                    src={item.avatar}
+                    size="xsmall"
+                    fullName={item.full_name}
+                  />
                   <h1 className="ml-2 text-sm">{item.full_name}</h1>
                 </button>
               ))}

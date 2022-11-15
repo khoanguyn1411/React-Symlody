@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
-import { IUser } from "@/features/types";
+import { IUser, UserMapper } from "@/features/types";
 
 import { DEFAULT_DISPLAY_MEMBER_COUNT } from "./constant";
 import { TodoAvatar } from "./TodoAvatar";
@@ -12,17 +12,27 @@ import { TodoNumberHolder } from "./TodoNumberHolder";
 export const TodoMemberView: React.FC = () => {
   const userList = useAppSelector(userSelectors.selectAll);
   const userStore = useAppSelector((state) => state.user);
-  const userCount = useAppSelector(userSelectors.selectTotal);
-  const currentUser = useAppSelector((state) => state.auth.user);
+  const currentUserProfile = useAppSelector((state) => state.auth.user);
+
+  const getUserWithCurrentUserList = () => {
+    const _currentUser = UserMapper.fromProfile(currentUserProfile);
+    const userListWithoutCurrentUser = userList.filter(
+      (user) => user.email !== _currentUser.email
+    );
+    return [_currentUser].concat(userListWithoutCurrentUser);
+  };
+
+  const currentUserList = getUserWithCurrentUserList();
 
   const [selectedMembers, setSelectedMembers] = useState<IUser[]>([
-    userList.find((user) => user.id === currentUser.id),
+    currentUserList.find((user) => user.email === currentUserProfile.email),
   ]);
+
   return (
     <div className="flex items-center mb-2 h-9 space-x-[-8px]">
       {userStore.pending && <TodoMemberViewLoading />}
       {!userStore.pending &&
-        userList
+        currentUserList
           .slice(0, DEFAULT_DISPLAY_MEMBER_COUNT)
           .map((user, index) => (
             <TodoAvatar
@@ -33,11 +43,14 @@ export const TodoMemberView: React.FC = () => {
               index={index}
             />
           ))}
-      {userCount > DEFAULT_DISPLAY_MEMBER_COUNT && (
+      {currentUserList.length > DEFAULT_DISPLAY_MEMBER_COUNT && (
         <TodoNumberHolder
           setSelectedMembers={setSelectedMembers}
           selectedMembers={selectedMembers}
-          memberList={userList.slice(DEFAULT_DISPLAY_MEMBER_COUNT, userCount)}
+          memberList={currentUserList.slice(
+            DEFAULT_DISPLAY_MEMBER_COUNT,
+            currentUserList.length
+          )}
         />
       )}
     </div>

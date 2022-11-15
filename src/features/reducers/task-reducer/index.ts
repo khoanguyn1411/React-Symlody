@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
 import { RootState } from "@/features/store";
@@ -50,7 +50,11 @@ export const updateTaskAsync = createAsyncThunk<
 export const taskSlice = createSlice({
   name: "task",
   initialState,
-  reducers: {},
+  reducers: {
+    setListQueryTask(state, action: PayloadAction<TTaskParamQueryDto>) {
+      state.listQueryTask = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getTasksAsync.pending, (state) => {
@@ -81,4 +85,6 @@ export const taskSelectors = taskAdapter.getSelectors(
   (state: RootState) => state.task
 );
 export const taskStore = (state: RootState) => state.task;
+export const { setListQueryTask } = taskSlice.actions;
+
 export default taskSlice.reducer;

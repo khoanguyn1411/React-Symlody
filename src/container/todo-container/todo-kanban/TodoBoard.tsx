@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { DragDropContext, DragStart, DropResult } from "react-beautiful-dnd";
 import { toast } from "react-toastify";
 
@@ -22,7 +22,7 @@ import { TCardHiddenStatus } from "./type";
 
 export const TodoBoard: React.FC = () => {
   const dispatch = useAppDispatch();
-  const taskState = useAppSelector((state) => state.task);
+  const taskStore = useAppSelector((state) => state.task);
   const taskList = useAppSelector(taskSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.auth.user);
 
@@ -86,11 +86,12 @@ export const TodoBoard: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskList]);
 
-  useEffect(() => {
-    dispatch(getTasksAsync({ department_id: currentUser.organization.id }));
-  }, [currentUser.organization.id, dispatch]);
+  useLayoutEffect(() => {
+    const { department_id } = taskStore.listQueryTask;
+    dispatch(getTasksAsync({ department_id }));
+  }, [currentUser.organization.id, dispatch, taskStore.listQueryTask]);
 
-  if (taskState.pending) {
+  if (taskStore.pending) {
     return (
       <div className="h-[calc(100vh-7.8rem)] grid place-content-center">
         <Loading />
