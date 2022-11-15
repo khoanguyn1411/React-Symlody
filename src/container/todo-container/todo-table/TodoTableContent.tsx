@@ -29,6 +29,7 @@ export const TodoTableContent: React.FC<TProps> = ({
   const userList = useAppSelector(userSelectors.selectAll);
   const taskStore = useAppSelector((state) => state.task);
   const taskCount = useAppSelector(taskSelectors.selectTotal);
+  const currentUser = useAppSelector((state) => state.auth.user);
 
   const handleEdit = (item: ITask) => () => {
     onEdit(item);
@@ -87,8 +88,8 @@ export const TodoTableContent: React.FC<TProps> = ({
   };
 
   useEffect(() => {
-    dispatch(getTasksAsync());
-  }, [dispatch]);
+    dispatch(getTasksAsync({ department_id: currentUser.organization.id }));
+  }, [currentUser.organization.id, dispatch]);
 
   if (taskStore.pending) {
     return <Table.Skeleton colsNumber={6} />;

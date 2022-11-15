@@ -2,29 +2,30 @@ import classNames from "classnames";
 import React, { useEffect, useMemo, useState } from "react";
 
 import { Avatar, Tooltip } from "@/components";
+import { IUser } from "@/features/types";
 import { GlobalTypes } from "@/utils";
 
 import { DEFAULT_DISPLAY_MEMBER_COUNT, ZINDEX_SETTING } from "./constant";
 import { TodoCircleBorderWrapper } from "./TodoCircleBorderWrapper";
 
 type TProps = {
-  item: string;
+  user: IUser;
   index: number;
-  selectedMembers: string[];
-  setSelectedMembers: GlobalTypes.ReactStateAction<string[]>;
+  selectedMembers: IUser[];
+  setSelectedMembers: GlobalTypes.ReactStateAction<IUser[]>;
 };
 
 export const TodoAvatar: React.FC<TProps> = ({
-  item,
+  user,
   index,
   selectedMembers,
   setSelectedMembers,
 }) => {
   const getZIndex = useMemo(() => {
-    return selectedMembers.includes(item)
+    return selectedMembers.includes(user)
       ? ZINDEX_SETTING.ON_SELECT + DEFAULT_DISPLAY_MEMBER_COUNT - index
       : DEFAULT_DISPLAY_MEMBER_COUNT - index;
-  }, [index, item, selectedMembers]);
+  }, [index, user, selectedMembers]);
 
   const [zIndex, setZIndex] = useState<number>(getZIndex);
 
@@ -33,7 +34,7 @@ export const TodoAvatar: React.FC<TProps> = ({
   }, [getZIndex]);
 
   const handleSetSelectedMember = () => {
-    const selectedItem = item;
+    const selectedItem = user;
     setSelectedMembers((prev) => {
       if (prev.includes(selectedItem)) {
         return prev.filter((item) => item !== selectedItem);
@@ -55,13 +56,13 @@ export const TodoAvatar: React.FC<TProps> = ({
       onMouseOut={handleChangeZIndexOnMouseOut}
       onClick={handleSetSelectedMember}
       className={classNames("transition-all duration-200 group-hover:mb-3", {
-        "border-white bg-white": !selectedMembers.includes(item),
-        "border-primary-800 bg-primary-800": selectedMembers.includes(item),
+        "border-white bg-white": !selectedMembers.includes(user),
+        "border-primary-800 bg-primary-800": selectedMembers.includes(user),
       })}
       zIndex={zIndex}
     >
-      <Tooltip space={8} content={item}>
-        <Avatar fullName={item} />
+      <Tooltip space={8} content={user.full_name}>
+        <Avatar fullName={user.full_name} />
       </Tooltip>
     </TodoCircleBorderWrapper>
   );

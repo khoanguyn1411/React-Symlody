@@ -24,6 +24,7 @@ type IProps = {
   fontSize?: number;
   fontColor?: string;
   fontWeight?: number;
+  isSkeletonLoading?: boolean;
 };
 
 export const Avatar: React.FC<IProps> = ({
@@ -39,13 +40,19 @@ export const Avatar: React.FC<IProps> = ({
   fontSize,
   fontColor,
   fontWeight,
+  isSkeletonLoading = false,
 }) => {
   // const char =
   //   typeof fullName === "string"
   //     ? fullName.trim().slice(0, 1).toUpperCase()
   //     : "T";
   const text = getAvatarText(fullName || "Symphony", avatarTextLength);
-
+  const getBackgroundColor = (): string => {
+    if (isSkeletonLoading) {
+      return "rgb(229 231 235)";
+    }
+    return backgroundColor ?? getColorFromText(text);
+  };
   return (
     <span
       role="img"
@@ -61,14 +68,14 @@ export const Avatar: React.FC<IProps> = ({
         className
       )}
       style={{
-        backgroundColor: backgroundColor ?? getColorFromText(text),
+        backgroundColor: getBackgroundColor(),
         backgroundImage: src && `url(${src})`,
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
     >
-      {!src ? (
+      {!src && !isSkeletonLoading ? (
         <svg
           width="100%"
           height="100%"

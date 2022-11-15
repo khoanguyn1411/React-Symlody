@@ -24,6 +24,8 @@ export const TodoBoard: React.FC = () => {
   const dispatch = useAppDispatch();
   const taskState = useAppSelector((state) => state.task);
   const taskList = useAppSelector(taskSelectors.selectAll);
+  const currentUser = useAppSelector((state) => state.auth.user);
+
   const [columnList, setColumnList] = useState<TTodoColumn[]>(
     TODO_DATA.columns
   );
@@ -85,8 +87,8 @@ export const TodoBoard: React.FC = () => {
   }, [taskList]);
 
   useEffect(() => {
-    dispatch(getTasksAsync());
-  }, [dispatch]);
+    dispatch(getTasksAsync({ department_id: currentUser.organization.id }));
+  }, [currentUser.organization.id, dispatch]);
 
   if (taskState.pending) {
     return (

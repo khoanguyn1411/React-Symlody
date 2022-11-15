@@ -4,16 +4,17 @@ import { TaskApi } from "@/api";
 import { RootState } from "@/features/store";
 import { ITask, TaskMapper } from "@/features/types";
 import { ITaskCreateUpdate } from "@/features/types/models/task";
+import { TTaskParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
 
 import { initialState, taskAdapter } from "./state";
 
 export const getTasksAsync = createAsyncThunk<
   ITask[],
-  null,
+  TTaskParamQueryDto,
   GlobalTypes.ReduxThunkRejectValue<[]>
->("get/tasks", async (_, { rejectWithValue }) => {
-  const result = await TaskApi.getTasks();
+>("get/tasks", async (param, { rejectWithValue }) => {
+  const result = await TaskApi.getTasks(param);
   if (result.kind === "ok") {
     return result.result.map((item) => TaskMapper.fromDto(item));
   }

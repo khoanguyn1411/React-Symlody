@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 import { Avatar, Checkbox, Search } from "@/components";
 import { SelectCustom } from "@/components/elements/select/select-custom";
+import { IUser } from "@/features/types";
 import { useDebounce, useEffectSkipFirstRender } from "@/hooks";
 import { FilterService, GlobalTypes } from "@/utils";
 
@@ -10,9 +11,9 @@ import { ZINDEX_SETTING } from "./constant";
 import { TodoCircleBorderWrapper } from "./TodoCircleBorderWrapper";
 
 type TProps = {
-  memberList: string[];
-  selectedMembers: string[];
-  setSelectedMembers: GlobalTypes.ReactStateAction<string[]>;
+  memberList: IUser[];
+  selectedMembers: IUser[];
+  setSelectedMembers: GlobalTypes.ReactStateAction<IUser[]>;
 };
 
 export const TodoNumberHolder: React.FC<TProps> = ({
@@ -20,20 +21,20 @@ export const TodoNumberHolder: React.FC<TProps> = ({
   selectedMembers,
   setSelectedMembers,
 }) => {
-  const [_memberList, _setMemberList] = useState<string[]>(memberList);
-  const [_selectNumberList, _setSelectNumberList] = useState<string[]>([]);
+  const [_memberList, _setMemberList] = useState<IUser[]>(memberList);
+  const [_selectNumberList, _setSelectNumberList] = useState<IUser[]>([]);
 
   const { inputValue, setInputValue, debounceValue } = useDebounce();
 
   useEffectSkipFirstRender(() => {
     _setMemberList(
       memberList.filter((item) =>
-        FilterService.isTextIncludedIn(item, debounceValue)
+        FilterService.isTextIncludedIn(item.full_name, debounceValue)
       )
     );
   }, [debounceValue]);
 
-  const handleAddMemberToSelectList = (selectedItem: string) => () => {
+  const handleAddMemberToSelectList = (selectedItem: IUser) => () => {
     _setSelectNumberList((prev) => {
       if (prev.includes(selectedItem)) {
         return prev.filter((item) => item !== selectedItem);
@@ -82,8 +83,8 @@ export const TodoNumberHolder: React.FC<TProps> = ({
                   className="flex items-center w-full px-1 cursor-pointer transition-colors hover:bg-primary-100"
                 >
                   <Checkbox checked={selectedMembers.includes(item)} />
-                  <Avatar size="xsmall" fullName={item} />
-                  <h1 className="ml-2 text-sm">{item}</h1>
+                  <Avatar size="xsmall" fullName={item.full_name} />
+                  <h1 className="ml-2 text-sm">{item.full_name}</h1>
                 </button>
               ))}
           </>

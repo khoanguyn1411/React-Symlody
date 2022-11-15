@@ -1,4 +1,5 @@
 import { ITask, ITaskCreateUpdateDto, ITaskDto } from "@/features/types";
+import { TTaskParamQueryDto } from "@/features/types/queries";
 
 import { Api } from "../api-core";
 import { returnResponse } from "../api-utilities";
@@ -11,9 +12,11 @@ const routes = {
 };
 
 export const TaskApi = {
-  async getTasks(): Promise<Types.RequestGetTasksResult> {
+  async getTasks(
+    param?: TTaskParamQueryDto
+  ): Promise<Types.RequestGetTasksResult> {
     const url = routes.getTasks();
-    const result = await Api.http.get<ITaskDto[]>(url);
+    const result = await Api.http.get<ITaskDto[]>(url, param);
     return returnResponse(result);
   },
 
