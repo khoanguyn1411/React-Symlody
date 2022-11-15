@@ -1,6 +1,8 @@
-import { ITaskCreateUpdate } from "@/features/types/models/task";
+import { ITask, ITaskCreateUpdate } from "@/features/types/models/task";
+import { FormatService } from "@/utils";
+import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
-import { EPriority, IFormTodoInfo } from "./type";
+import { EPriority, IFormTodoInfo, ITodoTable } from "./type";
 
 export class TodoFormMapper {
   public static toModel(formData: IFormTodoInfo): ITaskCreateUpdate {
@@ -27,6 +29,15 @@ export class TodoFormMapper {
       assignee: model.assignee.id,
       reporter: model.reporter.id,
       description: model.description,
+    };
+  }
+
+  public static toTableView(model: ITask): ITodoTable {
+    return {
+      title: generatePlaceholderEmptyValue(model.title),
+      expiredDate: model.end_date
+        ? FormatService.toDate(model.end_date, "VN")
+        : generatePlaceholderEmptyValue(model.end_date),
     };
   }
 }

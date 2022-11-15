@@ -3,18 +3,11 @@ import React, { useMemo } from "react";
 import { Avatar } from "@/components";
 import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
-import { ETodoStatus, IMember, ITask } from "@/features/types";
+import { ITask } from "@/features/types";
 import { FormatService } from "@/utils";
+import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
-
-export type TTodoCardProps = {
-  title: string;
-  date: string;
-  isPriority: boolean;
-  assignee?: IMember;
-  status?: ETodoStatus;
-};
 
 export const TodoCard: React.FC<ITask> = (task) => {
   const userList = useAppSelector(userSelectors.selectAll);
@@ -39,7 +32,11 @@ export const TodoCard: React.FC<ITask> = (task) => {
           <h1>{task.title}</h1>
         </div>
         <div className="flex items-center justify-between mt-3">
-          <h2>{FormatService.toDate(task.end_date, "VN")}</h2>
+          <h2>
+            {task.end_date
+              ? FormatService.toDate(task.end_date, "VN")
+              : generatePlaceholderEmptyValue(task.end_date)}
+          </h2>
           <div className="flex items-center space-x-3">
             <TodoPriorityIcon isPriority={task.isPriority} />
             <Avatar

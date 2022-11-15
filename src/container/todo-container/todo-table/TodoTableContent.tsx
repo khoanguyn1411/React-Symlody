@@ -10,9 +10,9 @@ import {
   updateTaskAsync,
 } from "@/features/reducers/task-reducer";
 import { ETodoStatusId, ITask } from "@/features/types";
-import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
 import { TODO_MESSAGES } from "../constant";
+import { TodoFormMapper } from "../mapper";
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
 type TProps = {
@@ -102,21 +102,20 @@ export const TodoTableContent: React.FC<TProps> = ({
     <>
       <Table.Body>
         {tasks.map((item, index) => {
+          const itemTable = TodoFormMapper.toTableView(item);
           return (
             <Table.Row key={index} index={index}>
               <Table.Cell textAlign="center">{index + 1}</Table.Cell>
               <Table.Cell>
                 <div className="flex space-x-4">
-                  <span>{generatePlaceholderEmptyValue(item.title)}</span>
+                  <span>{itemTable.title}</span>
                   <TodoSelectPriority
                     task={item}
                     onPriorityChange={handlePriorityChange}
                   />
                 </div>
               </Table.Cell>
-              <Table.Cell textAlign="right">
-                {generatePlaceholderEmptyValue(item.end_date)}
-              </Table.Cell>
+              <Table.Cell textAlign="right">{itemTable.expiredDate}</Table.Cell>
               <Table.Cell textAlign="left">
                 <TodoSelectStatus
                   task={item}

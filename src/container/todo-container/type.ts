@@ -1,7 +1,5 @@
 import { ETodoStatus, ETodoStatusId, ITask } from "@/features/types";
 
-import { TTodoCardProps } from "./todo-kanban";
-
 export enum EPriority {
   High = "Cao",
   Normal = "Bình thường",
@@ -20,7 +18,7 @@ export type TTodoCard = {
   id: string;
   boardId: TTodo["id"];
   columnId: TTodoColumn["id"];
-} & TTodoCardProps;
+} & ITask;
 
 export type TTodoColumn = {
   color?: "green" | "blue";
@@ -53,4 +51,9 @@ export enum ETodoTabReadableString {
 export enum ETodoTabKey {
   Kanban = "kanban",
   Board = "board",
+}
+
+export interface ITodoTable {
+  readonly title: string;
+  readonly expiredDate: string;
 }
