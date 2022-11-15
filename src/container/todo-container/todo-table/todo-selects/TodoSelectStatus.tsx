@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { SelectCustom } from "@/components";
 import { ETodoStatusId, ITask } from "@/features/types";
 
-import { TODO_STATUS_MAP_FROM_ID } from "../../type";
+import { TODO_STATUS_MAP_FROM_ID } from "../../mapper";
 import { COLOR_MAP } from "./type";
 
 type TProps = {

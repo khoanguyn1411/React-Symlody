@@ -1,8 +1,22 @@
-import { ITask, ITaskCreateUpdate } from "@/features/types/models/task";
+import {
+  ETodoStatus,
+  ETodoStatusId,
+  ITask,
+  ITaskCreateUpdate,
+} from "@/features/types/models/task";
 import { FormatService } from "@/utils";
 import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
 import { EPriority, IFormTodoInfo, ITodoTable } from "./type";
+
+export const TODO_STATUS_MAP_FROM_ID: Readonly<
+  Record<ETodoStatusId, ETodoStatus>
+> = {
+  [ETodoStatusId.Todo]: ETodoStatus.Todo,
+  [ETodoStatusId.InProgress]: ETodoStatus.InProgress,
+  [ETodoStatusId.Review]: ETodoStatus.Review,
+  [ETodoStatusId.Done]: ETodoStatus.Done,
+};
 
 export class TodoFormMapper {
   public static toModel(formData: IFormTodoInfo): ITaskCreateUpdate {

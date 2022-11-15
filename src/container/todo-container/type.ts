@@ -5,15 +5,6 @@ export enum EPriority {
   Normal = "Bình thường",
 }
 
-export const TODO_STATUS_MAP_FROM_ID: Readonly<
-  Record<ETodoStatusId, ETodoStatus>
-> = {
-  [ETodoStatusId.Todo]: ETodoStatus.Todo,
-  [ETodoStatusId.InProgress]: ETodoStatus.InProgress,
-  [ETodoStatusId.Review]: ETodoStatus.Review,
-  [ETodoStatusId.Done]: ETodoStatus.Done,
-};
-
 export type TTodoCard = {
   id: string;
   boardId: TTodo["id"];

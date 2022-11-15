@@ -6,7 +6,8 @@ import { ITask } from "@/features/types";
 import { FormatService, SortService } from "@/utils";
 
 import { TODO_DATA } from "../constant";
-import { TODO_STATUS_MAP_FROM_ID, TTodoColumn } from "../type";
+import { TODO_STATUS_MAP_FROM_ID } from "../mapper";
+import { TTodoColumn } from "../type";
 import { TodoCard } from "./TodoCard";
 import { TCardHiddenStatus } from "./type";
 

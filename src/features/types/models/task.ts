@@ -10,10 +10,10 @@ export enum ETodoStatusId {
 }
 
 export enum ETodoStatus {
-  Todo = "Cần làm",
-  InProgress = "Đang làm",
-  Review = "Cần duyệt",
-  Done = "Đã xong",
+  Todo = "Cần thực hiện",
+  InProgress = "Đang thực hiện",
+  Review = "Kiểm tra",
+  Done = "Hoàn thành",
 }
 
 export enum EPriority {
