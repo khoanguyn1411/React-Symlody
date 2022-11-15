@@ -52,6 +52,11 @@ export const TabHost: React.FC<TProps> = ({
   };
 
   useEffect(() => {
+    activeTab.to && navigate(activeTab.to);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (!isUrlInteraction) {
       return;
     }

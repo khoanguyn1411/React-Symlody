@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getMeAsync,
   getTenantAsync,
-  getUsersAsync,
   logout,
   setIsAuth,
   setIsCompactSidebar,
@@ -40,9 +39,6 @@ export const useAuth = () => {
       if (res.payload) {
         dispatch(setIsAuth(true));
         dispatch(getTenantAsync());
-        if (userCount === 0) {
-          dispatch(getUsersAsync());
-        }
         isAlreadyGetMe.current = true;
         return;
       }

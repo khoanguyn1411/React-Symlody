@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import { ConfigApi } from "@/api";
 import { Table } from "@/components";
 import { GROUPS } from "@/constants";
-import { useAppSelector } from "@/features";
-import { userSelectors } from "@/features/reducers";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { IConfigInfo } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
@@ -20,36 +20,55 @@ const { ModalEditPermission } = lazyImport(
 
 export const TabRolePermission: React.FC = () => {
   const userList = useAppSelector(userSelectors.selectAll);
-  const userListMap: IConfigInfo[] = userList.map((u) => ({
-    id: u.id,
-    email: u.email,
-    first_name: u.first_name,
-    last_name: u.last_name,
-    groups: [],
-  }));
+  const userCount = useAppSelector(userSelectors.selectTotal);
 
   const propsModalEditPermission = useModal<IConfigInfo>();
-
+  const dispatch = useAppDispatch();
   const [configData, setConfigData] = useState<IConfigInfo[]>([]);
   const [isRendered, setIsRendered] = useState(false);
 
   const fetchConfigManager = async () => {
-    const result = await ConfigApi.getConfigManager();
-    if (result.kind === "ok") {
-      const res = result.result.leaders.concat(result.result.managers);
-      const data = userListMap.map((u) => {
-        const _user = res.find((r) => r.id === u.id);
-        if (_user) {
-          return { ..._user };
-        }
-        return { ...u };
-      });
+    const hasUser = userCount > 0;
+    const combinedPromise = hasUser
+      ? Promise.all([ConfigApi.getConfigManager()])
+      : Promise.all([ConfigApi.getConfigManager(), dispatch(getUsersAsync())]);
 
-      setConfigData(data);
-    } else {
-      setConfigData([]);
-    }
-    setIsRendered(true);
+    combinedPromise.then(
+      (res: Awaited<Promise<typeof combinedPromise>>): void => {
+        const result = res[0];
+        const userListAfterPromise = res[1];
+        const _userList = hasUser ? userList : userListAfterPromise.payload;
+        const userListMap: IConfigInfo[] = _userList.map((u) => ({
+          id: u.id,
+          email: u.email,
+          first_name: u.first_name,
+          last_name: u.last_name,
+          groups: [],
+        }));
+        if (
+          !hasUser &&
+          userListAfterPromise.meta.requestStatus === "rejected"
+        ) {
+          setConfigData([]);
+          setIsRendered(true);
+          return;
+        }
+        if (result.kind === "ok") {
+          const res = result.result.leaders.concat(result.result.managers);
+          const data = userListMap.map((u) => {
+            const _user = res.find((r) => r.id === u.id);
+            if (_user) {
+              return { ..._user };
+            }
+            return { ...u };
+          });
+          setConfigData(data);
+        } else {
+          setConfigData([]);
+        }
+        setIsRendered(true);
+      }
+    );
   };
 
   useEffect(() => {
