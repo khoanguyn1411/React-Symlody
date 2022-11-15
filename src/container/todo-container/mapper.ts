@@ -6,6 +6,7 @@ export class TodoFormMapper {
   public static toModel(formData: IFormTodoInfo): ITaskCreateUpdate {
     return {
       title: formData.name,
+      isPriority: formData.priority === EPriority.High,
       assignee: {
         id: formData.assignee,
       },

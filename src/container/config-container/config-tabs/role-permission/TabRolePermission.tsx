@@ -111,8 +111,6 @@ export const TabRolePermission: React.FC = () => {
     return true;
   };
 
-  if (!isRendered) return <Icon.Spin size="medium" />;
-
   return (
     <>
       <Table.Container>
@@ -134,6 +132,7 @@ export const TabRolePermission: React.FC = () => {
         </Table.Head>
 
         <TableGroup
+          isRendered={isRendered}
           configData={configData}
           onOpenEdit={handleOpenEdit}
           onDeleteRoleUser={handleDeleteRoleUser}

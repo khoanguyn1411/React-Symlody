@@ -4,6 +4,7 @@ import { Avatar } from "@/components";
 import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import { ETodoStatus, IMember, ITask } from "@/features/types";
+import { FormatService } from "@/utils";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 
@@ -38,7 +39,7 @@ export const TodoCard: React.FC<ITask> = (task) => {
           <h1>{task.title}</h1>
         </div>
         <div className="flex items-center justify-between mt-3">
-          <h2 className="font-medium text-primary-800">{task.end_date}</h2>
+          <h2>{FormatService.toDate(task.end_date, "VN")}</h2>
           <div className="flex items-center space-x-3">
             <TodoPriorityIcon isPriority={task.isPriority} />
             <Avatar
