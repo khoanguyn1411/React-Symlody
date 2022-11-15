@@ -1,9 +1,7 @@
-import { Suspense, useEffect, useState } from "react";
-import React from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import { ConfigApi } from "@/api";
-import { Icon } from "@/assets/icons";
 import { Table } from "@/components";
 import { GROUPS } from "@/constants";
 import { useAppSelector } from "@/features";
