@@ -61,13 +61,14 @@ export const ConfigContainer: React.FC = () => {
     getContentTab(tab as EConfigTabKey)
   );
 
+  const isInvalidUrl =
+    !Object.values(EConfigTabKey).includes(tab as EConfigTabKey) && tab != null;
+
   useEffect(() => {
     setContent(getContentTab(tab as EConfigTabKey));
   }, [navigate, tab]);
-  if (
-    !Object.values(EConfigTabKey).includes(tab as EConfigTabKey) &&
-    tab != null
-  ) {
+
+  if (isInvalidUrl) {
     return (
       <NotificationImg
         title="Trang bạn đang truy cập không tồn tại"

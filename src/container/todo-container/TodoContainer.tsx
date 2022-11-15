@@ -74,6 +74,14 @@ export const TodoContainer: React.FC = () => {
     departmentStore.departments[0] ? departmentStore.departments[0].name : ""
   );
 
+  const isNoData = false;
+  const isInvalidUrl =
+    !Object.values(ETodoTabKey).includes(tab as ETodoTabKey) && tab != null;
+
+  useEffect(() => {
+    setContent(getContentTab(tab as ETodoTabKey));
+  }, [navigate, tab]);
+
   useEffect(() => {
     if (userList.length > 0) {
       return;
@@ -98,13 +106,7 @@ export const TodoContainer: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [departmentStore.departments]);
 
-  useEffect(() => {
-    setContent(getContentTab(tab as ETodoTabKey));
-  }, [navigate, tab]);
-
-  const isNoData = false;
-
-  if (!Object.values(ETodoTabKey).includes(tab as ETodoTabKey) && tab != null) {
+  if (isInvalidUrl) {
     return (
       <NotificationImg
         title="Trang bạn đang truy cập không tồn tại"

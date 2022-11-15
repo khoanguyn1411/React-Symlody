@@ -26,7 +26,7 @@ export const TodoCard: React.FC<ITask> = (task) => {
     [userList]
   );
   return (
-    <div className="pb-3">
+    <div className="pb-1">
       <div className="px-3 py-3 bg-white border border-gray-300 cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md">
         <div className="flex justify-between space-x-3">
           <h1>{task.title}</h1>

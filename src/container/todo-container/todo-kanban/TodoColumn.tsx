@@ -55,7 +55,7 @@ export const TodoColumn: React.FC<TProps> = ({
   };
 
   return (
-    <div className="bg-gray-100 rounded-lg h-[calc(100%_-_15px)] min-w-[200px]">
+    <div className="bg-gray-100 rounded-lg h-[calc(100%_-_10px)] min-w-[200px]">
       <div className="sticky top-0 z-[2] bg-gray-50">
         <h1 className="px-3 py-4 font-medium bg-gray-100 rounded-t-lg">
           {columnData.title}{" "}
@@ -94,7 +94,11 @@ export const TodoColumn: React.FC<TProps> = ({
       </div>
 
       <div
-        className={classNames("flex flex-col px-3 pb-3 h-[calc(100%-3.8rem)]")}
+        className={classNames("flex flex-col px-3 pb-3 h-[calc(100%-3.8rem)]", {
+          "overflow-y-hidden":
+            draggingCard.columnId !== columnData.id &&
+            draggingCard.isCardDragging,
+        })}
       >
         <Droppable droppableId={columnData.id}>
           {(providedDrop, snapshot) => {
@@ -102,7 +106,7 @@ export const TodoColumn: React.FC<TProps> = ({
               <>
                 <div
                   className={classNames(
-                    "transition-colors duration-150 h-full border-2 rounded-md",
+                    "transition-colors duration-150 pb-3 h-full border-2 rounded-md",
                     {
                       "border-primary-800 bg-primary-50 border-dashed":
                         snapshot.isDraggingOver,
