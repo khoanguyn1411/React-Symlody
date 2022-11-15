@@ -1,5 +1,12 @@
 import classNames from "classnames";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useEffectSkipFirstRender } from "@/hooks";
@@ -32,6 +39,7 @@ export const TabHost: React.FC<TProps> = ({
   isHeaderTabHost = false,
 }) => {
   const refs = useRef<HTMLButtonElement[]>([]);
+  const [isFontReady, setIsFontReady] = useState(false);
   const navigate = useNavigate();
 
   const getTabActive = useMemo(
@@ -50,27 +58,6 @@ export const TabHost: React.FC<TProps> = ({
     tab.to && navigate(tab.to);
     onChangeTab && onChangeTab(tab);
   };
-
-  useEffect(() => {
-    activeTab.to && navigate(activeTab.to);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (!isUrlInteraction) {
-      return;
-    }
-    if (tabChangeDependOnChangeOf == null) {
-      navigate(listTabs[0].to);
-    }
-    const activeTab = getTabActive(tabChangeDependOnChangeOf);
-    setActiveTab(activeTab);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabChangeDependOnChangeOf]);
-
-  useEffectSkipFirstRender(() => {
-    setIsAnimatedSlider(true);
-  }, [tabChangeDependOnChangeOf]);
 
   const getPositionSlider = useCallback((): {
     left: number;
@@ -109,9 +96,33 @@ export const TabHost: React.FC<TProps> = ({
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setPositionSlider(getPositionSlider());
-  }, [getPositionSlider, listTabs]);
+  }, [getPositionSlider, isFontReady]);
+
+  useEffect(() => {
+    if (!isUrlInteraction) {
+      return;
+    }
+    if (tabChangeDependOnChangeOf == null) {
+      navigate(listTabs[0].to);
+    }
+    const activeTab = getTabActive(tabChangeDependOnChangeOf);
+    setActiveTab(activeTab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabChangeDependOnChangeOf]);
+
+  useEffectSkipFirstRender(() => {
+    setIsAnimatedSlider(true);
+  }, [tabChangeDependOnChangeOf]);
+
+  useEffect(() => {
+    // Determine whether the font is loaded or not to re-calculate the position
+    // of bottom slider.
+    document.fonts.ready.then(function () {
+      setIsFontReady(true);
+    });
+  }, []);
 
   return (
     <div
