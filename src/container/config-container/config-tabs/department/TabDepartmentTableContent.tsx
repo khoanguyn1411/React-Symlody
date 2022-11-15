@@ -41,7 +41,7 @@ export const TabDepartmentTableContent: React.FC<TProps> = ({
             {item.member_count}
           </Table.Cell>
           <Table.Cell width="8rem" textAlign="right">
-            {FormatService.toDate(item.created_date, "VN")}
+            {FormatService.toDateString(item.created_date, "VN")}
           </Table.Cell>
           <Table.CellAction>
             <DeleteAndEditField

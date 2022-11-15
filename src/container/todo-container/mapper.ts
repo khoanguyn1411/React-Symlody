@@ -36,7 +36,7 @@ export class TodoFormMapper {
     return {
       title: generatePlaceholderEmptyValue(model.title),
       expiredDate: model.end_date
-        ? FormatService.toDate(model.end_date, "VN")
+        ? FormatService.toDateString(model.end_date, "VN")
         : generatePlaceholderEmptyValue(model.end_date),
     };
   }

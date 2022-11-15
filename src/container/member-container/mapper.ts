@@ -27,7 +27,7 @@ export class MemberFormMapper {
         ),
       },
       avatar: null,
-      dob: FormatService.toDate(formData.birthday, "US"),
+      dob: FormatService.toDateString(formData.birthday, "US"),
       class_name: formData.class,
       address: formData.address,
       gender: formData.gender as IMemberCreateUpdate["gender"],
@@ -67,7 +67,7 @@ export class MemberTableMapper {
       firstName: model.auth_account.first_name,
       email: model.auth_account.email,
       department: model.department.name,
-      birthday: FormatService.toDate(model.dob, "VN"),
+      birthday: FormatService.toDateString(model.dob, "VN"),
       roles:
         model.auth_account.groups.length === 1 &&
         model.auth_account.groups[0].name === ERoles.Member

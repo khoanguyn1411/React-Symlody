@@ -10,8 +10,11 @@ export class MemberMapper {
     return {
       ...dto,
       gender: dto.gender === 1 ? "Nam" : "Nữ",
-      dob: FormatService.toDate(dto.dob, "US"),
-      last_modified_date: FormatService.toDate(dto.last_modified_date, "US"),
+      dob: FormatService.toDateString(dto.dob, "US"),
+      last_modified_date: FormatService.toDateString(
+        dto.last_modified_date,
+        "US"
+      ),
       department: DepartmentMapper.fromDto(dto.department),
       auth_account: AuthAccountMapper.fromDto(dto.auth_account),
     };
@@ -22,7 +25,7 @@ export class MemberMapper {
   ): IMemberCreateUpdateDto {
     return {
       ...model,
-      dob: FormatService.toDate(model.dob, "API"),
+      dob: FormatService.toDateString(model.dob, "API"),
       gender: model.gender === "Nam" ? 1 : 2,
       department_id: model.department.id,
     };
@@ -33,7 +36,7 @@ export class MemberMapper {
   ): IMemberCreateUpdateDto {
     return {
       ...model,
-      dob: FormatService.toDate(model.dob, "API"),
+      dob: FormatService.toDateString(model.dob, "API"),
       gender: model.gender === "Nam" ? 1 : 2,
       department_id: model.department.id,
     };

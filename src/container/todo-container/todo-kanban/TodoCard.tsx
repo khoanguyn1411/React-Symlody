@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, { useMemo } from "react";
 
 import { Avatar } from "@/components";
@@ -5,12 +6,14 @@ import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import { ITask } from "@/features/types";
 import { FormatService } from "@/utils";
+import { compareDateWithToday } from "@/utils/services/compare-service";
 import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 
 export const TodoCard: React.FC<ITask> = (task) => {
   const userList = useAppSelector(userSelectors.selectAll);
+  const borderCardType = compareDateWithToday(task.end_date);
   const getAssigneeBy = useMemo(
     () =>
       (item: ITask, getField: "name" | "avatar"): string => {
@@ -26,15 +29,29 @@ export const TodoCard: React.FC<ITask> = (task) => {
     [userList]
   );
   return (
-    <div className="pb-1">
-      <div className="px-3 py-3 bg-white border border-gray-300 cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md">
+    <div className="pb-2">
+      <div
+        className={classNames(
+          "px-3 py-3 bg-white cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md",
+          {
+            "border-gray-300 border": borderCardType === "in-future",
+            "border-yellow-500 border-2": borderCardType === "today",
+            "border-red-400 border-2": borderCardType === "in-past",
+          }
+        )}
+      >
         <div className="flex justify-between space-x-3">
           <h1>{task.title}</h1>
         </div>
         <div className="flex items-center justify-between mt-3">
-          <h2>
+          <h2
+            className={classNames({
+              "text-yellow-500 font-medium": borderCardType === "today",
+              "text-red-400 font-medium": borderCardType === "in-past",
+            })}
+          >
             {task.end_date
-              ? FormatService.toDate(task.end_date, "VN")
+              ? FormatService.toDateString(task.end_date, "VN")
               : generatePlaceholderEmptyValue(task.end_date)}
           </h2>
           <div className="flex items-center space-x-3">

@@ -1,5 +1,5 @@
 export * as CSSService from "./css-var-service";
-export * from "./delay-service";
+export * as DelayService from "./delay-service";
 export * as FileService from "./file-service";
 export * as FilterService from "./filter-service";
 export * as FormDataService from "./form-data-service";
@@ -9,3 +9,4 @@ export * as GeneratorService from "./generate-service";
 export * as LocalStorageService from "./local-storage-service";
 export * as SortService from "./sort-service";
 export * as TokenService from "./token-service";
+export * as CompareService from "./token-service";

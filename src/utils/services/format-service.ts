@@ -64,7 +64,7 @@ export function toCleanedString(value: string): string {
  * @param value Text need to be formatted to Date.
  * @param type Type of format.
  */
-export function toDate(
+export function toDateString(
   value: string | Date,
   type: "VN" | "US" | "API"
 ): string {
@@ -91,6 +91,18 @@ export function removeAccent(str: string): string {
  * @param string String need to be capitalized letter.
  * @param index Index of character need to capitalize (default is 0).
  */
-export function capitalizeLetter(string: string, index = 0) {
+export function capitalizeLetter(string: string, index = 0): string {
   return string.charAt(index).toUpperCase() + string.slice(index + 1);
+}
+
+/**
+ * Format text to date.
+ * @param string Text need to be formatted to Date.
+ */
+export function toDate(string: string): Date {
+  try {
+    return new Date(string);
+  } catch (err) {
+    throw new Error("Invalid date string!");
+  }
 }

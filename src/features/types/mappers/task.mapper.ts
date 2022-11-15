@@ -35,11 +35,13 @@ export class TaskMapper {
     return {
       ...dto,
       start_date: dto.start_date
-        ? FormatService.toDate(dto.start_date, "US")
+        ? FormatService.toDateString(dto.start_date, "US")
         : "",
-      end_date: dto.end_date ? FormatService.toDate(dto.end_date, "US") : "",
+      end_date: dto.end_date
+        ? FormatService.toDateString(dto.end_date, "US")
+        : "",
       last_modified_date: dto.last_modified_date
-        ? FormatService.toDate(dto.last_modified_date, "US")
+        ? FormatService.toDateString(dto.last_modified_date, "US")
         : "",
       isPriority: dto.priority === EPriorityDto.High,
       created_by: UserMapper.fromDto(dto.created_by),
@@ -59,10 +61,10 @@ export class TaskMapper {
       priority: model.isPriority ? EPriorityDto.High : EPriorityDto.Default,
       description: model.description,
       start_date: model.start_date
-        ? FormatService.toDate(model.start_date, "API")
+        ? FormatService.toDateString(model.start_date, "API")
         : null,
       end_date: model.end_date
-        ? FormatService.toDate(model.end_date, "API")
+        ? FormatService.toDateString(model.end_date, "API")
         : null,
       status: TASK_STATUS_TO_DTO[model.status],
     };

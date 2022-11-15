@@ -25,7 +25,7 @@ type TProps = {
 const getDayAfterWeek = (): string => {
   const today = new Date();
   today.setDate(today.getDate() + 7);
-  return FormatService.toDate(today, "US");
+  return FormatService.toDateString(today, "US");
 };
 
 export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
