@@ -17,7 +17,7 @@ export const TodoTable: React.FC = () => {
 
   return (
     <Container.Body>
-      <Table.Container>
+      <Table.Container isFullHeight>
         <Table.Head>
           <Table.CellHead isFirst width="5rem" textAlign="center">
             STT

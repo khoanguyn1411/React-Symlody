@@ -130,7 +130,7 @@ export const TabRolePermission: React.FC = () => {
 
   return (
     <>
-      <Table.Container>
+      <Table.Container isFullHeight>
         <Table.Head>
           <Table.CellHead isFirst textAlign="left">
             Thành viên

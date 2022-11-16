@@ -14,6 +14,7 @@ type TPropsTableContext = {
 export type TPropsTable = {
   defaultSortActive?: string;
   defaultOrderActive?: TOrdering;
+  isFullHeight?: boolean;
 };
 const TableContext = createContext<TPropsTableContext>(null);
 
@@ -21,12 +22,14 @@ const TableProvider: GlobalTypes.FCPropsWithChildren<TPropsTable> = ({
   children,
   defaultSortActive,
   defaultOrderActive,
+  isFullHeight = false,
 }) => {
   const [currentSort, setCurrentSort] = useState<string>(defaultSortActive);
   const [currentOrdering, setCurrentOrdering] =
     useState<TOrdering>(defaultOrderActive);
   const value = {
     currentSort,
+    isFullHeight,
     currentOrdering,
     defaultSortActive,
     defaultOrderActive,

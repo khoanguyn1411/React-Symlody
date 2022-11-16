@@ -14,9 +14,9 @@ export const TableSimpleSkeleton: React.FC<TProps> = ({
 }) => {
   return (
     <Table.Body>
-      {[...Array(rowsNumber)].map((item, index) => (
+      {[...Array(rowsNumber)].map((_, index) => (
         <Table.Row isSkeleton key={index}>
-          {[...Array(colsNumber)].map((item, index) => (
+          {[...Array(colsNumber)].map((_, index) => (
             <Table.Cell
               key={index}
               isFirst={index === 0}
