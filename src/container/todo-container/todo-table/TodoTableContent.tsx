@@ -107,11 +107,11 @@ export const TodoTableContent: React.FC<TProps> = ({
               <Table.Cell textAlign="center">{index + 1}</Table.Cell>
               <Table.Cell>
                 <div className="flex space-x-4">
-                  <span className="ellipsis-text-1">{itemTable.title}</span>
                   <TodoSelectPriority
                     task={item}
                     onPriorityChange={handlePriorityChange}
                   />
+                  <span className="ellipsis-text-1">{itemTable.title}</span>
                 </div>
               </Table.Cell>
               <Table.Cell textAlign="right">
