@@ -2,7 +2,6 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { DragDropContext, DragStart, DropResult } from "react-beautiful-dnd";
 import { toast } from "react-toastify";
 
-import { Loading } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import {
@@ -82,7 +81,7 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
     propsModalEdit.setData(cardInfo);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const columnWithTasks: TTodoColumn[] = columnList.map((column) => {
       return {
         ...column,
@@ -104,7 +103,7 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
     dispatch(getTasksByAssignee({ taskList, userList }));
   }, [dispatch, taskList, taskStore.selectedMemberList, userList]);
 
-  if (isLoading) {
+  if (isLoading || taskStore.pending) {
     return (
       <div className="mt-5 overflow-auto px-default grid gap-x-5 grid-cols-4-1fr h-[calc(100vh-8.8rem)]">
         {[...Array(4)].map((_, index) => {

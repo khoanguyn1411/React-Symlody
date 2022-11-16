@@ -25,6 +25,7 @@ type IProps = {
   fontColor?: string;
   fontWeight?: number;
   isSkeletonLoading?: boolean;
+  isUnassigned?: boolean;
 };
 
 export const Avatar: React.FC<IProps> = ({
@@ -41,6 +42,7 @@ export const Avatar: React.FC<IProps> = ({
   fontColor,
   fontWeight,
   isSkeletonLoading = false,
+  isUnassigned = false,
 }) => {
   // const char =
   //   typeof fullName === "string"
@@ -49,6 +51,9 @@ export const Avatar: React.FC<IProps> = ({
   const text = getAvatarText(fullName || "Symphony", avatarTextLength);
   const getBackgroundColor = (): string => {
     if (isSkeletonLoading) {
+      return "rgb(229 231 235)";
+    }
+    if (isUnassigned) {
       return "rgb(229 231 235)";
     }
     return backgroundColor ?? getColorFromText(text);
@@ -75,7 +80,8 @@ export const Avatar: React.FC<IProps> = ({
         backgroundSize: "cover",
       }}
     >
-      {!src && !isSkeletonLoading ? (
+      {isUnassigned && <i className="fas fa-user"></i>}
+      {!src && !isSkeletonLoading && !isUnassigned ? (
         <svg
           width="100%"
           height="100%"

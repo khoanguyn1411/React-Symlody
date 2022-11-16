@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useMemo } from "react";
+import React from "react";
 
 import { Avatar, Tooltip } from "@/components";
 import { useAppSelector } from "@/features";
@@ -9,25 +9,14 @@ import { FormatService } from "@/utils";
 import { compareDateWithToday } from "@/utils/services/compare-service";
 import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
+import { generateGetTaskFieldFn, UNASSIGNED_TEXT } from "../constant";
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 
 export const TodoCard: React.FC<ITask> = (task) => {
   const userList = useAppSelector(userSelectors.selectAll);
   const borderCardType = compareDateWithToday(task.end_date);
-  const getAssigneeBy = useMemo(
-    () =>
-      (item: ITask, getField: "name" | "avatar"): string => {
-        const assignee = userList.find((user) => user.id === item.assignee.id);
-        if (assignee == null) {
-          return "";
-        }
-        if (getField === "name") {
-          return assignee.full_name;
-        }
-        return assignee.avatar;
-      },
-    [userList]
-  );
+  const taskInfo = generateGetTaskFieldFn(userList);
+
   return (
     <div className="pb-2">
       <div
@@ -56,10 +45,18 @@ export const TodoCard: React.FC<ITask> = (task) => {
           </h2>
           <div className="flex items-center space-x-3">
             <TodoPriorityIcon isPriority={task.isPriority} />
-            <Tooltip space={8} content={getAssigneeBy(task, "name")}>
+            <Tooltip
+              space={8}
+              content={
+                taskInfo.get(task, "name") === ""
+                  ? UNASSIGNED_TEXT
+                  : taskInfo.get(task, "name")
+              }
+            >
               <Avatar
-                src={getAssigneeBy(task, "avatar")}
-                fullName={getAssigneeBy(task, "name")}
+                src={taskInfo.get(task, "avatar")}
+                fullName={taskInfo.get(task, "name")}
+                isUnassigned={taskInfo.get(task, "name") === ""}
               />
             </Tooltip>
           </div>

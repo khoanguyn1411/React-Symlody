@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useEffect, useLayoutEffect, useMemo } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { toast } from "react-toastify";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
@@ -14,7 +14,11 @@ import {
 import { ETodoStatusId, ITask } from "@/features/types";
 import { compareDateWithToday } from "@/utils/services/compare-service";
 
-import { TODO_MESSAGES } from "../constant";
+import {
+  generateGetTaskFieldFn,
+  TODO_MESSAGES,
+  UNASSIGNED_TEXT,
+} from "../constant";
 import { TodoFormMapper } from "../mapper";
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
@@ -31,10 +35,13 @@ export const TodoTableContent: React.FC<TProps> = ({
   onRestore,
   isLoading,
 }) => {
+  const dispatch = useAppDispatch();
   const userList = useAppSelector(userSelectors.selectAll);
   const taskStore = useAppSelector((state) => state.task);
-  const dispatch = useAppDispatch();
+  const taskList = useAppSelector(taskSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.auth.user);
+
+  const taskInfo = generateGetTaskFieldFn(userList);
 
   const handleEdit = (item: ITask) => () => {
     onEdit(item);
@@ -46,26 +53,9 @@ export const TodoTableContent: React.FC<TProps> = ({
     onRestore(item);
   };
 
-  const taskList = useAppSelector(taskSelectors.selectAll);
-
   useEffect(() => {
     dispatch(getTasksByAssignee({ taskList, userList }));
   }, [dispatch, taskList, taskStore.selectedMemberList, userList]);
-
-  const getAssigneeBy = useMemo(
-    () =>
-      (item: ITask, getField: "name" | "avatar"): string => {
-        const assignee = userList.find((user) => user.id === item.assignee.id);
-        if (assignee == null) {
-          return "";
-        }
-        if (getField === "name") {
-          return assignee.full_name;
-        }
-        return assignee.avatar;
-      },
-    [userList]
-  );
 
   const handleChangeStatus = async (status: ETodoStatusId, task: ITask) => {
     const result = await dispatch(
@@ -98,7 +88,7 @@ export const TodoTableContent: React.FC<TProps> = ({
     dispatch(getTasksAsync({ department_id }));
   }, [currentUser.organization.id, dispatch, taskStore.listQueryTask]);
 
-  if (isLoading) {
+  if (isLoading || taskStore.pending) {
     return <Table.Skeleton colsNumber={6} />;
   }
 
@@ -128,7 +118,7 @@ export const TodoTableContent: React.FC<TProps> = ({
                 <span
                   className={classNames({
                     "text-yellow-500": warningType === "today",
-                    "text-red-400": warningType === "in-future",
+                    "text-red-400": warningType === "in-past",
                   })}
                 >
                   {itemTable.expiredDate}
@@ -143,10 +133,15 @@ export const TodoTableContent: React.FC<TProps> = ({
               <Table.Cell>
                 <div className="flex items-center gap-3">
                   <Avatar
-                    src={getAssigneeBy(item, "avatar")}
-                    fullName={getAssigneeBy(item, "name")}
+                    src={taskInfo.get(item, "avatar")}
+                    fullName={taskInfo.get(item, "name")}
+                    isUnassigned={taskInfo.get(item, "name") === ""}
                   />
-                  <span>{getAssigneeBy(item, "name")}</span>
+                  <span>
+                    {taskInfo.get(item, "name") === ""
+                      ? UNASSIGNED_TEXT
+                      : taskInfo.get(item, "name")}
+                  </span>
                 </div>
               </Table.Cell>
               <Table.CellAction>
