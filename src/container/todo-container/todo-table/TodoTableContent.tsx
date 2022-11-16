@@ -47,8 +47,8 @@ export const TodoTableContent: React.FC<TProps> = ({
   const taskList = useAppSelector(taskSelectors.selectAll);
 
   useEffect(() => {
-    dispatch(getTasksByAssignee(taskList));
-  }, [taskStore.selectedMemberList, taskList, dispatch]);
+    dispatch(getTasksByAssignee({ taskList, userList }));
+  }, [dispatch, taskList, taskStore.selectedMemberList, userList]);
 
   const getAssigneeBy = useMemo(
     () =>

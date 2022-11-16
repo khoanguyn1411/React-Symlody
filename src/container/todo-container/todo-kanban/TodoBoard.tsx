@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 import { Loading } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
+import { userSelectors } from "@/features/reducers";
 import {
   getTasksAsync,
   getTasksByAssignee,
@@ -25,6 +26,7 @@ export const TodoBoard: React.FC = () => {
   const dispatch = useAppDispatch();
   const taskStore = useAppSelector((state) => state.task);
   const taskList = useAppSelector(taskSelectors.selectAll);
+  const userList = useAppSelector(userSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.auth.user);
 
   const [columnList, setColumnList] = useState<TTodoColumn[]>(
@@ -95,8 +97,8 @@ export const TodoBoard: React.FC = () => {
   }, [currentUser.organization.id, dispatch, taskStore.listQueryTask]);
 
   useEffect(() => {
-    dispatch(getTasksByAssignee(taskList));
-  }, [dispatch, taskList, taskStore.selectedMemberList]);
+    dispatch(getTasksByAssignee({ taskList, userList }));
+  }, [dispatch, taskList, taskStore.selectedMemberList, userList]);
 
   if (taskStore.pending) {
     return (

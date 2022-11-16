@@ -116,8 +116,8 @@ export const updateMemberAsync = createAsyncThunk<
       const reduxStore = store.getState();
       const userState = reduxStore.user;
       if (isRestore) {
-        if (userState.ids.length > 0) {
-          dispatch(getUsersAsync());
+        if (userState.ids.length === 0) {
+          return;
         }
       } else {
         if (userState.ids.length > 0) {

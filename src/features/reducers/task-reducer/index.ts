@@ -57,21 +57,28 @@ export const taskSlice = createSlice({
     setSelectedMemberList(state, action: PayloadAction<IUser[] | null>) {
       state.selectedMemberList = action.payload;
     },
-    getTasksByAssignee(state, action: PayloadAction<ITask[]>) {
+    getTasksByAssignee(
+      state,
+      action: PayloadAction<{ taskList: ITask[]; userList: IUser[] }>
+    ) {
+      const { taskList, userList } = action.payload;
       if (state.selectedMemberList === null) {
-        state.listTasksByAssignee = action.payload;
+        state.listTasksByAssignee = taskList;
         return;
       }
       const selectedMemberEmailList = state.selectedMemberList.map(
-        (member) => member.id
+        (member) => member.email
       );
       if (selectedMemberEmailList.length === 0) {
-        state.listTasksByAssignee = action.payload;
+        state.listTasksByAssignee = taskList;
         return;
       }
-      state.listTasksByAssignee = action.payload.filter((task) =>
-        selectedMemberEmailList.includes(task.assignee.id)
-      );
+      state.listTasksByAssignee = taskList.filter((task) => {
+        const taskEmail = userList.find((user) => user.id === task.assignee.id);
+        if (taskEmail) {
+          return selectedMemberEmailList.includes(taskEmail.email);
+        }
+      });
     },
   },
   extraReducers: (builder) => {
