@@ -24,7 +24,7 @@ export const Pagination: React.FC<TProps> = (props) => {
       <AppPagination
         {...props}
         onLimitChange={onLimitChange}
-        quantityDisplay={["1", "10", "20", "30", "40", "50"]}
+        quantityDisplay={["10", "20", "30", "40", "50"]}
         pageStep={1}
       />
     </div>
