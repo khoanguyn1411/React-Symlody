@@ -87,8 +87,6 @@ export const TodoContainer: React.FC = () => {
     return departmentStore.departments[0].name;
   });
 
-  console.log(filterDepartment);
-
   const handleSetFilter = (item: TItemListSelect) => {
     const departmentID = departmentStore.departments.find(
       (department) => department.name === item.value
