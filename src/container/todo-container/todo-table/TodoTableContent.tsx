@@ -72,7 +72,6 @@ export const TodoTableContent: React.FC<TProps> = ({
       toast.error(TODO_MESSAGES.update.error);
       return;
     }
-    toast.success(TODO_MESSAGES.update.success);
   };
 
   const handlePriorityChange = async (isPriority: boolean, task: ITask) => {
@@ -86,7 +85,6 @@ export const TodoTableContent: React.FC<TProps> = ({
       toast.error(TODO_MESSAGES.update.error);
       return;
     }
-    toast.success(TODO_MESSAGES.update.success);
   };
 
   useLayoutEffect(() => {

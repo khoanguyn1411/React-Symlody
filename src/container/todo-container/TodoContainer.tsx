@@ -60,21 +60,13 @@ export const TodoContainer: React.FC = () => {
   const taskStore = useAppSelector((state) => state.task);
   const userCount = useAppSelector(userSelectors.selectTotal);
 
-  const [isLoading, setIsLoading] = useState(true);
-
   const { tab } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
+  const propsModal = useModal({ isHotkeyOpen: true });
   const navigate = useNavigate();
-
   const [content, setContent] = useState<ContentTab>(
     getContentTab(tab as ETodoTabKey)
   );
-
-  const propsModal = useModal({ isHotkeyOpen: true });
-
-  const handleOpenCreateTodoModal = () => {
-    propsModal.toggle.setShow();
-  };
-
   const [filterDepartment, setFilterDepartment] = useState<string>(() => {
     if (departmentStore.departments.length === 0) {
       return "";
@@ -87,15 +79,20 @@ export const TodoContainer: React.FC = () => {
     return departmentStore.departments[0].name;
   });
 
+  const isNoData = false;
+  const isInvalidUrl =
+    !Object.values(ETodoTabKey).includes(tab as ETodoTabKey) && tab != null;
+
+  const handleOpenCreateTodoModal = () => {
+    propsModal.toggle.setShow();
+  };
+
   const handleSetFilter = (item: TItemListSelect) => {
     const departmentID = departmentStore.departments.find(
       (department) => department.name === item.value
     ).id;
     dispatch(setListQueryTask({ department_id: departmentID }));
   };
-  const isNoData = false;
-  const isInvalidUrl =
-    !Object.values(ETodoTabKey).includes(tab as ETodoTabKey) && tab != null;
 
   useEffect(() => {
     setContent(getContentTab(tab as ETodoTabKey));
