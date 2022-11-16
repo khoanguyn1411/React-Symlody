@@ -105,7 +105,7 @@ export const taskSlice = createSlice({
       })
 
       .addCase(createTaskAsync.fulfilled, (state, action) => {
-        const { shouldAddOne, task: newTask } = action.payload;
+        const { task: newTask } = action.payload;
         taskAdapter.addOne(state, newTask);
       })
 
