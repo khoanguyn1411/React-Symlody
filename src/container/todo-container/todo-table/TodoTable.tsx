@@ -30,7 +30,7 @@ export const TodoTable: React.FC<TProps> = ({ isLoading }) => {
             Ngày hết hạn
           </Table.CellHead>
           <Table.CellHead width="12rem">Trạng thái</Table.CellHead>
-          <Table.CellHead width="12rem">Người được giao</Table.CellHead>
+          <Table.CellHead width="14rem">Người được giao</Table.CellHead>
           <Table.CellHeadAction />
         </Table.Head>
         {/* TODO: Update actions later */}
