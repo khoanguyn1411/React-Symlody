@@ -104,7 +104,7 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
     dispatch(getTasksByAssignee({ taskList, userList }));
   }, [dispatch, taskList, taskStore.selectedMemberList, userList]);
 
-  if (!isLoading) {
+  if (isLoading) {
     return (
       <div className="mt-5 overflow-auto px-default grid gap-x-5 grid-cols-4-1fr h-[calc(100vh-8.8rem)]">
         {[...Array(4)].map((_, index) => {
