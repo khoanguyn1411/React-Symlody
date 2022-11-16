@@ -4,17 +4,3 @@ export const ZINDEX_SETTING = {
   ON_SELECT: 20,
   NUMBER_HOLDER: 30,
 } as const;
-
-export const members = [
-  "Khoa",
-  "Lam",
-  "Truong",
-  "Ca",
-  "Linh",
-  "Hao",
-  "Conan",
-  "Hoang",
-  "Nguyen",
-  "Funny",
-  "Sad",
-];

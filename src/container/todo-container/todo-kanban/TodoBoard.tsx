@@ -6,6 +6,7 @@ import { Loading } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getTasksAsync,
+  getTasksByAssignee,
   taskSelectors,
   updateTaskAsync,
 } from "@/features/reducers/task-reducer";
@@ -79,17 +80,23 @@ export const TodoBoard: React.FC = () => {
     const columnWithTasks: TTodoColumn[] = columnList.map((column) => {
       return {
         ...column,
-        cards: taskList.filter((item) => item.status === column.id),
+        cards: taskStore.listTasksByAssignee.filter(
+          (item) => item.status === column.id
+        ),
       };
     });
     setColumnList(columnWithTasks);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taskList]);
+  }, [taskStore.listTasksByAssignee]);
 
   useLayoutEffect(() => {
     const { department_id } = taskStore.listQueryTask;
     dispatch(getTasksAsync({ department_id }));
   }, [currentUser.organization.id, dispatch, taskStore.listQueryTask]);
+
+  useEffect(() => {
+    dispatch(getTasksByAssignee(taskList));
+  }, [dispatch, taskList, taskStore.selectedMemberList]);
 
   if (taskStore.pending) {
     return (

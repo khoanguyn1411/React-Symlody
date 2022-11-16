@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useLayoutEffect, useMemo } from "react";
+import React, { useEffect, useLayoutEffect, useMemo } from "react";
 import { toast } from "react-toastify";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import {
   getTasksAsync,
+  getTasksByAssignee,
   taskSelectors,
   updateTaskAsync,
 } from "@/features/reducers/task-reducer";
@@ -30,7 +31,7 @@ export const TodoTableContent: React.FC<TProps> = ({
 }) => {
   const userList = useAppSelector(userSelectors.selectAll);
   const taskStore = useAppSelector((state) => state.task);
-  const taskCount = useAppSelector(taskSelectors.selectTotal);
+  const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.user);
 
   const handleEdit = (item: ITask) => () => {
@@ -43,8 +44,11 @@ export const TodoTableContent: React.FC<TProps> = ({
     onRestore(item);
   };
 
-  const tasks = useAppSelector(taskSelectors.selectAll);
-  const dispatch = useAppDispatch();
+  const taskList = useAppSelector(taskSelectors.selectAll);
+
+  useEffect(() => {
+    dispatch(getTasksByAssignee(taskList));
+  }, [taskStore.selectedMemberList, taskList, dispatch]);
 
   const getAssigneeBy = useMemo(
     () =>
@@ -96,14 +100,14 @@ export const TodoTableContent: React.FC<TProps> = ({
     return <Table.Skeleton colsNumber={6} />;
   }
 
-  if (taskCount === 0) {
+  if (taskStore.listTasksByAssignee.length === 0) {
     return <Table.NoData colsNumber={6} />;
   }
 
   return (
     <>
       <Table.Body>
-        {tasks.map((item, index) => {
+        {taskStore.listTasksByAssignee.map((item, index) => {
           const itemTable = TodoFormMapper.toTableView(item);
           const warningType = compareDateWithToday(item.end_date);
           return (

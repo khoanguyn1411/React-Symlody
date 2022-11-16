@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 
-import { useAppSelector } from "@/features";
+import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
+import { setSelectedMemberList } from "@/features/reducers/task-reducer";
 import { IUser, UserMapper } from "@/features/types";
 
 import { DEFAULT_DISPLAY_MEMBER_COUNT } from "./constant";
@@ -14,6 +15,8 @@ type TProps = {
 };
 
 export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
+  const dispatch = useAppDispatch();
+  const taskStore = useAppSelector((state) => state.task);
   const userList = useAppSelector(userSelectors.selectAll);
   const currentUserProfile = useAppSelector((state) => state.auth.user);
 
@@ -27,9 +30,18 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
 
   const currentUserList = getUserWithCurrentUserList();
 
-  const [selectedMembers, setSelectedMembers] = useState<IUser[]>([
-    currentUserList.find((user) => user.email === currentUserProfile.email),
-  ]);
+  const [selectedMembers, setSelectedMembers] = useState<IUser[]>(() => {
+    if (taskStore.selectedMemberList === null) {
+      return [
+        currentUserList.find((user) => user.email === currentUserProfile.email),
+      ];
+    }
+    return taskStore.selectedMemberList;
+  });
+
+  useLayoutEffect(() => {
+    dispatch(setSelectedMemberList(selectedMembers));
+  }, [dispatch, selectedMembers]);
 
   return (
     <div className="flex items-center mb-2 h-9 space-x-[-8px]">

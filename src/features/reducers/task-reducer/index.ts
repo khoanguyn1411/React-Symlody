@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
 import { RootState } from "@/features/store";
-import { ITask, TaskMapper } from "@/features/types";
+import { ITask, IUser, TaskMapper } from "@/features/types";
 import { ITaskCreateUpdate } from "@/features/types/models/task";
 import { TTaskParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
@@ -54,6 +54,25 @@ export const taskSlice = createSlice({
     setListQueryTask(state, action: PayloadAction<TTaskParamQueryDto>) {
       state.listQueryTask = action.payload;
     },
+    setSelectedMemberList(state, action: PayloadAction<IUser[] | null>) {
+      state.selectedMemberList = action.payload;
+    },
+    getTasksByAssignee(state, action: PayloadAction<ITask[]>) {
+      if (state.selectedMemberList === null) {
+        state.listTasksByAssignee = action.payload;
+        return;
+      }
+      const selectedMemberEmailList = state.selectedMemberList.map(
+        (member) => member.id
+      );
+      if (selectedMemberEmailList.length === 0) {
+        state.listTasksByAssignee = action.payload;
+        return;
+      }
+      state.listTasksByAssignee = action.payload.filter((task) =>
+        selectedMemberEmailList.includes(task.assignee.id)
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -62,6 +81,7 @@ export const taskSlice = createSlice({
       })
       .addCase(getTasksAsync.fulfilled, (state, action) => {
         state.pending = false;
+
         taskAdapter.setAll(state, action.payload);
       })
       .addCase(getTasksAsync.rejected, (state) => {
@@ -85,6 +105,7 @@ export const taskSelectors = taskAdapter.getSelectors(
   (state: RootState) => state.task
 );
 export const taskStore = (state: RootState) => state.task;
-export const { setListQueryTask } = taskSlice.actions;
+export const { setListQueryTask, setSelectedMemberList, getTasksByAssignee } =
+  taskSlice.actions;
 
 export default taskSlice.reducer;
