@@ -22,7 +22,11 @@ import { onDragEnd } from "./function";
 import { TodoColumn } from "./TodoColumn";
 import { TCardHiddenStatus } from "./type";
 
-export const TodoBoard: React.FC = () => {
+type TProps = {
+  isLoading: boolean;
+};
+
+export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
   const dispatch = useAppDispatch();
   const taskStore = useAppSelector((state) => state.task);
   const taskList = useAppSelector(taskSelectors.selectAll);
@@ -100,7 +104,7 @@ export const TodoBoard: React.FC = () => {
     dispatch(getTasksByAssignee({ taskList, userList }));
   }, [dispatch, taskList, taskStore.selectedMemberList, userList]);
 
-  if (taskStore.pending) {
+  if (isLoading) {
     return (
       <div className="h-[calc(100vh-7.8rem)] grid place-content-center">
         <Loading />

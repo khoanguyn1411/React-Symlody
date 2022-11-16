@@ -7,7 +7,10 @@ import { useModal } from "@/hooks";
 import { ModalEditTodo } from "../todo-modals";
 import { TodoTableContent } from "./TodoTableContent";
 
-export const TodoTable: React.FC = () => {
+type TProps = {
+  isLoading: boolean;
+};
+export const TodoTable: React.FC<TProps> = ({ isLoading }) => {
   const propsModalEdit = useModal<ITask>();
 
   const handleEditTodo = (task: ITask) => {
@@ -32,6 +35,7 @@ export const TodoTable: React.FC = () => {
         </Table.Head>
         {/* TODO: Update actions later */}
         <TodoTableContent
+          isLoading={isLoading}
           onEdit={handleEditTodo}
           onDelete={function (): void {
             throw new Error("Function not implemented.");

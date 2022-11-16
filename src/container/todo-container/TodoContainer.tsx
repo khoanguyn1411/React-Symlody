@@ -17,6 +17,7 @@ import {
   userSelectors,
 } from "@/features/reducers";
 import { setListQueryTask } from "@/features/reducers/task-reducer";
+import { IDepartment } from "@/features/types";
 import { useModal } from "@/hooks";
 import { EPagePath } from "@/routes";
 
@@ -37,19 +38,19 @@ const getTabUrl = (url: string): string => {
   return `${BASE_URL}/${url}`;
 };
 
-const getContentTab = (key: ETodoTabKey): ContentTab => {
+const getContentTab = (key: ETodoTabKey, isLoading: boolean): ContentTab => {
   switch (key) {
     case ETodoTabKey.Kanban:
       return {
-        content: <TodoBoard />,
+        content: <TodoBoard isLoading={isLoading} />,
       };
     case ETodoTabKey.Board:
       return {
-        content: <TodoTable />,
+        content: <TodoTable isLoading={isLoading} />,
       };
     default:
       return {
-        content: <TodoBoard />,
+        content: <TodoBoard isLoading={isLoading} />,
       };
   }
 };
@@ -65,8 +66,18 @@ export const TodoContainer: React.FC = () => {
   const propsModal = useModal({ isHotkeyOpen: true });
   const navigate = useNavigate();
   const [content, setContent] = useState<ContentTab>(
-    getContentTab(tab as ETodoTabKey)
+    getContentTab(tab as ETodoTabKey, isLoading)
   );
+
+  const getDepartmentId = (
+    departmentText: string
+  ): IDepartment["id"] | null => {
+    const department = departmentStore.departments.find(
+      (department) => department.name === departmentText
+    );
+    return department ? department.id : null;
+  };
+
   const [filterDepartment, setFilterDepartment] = useState<string>(() => {
     if (departmentStore.departments.length === 0) {
       return "";
@@ -88,15 +99,13 @@ export const TodoContainer: React.FC = () => {
   };
 
   const handleSetFilter = (item: TItemListSelect) => {
-    const departmentID = departmentStore.departments.find(
-      (department) => department.name === item.value
-    ).id;
+    const departmentID = getDepartmentId(item.value);
     dispatch(setListQueryTask({ department_id: departmentID }));
   };
 
   useEffect(() => {
-    setContent(getContentTab(tab as ETodoTabKey));
-  }, [navigate, tab]);
+    setContent(getContentTab(tab as ETodoTabKey, isLoading));
+  }, [isLoading, navigate, tab]);
 
   useLayoutEffect(() => {
     const hasUser = userCount > 0;
@@ -192,7 +201,10 @@ export const TodoContainer: React.FC = () => {
         </Container.HeaderRight>
       </Container.HeaderForTabHost>
       {content.content}
-      <ModalCreateTodo {...propsModal} />
+      <ModalCreateTodo
+        departmentId={getDepartmentId(filterDepartment)}
+        {...propsModal}
+      />
     </>
   );
 };

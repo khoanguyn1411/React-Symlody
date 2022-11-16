@@ -6,7 +6,11 @@ import { toast } from "react-toastify";
 import { Loading, Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getUsersAsync, userSelectors } from "@/features/reducers";
-import { createTaskAsync } from "@/features/reducers/task-reducer";
+import {
+  createTaskAsync,
+  getTasksByAssignee,
+  taskSelectors,
+} from "@/features/reducers/task-reducer";
 import { THookModalProps } from "@/hooks";
 
 import { TODO_MESSAGES } from "../constant";
@@ -15,13 +19,14 @@ import { schema } from "../shema";
 import { IFormTodoInfo } from "../type";
 import { FormItems } from "./FormItems";
 
-export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
-  isShowing,
-  toggle,
-}) => {
+export const ModalCreateTodo: React.FC<
+  { departmentId: number } & THookModalProps<undefined>
+> = ({ isShowing, toggle, departmentId }) => {
   const dispatch = useAppDispatch();
   const userCount = useAppSelector(userSelectors.selectTotal);
   const userStore = useAppSelector((state) => state.user);
+  const userList = useAppSelector(userSelectors.selectAll);
+  const taskList = useAppSelector(taskSelectors.selectAll);
   useEffect(() => {
     if (userCount === 0 && isShowing) {
       dispatch(getUsersAsync());
@@ -37,10 +42,13 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
 
   const handleCreateTask = async (data: IFormTodoInfo) => {
     const taskModel = TodoFormMapper.toModel(data);
-    const result = await dispatch(createTaskAsync(taskModel));
+    const result = await dispatch(
+      createTaskAsync({ task: taskModel, departmentId })
+    );
     if (result.meta.requestStatus !== "rejected") {
       toast.success(TODO_MESSAGES.create.success);
       reset();
+      dispatch(getTasksByAssignee({ userList, taskList }));
       toggle.setHidden();
       return;
     }

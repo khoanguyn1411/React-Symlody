@@ -22,12 +22,14 @@ type TProps = {
   onEdit: (task: any) => void;
   onDelete: (task: any) => void;
   onRestore: (task: any) => void;
+  isLoading: boolean;
 };
 
 export const TodoTableContent: React.FC<TProps> = ({
   onDelete,
   onEdit,
   onRestore,
+  isLoading,
 }) => {
   const userList = useAppSelector(userSelectors.selectAll);
   const taskStore = useAppSelector((state) => state.task);
@@ -96,7 +98,7 @@ export const TodoTableContent: React.FC<TProps> = ({
     dispatch(getTasksAsync({ department_id }));
   }, [currentUser.organization.id, dispatch, taskStore.listQueryTask]);
 
-  if (taskStore.pending) {
+  if (isLoading) {
     return <Table.Skeleton colsNumber={6} />;
   }
 

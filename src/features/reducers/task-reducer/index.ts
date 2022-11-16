@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
-import { RootState } from "@/features/store";
-import { ITask, IUser, TaskMapper } from "@/features/types";
+import { RootState, store } from "@/features/store";
+import { IDepartment, ITask, IUser, TaskMapper } from "@/features/types";
 import { ITaskCreateUpdate } from "@/features/types/models/task";
 import { TTaskParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
 
+import { userSelectors } from "../user-reducer";
 import { initialState, taskAdapter } from "./state";
 
 export const getTasksAsync = createAsyncThunk<
@@ -22,14 +23,20 @@ export const getTasksAsync = createAsyncThunk<
 });
 
 export const createTaskAsync = createAsyncThunk<
-  ITask,
-  ITaskCreateUpdate,
+  { task: ITask; departmentId: IDepartment["id"] },
+  { task: ITaskCreateUpdate; departmentId: IDepartment["id"] },
   GlobalTypes.ReduxThunkRejectValue<null>
 >("create/task", async (body, { rejectWithValue }) => {
-  const taskDto = TaskMapper.toDto(body);
+  const reduxStore = store.getState();
+  const userList = userSelectors.selectAll;
+  console.log(userList);
+  const taskDto = TaskMapper.toDto(body.task);
   const result = await TaskApi.createTask(taskDto);
   if (result.kind === "ok") {
-    return TaskMapper.fromDto(result.result);
+    return {
+      task: TaskMapper.fromDto(result.result),
+      departmentId: body.departmentId,
+    };
   }
   return rejectWithValue(null);
 });
@@ -66,6 +73,8 @@ export const taskSlice = createSlice({
         state.listTasksByAssignee = taskList;
         return;
       }
+
+      // TODO: Change selectedMemberEmailList to ids when profile has user_id.
       const selectedMemberEmailList = state.selectedMemberList.map(
         (member) => member.email
       );
@@ -97,10 +106,20 @@ export const taskSlice = createSlice({
       })
 
       .addCase(createTaskAsync.fulfilled, (state, action) => {
-        taskAdapter.addOne(state, action.payload);
+        const { selectedMemberList } = state;
+        const { departmentId, task: newTask } = action.payload;
+        // const shouldAddOne = () => {};
+
+        // if (shouldAddOne()) {
+        // }
+        taskAdapter.addOne(state, newTask);
       })
 
       .addCase(updateTaskAsync.fulfilled, (state, action) => {
+        // const {} = state.
+        // const shouldRemove = () => {
+        //   if()
+        // }
         taskAdapter.updateOne(state, {
           id: action.payload.id,
           changes: action.payload,
