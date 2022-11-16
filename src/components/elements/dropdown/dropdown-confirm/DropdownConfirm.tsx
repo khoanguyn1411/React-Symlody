@@ -38,6 +38,7 @@ export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
   };
   return (
     <Dropdown
+      widthContainer="240px"
       ref={dropdownRef}
       renderCustom={
         <div className="w-full px-3 py-2 space-y-4">

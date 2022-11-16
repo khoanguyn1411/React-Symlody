@@ -69,7 +69,7 @@ export const Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
         <AnimationKeepDom
           isShowing={isActive}
           className={classNames(
-            `bg-black min-w-max h-[fit-content] fixed z-20 text-white px-2 py-1 rounded-md select-none pointer-events-none`
+            `bg-black opacity-70 min-w-max h-[fit-content] fixed z-20 text-white px-2 py-1 rounded-md select-none pointer-events-none`
           )}
           attrs={{
             style: position,

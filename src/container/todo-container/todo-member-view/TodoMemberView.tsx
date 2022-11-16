@@ -9,9 +9,12 @@ import { TodoAvatar } from "./TodoAvatar";
 import { TodoMemberViewLoading } from "./TodoMemberViewLoading";
 import { TodoNumberHolder } from "./TodoNumberHolder";
 
-export const TodoMemberView: React.FC = () => {
+type TProps = {
+  isLoading: boolean;
+};
+
+export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
   const userList = useAppSelector(userSelectors.selectAll);
-  const userStore = useAppSelector((state) => state.user);
   const currentUserProfile = useAppSelector((state) => state.auth.user);
 
   const getUserWithCurrentUserList = () => {
@@ -30,8 +33,8 @@ export const TodoMemberView: React.FC = () => {
 
   return (
     <div className="flex items-center mb-2 h-9 space-x-[-8px]">
-      {userStore.pending && <TodoMemberViewLoading />}
-      {!userStore.pending &&
+      {isLoading && <TodoMemberViewLoading />}
+      {!isLoading &&
         currentUserList
           .slice(0, DEFAULT_DISPLAY_MEMBER_COUNT)
           .map((user, index) => (

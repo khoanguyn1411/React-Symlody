@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { useMemo } from "react";
 
-import { Avatar } from "@/components";
+import { Avatar, Tooltip } from "@/components";
 import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import { ITask } from "@/features/types";
@@ -32,11 +32,11 @@ export const TodoCard: React.FC<ITask> = (task) => {
     <div className="pb-2">
       <div
         className={classNames(
-          "px-3 py-3 bg-white cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md",
+          "px-3 py-3 bg-white border cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md",
           {
-            "border-gray-300 border": borderCardType === "in-future",
-            "border-yellow-500 border-2": borderCardType === "today",
-            "border-red-400 border-2": borderCardType === "in-past",
+            "border-gray-300": borderCardType === "in-future",
+            "border-yellow-500": borderCardType === "today",
+            "border-red-400": borderCardType === "in-past",
           }
         )}
       >
@@ -46,8 +46,8 @@ export const TodoCard: React.FC<ITask> = (task) => {
         <div className="flex items-center justify-between mt-3">
           <h2
             className={classNames({
-              "text-yellow-500 font-medium": borderCardType === "today",
-              "text-red-400 font-medium": borderCardType === "in-past",
+              "text-yellow-500": borderCardType === "today",
+              "text-red-400": borderCardType === "in-past",
             })}
           >
             {task.end_date
@@ -56,10 +56,12 @@ export const TodoCard: React.FC<ITask> = (task) => {
           </h2>
           <div className="flex items-center space-x-3">
             <TodoPriorityIcon isPriority={task.isPriority} />
-            <Avatar
-              src={getAssigneeBy(task, "avatar")}
-              fullName={getAssigneeBy(task, "name")}
-            />
+            <Tooltip space={8} content={getAssigneeBy(task, "name")}>
+              <Avatar
+                src={getAssigneeBy(task, "avatar")}
+                fullName={getAssigneeBy(task, "name")}
+              />
+            </Tooltip>
           </div>
         </div>
       </div>

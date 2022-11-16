@@ -57,7 +57,10 @@ const getContentTab = (key: ETodoTabKey): ContentTab => {
 export const TodoContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const departmentStore = useAppSelector((state) => state.department);
-  const userList = useAppSelector(userSelectors.selectAll);
+  const taskStore = useAppSelector((state) => state.task);
+  const userCount = useAppSelector(userSelectors.selectTotal);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const { tab } = useParams();
   const navigate = useNavigate();
@@ -72,9 +75,19 @@ export const TodoContainer: React.FC = () => {
     propsModal.toggle.setShow();
   };
 
-  const [filterDepartment, setFilterDepartment] = useState<string>(
-    departmentStore.departments[0] ? departmentStore.departments[0].name : ""
-  );
+  const [filterDepartment, setFilterDepartment] = useState<string>(() => {
+    if (departmentStore.departments.length === 0) {
+      return "";
+    }
+    if (taskStore.listQueryTask.department_id) {
+      return departmentStore.departments.find(
+        (department) => department.id === taskStore.listQueryTask.department_id
+      ).name;
+    }
+    return departmentStore.departments[0].name;
+  });
+
+  console.log(filterDepartment);
 
   const handleSetFilter = (item: TItemListSelect) => {
     const departmentID = departmentStore.departments.find(
@@ -90,19 +103,26 @@ export const TodoContainer: React.FC = () => {
     setContent(getContentTab(tab as ETodoTabKey));
   }, [navigate, tab]);
 
-  useEffect(() => {
-    if (userList.length > 0) {
-      return;
-    }
-    dispatch(getUsersAsync());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   useLayoutEffect(() => {
-    if (departmentStore.departments && departmentStore.departments.length > 0) {
+    const hasUser = userCount > 0;
+    const hasDepartment = departmentStore.departments.length > 0;
+    const hasBoth = hasUser && hasDepartment;
+    if (hasBoth) {
+      setIsLoading(false);
       return;
     }
-    dispatch(getDepartmentAsync());
+    if (hasUser && !hasDepartment) {
+      dispatch(getDepartmentAsync()).finally(() => setIsLoading(false));
+      return;
+    }
+    if (!hasUser && hasDepartment) {
+      dispatch(getUsersAsync()).finally(() => setIsLoading(false));
+      return;
+    }
+    Promise.all([
+      dispatch(getDepartmentAsync()),
+      dispatch(getUsersAsync()),
+    ]).finally(() => setIsLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -156,19 +176,21 @@ export const TodoContainer: React.FC = () => {
               },
             ]}
           />
-          <TodoMemberView />
+          <TodoMemberView isLoading={isLoading} />
         </div>
         <Container.HeaderRight>
-          <Select
-            className="w-52"
-            placeHolder="Chọn phòng ban"
-            list={departmentStore.departments.map((department) => ({
-              value: department.name,
-            }))}
-            onChangeSideEffect={handleSetFilter}
-            value={filterDepartment}
-            onChange={setFilterDepartment}
-          />
+          {!isLoading && (
+            <Select
+              className="w-36"
+              placeHolder="Chọn phòng ban"
+              list={departmentStore.departments.map((department) => ({
+                value: department.name,
+              }))}
+              onChangeSideEffect={handleSetFilter}
+              value={filterDepartment}
+              onChange={setFilterDepartment}
+            />
+          )}
           <ButtonCreate onClick={handleOpenCreateTodoModal}>
             Tạo công việc
           </ButtonCreate>

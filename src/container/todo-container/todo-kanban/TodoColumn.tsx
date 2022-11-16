@@ -95,7 +95,7 @@ export const TodoColumn: React.FC<TProps> = ({
       </div>
 
       <div
-        className={classNames("flex flex-col px-3 pb-3 h-[calc(100%-3.8rem)]", {
+        className={classNames("flex flex-col px-2 pb-3 h-[calc(100%-3.8rem)]", {
           "overflow-y-hidden":
             draggingCard.columnId !== columnData.id &&
             draggingCard.isCardDragging,

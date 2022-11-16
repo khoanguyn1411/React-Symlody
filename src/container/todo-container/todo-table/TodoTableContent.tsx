@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, { useLayoutEffect, useMemo } from "react";
 import { toast } from "react-toastify";
 
@@ -10,6 +11,7 @@ import {
   updateTaskAsync,
 } from "@/features/reducers/task-reducer";
 import { ETodoStatusId, ITask } from "@/features/types";
+import { compareDateWithToday } from "@/utils/services/compare-service";
 
 import { TODO_MESSAGES } from "../constant";
 import { TodoFormMapper } from "../mapper";
@@ -105,6 +107,7 @@ export const TodoTableContent: React.FC<TProps> = ({
       <Table.Body>
         {tasks.map((item, index) => {
           const itemTable = TodoFormMapper.toTableView(item);
+          const warningType = compareDateWithToday(item.end_date);
           return (
             <Table.Row key={index} index={index}>
               <Table.Cell textAlign="center">{index + 1}</Table.Cell>
@@ -117,7 +120,16 @@ export const TodoTableContent: React.FC<TProps> = ({
                   />
                 </div>
               </Table.Cell>
-              <Table.Cell textAlign="right">{itemTable.expiredDate}</Table.Cell>
+              <Table.Cell textAlign="right">
+                <span
+                  className={classNames({
+                    "text-yellow-500": warningType === "today",
+                    "text-red-400": warningType === "in-future",
+                  })}
+                >
+                  {itemTable.expiredDate}
+                </span>
+              </Table.Cell>
               <Table.Cell textAlign="left">
                 <TodoSelectStatus
                   task={item}
@@ -136,7 +148,7 @@ export const TodoTableContent: React.FC<TProps> = ({
               <Table.CellAction>
                 <DeleteAndEditField
                   titleDelete="Xóa"
-                  title="Xóa sự kiện?"
+                  title="Xóa công việc?"
                   handleEvent={{
                     edit: handleEdit(item),
                     delete: handleDelete(item),
