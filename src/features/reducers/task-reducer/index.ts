@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
-import { RootState, store } from "@/features/store";
+import { RootState } from "@/features/store";
 import { IDepartment, ITask, IUser, TaskMapper } from "@/features/types";
 import { ITaskCreateUpdate } from "@/features/types/models/task";
 import { TTaskParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
 
-import { userSelectors } from "../user-reducer";
 import { initialState, taskAdapter } from "./state";
 
 export const getTasksAsync = createAsyncThunk<
@@ -23,19 +22,19 @@ export const getTasksAsync = createAsyncThunk<
 });
 
 export const createTaskAsync = createAsyncThunk<
-  { task: ITask; departmentId: IDepartment["id"] },
+  { task: ITask; shouldAddOne: boolean },
   { task: ITaskCreateUpdate; departmentId: IDepartment["id"] },
   GlobalTypes.ReduxThunkRejectValue<null>
 >("create/task", async (body, { rejectWithValue }) => {
-  const reduxStore = store.getState();
-  const userList = userSelectors.selectAll;
-  console.log(userList);
+  // const reduxStore = store.getState();
+  // const userList = userSelectors.selectAll(reduxStore);
+  // const assignee = userList.find((user) => user.id === body.task.assignee.id);
   const taskDto = TaskMapper.toDto(body.task);
   const result = await TaskApi.createTask(taskDto);
   if (result.kind === "ok") {
     return {
       task: TaskMapper.fromDto(result.result),
-      departmentId: body.departmentId,
+      shouldAddOne: true,
     };
   }
   return rejectWithValue(null);
@@ -106,12 +105,7 @@ export const taskSlice = createSlice({
       })
 
       .addCase(createTaskAsync.fulfilled, (state, action) => {
-        const { selectedMemberList } = state;
-        const { departmentId, task: newTask } = action.payload;
-        // const shouldAddOne = () => {};
-
-        // if (shouldAddOne()) {
-        // }
+        const { shouldAddOne, task: newTask } = action.payload;
         taskAdapter.addOne(state, newTask);
       })
 
