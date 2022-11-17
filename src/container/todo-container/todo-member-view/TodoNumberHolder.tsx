@@ -66,9 +66,9 @@ export const TodoNumberHolder: React.FC<TProps> = ({
         isNoPaddingY
         classNameList="border border-gray-200 bg-white"
         renderListItem={
-          <div className="flex flex-col pt-3 gap-1">
-            {memberList.length > 0 && (
-              <div className="px-3 overflow-hidden bg-white">
+          <div className="flex flex-col gap-1">
+            {memberList.length > 5 && (
+              <div className="px-3 pt-3 overflow-hidden bg-white">
                 <Search
                   placeholder="Tìm kiếm ..."
                   inputValue={inputValue}
