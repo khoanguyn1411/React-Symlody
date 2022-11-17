@@ -64,34 +64,40 @@ export const TodoNumberHolder: React.FC<TProps> = ({
       <SelectCustom
         style="none"
         isNoPaddingY
-        classNameList="w-32 border border-gray-200 bg-white"
+        classNameList="border border-gray-200 bg-white"
         renderListItem={
-          <>
-            <div className="sticky top-0 z-10 px-3 py-2 bg-white">
-              <Search
-                placeholder="Tìm kiếm ..."
-                inputValue={inputValue}
-                setInputValue={setInputValue}
-              />
+          <div className="flex flex-col pt-3 gap-1">
+            {memberList.length > 0 && (
+              <div className="px-3 overflow-hidden bg-white">
+                <Search
+                  placeholder="Tìm kiếm ..."
+                  inputValue={inputValue}
+                  setInputValue={setInputValue}
+                />
+              </div>
+            )}
+            <div className="overflow-auto max-h-56 py-1.5">
+              {_memberList.length === 0 && (
+                <h1 className="px-2 py-2">No data</h1>
+              )}
+              {_memberList.length > 0 &&
+                _memberList.map((item, index) => (
+                  <button
+                    key={index}
+                    onClick={handleAddMemberToSelectList(item)}
+                    className="flex items-center w-full pl-1 pr-3 cursor-pointer transition-colors hover:bg-primary-100"
+                  >
+                    <Checkbox checked={selectedMembers.includes(item)} />
+                    <Avatar
+                      src={item.avatar}
+                      size="xsmall"
+                      fullName={item.full_name}
+                    />
+                    <h1 className="ml-2 text-sm">{item.full_name}</h1>
+                  </button>
+                ))}
             </div>
-            {_memberList.length === 0 && <h1 className="px-2 py-2">No data</h1>}
-            {_memberList.length > 0 &&
-              _memberList.map((item, index) => (
-                <button
-                  key={index}
-                  onClick={handleAddMemberToSelectList(item)}
-                  className="flex items-center w-full px-1 cursor-pointer transition-colors hover:bg-primary-100"
-                >
-                  <Checkbox checked={selectedMembers.includes(item)} />
-                  <Avatar
-                    src={item.avatar}
-                    size="xsmall"
-                    fullName={item.full_name}
-                  />
-                  <h1 className="ml-2 text-sm">{item.full_name}</h1>
-                </button>
-              ))}
-          </>
+          </div>
         }
       >
         <Avatar

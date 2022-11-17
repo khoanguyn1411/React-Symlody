@@ -28,7 +28,7 @@ export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
     <AnimationCustom
       attrs={{ style: position }}
       className={classNames(
-        "w-full min-w-[fit-content] bg-white border border-gray-200 rounded-md max-h-52 overflow-auto shadow-md mt-2",
+        "w-full min-w-[fit-content] bg-white border border-gray-200 rounded-md max-h-72 overflow-auto shadow-md mt-2",
         {
           "z-30 fixed": isPortal,
           "z-10 absolute top-8": !isPortal,

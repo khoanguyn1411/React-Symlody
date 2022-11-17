@@ -20,7 +20,7 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
   isPortal = true,
   children,
   placement = "bottom-left",
-  isNoPaddingY,
+  isNoPaddingY = false,
   isShowContent,
   setIsShowContent,
 }) => {
@@ -81,7 +81,7 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
         classNameList={classNameList}
         isShowContent={_isShowContent}
       >
-        <div className="bg-white">{renderListItem}</div>
+        {renderListItem}
       </SelectListWrapper>
     </ul>
   );
