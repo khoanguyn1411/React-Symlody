@@ -1,3 +1,4 @@
+import { IDepartment } from "./department";
 import { IGroup } from "./group";
 import { ITenant } from "./tenant";
 export interface IProfile {
@@ -13,6 +14,7 @@ export interface IProfile {
   readonly class_name: string;
   readonly avatar?: string;
   readonly address: string;
+  readonly department?: IDepartment;
 
   readonly groups?: IGroup[];
   readonly organization?: ITenant;

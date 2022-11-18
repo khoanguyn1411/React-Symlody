@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
-import { RootState } from "@/features/store";
-import { IDepartment, ITask, IUser, TaskMapper } from "@/features/types";
+import { RootState, store } from "@/features/store";
+import { ITask, IUser, TaskMapper } from "@/features/types";
 import { ITaskCreateUpdate } from "@/features/types/models/task";
 import { TTaskParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
 
+import { userSelectors } from "../user-reducer";
 import { initialState, taskAdapter } from "./state";
 
 export const getTasksAsync = createAsyncThunk<
@@ -23,12 +24,17 @@ export const getTasksAsync = createAsyncThunk<
 
 export const createTaskAsync = createAsyncThunk<
   { task: ITask; shouldAddOne: boolean },
-  { task: ITaskCreateUpdate; departmentId: IDepartment["id"] },
+  { task: ITaskCreateUpdate },
   GlobalTypes.ReduxThunkRejectValue<null>
 >("create/task", async (body, { rejectWithValue }) => {
-  // const reduxStore = store.getState();
-  // const userList = userSelectors.selectAll(reduxStore);
-  // const assignee = userList.find((user) => user.id === body.task.assignee.id);
+  const reduxStore = store.getState();
+  const userList = userSelectors.selectAll(reduxStore);
+  const assignee = userList.find((user) => user.id === body.task.assignee.id);
+  const currentDepartmentId = reduxStore.task.listQueryTask.department_id;
+
+  // TODO: Add check not in the same department.
+  // const isNotInSameDepartment =
+
   const taskDto = TaskMapper.toDto(body.task);
   const result = await TaskApi.createTask(taskDto);
   if (result.kind === "ok") {
@@ -41,14 +47,31 @@ export const createTaskAsync = createAsyncThunk<
 });
 
 export const updateTaskAsync = createAsyncThunk<
-  ITask,
-  { id: ITask["id"]; payload: ITaskCreateUpdate },
+  {
+    task: ITask;
+    shouldRemoveOne: boolean;
+  },
+  {
+    id: ITask["id"];
+    payload: ITaskCreateUpdate;
+  },
   GlobalTypes.ReduxThunkRejectValue<null>
 >("update/task", async ({ id, payload }, { rejectWithValue }) => {
   const taskDto = TaskMapper.toDto(payload);
   const result = await TaskApi.updateTask(id, taskDto);
+
+  const reduxStore = store.getState();
+  const userList = userSelectors.selectAll(reduxStore);
+  const assignee = userList.find((user) => user.id === payload.assignee.id);
+  const currentDepartmentId = reduxStore.task.listQueryTask.department_id;
+
+  // TODO: Add check not in the same department.
+  // const isNotInSameDepartment =
   if (result.kind === "ok") {
-    return TaskMapper.fromDto(result.result);
+    return {
+      task: TaskMapper.fromDto(result.result),
+      shouldRemoveOne: false,
+    };
   }
   return rejectWithValue(null);
 });
@@ -73,18 +96,17 @@ export const taskSlice = createSlice({
         return;
       }
 
-      // TODO: Change selectedMemberEmailList to ids when profile has user_id.
-      const selectedMemberEmailList = state.selectedMemberList.map(
-        (member) => member.email
+      const selectedMemberIdsList = state.selectedMemberList.map(
+        (member) => member.id
       );
-      if (selectedMemberEmailList.length === 0) {
+      if (selectedMemberIdsList.length === 0) {
         state.listTasksByAssignee = taskList;
         return;
       }
       state.listTasksByAssignee = taskList.filter((task) => {
-        const taskEmail = userList.find((user) => user.id === task.assignee.id);
-        if (taskEmail) {
-          return selectedMemberEmailList.includes(taskEmail.email);
+        const taskInfo = userList.find((user) => user.id === task.assignee.id);
+        if (taskInfo) {
+          return selectedMemberIdsList.includes(taskInfo.id);
         }
       });
     },
@@ -96,7 +118,6 @@ export const taskSlice = createSlice({
       })
       .addCase(getTasksAsync.fulfilled, (state, action) => {
         state.pending = false;
-
         taskAdapter.setAll(state, action.payload);
       })
       .addCase(getTasksAsync.rejected, (state) => {
@@ -105,18 +126,22 @@ export const taskSlice = createSlice({
       })
 
       .addCase(createTaskAsync.fulfilled, (state, action) => {
-        const { task: newTask } = action.payload;
+        const { task: newTask, shouldAddOne } = action.payload;
+        if (!shouldAddOne) {
+          return;
+        }
         taskAdapter.addOne(state, newTask);
       })
 
       .addCase(updateTaskAsync.fulfilled, (state, action) => {
-        // const {} = state.
-        // const shouldRemove = () => {
-        //   if()
-        // }
+        const { task: newTask, shouldRemoveOne } = action.payload;
+        if (shouldRemoveOne) {
+          taskAdapter.removeOne(state, newTask.id);
+          return;
+        }
         taskAdapter.updateOne(state, {
-          id: action.payload.id,
-          changes: action.payload,
+          id: newTask.id,
+          changes: newTask,
         });
       });
   },

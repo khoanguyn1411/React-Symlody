@@ -250,11 +250,9 @@ export const memberSlice = createSlice({
       .addCase(updateMemberAsync.fulfilled, (state, action) => {
         state.pendingRestoreMember = false;
         const newMember = action.payload.result;
-
-        if (
-          action.payload.isRestore &&
-          state.listQueryMember.is_archived != null
-        ) {
+        const shouldRemoveOne =
+          action.payload.isRestore && state.listQueryMember.is_archived != null;
+        if (shouldRemoveOne) {
           memberAdapter.removeOne(state, newMember.id);
           return;
         }

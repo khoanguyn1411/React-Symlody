@@ -1,4 +1,4 @@
-import { IGroup, ITenant } from "../models";
+import { IDepartment, IGroup, ITenant } from "../models";
 
 export interface IProfileDto {
   readonly id: number;
@@ -13,6 +13,7 @@ export interface IProfileDto {
   readonly class_name: string;
   readonly avatar: string;
   readonly address: string;
+  readonly department?: IDepartment;
 
   readonly groups: IGroup[];
   readonly organization: ITenant;

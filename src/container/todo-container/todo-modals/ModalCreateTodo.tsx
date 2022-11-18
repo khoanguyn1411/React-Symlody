@@ -19,9 +19,10 @@ import { schema } from "../shema";
 import { IFormTodoInfo } from "../type";
 import { FormItems } from "./FormItems";
 
-export const ModalCreateTodo: React.FC<
-  { departmentId: number } & THookModalProps<undefined>
-> = ({ isShowing, toggle, departmentId }) => {
+export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
+  isShowing,
+  toggle,
+}) => {
   const dispatch = useAppDispatch();
   const userCount = useAppSelector(userSelectors.selectTotal);
   const userStore = useAppSelector((state) => state.user);
@@ -42,9 +43,7 @@ export const ModalCreateTodo: React.FC<
 
   const handleCreateTask = async (data: IFormTodoInfo) => {
     const taskModel = TodoFormMapper.toModel(data);
-    const result = await dispatch(
-      createTaskAsync({ task: taskModel, departmentId })
-    );
+    const result = await dispatch(createTaskAsync({ task: taskModel }));
     if (result.meta.requestStatus !== "rejected") {
       toast.success(TODO_MESSAGES.create.success);
       reset();

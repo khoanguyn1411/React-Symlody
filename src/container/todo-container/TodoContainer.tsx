@@ -60,11 +60,13 @@ export const TodoContainer: React.FC = () => {
   const departmentStore = useAppSelector((state) => state.department);
   const taskStore = useAppSelector((state) => state.task);
   const userCount = useAppSelector(userSelectors.selectTotal);
+  const currentUser = useAppSelector((state) => state.auth.user);
 
   const { tab } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
   const propsModal = useModal({ isHotkeyOpen: true });
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(true);
   const [content, setContent] = useState<ContentTab>(
     getContentTab(tab as ETodoTabKey, isLoading)
   );
@@ -87,7 +89,7 @@ export const TodoContainer: React.FC = () => {
         (department) => department.id === taskStore.listQueryTask.department_id
       ).name;
     }
-    return departmentStore.departments[0].name;
+    return currentUser.department.name;
   });
 
   const isNoData = false;
@@ -201,10 +203,7 @@ export const TodoContainer: React.FC = () => {
         </Container.HeaderRight>
       </Container.HeaderForTabHost>
       {content.content}
-      <ModalCreateTodo
-        departmentId={getDepartmentId(filterDepartment)}
-        {...propsModal}
-      />
+      <ModalCreateTodo {...propsModal} />
     </>
   );
 };
