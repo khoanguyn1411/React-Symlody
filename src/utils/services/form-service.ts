@@ -8,7 +8,7 @@ export function getDefaultValues<T>(data: T) {
      * Get value by key in default value object (with suggestion).
      * @param key Key of value need to get.
      * @param defaultValue Value returned when the value of key need to get is undefined or null.
-     * @returns Return value of key as string if value != `null`, otherwise, return `defaultValue` and if there is
+     * @returns Return value of key if value != `null`, otherwise, return `defaultValue` and if there is
      * no `defaultValue`, return `undefined`.
      */
     get<P extends keyof T = keyof T>(key: P, defaultValue?: any): T[P] {

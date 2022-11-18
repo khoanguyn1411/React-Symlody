@@ -82,3 +82,22 @@ export function generatePlaceholderEmptyValue(input: any): any {
   }
   return input;
 }
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+type NonFunctional<T> = T extends Function ? never : T;
+
+/**
+ * Helper to produce an array of enum values.
+ * @param enumeration Enumeration object.
+ */
+export function generateArrayFromEnum<T extends Record<string, unknown>>(
+  enumeration: T
+): NonFunctional<T[keyof T]>[] {
+  return Object.keys(enumeration)
+    .filter((key) => isNaN(Number(key)))
+    .map((key) => enumeration[key])
+    .filter(
+      (val): val is NonFunctional<T[keyof T]> =>
+        typeof val === "number" || typeof val === "string"
+    );
+}
