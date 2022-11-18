@@ -59,7 +59,7 @@ export const ModalEditTodo: React.FC<THookModalProps<ITask>> = ({
 
   return (
     <Modal
-      widthContainer={"900px"}
+      widthContainer={"1000px"}
       handleEvent={{
         event: handleSubmit(handleEditTask),
         isLoading: isSubmitting,

@@ -7,9 +7,9 @@ import {
   CheckboxGroup,
   Editor,
   FormItem,
-  Input,
   Select,
   SelectUser,
+  TextArea,
 } from "@/components";
 import { useAppSelector } from "@/features";
 import { ITask } from "@/features/types";
@@ -54,7 +54,7 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
             name="name"
             defaultValue={defaultValue.get("name")}
             render={({ field: { value, onChange } }) => (
-              <Input
+              <TextArea
                 style="modal"
                 value={value}
                 onChange={onChange}

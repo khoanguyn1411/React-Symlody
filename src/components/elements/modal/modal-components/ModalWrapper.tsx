@@ -59,7 +59,7 @@ export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
               //   "max-w-lg": size === "lg",
               // }
             )}
-            style={{ width: widthContainer }}
+            style={{ width: "calc(100vw - 80px)", maxWidth: widthContainer }}
           >
             {children}
           </div>
