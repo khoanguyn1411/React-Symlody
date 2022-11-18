@@ -28,6 +28,7 @@ export type TTodo = {
 export interface IFormTodoInfo {
   readonly name: string;
   readonly priority?: string;
+  readonly isNotifyEmail?: boolean;
   readonly expiredDate?: string;
   readonly assignee?: number;
   readonly reporter?: number;

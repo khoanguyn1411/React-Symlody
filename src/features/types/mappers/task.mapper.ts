@@ -54,6 +54,7 @@ export class TaskMapper {
 
   public static toDto(model: ITaskCreateUpdate): ITaskCreateUpdateDto {
     return {
+      sent_email: model.sent_email,
       assignee: model.assignee,
       reporter: model.reporter,
       title: model.title,

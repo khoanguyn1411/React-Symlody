@@ -65,7 +65,7 @@ export const ModalEditTodo: React.FC<THookModalProps<ITask>> = ({
         isDisable: !FormService.isDirtyFields(dirtyFields),
         title: "Cập nhật",
       }}
-      title={"Chỉnh sửa công việc"}
+      title={"Chi tiết công việc"}
       isShowing={isShowing}
       toggle={toggle}
     >

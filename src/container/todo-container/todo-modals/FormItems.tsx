@@ -3,6 +3,7 @@ import { Controller, UseFormReturn } from "react-hook-form";
 
 import {
   AppDatePicker,
+  CheckboxGroup,
   Editor,
   FormItem,
   Input,
@@ -34,13 +35,14 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
     formState: { errors },
   } = formProps;
   let dataForm: IFormTodoInfo = null;
-  if (data) {
+  const isEditMode = data != null;
+
+  if (isEditMode) {
     dataForm = TodoFormMapper.fromModel(data);
   }
 
   const currentUserStore = useAppSelector((state) => state.auth);
   const defaultValue = FormService.getDefaultValues(dataForm);
-
   return (
     <>
       <FormItem label="Tên công việc" isRequired error={errors.name?.message}>
@@ -149,6 +151,27 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
           )}
         />
       </FormItem>
+
+      <FormItem label="" error={errors.isNotifyEmail?.message}>
+        <Controller
+          control={control}
+          name="isNotifyEmail"
+          defaultValue={defaultValue.get("isNotifyEmail") ?? false}
+          render={({ field: { value, onChange } }) => {
+            return (
+              <CheckboxGroup
+                list={[
+                  { label: "Thông báo qua email", value: "isEmailNotify" },
+                ]}
+                isOnlyOne
+                selectedItems={value}
+                setSelectedItems={onChange}
+              />
+            );
+          }}
+        />
+      </FormItem>
+
       <FormItem label="Mô tả công việc" error={errors.description?.message}>
         <Controller
           control={control}

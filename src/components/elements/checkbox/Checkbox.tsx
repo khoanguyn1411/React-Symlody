@@ -8,7 +8,7 @@ type TProps = {
 };
 
 export const Checkbox: React.FC<TProps> = ({
-  checked,
+  checked = false,
   readOnly = false,
   size = "small",
 }) => {
