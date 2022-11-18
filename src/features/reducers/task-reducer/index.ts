@@ -73,17 +73,18 @@ export const taskSlice = createSlice({
         return;
       }
 
-      const selectedMemberIdsList = state.selectedMemberList.map(
-        (member) => member.id
+      // TODO: Change selectedMemberEmailList to ids when profile has user_id.
+      const selectedMemberEmailList = state.selectedMemberList.map(
+        (member) => member.email
       );
-      if (selectedMemberIdsList.length === 0) {
+      if (selectedMemberEmailList.length === 0) {
         state.listTasksByAssignee = taskList;
         return;
       }
       state.listTasksByAssignee = taskList.filter((task) => {
         const taskEmail = userList.find((user) => user.id === task.assignee.id);
         if (taskEmail) {
-          return selectedMemberIdsList.includes(taskEmail.id);
+          return selectedMemberEmailList.includes(taskEmail.email);
         }
       });
     },
