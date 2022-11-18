@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { Container, NotificationImg, TabHost } from "@/components";
 import { EPagePath } from "@/routes";
+import { generateArrayFromEnum } from "@/utils/services/generate-service";
 
 import {
   ActionConfigDepartment,
@@ -62,7 +63,8 @@ export const ConfigContainer: React.FC = () => {
   );
 
   const isInvalidUrl =
-    !Object.values(EConfigTabKey).includes(tab as EConfigTabKey) && tab != null;
+    generateArrayFromEnum(EConfigTabKey).includes(tab as EConfigTabKey) &&
+    tab != null;
 
   useEffect(() => {
     setContent(getContentTab(tab as EConfigTabKey));

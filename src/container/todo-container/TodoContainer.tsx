@@ -20,6 +20,7 @@ import { setListQueryTask } from "@/features/reducers/task-reducer";
 import { IDepartment } from "@/features/types";
 import { useModal } from "@/hooks";
 import { EPagePath } from "@/routes";
+import { generateArrayFromEnum } from "@/utils/services/generate-service";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
 import { TodoBoard } from "./todo-kanban";
@@ -94,7 +95,8 @@ export const TodoContainer: React.FC = () => {
 
   const isNoData = false;
   const isInvalidUrl =
-    !Object.values(ETodoTabKey).includes(tab as ETodoTabKey) && tab != null;
+    !generateArrayFromEnum(ETodoTabKey).includes(tab as ETodoTabKey) &&
+    tab != null;
 
   const handleOpenCreateTodoModal = () => {
     propsModal.toggle.setShow();

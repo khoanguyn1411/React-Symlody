@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 import { SelectCustom } from "@/components";
 import { ETodoStatusId, ITask } from "@/features/types";
+import { generateArrayFromEnum } from "@/utils/services/generate-service";
 
 import { TODO_STATUS_MAP_FROM_ID } from "../../mapper";
 import { COLOR_MAP } from "./type";
@@ -35,7 +36,7 @@ export const TodoSelectStatus: React.FC<TProps> = ({
       isShowArrow
       renderListItem={
         <div className="flex flex-col">
-          {Object.values(ETodoStatusId).map((item, index) => (
+          {generateArrayFromEnum(ETodoStatusId).map((item, index) => (
             <button
               onClick={handleChangeStatus(item)}
               key={index}
