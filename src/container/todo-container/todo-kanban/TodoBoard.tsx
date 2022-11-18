@@ -101,7 +101,12 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
 
   useEffect(() => {
     dispatch(getTasksByAssignee({ taskList, userList }));
-  }, [dispatch, taskList, taskStore.selectedMemberList, userList]);
+  }, [
+    dispatch,
+    taskList,
+    taskStore.listQueryTask.selected_member_list,
+    userList,
+  ]);
 
   if (isLoading || taskStore.pending) {
     return (

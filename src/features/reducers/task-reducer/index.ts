@@ -84,21 +84,24 @@ export const taskSlice = createSlice({
       state.listQueryTask = action.payload;
     },
     setSelectedMemberList(state, action: PayloadAction<IUser[] | null>) {
-      state.selectedMemberList = action.payload;
+      state.listQueryTask = {
+        ...state.listQueryTask,
+        selected_member_list: action.payload,
+      };
     },
     getTasksByAssignee(
       state,
       action: PayloadAction<{ taskList: ITask[]; userList: IUser[] }>
     ) {
       const { taskList, userList } = action.payload;
-      if (state.selectedMemberList === null) {
+      if (state.listQueryTask.selected_member_list === null) {
         state.listTasksByAssignee = taskList;
         return;
       }
 
-      const selectedMemberIdsList = state.selectedMemberList.map(
-        (member) => member.id
-      );
+      const selectedMemberIdsList =
+        state.listQueryTask.selected_member_list.map((member) => member.id);
+
       if (selectedMemberIdsList.length === 0) {
         state.listTasksByAssignee = taskList;
         return;

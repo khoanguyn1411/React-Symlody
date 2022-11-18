@@ -55,7 +55,12 @@ export const TodoTableContent: React.FC<TProps> = ({
 
   useEffect(() => {
     dispatch(getTasksByAssignee({ taskList, userList }));
-  }, [dispatch, taskList, taskStore.selectedMemberList, userList]);
+  }, [
+    dispatch,
+    taskList,
+    taskStore.listQueryTask.selected_member_list,
+    userList,
+  ]);
 
   const handleChangeStatus = async (status: ETodoStatusId, task: ITask) => {
     const result = await dispatch(

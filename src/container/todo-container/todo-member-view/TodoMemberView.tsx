@@ -31,12 +31,12 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
   const currentUserList = getUserWithCurrentUserList();
 
   const [selectedMembers, setSelectedMembers] = useState<IUser[]>(() => {
-    if (taskStore.selectedMemberList === null) {
+    if (taskStore.listQueryTask.selected_member_list === null) {
       return [
         currentUserList.find((user) => user.email === currentUserProfile.email),
       ];
     }
-    return taskStore.selectedMemberList;
+    return taskStore.listQueryTask.selected_member_list;
   });
 
   useLayoutEffect(() => {
