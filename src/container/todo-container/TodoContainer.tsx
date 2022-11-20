@@ -45,7 +45,7 @@ const getContentTab = (key: ETodoTabKey, isLoading: boolean): ContentTab => {
       return {
         content: <TodoBoard isLoading={isLoading} />,
       };
-    case ETodoTabKey.Board:
+    case ETodoTabKey.Table:
       return {
         content: <TodoTable isLoading={isLoading} />,
       };
@@ -78,13 +78,10 @@ export const TodoContainer: React.FC = () => {
     const department = departmentStore.departments.find(
       (department) => department.name === departmentText
     );
-    return department ? department.id : null;
+    return department ? department.id : currentUser.department.id;
   };
 
   const [filterDepartment, setFilterDepartment] = useState<string>(() => {
-    if (departmentStore.departments.length === 0) {
-      return "";
-    }
     if (taskStore.listQueryTask.department_id) {
       return departmentStore.departments.find(
         (department) => department.id === taskStore.listQueryTask.department_id
@@ -104,7 +101,12 @@ export const TodoContainer: React.FC = () => {
 
   const handleSetFilter = (item: TItemListSelect) => {
     const departmentID = getDepartmentId(item.value);
-    dispatch(setListQueryTask({ department_id: departmentID }));
+    dispatch(
+      setListQueryTask({
+        ...taskStore.listQueryTask,
+        department_id: departmentID,
+      })
+    );
   };
 
   useEffect(() => {
@@ -133,14 +135,6 @@ export const TodoContainer: React.FC = () => {
     ]).finally(() => setIsLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useLayoutEffect(() => {
-    if (filterDepartment) {
-      return;
-    }
-    setFilterDepartment(departmentStore.departments[0]?.name);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [departmentStore.departments]);
 
   if (isInvalidUrl) {
     return (
@@ -178,9 +172,9 @@ export const TodoContainer: React.FC = () => {
                 to: getTabUrl(ETodoTabKey.Kanban),
               },
               {
-                key: ETodoTabKey.Board,
-                title: ETodoTabReadableString.Board,
-                to: getTabUrl(ETodoTabKey.Board),
+                key: ETodoTabKey.Table,
+                title: ETodoTabReadableString.Table,
+                to: getTabUrl(ETodoTabKey.Table),
               },
             ]}
           />

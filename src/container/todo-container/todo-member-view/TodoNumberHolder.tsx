@@ -49,7 +49,6 @@ export const TodoNumberHolder: React.FC<TProps> = ({
       return [...prev, selectedItem];
     });
   };
-
   return (
     <TodoCircleBorderWrapper
       zIndex={ZINDEX_SETTING.NUMBER_HOLDER}

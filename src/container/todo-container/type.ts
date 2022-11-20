@@ -37,12 +37,12 @@ export interface IFormTodoInfo {
 
 export enum ETodoTabReadableString {
   Kanban = "Kanban",
-  Board = "Bảng",
+  Table = "Bảng",
 }
 
 export enum ETodoTabKey {
   Kanban = "kanban",
-  Board = "board",
+  Table = "table",
 }
 
 export interface ITodoTable {

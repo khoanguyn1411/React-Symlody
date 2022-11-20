@@ -56,7 +56,6 @@ export const ModalEditTodo: React.FC<THookModalProps<ITask>> = ({
     toast.success(TODO_MESSAGES.update.success);
     toggle.setHidden();
   };
-
   return (
     <Modal
       widthContainer={"1000px"}

@@ -63,7 +63,7 @@ export const ConfigContainer: React.FC = () => {
   );
 
   const isInvalidUrl =
-    generateArrayFromEnum(EConfigTabKey).includes(tab as EConfigTabKey) &&
+    !generateArrayFromEnum(EConfigTabKey).includes(tab as EConfigTabKey) &&
     tab != null;
 
   useEffect(() => {

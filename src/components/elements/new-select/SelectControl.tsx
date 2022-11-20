@@ -320,7 +320,6 @@ export const SelectControl: React.FC<Props> = ({
         ? value.map((v) => v?.value)
         : value?.value;
       const event: ICustomChangeEvent = { target: { name, value: eventValue } };
-      // console.log("SelectComplex.tsx ~ ICustomChangeEvent", event);
       onValueChange(event);
       return;
     }

@@ -100,7 +100,7 @@ export const taskSlice = createSlice({
       }
 
       const selectedMemberIdsList =
-        state.listQueryTask.selected_member_list.map((member) => member.id);
+        state.listQueryTask.selected_member_list?.map((member) => member.id);
 
       if (selectedMemberIdsList.length === 0) {
         state.listTasksByAssignee = taskList;

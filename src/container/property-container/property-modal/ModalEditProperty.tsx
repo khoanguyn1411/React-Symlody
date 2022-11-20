@@ -34,7 +34,6 @@ export const ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
 
   const handleEditProperty = (editValue: IFormPropertyInfo) => {
     //TODO: Handle update property.
-    console.log(editValue);
   };
 
   useEffect(() => {
