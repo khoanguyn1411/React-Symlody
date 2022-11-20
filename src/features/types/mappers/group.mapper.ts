@@ -20,9 +20,10 @@ export const ROLE_MAP_TO_DTO = GeneratorService.generateReverseDto(
 
 export class GroupMapper {
   public static fromDto(dto: IGroupDto): IGroup {
+    const groupNameModel = ROLE_MAP_FROM_DTO[dto.name];
     return {
       id: dto.id,
-      name: ROLE_MAP_FROM_DTO[dto.name],
+      name: groupNameModel,
     };
   }
 

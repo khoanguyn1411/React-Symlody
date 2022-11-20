@@ -1,19 +1,11 @@
-import { ApiResponse } from "apisauce";
-
 import { ITenantDto } from "@/features/types";
+import { IConfigManagerDto } from "@/features/types/dtos/config-manager.dto";
 
 import { Api } from "../api-core";
 import { returnResponse } from "../api-utilities";
-import { IConfigManager } from "./../../features/types/models/config-manager";
 import * as Types from "./types";
 
 const routes = {
-  //DEPARTMENT
-  getDepartments: () => `department/`,
-  updateDepartment: (id: number) => `department/${id}/`,
-  createDepartment: () => `department/`,
-  deleteDepartment: (id: number) => `department/${id}/`,
-
   //TENANT
   getTenant: () => `config/`,
   updateTenant: (id: number) => `config/${id}/`,
@@ -26,7 +18,7 @@ const routes = {
 export const ConfigApi = {
   async getTenant(): Promise<Types.RequestGetTenantResult> {
     const url = routes.getTenant();
-    const result: ApiResponse<ITenantDto> = await Api.http.get(url);
+    const result = await Api.http.get<ITenantDto>(url);
 
     return returnResponse(result);
   },
@@ -36,7 +28,7 @@ export const ConfigApi = {
     body: Types.RequestUpdateTenantBody
   ): Promise<Types.RequestUpdateTenantResult> {
     const url = routes.updateTenant(id);
-    const result: ApiResponse<ITenantDto> = await Api.http.patch(url, {
+    const result = await Api.http.patch<ITenantDto>(url, {
       ...body,
     });
 
@@ -45,15 +37,16 @@ export const ConfigApi = {
 
   async getConfigManager(): Promise<Types.RequestGetConfigManagerResult> {
     const url = routes.getConfigManager();
-    const result: ApiResponse<IConfigManager> = await Api.http.get(url);
+    const result = await Api.http.get<IConfigManagerDto>(url);
 
     return returnResponse(result);
   },
+
   async updateConfigManager(
     body: Types.RequestUpdateConfigManagerBody
   ): Promise<Types.RequestUpdateConfigManagerResult> {
     const url = routes.updateConfigManager();
-    const result: ApiResponse<IConfigManager> = await Api.http.patch(url, body);
+    const result = await Api.http.patch<IConfigManagerDto>(url, body);
 
     return returnResponse(result);
   },
@@ -62,7 +55,7 @@ export const ConfigApi = {
     params: Types.RequestParamsConfigRoleUser
   ): Promise<Types.RequestUpdateConfigManagerResult> {
     const url = routes.updateConfigRoleUser(params.user_id);
-    const result: ApiResponse<IConfigManager> = await Api.http.patch(url, {
+    const result = await Api.http.patch<IConfigManagerDto>(url, {
       ...params,
       groups: [...params.groups],
     });

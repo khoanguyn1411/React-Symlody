@@ -3,9 +3,12 @@ import { toast } from "react-toastify";
 
 import { ConfigApi } from "@/api";
 import { Table } from "@/components";
-import { GROUPS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getUsersAsync, userSelectors } from "@/features/reducers";
+import {
+  getConfigManager,
+  getUsersAsync,
+  userSelectors,
+} from "@/features/reducers";
 import { IConfigInfo } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
@@ -19,56 +22,17 @@ const { ModalEditPermission } = lazyImport(
 );
 
 export const TabRolePermission: React.FC = () => {
-  const userList = useAppSelector(userSelectors.selectAll);
   const userCount = useAppSelector(userSelectors.selectTotal);
-
   const propsModalEditPermission = useModal<IConfigInfo>();
   const dispatch = useAppDispatch();
-  const [configData, setConfigData] = useState<IConfigInfo[]>([]);
   const [isRendered, setIsRendered] = useState(false);
 
   const fetchConfigManager = async () => {
     const hasUser = userCount > 0;
     const combinedPromise = hasUser
-      ? Promise.all([ConfigApi.getConfigManager()])
-      : Promise.all([ConfigApi.getConfigManager(), dispatch(getUsersAsync())]);
-
-    combinedPromise.then(
-      (res: Awaited<Promise<typeof combinedPromise>>): void => {
-        const result = res[0];
-        const userListAfterPromise = res[1];
-        const _userList = hasUser ? userList : userListAfterPromise.payload;
-        const userListMap: IConfigInfo[] = _userList.map((u) => ({
-          id: u.id,
-          email: u.email,
-          first_name: u.first_name,
-          last_name: u.last_name,
-          groups: [],
-        }));
-        if (
-          !hasUser &&
-          userListAfterPromise.meta.requestStatus === "rejected"
-        ) {
-          setConfigData([]);
-          setIsRendered(true);
-          return;
-        }
-        if (result.kind === "ok") {
-          const res = result.result.leaders.concat(result.result.managers);
-          const data = userListMap.map((u) => {
-            const _user = res.find((r) => r.id === u.id);
-            if (_user) {
-              return { ..._user };
-            }
-            return { ...u };
-          });
-          setConfigData(data);
-        } else {
-          setConfigData([]);
-        }
-        setIsRendered(true);
-      }
-    );
+      ? Promise.all([dispatch(getConfigManager())])
+      : Promise.all([dispatch(getConfigManager()), dispatch(getUsersAsync())]);
+    combinedPromise.then(() => setIsRendered(true));
   };
 
   useEffect(() => {
@@ -96,36 +60,7 @@ export const TabRolePermission: React.FC = () => {
   };
 
   const handleUpdateRoleUser = async (userId: number, groups: number[]) => {
-    const result = await ConfigApi.updateConfigRoleUser({
-      user_id: userId,
-      groups,
-    });
-
-    if (result.kind !== "ok") {
-      const error = result.result.data.details[0];
-      if (
-        error ===
-        "An organization must have an active leader. Please add another active leader before remove this member from leader role."
-      ) {
-        toast.warning("Tổ chức phải có ít nhật 1 leader");
-      } else {
-        toast.error("Phân quyền không thành công");
-      }
-      return false;
-    }
-    toast.success("Phân quyền thành công");
-
-    const newUserIdx = configData.findIndex((d) => d.id === userId);
-    const newUser = configData.find((d) => d.id === userId);
-
-    const _newList = configData;
-    const _groups = GROUPS.filter((g) => groups.includes(g.id));
-
-    if (newUserIdx > -1) {
-      _newList[newUserIdx] = { ...newUser, groups: _groups };
-      setConfigData(_newList);
-    }
-    return true;
+    return false;
   };
 
   return (
@@ -150,7 +85,6 @@ export const TabRolePermission: React.FC = () => {
 
         <TableGroup
           isRendered={isRendered}
-          configData={configData}
           onOpenEdit={handleOpenEdit}
           onDeleteRoleUser={handleDeleteRoleUser}
         />

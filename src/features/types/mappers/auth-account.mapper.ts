@@ -4,8 +4,9 @@ import {
   ERolesDto,
   IAuthAccountCreateUpdateDto,
   IAuthAccountDto,
+  IGroupDto,
 } from "../dtos";
-import { IAuthAccount, IGroup } from "../models";
+import { IAuthAccount } from "../models";
 import { GroupMapper } from "./group.mapper";
 
 export class AuthAccountMapper {
@@ -16,7 +17,7 @@ export class AuthAccountMapper {
         dto.last_name,
         dto.first_name
       ),
-      groups: dto.groups.map((item: IGroup) => GroupMapper.fromDto(item)),
+      groups: dto.groups.map((item: IGroupDto) => GroupMapper.fromDto(item)),
     };
   }
 

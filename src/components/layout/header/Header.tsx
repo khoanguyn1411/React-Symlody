@@ -16,7 +16,7 @@ type TProps = {
 
 export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
   const authStore = useAppSelector((state) => state.auth);
-  const { tenant } = useAppSelector((state) => state.tenant);
+  const { tenant } = useAppSelector((state) => state.config);
 
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const toggleSidebar = () => {

@@ -137,8 +137,8 @@ export const ModalEditPermission: React.FC<TProps> = ({
 
       <FormItem label="Thành viên" isRequired error={errors.userId?.message}>
         <div className="flex items-center h-10 px-3 bg-gray-100 space-x-2 rounded-md">
-          <Avatar src={user?.avatar} fullName={user?.last_name} />
-          <span>{`${user?.first_name} ${user?.last_name}`}</span>
+          <Avatar src={user?.avatar} fullName={user?.full_name} />
+          <span>{user?.full_name}</span>
         </div>
       </FormItem>
     </Modal>

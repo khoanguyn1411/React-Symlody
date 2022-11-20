@@ -20,7 +20,7 @@ import { schema } from "./schema";
 import { IFormOrganizationConfig } from "./type";
 
 export const TabOrganization: React.FC = () => {
-  const { tenant } = useAppSelector((state) => state.tenant);
+  const { tenant } = useAppSelector((state) => state.config);
   const dispatch = useAppDispatch();
 
   const {

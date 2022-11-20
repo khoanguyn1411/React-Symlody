@@ -1,11 +1,12 @@
 import classNames from "classnames";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
-import { IConfigInfo } from "@/features/types";
+import { useAppSelector } from "@/features";
+import { configSelectors } from "@/features/reducers";
+import { ERoles, IConfigInfo } from "@/features/types";
 
 type TProps = {
   title: string;
-  data: IConfigInfo[];
   onOpenEdit: (data: IConfigInfo) => void;
   onDeleteRoleUser: (id: number) => void;
 };
@@ -26,41 +27,30 @@ const CheckDone: React.FC<TCheckDone> = ({ isActive }) => {
   );
 };
 
-export const ItemPermission: React.FC<TProps> = ({ data, onOpenEdit }) => {
+export const ItemPermission: React.FC<TProps> = ({ onOpenEdit }) => {
+  const configUsersList = useAppSelector(configSelectors.selectAll);
   return (
     <>
-      {data.length > 0 &&
-        data.map((d) => (
+      {configUsersList.length > 0 &&
+        configUsersList.map((d) => (
           <Table.Row key={d.id}>
             <Table.Cell>
               <div className="flex items-center space-x-2">
-                <Avatar src="" fullName={d.first_name + " " + d.last_name} />
+                <Avatar src="" fullName={d.full_name} />
                 <div className="flex flex-col">
-                  <h2 className="font-medium">
-                    {d.first_name + " " + d.last_name}
-                  </h2>
+                  <h2 className="font-medium">{d.full_name}</h2>
                   <span className="text-xs text-gray-400">{d.email}</span>
                 </div>
               </div>
             </Table.Cell>
             <Table.Cell width="4rem" textAlign="center">
-              <CheckDone
-                isActive={d.groups.map((g) => g.name).includes("lead")}
-              />
+              <CheckDone isActive={d.isRole(ERoles.Lead)} />
             </Table.Cell>
             <Table.Cell width="4rem" textAlign="center">
-              <CheckDone
-                isActive={d.groups
-                  .map((g) => g.name)
-                  .includes("member_manager")}
-              />
+              <CheckDone isActive={d.isRole(ERoles.MemberManager)} />
             </Table.Cell>
             <Table.Cell width="4rem" textAlign="center">
-              <CheckDone
-                isActive={d.groups
-                  .map((g) => g.name)
-                  .includes("property_manager")}
-              />
+              <CheckDone isActive={d.isRole(ERoles.PropertyManager)} />
             </Table.Cell>
 
             <Table.CellAction>

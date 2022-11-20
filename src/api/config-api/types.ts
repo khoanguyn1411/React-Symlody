@@ -3,6 +3,7 @@ import {
   ITenantCreateUpdateDto,
   ITenantDto,
 } from "@/features/types/dtos";
+import { IConfigManagerDto } from "@/features/types/dtos/config-manager.dto";
 
 import { Response } from "../types";
 import { IConfigManager } from "./../../features/types/models/config-manager";
@@ -10,8 +11,8 @@ import { IConfigManager } from "./../../features/types/models/config-manager";
 export type RequestGetTenantResult = Response<ITenantDto>;
 export type RequestUpdateTenantResult = Response<ITenantDto>;
 
-export type RequestGetConfigManagerResult = Response<IConfigManager>;
-export type RequestUpdateConfigManagerResult = Response<IConfigManager>;
+export type RequestGetConfigManagerResult = Response<IConfigManagerDto>;
+export type RequestUpdateConfigManagerResult = Response<IConfigManagerDto>;
 export type RequestUpdateConfigRoleUserResult = Response<boolean>;
 
 export type RequestUpdateTenantBody = ITenantCreateUpdateDto;

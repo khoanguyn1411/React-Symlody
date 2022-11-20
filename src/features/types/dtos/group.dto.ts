@@ -9,9 +9,9 @@ export enum ERolesDto {
 }
 export interface IGroupDto {
   readonly id: number;
-  readonly name: string;
+  readonly name: ERolesDto;
 }
 
 export interface IGroupCreateUpdateDto {
-  readonly name: string;
+  readonly name: ERolesDto;
 }

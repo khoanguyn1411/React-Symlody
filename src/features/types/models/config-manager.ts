@@ -1,14 +1,12 @@
-import { IGroup } from "./group";
+import { IAuthAccount } from "./auth-account";
+import { ERoles } from "./group";
 
-export interface IConfigInfo {
-  id: number;
-  email: string;
-  first_name?: string;
-  last_name?: string;
-  groups: IGroup[];
+export interface IConfigInfo extends IAuthAccount {
+  readonly id: number;
+  readonly isRole: (role: ERoles) => boolean;
 }
 
 export interface IConfigManager {
-  leaders: IConfigInfo[];
-  managers: IConfigInfo[];
+  readonly leaders: IConfigInfo[];
+  readonly managers: IConfigInfo[];
 }

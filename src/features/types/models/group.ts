@@ -8,17 +8,7 @@ export enum ERoles {
   SystemAdmin = "Quản lý hệ thống",
 }
 
-export enum ERolesID {
-  SystemAdmin = 1,
-  Lead = 2,
-  MemberManager = 3,
-  PropertyManager = 4,
-  NotificationManager = 5,
-  EventManager = 6,
-  Member = 7,
-}
-
 export interface IGroup {
   readonly id: number;
-  readonly name: string;
+  readonly name: ERoles;
 }
