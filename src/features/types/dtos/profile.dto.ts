@@ -1,5 +1,3 @@
-import { StrictOmit } from "@/utils/types";
-
 import { IDepartmentDto } from "./department.dto";
 import { IGroupDto } from "./group.dto";
 import { ITenantDto } from "./tenant.dto";

@@ -1,5 +1,3 @@
-import { StrictOmit } from "@/utils/types";
-
 import { IDepartment } from "./department";
 import { ERoles, IGroup } from "./group";
 import { ITenant } from "./tenant";
