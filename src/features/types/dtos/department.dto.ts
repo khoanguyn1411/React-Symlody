@@ -15,21 +15,6 @@ export type IDepartmentCreateUpdateDto = GlobalTypes.StrictPick<
   "name" | "abbreviation_name"
 >;
 
-export interface ITenantDto {
-  readonly id: number;
-  readonly name: string;
-  readonly abbreviation_name?: string | null;
-  // readonly org_departments: IDepartment;
-  //
-  readonly email?: string;
-  readonly phone_number?: string;
-  readonly school?: string;
-  readonly address?: string;
-  readonly logo?: string;
-}
-
-export type ITenantCreateUpdateDto = GlobalTypes.StrictOmit<ITenantDto, "id">;
-
 export type IConfigManagerUpdate = {
   groups: IGroup;
 };

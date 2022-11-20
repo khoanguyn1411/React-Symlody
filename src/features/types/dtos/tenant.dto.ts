@@ -1,6 +1,6 @@
 import { StrictOmit } from "@/utils/types";
 
-export interface ITenant {
+export interface ITenantDto {
   readonly id: number;
   readonly name: string;
   readonly abbreviation_name: string | null;
@@ -11,4 +11,4 @@ export interface ITenant {
   readonly logo: string | null;
 }
 
-export type ITenantCreateUpdate = StrictOmit<ITenant, "id" | "logo">;
+export type ITenantCreateUpdateDto = StrictOmit<ITenantDto, "id" | "logo">;

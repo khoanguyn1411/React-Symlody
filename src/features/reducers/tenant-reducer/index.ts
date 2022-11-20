@@ -22,7 +22,7 @@ export const getTenantAsync = createAsyncThunk<
   ITenant,
   null,
   GlobalTypes.ReduxThunkRejectValue<null>
->("get/tenant", async (payload, { rejectWithValue }) => {
+>("get/tenant", async (_, { rejectWithValue }) => {
   const result = await ConfigApi.getTenant();
   if (result.kind === "ok") {
     return result.result;

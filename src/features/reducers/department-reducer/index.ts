@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { ConfigApi } from "@/api";
 import {
+  DepartmentApi,
   RequestCreateDepartmentResult,
   RequestUpdateDepartmentResult,
-} from "@/api/config-api/types";
+} from "@/api/department-api";
 import { RootState } from "@/features/store";
 import {
   DepartmentMapper,
@@ -20,7 +20,7 @@ export const getDepartmentAsync = createAsyncThunk<
   null,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/department", async (_, { rejectWithValue }) => {
-  const result = await ConfigApi.getDepartments();
+  const result = await DepartmentApi.getDepartments();
   if (result.kind === "ok") {
     return result.result.map((item) => DepartmentMapper.fromDto(item));
   }
@@ -33,7 +33,7 @@ export const createDepartmentAsync = createAsyncThunk<
   IDepartmentCreateUpdate,
   GlobalTypes.ReduxThunkRejectValue<RequestCreateDepartmentResult>
 >("create/department", async (payload, { rejectWithValue }) => {
-  const result = await ConfigApi.createDepartment(payload);
+  const result = await DepartmentApi.createDepartment(payload);
   if (result.kind === "ok") {
     const department = result.result;
     return DepartmentMapper.fromDto(department);
@@ -47,7 +47,7 @@ export const updateDepartmentAsync = createAsyncThunk<
   { id: number; body: IDepartmentCreateUpdate },
   GlobalTypes.ReduxThunkRestoreRejected<RequestUpdateDepartmentResult>
 >("update/department", async (payload, { rejectWithValue }) => {
-  const result = await ConfigApi.updateDepartment(payload.id, payload.body);
+  const result = await DepartmentApi.updateDepartment(payload.id, payload.body);
   if (result.kind === "ok") {
     const department = result.result;
     return DepartmentMapper.fromDto(department);
@@ -61,7 +61,7 @@ export const deleteDepartmentAsync = createAsyncThunk<
   IDepartment["id"],
   GlobalTypes.ReduxThunkRejectValue<boolean>
 >("delete/department", async (id, { rejectWithValue }) => {
-  const result = await ConfigApi.deleteDepartment(id);
+  const result = await DepartmentApi.deleteDepartment(id);
   if (result.kind === "ok") {
     return id;
   }
@@ -74,7 +74,7 @@ export const deleteDepartmentAsync = createAsyncThunk<
 //   null,
 //   GlobalTypes.ReduxThunkRejectValue<null>
 // >("get/tenant", async (payload, { rejectWithValue }) => {
-//   const result = await ConfigApi.getTenant();
+//   const result = await DepartmentApi.getTenant();
 //   if (result.kind === "ok") {
 //     return result.result;
 //   }
