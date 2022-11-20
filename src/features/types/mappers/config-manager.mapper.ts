@@ -2,11 +2,7 @@ import { generateFullName } from "@/utils/services/generate-service";
 
 import { IConfigInfoDto, IConfigManagerDto } from "../dtos/config-manager.dto";
 import { ERoles, IConfigInfo, IConfigManager, IUser } from "../models";
-import {
-  GroupMapper,
-  ROLE_MAP_FROM_DTO,
-  ROLE_MAP_TO_DTO,
-} from "./group.mapper";
+import { GroupMapper, ROLE_MAP_TO_DTO } from "./group.mapper";
 
 export class ConfigMangerMapper {
   public static fromDto(dto: IConfigManagerDto): IConfigManager {
