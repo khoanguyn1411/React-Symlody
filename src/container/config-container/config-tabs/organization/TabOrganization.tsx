@@ -37,7 +37,6 @@ export const TabOrganization: React.FC = () => {
 
   const handleEditOrgInfo = withPermission([1, 2])(
     async (data: IFormOrganizationConfig) => {
-      //TODO: Implement edit info feature of organization module.
       const result = await dispatch(
         updateTenantAsync({ id: tenant.id, body: { ...data } })
       );
@@ -98,14 +97,11 @@ export const TabOrganization: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem
-          label="Địa chỉ mail"
-          // isRequired error={errors.email?.message}
-        >
+        <FormItem label="Địa chỉ mail">
           <Controller
             control={control}
             name="email"
-            defaultValue={defaultValue.get("email") || ""}
+            defaultValue={defaultValue.get("email", "")}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Địa chỉ mail"
@@ -116,15 +112,11 @@ export const TabOrganization: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem
-          label="Số điện thoại"
-          // isRequired
-          // error={errors.phone?.message}
-        >
+        <FormItem label="Số điện thoại">
           <Controller
             control={control}
             name="phone_number"
-            defaultValue={defaultValue.get("phone_number") || ""}
+            defaultValue={defaultValue.get("phone_number", "")}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Số điện thoại"
@@ -136,15 +128,11 @@ export const TabOrganization: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem
-          label="Trực thuộc trường"
-          // isRequired
-          // error={errors.schoolBelonged?.message}
-        >
+        <FormItem label="Trực thuộc trường">
           <Controller
             control={control}
             name="school"
-            defaultValue={defaultValue.get("school") || ""}
+            defaultValue={defaultValue.get("school", "")}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Trực thuộc trường"
@@ -155,14 +143,11 @@ export const TabOrganization: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem
-          label="Địa chỉ"
-          // isRequired error={errors.address?.message}
-        >
+        <FormItem label="Địa chỉ">
           <Controller
             control={control}
             name="address"
-            defaultValue={defaultValue.get("address") || ""}
+            defaultValue={defaultValue.get("address", "")}
             render={({ field: { value, onChange } }) => (
               <Input placeholder="Địa chỉ" value={value} onChange={onChange} />
             )}
