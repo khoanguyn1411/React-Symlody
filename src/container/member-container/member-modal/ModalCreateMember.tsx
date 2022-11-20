@@ -7,6 +7,7 @@ import { Loading, ModalMultipleTabs, ModalTab, PickFile } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   createMemberAsync,
+  departmentSelectors,
   getDepartmentAsync,
   uploadMemberExcelFileAsync,
 } from "@/features/reducers";
@@ -30,20 +31,19 @@ const TabCreateAMember: React.FC = () => {
     formState: { isSubmitting },
   } = propsForm;
   const dispatch = useAppDispatch();
+  const departmentList = useAppSelector(departmentSelectors.selectAll);
+  const departmentCount = useAppSelector(departmentSelectors.selectTotal);
+
   const departmentStore = useAppSelector((state) => state.department);
 
   useEffect(() => {
-    if (departmentStore.departments.length === 0) {
+    if (departmentCount === 0) {
       dispatch(getDepartmentAsync());
     }
-  }, [departmentStore.departments.length, dispatch]);
+  }, [departmentCount, dispatch]);
 
   const handleCreateMember = async (data: IFormMemberInfo) => {
-    const memberModel = MemberFormMapper.toModel(
-      departmentStore.departments,
-      data,
-      false
-    );
+    const memberModel = MemberFormMapper.toModel(departmentList, data, false);
     const res = await dispatch(createMemberAsync(memberModel));
     if (res.meta.requestStatus === "rejected") {
       if (res.payload instanceof HttpError) {

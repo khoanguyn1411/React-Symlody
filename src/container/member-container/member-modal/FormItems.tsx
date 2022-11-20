@@ -3,6 +3,7 @@ import { Controller, UseFormReturn } from "react-hook-form";
 
 import { AppDatePicker, FormItem, Input, Select } from "@/components";
 import { useAppSelector } from "@/features";
+import { departmentSelectors } from "@/features/reducers/department-reducer";
 import { IMember } from "@/features/types";
 import { FormService } from "@/utils";
 
@@ -21,6 +22,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
   }
 
   const departmentStore = useAppSelector((state) => state.department);
+  const departmentList = useAppSelector(departmentSelectors.selectAll);
 
   const {
     control,
@@ -166,7 +168,7 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           defaultValue={defaultValue.get("department")}
           render={({ field: { value, onChange } }) => (
             <Select
-              list={departmentStore.departments.map((item) => ({
+              list={departmentList.map((item) => ({
                 value: item.name,
               }))}
               isLoading={departmentStore.pending}

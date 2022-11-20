@@ -2,6 +2,7 @@ import React from "react";
 
 import { DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
+import { departmentSelectors } from "@/features/reducers";
 import { IDepartment } from "@/features/types";
 import { FormatService } from "@/utils";
 
@@ -15,18 +16,17 @@ export const TabDepartmentTableContent: React.FC<TProps> = ({
   onDelete,
 }) => {
   const departmentStore = useAppSelector((state) => state.department);
+  const departmentList = useAppSelector(departmentSelectors.selectAll);
+  const departmentCount = useAppSelector(departmentSelectors.selectTotal);
   if (departmentStore.pending) {
     return <Table.Skeleton colsNumber={5} />;
   }
-  if (
-    departmentStore.departments.length === 0 ||
-    departmentStore.departments == null
-  ) {
+  if (departmentCount === 0) {
     return <Table.NoData colsNumber={5} />;
   }
   return (
     <Table.Body>
-      {departmentStore.departments.map((item, index) => (
+      {departmentList.map((item, index) => (
         <Table.Row key={`${item.id}-${index}`}>
           <Table.Cell width="5rem" textAlign="center">
             {index + 1}

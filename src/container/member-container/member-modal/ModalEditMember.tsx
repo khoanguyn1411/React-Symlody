@@ -5,7 +5,11 @@ import { toast } from "react-toastify";
 
 import { Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getDepartmentAsync, updateMemberAsync } from "@/features/reducers";
+import {
+  departmentSelectors,
+  getDepartmentAsync,
+  updateMemberAsync,
+} from "@/features/reducers";
 import {
   DetailNestedErrorOf,
   HttpError,
@@ -38,11 +42,14 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   } = propsForm;
 
   const departmentStore = useAppSelector((state) => state.department);
+  const departmentList = useAppSelector(departmentSelectors.selectAll);
+  const departmentCount = useAppSelector(departmentSelectors.selectTotal);
+
   const dispatch = useAppDispatch();
 
   const handleEditMember = async (editInfo: IFormMemberInfo) => {
     const memberModel = MemberFormMapper.toModel(
-      departmentStore.departments,
+      departmentList,
       editInfo,
       data.is_archived
     );
@@ -83,10 +90,10 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   };
 
   useEffect(() => {
-    if (isShowing && departmentStore.departments.length === 0) {
+    if (isShowing && departmentCount === 0) {
       dispatch(getDepartmentAsync());
     }
-  }, [departmentStore.departments.length, dispatch, isShowing]);
+  }, [departmentCount, dispatch, isShowing]);
 
   return (
     <Modal

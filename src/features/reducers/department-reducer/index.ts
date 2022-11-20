@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { ConfigApi } from "@/api";
 import {
@@ -13,25 +13,13 @@ import {
 } from "@/features/types";
 import { GlobalTypes } from "@/utils";
 
-export type DepartmentState = {
-  pending: boolean;
-  departments: IDepartment[];
-  department: IDepartment;
-  // tenant: ITenant;
-};
-
-const initialState: DepartmentState = {
-  pending: false,
-  departments: [],
-  department: null,
-  // tenant: null,
-};
+import { departmentAdapter, initialState } from "./state";
 
 export const getDepartmentAsync = createAsyncThunk<
   IDepartment[],
   null,
   GlobalTypes.ReduxThunkRejectValue<[]>
->("get/department", async (payload, { rejectWithValue }) => {
+>("get/department", async (_, { rejectWithValue }) => {
   const result = await ConfigApi.getDepartments();
   if (result.kind === "ok") {
     return result.result.map((item) => DepartmentMapper.fromDto(item));
@@ -97,16 +85,7 @@ export const deleteDepartmentAsync = createAsyncThunk<
 export const departmentSlice = createSlice({
   name: "department",
   initialState,
-  reducers: {
-    getDepartment: (state, action: PayloadAction<{ id: number }>) => {
-      const department = state.departments.find(
-        (d) => d.id === action.payload.id
-      );
-      if (department) {
-        state.department = department;
-      }
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getDepartmentAsync.pending, (state) => {
@@ -114,34 +93,29 @@ export const departmentSlice = createSlice({
       })
       .addCase(getDepartmentAsync.fulfilled, (state, action) => {
         state.pending = false;
-        state.departments = action.payload;
+        departmentAdapter.setAll(state, action.payload);
       })
       .addCase(getDepartmentAsync.rejected, (state) => {
         state.pending = false;
-        state.departments = [];
+        departmentAdapter.setAll(state, []);
       })
-      //CREATE DEPARTMENT
+
       .addCase(createDepartmentAsync.fulfilled, (state, action) => {
         const newDepartment = action.payload;
-        state.departments = [...state.departments, newDepartment];
+        departmentAdapter.addOne(state, newDepartment);
       })
-      //UPDATE DEPARTMENT
+
       .addCase(updateDepartmentAsync.fulfilled, (state, action) => {
         const newDepartment = action.payload;
-        const departments = state.departments;
-
-        const index = departments.findIndex((d) => d.id === newDepartment.id);
-        if (index > -1) {
-          departments[index] = newDepartment;
-          state.departments = [...departments];
-        }
+        departmentAdapter.updateOne(state, {
+          id: newDepartment.id,
+          changes: newDepartment,
+        });
       })
-      //DELETE DEPARTMENT
+
       .addCase(deleteDepartmentAsync.fulfilled, (state, action) => {
         const departmentId = action.payload;
-        const departments = state.departments;
-
-        state.departments = departments.filter((d) => d.id !== departmentId);
+        departmentAdapter.removeOne(state, departmentId);
       });
     //GET TENANT
     // .addCase(getTenantAsync.pending, (state) => {
@@ -158,5 +132,7 @@ export const departmentSlice = createSlice({
   },
 });
 export const departmentStore = (state: RootState) => state.department;
-
+export const departmentSelectors = departmentAdapter.getSelectors(
+  (state: RootState) => state.department
+);
 export default departmentSlice.reducer;

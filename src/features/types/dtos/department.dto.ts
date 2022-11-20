@@ -5,16 +5,16 @@ import { IGroup } from "./../models/group";
 export interface IDepartmentDto {
   readonly id: number;
   readonly name: string;
-  readonly abbreviation_name?: string | null;
-  //
-  readonly number_user?: number;
-  readonly createdAt?: string;
+  readonly abbreviation_name: string | null;
+  readonly member_count: number;
+  readonly created_date: string;
 }
 
-export type IDepartmentCreateUpdateDto = GlobalTypes.StrictOmit<
+export type IDepartmentCreateUpdateDto = GlobalTypes.StrictPick<
   IDepartmentDto,
-  "abbreviation_name"
+  "name" | "abbreviation_name"
 >;
+
 export interface ITenantDto {
   readonly id: number;
   readonly name: string;

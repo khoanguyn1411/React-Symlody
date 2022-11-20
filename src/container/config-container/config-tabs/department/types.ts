@@ -1,5 +1,5 @@
-export type IFormDepartment = {
-  id: number;
-  name: string;
-  abbreviation_name?: string;
-};
+export interface IFormDepartment {
+  readonly id: number;
+  readonly name: string;
+  readonly abbreviation_name: string;
+}

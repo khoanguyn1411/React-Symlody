@@ -12,6 +12,7 @@ import {
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
+  departmentSelectors,
   getDepartmentAsync,
   getUsersAsync,
   userSelectors,
@@ -58,10 +59,11 @@ const getContentTab = (key: ETodoTabKey, isLoading: boolean): ContentTab => {
 
 export const TodoContainer: React.FC = () => {
   const dispatch = useAppDispatch();
-  const departmentStore = useAppSelector((state) => state.department);
   const taskStore = useAppSelector((state) => state.task);
   const userCount = useAppSelector(userSelectors.selectTotal);
   const currentUser = useAppSelector((state) => state.auth.user);
+  const departmentList = useAppSelector(departmentSelectors.selectAll);
+  const departmentCount = useAppSelector(departmentSelectors.selectTotal);
 
   const { tab } = useParams();
   const propsModal = useModal({ isHotkeyOpen: true });
@@ -75,7 +77,7 @@ export const TodoContainer: React.FC = () => {
   const getDepartmentId = (
     departmentText: string
   ): IDepartment["id"] | null => {
-    const department = departmentStore.departments.find(
+    const department = departmentList.find(
       (department) => department.name === departmentText
     );
     return department ? department.id : currentUser.department.id;
@@ -83,7 +85,7 @@ export const TodoContainer: React.FC = () => {
 
   const [filterDepartment, setFilterDepartment] = useState<string>(() => {
     if (taskStore.listQueryTask.department_id) {
-      return departmentStore.departments.find(
+      return departmentList.find(
         (department) => department.id === taskStore.listQueryTask.department_id
       ).name;
     }
@@ -115,7 +117,7 @@ export const TodoContainer: React.FC = () => {
 
   useLayoutEffect(() => {
     const hasUser = userCount > 0;
-    const hasDepartment = departmentStore.departments.length > 0;
+    const hasDepartment = departmentCount > 0;
     const hasBoth = hasUser && hasDepartment;
     if (hasBoth) {
       setIsLoading(false);
@@ -185,7 +187,7 @@ export const TodoContainer: React.FC = () => {
             <Select
               className="w-36"
               placeHolder="Chọn phòng ban"
-              list={departmentStore.departments.map((department) => ({
+              list={departmentList.map((department) => ({
                 value: department.name,
               }))}
               onChangeSideEffect={handleSetFilter}

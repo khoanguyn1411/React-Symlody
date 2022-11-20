@@ -31,8 +31,6 @@ export const ModalEditDepartment: React.FC<THookModalProps<IDepartment>> = ({
   } = propsForm;
 
   const handleUpdateDepartment = async (body: IFormDepartment) => {
-    //TODO: Handle update department.
-
     const result = await dispatch(updateDepartmentAsync({ id: data.id, body }));
     if (!result.payload) {
       toast.error(DEPARTMENT_MESSAGE.update.error);

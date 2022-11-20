@@ -1,5 +1,5 @@
 import { IAuthAccount, IAuthAccountCreateUpdate } from "./auth-account";
-import { IDepartment, IDepartmentCreateUpdate } from "./department";
+import { IDepartment } from "./department";
 
 interface IMemberGeneral {
   readonly gender: "Nam" | "Nữ";
@@ -26,5 +26,5 @@ export interface IMember extends IMemberGeneral {
 
 export interface IMemberCreateUpdate extends IMemberGeneral {
   readonly auth_account: IAuthAccountCreateUpdate;
-  readonly department: IDepartmentCreateUpdate;
+  readonly department: IDepartment;
 }

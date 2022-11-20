@@ -1,7 +1,6 @@
 import {
   ERoles,
   IDepartment,
-  IDepartmentCreateUpdate,
   IMember,
   IMemberCreateUpdate,
 } from "@/features/types";
@@ -81,10 +80,7 @@ export class MemberTableMapper {
 }
 
 export class DepartmentFormMapper {
-  public static toModel(
-    model: IDepartment[],
-    formData: string
-  ): IDepartmentCreateUpdate {
+  public static toModel(model: IDepartment[], formData: string): IDepartment {
     return {
       ...model.find((item) => item.name === formData),
     };
