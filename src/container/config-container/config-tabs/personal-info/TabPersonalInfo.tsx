@@ -1,21 +1,26 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { MemberApi } from "@/api";
-import { AppDatePicker, FormItem, Input, SelectControl } from "@/components";
+import {
+  AppDatePicker,
+  FormItem,
+  Input,
+  Select,
+  SelectControl,
+} from "@/components";
 import { provinces } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { updateProfile } from "@/features/reducers";
+import { updateMemberAsync } from "@/features/reducers";
 import { FormService } from "@/utils";
 
 import {
   ConfigSubmitButton,
   ConfigTabContentContainer,
 } from "../../config-components";
-import { GENDER_OPTIONS } from "./constants";
+import { PERSONAL_INFO_MESSAGES } from "./constants";
+import { PersonalInfoFormMapper } from "./mapper";
 import { schema } from "./shema";
 import { IFormUserConfig } from "./type";
 
@@ -30,65 +35,32 @@ export const TabPersonalInfo: React.FC = () => {
 
   const {
     control,
-    formState: { errors, isSubmitting, dirtyFields },
     reset,
+    formState: { errors, isSubmitting, dirtyFields },
     handleSubmit,
   } = useForm<IFormUserConfig>({ resolver: yupResolver(schema) });
 
   useEffect(() => {
     if (user) {
       reset({
-        firstName: user.first_name,
-        lastName: user.last_name,
-        email: user.email,
-        class: user?.class_name,
-        studentId: user?.student_id,
-        birthday: user.dob,
-        phone: user?.phone_number,
-        home: user?.home_town,
-        address: user?.address,
-        gender: user?.gender.toString(),
+        ...PersonalInfoFormMapper.fromProfile(user),
       });
     }
   }, [reset, user]);
-  const handleEditPersonalInfo = async (data: IFormUserConfig) => {
-    //TODO: Implement edit personal info feature of config module.
-    const result = await MemberApi.updateMember(user.id, {
-      gender: Number(data.gender),
-      home_town: data.home,
-      phone_number: data.phone,
-      student_id: data.studentId,
-      class_name: data.class,
-      address: data.address,
 
-      auth_account: {
-        // email: data.email,
-        first_name: data.firstName,
-        last_name: data.lastName,
-      },
-      avatar: undefined,
-      dob: dayjs(data.birthday).format("YYYY-MM-DD").toString(),
-      department_id: undefined,
-      is_archived: undefined,
-    });
-    if (result.kind === "ok") {
-      toast.success("Cập nhật thông tin thành công");
-      dispatch(
-        updateProfile({
-          id: user.id,
-          gender: Number(data.gender),
-          home_town: data.home,
-          phone_number: data.phone,
-          student_id: data.studentId,
-          class_name: data.class,
-          address: data.address,
-          first_name: data.firstName,
-          last_name: data.lastName,
-          dob: data.birthday,
-          email: data.email,
-        })
-      );
+  const handleEditPersonalInfo = async (data: IFormUserConfig) => {
+    const result = await dispatch(
+      updateMemberAsync({
+        payload: PersonalInfoFormMapper.toModel(data),
+        id: user.id,
+        isRestore: false,
+      })
+    );
+    if (result.meta.requestStatus !== "rejected") {
+      toast.success(PERSONAL_INFO_MESSAGES.update.success);
+      return;
     }
+    toast.error(PERSONAL_INFO_MESSAGES.update.error);
   };
   return (
     <ConfigTabContentContainer>
@@ -189,13 +161,13 @@ export const TabPersonalInfo: React.FC = () => {
           <Controller
             control={control}
             name="gender"
-            defaultValue=""
             render={({ field: { value, onChange } }) => (
-              <SelectControl
-                name="gender"
-                options={GENDER_OPTIONS}
-                selected={value}
-                onValueChange={(e) => onChange(e.target.value)}
+              <Select
+                list={[{ value: "Nam" }, { value: "Nữ" }]}
+                style="modal"
+                value={value}
+                onChange={onChange}
+                placeHolder="Giới tính"
               />
             )}
           />

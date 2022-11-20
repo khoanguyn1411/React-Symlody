@@ -26,5 +26,5 @@ export interface IMember extends IMemberGeneral {
 
 export interface IMemberCreateUpdate extends IMemberGeneral {
   readonly auth_account: IAuthAccountCreateUpdate;
-  readonly department: IDepartment;
+  readonly department?: IDepartment;
 }

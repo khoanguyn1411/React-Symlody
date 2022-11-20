@@ -1,5 +1,7 @@
-import { IGroup } from "../models";
+import { StrictOmit } from "@/utils/types";
+
 import { IDepartmentDto } from "./department.dto";
+import { IGroupDto } from "./group.dto";
 import { ITenantDto } from "./tenant.dto";
 
 export interface IProfileDto {
@@ -16,6 +18,6 @@ export interface IProfileDto {
   readonly avatar: string;
   readonly address: string;
   readonly department: IDepartmentDto;
-  readonly groups: IGroup[];
+  readonly groups: IGroupDto[];
   readonly organization: ITenantDto;
 }

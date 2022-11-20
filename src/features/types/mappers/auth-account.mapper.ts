@@ -1,7 +1,6 @@
 import { GeneratorService } from "@/utils";
 
 import {
-  ERolesDto,
   IAuthAccountCreateUpdateDto,
   IAuthAccountDto,
   IGroupDto,
@@ -22,11 +21,6 @@ export class AuthAccountMapper {
   }
 
   public static toDto(model: IAuthAccount): IAuthAccountCreateUpdateDto {
-    let groupMapped = model.groups.map((item) => GroupMapper.toDto(item));
-    const groupMappedName = groupMapped.map((item) => item.name as ERolesDto);
-    if (!groupMappedName.includes(ERolesDto.Member)) {
-      groupMapped = [...groupMapped, { name: ERolesDto.Member }];
-    }
     return {
       ...model,
     };

@@ -48,11 +48,11 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   const dispatch = useAppDispatch();
 
   const handleEditMember = async (editInfo: IFormMemberInfo) => {
-    const memberModel = MemberFormMapper.toModel(
-      departmentList,
-      editInfo,
-      data.is_archived
-    );
+    const memberModel = MemberFormMapper.toModel({
+      departmentModel: departmentList,
+      formData: editInfo,
+      isArchived: data.is_archived,
+    });
 
     let _memberModel: IMemberCreateUpdate;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

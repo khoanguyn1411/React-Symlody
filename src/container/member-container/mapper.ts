@@ -10,11 +10,15 @@ import { IFormMemberInfo, IMemberTable } from "./type";
 
 export class MemberFormMapper {
   /** Use for map data from form values to member model. */
-  public static toModel(
-    departmentModel: IDepartment[],
-    formData: IFormMemberInfo,
-    isArchived: IMember["is_archived"]
-  ): IMemberCreateUpdate {
+  public static toModel({
+    departmentModel,
+    formData,
+    isArchived,
+  }: {
+    departmentModel?: IDepartment[];
+    formData: IFormMemberInfo;
+    isArchived: IMember["is_archived"];
+  }): IMemberCreateUpdate {
     return {
       auth_account: {
         first_name: formData.firstName,
@@ -33,10 +37,9 @@ export class MemberFormMapper {
       student_id: formData.studentId,
       phone_number: formData.phone,
       home_town: formData.home,
-      department: DepartmentFormMapper.toModel(
-        departmentModel,
-        formData.department
-      ),
+      department: departmentModel
+        ? DepartmentFormMapper.toModel(departmentModel, formData.department)
+        : undefined,
       is_archived: isArchived,
     };
   }

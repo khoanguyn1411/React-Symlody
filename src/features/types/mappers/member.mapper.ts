@@ -38,7 +38,7 @@ export class MemberMapper {
       ...model,
       dob: FormatService.toDateString(model.dob, "API"),
       gender: model.gender === "Nam" ? 1 : 2,
-      department_id: model.department.id,
+      department_id: model.department ? model.department.id : undefined,
     };
   }
 }

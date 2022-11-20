@@ -29,5 +29,5 @@ export interface IMemberDto extends IMemberGeneralDto {
 
 export interface IMemberCreateUpdateDto extends IMemberGeneralDto {
   readonly auth_account: IAuthAccountCreateUpdateDto;
-  readonly department_id: number;
+  readonly department_id?: number;
 }

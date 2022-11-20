@@ -1,10 +1,3 @@
-export const GENDER_OPTIONS = [
-  {
-    value: "1",
-    label: "Nam",
-  },
-  {
-    value: "2",
-    label: "Nữ",
-  },
-];
+import { generateStatusMessageFor } from "@/utils/services/generate-service";
+
+export const PERSONAL_INFO_MESSAGES = generateStatusMessageFor("thông tin");

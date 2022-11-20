@@ -43,7 +43,11 @@ const TabCreateAMember: React.FC = () => {
   }, [departmentCount, dispatch]);
 
   const handleCreateMember = async (data: IFormMemberInfo) => {
-    const memberModel = MemberFormMapper.toModel(departmentList, data, false);
+    const memberModel = MemberFormMapper.toModel({
+      departmentModel: departmentList,
+      formData: data,
+      isArchived: false,
+    });
     const res = await dispatch(createMemberAsync(memberModel));
     if (res.meta.requestStatus === "rejected") {
       if (res.payload instanceof HttpError) {
