@@ -1,5 +1,7 @@
+import { hasElementOfArray } from "@/utils/services/compare-service";
 import { generateFullName } from "@/utils/services/generate-service";
 
+import { ERolesDto } from "../dtos";
 import {
   IConfigInfoDto,
   IConfigManagerDto,
@@ -14,6 +16,13 @@ import {
 } from "../models";
 import { GroupMapper, ROLE_MAP_TO_DTO, ROLE_MAP_TO_ID } from "./group.mapper";
 
+export const MANAGER_ROLES_DTO = [
+  ERolesDto.EventManager,
+  ERolesDto.MemberManager,
+  ERolesDto.NotificationManager,
+  ERolesDto.PropertyManager,
+];
+
 export class ConfigMangerMapper {
   public static fromDto(dto: IConfigManagerDto): IConfigManager {
     return {
@@ -27,11 +36,22 @@ export class ConfigMangerMapper {
 
 export class ConfigInfoMapper {
   public static fromDto(dto: IConfigInfoDto): IConfigInfo {
+    const groupNameList = dto.groups.map((group) => group.name);
     return {
       ...dto,
       full_name: generateFullName(dto.last_name, dto.first_name),
-      isRole: (role: ERoles) =>
-        dto.groups.map((group) => group.name).includes(ROLE_MAP_TO_DTO[role]),
+      isRole: (role: ERoles | "manager" | "member") => {
+        if (role === "manager") {
+          return hasElementOfArray(groupNameList, MANAGER_ROLES_DTO);
+        }
+        if (role === "member") {
+          return (
+            groupNameList.includes(ERolesDto.Member) &&
+            groupNameList.length === 1
+          );
+        }
+        return groupNameList.includes(ROLE_MAP_TO_DTO[role]);
+      },
       groups: dto.groups
         .map((group) => GroupMapper.fromDto(group))
         .filter((group) => group.name !== ERoles.Member),
@@ -40,7 +60,15 @@ export class ConfigInfoMapper {
   public static fromUser(user: IUser): IConfigInfo {
     return {
       ...user,
-      isRole: () => false,
+      isRole: (role: ERoles | "manager" | "member") => {
+        if (role === "manager") {
+          return false;
+        }
+        if (role === "member") {
+          return true;
+        }
+        return false;
+      },
       groups: [],
     };
   }

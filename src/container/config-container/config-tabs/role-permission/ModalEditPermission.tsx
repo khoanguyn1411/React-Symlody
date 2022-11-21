@@ -1,14 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, FieldError, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import * as yup from "yup";
 
 import { Avatar, FormItem, Modal, Select, SelectMultiple } from "@/components";
 import { TToggleModal } from "@/components/elements/modal/types";
-import { APP_ERROR_MESSAGE } from "@/constants";
-import { useAppDispatch, useAppSelector } from "@/features";
-import { updateConfigRoleUserAsync, userSelectors } from "@/features/reducers";
+import { useAppDispatch } from "@/features";
+import { updateConfigRoleUserAsync } from "@/features/reducers";
 import { IConfigInfo } from "@/features/types";
 import { FormService } from "@/utils";
 
@@ -19,6 +17,7 @@ import {
   ROLE_PERMISSION_MESSAGE,
 } from "./constants";
 import { RolePermissionFormMapper } from "./mapper";
+import { schema } from "./schema";
 import { IConfigManagerForm } from "./types";
 
 type TProps = {
@@ -27,32 +26,22 @@ type TProps = {
   data: IConfigInfo;
 };
 
-const schema: yup.SchemaOf<IConfigManagerForm> = yup.object().shape({
-  userId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
-  type: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-  roleManager: yup.array().of(yup.string()),
-});
-
 export const ModalEditPermission: React.FC<TProps> = ({
   isShowing,
   toggle,
   data,
 }) => {
-  const userList = useAppSelector(userSelectors.selectAll);
   const dispatch = useAppDispatch();
-
   const propsForm = useForm<IConfigManagerForm>({
     resolver: yupResolver(schema),
   });
   const {
-    handleSubmit,
     control,
     formState: { isSubmitting, dirtyFields, errors },
+    handleSubmit,
     reset,
     getValues,
   } = propsForm;
-
-  const user = userList.find((u) => u.id === getValues("userId"));
 
   useEffect(() => {
     if (data) {
@@ -72,8 +61,13 @@ export const ModalEditPermission: React.FC<TProps> = ({
     toast.error(ROLE_PERMISSION_MESSAGE.update.error);
   };
 
+  if (!data) {
+    return;
+  }
+
   return (
     <Modal
+      reset={reset}
       handleEvent={{
         title: "Cập nhật",
         event: handleSubmit(handleUpdate),
@@ -85,11 +79,18 @@ export const ModalEditPermission: React.FC<TProps> = ({
       toggle={toggle}
       heightContainer={320}
     >
+      <div className="flex items-center mb-4 gap-3">
+        <Avatar src={""} fullName={data.full_name} />
+        <div className="flex flex-col">
+          <span className="text-sm">{data.full_name}</span>
+          <span className="text-xs">{data.email}</span>
+        </div>
+      </div>
+
       <FormItem label="Chức vụ" isRequired>
         <Controller
           control={control}
           name="type"
-          defaultValue={EPermissionOptions.Manager}
           render={({ field: { value, onChange } }) => (
             <Select
               value={value}
@@ -101,7 +102,11 @@ export const ModalEditPermission: React.FC<TProps> = ({
       </FormItem>
 
       {getValues("type") === EPermissionOptions.Manager && (
-        <FormItem label="Tính năng" isRequired>
+        <FormItem
+          label="Tính năng"
+          isRequired
+          error={(errors.roleManager as unknown as FieldError)?.message}
+        >
           <Controller
             control={control}
             name="roleManager"
@@ -117,13 +122,6 @@ export const ModalEditPermission: React.FC<TProps> = ({
           />
         </FormItem>
       )}
-
-      <FormItem label="Thành viên" isRequired error={errors.userId?.message}>
-        <div className="flex items-center h-10 px-3 bg-gray-100 space-x-2 rounded-md">
-          <Avatar src={user?.avatar} fullName={user?.full_name} />
-          <span>{user?.full_name}</span>
-        </div>
-      </FormItem>
     </Modal>
   );
 };

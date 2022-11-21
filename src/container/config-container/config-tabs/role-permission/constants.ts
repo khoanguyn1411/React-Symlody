@@ -7,8 +7,9 @@ import {
 } from "@/utils/services/generate-service";
 
 export enum EPermissionOptions {
-  Lead = "Lead",
+  Lead = "Quản lý chung",
   Manager = "Quản lý",
+  Member = "Thành viên",
 }
 
 export const PERMISSION_OPTIONS: TItemListSelect[] = generateArrayFromEnum(

@@ -3,7 +3,7 @@ import { ERoles } from "./group";
 
 export interface IConfigInfo extends IAuthAccount {
   readonly id: number;
-  readonly isRole: (role: ERoles) => boolean;
+  readonly isRole: (role: ERoles | "manager" | "member") => boolean;
 }
 
 export interface IConfigManager {

@@ -95,7 +95,6 @@ export const ActionConfigDepartment: React.FC = () => {
   };
 
   const handleCreateDepartment = async (data: IFormDepartment) => {
-    //TODO: Handle create department.
     const result = await dispatch(createDepartmentAsync(data));
     if (!result.payload) {
       toast.error(DEPARTMENT_MESSAGE.create.error);

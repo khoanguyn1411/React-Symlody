@@ -25,8 +25,8 @@ export const TabOrganization: React.FC = () => {
 
   const {
     control,
-    reset,
     formState: { errors, isSubmitting, dirtyFields },
+    reset,
     handleSubmit,
   } = useForm<IFormOrganizationConfig>({
     resolver: yupResolver(schema),

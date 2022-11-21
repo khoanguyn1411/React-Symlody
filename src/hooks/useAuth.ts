@@ -34,16 +34,16 @@ export const useAuth = () => {
       return;
     }
 
-    dispatch(getMeAsync())
-      .then(() => {
-        dispatch(getTenantAsync()).then(() => {
-          setIsLoading(false);
-          dispatch(setIsAuth(true));
-        });
+    dispatch(getMeAsync()).then((res) => {
+      setIsLoading(false);
+      if (res.payload) {
+        dispatch(setIsAuth(true));
+        dispatch(getTenantAsync());
         isAlreadyGetMe.current = true;
         return;
-      })
-      .catch(() => dispatch(logout()));
+      }
+      dispatch(logout());
+    });
   }, [dispatch, state.isAuth, userCount]);
 
   useEffect(() => {

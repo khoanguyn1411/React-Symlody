@@ -23,8 +23,8 @@ export const TabPersonalInfo: React.FC = () => {
 
   const {
     control,
-    reset,
     formState: { errors, isSubmitting, isDirty },
+    reset,
     handleSubmit,
   } = useForm<IFormUserConfig>({
     resolver: yupResolver(schema),
@@ -51,7 +51,7 @@ export const TabPersonalInfo: React.FC = () => {
   return (
     <ConfigTabContentContainer>
       <div className="grid grid-cols-3 gap-3">
-        <FormItem label="Họ" isRequired error={errors.firstName?.message}>
+        <FormItem label="Họ" isRequired error={errors.lastName?.message}>
           <Controller
             control={control}
             name="lastName"
@@ -65,7 +65,7 @@ export const TabPersonalInfo: React.FC = () => {
             )}
           />
         </FormItem>
-        <FormItem label="Tên" isRequired error={errors.lastName?.message}>
+        <FormItem label="Tên" isRequired error={errors.firstName?.message}>
           <Controller
             control={control}
             name="firstName"

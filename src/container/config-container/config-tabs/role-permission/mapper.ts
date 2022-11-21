@@ -10,13 +10,37 @@ import {
 import { EPermissionOptions } from "./constants";
 import { IConfigManagerForm } from "./types";
 
+const getModelGroup = ({ type, roleManager }: IConfigManagerForm): ERoles[] => {
+  if (type === EPermissionOptions.Lead) {
+    return [ERoles.Lead];
+  }
+  if (type === EPermissionOptions.Manager) {
+    return roleManager.map(
+      (role) => ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL[role]
+    );
+  }
+  if (type === EPermissionOptions.Member) {
+    return [];
+  }
+};
+
+const getFormType = (model: IConfigInfo): EPermissionOptions => {
+  if (model.isRole(ERoles.Lead)) {
+    return EPermissionOptions.Lead;
+  }
+  if (model.isRole("manager")) {
+    return EPermissionOptions.Manager;
+  }
+  if (model.isRole("member")) {
+    return EPermissionOptions.Member;
+  }
+};
+
 export class RolePermissionFormMapper {
   public static fromModel(model: IConfigInfo): IConfigManagerForm {
     return {
       userId: model.id,
-      type: model.isRole(ERoles.Lead)
-        ? EPermissionOptions.Lead
-        : EPermissionOptions.Manager,
+      type: getFormType(model),
       roleManager: model.groups.reduce((acc: ERolesManagerSortName[], cur) => {
         const sortNameManager = ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME[cur.name];
         if (sortNameManager) {
@@ -27,15 +51,10 @@ export class RolePermissionFormMapper {
     };
   }
 
-  public static toModel(model: IConfigManagerForm): IConfigUserUpdate {
+  public static toModel(formData: IConfigManagerForm): IConfigUserUpdate {
     return {
-      user_id: model.userId,
-      groups:
-        model.type === EPermissionOptions.Lead
-          ? [ERoles.Lead]
-          : model.roleManager.map(
-              (role) => ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL[role]
-            ),
+      user_id: formData.userId,
+      groups: getModelGroup(formData),
     };
   }
 }
