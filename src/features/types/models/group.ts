@@ -1,6 +1,6 @@
 export enum ERoles {
   Member = "Thành viên",
-  Lead = "Trưởng ban",
+  Lead = "Quản lý chung",
   EventManager = "Quản lý sự kiện",
   MemberManager = "Quản lý thành viên",
   NotificationManager = "Quản lý thông báo",
