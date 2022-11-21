@@ -2,6 +2,7 @@ import React from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 import { AppDatePicker, FormItem, Input, Select } from "@/components";
+import { PROVINCES_LIST } from "@/container/config-container/config-tabs/personal-info/constants";
 import { useAppSelector } from "@/features";
 import { departmentSelectors } from "@/features/reducers/department-reducer";
 
@@ -181,11 +182,12 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
           control={control}
           name="home"
           render={({ field: { value, onChange } }) => (
-            <Input
+            <Select
+              list={PROVINCES_LIST}
               style="modal"
               value={value}
               onChange={onChange}
-              placeholder="Quê quán"
+              placeHolder="Vị trí"
             />
           )}
         />

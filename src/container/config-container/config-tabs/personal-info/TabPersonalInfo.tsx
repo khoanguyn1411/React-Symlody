@@ -3,14 +3,7 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import {
-  AppDatePicker,
-  FormItem,
-  Input,
-  Select,
-  SelectControl,
-} from "@/components";
-import { provinces } from "@/constants";
+import { AppDatePicker, FormItem, Input, Select } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateMemberAsync } from "@/features/reducers";
 import { IMember } from "@/features/types";
@@ -19,7 +12,7 @@ import {
   ConfigSubmitButton,
   ConfigTabContentContainer,
 } from "../../config-components";
-import { PERSONAL_INFO_MESSAGES } from "./constants";
+import { PERSONAL_INFO_MESSAGES, PROVINCES_LIST } from "./constants";
 import { PersonalInfoFormMapper } from "./mapper";
 import { schema } from "./shema";
 import { IFormUserConfig } from "./type";
@@ -27,11 +20,6 @@ import { IFormUserConfig } from "./type";
 export const TabPersonalInfo: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-
-  const PROVINCES = provinces.map((p) => ({
-    value: p.city,
-    label: p.province,
-  }));
 
   const {
     control,
@@ -46,16 +34,16 @@ export const TabPersonalInfo: React.FC = () => {
   const handleEditPersonalInfo = async (data: IFormUserConfig) => {
     const result = await dispatch(
       updateMemberAsync({
-        payload: { ...PersonalInfoFormMapper.toModel(data) },
+        payload: PersonalInfoFormMapper.toModel(data),
         id: user.profile_id,
         isRestore: false,
       })
     );
     if (result.meta.requestStatus !== "rejected") {
       toast.success(PERSONAL_INFO_MESSAGES.update.success);
-      reset({
-        ...PersonalInfoFormMapper.fromMember(result.payload.result as IMember),
-      });
+      reset(
+        PersonalInfoFormMapper.fromMember(result.payload.result as IMember)
+      );
       return;
     }
     toast.error(PERSONAL_INFO_MESSAGES.update.error);
@@ -205,12 +193,12 @@ export const TabPersonalInfo: React.FC = () => {
             control={control}
             name="home"
             render={({ field: { value, onChange } }) => (
-              <SelectControl
-                name="home"
-                options={PROVINCES}
-                selected={value}
-                placeholder="Quê quán"
-                onValueChange={(e) => onChange(e.target.value)}
+              <Select
+                list={PROVINCES_LIST}
+                style="modal"
+                value={value}
+                onChange={onChange}
+                placeHolder="Vị trí"
               />
             )}
           />
