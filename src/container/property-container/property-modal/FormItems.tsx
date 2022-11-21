@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 import {
@@ -9,44 +9,24 @@ import {
   SelectUser,
   TextArea,
 } from "@/components";
-import { useAppSelector } from "@/features";
-import { userSelectors } from "@/features/reducers";
-import { IProperty } from "@/features/types";
 import { FormatService, FormService } from "@/utils";
 
-import { PropertyFormMapper } from "../mapper";
 import { IFormPropertyInfo } from "../type";
 
 type TProps = {
-  data?: IProperty;
   formProps: UseFormReturn<IFormPropertyInfo, any>;
 };
 
-export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
-  let dataForm: IFormPropertyInfo = null;
-
-  const userIds = useAppSelector(userSelectors.selectIds);
-  if (data) {
-    dataForm = PropertyFormMapper.fromModel(data);
-  }
+export const FormItems: React.FC<TProps> = ({ formProps }) => {
   const {
     control,
+    getValues,
     formState: { errors },
   } = formProps;
-  const defaultValue =
-    FormService.getDefaultValues<IFormPropertyInfo>(dataForm);
 
-  const getInChargeIdDefaultValue = useMemo(() => {
-    const defaultInChargeId = defaultValue.get("inChargeId");
-    if (!defaultInChargeId) {
-      return null;
-    }
-    const inChargeIdAsNumber = FormatService.toNumber(defaultInChargeId);
-    if (!userIds.includes(inChargeIdAsNumber)) {
-      return null;
-    }
-    return inChargeIdAsNumber;
-  }, [defaultValue, userIds]);
+  const defaultValue = FormService.getDefaultValues<IFormPropertyInfo>(
+    getValues()
+  );
 
   return (
     <>
@@ -58,7 +38,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="assetName"
-          defaultValue={defaultValue.get("assetName")}
           render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
@@ -73,7 +52,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="quantity"
-          defaultValue={defaultValue.get("quantity")}
           render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
@@ -98,7 +76,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="price"
-          defaultValue={defaultValue.get("price")}
           render={({ field: { value, onChange } }) => (
             <Input
               onInputSideEffect={(event) => {
@@ -132,7 +109,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
       >
         <Controller
           control={control}
-          defaultValue={getInChargeIdDefaultValue}
           name="inChargeId"
           render={({ field: { value, onChange } }) => {
             return (
@@ -152,7 +128,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
       >
         <Controller
           control={control}
-          defaultValue={defaultValue.get("owner")}
           name="owner"
           render={({ field: { value, onChange } }) => {
             return (
@@ -173,8 +148,8 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
           render={({ field: { value, onChange } }) => (
             <PickImage
               file={value}
-              setFile={onChange}
               defaultImageLink={defaultValue.get("imageLink")}
+              setFile={onChange}
             />
           )}
         />
@@ -183,7 +158,6 @@ export const FormItems: React.FC<TProps> = ({ data, formProps }) => {
         <Controller
           control={control}
           name="note"
-          defaultValue={defaultValue.get("note")}
           render={({ field: { value, onChange } }) => (
             <TextArea
               style="modal"

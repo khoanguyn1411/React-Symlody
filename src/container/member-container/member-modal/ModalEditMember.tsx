@@ -18,7 +18,6 @@ import {
   IMemberCreateUpdate,
 } from "@/features/types";
 import { THookModalProps } from "@/hooks";
-import { FormService } from "@/utils";
 
 import { MEMBER_MESSAGE } from "../constant";
 import { MemberFormMapper } from "../mapper";
@@ -35,10 +34,12 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
+
   const {
+    reset,
     handleSubmit,
     setError,
-    formState: { isSubmitting, dirtyFields },
+    formState: { isSubmitting, isDirty },
   } = propsForm;
 
   const departmentStore = useAppSelector((state) => state.department);
@@ -95,6 +96,12 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     }
   }, [departmentCount, dispatch, isShowing]);
 
+  useEffect(() => {
+    if (data) {
+      reset({ ...MemberFormMapper.fromModel(data) });
+    }
+  }, [data, reset]);
+
   return (
     <Modal
       isLoading={departmentStore.pending}
@@ -106,10 +113,10 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         title: "Cập nhật",
         event: handleSubmit(handleEditMember),
         isLoading: isSubmitting,
-        isDisable: !FormService.isDirtyFields(dirtyFields),
+        isDisable: !isDirty,
       }}
     >
-      <FormItems data={data} formProps={propsForm} />
+      <FormItems formProps={propsForm} />
     </Modal>
   );
 };

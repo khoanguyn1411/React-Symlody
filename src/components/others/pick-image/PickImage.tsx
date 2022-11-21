@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { EFile } from "@/constants";
+import { useEffectSkipFirstRender } from "@/hooks";
 import { FormatService } from "@/utils";
 
 import { Button } from "../../elements";
@@ -59,7 +60,7 @@ export const PickImage: React.FC<TProps> = ({
     element.value = null;
   };
 
-  useEffect(() => {
+  useEffectSkipFirstRender(() => {
     let fileReader: FileReader = null,
       isCancel = false;
     if (!file) {

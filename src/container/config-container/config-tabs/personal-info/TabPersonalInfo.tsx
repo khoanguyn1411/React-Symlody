@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useEffect } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -13,7 +13,6 @@ import {
 import { provinces } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateMemberAsync } from "@/features/reducers";
-import { FormService } from "@/utils";
 
 import {
   ConfigSubmitButton,
@@ -36,28 +35,24 @@ export const TabPersonalInfo: React.FC = () => {
   const {
     control,
     reset,
-    formState: { errors, isSubmitting, dirtyFields },
+    formState: { errors, isSubmitting, isDirty },
     handleSubmit,
-  } = useForm<IFormUserConfig>({ resolver: yupResolver(schema) });
-
-  useEffect(() => {
-    if (user) {
-      reset({
-        ...PersonalInfoFormMapper.fromProfile(user),
-      });
-    }
-  }, [reset, user]);
+  } = useForm<IFormUserConfig>({
+    resolver: yupResolver(schema),
+    defaultValues: PersonalInfoFormMapper.fromProfile(user),
+  });
 
   const handleEditPersonalInfo = async (data: IFormUserConfig) => {
     const result = await dispatch(
       updateMemberAsync({
         payload: PersonalInfoFormMapper.toModel(data),
-        id: user.id,
+        id: user.profile_id,
         isRestore: false,
       })
     );
     if (result.meta.requestStatus !== "rejected") {
       toast.success(PERSONAL_INFO_MESSAGES.update.success);
+      reset({ ...PersonalInfoFormMapper.fromProfile(user) });
       return;
     }
     toast.error(PERSONAL_INFO_MESSAGES.update.error);
@@ -69,7 +64,6 @@ export const TabPersonalInfo: React.FC = () => {
           <Controller
             control={control}
             name="lastName"
-            defaultValue=""
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Họ"
@@ -84,7 +78,6 @@ export const TabPersonalInfo: React.FC = () => {
           <Controller
             control={control}
             name="firstName"
-            defaultValue=""
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Tên"
@@ -99,7 +92,6 @@ export const TabPersonalInfo: React.FC = () => {
           <Controller
             control={control}
             name="email"
-            defaultValue=""
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Email"
@@ -127,7 +119,6 @@ export const TabPersonalInfo: React.FC = () => {
           <Controller
             control={control}
             name="class"
-            defaultValue=""
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Lớp"
@@ -143,7 +134,6 @@ export const TabPersonalInfo: React.FC = () => {
           <Controller
             control={control}
             name="studentId"
-            defaultValue=""
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="MSSV"
@@ -181,7 +171,6 @@ export const TabPersonalInfo: React.FC = () => {
           <Controller
             control={control}
             name="phone"
-            defaultValue=""
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Số điện thoại"
@@ -197,7 +186,6 @@ export const TabPersonalInfo: React.FC = () => {
           <Controller
             control={control}
             name="address"
-            defaultValue=""
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Địa chỉ"
@@ -213,7 +201,6 @@ export const TabPersonalInfo: React.FC = () => {
           <Controller
             control={control}
             name="home"
-            defaultValue=""
             render={({ field: { value, onChange } }) => (
               <SelectControl
                 name="home"
@@ -227,7 +214,7 @@ export const TabPersonalInfo: React.FC = () => {
         </FormItem>
       </div>
       <ConfigSubmitButton
-        disable={!FormService.isDirtyFields(dirtyFields)}
+        disable={!isDirty}
         isShowLoading={isSubmitting}
         onSubmit={handleSubmit(handleEditPersonalInfo)}
       >

@@ -17,5 +17,6 @@ export interface IProfile {
   readonly department: IDepartment;
   readonly groups: IGroup[];
   readonly organization: ITenant;
+  readonly profile_id: number;
   readonly isRole: (role: ERoles) => boolean;
 }

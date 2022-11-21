@@ -7,8 +7,9 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { IProperty } from "@/features/types";
 import { THookModalProps } from "@/hooks";
-import { FormService } from "@/utils";
+import { FormatService, FormService } from "@/utils";
 
+import { PropertyFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { IFormPropertyInfo } from "../type";
 import { FormItems } from "./FormItems";
@@ -21,6 +22,7 @@ export const ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
   const dispatch = useAppDispatch();
   const userCount = useAppSelector(userSelectors.selectTotal);
   const userStore = useAppSelector((state) => state.user);
+  const userIds = useAppSelector(userSelectors.selectIds);
 
   const propsForm = useForm<IFormPropertyInfo>({
     resolver: yupResolver(schema),
@@ -41,6 +43,26 @@ export const ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
       dispatch(getUsersAsync());
     }
   }, [dispatch, isShowing, userCount]);
+
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+    const formData = PropertyFormMapper.fromModel(data);
+    const getInChargeIdDefaultValue = () => {
+      const defaultInChargeId = formData.inChargeId;
+      if (!defaultInChargeId) {
+        return null;
+      }
+      const inChargeIdAsNumber = FormatService.toNumber(defaultInChargeId);
+      if (!userIds.includes(inChargeIdAsNumber)) {
+        return null;
+      }
+      return inChargeIdAsNumber;
+    };
+    reset({ ...formData, inChargeId: getInChargeIdDefaultValue() });
+  }, [data, reset, userIds]);
+
   return (
     <Modal
       reset={reset}
@@ -56,7 +78,7 @@ export const ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
         event: handleSubmit(handleEditProperty),
       }}
     >
-      <FormItems data={data} formProps={propsForm} />
+      <FormItems formProps={propsForm} />
     </Modal>
   );
 };

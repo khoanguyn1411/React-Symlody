@@ -18,4 +18,5 @@ export interface IProfileDto {
   readonly department: IDepartmentDto;
   readonly groups: IGroupDto[];
   readonly organization: ITenantDto;
+  readonly profile_id: number;
 }
