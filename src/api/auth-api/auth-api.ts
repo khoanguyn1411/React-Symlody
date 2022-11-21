@@ -4,6 +4,7 @@ import {
   IProfileDto,
   ITokenDto,
 } from "@/features/types";
+import { IChangePasswordDto } from "@/features/types/dtos/change-password.dto";
 
 import { Api } from "../api-core";
 import { returnResponse } from "../api-utilities";
@@ -31,7 +32,7 @@ export const AuthApi = {
   },
 
   async changePassword(
-    body: IChangePassword
+    body: IChangePasswordDto
   ): Promise<Types.RequestChangePasswordResult> {
     const url = routes.changePassword();
     const result = await Api.http.post<boolean>(url, { ...body });

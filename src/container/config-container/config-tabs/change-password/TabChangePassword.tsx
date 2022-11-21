@@ -3,8 +3,9 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { AuthApi } from "@/api";
 import { FormItem, InputPassword } from "@/components";
+import { useAppDispatch } from "@/features";
+import { changePasswordAsync } from "@/features/reducers";
 import { FormService } from "@/utils";
 
 import {
@@ -15,6 +16,7 @@ import { schema } from "./shema";
 import { IFormChangePassword } from "./type";
 
 export const TabChangePassword: React.FC = () => {
+  const dispatch = useAppDispatch();
   const {
     control,
     formState: { errors, isSubmitting, dirtyFields },
@@ -23,12 +25,8 @@ export const TabChangePassword: React.FC = () => {
   } = useForm<IFormChangePassword>({ resolver: yupResolver(schema) });
 
   const handleChangePassword = async (data: IFormChangePassword) => {
-    // TODO: Implement change password feature.
-    const result = await AuthApi.changePassword({
-      old_password: data.currentPassword,
-      new_password: data.newPassword,
-    });
-    if (result.kind !== "ok") {
+    const result = await dispatch(changePasswordAsync(data));
+    if (result.meta.requestStatus !== "fulfilled") {
       toast.error("Đổi mật khẩu không thành công");
       return;
     }
@@ -40,12 +38,11 @@ export const TabChangePassword: React.FC = () => {
       <FormItem
         label="Mật khẩu hiện tại"
         isRequired
-        error={errors.currentPassword?.message}
+        error={errors.old_password?.message}
       >
         <Controller
           control={control}
-          name="currentPassword"
-          defaultValue=""
+          name="old_password"
           render={({ field: { value, onChange } }) => (
             <InputPassword
               placeholder="Mật khẩu hiện tại"
@@ -58,12 +55,11 @@ export const TabChangePassword: React.FC = () => {
       <FormItem
         label="Mật khẩu mới"
         isRequired
-        error={errors.newPassword?.message}
+        error={errors.new_password?.message}
       >
         <Controller
           control={control}
-          name="newPassword"
-          defaultValue=""
+          name="new_password"
           render={({ field: { value, onChange } }) => (
             <InputPassword
               placeholder="Mật khẩu mới"
@@ -76,12 +72,11 @@ export const TabChangePassword: React.FC = () => {
       <FormItem
         label="Xác nhận mật khẩu"
         isRequired
-        error={errors.confirmNewPassword?.message}
+        error={errors.confirm_password?.message}
       >
         <Controller
           control={control}
-          name="confirmNewPassword"
-          defaultValue=""
+          name="confirm_password"
           render={({ field: { value, onChange } }) => (
             <InputPassword
               placeholder="Xác nhận mật khẩu"
@@ -92,6 +87,7 @@ export const TabChangePassword: React.FC = () => {
         />
       </FormItem>
       <ConfigSubmitButton
+        type="submit"
         disable={!FormService.isDirtyFields(dirtyFields)}
         isShowLoading={isSubmitting}
       >

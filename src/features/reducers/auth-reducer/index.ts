@@ -2,7 +2,13 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AuthApi } from "@/api";
 import { RootState } from "@/features/store";
-import { ILogin, IProfile, ProfileMapper } from "@/features/types";
+import {
+  IChangePassword,
+  ILogin,
+  IProfile,
+  ProfileMapper,
+} from "@/features/types";
+import { ChangePasswordMapper } from "@/features/types/mappers/change-password.mapper";
 import { LoginMapper } from "@/features/types/mappers/login.mapper";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 import { GlobalTypes, TokenService } from "@/utils";
@@ -28,6 +34,19 @@ export const loginAsync = createAsyncThunk<
   const result = await AuthApi.login(loginInfoDto);
   if (result.kind === "ok") {
     TokenService.setToken(TokenMapper.fromDto(result.result));
+    return true;
+  }
+  return rejectWithValue(false);
+});
+
+export const changePasswordAsync = createAsyncThunk<
+  true,
+  IChangePassword,
+  GlobalTypes.ReduxThunkRejectValue<false>
+>("auth/change-password", async (payload, { rejectWithValue }) => {
+  const changePasswordDto = ChangePasswordMapper.toDto(payload);
+  const result = await AuthApi.changePassword(changePasswordDto);
+  if (result.kind === "ok") {
     return true;
   }
   return rejectWithValue(false);
