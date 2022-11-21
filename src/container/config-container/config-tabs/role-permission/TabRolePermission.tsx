@@ -1,14 +1,10 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect } from "react";
 import { toast } from "react-toastify";
 
 import { ConfigApi } from "@/api";
 import { Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import {
-  getConfigManager,
-  getUsersAsync,
-  userSelectors,
-} from "@/features/reducers";
+import { getConfigManager } from "@/features/reducers";
 import { IConfigInfo } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
@@ -22,23 +18,13 @@ const { ModalEditPermission } = lazyImport(
 );
 
 export const TabRolePermission: React.FC = () => {
-  const userCount = useAppSelector(userSelectors.selectTotal);
-  const propsModalEditPermission = useModal<IConfigInfo>();
   const dispatch = useAppDispatch();
-  const [isRendered, setIsRendered] = useState(false);
+  const configManagerStore = useAppSelector((state) => state.config);
 
-  const fetchConfigManager = async () => {
-    const hasUser = userCount > 0;
-    const combinedPromise = hasUser
-      ? Promise.all([dispatch(getConfigManager())])
-      : Promise.all([dispatch(getConfigManager()), dispatch(getUsersAsync())]);
-    combinedPromise.then(() => setIsRendered(true));
-  };
-
+  const propsModalEditPermission = useModal<IConfigInfo>();
   useEffect(() => {
-    fetchConfigManager();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch(getConfigManager());
+  }, [dispatch]);
 
   const handleOpenEdit = withPermission([1, 2])((data: IConfigInfo) => {
     propsModalEditPermission.setData(data);
@@ -84,7 +70,7 @@ export const TabRolePermission: React.FC = () => {
         </Table.Head>
 
         <TableGroup
-          isRendered={isRendered}
+          isRendered={!configManagerStore.pendingConfigManager}
           onOpenEdit={handleOpenEdit}
           onDeleteRoleUser={handleDeleteRoleUser}
         />

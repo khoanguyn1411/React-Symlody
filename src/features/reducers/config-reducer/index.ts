@@ -10,9 +10,8 @@ import {
 import { GlobalTypes } from "@/utils";
 import { generateArrayWithNoDuplicate } from "@/utils/services/generate-service";
 
-import { RequestUpdateTenantResult } from "../../../api/config-api/types";
 import { TenantMapper } from "../../types/mappers/tenant.mapper";
-import { userSelectors } from "../user-reducer";
+import { getUsersAsync, userSelectors } from "../user-reducer";
 import { configInfoAdapter, initialState } from "./state";
 
 export const getTenantAsync = createAsyncThunk<
@@ -32,29 +31,47 @@ export const getConfigManager = createAsyncThunk<
   IConfigInfo[],
   null,
   GlobalTypes.ReduxThunkRejectValue<IConfigInfo[]>
->("get/config-manager", async (_, { rejectWithValue }) => {
-  const result = await ConfigApi.getConfigManager();
-  if (result.kind === "ok") {
-    const configManagerModel = ConfigMangerMapper.fromDto(result.result);
-    const reduxStore = store.getState();
-    const userList = userSelectors.selectAll(reduxStore);
-    const combinedLeaderManagerList = generateArrayWithNoDuplicate(
-      configManagerModel.leaders.concat(configManagerModel.managers)
-    );
-    return userList.map((user) => {
-      const userWithRole = combinedLeaderManagerList.find(
-        (r) => r.id === user.id
-      );
-      return userWithRole ?? ConfigInfoMapper.fromUser(user);
-    });
+>("get/config-manager", async (_, { rejectWithValue, dispatch }) => {
+  const reduxStore = store.getState();
+  const hasUser = userSelectors.selectTotal(reduxStore) > 0;
+
+  const combinedPromise = hasUser
+    ? Promise.all([ConfigApi.getConfigManager()])
+    : Promise.all([ConfigApi.getConfigManager(), dispatch(getUsersAsync())]);
+
+  const res = await combinedPromise;
+  const resultConfigManager = res[0];
+  const userListAfterPromise = res[1];
+
+  if (!hasUser && userListAfterPromise.meta.requestStatus === "rejected") {
+    return rejectWithValue([]);
   }
-  return rejectWithValue([]);
+
+  if (resultConfigManager.kind !== "ok") {
+    return rejectWithValue([]);
+  }
+  const configManagerModel = ConfigMangerMapper.fromDto(
+    resultConfigManager.result
+  );
+  const combinedLeaderManagerList = generateArrayWithNoDuplicate(
+    configManagerModel.leaders.concat(configManagerModel.managers)
+  );
+
+  const userListCurrent = userSelectors.selectAll(reduxStore);
+  const userList = hasUser ? userListCurrent : userListAfterPromise.payload;
+
+  return userList.map((user) => {
+    const userWithRole = combinedLeaderManagerList.find(
+      (r) => r.id === user.id
+    );
+    return userWithRole ?? ConfigInfoMapper.fromUser(user);
+  });
 });
 
 export const updateTenantAsync = createAsyncThunk<
   ITenant,
   { id: number; body: ITenantCreateUpdateDto },
-  GlobalTypes.ReduxThunkRestoreRejected<RequestUpdateTenantResult>
+  GlobalTypes.ReduxThunkRejectValue<null>
 >("update/tenant", async (payload, { rejectWithValue }) => {
   const result = await ConfigApi.updateTenant(payload.id, payload.body);
   if (result.kind === "ok") {

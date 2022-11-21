@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PreviewItem } from "@rpldy/upload-preview";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -30,6 +30,7 @@ export const TabOrganization: React.FC = () => {
     handleSubmit,
   } = useForm<IFormOrganizationConfig>({
     resolver: yupResolver(schema),
+    defaultValues: tenant,
   });
 
   const [avatar, setAvatar] = useState(tenant?.logo);
@@ -48,17 +49,13 @@ export const TabOrganization: React.FC = () => {
         return;
       }
       toast.success("Cập nhật thông tin tổ chức thành công");
+      reset(result.payload);
     }
   );
 
-  const defaultValue =
-    FormService.getDefaultValues<IFormOrganizationConfig>(tenant);
-
-  useEffect(() => {
-    reset(tenant);
-  }, [reset, tenant]);
-
-  if (!tenant) return null;
+  if (!tenant) {
+    return;
+  }
 
   return (
     <ConfigTabContentContainer>
@@ -74,7 +71,6 @@ export const TabOrganization: React.FC = () => {
           <Controller
             control={control}
             name="name"
-            defaultValue={defaultValue.get("name")}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Tên tổ chức"
@@ -93,7 +89,6 @@ export const TabOrganization: React.FC = () => {
           <Controller
             control={control}
             name="abbreviation_name"
-            defaultValue={defaultValue.get("abbreviation_name")}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Tên viết tẳt"
@@ -108,7 +103,6 @@ export const TabOrganization: React.FC = () => {
           <Controller
             control={control}
             name="email"
-            defaultValue={defaultValue.get("email", "")}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Địa chỉ mail"
@@ -123,11 +117,9 @@ export const TabOrganization: React.FC = () => {
           <Controller
             control={control}
             name="phone_number"
-            defaultValue={defaultValue.get("phone_number", "")}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Số điện thoại"
-                type={"number"}
                 value={value}
                 onChange={onChange}
               />
@@ -139,7 +131,6 @@ export const TabOrganization: React.FC = () => {
           <Controller
             control={control}
             name="school"
-            defaultValue={defaultValue.get("school", "")}
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Trực thuộc trường"
@@ -154,7 +145,6 @@ export const TabOrganization: React.FC = () => {
           <Controller
             control={control}
             name="address"
-            defaultValue={defaultValue.get("address", "")}
             render={({ field: { value, onChange } }) => (
               <Input placeholder="Địa chỉ" value={value} onChange={onChange} />
             )}
@@ -166,7 +156,6 @@ export const TabOrganization: React.FC = () => {
         <Controller
           control={control}
           name="description"
-          defaultValue=""
           render={({ field: { value, onChange } }) => (
             <Editor value={value} onChange={onChange} />
           )}
