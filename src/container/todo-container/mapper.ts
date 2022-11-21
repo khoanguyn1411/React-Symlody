@@ -20,7 +20,6 @@ export const TODO_STATUS_MAP_FROM_ID: Readonly<
 
 export class TodoFormMapper {
   public static toModel(formData: IFormTodoInfo): ITaskCreateUpdate {
-    console.log(formData);
     return {
       title: formData.name,
       isPriority: formData.priority === EPriority.High,

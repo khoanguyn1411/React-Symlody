@@ -112,7 +112,6 @@ export const updateMemberAsync = createAsyncThunk<
       id,
       MemberMapper.toUpdateDto(payload)
     );
-    console.log(result);
     if (result.kind === "ok") {
       const reduxStore = store.getState();
       const userState = reduxStore.user;

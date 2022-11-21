@@ -10,3 +10,8 @@ export interface IConfigManager {
   readonly leaders: IConfigInfo[];
   readonly managers: IConfigInfo[];
 }
+
+export interface IConfigUserUpdate {
+  readonly user_id: number;
+  readonly groups: ERoles[];
+}

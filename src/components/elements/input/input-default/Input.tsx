@@ -26,7 +26,7 @@ export const Input: React.FC<TInputDefaultProps> = ({
     <input
       type={type}
       disabled={disable}
-      value={value}
+      value={value ?? ""}
       onChange={handleChangeEvent}
       placeholder={placeholder}
       className={classNames(

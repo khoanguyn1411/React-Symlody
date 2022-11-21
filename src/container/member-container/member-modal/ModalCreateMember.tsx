@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { Loading, ModalMultipleTabs, ModalTab, PickFile } from "@/components";
+import { TToggleModal } from "@/components/elements/modal/types";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   createMemberAsync,
@@ -83,7 +84,7 @@ const TabCreateAMember: React.FC = () => {
   );
 };
 
-const TabCreateMultipleMembers: React.FC = () => {
+const TabCreateMultipleMembers: React.FC<TToggleModal> = (toggle) => {
   const propsFile = usePickFile();
   const dispatch = useAppDispatch();
   const memberStore = useAppSelector((state) => state.member);
@@ -100,6 +101,7 @@ const TabCreateMultipleMembers: React.FC = () => {
       toast.error(MEMBER_MESSAGE.create.error);
       return;
     }
+    toggle.setHidden();
     toast.success(MEMBER_MESSAGE.create.success);
   };
 
@@ -132,7 +134,7 @@ export const ModalCreateMember: React.FC<THookModalProps<undefined>> = ({
         },
         {
           title: "Tạo nhiều thành viên",
-          children: <TabCreateMultipleMembers />,
+          children: <TabCreateMultipleMembers {...toggle} />,
           key: "AddMultipleMember",
         },
       ]}

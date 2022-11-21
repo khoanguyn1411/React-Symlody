@@ -1,7 +1,7 @@
 import { GeneratorService } from "@/utils";
 
 import { ERolesDto, IGroupCreateUpdateDto, IGroupDto } from "../dtos";
-import { ERoles, IGroup } from "../models";
+import { ERoles, ERolesID, ERolesManagerSortName, IGroup } from "../models";
 
 export const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
   [ERolesDto.EventManager]: ERoles.EventManager,
@@ -17,6 +17,29 @@ export const ROLE_MAP_TO_DTO = GeneratorService.generateReverseDto(
   ROLE_MAP_FROM_DTO,
   false
 );
+
+export const ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL: Readonly<
+  Record<ERolesManagerSortName, ERoles>
+> = {
+  [ERolesManagerSortName.MemberManager]: ERoles.MemberManager,
+  [ERolesManagerSortName.PropertyManager]: ERoles.PropertyManager,
+};
+
+export const ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME =
+  GeneratorService.generateReverseDto(
+    ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL,
+    false
+  );
+
+export const ROLE_MAP_TO_ID: Readonly<Record<ERoles, ERolesID>> = {
+  [ERoles.EventManager]: ERolesID.EventManager,
+  [ERoles.Member]: ERolesID.Member,
+  [ERoles.MemberManager]: ERolesID.MemberManager,
+  [ERoles.NotificationManager]: ERolesID.NotificationManager,
+  [ERoles.PropertyManager]: ERolesID.PropertyManager,
+  [ERoles.SystemAdmin]: ERolesID.SystemAdmin,
+  [ERoles.Lead]: ERolesID.Lead,
+};
 
 export class GroupMapper {
   public static fromDto(dto: IGroupDto): IGroup {

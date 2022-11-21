@@ -1,5 +1,7 @@
-export interface IFormDepartment {
-  readonly id: number;
-  readonly name: string;
-  readonly abbreviation_name: string;
-}
+import { IDepartment } from "@/features/types";
+import { StrictPick } from "@/utils/types";
+
+export type IFormDepartment = StrictPick<
+  IDepartment,
+  "id" | "abbreviation_name" | "name"
+>;

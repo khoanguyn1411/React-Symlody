@@ -2,10 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { ConfigApi } from "@/api";
 import { RootState, store } from "@/features/store";
-import { IConfigInfo, ITenant, ITenantCreateUpdateDto } from "@/features/types";
+import {
+  IConfigInfo,
+  IConfigUserUpdate,
+  ITenant,
+  ITenantCreateUpdate,
+} from "@/features/types";
 import {
   ConfigInfoMapper,
   ConfigMangerMapper,
+  ConfigUserMapper,
 } from "@/features/types/mappers/config-manager.mapper";
 import { GlobalTypes } from "@/utils";
 import { generateArrayWithNoDuplicate } from "@/utils/services/generate-service";
@@ -70,12 +76,27 @@ export const getConfigManager = createAsyncThunk<
 
 export const updateTenantAsync = createAsyncThunk<
   ITenant,
-  { id: number; body: ITenantCreateUpdateDto },
+  { id: number; body: ITenantCreateUpdate },
   GlobalTypes.ReduxThunkRejectValue<null>
 >("update/tenant", async (payload, { rejectWithValue }) => {
-  const result = await ConfigApi.updateTenant(payload.id, payload.body);
+  const paramDto = TenantMapper.toDto(payload.body);
+  const result = await ConfigApi.updateTenant(payload.id, paramDto);
   if (result.kind === "ok") {
     return TenantMapper.fromDto(result.result);
+  }
+
+  return rejectWithValue(null);
+});
+
+export const updateConfigRoleUserAsync = createAsyncThunk<
+  IConfigInfo,
+  IConfigUserUpdate,
+  GlobalTypes.ReduxThunkRejectValue<null>
+>("update/user-role", async (payload, { rejectWithValue }) => {
+  const paramDto = ConfigUserMapper.toDto(payload);
+  const result = await ConfigApi.updateConfigRoleUser(paramDto);
+  if (result.kind === "ok") {
+    return ConfigInfoMapper.fromDto(result.result);
   }
 
   return rejectWithValue(null);
@@ -104,7 +125,7 @@ export const configSlice = createSlice({
         state.tenant = action.payload;
       })
 
-      // Config manager
+      // Get config manager
       .addCase(getConfigManager.pending, (state) => {
         state.pendingConfigManager = true;
       })
@@ -115,6 +136,14 @@ export const configSlice = createSlice({
       .addCase(getConfigManager.rejected, (state) => {
         state.pendingConfigManager = false;
         configInfoAdapter.setAll(state, []);
+      })
+
+      // Config role
+      .addCase(updateConfigRoleUserAsync.fulfilled, (state, action) => {
+        configInfoAdapter.updateOne(state, {
+          id: action.payload.id,
+          changes: action.payload,
+        });
       });
   },
 });

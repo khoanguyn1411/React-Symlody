@@ -1,9 +1,4 @@
-import {
-  IChangePassword,
-  ILoginDto,
-  IProfileDto,
-  ITokenDto,
-} from "@/features/types";
+import { ILoginDto, IProfileDto, ITokenDto } from "@/features/types";
 import { IChangePasswordDto } from "@/features/types/dtos/change-password.dto";
 
 import { Api } from "../api-core";

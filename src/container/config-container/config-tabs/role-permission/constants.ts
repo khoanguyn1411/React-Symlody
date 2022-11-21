@@ -1,21 +1,22 @@
-export const PERMISSION_OPTIONS = [
-  {
-    label: "Lead",
-    value: "LEAD",
-  },
-  {
-    label: "Quản lý",
-    value: "MANAGER",
-  },
-];
+import { TItemListSelect } from "@/components";
+import { TOptionProps } from "@/components/elements/select/type";
+import { ERolesManagerSortName } from "@/features/types";
+import {
+  generateArrayFromEnum,
+  generateStatusMessageFor,
+} from "@/utils/services/generate-service";
 
-export const MANAGE_OPTIONS = [
-  {
-    label: "Thành viên",
-    value: "3",
-  },
-  {
-    label: "Tài sản",
-    value: "4",
-  },
-];
+export enum EPermissionOptions {
+  Lead = "Lead",
+  Manager = "Quản lý",
+}
+
+export const PERMISSION_OPTIONS: TItemListSelect[] = generateArrayFromEnum(
+  EPermissionOptions
+).map((item) => ({ value: item }));
+
+export const MANAGE_OPTIONS: TOptionProps[] = generateArrayFromEnum(
+  ERolesManagerSortName
+).map((item) => ({ value: item, label: item }));
+
+export const ROLE_PERMISSION_MESSAGE = generateStatusMessageFor("quyền");

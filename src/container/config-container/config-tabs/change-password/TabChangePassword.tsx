@@ -12,7 +12,7 @@ import {
   ConfigSubmitButton,
   ConfigTabContentContainer,
 } from "../../config-components";
-import { schema } from "./shema";
+import { schema } from "./schema";
 import { IFormChangePassword } from "./type";
 
 export const TabChangePassword: React.FC = () => {

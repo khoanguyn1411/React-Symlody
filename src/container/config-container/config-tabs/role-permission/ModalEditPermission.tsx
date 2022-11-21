@@ -1,47 +1,45 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 
-import {
-  Avatar,
-  FormItem,
-  Modal,
-  SelectControl,
-  SelectMultiple,
-} from "@/components";
+import { Avatar, FormItem, Modal, Select, SelectMultiple } from "@/components";
 import { TToggleModal } from "@/components/elements/modal/types";
 import { APP_ERROR_MESSAGE } from "@/constants";
-import { useAppSelector } from "@/features";
-import { userSelectors } from "@/features/reducers";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { updateConfigRoleUserAsync, userSelectors } from "@/features/reducers";
 import { IConfigInfo } from "@/features/types";
 import { FormService } from "@/utils";
 
-import { MANAGE_OPTIONS, PERMISSION_OPTIONS } from "./constants";
+import {
+  EPermissionOptions,
+  MANAGE_OPTIONS,
+  PERMISSION_OPTIONS,
+  ROLE_PERMISSION_MESSAGE,
+} from "./constants";
+import { RolePermissionFormMapper } from "./mapper";
 import { IConfigManagerForm } from "./types";
 
 type TProps = {
   isShowing: boolean;
   toggle: TToggleModal;
   data: IConfigInfo;
-  onUpdateUserRole: (userId: number, groups: number[]) => Promise<boolean>;
 };
 
 const schema: yup.SchemaOf<IConfigManagerForm> = yup.object().shape({
   userId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
   type: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-  groupIds: yup.array().of(yup.number()),
-  // .min(1, APP_ERROR_MESSAGE.REQUIRED)
-  // .required(APP_ERROR_MESSAGE.REQUIRED),
+  roleManager: yup.array().of(yup.string()),
 });
 
 export const ModalEditPermission: React.FC<TProps> = ({
   isShowing,
   toggle,
   data,
-  onUpdateUserRole,
 }) => {
   const userList = useAppSelector(userSelectors.selectAll);
+  const dispatch = useAppDispatch();
 
   const propsForm = useForm<IConfigManagerForm>({
     resolver: yupResolver(schema),
@@ -58,31 +56,20 @@ export const ModalEditPermission: React.FC<TProps> = ({
 
   useEffect(() => {
     if (data) {
-      reset({
-        userId: data.id,
-        type: data.groups.map((g) => g.id).includes(2) ? "LEAD" : "MANAGER",
-        groupIds:
-          getValues("type") === "LEAD"
-            ? data.groups.map((g) => g.id).filter((g) => g === 2)
-            : data.groups.map((g) => g.id).filter((g) => g !== 2),
-      });
+      reset(RolePermissionFormMapper.fromModel(data));
     }
-  }, [data, getValues, reset]);
+  }, [data, reset]);
 
   const handleUpdate = async (body: IConfigManagerForm) => {
-    try {
-      if (body.type === "LEAD") {
-        //config LEAD
-        await onUpdateUserRole(body.userId, [2]);
-      } else {
-        //config MANAGER
-        await onUpdateUserRole(body.userId, body.groupIds);
-      }
-    } catch (error) {
-      throw new Error(error);
-    } finally {
+    const bodyModel = RolePermissionFormMapper.toModel(body);
+    const result = await dispatch(updateConfigRoleUserAsync(bodyModel));
+    if (result.meta.requestStatus === "fulfilled") {
+      toast.success(ROLE_PERMISSION_MESSAGE.update.success);
       toggle.setHidden();
+      reset();
+      return;
     }
+    toast.error(ROLE_PERMISSION_MESSAGE.update.error);
   };
 
   return (
@@ -102,31 +89,27 @@ export const ModalEditPermission: React.FC<TProps> = ({
         <Controller
           control={control}
           name="type"
-          defaultValue={"MANAGER"}
+          defaultValue={EPermissionOptions.Manager}
           render={({ field: { value, onChange } }) => (
-            <SelectControl
-              name="type"
-              placeholder={"Chức vụ"}
-              selected={value}
-              options={PERMISSION_OPTIONS}
-              onValueChange={onChange}
+            <Select
+              value={value}
+              onChange={onChange}
+              list={PERMISSION_OPTIONS}
             />
           )}
         />
       </FormItem>
 
-      {getValues("type") === "MANAGER" && (
+      {getValues("type") === EPermissionOptions.Manager && (
         <FormItem label="Tính năng" isRequired>
           <Controller
             control={control}
-            name="groupIds"
-            defaultValue={[]}
+            name="roleManager"
             render={({ field: { value, onChange } }) => (
               <SelectMultiple
+                placeHolder="Chọn tính năng"
                 list={MANAGE_OPTIONS}
-                value={value
-                  .map(String)
-                  .filter((v) => v !== Number(7).toString())}
+                value={value}
                 style="modal"
                 onChange={onChange}
               />

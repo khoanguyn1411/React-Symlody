@@ -45,10 +45,6 @@ export const TabRolePermission: React.FC = () => {
     }
   };
 
-  const handleUpdateRoleUser = async (userId: number, groups: number[]) => {
-    return false;
-  };
-
   return (
     <>
       <Table.Container isFullHeight>
@@ -81,7 +77,6 @@ export const TabRolePermission: React.FC = () => {
           isShowing={propsModalEditPermission.isShowing}
           data={propsModalEditPermission.data}
           toggle={propsModalEditPermission.toggle}
-          onUpdateUserRole={handleUpdateRoleUser}
         />
       </Suspense>
     </>

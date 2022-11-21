@@ -1,8 +1,18 @@
 import { generateFullName } from "@/utils/services/generate-service";
 
-import { IConfigInfoDto, IConfigManagerDto } from "../dtos/config-manager.dto";
-import { ERoles, IConfigInfo, IConfigManager, IUser } from "../models";
-import { GroupMapper, ROLE_MAP_TO_DTO } from "./group.mapper";
+import {
+  IConfigInfoDto,
+  IConfigManagerDto,
+  IConfigUserUpdateDto,
+} from "../dtos/config-manager.dto";
+import {
+  ERoles,
+  IConfigInfo,
+  IConfigManager,
+  IConfigUserUpdate,
+  IUser,
+} from "../models";
+import { GroupMapper, ROLE_MAP_TO_DTO, ROLE_MAP_TO_ID } from "./group.mapper";
 
 export class ConfigMangerMapper {
   public static fromDto(dto: IConfigManagerDto): IConfigManager {
@@ -32,6 +42,15 @@ export class ConfigInfoMapper {
       ...user,
       isRole: () => false,
       groups: [],
+    };
+  }
+}
+
+export class ConfigUserMapper {
+  public static toDto(model: IConfigUserUpdate): IConfigUserUpdateDto {
+    return {
+      user_id: model.user_id,
+      groups: model.groups.map((group) => ROLE_MAP_TO_ID[group]),
     };
   }
 }

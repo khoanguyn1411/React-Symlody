@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -26,7 +27,7 @@ export const ModalEditDepartment: React.FC<THookModalProps<IDepartment>> = ({
   });
   const {
     handleSubmit,
-
+    reset,
     formState: { isSubmitting, dirtyFields },
   } = propsForm;
 
@@ -39,6 +40,12 @@ export const ModalEditDepartment: React.FC<THookModalProps<IDepartment>> = ({
     toast.success(DEPARTMENT_MESSAGE.update.success);
     toggle.setHidden();
   };
+
+  useEffect(() => {
+    if (data) {
+      reset({ ...data, abbreviation_name: data.abbreviation_name ?? "" });
+    }
+  }, [data, reset]);
 
   return (
     <Modal
@@ -53,7 +60,7 @@ export const ModalEditDepartment: React.FC<THookModalProps<IDepartment>> = ({
       isShowing={isShowing}
       toggle={toggle}
     >
-      <FormItems data={data} formProps={propsForm} />
+      <FormItems formProps={propsForm} />
     </Modal>
   );
 };

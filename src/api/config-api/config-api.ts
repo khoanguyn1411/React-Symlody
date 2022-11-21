@@ -1,5 +1,8 @@
 import { ITenantDto } from "@/features/types";
-import { IConfigManagerDto } from "@/features/types/dtos/config-manager.dto";
+import {
+  IConfigInfoDto,
+  IConfigManagerDto,
+} from "@/features/types/dtos/config-manager.dto";
 
 import { Api } from "../api-core";
 import { returnResponse } from "../api-utilities";
@@ -53,12 +56,9 @@ export const ConfigApi = {
 
   async updateConfigRoleUser(
     params: Types.RequestParamsConfigRoleUser
-  ): Promise<Types.RequestUpdateConfigManagerResult> {
+  ): Promise<Types.RequestUpdateConfigRoleUserResult> {
     const url = routes.updateConfigRoleUser(params.user_id);
-    const result = await Api.http.patch<IConfigManagerDto>(url, {
-      ...params,
-      groups: [...params.groups],
-    });
+    const result = await Api.http.patch<IConfigInfoDto>(url, params);
 
     return returnResponse(result);
   },
