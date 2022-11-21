@@ -25,6 +25,7 @@ export const ModalEditTodo: React.FC<THookModalProps<ITask>> = ({
   const dispatch = useAppDispatch();
   const userCount = useAppSelector(userSelectors.selectTotal);
   const userStore = useAppSelector((state) => state.user);
+
   useEffect(() => {
     if (userCount === 0 && isShowing) {
       dispatch(getUsersAsync());
@@ -38,6 +39,7 @@ export const ModalEditTodo: React.FC<THookModalProps<ITask>> = ({
 
   const {
     handleSubmit,
+    reset,
     formState: { isSubmitting, dirtyFields },
   } = propsForm;
 
@@ -56,6 +58,14 @@ export const ModalEditTodo: React.FC<THookModalProps<ITask>> = ({
     toast.success(TODO_MESSAGES.update.success);
     toggle.setHidden();
   };
+
+  useEffect(() => {
+    if (data) {
+      reset(TodoFormMapper.fromModel(data));
+      return;
+    }
+  }, [data, reset]);
+
   return (
     <Modal
       widthContainer={"1000px"}
@@ -72,7 +82,7 @@ export const ModalEditTodo: React.FC<THookModalProps<ITask>> = ({
       {userStore.pending ? (
         <Loading />
       ) : (
-        <FormItems data={data} formProps={propsForm} />
+        <FormItems mode="edit" formProps={propsForm} />
       )}
     </Modal>
   );

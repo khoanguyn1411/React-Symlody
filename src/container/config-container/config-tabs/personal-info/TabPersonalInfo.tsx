@@ -13,6 +13,7 @@ import {
 import { provinces } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateMemberAsync } from "@/features/reducers";
+import { IMember } from "@/features/types";
 
 import {
   ConfigSubmitButton,
@@ -45,14 +46,16 @@ export const TabPersonalInfo: React.FC = () => {
   const handleEditPersonalInfo = async (data: IFormUserConfig) => {
     const result = await dispatch(
       updateMemberAsync({
-        payload: PersonalInfoFormMapper.toModel(data),
+        payload: { ...PersonalInfoFormMapper.toModel(data) },
         id: user.profile_id,
         isRestore: false,
       })
     );
     if (result.meta.requestStatus !== "rejected") {
       toast.success(PERSONAL_INFO_MESSAGES.update.success);
-      reset({ ...PersonalInfoFormMapper.fromProfile(user) });
+      reset({
+        ...PersonalInfoFormMapper.fromMember(result.payload.result as IMember),
+      });
       return;
     }
     toast.error(PERSONAL_INFO_MESSAGES.update.error);

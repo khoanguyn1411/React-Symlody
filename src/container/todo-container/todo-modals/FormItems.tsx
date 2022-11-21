@@ -11,40 +11,21 @@ import {
   SelectUser,
   TextArea,
 } from "@/components";
-import { useAppSelector } from "@/features";
-import { ITask } from "@/features/types";
-import { FormatService, FormService } from "@/utils";
 
-import { TodoFormMapper } from "../mapper";
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 import { EPriority, IFormTodoInfo } from "../type";
 
 type TProps = {
-  data?: ITask;
+  mode: "edit" | "create";
   formProps: UseFormReturn<IFormTodoInfo>;
 };
 
-const getDayAfterWeek = (): string => {
-  const today = new Date();
-  today.setDate(today.getDate() + 7);
-  return FormatService.toDateString(today, "US");
-};
-
-export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
+export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
   const {
     control,
     formState: { errors },
   } = formProps;
-  let dataForm: IFormTodoInfo = null;
-  const isEditMode = data != null;
-
-  if (isEditMode) {
-    dataForm = TodoFormMapper.fromModel(data);
-  }
-
-  const currentUserStore = useAppSelector((state) => state.auth);
-  const defaultValue = FormService.getDefaultValues(dataForm);
-
+  const isEditMode = mode === "edit";
   return (
     <div className={classNames(isEditMode && "grid grid-cols-2 gap-5")}>
       <div>
@@ -52,7 +33,6 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
           <Controller
             control={control}
             name="name"
-            defaultValue={defaultValue.get("name")}
             render={({ field: { value, onChange } }) => (
               <TextArea
                 style="modal"
@@ -68,7 +48,6 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
             <Controller
               control={control}
               name="description"
-              defaultValue={defaultValue.get("description")}
               render={({ field: { value, onChange } }) => (
                 <Editor
                   value={value}
@@ -91,7 +70,6 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
               <Controller
                 control={control}
                 name="priority"
-                defaultValue={defaultValue.get("priority", EPriority.Normal)}
                 render={({ field: { value, onChange } }) => (
                   <Select
                     style="modal"
@@ -118,10 +96,6 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
               <Controller
                 control={control}
                 name="expiredDate"
-                defaultValue={defaultValue.get(
-                  "expiredDate",
-                  getDayAfterWeek()
-                )}
                 render={({ field: { value, onChange } }) => (
                   <AppDatePicker
                     style="modal"
@@ -141,11 +115,6 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
           <Controller
             control={control}
             name="assignee"
-            defaultValue={
-              defaultValue.get("assignee")
-                ? FormatService.toNumber(defaultValue.get("assignee"))
-                : undefined
-            }
             render={({ field: { value, onChange } }) => (
               <SelectUser
                 placeholder="Người được giao"
@@ -163,9 +132,6 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
           <Controller
             control={control}
             name="reporter"
-            defaultValue={FormatService.toNumber(
-              defaultValue.get("reporter", currentUserStore.user.id)
-            )}
             render={({ field: { value, onChange } }) => (
               <SelectUser
                 placeholder="Người theo dõi"
@@ -180,7 +146,6 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
           <Controller
             control={control}
             name="isNotifyEmail"
-            defaultValue={defaultValue.get("isNotifyEmail", false)}
             render={({ field: { value, onChange } }) => {
               return (
                 <CheckboxGroup
@@ -200,7 +165,6 @@ export const FormItems: React.FC<TProps> = ({ formProps, data }) => {
             <Controller
               control={control}
               name="description"
-              defaultValue={defaultValue.get("description")}
               render={({ field: { value, onChange } }) => (
                 <Editor
                   value={value}

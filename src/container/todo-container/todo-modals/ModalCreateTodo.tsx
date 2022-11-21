@@ -12,12 +12,19 @@ import {
   taskSelectors,
 } from "@/features/reducers/task-reducer";
 import { THookModalProps } from "@/hooks";
+import { FormatService } from "@/utils";
 
 import { TODO_MESSAGES } from "../constant";
 import { TodoFormMapper } from "../mapper";
 import { schema } from "../shema";
-import { IFormTodoInfo } from "../type";
+import { EPriority, IFormTodoInfo } from "../type";
 import { FormItems } from "./FormItems";
+
+const getDayAfterWeek = (): string => {
+  const today = new Date();
+  today.setDate(today.getDate() + 7);
+  return FormatService.toDateString(today, "US");
+};
 
 export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
   isShowing,
@@ -28,6 +35,8 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
   const userStore = useAppSelector((state) => state.user);
   const userList = useAppSelector(userSelectors.selectAll);
   const taskList = useAppSelector(taskSelectors.selectAll);
+  const currentUserStore = useAppSelector((state) => state.auth);
+
   useEffect(() => {
     if (userCount === 0 && isShowing) {
       dispatch(getUsersAsync());
@@ -54,6 +63,16 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
     toast.error(TODO_MESSAGES.create.error);
   };
 
+  useEffect(() => {
+    reset({
+      priority: EPriority.Normal,
+      expiredDate: getDayAfterWeek(),
+      reporter: currentUserStore.user.id,
+      isNotifyEmail: false,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Modal
       handleEvent={{
@@ -64,7 +83,11 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
       isShowing={isShowing}
       toggle={toggle}
     >
-      {userStore.pending ? <Loading /> : <FormItems formProps={propsForm} />}
+      {userStore.pending ? (
+        <Loading />
+      ) : (
+        <FormItems mode="create" formProps={propsForm} />
+      )}
     </Modal>
   );
 };
