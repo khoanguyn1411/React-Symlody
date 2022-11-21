@@ -22,7 +22,10 @@ export const TabChangePassword: React.FC = () => {
     formState: { errors, isSubmitting, dirtyFields },
     handleSubmit,
     reset,
-  } = useForm<IFormChangePassword>({ resolver: yupResolver(schema) });
+  } = useForm<IFormChangePassword>({
+    resolver: yupResolver(schema),
+    defaultValues: { new_password: "", old_password: "", confirm_password: "" },
+  });
 
   const handleChangePassword = async (data: IFormChangePassword) => {
     const result = await dispatch(changePasswordAsync(data));

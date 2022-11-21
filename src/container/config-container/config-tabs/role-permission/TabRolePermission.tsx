@@ -5,7 +5,7 @@ import { ConfigApi } from "@/api";
 import { Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getConfigManager } from "@/features/reducers";
-import { IConfigInfo } from "@/features/types";
+import { ERolesID, IConfigInfo } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
 import { lazyImport } from "@/utils/services/lazyImport";
@@ -26,10 +26,12 @@ export const TabRolePermission: React.FC = () => {
     dispatch(getConfigManager());
   }, [dispatch]);
 
-  const handleOpenEdit = withPermission([1, 2])((data: IConfigInfo) => {
-    propsModalEditPermission.setData(data);
-    propsModalEditPermission.toggle.setShow();
-  });
+  const handleOpenEdit = withPermission([ERolesID.Lead, ERolesID.SystemAdmin])(
+    (data: IConfigInfo) => {
+      propsModalEditPermission.setData(data);
+      propsModalEditPermission.toggle.setShow();
+    }
+  );
 
   const handleDeleteRoleUser = async (userId: number) => {
     if (userId) {

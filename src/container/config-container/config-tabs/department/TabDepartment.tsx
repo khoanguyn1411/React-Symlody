@@ -10,7 +10,7 @@ import {
   deleteDepartmentAsync,
   getDepartmentAsync,
 } from "@/features/reducers";
-import { IDepartment } from "@/features/types";
+import { ERolesID, IDepartment } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
 
@@ -30,14 +30,16 @@ export const TabConfigDepartment: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleEdit = withPermission([1, 2])((departmentData: IDepartment) => {
-    if (departmentData) {
-      propsModalEditDepartment.setData(departmentData);
-      propsModalEditDepartment.toggle.setShow();
+  const handleEdit = withPermission([ERolesID.Lead, ERolesID.SystemAdmin])(
+    (departmentData: IDepartment) => {
+      if (departmentData) {
+        propsModalEditDepartment.setData(departmentData);
+        propsModalEditDepartment.toggle.setShow();
+      }
     }
-  });
+  );
 
-  const handleDelete = withPermission([1, 2])(
+  const handleDelete = withPermission([ERolesID.Lead, ERolesID.SystemAdmin])(
     async (departmentData: IDepartment) => {
       if (departmentData && departmentData.id) {
         const result = await dispatch(deleteDepartmentAsync(departmentData.id));

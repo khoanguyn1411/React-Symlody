@@ -8,6 +8,7 @@ import { images } from "@/assets/images";
 import { AvatarUpload, FormItem, Input } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateTenantAsync } from "@/features/reducers";
+import { ERolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { FormService } from "@/utils";
 
@@ -39,19 +40,20 @@ export const TabOrganization: React.FC = () => {
     setAvatar(previews?.url);
   };
 
-  const handleEditOrgInfo = withPermission([1, 2])(
-    async (data: IFormOrganizationConfig) => {
-      const result = await dispatch(
-        updateTenantAsync({ id: tenant.id, body: { ...data } })
-      );
-      if (!result.payload) {
-        toast.error("Cập nhật thông tin tổ chức không thành công");
-        return;
-      }
-      toast.success("Cập nhật thông tin tổ chức thành công");
-      reset(result.payload);
+  const handleEditOrgInfo = withPermission([
+    ERolesID.Lead,
+    ERolesID.SystemAdmin,
+  ])(async (data: IFormOrganizationConfig) => {
+    const result = await dispatch(
+      updateTenantAsync({ id: tenant.id, body: { ...data } })
+    );
+    if (!result.payload) {
+      toast.error("Cập nhật thông tin tổ chức không thành công");
+      return;
     }
-  );
+    toast.success("Cập nhật thông tin tổ chức thành công");
+    reset(result.payload);
+  });
 
   if (!tenant) {
     return;

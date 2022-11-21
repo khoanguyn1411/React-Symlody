@@ -41,6 +41,16 @@ export const ROLE_MAP_TO_ID: Readonly<Record<ERoles, ERolesID>> = {
   [ERoles.Lead]: ERolesID.Lead,
 };
 
+export const ROLE_IDS_MAP_TO_DTO: Readonly<Record<ERolesID, ERolesDto>> = {
+  [ERolesID.EventManager]: ERolesDto.EventManager,
+  [ERolesID.Member]: ERolesDto.Member,
+  [ERolesID.MemberManager]: ERolesDto.MemberManager,
+  [ERolesID.NotificationManager]: ERolesDto.NotificationManager,
+  [ERolesID.PropertyManager]: ERolesDto.PropertyManager,
+  [ERolesID.SystemAdmin]: ERolesDto.SystemAdmin,
+  [ERolesID.Lead]: ERolesDto.Lead,
+};
+
 export class GroupMapper {
   public static fromDto(dto: IGroupDto): IGroup {
     const groupNameModel = ROLE_MAP_FROM_DTO[dto.name];

@@ -1,9 +1,16 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, FieldError, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { Avatar, FormItem, Modal, Select, SelectMultiple } from "@/components";
+import {
+  Avatar,
+  FormItem,
+  Modal,
+  Select,
+  SelectMultiple,
+  TItemListSelect,
+} from "@/components";
 import { TToggleModal } from "@/components/elements/modal/types";
 import { useAppDispatch } from "@/features";
 import { updateConfigRoleUserAsync } from "@/features/reducers";
@@ -32,22 +39,43 @@ export const ModalEditPermission: React.FC<TProps> = ({
   data,
 }) => {
   const dispatch = useAppDispatch();
+  const [type, setType] = useState<string>("");
   const propsForm = useForm<IConfigManagerForm>({
     resolver: yupResolver(schema),
   });
   const {
     control,
     formState: { isSubmitting, dirtyFields, errors },
+    setValue,
     handleSubmit,
     reset,
-    getValues,
   } = propsForm;
+
+  const handleSetType = (item: TItemListSelect) => {
+    setType(item.value);
+  };
+  const isManager = type === EPermissionOptions.Manager;
 
   useEffect(() => {
     if (data) {
-      reset(RolePermissionFormMapper.fromModel(data));
+      const formData = RolePermissionFormMapper.fromModel(data);
+      setType(formData.type);
+      reset(formData);
     }
   }, [data, reset]);
+
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+    const formData = RolePermissionFormMapper.fromModel(data);
+    if (isManager) {
+      setValue("roleManager", formData.roleManager);
+      return;
+    }
+    setValue("roleManager", [""]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type]);
 
   const handleUpdate = async (body: IConfigManagerForm) => {
     const bodyModel = RolePermissionFormMapper.toModel(body);
@@ -61,7 +89,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
     toast.error(ROLE_PERMISSION_MESSAGE.update.error);
   };
 
-  if (!data) {
+  if (data == null) {
     return;
   }
 
@@ -95,13 +123,14 @@ export const ModalEditPermission: React.FC<TProps> = ({
             <Select
               value={value}
               onChange={onChange}
+              onChangeSideEffect={handleSetType}
               list={PERMISSION_OPTIONS}
             />
           )}
         />
       </FormItem>
 
-      {getValues("type") === EPermissionOptions.Manager && (
+      {isManager && (
         <FormItem
           label="Tính năng"
           isRequired

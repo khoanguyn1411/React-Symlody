@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from "react-toastify";
 
+import { ERolesID } from "@/features/types";
+import { hasElementOfArray } from "@/utils/services/compare-service";
+
 import { useAppSelector } from "./../features/hooks";
 
-type Roles = 1 | 2 | 3 | 4 | number;
-
 export const withPermission =
-  (alowRoles: Roles[]) =>
+  (alowRoles: ERolesID[]) =>
   <T extends (...args: any[]) => any>(
     func: T
   ): ((...funcArgs: Parameters<T>) => ReturnType<T> | void) => {
     const { user } = useAppSelector((state) => state.auth);
     const groupIds = user.groups.map((g) => g.id);
-    if (!alowRoles.some((g) => groupIds.includes(g))) {
+    if (!hasElementOfArray(alowRoles, groupIds)) {
       return () => {
         toast.warning("Bạn không được cấp quyền thực hiện tính năng này", {
           style: { width: 365 },
