@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PreviewItem } from "@rpldy/upload-preview";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -25,9 +25,12 @@ export const TabOrganization: React.FC = () => {
 
   const {
     control,
+    reset,
     formState: { errors, isSubmitting, dirtyFields },
     handleSubmit,
-  } = useForm<IFormOrganizationConfig>({ resolver: yupResolver(schema) });
+  } = useForm<IFormOrganizationConfig>({
+    resolver: yupResolver(schema),
+  });
 
   const [avatar, setAvatar] = useState(tenant?.logo);
 
@@ -50,6 +53,10 @@ export const TabOrganization: React.FC = () => {
 
   const defaultValue =
     FormService.getDefaultValues<IFormOrganizationConfig>(tenant);
+
+  useEffect(() => {
+    reset(tenant);
+  }, [reset, tenant]);
 
   if (!tenant) return null;
 

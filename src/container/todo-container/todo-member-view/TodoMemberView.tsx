@@ -23,7 +23,7 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
   const getUserWithCurrentUserList = () => {
     const _currentUser = UserMapper.fromProfile(currentUserProfile);
     const userListWithoutCurrentUser = userList.filter(
-      (user) => user.email !== _currentUser.email
+      (user) => user.id !== _currentUser.id
     );
     return [_currentUser].concat(userListWithoutCurrentUser);
   };
@@ -33,7 +33,7 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
   const [selectedMembers, setSelectedMembers] = useState<IUser[]>(() => {
     if (taskStore.listQueryTask.selected_member_list === null) {
       return [
-        currentUserList.find((user) => user.email === currentUserProfile.email),
+        currentUserList.find((user) => user.id === currentUserProfile.id),
       ];
     }
     return taskStore.listQueryTask.selected_member_list;
