@@ -3,11 +3,11 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { Loading, ModalMultipleTabs, ModalTab, PickFile } from "@/components";
+import { Loading, ModalMultipleTabs, ModalTab } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { createPropertyAsync } from "@/features/reducers/property-reducer";
-import { THookModalProps, usePickFile } from "@/hooks";
+import { THookModalProps } from "@/hooks";
 
 import { PROPERTY_MESSAGE } from "../constant";
 import { PropertyFormMapper } from "../mapper";
