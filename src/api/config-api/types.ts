@@ -1,4 +1,3 @@
-import { IUser } from "@/features/types";
 import {
   IConfigManagerUpdate,
   ITenantCreateUpdateDto,
