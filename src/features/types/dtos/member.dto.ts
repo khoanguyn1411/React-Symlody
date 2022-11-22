@@ -8,7 +8,6 @@ interface IMemberGeneralDto {
   readonly gender: number;
   readonly class_name: string;
   readonly student_id: string;
-  readonly avatar: string;
   readonly address: string;
   readonly phone_number: string;
   readonly home_town: string;
@@ -24,10 +23,12 @@ export interface IMemberDto extends IMemberGeneralDto {
     readonly first_name: string;
     readonly last_name: string;
   };
+  readonly avatar: string;
   readonly department: IDepartmentDto;
 }
 
 export interface IMemberCreateUpdateDto extends IMemberGeneralDto {
   readonly auth_account: IAuthAccountCreateUpdateDto;
   readonly department_id?: number;
+  readonly avatar?: File;
 }

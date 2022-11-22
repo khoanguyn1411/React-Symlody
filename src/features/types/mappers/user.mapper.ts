@@ -2,7 +2,7 @@ import { GeneratorService, GlobalTypes } from "@/utils";
 import { generateFullName } from "@/utils/services/generate-service";
 
 import { IUserDto } from "../dtos";
-import { IMemberCreateUpdate, IProfile, IUser } from "../models";
+import { IMember, IProfile, IUser } from "../models";
 
 export class UserMapper {
   public static fromDto(dto: IUserDto): IUser {
@@ -31,7 +31,7 @@ export class UserMapper {
   }
 
   public static fromMemberModel(
-    model: IMemberCreateUpdate
+    model: IMember
   ): GlobalTypes.StrictOmit<IUser, "id"> {
     return {
       avatar: model.avatar,

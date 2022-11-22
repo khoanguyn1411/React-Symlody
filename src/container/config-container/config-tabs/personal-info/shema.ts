@@ -1,9 +1,12 @@
 import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
+import { StrictOmit } from "@/utils/types";
 
 import { IFormUserConfig } from "./type";
-export const schema: yup.SchemaOf<IFormUserConfig> = yup.object().shape({
+export const schema: yup.SchemaOf<
+  StrictOmit<IFormUserConfig, "avatar" | "avatarUrl">
+> = yup.object().shape({
   firstName: yup
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)

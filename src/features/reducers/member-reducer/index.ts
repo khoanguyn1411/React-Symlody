@@ -11,6 +11,7 @@ import { RootState, store } from "@/features/store";
 import {
   FileUploadedMapper,
   MemberMapper,
+  ProfileMapper,
   UserMapper,
 } from "@/features/types/mappers";
 import { HttpErrorMapper } from "@/features/types/mappers/http-error.mapper";
@@ -23,6 +24,7 @@ import {
 import { TMemberParamQueryDto } from "@/features/types/queries";
 import { FilterService, GeneratorService, GlobalTypes } from "@/utils";
 
+import { updateCurrentUser } from "../auth-reducer";
 import {
   getUsersAsync,
   removeUser,
@@ -110,10 +112,19 @@ export const updateMemberAsync = createAsyncThunk<
   async ({ payload, id, isRestore }, { rejectWithValue, dispatch }) => {
     const result: RequestUpdateMembersResult = await MemberApi.updateMember(
       id,
-      MemberMapper.toUpdateDto(payload)
+      MemberMapper.toFormData(payload)
     );
     if (result.kind === "ok") {
       const reduxStore = store.getState();
+      const memberUpdatedInfo = MemberMapper.fromDto(result.result);
+      const currentUser = reduxStore.auth.user;
+      if (reduxStore.auth.user.profile_id === id) {
+        const profileModel = ProfileMapper.fromMemberModel(
+          currentUser,
+          memberUpdatedInfo
+        );
+        dispatch(updateCurrentUser(profileModel));
+      }
       const userState = reduxStore.user;
       if (isRestore) {
         if (userState.ids.length === 0) {
@@ -121,26 +132,26 @@ export const updateMemberAsync = createAsyncThunk<
         }
       } else {
         if (userState.ids.length > 0) {
-          const reduxStore = store.getState();
-          const memberUpdated = memberSelectors.selectById(reduxStore, id);
           const updatedUser = userSelectors
             .selectAll(reduxStore)
-            .find((item) => item.email === memberUpdated.auth_account.email);
-          const updatedUserInfo = UserMapper.fromMemberModel(payload);
+            .find(
+              (item) => item.email === memberUpdatedInfo.auth_account.email
+            );
+          const updatedUserInfo = UserMapper.fromMemberModel(memberUpdatedInfo);
           dispatch(
             updateUser({
               id: updatedUser.id,
               payload: {
                 ...updatedUserInfo,
                 email:
-                  updatedUserInfo.email ?? memberUpdated.auth_account.email,
+                  updatedUserInfo.email ?? memberUpdatedInfo.auth_account.email,
               },
             })
           );
         }
       }
       return {
-        result: MemberMapper.fromDto(result.result),
+        result: memberUpdatedInfo,
         isRestore,
       };
     }

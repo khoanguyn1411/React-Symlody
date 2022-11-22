@@ -75,6 +75,7 @@ export const _TabOrganization: React.FC = () => {
           name="logo"
           render={({ field: { value, onChange } }) => (
             <UploadedAvatar
+              alt="Logo tổ chức"
               defaultImageLink={defaultImageLink}
               file={value}
               setFile={onChange}

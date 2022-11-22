@@ -76,6 +76,14 @@ export const authSlice = createSlice({
       state.isAuth = false;
       TokenService.clearToken();
     },
+    updateCurrentUser: (state, action: PayloadAction<IProfile>) => {
+      const { avatar, ...rest } = action.payload;
+      if (avatar == null) {
+        state.user = { ...state.user, ...rest };
+        return;
+      }
+      state.user = { ...rest, ...action.payload };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -94,6 +102,6 @@ export const authSlice = createSlice({
 });
 export const authStore = (state: RootState) => state.user;
 
-export const { setIsAuth, logout } = authSlice.actions;
+export const { setIsAuth, logout, updateCurrentUser } = authSlice.actions;
 
 export default authSlice.reducer;

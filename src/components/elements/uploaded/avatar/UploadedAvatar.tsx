@@ -6,15 +6,23 @@ import { EFile } from "@/constants";
 import { usePickImage } from "@/hooks";
 import { FormatService } from "@/utils";
 
+import { Avatar } from "../../avatar";
+
 type TProps = {
   defaultImageLink?: string;
   file: File;
+  alt: string;
+  isUserAvatar?: boolean;
+  fullName?: string;
   setFile: (file: File) => void;
 };
 
 export const UploadedAvatar: React.FC<TProps> = ({
   file,
   defaultImageLink,
+  alt = "",
+  isUserAvatar = false,
+  fullName = "",
   setFile,
 }) => {
   const inputFileRef = useRef<HTMLInputElement>();
@@ -38,11 +46,21 @@ export const UploadedAvatar: React.FC<TProps> = ({
         type="button"
         onClick={handleOpenSelectFile}
       >
-        <img
-          alt="Logo tổ chức"
-          className="object-cover object-left w-full h-full rounded-full"
-          src={isHasImage ? FormatService.toString(fileData.url) : images.Logo}
-        />
+        {isUserAvatar ? (
+          <Avatar
+            src={isHasImage ? FormatService.toString(fileData.url) : ""}
+            size="avatar"
+            fullName={fullName}
+          />
+        ) : (
+          <img
+            alt={alt}
+            className="object-cover object-left w-full h-full rounded-full"
+            src={
+              isHasImage ? FormatService.toString(fileData.url) : images.Logo
+            }
+          />
+        )}
       </button>
       <input
         ref={inputFileRef}

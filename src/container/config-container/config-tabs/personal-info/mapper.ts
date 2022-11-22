@@ -7,7 +7,7 @@ export class PersonalInfoFormMapper {
   /** Use for map data from form values to member model. */
   public static toModel(formData: IFormUserConfig): IMemberCreateUpdate {
     return MemberFormMapper.toModel({
-      formData: { ...formData, email: undefined },
+      formData: { ...formData, email: undefined, avatar: formData.avatar },
       isArchived: true,
     });
   }

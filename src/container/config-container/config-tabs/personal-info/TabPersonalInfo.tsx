@@ -1,12 +1,20 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { AppDatePicker, FormItem, Input, Select } from "@/components";
+import {
+  AppDatePicker,
+  FormItem,
+  Input,
+  Select,
+  UploadedAvatar,
+} from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateMemberAsync } from "@/features/reducers";
 import { IMember } from "@/features/types";
+import { FormService } from "@/utils";
+import { generateFullName } from "@/utils/services/generate-service";
 
 import {
   ConfigSubmitButton,
@@ -18,38 +26,68 @@ import { schema } from "./shema";
 import { IFormUserConfig } from "./type";
 
 export const TabPersonalInfo: React.FC = () => {
-  const { user } = useAppSelector((state) => state.auth);
+  const { user: currentUser } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+
+  const [defaultImageLink, setDefaultImageLink] = useState<string>(
+    currentUser.avatar ?? ""
+  );
 
   const {
     control,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting, dirtyFields },
     reset,
     handleSubmit,
   } = useForm<IFormUserConfig>({
     resolver: yupResolver(schema),
-    defaultValues: PersonalInfoFormMapper.fromProfile(user),
+    defaultValues: PersonalInfoFormMapper.fromProfile(currentUser),
   });
 
   const handleEditPersonalInfo = async (data: IFormUserConfig) => {
     const result = await dispatch(
       updateMemberAsync({
         payload: PersonalInfoFormMapper.toModel(data),
-        id: user.profile_id,
+        id: currentUser.profile_id,
         isRestore: false,
       })
     );
     if (result.meta.requestStatus !== "rejected") {
       toast.success(PERSONAL_INFO_MESSAGES.update.success);
-      reset(
-        PersonalInfoFormMapper.fromMember(result.payload.result as IMember)
+      const formData = PersonalInfoFormMapper.fromMember(
+        result.payload.result as IMember
       );
+      reset({ ...formData, avatar: undefined });
       return;
     }
     toast.error(PERSONAL_INFO_MESSAGES.update.error);
   };
+
+  useEffect(() => {
+    console.log(currentUser.avatar);
+    setDefaultImageLink(currentUser.avatar);
+  }, [currentUser]);
+
   return (
     <ConfigTabContentContainer>
+      <FormItem label="Ảnh đại diện" isRequired error={errors.avatar?.message}>
+        <Controller
+          control={control}
+          name="avatar"
+          render={({ field: { value, onChange } }) => (
+            <UploadedAvatar
+              alt="Ảnh đại diện"
+              isUserAvatar
+              fullName={generateFullName(
+                currentUser.last_name,
+                currentUser.first_name
+              )}
+              defaultImageLink={defaultImageLink}
+              file={value}
+              setFile={onChange}
+            />
+          )}
+        />
+      </FormItem>
       <div className="grid grid-cols-3 gap-3">
         <FormItem label="Họ" isRequired error={errors.lastName?.message}>
           <Controller
@@ -205,7 +243,7 @@ export const TabPersonalInfo: React.FC = () => {
         </FormItem>
       </div>
       <ConfigSubmitButton
-        disable={!isDirty}
+        disable={!FormService.isDirtyFields(dirtyFields)}
         isShowLoading={isSubmitting}
         onSubmit={handleSubmit(handleEditPersonalInfo)}
       >

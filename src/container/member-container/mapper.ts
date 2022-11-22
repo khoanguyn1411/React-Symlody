@@ -29,7 +29,7 @@ export class MemberFormMapper {
           formData.firstName
         ),
       },
-      avatar: null,
+      avatar: formData.avatar,
       dob: FormatService.toDateString(formData.birthday, "US"),
       class_name: formData.class,
       address: formData.address,

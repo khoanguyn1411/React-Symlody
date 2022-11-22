@@ -41,7 +41,7 @@ export const MemberApi = {
 
   async updateMember(
     id: IMember["id"],
-    body: Types.RequestUpdateMemberBody
+    body: FormData
   ): Promise<Types.RequestUpdateMembersResult> {
     const url = routes.updateMember(id);
     const result = await Api.http.patch<IMemberDto>(url, body);
@@ -52,12 +52,6 @@ export const MemberApi = {
     body: FormData
   ): Promise<Types.RequestUploadMemberExcelFileResult> {
     const url = routes.uploadMemberExcelFile();
-    // const result = await Api.http.post<IFileUploadedDto>(url, body, {
-    //   transformRequest: (data, headers) => {
-    //     delete headers["Content-Type"];
-    //     return data;
-    //   },
-    // });
     const result = await Api.http.post<IFileUploadedDto>(url, body);
 
     return returnResponse(result);

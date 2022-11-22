@@ -10,6 +10,7 @@ export interface IFormMemberInfo {
   readonly phone: string;
   readonly address: string;
   readonly home: string;
+  readonly avatar?: File;
 }
 
 export interface IMemberTable {

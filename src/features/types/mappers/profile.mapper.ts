@@ -1,9 +1,18 @@
 import { hasElementOfArray } from "@/utils/services/compare-service";
 
 import { IProfileDto } from "../dtos";
-import { ERoles, IProfile } from "../models";
+import { ERoles, IGroup, IMember, IProfile } from "../models";
 import { DepartmentMapper } from "./department.mapper";
 import { GroupMapper } from "./group.mapper";
+
+const compareRole = (groups: IGroup[]) => (roles: ERoles[]) => {
+  const groupsNameList = groups.map((group) => group.name);
+  // System Admin has whole permission of apps so we don't need to check for roles.
+  if (groupsNameList.includes(ERoles.SystemAdmin)) {
+    return true;
+  }
+  return hasElementOfArray(groupsNameList, roles);
+};
 
 export class ProfileMapper {
   public static fromDto(dto: IProfileDto): IProfile {
@@ -13,14 +22,17 @@ export class ProfileMapper {
       gender: dto.gender === 1 ? "Nam" : "Nữ",
       department: DepartmentMapper.fromDto(dto.department),
       groups,
-      isRole: (roles: ERoles[]) => {
-        const groupsNameList = groups.map((group) => group.name);
-        // System Admin has whole permission of apps so we don't need to check for roles.
-        if (groupsNameList.includes(ERoles.SystemAdmin)) {
-          return true;
-        }
-        return hasElementOfArray(groupsNameList, roles);
-      },
+      isRole: compareRole(groups),
+    };
+  }
+
+  public static fromMemberModel(
+    currentUser: IProfile,
+    model: IMember
+  ): IProfile {
+    return {
+      ...currentUser,
+      ...model,
     };
   }
 }

@@ -91,6 +91,7 @@ export const MemberContainer: React.FC = () => {
       updateMemberAsync({
         payload: {
           ...item,
+          avatar: undefined,
           auth_account: authAccountWithoutEmail,
           is_archived: false,
         },

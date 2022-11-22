@@ -9,6 +9,7 @@ const SIZE_MAPS = {
   default: "w-8 h-8 min-w-8 min-h-8", // 32px
   medium: "w-10 h-10 min-w-10 min-h-10", // 40px,
   large: "w-12 h-12 min-w-12 min-h-12", // 48px
+  avatar: "w-32 h-32 min-w-32 min-h-32", // 128px
 };
 
 type IProps = {
