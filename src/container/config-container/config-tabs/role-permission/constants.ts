@@ -32,3 +32,14 @@ export const ROLE_PERMISSION_ERROR_TO_READABLE_STRING: Readonly<
 > = {
   [ROLE_PERMISSION_ERROR_MESSAGE.NO_LEADER]: "Tổ chức phải có ít nhật 1 leader",
 };
+
+export const ROLE_PERMISSION_TO_NOTE: Readonly<
+  Record<EPermissionOptions, string>
+> = {
+  [EPermissionOptions.Lead]: "Toàn quyền sử dụng tính năng trên hệ thống",
+  [EPermissionOptions.Manager]:
+    "Có quyền thêm/xoá/sửa tính năng được thiết lập",
+  [EPermissionOptions.Member]: "Chỉ được cấp quyền xem dữ liệu",
+};
+
+export const PERMISSION_LIST = generateArrayFromEnum(EPermissionOptions);

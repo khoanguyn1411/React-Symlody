@@ -22,9 +22,11 @@ import { generateErrorMessageFromErrorArray } from "@/utils/services/generate-se
 import {
   EPermissionOptions,
   MANAGE_OPTIONS,
+  PERMISSION_LIST,
   PERMISSION_OPTIONS,
   ROLE_PERMISSION_ERROR_TO_READABLE_STRING,
   ROLE_PERMISSION_MESSAGE,
+  ROLE_PERMISSION_TO_NOTE,
 } from "./constants";
 import { RolePermissionFormMapper } from "./mapper";
 import { schema } from "./schema";
@@ -62,7 +64,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
       setType(formData.type);
       reset(formData);
     }
-  }, [data, reset]);
+  }, [data, reset, isShowing]);
 
   useEffect(() => {
     if (!data) {
@@ -75,7 +77,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
     }
     setValue("roleManager", [""]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type, isShowing]);
+  }, [type]);
 
   const handleSetType = (item: TItemListSelect) => {
     setType(item.value);
@@ -91,9 +93,9 @@ export const ModalEditPermission: React.FC<TProps> = ({
       return;
     }
     if (result.payload instanceof HttpError) {
-      const errorMessage = result.payload.errorArray;
+      const { errorArray } = result.payload;
       const readableError = generateErrorMessageFromErrorArray(
-        errorMessage,
+        errorArray,
         ROLE_PERMISSION_ERROR_TO_READABLE_STRING
       );
       toast.error(readableError);
@@ -118,13 +120,12 @@ export const ModalEditPermission: React.FC<TProps> = ({
       title={"Phân quyền"}
       isShowing={isShowing}
       toggle={toggle}
-      heightContainer={320}
     >
-      <div className="flex items-center mb-4 gap-3">
+      <div className="flex items-center mb-4 space-x-2">
         <Avatar src={""} fullName={data.full_name} />
         <div className="flex flex-col">
-          <span className="text-sm">{data.full_name}</span>
-          <span className="text-xs">{data.email}</span>
+          <span className="font-medium">{data.full_name}</span>
+          <span className="text-xs text-gray-400">{data.email}</span>
         </div>
       </div>
 
@@ -134,6 +135,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
           name="type"
           render={({ field: { value, onChange } }) => (
             <Select
+              style="modal"
               value={value}
               onChange={onChange}
               onChangeSideEffect={handleSetType}
@@ -164,6 +166,14 @@ export const ModalEditPermission: React.FC<TProps> = ({
           />
         </FormItem>
       )}
+      <ul>
+        {PERMISSION_LIST.map((permission) => (
+          <li className="ml-5 text-gray-500 list-disc" key={permission}>
+            <span className="font-semibold">{permission}:</span>{" "}
+            {ROLE_PERMISSION_TO_NOTE[permission]}.
+          </li>
+        ))}
+      </ul>
     </Modal>
   );
 };

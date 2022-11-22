@@ -21,7 +21,7 @@ export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
   const handleCloseWhenClickOutside = () => {
     if (closeWhenClickOutside) {
       toggle.setToggle();
-      reset();
+      reset && reset();
     }
   };
   const handleStopPropagation = (
