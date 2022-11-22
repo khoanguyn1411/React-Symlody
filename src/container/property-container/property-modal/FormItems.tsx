@@ -9,7 +9,7 @@ import {
   SelectUser,
   TextArea,
 } from "@/components";
-import { FormatService, FormService } from "@/utils";
+import { FormatService } from "@/utils";
 
 import { IFormPropertyInfo } from "../type";
 

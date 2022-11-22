@@ -24,7 +24,9 @@ export function toCurrency(price: number | string): string {
  * @param price Text need to remove format currency.
  */
 export function removeFormatCurrency(price: string): string {
-  return price.replaceAll(".", "");
+  if (price) {
+    return price.replaceAll(".", "");
+  }
 }
 
 /**

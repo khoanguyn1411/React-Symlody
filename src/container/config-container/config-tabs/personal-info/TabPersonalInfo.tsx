@@ -63,7 +63,6 @@ export const TabPersonalInfo: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log(currentUser.avatar);
     setDefaultImageLink(currentUser.avatar);
   }, [currentUser]);
 

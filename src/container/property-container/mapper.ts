@@ -25,7 +25,7 @@ export class PropertyFormMapper {
       prop_owner: propertyFormData.owner,
       note: propertyFormData.note,
       incharger_id: propertyFormData.inChargeId,
-      image: propertyFormData.image ?? null,
+      image: propertyFormData.image,
       is_club_property: propertyFormData.owner === "CLB",
     };
   }
