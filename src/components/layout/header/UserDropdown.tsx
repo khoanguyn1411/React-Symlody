@@ -69,7 +69,9 @@ export const UserDropdown: React.FC<TProps> = ({ user, tenant }) => {
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-2">
             <Avatar src={tenant?.logo || images.Logo} fullName={tenant?.name} />
-            <span className="font-medium">{tenant?.name}</span>
+            <span className="font-medium">
+              {tenant?.abbreviation_name || tenant?.name}
+            </span>
           </div>
           <div className="flex items-center cursor-pointer space-x-2">
             <Avatar src={user?.avatar} fullName={user?.last_name} />

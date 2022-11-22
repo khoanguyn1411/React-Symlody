@@ -81,19 +81,27 @@ const TabCreateAProperty: React.FC = () => {
 };
 
 const TabCreateMultipleProperties: React.FC = () => {
-  const propsFile = usePickFile();
+  // const propsFile = usePickFile();
 
-  const handleSubmitFile = () => {
-    propsFile.setIsSubmitFile(true);
-  };
+  // const handleSubmitFile = () => {
+  //   propsFile.setIsSubmitFile(true);
+  // };
   return (
     <ModalTab
       handleEvent={{
-        event: handleSubmitFile,
-        isLoading: false,
+        // event: handleSubmitFile,
+        // isLoading: false,
+        event: () => undefined,
       }}
     >
-      <PickFile {...propsFile} />
+      {/* <PickFile {...propsFile} /> */}
+      <p className="text-center">
+        <span className="font-medium">
+          Tính năng đang trong giai đoạn phát triển.
+        </span>
+        <br />
+        <span>Hãy đợi bọn mình nhé! {"<3"}</span>
+      </p>
     </ModalTab>
   );
 };
