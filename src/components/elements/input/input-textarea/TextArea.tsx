@@ -10,11 +10,12 @@ export const TextArea: React.FC<TInputTextAreaProps> = ({
   disable = false,
   otherProps,
   className,
+  height = "5px",
   onChange,
   onInputSideEffect,
 }) => {
   const handleChangeEvent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    event.target.style.height = "5px";
+    event.target.style.height = height;
     event.target.style.height = event.target.scrollHeight + "px";
     if (onInputSideEffect) {
       const returnValue = onInputSideEffect(event);
@@ -30,6 +31,7 @@ export const TextArea: React.FC<TInputTextAreaProps> = ({
       placeholder={placeholder}
       onChange={handleChangeEvent}
       disabled={disable}
+      style={{ height: height }}
       className={classNames(
         "w-full p-2 border-gray-200 max-h-72 resize-none text-black outline-none rounded-md",
         className,

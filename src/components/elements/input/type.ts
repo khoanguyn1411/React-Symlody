@@ -40,6 +40,7 @@ export type TInputDefaultProps = {
 
 export type TInputTextAreaProps = {
   otherProps?: React.InputHTMLAttributes<HTMLTextAreaElement>;
+  height?: string;
   onInputSideEffect?: (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => TSideEffect;

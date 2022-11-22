@@ -157,7 +157,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
           render={({ field: { value, onChange } }) => (
             <TextArea
               style="modal"
-              className="h-32"
+              height="8rem"
               value={value}
               onChange={onChange}
               placeholder="Ghi chú"
