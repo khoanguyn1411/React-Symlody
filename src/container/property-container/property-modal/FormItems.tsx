@@ -24,10 +24,6 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
     formState: { errors },
   } = formProps;
 
-  const defaultValue = FormService.getDefaultValues<IFormPropertyInfo>(
-    getValues()
-  );
-
   return (
     <>
       <FormItem
@@ -148,7 +144,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
           render={({ field: { value, onChange } }) => (
             <PickImage
               file={value}
-              defaultImageLink={defaultValue.get("imageLink")}
+              defaultImageLink={getValues().imageLink}
               setFile={onChange}
             />
           )}

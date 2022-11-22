@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
-import { Controller, FieldError, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import {
@@ -14,13 +14,16 @@ import {
 import { TToggleModal } from "@/components/elements/modal/types";
 import { useAppDispatch } from "@/features";
 import { updateConfigRoleUserAsync } from "@/features/reducers";
-import { IConfigInfo } from "@/features/types";
+import { HttpError, IConfigInfo } from "@/features/types";
 import { FormService } from "@/utils";
+import { assertErrorField } from "@/utils/services/form-service";
+import { generateErrorMessageFromErrorArray } from "@/utils/services/generate-service";
 
 import {
   EPermissionOptions,
   MANAGE_OPTIONS,
   PERMISSION_OPTIONS,
+  ROLE_PERMISSION_ERROR_TO_READABLE_STRING,
   ROLE_PERMISSION_MESSAGE,
 } from "./constants";
 import { RolePermissionFormMapper } from "./mapper";
@@ -51,9 +54,6 @@ export const ModalEditPermission: React.FC<TProps> = ({
     reset,
   } = propsForm;
 
-  const handleSetType = (item: TItemListSelect) => {
-    setType(item.value);
-  };
   const isManager = type === EPermissionOptions.Manager;
 
   useEffect(() => {
@@ -75,7 +75,11 @@ export const ModalEditPermission: React.FC<TProps> = ({
     }
     setValue("roleManager", [""]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type]);
+  }, [type, isShowing]);
+
+  const handleSetType = (item: TItemListSelect) => {
+    setType(item.value);
+  };
 
   const handleUpdate = async (body: IConfigManagerForm) => {
     const bodyModel = RolePermissionFormMapper.toModel(body);
@@ -84,6 +88,15 @@ export const ModalEditPermission: React.FC<TProps> = ({
       toast.success(ROLE_PERMISSION_MESSAGE.update.success);
       toggle.setHidden();
       reset();
+      return;
+    }
+    if (result.payload instanceof HttpError) {
+      const errorMessage = result.payload.errorArray;
+      const readableError = generateErrorMessageFromErrorArray(
+        errorMessage,
+        ROLE_PERMISSION_ERROR_TO_READABLE_STRING
+      );
+      toast.error(readableError);
       return;
     }
     toast.error(ROLE_PERMISSION_MESSAGE.update.error);
@@ -134,7 +147,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
         <FormItem
           label="Tính năng"
           isRequired
-          error={(errors.roleManager as unknown as FieldError)?.message}
+          error={assertErrorField(errors.roleManager)?.message}
         >
           <Controller
             control={control}

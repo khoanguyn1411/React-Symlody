@@ -7,14 +7,9 @@ import { ItemPermission } from "./ItemPermission";
 
 type TProps = {
   onOpenEdit: (data: IConfigInfo) => void;
-  onDeleteRoleUser: (id: number) => void;
   isRendered: boolean;
 };
-export const TableGroup: React.FC<TProps> = ({
-  isRendered,
-  onOpenEdit,
-  onDeleteRoleUser,
-}) => {
+export const TableGroup: React.FC<TProps> = ({ isRendered, onOpenEdit }) => {
   const configUsersCount = useAppSelector(configSelectors.selectTotal);
   if (!isRendered) {
     return <Table.Skeleton colsNumber={5} />;
@@ -25,18 +20,7 @@ export const TableGroup: React.FC<TProps> = ({
 
   return (
     <Table.Body>
-      <ItemPermission
-        title="Lead"
-        onOpenEdit={onOpenEdit}
-        onDeleteRoleUser={onDeleteRoleUser}
-      />
-
-      {/* <ItemPermission
-        title="Quản lý"
-        data={configData.managers}
-        onOpenEdit={onOpenEdit}
-        onDeleteRoleUser={onDeleteRoleUser}
-      /> */}
+      <ItemPermission title="Lead" onOpenEdit={onOpenEdit} />
     </Table.Body>
   );
 };

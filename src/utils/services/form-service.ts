@@ -1,5 +1,8 @@
+import { FieldError } from "react-hook-form";
+
 /**
  * Closure interaction function for form default values (values from api).
+ * -- DEPRECATED --
  * @param data Default values of form.
  */
 export function getDefaultValues<T>(data: T) {
@@ -32,4 +35,12 @@ export function getDefaultValues<T>(data: T) {
  */
 export function isDirtyFields(dirtyFields: unknown): boolean {
   return Object.keys(dirtyFields).length > 0;
+}
+
+/**
+ * Assert type of error field in react-hook-form.
+ * @param errorField Error filed which need to be asserted.
+ */
+export function assertErrorField<T extends unknown>(errorField: T): FieldError {
+  return errorField as FieldError;
 }

@@ -66,12 +66,13 @@ export const TodoContainer: React.FC = () => {
   const departmentCount = useAppSelector(departmentSelectors.selectTotal);
 
   const { tab } = useParams();
+  const _tab = tab as ETodoTabKey;
   const propsModal = useModal({ isHotkeyOpen: true });
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [content, setContent] = useState<ContentTab>(
-    getContentTab(tab as ETodoTabKey, isLoading)
+    getContentTab(_tab, isLoading)
   );
 
   const getDepartmentId = (
@@ -94,8 +95,7 @@ export const TodoContainer: React.FC = () => {
 
   const isNoData = false;
   const isInvalidUrl =
-    !generateArrayFromEnum(ETodoTabKey).includes(tab as ETodoTabKey) &&
-    tab != null;
+    !generateArrayFromEnum(ETodoTabKey).includes(_tab) && tab != null;
 
   const handleOpenCreateTodoModal = () => {
     propsModal.toggle.setShow();
@@ -112,8 +112,8 @@ export const TodoContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    setContent(getContentTab(tab as ETodoTabKey, isLoading));
-  }, [isLoading, navigate, tab]);
+    setContent(getContentTab(_tab, isLoading));
+  }, [isLoading, navigate, _tab]);
 
   useLayoutEffect(() => {
     const hasUser = userCount > 0;

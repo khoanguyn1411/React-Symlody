@@ -17,10 +17,13 @@ export class HttpError extends Immerable {
   /** Detail of error. */
   public readonly error: string;
 
+  public readonly errorArray: string[];
+
   public constructor(data: PostInitArgs) {
     super();
     this.details = data.details;
     this.error = data.error;
+    this.errorArray = data.errorArray;
   }
 }
 

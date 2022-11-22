@@ -14,11 +14,15 @@ export const ModalWrapper: React.FC<TPropsModalGeneral & TProps> = ({
   toggle,
   closeWhenClickOutside = true,
   children,
+  reset,
   // size = "lg",
   widthContainer = 560,
 }) => {
   const handleCloseWhenClickOutside = () => {
-    closeWhenClickOutside && toggle.setToggle();
+    if (closeWhenClickOutside) {
+      toggle.setToggle();
+      reset();
+    }
   };
   const handleStopPropagation = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>

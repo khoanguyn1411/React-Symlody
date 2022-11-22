@@ -21,3 +21,14 @@ export const MANAGE_OPTIONS: TOptionProps[] = generateArrayFromEnum(
 ).map((item) => ({ value: item, label: item }));
 
 export const ROLE_PERMISSION_MESSAGE = generateStatusMessageFor("quyền");
+
+export const ROLE_PERMISSION_ERROR_MESSAGE = {
+  NO_LEADER:
+    "An organization must have an active leader. Please add another active leader before remove this member from leader role.",
+} as const;
+
+export const ROLE_PERMISSION_ERROR_TO_READABLE_STRING: Readonly<
+  Record<string, string>
+> = {
+  [ROLE_PERMISSION_ERROR_MESSAGE.NO_LEADER]: "Tổ chức phải có ít nhật 1 leader",
+};

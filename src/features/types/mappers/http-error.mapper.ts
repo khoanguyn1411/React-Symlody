@@ -10,6 +10,9 @@ export class HttpErrorMapper {
     return new HttpError({
       error: httpDto.error,
       details: httpDto.details,
+      errorArray: Array.isArray(httpDto.details)
+        ? (httpDto.details as string[])
+        : [],
     });
   }
 }

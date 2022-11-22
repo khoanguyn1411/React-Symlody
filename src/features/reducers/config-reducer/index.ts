@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ConfigApi } from "@/api";
 import { RootState, store } from "@/features/store";
 import {
+  HttpError,
   IConfigInfo,
   IConfigUserUpdate,
   ITenant,
@@ -13,6 +14,7 @@ import {
   ConfigMangerMapper,
   ConfigUserMapper,
 } from "@/features/types/mappers/config-manager.mapper";
+import { HttpErrorMapper } from "@/features/types/mappers/http-error.mapper";
 import { GlobalTypes } from "@/utils";
 import { generateArrayWithNoDuplicate } from "@/utils/services/generate-service";
 
@@ -91,12 +93,16 @@ export const updateTenantAsync = createAsyncThunk<
 export const updateConfigRoleUserAsync = createAsyncThunk<
   IConfigInfo,
   IConfigUserUpdate,
-  GlobalTypes.ReduxThunkRejectValue<null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError>
 >("update/user-role", async (payload, { rejectWithValue }) => {
   const paramDto = ConfigUserMapper.toDto(payload);
   const result = await ConfigApi.updateConfigRoleUser(paramDto);
   if (result.kind === "ok") {
     return ConfigInfoMapper.fromDto(result.result);
+  }
+  if (result.kind === "bad-data") {
+    const errorBadData = HttpErrorMapper.fromDto(result.result.data);
+    return rejectWithValue(errorBadData);
   }
 
   return rejectWithValue(null);

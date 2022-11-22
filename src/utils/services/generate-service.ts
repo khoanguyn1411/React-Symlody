@@ -101,3 +101,27 @@ export function generateArrayFromEnum<T extends Record<string, unknown>>(
         typeof val === "number" || typeof val === "string"
     );
 }
+
+/**
+ * Generate readable error from an array of errors.
+ * @param errorArr Array of errors.
+ * @param mapper Mapper method to map error to readable text.
+ */
+export function generateErrorMessageFromErrorArray(
+  errorArr: string[],
+  mapper: Readonly<Record<string, string>>
+): string {
+  if (!Array.isArray(errorArr)) {
+    throw new Error(
+      "`generateErrorMessageFromErrorArray` error: Please provide an array, not an object."
+    );
+  }
+  return errorArr
+    .reduce((acc: string[], cur) => {
+      if (mapper[cur] != null) {
+        return [...acc, mapper[cur]];
+      }
+      return acc;
+    }, [])
+    .join(", ");
+}

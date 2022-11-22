@@ -8,7 +8,6 @@ import { ERoles, IConfigInfo } from "@/features/types";
 type TProps = {
   title: string;
   onOpenEdit: (data: IConfigInfo) => void;
-  onDeleteRoleUser: (id: number) => void;
 };
 
 interface TCheckDone {

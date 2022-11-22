@@ -57,18 +57,16 @@ const getTabUrl = (url: string): string => {
 
 export const ConfigContainer: React.FC = () => {
   const { tab } = useParams();
+  const _tab = tab as EConfigTabKey;
   const navigate = useNavigate();
-  const [content, setContent] = useState<ContentTab>(
-    getContentTab(tab as EConfigTabKey)
-  );
+  const [content, setContent] = useState<ContentTab>(getContentTab(_tab));
 
   const isInvalidUrl =
-    !generateArrayFromEnum(EConfigTabKey).includes(tab as EConfigTabKey) &&
-    tab != null;
+    !generateArrayFromEnum(EConfigTabKey).includes(_tab) && tab != null;
 
   useEffect(() => {
-    setContent(getContentTab(tab as EConfigTabKey));
-  }, [navigate, tab]);
+    setContent(getContentTab(_tab));
+  }, [navigate, _tab]);
 
   if (isInvalidUrl) {
     return (

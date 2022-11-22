@@ -1,7 +1,5 @@
 import React, { Suspense, useEffect } from "react";
-import { toast } from "react-toastify";
 
-import { ConfigApi } from "@/api";
 import { Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getConfigManager } from "@/features/reducers";
@@ -33,20 +31,6 @@ export const TabRolePermission: React.FC = () => {
     }
   );
 
-  const handleDeleteRoleUser = async (userId: number) => {
-    if (userId) {
-      const result = await ConfigApi.updateConfigRoleUser({
-        user_id: userId,
-        groups: [],
-      });
-      if (result.kind !== "ok") {
-        toast.error("Xoá quyền người dùng không thành công");
-        return;
-      }
-      toast.success("Xoá quyền người dùng thành công");
-    }
-  };
-
   return (
     <>
       <Table.Container isFullHeight>
@@ -70,7 +54,6 @@ export const TabRolePermission: React.FC = () => {
         <TableGroup
           isRendered={!configManagerStore.pendingConfigManager}
           onOpenEdit={handleOpenEdit}
-          onDeleteRoleUser={handleDeleteRoleUser}
         />
       </Table.Container>
 
