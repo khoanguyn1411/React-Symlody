@@ -1,15 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { PreviewItem } from "@rpldy/upload-preview";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { images } from "@/assets/images";
-import { AvatarUpload, FormItem, Input } from "@/components";
+import { FormItem, Input, Loading } from "@/components";
+import { UploadedAvatar } from "@/components/elements/uploaded/avatar/UploadedAvatar";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateTenantAsync } from "@/features/reducers";
 import { ERolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
+import { useEffectSkipFirstRender } from "@/hooks";
 import { FormService } from "@/utils";
 
 import {
@@ -21,8 +21,20 @@ import { schema } from "./schema";
 import { IFormOrganizationConfig } from "./type";
 
 export const TabOrganization: React.FC = () => {
+  const { tenant, pendingTenant } = useAppSelector((state) => state.config);
+  if (pendingTenant || !tenant) {
+    return <Loading />;
+  }
+  return <_TabOrganization />;
+};
+
+export const _TabOrganization: React.FC = () => {
   const { tenant } = useAppSelector((state) => state.config);
   const dispatch = useAppDispatch();
+
+  const [defaultImageLink, setDefaultImageLink] = useState<string>(
+    tenant.logo ?? ""
+  );
 
   const {
     control,
@@ -31,14 +43,8 @@ export const TabOrganization: React.FC = () => {
     handleSubmit,
   } = useForm<IFormOrganizationConfig>({
     resolver: yupResolver(schema),
-    defaultValues: tenant,
+    defaultValues: { ...tenant, logo: undefined },
   });
-
-  const [avatar, setAvatar] = useState(tenant?.logo);
-
-  const onResponse = (previews: PreviewItem) => {
-    setAvatar(previews?.url);
-  };
 
   const handleEditOrgInfo = withPermission([
     ERolesID.Lead,
@@ -52,20 +58,28 @@ export const TabOrganization: React.FC = () => {
       return;
     }
     toast.success("Cập nhật thông tin tổ chức thành công");
-    reset(result.payload);
+    reset({ ...result.payload, logo: undefined });
   });
 
-  if (!tenant) {
-    return;
-  }
+  useEffectSkipFirstRender(() => {
+    if (tenant) {
+      setDefaultImageLink(tenant.logo);
+    }
+  }, [reset, tenant]);
 
   return (
     <ConfigTabContentContainer>
       <FormItem label="Ảnh đại diện tổ chức">
-        <AvatarUpload
-          char=""
-          avatar={avatar || images.Logo}
-          onResponse={onResponse}
+        <Controller
+          control={control}
+          name="logo"
+          render={({ field: { value, onChange } }) => (
+            <UploadedAvatar
+              defaultImageLink={defaultImageLink}
+              file={value}
+              setFile={onChange}
+            />
+          )}
         />
       </FormItem>
       <ConfigSplitColumn>
@@ -153,16 +167,6 @@ export const TabOrganization: React.FC = () => {
           />
         </FormItem>
       </ConfigSplitColumn>
-
-      {/* <FormItem label="Giới thiệu tổ chức" error={errors.description?.message}>
-        <Controller
-          control={control}
-          name="description"
-          render={({ field: { value, onChange } }) => (
-            <Editor value={value} onChange={onChange} />
-          )}
-        />
-      </FormItem> */}
       <ConfigSubmitButton
         isShowLoading={isSubmitting}
         disable={!FormService.isDirtyFields(dirtyFields)}

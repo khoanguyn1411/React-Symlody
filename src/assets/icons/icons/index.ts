@@ -1,6 +1,7 @@
 export * from "./arrowUp";
 export * from "./bell";
 export * from "./calendar";
+export * from "./camera";
 export * from "./dots3";
 export * from "./doubleArrowUp";
 export * from "./edit";

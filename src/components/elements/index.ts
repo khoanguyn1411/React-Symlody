@@ -20,3 +20,4 @@ export * from "./skeleton";
 export * from "./tab-host";
 export * from "./table";
 export * from "./tooltip";
+export * from "./uploaded";

@@ -81,7 +81,8 @@ export const updateTenantAsync = createAsyncThunk<
   { id: number; body: ITenantCreateUpdate },
   GlobalTypes.ReduxThunkRejectValue<null>
 >("update/tenant", async (payload, { rejectWithValue }) => {
-  const paramDto = TenantMapper.toDto(payload.body);
+  const paramDto = TenantMapper.toFormData(payload.body);
+  console.log(paramDto);
   const result = await ConfigApi.updateTenant(payload.id, paramDto);
   if (result.kind === "ok") {
     return TenantMapper.fromDto(result.result);

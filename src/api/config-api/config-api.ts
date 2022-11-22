@@ -28,12 +28,10 @@ export const ConfigApi = {
 
   async updateTenant(
     id: number,
-    body: Types.RequestUpdateTenantBody
+    body: FormData
   ): Promise<Types.RequestUpdateTenantResult> {
     const url = routes.updateTenant(id);
-    const result = await Api.http.patch<ITenantDto>(url, {
-      ...body,
-    });
+    const result = await Api.http.patch<ITenantDto>(url, body);
 
     return returnResponse(result);
   },

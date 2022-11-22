@@ -1,17 +1,12 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { EFile } from "@/constants";
-import { useEffectSkipFirstRender } from "@/hooks";
+import { usePickImage } from "@/hooks";
 import { FormatService } from "@/utils";
 
 import { Button } from "../../elements";
 import { PICK_IMAGE_MESSAGE } from "./contants";
-
-type TFileData = {
-  url: string | ArrayBuffer;
-  type: EFile;
-};
 
 type TProps = {
   defaultImageLink?: string;
@@ -24,65 +19,31 @@ export const PickImage: React.FC<TProps> = ({
   defaultImageLink,
   setFile,
 }) => {
-  const [fileData, setFileData] = useState<TFileData>({
-    url: defaultImageLink,
-    type: EFile.Image,
-  });
-
   const [message, setMessage] = useState<string>("");
   const inputFileRef = useRef<HTMLInputElement>();
-  const handleUploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0];
-    if (file.size > 10e6) {
-      setMessage(PICK_IMAGE_MESSAGE.overSize);
-      return;
-    }
+
+  const handleSetOverSizeMessage = () => {
+    setMessage(PICK_IMAGE_MESSAGE.overSize);
+  };
+
+  const handleResetMessage = () => {
     setMessage("");
-    setFile(file);
   };
 
-  const handleRemoveFile = useCallback(() => {
-    setFile(null);
-    setFileData(null);
-  }, [setFile]);
-
-  const handleOpenSelectFile = () => {
-    if (!inputFileRef.current) {
-      return;
-    }
-    inputFileRef.current.click();
-  };
-
-  const handleResetInput = (
-    event: React.MouseEvent<HTMLInputElement, MouseEvent>
-  ) => {
-    const element = event.target as HTMLInputElement;
-    element.value = null;
-  };
-
-  useEffectSkipFirstRender(() => {
-    let fileReader: FileReader = null,
-      isCancel = false;
-    if (!file) {
-      handleRemoveFile();
-      return;
-    }
-
-    fileReader = new FileReader();
-    fileReader.onload = (event) => {
-      const { result } = event.target;
-      if (result && !isCancel) {
-        setFileData({ type: EFile.Image, url: result });
-      }
-    };
-    fileReader.readAsDataURL(file);
-    return () => {
-      isCancel = true;
-      if (fileReader && fileReader.readyState === 1) {
-        fileReader.abort();
-      }
-    };
-  }, [file, handleRemoveFile]);
+  const {
+    handleResetInput,
+    handleUploadFile,
+    handleOpenSelectFile,
+    handleRemoveFile,
+    fileData,
+  } = usePickImage({
+    file,
+    defaultImageLink,
+    inputFileRef,
+    onImageOverSize: handleSetOverSizeMessage,
+    onPreviewSuccess: handleResetMessage,
+    setFile,
+  });
 
   return (
     <div className="flex flex-col">
