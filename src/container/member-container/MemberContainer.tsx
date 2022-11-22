@@ -19,7 +19,7 @@ import {
   setListQueryMember,
   updateMemberAsync,
 } from "@/features/reducers";
-import { IMember } from "@/features/types";
+import { ERoles, IMember } from "@/features/types";
 import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
 
 import {
@@ -37,13 +37,18 @@ const getFilterValue = (key: string) => {
 };
 export const MemberContainer: React.FC = () => {
   const dispatch = useAppDispatch();
-
   const memberStore = useAppSelector((state) => state.member);
   const memberList = useAppSelector(memberSelectors.selectAll);
+  const currentUser = useAppSelector((state) => state.auth.user);
 
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<IMember>();
   const propsSearch = useDebounce(memberStore.listQueryMemberFE.search);
+
+  const isMemberManager = currentUser.isRole([
+    ERoles.Lead,
+    ERoles.MemberManager,
+  ]);
 
   const [filter, setFilter] = useState<string>(() => {
     switch (memberStore.listQueryMember.is_archived) {
@@ -146,7 +151,6 @@ export const MemberContainer: React.FC = () => {
         <Container.Title>QUẢN LÝ THÀNH VIÊN</Container.Title>
         <Container.HeaderRight>
           <Search placeholder="Tìm kiếm ..." {...propsSearch} />
-
           <Select
             className="w-48"
             list={MEMBER_FILTER_OPTIONS}
@@ -154,9 +158,12 @@ export const MemberContainer: React.FC = () => {
             onChangeSideEffect={handleSetFilter}
             onChange={setFilter}
           />
-          <ButtonCreate onClick={propsModalCreateMember.toggle.setShow}>
-            Tạo mới
-          </ButtonCreate>
+
+          {isMemberManager && (
+            <ButtonCreate onClick={propsModalCreateMember.toggle.setShow}>
+              Tạo mới
+            </ButtonCreate>
+          )}
         </Container.HeaderRight>
       </Container.Header>
       <Container.Body>
@@ -179,7 +186,7 @@ export const MemberContainer: React.FC = () => {
         </Table.Container>
         <MemberPagination />
       </Container.Body>
-      <ModalCreateMember {...propsModalCreateMember} />
+      {isMemberManager && <ModalCreateMember {...propsModalCreateMember} />}
       <ModalEditMember {...propsModalEditMember} />
     </>
   );

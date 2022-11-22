@@ -1,7 +1,9 @@
+import { hasElementOfArray } from "@/utils/services/compare-service";
+
 import { IProfileDto } from "../dtos";
 import { ERoles, IProfile } from "../models";
 import { DepartmentMapper } from "./department.mapper";
-import { GroupMapper, ROLE_MAP_FROM_DTO } from "./group.mapper";
+import { GroupMapper } from "./group.mapper";
 
 export class ProfileMapper {
   public static fromDto(dto: IProfileDto): IProfile {
@@ -11,8 +13,14 @@ export class ProfileMapper {
       gender: dto.gender === 1 ? "Nam" : "Nữ",
       department: DepartmentMapper.fromDto(dto.department),
       groups,
-      isRole: (role: ERoles) =>
-        groups.map((group) => group.name).includes(ROLE_MAP_FROM_DTO[role]),
+      isRole: (roles: ERoles[]) => {
+        const groupsNameList = groups.map((group) => group.name);
+        // System Admin has whole permission of apps so we don't need to check for roles.
+        if (groupsNameList.includes(ERoles.SystemAdmin)) {
+          return true;
+        }
+        return hasElementOfArray(groupsNameList, roles);
+      },
     };
   }
 }

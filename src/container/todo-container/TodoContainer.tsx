@@ -18,7 +18,7 @@ import {
   userSelectors,
 } from "@/features/reducers";
 import { setListQueryTask } from "@/features/reducers/task-reducer";
-import { IDepartment } from "@/features/types";
+import { ERoles, IDepartment } from "@/features/types";
 import { useModal } from "@/hooks";
 import { EPagePath } from "@/routes";
 import { generateArrayFromEnum } from "@/utils/services/generate-service";
@@ -96,6 +96,7 @@ export const TodoContainer: React.FC = () => {
   const isNoData = false;
   const isInvalidUrl =
     !generateArrayFromEnum(ETodoTabKey).includes(_tab) && tab != null;
+  const isShowSelect = currentUser.isRole([ERoles.Lead]);
 
   const handleOpenCreateTodoModal = () => {
     propsModal.toggle.setShow();
@@ -183,7 +184,7 @@ export const TodoContainer: React.FC = () => {
           <TodoMemberView isLoading={isLoading} />
         </div>
         <Container.HeaderRight>
-          {!isLoading && (
+          {!isLoading && isShowSelect && (
             <Select
               className="w-36"
               placeHolder="Chọn phòng ban"

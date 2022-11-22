@@ -12,11 +12,13 @@ import {
 } from "@/features/reducers";
 import {
   DetailNestedErrorOf,
+  ERolesID,
   HttpError,
   IAuthAccount,
   IMember,
   IMemberCreateUpdate,
 } from "@/features/types";
+import { withPermission } from "@/hoc";
 import { THookModalProps } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
@@ -48,7 +50,10 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
 
   const dispatch = useAppDispatch();
 
-  const handleEditMember = async (editInfo: IFormMemberInfo) => {
+  const handleEditMember = withPermission([
+    ERolesID.Lead,
+    ERolesID.MemberManager,
+  ])(async (editInfo: IFormMemberInfo) => {
     const memberModel = MemberFormMapper.toModel({
       departmentModel: departmentList,
       formData: editInfo,
@@ -88,7 +93,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     }
     toast.success(MEMBER_MESSAGE.update.success);
     toggle.setHidden();
-  };
+  });
 
   useEffect(() => {
     if (isShowing && departmentCount === 0) {
