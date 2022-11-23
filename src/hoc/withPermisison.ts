@@ -2,7 +2,7 @@
 import { toast } from "react-toastify";
 
 import { ERolesID } from "@/features/types";
-import { hasElementOfArray } from "@/utils/services/compare-service";
+import { hasElementOfArray } from "@/utils/services/common-service";
 
 import { useAppSelector } from "./../features/hooks";
 

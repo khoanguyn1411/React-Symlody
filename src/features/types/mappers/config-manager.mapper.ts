@@ -1,4 +1,4 @@
-import { hasElementOfArray } from "@/utils/services/compare-service";
+import { hasElementOfArray } from "@/utils/services/common-service";
 import { generateFullName } from "@/utils/services/generate-service";
 
 import { ERolesDto } from "../dtos";

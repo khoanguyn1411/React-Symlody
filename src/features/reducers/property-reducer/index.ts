@@ -29,7 +29,6 @@ export const createPropertyAsync = createAsyncThunk<
   IPropertyCreateUpdate,
   GlobalTypes.ReduxThunkRejectValue<null>
 >("create/property", async (payload, { rejectWithValue }) => {
-  console.log(payload);
   const result = await PropertyApi.createProperty(
     PropertyMapper.toFormData(payload)
   );

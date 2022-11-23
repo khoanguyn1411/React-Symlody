@@ -1,4 +1,4 @@
-import { hasElementOfArray } from "@/utils/services/compare-service";
+import { hasElementOfArray } from "@/utils/services/common-service";
 
 import { IProfileDto } from "../dtos";
 import { ERoles, IGroup, IMember, IProfile } from "../models";
