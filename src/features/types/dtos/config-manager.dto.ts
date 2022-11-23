@@ -1,12 +1,12 @@
 import { IAuthAccountDto } from "./auth-account.dto";
 
 export interface IConfigInfoDto extends IAuthAccountDto {
-  id: number;
+  readonly id: number;
 }
 
 export interface IConfigManagerDto {
-  leaders: IConfigInfoDto[];
-  managers: IConfigInfoDto[];
+  readonly leaders: IConfigInfoDto[];
+  readonly managers: IConfigInfoDto[];
 }
 
 export interface IConfigUserUpdateDto {

@@ -1,7 +1,5 @@
 import { hasElementOfArray } from "@/utils/services/common-service";
-import { generateFullName } from "@/utils/services/generate-service";
 
-import { ERolesDto } from "../dtos";
 import {
   IConfigInfoDto,
   IConfigManagerDto,
@@ -14,13 +12,14 @@ import {
   IConfigUserUpdate,
   IUser,
 } from "../models";
-import { GroupMapper, ROLE_MAP_TO_DTO, ROLE_MAP_TO_ID } from "./group.mapper";
+import { AuthAccountMapper } from "./auth-account.mapper";
+import { ROLE_MAP_TO_ID } from "./group.mapper";
 
-export const MANAGER_ROLES_DTO = [
-  ERolesDto.EventManager,
-  ERolesDto.MemberManager,
-  ERolesDto.NotificationManager,
-  ERolesDto.PropertyManager,
+export const MANAGER_ROLES = [
+  ERoles.EventManager,
+  ERoles.MemberManager,
+  ERoles.NotificationManager,
+  ERoles.PropertyManager,
 ];
 
 export class ConfigMangerMapper {
@@ -36,25 +35,27 @@ export class ConfigMangerMapper {
 
 export class ConfigInfoMapper {
   public static fromDto(dto: IConfigInfoDto): IConfigInfo {
-    const groupNameList = dto.groups.map((group) => group.name);
+    const authAccountModel = AuthAccountMapper.fromDto({
+      first_name: dto.first_name,
+      last_name: dto.last_name,
+      email: dto.email,
+      groups: dto.groups,
+    });
+    const groupNameList = authAccountModel.groups.map((group) => group.name);
     return {
       ...dto,
-      full_name: generateFullName(dto.last_name, dto.first_name),
+      ...authAccountModel,
       isRole: (role: ERoles | "manager" | "member") => {
         if (role === "manager") {
-          return hasElementOfArray(groupNameList, MANAGER_ROLES_DTO);
+          return hasElementOfArray(groupNameList, MANAGER_ROLES);
         }
         if (role === "member") {
           return (
-            groupNameList.includes(ERolesDto.Member) &&
-            groupNameList.length === 1
+            groupNameList.includes(ERoles.Member) && groupNameList.length === 1
           );
         }
-        return groupNameList.includes(ROLE_MAP_TO_DTO[role]);
+        return groupNameList.includes(role);
       },
-      groups: dto.groups
-        .map((group) => GroupMapper.fromDto(group))
-        .filter((group) => group.name !== ERoles.Member),
     };
   }
   public static fromUser(user: IUser): IConfigInfo {

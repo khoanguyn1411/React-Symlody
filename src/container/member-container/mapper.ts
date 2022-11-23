@@ -59,6 +59,14 @@ export class MemberFormMapper {
 
 export class MemberTableMapper {
   public static fromModel(model: IMember): IMemberTable {
+    const { groups } = model.auth_account;
+
+    const isOnlyIncludeMemberRole =
+      groups.length === 1 && groups[0].name === ERoles.Member;
+    const isNotIncludeAnyRole = groups.length === 0;
+
+    const shouldReturnMemberText =
+      isNotIncludeAnyRole || isOnlyIncludeMemberRole;
     return {
       id: model.id,
       fullName: model.auth_account.full_name,
@@ -66,14 +74,12 @@ export class MemberTableMapper {
       email: model.auth_account.email,
       department: model.department.name,
       birthday: FormatService.toDateString(model.dob, "VN"),
-      roles:
-        model.auth_account.groups.length === 1 &&
-        model.auth_account.groups[0].name === ERoles.Member
-          ? ERoles.Member
-          : model.auth_account.groups
-              .filter((item) => item.name !== ERoles.Member)
-              .map((item) => item.name)
-              .join(", "),
+      roles: shouldReturnMemberText
+        ? ERoles.Member
+        : model.auth_account.groups
+            .filter((item) => item.name !== ERoles.Member)
+            .map((item) => item.name)
+            .join(", "),
     };
   }
 }

@@ -2,8 +2,8 @@ import { hasElementOfArray } from "@/utils/services/common-service";
 
 import { IProfileDto } from "../dtos";
 import { ERoles, IGroup, IMember, IProfile } from "../models";
+import { AuthAccountMapper } from "./auth-account.mapper";
 import { DepartmentMapper } from "./department.mapper";
-import { GroupMapper } from "./group.mapper";
 
 const compareRole = (groups: IGroup[]) => (roles: ERoles[]) => {
   const groupsNameList = groups.map((group) => group.name);
@@ -16,13 +16,18 @@ const compareRole = (groups: IGroup[]) => (roles: ERoles[]) => {
 
 export class ProfileMapper {
   public static fromDto(dto: IProfileDto): IProfile {
-    const groups = dto.groups.map((group) => GroupMapper.fromDto(group));
+    const authAccountModel = AuthAccountMapper.fromDto({
+      email: dto.email,
+      first_name: dto.first_name,
+      last_name: dto.last_name,
+      groups: dto.groups,
+    });
     return {
       ...dto,
+      ...authAccountModel,
       gender: dto.gender === 1 ? "Nam" : "Nữ",
       department: DepartmentMapper.fromDto(dto.department),
-      groups,
-      isRole: compareRole(groups),
+      isRole: compareRole(authAccountModel.groups),
     };
   }
 

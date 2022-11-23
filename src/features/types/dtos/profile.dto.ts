@@ -1,12 +1,9 @@
+import { IAuthAccountDto } from "./auth-account.dto";
 import { IDepartmentDto } from "./department.dto";
-import { IGroupDto } from "./group.dto";
 import { ITenantDto } from "./tenant.dto";
 
-export interface IProfileDto {
+export interface IProfileDto extends IAuthAccountDto {
   readonly id: number;
-  readonly first_name: string;
-  readonly last_name: string;
-  readonly email: string;
   readonly gender: number;
   readonly phone_number: string;
   readonly student_id: string;
@@ -16,7 +13,6 @@ export interface IProfileDto {
   readonly avatar: string;
   readonly address: string;
   readonly department: IDepartmentDto;
-  readonly groups: IGroupDto[];
   readonly organization: ITenantDto;
   readonly profile_id: number;
 }

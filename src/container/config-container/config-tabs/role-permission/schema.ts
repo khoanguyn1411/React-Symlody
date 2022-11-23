@@ -10,5 +10,8 @@ export const schema: yup.SchemaOf<IConfigManagerForm> = yup.object().shape({
   roleManager: yup
     .array()
     .of(yup.string())
-    .length(1, APP_ERROR_MESSAGE.REQUIRED),
+    .test({
+      message: APP_ERROR_MESSAGE.REQUIRED,
+      test: (arr) => arr.length > 0,
+    }),
 });
