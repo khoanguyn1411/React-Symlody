@@ -13,10 +13,8 @@ export const ROLE_MAP_FROM_DTO: Readonly<Record<ERolesDto, ERoles>> = {
   [ERolesDto.Lead]: ERoles.Lead,
 };
 
-export const ROLE_MAP_TO_DTO = GeneratorService.generateReverseDto(
-  ROLE_MAP_FROM_DTO,
-  false
-);
+export const ROLE_MAP_TO_DTO =
+  GeneratorService.generateReverseDto(ROLE_MAP_FROM_DTO);
 
 export const ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL: Readonly<
   Record<ERolesManagerSortName, ERoles>
@@ -26,10 +24,7 @@ export const ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL: Readonly<
 };
 
 export const ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME =
-  GeneratorService.generateReverseDto(
-    ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL,
-    false
-  );
+  GeneratorService.generateReverseDto(ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL);
 
 export const ROLE_MAP_TO_ID: Readonly<Record<ERoles, ERolesID>> = {
   [ERoles.EventManager]: ERolesID.EventManager,
