@@ -36,6 +36,17 @@ export const _TabOrganization: React.FC = () => {
     tenant.logo ?? ""
   );
 
+  const getDefaultValue = (): IFormOrganizationConfig => {
+    return {
+      ...tenant,
+      logo: undefined,
+      email: tenant.email ?? "",
+      phone_number: tenant.phone_number ?? "",
+      school: tenant.school ?? "",
+      address: tenant.address ?? "",
+    };
+  };
+
   const {
     control,
     formState: { errors, isSubmitting, dirtyFields },
@@ -43,7 +54,7 @@ export const _TabOrganization: React.FC = () => {
     handleSubmit,
   } = useForm<IFormOrganizationConfig>({
     resolver: yupResolver(schema),
-    defaultValues: { ...tenant, logo: undefined },
+    defaultValues: getDefaultValue(),
   });
 
   const handleEditOrgInfo = withPermission([
@@ -58,7 +69,7 @@ export const _TabOrganization: React.FC = () => {
       return;
     }
     toast.success("Cập nhật thông tin tổ chức thành công");
-    reset({ ...result.payload, logo: undefined });
+    reset(getDefaultValue());
   });
 
   useEffectSkipFirstRender(() => {
