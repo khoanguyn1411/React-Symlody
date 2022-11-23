@@ -5,7 +5,7 @@ import { FieldError } from "react-hook-form";
  * -- DEPRECATED --
  * @param data Default values of form.
  */
-export function getDefaultValues<T>(data: T) {
+export function getDefaultValues<T extends Record<string, any>>(data: T) {
   return {
     /**
      * Get value by key in default value object (with suggestion).
@@ -33,7 +33,9 @@ export function getDefaultValues<T>(data: T) {
  * @param dirtyFields `dirtyFields` from `formState` of `useForm` hook.
  * @returns Return `true` when the quantity of keys in dirtyFields = 0, otherwise `false`.
  */
-export function isDirtyFields(dirtyFields: unknown): boolean {
+export function isDirtyFields<T extends Record<string, any>>(
+  dirtyFields: T
+): boolean {
   return Object.keys(dirtyFields).length > 0;
 }
 

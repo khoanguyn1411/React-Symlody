@@ -7,7 +7,7 @@ import { FormItem, Input, Loading } from "@/components";
 import { UploadedAvatar } from "@/components/elements/uploaded/avatar/UploadedAvatar";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateTenantAsync } from "@/features/reducers";
-import { ERolesID } from "@/features/types";
+import { ERolesID, ITenant } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useEffectSkipFirstRender } from "@/hooks";
 import { FormService } from "@/utils";
@@ -17,6 +17,7 @@ import {
   ConfigSubmitButton,
   ConfigTabContentContainer,
 } from "../../config-components";
+import { ORGANIZATION_MESSAGES } from "./constant";
 import { schema } from "./schema";
 import { IFormOrganizationConfig } from "./type";
 
@@ -36,9 +37,9 @@ export const _TabOrganization: React.FC = () => {
     tenant.logo ?? ""
   );
 
-  const getDefaultValue = (): IFormOrganizationConfig => {
+  const getDefaultValue = (rest: ITenant): IFormOrganizationConfig => {
     return {
-      ...tenant,
+      ...rest,
       logo: undefined,
       email: tenant.email ?? "",
       phone_number: tenant.phone_number ?? "",
@@ -54,7 +55,7 @@ export const _TabOrganization: React.FC = () => {
     handleSubmit,
   } = useForm<IFormOrganizationConfig>({
     resolver: yupResolver(schema),
-    defaultValues: getDefaultValue(),
+    defaultValues: getDefaultValue(tenant),
   });
 
   const handleEditOrgInfo = withPermission([
@@ -62,14 +63,14 @@ export const _TabOrganization: React.FC = () => {
     ERolesID.SystemAdmin,
   ])(async (data: IFormOrganizationConfig) => {
     const result = await dispatch(
-      updateTenantAsync({ id: tenant.id, body: { ...data } })
+      updateTenantAsync({ id: tenant.id, body: data })
     );
     if (!result.payload) {
-      toast.error("Cập nhật thông tin tổ chức không thành công");
+      toast.error(ORGANIZATION_MESSAGES.update.error);
       return;
     }
-    toast.success("Cập nhật thông tin tổ chức thành công");
-    reset(getDefaultValue());
+    toast.success(ORGANIZATION_MESSAGES.update.success);
+    reset(getDefaultValue(result.payload));
   });
 
   useEffectSkipFirstRender(() => {

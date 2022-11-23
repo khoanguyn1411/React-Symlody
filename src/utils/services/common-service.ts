@@ -11,6 +11,6 @@ export function isObject(entity: any): boolean {
  * @param arr1 First array.
  * @param arr2 Second array.
  */
-export function hasElementOfArray(arr1: any[], arr2: any[]): boolean {
+export function hasElementOfArray<T extends any[]>(arr1: T, arr2: T): boolean {
   return arr1.some((v) => arr2.includes(v));
 }
