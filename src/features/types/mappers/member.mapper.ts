@@ -24,10 +24,16 @@ export class MemberMapper {
     model: IMemberCreateUpdate
   ): IMemberCreateUpdateDto {
     return {
-      ...model,
+      class_name: model.class_name,
+      student_id: model.student_id,
+      address: model.address,
+      phone_number: model.phone_number,
+      home_town: model.home_town,
+      is_archived: model.is_archived,
+      auth_account: AuthAccountMapper.toDto(model.auth_account),
       dob: FormatService.toDateString(model.dob, "API"),
       gender: model.gender === "Nam" ? 1 : 2,
-      department_id: model.department.id,
+      department_id: model.department ? model.department.id : undefined,
     };
   }
 

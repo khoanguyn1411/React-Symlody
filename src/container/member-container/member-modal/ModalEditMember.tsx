@@ -103,7 +103,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
 
   useEffect(() => {
     if (data) {
-      reset({ ...MemberFormMapper.fromModel(data) });
+      reset(MemberFormMapper.fromModel(data));
     }
   }, [data, reset]);
 
