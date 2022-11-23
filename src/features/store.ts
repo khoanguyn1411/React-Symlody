@@ -1,4 +1,12 @@
-import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
+import {
+  Action,
+  AnyAction,
+  combineReducers,
+  configureStore,
+  StateFromReducersMapObject,
+  ThunkAction,
+} from "@reduxjs/toolkit";
+import { Reducer } from "react";
 
 import authReducer from "./reducers/auth-reducer";
 import commonReducer from "./reducers/common-reducer";
@@ -9,17 +17,31 @@ import propertyReducer from "./reducers/property-reducer";
 import taskReducer from "./reducers/task-reducer";
 import userReducer from "./reducers/user-reducer";
 
+const reducers = {
+  auth: authReducer,
+  user: userReducer,
+  common: commonReducer,
+  member: memberReducer,
+  department: departmentReducer,
+  property: propertyReducer,
+  task: taskReducer,
+  config: configReducer,
+};
+
+const rootReducer = combineReducers(reducers);
+
+const reducerProxy: Reducer<
+  StateFromReducersMapObject<typeof reducers> | undefined,
+  AnyAction
+> = (state, action) => {
+  if (action.type === "auth/logout") {
+    return rootReducer(undefined, action);
+  }
+  return rootReducer(state, action);
+};
+
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    user: userReducer,
-    common: commonReducer,
-    member: memberReducer,
-    department: departmentReducer,
-    property: propertyReducer,
-    task: taskReducer,
-    config: configReducer,
-  },
+  reducer: reducerProxy,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       // We need to disable this check to allow ES6 classes in Redux.

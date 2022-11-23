@@ -67,6 +67,14 @@ export const getMeAsync = createAsyncThunk<
   return rejectWithValue(null);
 });
 
+export const logoutAsync = createAsyncThunk(
+  "auth/logout",
+  async function (_payload, { dispatch }) {
+    dispatch({ type: "auth/logout" });
+    dispatch(logout());
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,

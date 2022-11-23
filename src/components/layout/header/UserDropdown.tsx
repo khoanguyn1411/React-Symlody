@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { images } from "@/assets/images";
 import { EConfigTabKey } from "@/container/config-container/type";
 import { useAppDispatch } from "@/features";
-import { logout } from "@/features/reducers";
+import { logoutAsync } from "@/features/reducers";
 import { IProfile, ITenant } from "@/features/types";
 import { EPagePath } from "@/routes";
 
@@ -40,7 +40,7 @@ export const UserDropdown: React.FC<TProps> = ({ user, tenant }) => {
 
   const handleChangeMenu = (item: TItemListSelect) => {
     if (item.key === "LOGOUT") {
-      dispatch(logout());
+      dispatch(logoutAsync());
       navigate(getTabUrl(EPagePath.Login));
       return;
     }

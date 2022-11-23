@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getMeAsync,
   getTenantAsync,
-  logout,
+  logoutAsync,
   setIsAlreadyGetMe,
   setIsAuth,
   setIsCompactSidebar,
@@ -40,7 +40,7 @@ export const useAuth = () => {
         dispatch(setIsAlreadyGetMe(true));
         return;
       }
-      dispatch(logout());
+      dispatch(logoutAsync());
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, state.isAuth, userCount]);
