@@ -87,7 +87,6 @@ export const authSlice = createSlice({
     },
     logout: (state) => {
       state.isAuth = false;
-      state.isAlreadyGetMe = false;
       TokenService.clearToken();
     },
     updateCurrentUser: (state, action: PayloadAction<IProfile>) => {
