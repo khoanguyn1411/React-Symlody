@@ -113,7 +113,7 @@ export function generateErrorMessageFromErrorArray(
 ): string {
   if (!Array.isArray(errorArr)) {
     throw new Error(
-      "`generateErrorMessageFromErrorArray` error: Please provide an array, not an object."
+      "`generateErrorMessageFromErrorArray` error: Please provide an array."
     );
   }
   return errorArr
