@@ -6,7 +6,6 @@ import { ITask, IUser, TaskMapper } from "@/features/types";
 import { ITaskCreateUpdate } from "@/features/types/models/task";
 import { TTaskParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
-import { generateArrayWithNoDuplicate } from "@/utils/services/generate-service";
 
 import { userSelectors } from "../user-reducer";
 import { initialState, taskAdapter } from "./state";
@@ -95,13 +94,9 @@ export const taskSlice = createSlice({
       action: PayloadAction<{ taskList: ITask[]; userList: IUser[] }>
     ) {
       const { taskList, userList } = action.payload;
-      if (state.listQueryTask.selected_member_list === null) {
-        state.listTasksByAssignee = taskList;
-        return;
-      }
 
       const selectedMemberIdsList =
-        state.listQueryTask.selected_member_list?.map((member) => member.id);
+        state.listQueryTask.selected_member_list.map((member) => member.id);
 
       if (selectedMemberIdsList.length === 0) {
         state.listTasksByAssignee = taskList;

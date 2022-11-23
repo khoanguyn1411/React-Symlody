@@ -8,7 +8,7 @@ export class PersonalInfoFormMapper {
   public static toModel(formData: IFormUserConfig): IMemberCreateUpdate {
     return MemberFormMapper.toModel({
       formData: { ...formData, email: undefined, avatar: formData.avatar },
-      isArchived: true,
+      isArchived: false,
     });
   }
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { APP_LOCAL_STORAGE_KEYS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
@@ -6,6 +6,7 @@ import {
   getMeAsync,
   getTenantAsync,
   logout,
+  setIsAlreadyGetMe,
   setIsAuth,
   setIsCompactSidebar,
   userSelectors,
@@ -14,11 +15,8 @@ import { LocalStorageService, TokenService } from "@/utils";
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
-
   const state = useAppSelector((state) => state.auth);
   const userCount = useAppSelector(userSelectors.selectTotal);
-
-  const isAlreadyGetMe = useRef(false);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,7 +27,7 @@ export const useAuth = () => {
       return;
     }
 
-    if (isAlreadyGetMe.current) {
+    if (state.isAlreadyGetMe) {
       setIsLoading(false);
       return;
     }
@@ -39,11 +37,12 @@ export const useAuth = () => {
       if (res.payload) {
         dispatch(setIsAuth(true));
         dispatch(getTenantAsync());
-        isAlreadyGetMe.current = true;
+        dispatch(setIsAlreadyGetMe(true));
         return;
       }
       dispatch(logout());
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, state.isAuth, userCount]);
 
   useEffect(() => {

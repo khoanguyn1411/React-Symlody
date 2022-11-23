@@ -1,4 +1,9 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
@@ -20,24 +25,25 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
   const userList = useAppSelector(userSelectors.selectAll);
   const currentUserProfile = useAppSelector((state) => state.auth.user);
 
-  const getUserWithCurrentUserList = () => {
+  const getUserWithCurrentUserList = useCallback(() => {
     const _currentUser = UserMapper.fromProfile(currentUserProfile);
     const userListWithoutCurrentUser = userList.filter(
       (user) => user.id !== _currentUser.id
     );
     return [_currentUser].concat(userListWithoutCurrentUser);
-  };
+  }, [currentUserProfile, userList]);
 
-  const currentUserList = getUserWithCurrentUserList();
+  const [currentUserList, setCurrentUserList] = useState(() =>
+    getUserWithCurrentUserList()
+  );
 
-  const [selectedMembers, setSelectedMembers] = useState<IUser[]>(() => {
-    if (taskStore.listQueryTask.selected_member_list === null) {
-      return [
-        currentUserList.find((user) => user.id === currentUserProfile.id),
-      ];
-    }
-    return taskStore.listQueryTask.selected_member_list;
-  });
+  useEffect(() => {
+    setCurrentUserList(getUserWithCurrentUserList());
+  }, [currentUserProfile, getUserWithCurrentUserList]);
+
+  const [selectedMembers, setSelectedMembers] = useState<IUser[]>(
+    taskStore.listQueryTask.selected_member_list
+  );
 
   useLayoutEffect(() => {
     dispatch(setSelectedMemberList(selectedMembers));

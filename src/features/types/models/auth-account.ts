@@ -12,7 +12,7 @@ export interface IAuthAccount {
 
 export type IAuthAccountCreateUpdate = GlobalTypes.StrictOmit<
   IAuthAccount,
-  "groups"
+  "groups" | "full_name"
 >;
 
 export interface IChangePassword {

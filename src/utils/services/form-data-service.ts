@@ -9,8 +9,10 @@ export function repairFormData<T extends Record<string, any>>(
       if (isObject(value)) {
         Object.entries(value as Record<string, any>).forEach(
           ([key2, value2]) => {
-            const keyName = [key, "[", key2, "]"].join("");
-            formData.append(keyName, value2);
+            if (value2 !== undefined) {
+              const keyName = `${key}[${key2}]`;
+              formData.append(keyName, value2);
+            }
           }
         );
         return;

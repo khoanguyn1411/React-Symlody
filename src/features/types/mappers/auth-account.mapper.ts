@@ -5,7 +5,7 @@ import {
   IAuthAccountDto,
   IGroupDto,
 } from "../dtos";
-import { IAuthAccount } from "../models";
+import { IAuthAccount, IAuthAccountCreateUpdate } from "../models";
 import { GroupMapper } from "./group.mapper";
 
 export class AuthAccountMapper {
@@ -20,9 +20,13 @@ export class AuthAccountMapper {
     };
   }
 
-  public static toDto(model: IAuthAccount): IAuthAccountCreateUpdateDto {
+  public static toDto(
+    model: IAuthAccountCreateUpdate
+  ): IAuthAccountCreateUpdateDto {
     return {
-      ...model,
+      email: model.email,
+      first_name: model.first_name,
+      last_name: model.last_name,
     };
   }
 }

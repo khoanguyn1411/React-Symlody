@@ -4,7 +4,7 @@ import {
   IMember,
   IMemberCreateUpdate,
 } from "@/features/types";
-import { FormatService, GeneratorService } from "@/utils";
+import { FormatService } from "@/utils";
 
 import { IFormMemberInfo, IMemberTable } from "./type";
 
@@ -24,10 +24,6 @@ export class MemberFormMapper {
         first_name: formData.firstName,
         last_name: formData.lastName,
         email: formData.email,
-        full_name: GeneratorService.generateFullName(
-          formData.lastName,
-          formData.firstName
-        ),
       },
       avatar: formData.avatar,
       dob: FormatService.toDateString(formData.birthday, "US"),

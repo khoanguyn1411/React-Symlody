@@ -33,6 +33,7 @@ export class ProfileMapper {
     return {
       ...currentUser,
       ...model,
+      id: currentUser.id,
     };
   }
 }

@@ -17,12 +17,14 @@ export type AuthState = {
   pending: boolean;
   user: IProfile;
   isAuth: boolean;
+  isAlreadyGetMe: boolean;
 };
 
 const initialState: AuthState = {
   pending: false,
   user: null,
   isAuth: false,
+  isAlreadyGetMe: false,
 };
 
 export const loginAsync = createAsyncThunk<
@@ -72,8 +74,12 @@ export const authSlice = createSlice({
     setIsAuth: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload;
     },
+    setIsAlreadyGetMe: (state, action: PayloadAction<boolean>) => {
+      state.isAlreadyGetMe = action.payload;
+    },
     logout: (state) => {
       state.isAuth = false;
+      state.isAlreadyGetMe = false;
       TokenService.clearToken();
     },
     updateCurrentUser: (state, action: PayloadAction<IProfile>) => {
@@ -102,6 +108,7 @@ export const authSlice = createSlice({
 });
 export const authStore = (state: RootState) => state.user;
 
-export const { setIsAuth, logout, updateCurrentUser } = authSlice.actions;
+export const { setIsAuth, logout, updateCurrentUser, setIsAlreadyGetMe } =
+  authSlice.actions;
 
 export default authSlice.reducer;

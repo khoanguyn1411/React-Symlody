@@ -15,7 +15,7 @@ export const taskAdapter = createEntityAdapter<ITask>({
 
 export const initialState = taskAdapter.getInitialState<TaskStateInner>({
   pending: false,
-  listQueryTask: { selected_member_list: null },
+  listQueryTask: { selected_member_list: [] },
   listTasksByAssignee: [],
 });
 
