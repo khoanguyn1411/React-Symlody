@@ -69,7 +69,7 @@ export const getMeAsync = createAsyncThunk<
 
 export const logoutAsync = createAsyncThunk(
   "auth/logout",
-  async function (_payload, { dispatch }) {
+  async function (_, { dispatch }) {
     dispatch({ type: "auth/logout" });
     dispatch(logout());
   }

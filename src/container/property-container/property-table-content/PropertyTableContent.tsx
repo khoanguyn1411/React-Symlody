@@ -25,11 +25,9 @@ export const PropertyTableContent: React.FC<TProps> = ({
   const propertyCount = propertyStore.currentPropertyList.length;
 
   const getPropertyIndex = useMemo(() => {
-    return (index: number) =>
-      (propertyStore.listQueryPropertyFE.page - 1) *
-        propertyStore.listQueryPropertyFE.limit +
-      index +
-      1;
+    const { page, limit } = propertyStore.listQueryPropertyFE;
+    return (index: number) => (page - 1) * limit + index + 1;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     propertyStore.listQueryPropertyFE.limit,
     propertyStore.listQueryPropertyFE.page,
@@ -57,6 +55,11 @@ export const PropertyTableContent: React.FC<TProps> = ({
     <Table.Body>
       {propertyStore.propertyListPagination.map((item, index) => {
         const propertyTableItem = PropertyTableMapper.fromModel(item);
+        const isPending =
+          propertyStore.pendingDeleteProperty ||
+          propertyStore.pendingRestoreProperty;
+        const isSameId = currentInteractiveId === item.id;
+        const shouldShowLoadingOfRestoreButton = isPending && isSameId;
         return (
           <Table.Row key={item.id} index={index}>
             <Table.Cell textAlign="center">
@@ -73,11 +76,7 @@ export const PropertyTableContent: React.FC<TProps> = ({
 
             <Table.CellAction>
               <DeleteAndEditField
-                isShowLoading={
-                  (propertyStore.pendingDeleteProperty ||
-                    propertyStore.pendingRestoreProperty) &&
-                  currentInteractiveId === item.id
-                }
+                isShowLoading={shouldShowLoadingOfRestoreButton}
                 isShowRestore={item.is_archived}
                 title="Lưu trữ tài sản?"
                 handleEvent={{

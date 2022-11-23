@@ -12,6 +12,7 @@ import {
   ConfigSubmitButton,
   ConfigTabContentContainer,
 } from "../../config-components";
+import { CHANGE_PASSWORD_MESSAGE } from "./constant";
 import { schema } from "./schema";
 import { IFormChangePassword } from "./type";
 
@@ -30,10 +31,10 @@ export const TabChangePassword: React.FC = () => {
   const handleChangePassword = async (data: IFormChangePassword) => {
     const result = await dispatch(changePasswordAsync(data));
     if (result.meta.requestStatus !== "fulfilled") {
-      toast.error("Đổi mật khẩu không thành công");
+      toast.error(CHANGE_PASSWORD_MESSAGE.error);
       return;
     }
-    toast.success("Đổi mật khẩu thành công");
+    toast.success(CHANGE_PASSWORD_MESSAGE.success);
     reset();
   };
   return (

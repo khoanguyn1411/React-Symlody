@@ -43,11 +43,11 @@ export const TabConfigDepartment: React.FC = () => {
     async (departmentData: IDepartment) => {
       if (departmentData && departmentData.id) {
         const result = await dispatch(deleteDepartmentAsync(departmentData.id));
-        if (!result) {
-          toast.error("Xoá phòng ban không thành công");
+        if (result.meta.requestStatus === "rejected") {
+          toast.error(DEPARTMENT_MESSAGE.delete.error);
           return;
         }
-        toast.success("Xoá phòng ban thành công");
+        toast.success(DEPARTMENT_MESSAGE.delete.success);
       }
     }
   );
@@ -98,7 +98,7 @@ export const ActionConfigDepartment: React.FC = () => {
 
   const handleCreateDepartment = async (data: IFormDepartment) => {
     const result = await dispatch(createDepartmentAsync(data));
-    if (!result.payload) {
+    if (result.meta.requestStatus === "rejected") {
       toast.error(DEPARTMENT_MESSAGE.create.error);
       return;
     }

@@ -23,9 +23,9 @@ import { TodoFormMapper } from "../mapper";
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
 type TProps = {
-  onEdit: (task: any) => void;
-  onDelete: (task: any) => void;
-  onRestore: (task: any) => void;
+  onEdit: (task: ITask) => void;
+  onDelete: (task: ITask) => void;
+  onRestore: (task: ITask) => void;
   isLoading: boolean;
 };
 
@@ -46,10 +46,10 @@ export const TodoTableContent: React.FC<TProps> = ({
   const handleEdit = (item: ITask) => () => {
     onEdit(item);
   };
-  const handleDelete = (item) => () => {
+  const handleDelete = (item: ITask) => () => {
     onDelete(item);
   };
-  const handleRestore = (item) => () => {
+  const handleRestore = (item: ITask) => () => {
     onRestore(item);
   };
 
@@ -111,8 +111,11 @@ export const TodoTableContent: React.FC<TProps> = ({
         {taskStore.listTasksByAssignee.map((item, index) => {
           const itemTable = TodoFormMapper.toTableView(item);
           const warningType = compareDateWithToday(item.end_date);
+          const fullName = taskInfo.get(item, "name");
+          const avatar = taskInfo.get(item, "avatar");
+          const isUnassigned = fullName === "";
           return (
-            <Table.Row key={index} index={index}>
+            <Table.Row key={item.id} index={index}>
               <Table.Cell textAlign="center">{index + 1}</Table.Cell>
               <Table.Cell>
                 <div className="flex space-x-4">
@@ -142,15 +145,11 @@ export const TodoTableContent: React.FC<TProps> = ({
               <Table.Cell>
                 <div className="flex items-center gap-3">
                   <Avatar
-                    src={taskInfo.get(item, "avatar")}
-                    fullName={taskInfo.get(item, "name")}
-                    isUnassigned={taskInfo.get(item, "name") === ""}
+                    src={avatar}
+                    fullName={fullName}
+                    isUnassigned={isUnassigned}
                   />
-                  <span>
-                    {taskInfo.get(item, "name") === ""
-                      ? UNASSIGNED_TEXT
-                      : taskInfo.get(item, "name")}
-                  </span>
+                  <span>{isUnassigned ? UNASSIGNED_TEXT : fullName}</span>
                 </div>
               </Table.Cell>
               <Table.CellAction>

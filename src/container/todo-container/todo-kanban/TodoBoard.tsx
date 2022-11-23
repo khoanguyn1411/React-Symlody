@@ -45,12 +45,13 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
 
   const handleDragEnd = async (dropResult: DropResult) => {
     onDragEnd(dropResult, columnList, setColumnList);
+    const { destination, source } = dropResult;
     setCardHiddenStatus({
       cardId: null,
       isCardDragging: false,
       columnId: null,
     });
-    if (dropResult.destination.droppableId === dropResult.source.droppableId) {
+    if (destination.droppableId === source.droppableId) {
       return;
     }
     const currentTask = taskList.find(
@@ -61,7 +62,7 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
         id: FormatService.toNumber(dropResult.draggableId),
         payload: {
           ...currentTask,
-          status: dropResult.destination.droppableId as ITask["status"],
+          status: destination.droppableId as ITask["status"],
         },
       })
     );

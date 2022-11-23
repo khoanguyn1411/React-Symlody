@@ -26,11 +26,9 @@ export const MemberTableContent: React.FC<TProps> = ({
   const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
 
   const getMemberIndex = useMemo(() => {
-    return (index: number) =>
-      (memberStore.listQueryMemberFE.page - 1) *
-        memberStore.listQueryMemberFE.limit +
-      index +
-      1;
+    const { page, limit } = memberStore.listQueryMemberFE;
+    return (index: number) => (page - 1) * limit + index + 1;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [memberStore.listQueryMemberFE.limit, memberStore.listQueryMemberFE.page]);
 
   const handleEdit = (item: IMember) => () => {
@@ -58,6 +56,10 @@ export const MemberTableContent: React.FC<TProps> = ({
     <Table.Body>
       {memberStore.memberListPagination.map((item, index) => {
         const memberTableItem = MemberTableMapper.fromModel(item);
+        const isPending =
+          memberStore.pendingDeleteMember || memberStore.pendingRestoreMember;
+        const isSameId = currentInteractiveId === item.id;
+        const shouldShowLoadingOfRestoreButton = isPending && isSameId;
         return (
           <Table.Row key={memberTableItem.id} index={index}>
             <Table.Cell textAlign="center">{getMemberIndex(index)}</Table.Cell>
@@ -84,11 +86,7 @@ export const MemberTableContent: React.FC<TProps> = ({
 
             <Table.CellAction>
               <DeleteAndEditField
-                isShowLoading={
-                  (memberStore.pendingDeleteMember ||
-                    memberStore.pendingRestoreMember) &&
-                  currentInteractiveId === item.id
-                }
+                isShowLoading={shouldShowLoadingOfRestoreButton}
                 isShowRestore={item.is_archived}
                 title="Lưu trữ thành viên?"
                 handleEvent={{

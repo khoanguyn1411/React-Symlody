@@ -1,4 +1,4 @@
-export type IFormLoginValue = {
-  username: string;
-  password: string;
-};
+export interface IFormLoginValue {
+  readonly username: string;
+  readonly password: string;
+}

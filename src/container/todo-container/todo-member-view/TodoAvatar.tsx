@@ -21,14 +21,15 @@ export const TodoAvatar: React.FC<TProps> = ({
   selectedMembers,
   setSelectedMembers,
 }) => {
+  const idsSelectedMembers = selectedMembers.map((member) => member.id);
   const getZIndex = useMemo(() => {
-    return selectedMembers.includes(user)
+    return idsSelectedMembers.includes(user.id)
       ? ZINDEX_SETTING.ON_SELECT + DEFAULT_DISPLAY_MEMBER_COUNT - index
       : DEFAULT_DISPLAY_MEMBER_COUNT - index;
-  }, [index, user, selectedMembers]);
+  }, [idsSelectedMembers, user.id, index]);
 
   const [zIndex, setZIndex] = useState<number>(getZIndex);
-  const emailsSelectedMembers = selectedMembers.map((member) => member.email);
+  const isAvatarSelected = idsSelectedMembers.includes(user.id);
 
   useEffect(() => {
     setZIndex(getZIndex);
@@ -37,9 +38,9 @@ export const TodoAvatar: React.FC<TProps> = ({
   const handleSetSelectedMember = () => {
     const selectedItem = user;
     setSelectedMembers((prev) => {
-      const emailsSelectedMembers = prev.map((member) => member.email);
-      if (emailsSelectedMembers.includes(selectedItem.email)) {
-        return prev.filter((item) => item.email !== selectedItem.email);
+      const idsSelectedMembers = prev.map((member) => member.id);
+      if (idsSelectedMembers.includes(selectedItem.id)) {
+        return prev.filter((item) => item.id !== selectedItem.id);
       }
       return [...prev, selectedItem];
     });
@@ -57,10 +58,8 @@ export const TodoAvatar: React.FC<TProps> = ({
       onMouseOut={handleChangeZIndexOnMouseOut}
       onClick={handleSetSelectedMember}
       className={classNames("transition-all duration-200 group-hover:mb-3", {
-        "border-white bg-white": !emailsSelectedMembers.includes(user.email),
-        "border-primary-800 bg-primary-800": emailsSelectedMembers.includes(
-          user.email
-        ),
+        "border-white bg-white": !isAvatarSelected,
+        "border-primary-800 bg-primary-800": isAvatarSelected,
       })}
       zIndex={zIndex}
     >

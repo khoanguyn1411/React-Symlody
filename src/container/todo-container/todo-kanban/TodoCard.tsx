@@ -16,6 +16,9 @@ export const TodoCard: React.FC<ITask> = (task) => {
   const userList = useAppSelector(userSelectors.selectAll);
   const borderCardType = compareDateWithToday(task.end_date);
   const taskInfo = generateGetTaskFieldFn(userList);
+  const fullName = taskInfo.get(task, "name");
+  const avatar = taskInfo.get(task, "avatar");
+  const isUnassigned = fullName === "";
 
   return (
     <div className="pb-2">
@@ -47,16 +50,12 @@ export const TodoCard: React.FC<ITask> = (task) => {
             <TodoPriorityIcon isPriority={task.isPriority} />
             <Tooltip
               space={8}
-              content={
-                taskInfo.get(task, "name") === ""
-                  ? UNASSIGNED_TEXT
-                  : taskInfo.get(task, "name")
-              }
+              content={isUnassigned ? UNASSIGNED_TEXT : fullName}
             >
               <Avatar
-                src={taskInfo.get(task, "avatar")}
-                fullName={taskInfo.get(task, "name")}
-                isUnassigned={taskInfo.get(task, "name") === ""}
+                src={avatar}
+                fullName={fullName}
+                isUnassigned={isUnassigned}
               />
             </Tooltip>
           </div>

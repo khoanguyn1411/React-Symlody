@@ -24,6 +24,35 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
     formState: { errors },
   } = formProps;
 
+  const handleInputPriceSideEffect = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value;
+    const splitValue = FormatService.removeFormatCurrency(value);
+    if (value) {
+      if (isNaN(FormatService.toNumber(splitValue))) {
+        return { newValue: "" };
+      }
+      const valueFormatted = FormatService.toCurrency(
+        FormatService.toNumber(splitValue)
+      );
+      return { newValue: valueFormatted };
+    }
+    return { newValue: value };
+  };
+
+  const handleQuantityChangeSideEffect = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (
+      FormatService.toNumber(event.target.value) &&
+      FormatService.toNumber(event.target.value) < 1
+    ) {
+      return { newValue: "1" };
+    }
+    return { newValue: event.target.value };
+  };
+
   return (
     <>
       <FormItem
@@ -53,15 +82,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
               style="modal"
               type="number"
               value={value}
-              onInputSideEffect={(event) => {
-                if (
-                  FormatService.toNumber(event.target.value) &&
-                  FormatService.toNumber(event.target.value) < 1
-                ) {
-                  return { newValue: "1" };
-                }
-                return { newValue: event.target.value };
-              }}
+              onInputSideEffect={handleQuantityChangeSideEffect}
               onChange={onChange}
               placeholder="Số lượng"
             />
@@ -74,20 +95,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
           name="price"
           render={({ field: { value, onChange } }) => (
             <Input
-              onInputSideEffect={(event) => {
-                const value = event.target.value;
-                const splitValue = FormatService.removeFormatCurrency(value);
-                if (value) {
-                  if (isNaN(FormatService.toNumber(splitValue))) {
-                    return { newValue: "" };
-                  }
-                  const valueFormatted = FormatService.toCurrency(
-                    FormatService.toNumber(splitValue)
-                  );
-                  return { newValue: valueFormatted };
-                }
-                return { newValue: value };
-              }}
+              onInputSideEffect={handleInputPriceSideEffect}
               style="modal"
               type="text"
               value={value}
@@ -97,7 +105,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
           )}
         />
       </FormItem>
-      {/* TODO: Edit form type. */}
+
       <FormItem
         label="Người chịu trách nhiệm"
         isRequired

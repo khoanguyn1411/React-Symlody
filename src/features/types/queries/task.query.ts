@@ -1,6 +1,8 @@
 import { IUser } from "../models";
 
-export type TTaskParamQueryDto = {
-  department_id?: number;
-  selected_member_list?: IUser[];
+type _TTaskParamQueryDto = {
+  department_id: number;
+  selected_member_list: IUser[];
 };
+
+export type TTaskParamQueryDto = Partial<_TTaskParamQueryDto>;

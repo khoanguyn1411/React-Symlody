@@ -35,19 +35,16 @@ export const TodoNumberHolder: React.FC<TProps> = ({
   }, [debounceValue]);
 
   const handleAddMemberToSelectList = (selectedItem: IUser) => () => {
-    _setSelectNumberList((prev) => {
-      if (prev.includes(selectedItem)) {
-        return prev.filter((item) => item !== selectedItem);
+    const getSelectNumberList = (prev: IUser[]) => {
+      const idsPrevList = prev.map((user) => user.id);
+      if (idsPrevList.includes(selectedItem.id)) {
+        return prev.filter((item) => item.id !== selectedItem.id);
       }
       return [...prev, selectedItem];
-    });
+    };
 
-    setSelectedMembers((prev) => {
-      if (prev.includes(selectedItem)) {
-        return prev.filter((item) => item !== selectedItem);
-      }
-      return [...prev, selectedItem];
-    });
+    _setSelectNumberList((prev) => getSelectNumberList(prev));
+    setSelectedMembers((prev) => getSelectNumberList(prev));
   };
   return (
     <TodoCircleBorderWrapper
