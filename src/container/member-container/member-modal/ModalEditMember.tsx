@@ -49,11 +49,9 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   const departmentCount = useAppSelector(departmentSelectors.selectTotal);
 
   const dispatch = useAppDispatch();
+  const hasPermission = withPermission([ERolesID.Lead, ERolesID.MemberManager]);
 
-  const handleEditMember = withPermission([
-    ERolesID.Lead,
-    ERolesID.MemberManager,
-  ])(async (editInfo: IFormMemberInfo) => {
+  const handleEditMember = hasPermission(async (editInfo: IFormMemberInfo) => {
     const memberModel = MemberFormMapper.toModel({
       departmentModel: departmentList,
       formData: editInfo,

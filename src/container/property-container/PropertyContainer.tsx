@@ -18,7 +18,8 @@ import {
   propertySelectors,
   setListQueryProperty,
 } from "@/features/reducers/property-reducer";
-import { IProperty } from "@/features/types";
+import { ERolesID, IProperty } from "@/features/types";
+import { withPermission } from "@/hoc";
 import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
 
 import {
@@ -44,6 +45,10 @@ export const PropertyContainer: React.FC = () => {
   const propsModal = useModal({ isHotkeyOpen: true });
   const propsModalEdit = useModal<IProperty>();
   const propsSearch = useDebounce(propertyStore.listQueryPropertyFE.search);
+  const hasPermission = withPermission([
+    ERolesID.PropertyManager,
+    ERolesID.Lead,
+  ]);
 
   const [filter, setFilter] = useState<string>(() => {
     switch (propertyStore.listQueryProperty.is_archived) {
@@ -77,14 +82,14 @@ export const PropertyContainer: React.FC = () => {
     propsModalEdit.toggle.setToggle();
   };
 
-  const handleDelete = async (item: IProperty) => {
+  const handleDelete = hasPermission(async (item: IProperty) => {
     const result = await dispatch(deletePropertyAsync(item.id));
     if (result.payload) {
       toast.success(PROPERTY_MESSAGE.delete.success);
       return;
     }
     toast.success(PROPERTY_MESSAGE.delete.error);
-  };
+  });
 
   const handleRestore = () => {
     //TODO: Handle restore property.

@@ -19,7 +19,8 @@ import {
   setListQueryMember,
   updateMemberAsync,
 } from "@/features/reducers";
-import { ERoles, IMember } from "@/features/types";
+import { ERoles, ERolesID, IMember } from "@/features/types";
+import { withPermission } from "@/hoc";
 import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
 
 import {
@@ -50,6 +51,8 @@ export const MemberContainer: React.FC = () => {
     ERoles.MemberManager,
   ]);
 
+  const hasPermission = withPermission([ERolesID.MemberManager, ERolesID.Lead]);
+
   const [filter, setFilter] = useState<string>(() => {
     switch (memberStore.listQueryMember.is_archived) {
       case true:
@@ -76,15 +79,16 @@ export const MemberContainer: React.FC = () => {
         break;
     }
   };
-  const handleDelete = async (item: IMember) => {
+  const handleDelete = hasPermission(async (item: IMember) => {
     const result = await dispatch(deleteMemberAsync(item.id));
     if (result.payload) {
       toast.success(MEMBER_MESSAGE.achieve.success);
       return;
     }
     toast.error(MEMBER_MESSAGE.achieve.error);
-  };
-  const handleRestore = async (item: IMember) => {
+  });
+
+  const handleRestore = hasPermission(async (item: IMember) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { email, ...authAccountWithoutEmail } = item.auth_account;
     const result = await dispatch(
@@ -104,7 +108,8 @@ export const MemberContainer: React.FC = () => {
       return;
     }
     toast.success(MEMBER_MESSAGE.update.success);
-  };
+  });
+
   const handleEdit = (item: IMember) => {
     propsModalEditMember.setData(item);
     propsModalEditMember.toggle.setShow();
