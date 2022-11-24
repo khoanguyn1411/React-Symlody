@@ -7,7 +7,10 @@ import { IUser } from "@/features/types";
 import { useDebounce, useEffectSkipFirstRender } from "@/hooks";
 import { FilterService, GlobalTypes } from "@/utils";
 
-import { ZINDEX_SETTING } from "./constant";
+import {
+  DEFAULT_SHOULD_SHOW_SEARCH_QUANTITY,
+  ZINDEX_SETTING,
+} from "./constant";
 import { TodoCircleBorderWrapper } from "./TodoCircleBorderWrapper";
 
 type TProps = {
@@ -25,6 +28,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
   const [_selectNumberList, _setSelectNumberList] = useState<IUser[]>([]);
 
   const { inputValue, setInputValue, debounceValue } = useDebounce();
+  const INITIAL_TASK_QUANTITY = memberList.length;
 
   useEffectSkipFirstRender(() => {
     _setMemberList(
@@ -63,7 +67,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
         classNameList="border border-gray-200 bg-white"
         renderListItem={
           <div className="flex flex-col gap-1">
-            {memberList.length > 5 && (
+            {INITIAL_TASK_QUANTITY > DEFAULT_SHOULD_SHOW_SEARCH_QUANTITY && (
               <div className="px-3 pt-3 overflow-hidden bg-white">
                 <Search
                   placeholder="Tìm kiếm ..."
@@ -102,7 +106,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
           fontWeight={600}
           backgroundColor="#e5e7eb"
           isFullText
-          fullName={`+${memberList && memberList.length}`}
+          fullName={`+${INITIAL_TASK_QUANTITY}`}
         />
       </SelectCustom>
     </TodoCircleBorderWrapper>

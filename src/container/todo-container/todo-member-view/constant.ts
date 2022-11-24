@@ -4,3 +4,5 @@ export const ZINDEX_SETTING = {
   ON_SELECT: 20,
   NUMBER_HOLDER: 30,
 } as const;
+
+export const DEFAULT_SHOULD_SHOW_SEARCH_QUANTITY = 5;

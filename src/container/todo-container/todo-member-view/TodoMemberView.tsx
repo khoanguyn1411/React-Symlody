@@ -41,7 +41,7 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
     getUserWithCurrentUserList()
   );
 
-  const shouldShowCollapsedView =
+  const isShowCollapsedView =
     currentUserList.length > DEFAULT_DISPLAY_MEMBER_COUNT;
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
               index={index}
             />
           ))}
-      {shouldShowCollapsedView && (
+      {isShowCollapsedView && (
         <TodoNumberHolder
           setSelectedMembers={setSelectedMembers}
           selectedMembers={selectedMembers}
