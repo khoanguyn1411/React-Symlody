@@ -55,13 +55,15 @@ export const TodoColumn: React.FC<TProps> = ({
     onClickCard(cardInfo);
   };
 
+  const hasTasks = columnData.cards.length > 0;
+  const taskQuantity = columnData.cards.length; // Task quantity of specific column, not all.
+  const isColumnNotInDragging = draggingCard.columnId !== columnData.id;
+
   return (
     <div className="bg-gray-100 rounded-lg h-[calc(100%_-_15px)] min-w-[250px]">
       <div className="sticky top-0 z-[2] bg-gray-50">
         <h1 className="px-3 py-4 font-medium bg-gray-100 rounded-t-lg">
-          {columnData.title}{" "}
-          {columnData.cards.length > 0 &&
-            `${columnData.cards.length} công việc`}
+          {columnData.title} {hasTasks && `${taskQuantity} công việc`}
         </h1>
         <div
           hidden={isColumnDraggingFrom}
@@ -97,8 +99,7 @@ export const TodoColumn: React.FC<TProps> = ({
       <div
         className={classNames("flex flex-col px-2 pb-3 h-[calc(100%-3.8rem)]", {
           "overflow-y-hidden":
-            draggingCard.columnId !== columnData.id &&
-            draggingCard.isCardDragging,
+            isColumnNotInDragging && draggingCard.isCardDragging,
         })}
       >
         <Droppable droppableId={columnData.id}>
@@ -131,7 +132,7 @@ export const TodoColumn: React.FC<TProps> = ({
                             FormatService.toString(cardProps.id) !==
                               snapshot.draggingFromThisWith &&
                             draggingCard.isCardDragging &&
-                            columnData.id !== draggingCard.columnId
+                            isColumnNotInDragging
                               ? "hidden"
                               : undefined
                           }
@@ -146,7 +147,7 @@ export const TodoColumn: React.FC<TProps> = ({
                       )}
                     </Draggable>
                   ))}
-                  <div hidden={columnData.id !== draggingCard.columnId}>
+                  <div hidden={isColumnNotInDragging}>
                     {providedDrop.placeholder}
                   </div>
                 </div>
