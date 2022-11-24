@@ -132,7 +132,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
         />
       </FormItem>
 
-      <FormItem label="Mô tả sự kiện" error={errors.description?.message}>
+      {/* <FormItem label="Mô tả sự kiện" error={errors.description?.message}>
         <Controller
           control={control}
           name="description"
@@ -145,7 +145,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
             />
           )}
         />
-      </FormItem>
+      </FormItem> */}
     </>
   );
 };

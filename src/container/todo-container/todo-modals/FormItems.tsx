@@ -35,7 +35,7 @@ export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
             name="name"
             render={({ field: { value, onChange } }) => (
               <TextArea
-                height="2.5rem"
+                height={"40px"}
                 style="modal"
                 value={value}
                 onChange={onChange}
