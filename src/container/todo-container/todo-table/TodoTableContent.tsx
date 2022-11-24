@@ -12,13 +12,9 @@ import {
   updateTaskAsync,
 } from "@/features/reducers/task-reducer";
 import { ETodoStatusId, ITask } from "@/features/types";
-import { compareDateWithToday } from "@/utils/services/compare-service";
 
-import {
-  generateGetTaskFieldFn,
-  TODO_MESSAGES,
-  UNASSIGNED_TEXT,
-} from "../constant";
+import { TODO_MESSAGES, UNASSIGNED_TEXT } from "../constant";
+import { checkStatusOfExpiredDate, getTaskCommonInfo } from "../function";
 import { TodoFormMapper } from "../mapper";
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
@@ -40,8 +36,6 @@ export const TodoTableContent: React.FC<TProps> = ({
   const taskStore = useAppSelector((state) => state.task);
   const taskList = useAppSelector(taskSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.auth.user);
-
-  const taskInfo = generateGetTaskFieldFn(userList);
 
   const handleEdit = (item: ITask) => () => {
     onEdit(item);
@@ -108,19 +102,20 @@ export const TodoTableContent: React.FC<TProps> = ({
   return (
     <>
       <Table.Body>
-        {taskStore.listTasksByAssignee.map((item, index) => {
-          const itemTable = TodoFormMapper.toTableView(item);
-          const warningType = compareDateWithToday(item.end_date);
-          const fullName = taskInfo.get(item, "name");
-          const avatar = taskInfo.get(item, "avatar");
-          const isUnassigned = fullName === "";
+        {taskStore.listTasksByAssignee.map((task, index) => {
+          const itemTable = TodoFormMapper.toTableView(task);
+          const statusOfExpiredDate = checkStatusOfExpiredDate(task);
+          const { fullName, avatar, isUnassigned } = getTaskCommonInfo(
+            userList,
+            task
+          );
           return (
-            <Table.Row key={item.id} index={index}>
+            <Table.Row key={task.id} index={index}>
               <Table.Cell textAlign="center">{index + 1}</Table.Cell>
               <Table.Cell>
                 <div className="flex space-x-4">
                   <TodoSelectPriority
-                    task={item}
+                    task={task}
                     onPriorityChange={handlePriorityChange}
                   />
                   <span className="ellipsis-text-1">{itemTable.title}</span>
@@ -129,8 +124,8 @@ export const TodoTableContent: React.FC<TProps> = ({
               <Table.Cell textAlign="right">
                 <span
                   className={classNames({
-                    "text-yellow-500": warningType === "today",
-                    "text-red-400": warningType === "in-past",
+                    "text-yellow-500": statusOfExpiredDate.is("today"),
+                    "text-red-400": statusOfExpiredDate.is("in-past"),
                   })}
                 >
                   {itemTable.expiredDate}
@@ -138,7 +133,7 @@ export const TodoTableContent: React.FC<TProps> = ({
               </Table.Cell>
               <Table.Cell textAlign="left">
                 <TodoSelectStatus
-                  task={item}
+                  task={task}
                   onStatusChange={handleChangeStatus}
                 />
               </Table.Cell>
@@ -157,9 +152,9 @@ export const TodoTableContent: React.FC<TProps> = ({
                   titleDelete="Xóa"
                   title="Xóa công việc?"
                   handleEvent={{
-                    edit: handleEdit(item),
-                    delete: handleDelete(item),
-                    restore: handleRestore(item),
+                    edit: handleEdit(task),
+                    delete: handleDelete(task),
+                    restore: handleRestore(task),
                   }}
                 />
               </Table.CellAction>

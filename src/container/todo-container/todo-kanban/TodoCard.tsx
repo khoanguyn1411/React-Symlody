@@ -6,19 +6,16 @@ import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import { ITask } from "@/features/types";
 import { FormatService } from "@/utils";
-import { compareDateWithToday } from "@/utils/services/compare-service";
 import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
-import { generateGetTaskFieldFn, UNASSIGNED_TEXT } from "../constant";
+import { UNASSIGNED_TEXT } from "../constant";
+import { checkStatusOfExpiredDate, getTaskCommonInfo } from "../function";
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 
 export const TodoCard: React.FC<ITask> = (task) => {
   const userList = useAppSelector(userSelectors.selectAll);
-  const borderCardType = compareDateWithToday(task.end_date);
-  const taskInfo = generateGetTaskFieldFn(userList);
-  const fullName = taskInfo.get(task, "name");
-  const avatar = taskInfo.get(task, "avatar");
-  const isUnassigned = fullName === "";
+  const { fullName, avatar, isUnassigned } = getTaskCommonInfo(userList, task);
+  const statusOfExpiredDate = checkStatusOfExpiredDate(task);
 
   return (
     <div className="pb-2">
@@ -26,9 +23,9 @@ export const TodoCard: React.FC<ITask> = (task) => {
         className={classNames(
           "px-3 py-3 bg-white border cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md",
           {
-            "border-gray-300": borderCardType === "in-future",
-            "border-yellow-500": borderCardType === "today",
-            "border-red-400": borderCardType === "in-past",
+            "border-gray-300": statusOfExpiredDate.is("in-future"),
+            "border-yellow-500": statusOfExpiredDate.is("today"),
+            "border-red-400": statusOfExpiredDate.is("in-past"),
           }
         )}
       >
@@ -38,8 +35,8 @@ export const TodoCard: React.FC<ITask> = (task) => {
         <div className="flex items-center justify-between mt-3">
           <h2
             className={classNames({
-              "text-yellow-500": borderCardType === "today",
-              "text-red-400": borderCardType === "in-past",
+              "text-yellow-500": statusOfExpiredDate.is("today"),
+              "text-red-400": statusOfExpiredDate.is("in-past"),
             })}
           >
             {task.end_date

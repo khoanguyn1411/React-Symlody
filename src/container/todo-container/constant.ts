@@ -1,6 +1,6 @@
 import { images } from "@/assets/images";
 import { TNodataConfig } from "@/components";
-import { ETodoStatusId, ITask, IUser } from "@/features/types";
+import { ETodoStatusId } from "@/features/types";
 import { generateStatusMessageFor } from "@/utils/services/generate-service";
 
 import { TODO_STATUS_MAP_FROM_ID } from "./mapper";
@@ -16,21 +16,6 @@ export const TODO_NO_DATA_CONFIG: TNodataConfig = {
 export const TODO_MESSAGES = generateStatusMessageFor("công việc");
 
 export const UNASSIGNED_TEXT = "Chưa giao";
-
-export const generateGetTaskFieldFn = (userList: IUser[]) => {
-  return {
-    get(item: ITask, getField: "name" | "avatar") {
-      const assignee = userList.find((user) => user.id === item.assignee.id);
-      if (assignee == null) {
-        return "";
-      }
-      if (getField === "name") {
-        return assignee.full_name;
-      }
-      return assignee.avatar;
-    },
-  };
-};
 
 export const TODO_DATA: TTodo = {
   id: "board-1",
