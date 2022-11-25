@@ -38,9 +38,24 @@ export class ProfileMapper {
     model: IMember
   ): IProfile {
     return {
-      ...currentUser,
-      ...model,
       id: currentUser.id,
+      gender: model.gender,
+      phone_number: model.phone_number,
+      student_id: model.student_id,
+      home_town: model.home_town,
+      dob: model.dob,
+      class_name: model.class_name,
+      avatar: model.avatar,
+      address: model.address,
+      department: model.department,
+      organization: currentUser.organization,
+      profile_id: model.id,
+      first_name: model.auth_account.first_name,
+      last_name: model.auth_account.last_name,
+      full_name: model.auth_account.full_name,
+      email: model.auth_account.email,
+      groups: model.auth_account.groups,
+      isRole: compareRole(model.auth_account.groups),
     };
   }
   public static toUpdateDto(model: IProfileUpdate): IProfileUpdateDto {

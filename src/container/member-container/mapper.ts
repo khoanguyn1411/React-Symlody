@@ -68,6 +68,7 @@ export class MemberTableMapper {
     const shouldReturnMemberText =
       isNotIncludeAnyRole || isOnlyIncludeMemberRole;
     return {
+      avatar: model.avatar,
       id: model.id,
       fullName: model.auth_account.full_name,
       firstName: model.auth_account.first_name,

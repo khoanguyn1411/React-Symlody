@@ -8,7 +8,11 @@ import {
   RequestUploadMemberExcelFileResult,
 } from "@/api";
 import { RootState, store } from "@/features/store";
-import { FileUploadedMapper, MemberMapper } from "@/features/types/mappers";
+import {
+  FileUploadedMapper,
+  MemberMapper,
+  ProfileMapper,
+} from "@/features/types/mappers";
 import { HttpErrorMapper } from "@/features/types/mappers/http-error.mapper";
 import {
   HttpError,
@@ -19,6 +23,7 @@ import {
 import { TMemberParamQueryDto } from "@/features/types/queries";
 import { FilterService, GeneratorService, GlobalTypes } from "@/utils";
 
+import { updateCurrentUser } from "../auth-reducer";
 import { getUsersAsync, removeUser, userSelectors } from "../user-reducer";
 import { initialState, memberAdapter } from "./state";
 
@@ -106,6 +111,16 @@ export const updateMemberAsync = createAsyncThunk<
     if (result.kind === "ok") {
       const memberUpdatedInfo = MemberMapper.fromDto(result.result);
       dispatch(getUsersAsync());
+      const reduxStore = store.getState();
+      const currentUser = reduxStore.auth.user;
+      if (reduxStore.auth.user.profile_id === id) {
+        const profileModel = ProfileMapper.fromMemberModel(
+          currentUser,
+          memberUpdatedInfo
+        );
+        console.log(profileModel);
+        dispatch(updateCurrentUser(profileModel));
+      }
       return {
         result: memberUpdatedInfo,
         isRestore,
