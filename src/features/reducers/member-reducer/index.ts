@@ -118,7 +118,6 @@ export const updateMemberAsync = createAsyncThunk<
           currentUser,
           memberUpdatedInfo
         );
-        console.log(profileModel);
         dispatch(updateCurrentUser(profileModel));
       }
       return {
