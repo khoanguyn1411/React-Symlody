@@ -1,5 +1,11 @@
 import classNames from "classnames";
-import { forwardRef, ReactNode, useImperativeHandle, useState } from "react";
+import {
+  forwardRef,
+  ReactNode,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
@@ -13,9 +19,12 @@ type TProps = {
   listSetting?: TItemListSelect[];
   widthContainer?: string;
   isOverflow?: boolean;
+  className?: string;
   renderCustom?: ReactNode;
   placement?: AlignedPlacement;
   onChange?: (item: TItemListSelect) => void;
+  onListShow?: () => void;
+  onListHidden?: () => void;
 };
 
 export type TDropdownMethod = {
@@ -27,12 +36,15 @@ export const Dropdown = forwardRef<TDropdownMethod, TProps>(
   (
     {
       listSetting,
-      onChange,
+      className,
       renderCustom,
       children,
       placement = "bottom-left",
       isOverflow = true,
       widthContainer = "320px",
+      onChange,
+      onListHidden,
+      onListShow,
     },
     ref
   ) => {
@@ -55,17 +67,31 @@ export const Dropdown = forwardRef<TDropdownMethod, TProps>(
       isShowing: isShowContent,
     });
 
-    const handleToggleDropdown = () => {
+    const handleToggleDropdown = (
+      event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
+      event.stopPropagation();
       setPositionList();
       setIsShowContent((prev) => !prev);
     };
-    const handleClickItem = (item: TItemListSelect) => () => {
-      onChange && onChange(item);
-      setIsShowContent(false);
-    };
+    const handleClickItem =
+      (item: TItemListSelect) =>
+      (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+        event.stopPropagation();
+        onChange && onChange(item);
+        setIsShowContent(false);
+      };
+
+    useEffect(() => {
+      if (isShowContent) {
+        onListShow?.();
+        return;
+      }
+      onListHidden?.();
+    }, [isShowContent, onListHidden, onListShow]);
 
     return (
-      <div className="relative">
+      <div className={classNames("relative", className)}>
         {/* Display */}
         <div
           ref={displayRef}

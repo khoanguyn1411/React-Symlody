@@ -1,7 +1,8 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 
-import { Avatar, Tooltip } from "@/components";
+import { Icon } from "@/assets/icons";
+import { Avatar, Dropdown, Tooltip } from "@/components";
 import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import { ITask } from "@/features/types";
@@ -17,9 +18,30 @@ export const TodoCard: React.FC<ITask> = (task) => {
   const { fullName, avatar, isUnassigned } = getTaskCommonInfo(userList, task);
   const statusOfExpiredDate = checkStatusOfExpiredDate(task);
 
+  const [isShowDropdown, setIsShowDropdown] = useState(false);
+  const [isListShow, setIsListShow] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsShowDropdown(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsShowDropdown(false);
+  };
+
+  const handleListClose = () => {
+    setIsListShow(false);
+  };
+
+  const handleListOpen = () => {
+    setIsListShow(true);
+  };
+
   return (
     <div className="pb-2">
       <div
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         className={classNames(
           "px-3 py-3 bg-white border cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md",
           {
@@ -31,6 +53,29 @@ export const TodoCard: React.FC<ITask> = (task) => {
       >
         <div className="flex justify-between space-x-3">
           <h1>{task.title}</h1>
+          <Dropdown
+            className={classNames("transition-all", {
+              "opacity-0": !isShowDropdown && !isListShow,
+              "opacity-100": isShowDropdown,
+            })}
+            onListHidden={handleListClose}
+            onListShow={handleListOpen}
+            placement="bottom-right"
+            widthContainer="150px"
+            listSetting={[{ key: "delete", value: "Xóa" }]}
+          >
+            <span
+              className={classNames(
+                "block px-2 transition-all rounded-sm hover:bg-gray-300",
+                {
+                  "bg-gray-300": isListShow,
+                  "bg-gray-200": !isListShow,
+                }
+              )}
+            >
+              <Icon.Dots3 />
+            </span>
+          </Dropdown>
         </div>
         <div className="flex items-center justify-between mt-3">
           <h2
