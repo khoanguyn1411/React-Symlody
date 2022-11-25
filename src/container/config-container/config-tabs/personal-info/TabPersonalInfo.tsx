@@ -13,6 +13,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateProfileAsync } from "@/features/reducers";
 import { HttpError } from "@/features/types";
+import { EGender } from "@/features/types/models/gender";
 import { FormService } from "@/utils";
 import { generateFullName } from "@/utils/services/generate-service";
 
@@ -179,7 +180,7 @@ export const TabPersonalInfo: React.FC = () => {
             name="gender"
             render={({ field: { value, onChange } }) => (
               <Select
-                list={[{ value: "Nam" }, { value: "Nữ" }]}
+                list={[{ value: EGender.Male }, { value: EGender.Female }]}
                 style="modal"
                 value={value}
                 onChange={onChange}

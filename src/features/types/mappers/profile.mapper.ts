@@ -5,6 +5,7 @@ import { IProfileDto, IProfileUpdateDto } from "../dtos";
 import { ERoles, IGroup, IMember, IProfile, IProfileUpdate } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 import { DepartmentMapper } from "./department.mapper";
+import { GenderMapper } from "./gender.mapper";
 
 const compareRole = (groups: IGroup[]) => (roles: ERoles[]) => {
   const groupsNameList = groups.map((group) => group.name);
@@ -26,7 +27,7 @@ export class ProfileMapper {
     return {
       ...dto,
       ...authAccountModel,
-      gender: dto.gender === 1 ? "Nam" : "Nữ",
+      gender: GenderMapper.fromDto(dto.gender),
       department: DepartmentMapper.fromDto(dto.department),
       isRole: compareRole(authAccountModel.groups),
     };
@@ -51,7 +52,7 @@ export class ProfileMapper {
     return {
       ...model,
       ...authAccountDto,
-      gender: model.gender === "Nam" ? 1 : 2,
+      gender: GenderMapper.toDto(model.gender),
     };
   }
 

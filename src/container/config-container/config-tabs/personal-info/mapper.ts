@@ -1,4 +1,5 @@
 import { IProfile, IProfileUpdate } from "@/features/types";
+import { EGender } from "@/features/types/models/gender";
 
 import { IFormUserConfig } from "./type";
 
@@ -9,7 +10,7 @@ export class PersonalInfoFormMapper {
       email: formData.email,
       first_name: formData.firstName,
       last_name: formData.lastName,
-      gender: formData.gender as "Nam" | "Nữ",
+      gender: formData.gender as EGender,
       phone_number: formData.phone,
       student_id: formData.studentId,
       class_name: formData.class,

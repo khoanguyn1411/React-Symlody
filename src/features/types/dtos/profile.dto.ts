@@ -5,11 +5,12 @@ import {
   IAuthAccountDto,
 } from "./auth-account.dto";
 import { IDepartmentDto } from "./department.dto";
+import { EGenderDto } from "./gender.dto";
 import { ITenantDto } from "./tenant.dto";
 
 export interface IProfileDto extends IAuthAccountDto {
   readonly id: number;
-  readonly gender: number;
+  readonly gender: EGenderDto;
   readonly phone_number: string;
   readonly student_id: string;
   readonly home_town: string;

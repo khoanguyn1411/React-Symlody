@@ -1,8 +1,9 @@
 import { IAuthAccount, IAuthAccountCreateUpdate } from "./auth-account";
 import { IDepartment } from "./department";
+import { EGender } from "./gender";
 
 interface IMemberGeneral {
-  readonly gender: "Nam" | "Nữ";
+  readonly gender: EGender;
   readonly class_name: string;
   readonly student_id: string;
   readonly address: string;

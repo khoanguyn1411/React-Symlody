@@ -2,11 +2,12 @@ import { StrictPick } from "@/utils/types";
 
 import { IAuthAccount, IAuthAccountCreateUpdate } from "./auth-account";
 import { IDepartment } from "./department";
+import { EGender } from "./gender";
 import { ERoles } from "./group";
 import { ITenant } from "./tenant";
 export interface IProfile extends IAuthAccount {
   readonly id: number;
-  readonly gender: "Nam" | "Nữ";
+  readonly gender: EGender;
   readonly phone_number: string;
   readonly student_id: string;
   readonly home_town: string;

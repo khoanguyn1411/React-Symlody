@@ -4,12 +4,13 @@ import { IMemberCreateUpdateDto, IMemberDto } from "../dtos";
 import { IMember, IMemberCreateUpdate } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 import { DepartmentMapper } from "./department.mapper";
+import { GenderMapper } from "./gender.mapper";
 
 export class MemberMapper {
   public static fromDto(dto: IMemberDto): IMember {
     return {
       ...dto,
-      gender: dto.gender === 1 ? "Nam" : "Nữ",
+      gender: GenderMapper.fromDto(dto.gender),
       dob: FormatService.toDateString(dto.dob, "US"),
       last_modified_date: FormatService.toDateString(
         dto.last_modified_date,
@@ -32,7 +33,7 @@ export class MemberMapper {
       is_archived: model.is_archived,
       auth_account: AuthAccountMapper.toDto(model.auth_account),
       dob: FormatService.toDateString(model.dob, "API"),
-      gender: model.gender === "Nam" ? 1 : 2,
+      gender: GenderMapper.toDto(model.gender),
       department_id: model.department ? model.department.id : undefined,
     };
   }
@@ -50,7 +51,7 @@ export class MemberMapper {
       is_archived: model.is_archived,
       auth_account: AuthAccountMapper.toDto(model.auth_account),
       dob: FormatService.toDateString(model.dob, "API"),
-      gender: model.gender === "Nam" ? 1 : 2,
+      gender: GenderMapper.toDto(model.gender),
       department_id: model.department ? model.department.id : undefined,
     };
   }

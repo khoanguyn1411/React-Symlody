@@ -2,6 +2,7 @@ export * from "./auth-account";
 export * from "./config-manager";
 export * from "./department";
 export * from "./file-uploaded";
+export * from "./gender";
 export * from "./group";
 export * from "./http-error";
 export * from "./login";

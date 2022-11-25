@@ -2,6 +2,7 @@ export * from "./auth-account.dto";
 export * from "./department.dto";
 export * from "./event.dto";
 export * from "./file-uploaded.dto";
+export * from "./gender.dto";
 export * from "./group.dto";
 export * from "./group.dto";
 export * from "./http-error.dto";

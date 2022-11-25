@@ -5,6 +5,7 @@ import { AppDatePicker, FormItem, Input, Select } from "@/components";
 import { PROVINCES_LIST } from "@/container/config-container/config-tabs/personal-info/constants";
 import { useAppSelector } from "@/features";
 import { departmentSelectors } from "@/features/reducers/department-reducer";
+import { EGender } from "@/features/types/models/gender";
 
 import { IFormMemberInfo } from "../type";
 
@@ -58,7 +59,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
             name="gender"
             render={({ field: { value, onChange } }) => (
               <Select
-                list={[{ value: "Nam" }, { value: "Nữ" }]}
+                list={[{ value: EGender.Male }, { value: EGender.Female }]}
                 style="modal"
                 value={value}
                 onChange={onChange}
