@@ -14,10 +14,13 @@ export const getTaskCommonInfo = (userList: IUser[], task: ITask) => {
 export const checkStatusOfExpiredDate = (task: ITask) => {
   const dateComparedResult = compareDateWithToday(task.end_date);
   return {
-    is(result: typeof dateComparedResult) {
+    is(status: typeof dateComparedResult) {
       const isTaskNotDone = task.status !== ETodoStatusId.Done;
-      const isMatchStatus = result === dateComparedResult;
-      return isMatchStatus && isTaskNotDone;
+      const isMatchStatus = status === dateComparedResult;
+      if (!isTaskNotDone) {
+        return status === "in-future";
+      }
+      return isMatchStatus;
     },
   };
 };
