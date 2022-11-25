@@ -1,4 +1,6 @@
-import { IAuthAccount } from "./auth-account";
+import { StrictPick } from "@/utils/types";
+
+import { IAuthAccount, IAuthAccountCreateUpdate } from "./auth-account";
 import { IDepartment } from "./department";
 import { ERoles } from "./group";
 import { ITenant } from "./tenant";
@@ -17,3 +19,16 @@ export interface IProfile extends IAuthAccount {
   readonly profile_id: number;
   readonly isRole: (roles: ERoles[]) => boolean;
 }
+
+export type IProfileUpdate = IAuthAccountCreateUpdate & {
+  avatar?: File;
+} & StrictPick<
+    IProfile,
+    | "gender"
+    | "dob"
+    | "class_name"
+    | "student_id"
+    | "address"
+    | "phone_number"
+    | "home_town"
+  >;

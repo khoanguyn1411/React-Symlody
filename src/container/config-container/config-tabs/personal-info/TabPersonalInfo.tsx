@@ -11,8 +11,8 @@ import {
   UploadedAvatar,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { updateMemberAsync } from "@/features/reducers";
-import { IMember } from "@/features/types";
+import { updateProfileAsync } from "@/features/reducers";
+import { HttpError } from "@/features/types";
 import { FormService } from "@/utils";
 import { generateFullName } from "@/utils/services/generate-service";
 
@@ -40,26 +40,24 @@ export const TabPersonalInfo: React.FC = () => {
     handleSubmit,
   } = useForm<IFormUserConfig>({
     resolver: yupResolver(schema),
-    defaultValues: PersonalInfoFormMapper.fromProfile(currentUser),
+    defaultValues: PersonalInfoFormMapper.fromModel(currentUser),
   });
 
   const handleEditPersonalInfo = async (data: IFormUserConfig) => {
     const result = await dispatch(
-      updateMemberAsync({
-        payload: PersonalInfoFormMapper.toModel(data),
-        id: currentUser.profile_id,
-        isRestore: false,
-      })
+      updateProfileAsync(PersonalInfoFormMapper.toModel(data))
     );
-    if (result.meta.requestStatus !== "rejected") {
-      toast.success(PERSONAL_INFO_MESSAGES.update.success);
-      const formData = PersonalInfoFormMapper.fromMember(
-        result.payload.result as IMember
-      );
-      reset({ ...formData, avatar: undefined });
+    if (
+      result.meta.requestStatus === "rejected" ||
+      result.payload instanceof HttpError
+    ) {
+      toast.error(PERSONAL_INFO_MESSAGES.update.error);
       return;
     }
-    toast.error(PERSONAL_INFO_MESSAGES.update.error);
+    toast.success(PERSONAL_INFO_MESSAGES.update.success);
+    const formData = PersonalInfoFormMapper.fromModel(result.payload);
+    reset({ ...formData, avatar: undefined });
+    return;
   };
 
   useEffect(() => {

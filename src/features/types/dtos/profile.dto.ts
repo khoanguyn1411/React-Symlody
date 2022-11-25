@@ -1,4 +1,9 @@
-import { IAuthAccountDto } from "./auth-account.dto";
+import { StrictPick } from "@/utils/types";
+
+import {
+  IAuthAccountCreateUpdateDto,
+  IAuthAccountDto,
+} from "./auth-account.dto";
 import { IDepartmentDto } from "./department.dto";
 import { ITenantDto } from "./tenant.dto";
 
@@ -16,3 +21,16 @@ export interface IProfileDto extends IAuthAccountDto {
   readonly organization: ITenantDto;
   readonly profile_id: number;
 }
+
+export type IProfileUpdateDto = IAuthAccountCreateUpdateDto & {
+  avatar?: File;
+} & StrictPick<
+    IProfileDto,
+    | "gender"
+    | "dob"
+    | "class_name"
+    | "student_id"
+    | "address"
+    | "phone_number"
+    | "home_town"
+  >;

@@ -1,7 +1,8 @@
+import { FormDataService } from "@/utils";
 import { hasElementOfArray } from "@/utils/services/common-service";
 
-import { IProfileDto } from "../dtos";
-import { ERoles, IGroup, IMember, IProfile } from "../models";
+import { IProfileDto, IProfileUpdateDto } from "../dtos";
+import { ERoles, IGroup, IMember, IProfile, IProfileUpdate } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 import { DepartmentMapper } from "./department.mapper";
 
@@ -40,5 +41,22 @@ export class ProfileMapper {
       ...model,
       id: currentUser.id,
     };
+  }
+  public static toUpdateDto(model: IProfileUpdate): IProfileUpdateDto {
+    const authAccountDto = AuthAccountMapper.toDto({
+      email: model.email,
+      first_name: model.first_name,
+      last_name: model.last_name,
+    });
+    return {
+      ...model,
+      ...authAccountDto,
+      gender: model.gender === "Nam" ? 1 : 2,
+    };
+  }
+
+  public static toFormData(model: IProfileUpdate): FormData {
+    const dataDto = this.toUpdateDto(model);
+    return FormDataService.repairFormData(dataDto);
   }
 }

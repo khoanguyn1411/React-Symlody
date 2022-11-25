@@ -3,12 +3,15 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthApi } from "@/api";
 import { RootState } from "@/features/store";
 import {
+  HttpError,
   IChangePassword,
   ILogin,
   IProfile,
+  IProfileUpdate,
   ProfileMapper,
 } from "@/features/types";
 import { ChangePasswordMapper } from "@/features/types/mappers/change-password.mapper";
+import { HttpErrorMapper } from "@/features/types/mappers/http-error.mapper";
 import { LoginMapper } from "@/features/types/mappers/login.mapper";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 import { GlobalTypes, TokenService } from "@/utils";
@@ -75,6 +78,24 @@ export const logoutAsync = createAsyncThunk(
   }
 );
 
+export const updateProfileAsync = createAsyncThunk<
+  IProfile,
+  IProfileUpdate,
+  GlobalTypes.ReduxThunkRejectValue<HttpError | null>
+>("auth/update-profile", async (param, { rejectWithValue }) => {
+  const paramDto = ProfileMapper.toFormData(param);
+  const result = await AuthApi.updateProfile(paramDto);
+  if (result.kind === "ok") {
+    return ProfileMapper.fromDto(result.result);
+  }
+  if (result.kind === "bad-data") {
+    const errorBadData = HttpErrorMapper.fromDto(result.result.data);
+    return rejectWithValue(errorBadData);
+  }
+
+  return rejectWithValue(null);
+});
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -89,14 +110,6 @@ export const authSlice = createSlice({
       state.isAuth = false;
       TokenService.clearToken();
     },
-    updateCurrentUser: (state, action: PayloadAction<IProfile>) => {
-      const { avatar, ...rest } = action.payload;
-      if (avatar == null) {
-        state.user = { ...state.user, ...rest };
-        return;
-      }
-      state.user = { ...rest, ...action.payload };
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -110,12 +123,15 @@ export const authSlice = createSlice({
       .addCase(getMeAsync.rejected, (state) => {
         state.pending = false;
         state.user = null;
+      })
+
+      .addCase(updateProfileAsync.fulfilled, (state, action) => {
+        state.user = action.payload;
       });
   },
 });
 export const authStore = (state: RootState) => state.user;
 
-export const { setIsAuth, logout, updateCurrentUser, setIsAlreadyGetMe } =
-  authSlice.actions;
+export const { setIsAuth, logout, setIsAlreadyGetMe } = authSlice.actions;
 
 export default authSlice.reducer;

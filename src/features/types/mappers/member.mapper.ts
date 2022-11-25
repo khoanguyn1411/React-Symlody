@@ -1,4 +1,4 @@
-import { FormatService, FormDataService } from "@/utils";
+import { FormatService } from "@/utils";
 
 import { IMemberCreateUpdateDto, IMemberDto } from "../dtos";
 import { IMember, IMemberCreateUpdate } from "../models";
@@ -53,10 +53,5 @@ export class MemberMapper {
       gender: model.gender === "Nam" ? 1 : 2,
       department_id: model.department ? model.department.id : undefined,
     };
-  }
-
-  public static toFormData(model: IMemberCreateUpdate): FormData {
-    const dataDto = this.toUpdateDto(model);
-    return FormDataService.repairFormData(dataDto);
   }
 }

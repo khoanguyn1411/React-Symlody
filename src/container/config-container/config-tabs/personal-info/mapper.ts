@@ -1,36 +1,30 @@
-import { MemberFormMapper } from "@/container/member-container/mapper";
-import { IMember, IMemberCreateUpdate, IProfile } from "@/features/types";
+import { IProfile, IProfileUpdate } from "@/features/types";
 
 import { IFormUserConfig } from "./type";
 
 export class PersonalInfoFormMapper {
   /** Use for map data from form values to member model. */
-  public static toModel(formData: IFormUserConfig): IMemberCreateUpdate {
-    return MemberFormMapper.toModel({
-      formData: { ...formData, email: undefined, avatar: formData.avatar },
-      isArchived: false,
-    });
+  public static toModel(formData: IFormUserConfig): IProfileUpdate {
+    return {
+      email: formData.email,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      gender: formData.gender as "Nam" | "Nữ",
+      phone_number: formData.phone,
+      student_id: formData.studentId,
+      class_name: formData.class,
+      avatar: formData.avatar,
+      dob: formData.birthday,
+      address: formData.address,
+      home_town: formData.home,
+    };
   }
 
-  public static fromProfile(model: IProfile): IFormUserConfig {
+  public static fromModel(model: IProfile): IFormUserConfig {
     return {
       firstName: model.first_name,
       lastName: model.last_name,
       email: model.email,
-      class: model.class_name,
-      studentId: model.student_id,
-      birthday: model.dob,
-      phone: model.phone_number,
-      home: model.home_town,
-      address: model.address,
-      gender: model.gender,
-    };
-  }
-  public static fromMember(model: IMember): IFormUserConfig {
-    return {
-      firstName: model.auth_account.first_name,
-      lastName: model.auth_account.last_name,
-      email: model.auth_account.email,
       class: model.class_name,
       studentId: model.student_id,
       birthday: model.dob,

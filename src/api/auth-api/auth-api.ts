@@ -9,6 +9,7 @@ const routes = {
   login: () => `login/`,
   refreshToken: () => `login/refresh/`,
   getProfile: () => `login/`,
+  updateProfile: () => `user/update_profile/`,
   changePassword: () => `user/change_password/`,
 };
 
@@ -23,6 +24,14 @@ export const AuthApi = {
     const url = routes.getProfile();
     const result = await Api.http.get<IProfileDto>(url);
 
+    return returnResponse(result);
+  },
+
+  async updateProfile(
+    profile: FormData
+  ): Promise<Types.RequestUpdateProfileResult> {
+    const url = routes.updateProfile();
+    const result = await Api.http.patch<IProfileDto>(url, profile);
     return returnResponse(result);
   },
 

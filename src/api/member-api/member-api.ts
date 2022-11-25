@@ -41,7 +41,7 @@ export const MemberApi = {
 
   async updateMember(
     id: IMember["id"],
-    body: FormData
+    body: Types.RequestUpdateMemberBody
   ): Promise<Types.RequestUpdateMembersResult> {
     const url = routes.updateMember(id);
     const result = await Api.http.patch<IMemberDto>(url, body);

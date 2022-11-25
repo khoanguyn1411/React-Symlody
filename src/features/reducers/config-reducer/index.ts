@@ -94,7 +94,7 @@ export const updateTenantAsync = createAsyncThunk<
 export const updateConfigRoleUserAsync = createAsyncThunk<
   IConfigInfo,
   IConfigUserUpdate,
-  GlobalTypes.ReduxThunkRejectValue<HttpError>
+  GlobalTypes.ReduxThunkRejectValue<HttpError | null>
 >("update/user-role", async (payload, { rejectWithValue }) => {
   const paramDto = ConfigUserMapper.toDto(payload);
   const result = await ConfigApi.updateConfigRoleUser(paramDto);
