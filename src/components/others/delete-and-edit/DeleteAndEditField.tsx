@@ -29,9 +29,10 @@ export const DeleteAndEditField: React.FC<TProps> = ({
 }) => {
   return (
     <div className="flex items-center justify-center w-fit gap-4">
-      <Tooltip content="Chỉnh sửa" space={-2}>
+      <Tooltip content="Chỉnh sửa" space={8}>
         <Button
           style="none"
+          size="none"
           isIconOnly
           onClick={handleEvent.edit}
           className="flex items-center justify-center group"
@@ -45,9 +46,10 @@ export const DeleteAndEditField: React.FC<TProps> = ({
       </Tooltip>
 
       {isShowRestore ? (
-        <Tooltip content="Khôi phục" space={-2}>
+        <Tooltip content="Khôi phục" space={8}>
           <Button
             style="none"
+            size="none"
             isIconOnly
             isShowLoading={isShowLoading}
             onClick={handleEvent.restore}
@@ -72,10 +74,11 @@ export const DeleteAndEditField: React.FC<TProps> = ({
               disableSubmit={disableSubmit}
               handleEvent={{ title: titleDelete, event: handleEvent.delete }}
             >
-              <Tooltip content={titleDelete} space={-2}>
+              <Tooltip content={titleDelete} space={8}>
                 <Button
                   className="flex items-center justify-center group"
                   style="none"
+                  size="none"
                   isIconOnly
                   isShowLoading={isShowLoading}
                 >
