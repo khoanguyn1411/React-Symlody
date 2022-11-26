@@ -9,6 +9,7 @@ const routes = {
   getTasks: () => `task/`,
   createTask: () => `task/`,
   updateTask: (id: ITask["id"]) => `task/${id}/`,
+  deleteTask: (id: ITask["id"]) => `task/${id}/`,
 };
 
 export const TaskApi = {
@@ -17,6 +18,12 @@ export const TaskApi = {
   ): Promise<Types.RequestGetTasksResult> {
     const url = routes.getTasks();
     const result = await Api.http.get<ITaskDto[]>(url, param);
+    return returnResponse(result);
+  },
+
+  async deleteTask(id: ITask["id"]): Promise<Types.RequestDeleteTasksResult> {
+    const url = routes.deleteTask(id);
+    const result = await Api.http.delete<boolean>(url);
     return returnResponse(result);
   },
 

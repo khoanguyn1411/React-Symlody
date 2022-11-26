@@ -22,6 +22,18 @@ export const getTasksAsync = createAsyncThunk<
   return rejectWithValue([]);
 });
 
+export const deleteTaskAsync = createAsyncThunk<
+  ITask["id"],
+  ITask["id"],
+  GlobalTypes.ReduxThunkRejectValue<null>
+>("delete/task", async (id, { rejectWithValue }) => {
+  const result = await TaskApi.deleteTask(id);
+  if (result.kind === "ok") {
+    return id;
+  }
+  return rejectWithValue(null);
+});
+
 export const createTaskAsync = createAsyncThunk<
   { task: ITask; shouldAddOne: boolean },
   { task: ITaskCreateUpdate },
@@ -142,6 +154,17 @@ export const taskSlice = createSlice({
           id: newTask.id,
           changes: newTask,
         });
+      })
+
+      .addCase(deleteTaskAsync.pending, (state) => {
+        state.pendingDeleteTask = true;
+      })
+      .addCase(deleteTaskAsync.fulfilled, (state, action) => {
+        state.pendingDeleteTask = false;
+        taskAdapter.removeOne(state, action.payload);
+      })
+      .addCase(deleteTaskAsync.rejected, (state) => {
+        state.pendingDeleteTask = false;
       });
   },
 });

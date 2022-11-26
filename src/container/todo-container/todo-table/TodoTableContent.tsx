@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
@@ -21,14 +21,12 @@ import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 type TProps = {
   onEdit: (task: ITask) => void;
   onDelete: (task: ITask) => void;
-  onRestore: (task: ITask) => void;
   isLoading: boolean;
 };
 
 export const TodoTableContent: React.FC<TProps> = ({
   onDelete,
   onEdit,
-  onRestore,
   isLoading,
 }) => {
   const dispatch = useAppDispatch();
@@ -37,24 +35,16 @@ export const TodoTableContent: React.FC<TProps> = ({
   const taskList = useAppSelector(taskSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.auth.user);
 
+  const [currentInteractiveTask, setCurrentInteractiveTask] =
+    useState<ITask["id"]>();
+
   const handleEdit = (item: ITask) => () => {
     onEdit(item);
   };
   const handleDelete = (item: ITask) => () => {
+    setCurrentInteractiveTask(item.id);
     onDelete(item);
   };
-  const handleRestore = (item: ITask) => () => {
-    onRestore(item);
-  };
-
-  useEffect(() => {
-    dispatch(getTasksByAssignee({ taskList, userList }));
-  }, [
-    dispatch,
-    taskList,
-    taskStore.listQueryTask.selected_member_list,
-    userList,
-  ]);
 
   const handleChangeStatus = async (status: ETodoStatusId, task: ITask) => {
     const result = await dispatch(
@@ -81,6 +71,16 @@ export const TodoTableContent: React.FC<TProps> = ({
       return;
     }
   };
+
+  useEffect(() => {
+    dispatch(getTasksByAssignee({ taskList, userList }));
+  }, [
+    dispatch,
+    taskList,
+    taskStore.listQueryTask.selected_member_list,
+    userList,
+  ]);
+
   useLayoutEffect(() => {
     const { department_id } = taskStore.listQueryTask;
     dispatch(
@@ -109,6 +109,8 @@ export const TodoTableContent: React.FC<TProps> = ({
             userList,
             task
           );
+          const isShowLoadingDelete =
+            taskStore.pendingDeleteTask && task.id === currentInteractiveTask;
           return (
             <Table.Row key={task.id} index={index}>
               <Table.Cell textAlign="center">{index + 1}</Table.Cell>
@@ -150,11 +152,11 @@ export const TodoTableContent: React.FC<TProps> = ({
               <Table.CellAction>
                 <DeleteAndEditField
                   titleDelete="Xóa"
+                  isShowLoading={isShowLoadingDelete}
                   title="Xóa công việc?"
                   handleEvent={{
                     edit: handleEdit(task),
                     delete: handleDelete(task),
-                    restore: handleRestore(task),
                   }}
                 />
               </Table.CellAction>
