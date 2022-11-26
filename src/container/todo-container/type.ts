@@ -46,6 +46,9 @@ export enum ETodoTabKey {
 }
 
 export interface ITodoTable {
+  readonly fullName: string;
+  readonly avatar: string;
+  readonly isUnassigned: boolean;
   readonly title: string;
   readonly expiredDate: string;
 }
