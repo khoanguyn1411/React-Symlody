@@ -11,7 +11,13 @@ import {
 const TableRowContent: GlobalTypes.FCChildren = ({ children }) => {
   const { isSkeleton } = useTableRowContext();
   return (
-    <tr className={classNames(isSkeleton && "animate-skeleton")}>{children}</tr>
+    <tr
+      className={classNames("hover:bg-gray-50 transition-colors duration-300", {
+        "animate-skeleton": isSkeleton,
+      })}
+    >
+      {children}
+    </tr>
   );
 };
 

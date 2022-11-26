@@ -54,6 +54,7 @@ export const ItemPermission: React.FC<TProps> = ({ onOpenEdit }) => {
 
             <Table.CellAction>
               <DeleteAndEditField
+                isShowDelete={false}
                 handleEvent={{
                   edit: () => onOpenEdit(d),
                 }}

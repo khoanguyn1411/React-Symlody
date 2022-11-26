@@ -1,3 +1,6 @@
+// Replace onMouseEnter with onMouseOver and onMouseLeave with onMouseOut because the strange behavior of onMouseLeave and onMouseOver
+// (they sometimes not trigger the event).
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import classNames from "classnames";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -54,8 +57,8 @@ export const TodoCard: React.FC<ITask> = (task) => {
   return (
     <div className="pb-2">
       <div
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onMouseOver={handleMouseEnter}
+        onMouseOut={handleMouseLeave}
         className={classNames(
           "px-3 py-3 bg-white border cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md",
           {
@@ -81,14 +84,14 @@ export const TodoCard: React.FC<ITask> = (task) => {
           >
             <span
               className={classNames(
-                "block px-2 transition-all rounded-sm hover:bg-gray-300",
+                "block py-0.5 px-2 border-gray-300 border transition-all rounded-sm hover:bg-gray-300",
                 {
                   "bg-gray-300": isListShow,
                   "bg-gray-200": !isListShow,
                 }
               )}
             >
-              <Icon.Dots3 />
+              <Icon.Dots3 size="small" />
             </span>
           </Dropdown>
         </div>
