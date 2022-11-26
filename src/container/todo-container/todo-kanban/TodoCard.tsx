@@ -11,17 +11,16 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import { deleteTaskAsync } from "@/features/reducers/task-reducer";
 import { ITask } from "@/features/types";
-import { FormatService } from "@/utils";
-import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
-import { TODO_MESSAGES, UNASSIGNED_TEXT } from "../constant";
-import { checkStatusOfExpiredDate, getTaskCommonInfo } from "../function";
+import { TODO_MESSAGES } from "../constant";
+import { checkStatusOfExpiredDate } from "../function";
+import { TodoViewMapper } from "../mapper";
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 
 export const TodoCard: React.FC<ITask> = (task) => {
   const dispatch = useAppDispatch();
   const userList = useAppSelector(userSelectors.selectAll);
-  const { fullName, avatar, isUnassigned } = getTaskCommonInfo(userList, task);
+  const taskViewInfo = TodoViewMapper.fromModel(userList, task);
   const statusOfExpiredDate = checkStatusOfExpiredDate(task);
 
   const [isShowDropdown, setIsShowDropdown] = useState(false);
@@ -102,20 +101,15 @@ export const TodoCard: React.FC<ITask> = (task) => {
               "text-red-400": statusOfExpiredDate.is("in-past"),
             })}
           >
-            {task.end_date
-              ? FormatService.toDateString(task.end_date, "VN")
-              : generatePlaceholderEmptyValue(task.end_date)}
+            {taskViewInfo.expiredDate}
           </h2>
           <div className="flex items-center space-x-3">
             <TodoPriorityIcon isPriority={task.isPriority} />
-            <Tooltip
-              space={8}
-              content={isUnassigned ? UNASSIGNED_TEXT : fullName}
-            >
+            <Tooltip space={8} content={taskViewInfo.fullName}>
               <Avatar
-                src={avatar}
-                fullName={fullName}
-                isUnassigned={isUnassigned}
+                src={taskViewInfo.avatar}
+                fullName={taskViewInfo.fullName}
+                isUnassigned={taskViewInfo.isUnassigned}
               />
             </Tooltip>
           </div>

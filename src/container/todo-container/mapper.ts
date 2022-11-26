@@ -1,3 +1,4 @@
+import { IUser } from "@/features/types";
 import {
   ETodoStatus,
   ETodoStatusId,
@@ -7,6 +8,7 @@ import {
 import { FormatService } from "@/utils";
 import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
+import { UNASSIGNED_TEXT } from "./constant";
 import { EPriority, IFormTodoInfo, ITodoTable } from "./type";
 
 export const TODO_STATUS_MAP_FROM_ID: Readonly<
@@ -46,9 +48,17 @@ export class TodoFormMapper {
       isNotifyEmail: model.sent_email,
     };
   }
+}
 
-  public static toTableView(model: ITask): ITodoTable {
+export class TodoViewMapper {
+  public static fromModel(userList: IUser[], model: ITask): ITodoTable {
+    const assignee = userList.find((user) => user.id === model.assignee.id);
+    const fullName = assignee?.full_name ?? UNASSIGNED_TEXT;
+    const isUnassigned = fullName === UNASSIGNED_TEXT;
     return {
+      fullName: isUnassigned ? UNASSIGNED_TEXT : fullName,
+      avatar: assignee?.avatar ?? "",
+      isUnassigned,
       title: generatePlaceholderEmptyValue(model.title),
       expiredDate: model.end_date
         ? FormatService.toDateString(model.end_date, "VN")

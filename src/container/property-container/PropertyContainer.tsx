@@ -18,7 +18,7 @@ import {
   propertySelectors,
   setListQueryProperty,
 } from "@/features/reducers/property-reducer";
-import { ERolesID, IProperty } from "@/features/types";
+import { ERoles, ERolesID, IProperty } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
 
@@ -38,13 +38,19 @@ const getFilterValue = (key: string) => {
 
 export const PropertyContainer: React.FC = () => {
   const dispatch = useAppDispatch();
-
   const propertyStore = useAppSelector((state) => state.property);
   const propertyList = useAppSelector(propertySelectors.selectAll);
+  const currentUser = useAppSelector((state) => state.auth.user);
 
   const propsModal = useModal({ isHotkeyOpen: true });
   const propsModalEdit = useModal<IProperty>();
   const propsSearch = useDebounce(propertyStore.listQueryPropertyFE.search);
+
+  const isPropertyManager = currentUser.isRole([
+    ERoles.Lead,
+    ERoles.PropertyManager,
+  ]);
+
   const hasPermission = withPermission([
     ERolesID.PropertyManager,
     ERolesID.Lead,
@@ -146,7 +152,9 @@ export const PropertyContainer: React.FC = () => {
             onChangeSideEffect={handleSetFilter}
             onChange={setFilter}
           />
-          <ButtonCreate onClick={handleOpenModal}>Thêm tài sản</ButtonCreate>
+          {isPropertyManager && (
+            <ButtonCreate onClick={handleOpenModal}>Thêm tài sản</ButtonCreate>
+          )}
         </Container.HeaderRight>
       </Container.Header>
       <Container.Body>

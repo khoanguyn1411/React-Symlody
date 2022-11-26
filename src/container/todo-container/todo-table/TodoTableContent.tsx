@@ -13,9 +13,9 @@ import {
 } from "@/features/reducers/task-reducer";
 import { ETodoStatusId, ITask } from "@/features/types";
 
-import { TODO_MESSAGES, UNASSIGNED_TEXT } from "../constant";
-import { checkStatusOfExpiredDate, getTaskCommonInfo } from "../function";
-import { TodoFormMapper } from "../mapper";
+import { TODO_MESSAGES } from "../constant";
+import { checkStatusOfExpiredDate } from "../function";
+import { TodoViewMapper } from "../mapper";
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
 type TProps = {
@@ -103,12 +103,8 @@ export const TodoTableContent: React.FC<TProps> = ({
     <>
       <Table.Body>
         {taskStore.listTasksByAssignee.map((task, index) => {
-          const itemTable = TodoFormMapper.toTableView(task);
+          const itemTable = TodoViewMapper.fromModel(userList, task);
           const statusOfExpiredDate = checkStatusOfExpiredDate(task);
-          const { fullName, avatar, isUnassigned } = getTaskCommonInfo(
-            userList,
-            task
-          );
           const isShowLoadingDelete =
             taskStore.pendingDeleteTask && task.id === currentInteractiveTask;
           return (
@@ -142,11 +138,11 @@ export const TodoTableContent: React.FC<TProps> = ({
               <Table.Cell>
                 <div className="flex items-center gap-3">
                   <Avatar
-                    src={avatar}
-                    fullName={fullName}
-                    isUnassigned={isUnassigned}
+                    src={itemTable.avatar}
+                    fullName={itemTable.fullName}
+                    isUnassigned={itemTable.isUnassigned}
                   />
-                  <span>{isUnassigned ? UNASSIGNED_TEXT : fullName}</span>
+                  <span>{itemTable.fullName}</span>
                 </div>
               </Table.Cell>
               <Table.CellAction>

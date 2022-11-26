@@ -13,7 +13,8 @@ const TableRowContent: GlobalTypes.FCChildren = ({ children }) => {
   return (
     <tr
       className={classNames("", {
-        "animate-skeleton": isSkeleton,
+        "animate-skeleton h-11": isSkeleton,
+        "h-14": !isSkeleton,
       })}
     >
       {children}
