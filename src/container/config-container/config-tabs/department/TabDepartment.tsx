@@ -54,7 +54,7 @@ export const TabConfigDepartment: React.FC = () => {
 
   return (
     <>
-      <Table.Container>
+      <Table.Container isFullHeight>
         <Table.Head>
           <Table.CellHead isFirst width="5rem" textAlign="center">
             STT

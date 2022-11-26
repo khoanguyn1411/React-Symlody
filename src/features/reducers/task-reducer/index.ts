@@ -22,6 +22,18 @@ export const getTasksAsync = createAsyncThunk<
   return rejectWithValue([]);
 });
 
+export const deleteTaskAsync = createAsyncThunk<
+  ITask["id"],
+  ITask["id"],
+  GlobalTypes.ReduxThunkRejectValue<null>
+>("delete/task", async (id, { rejectWithValue }) => {
+  const result = await TaskApi.deleteTask(id);
+  if (result.kind === "ok") {
+    return id;
+  }
+  return rejectWithValue(null);
+});
+
 export const createTaskAsync = createAsyncThunk<
   { task: ITask; shouldAddOne: boolean },
   { task: ITaskCreateUpdate },
@@ -32,15 +44,14 @@ export const createTaskAsync = createAsyncThunk<
   const assignee = userList.find((user) => user.id === body.task.assignee.id);
   const currentDepartmentId = reduxStore.task.listQueryTask.department_id;
 
-  // TODO: Add check not in the same department.
-  // const isNotInSameDepartment =
+  const isInSelectedDepartment = assignee.department_id === currentDepartmentId;
 
   const taskDto = TaskMapper.toDto(body.task);
   const result = await TaskApi.createTask(taskDto);
   if (result.kind === "ok") {
     return {
       task: TaskMapper.fromDto(result.result),
-      shouldAddOne: true,
+      shouldAddOne: isInSelectedDepartment,
     };
   }
   return rejectWithValue(null);
@@ -65,12 +76,12 @@ export const updateTaskAsync = createAsyncThunk<
   const assignee = userList.find((user) => user.id === payload.assignee.id);
   const currentDepartmentId = reduxStore.task.listQueryTask.department_id;
 
-  // TODO: Add check not in the same department.
-  // const isNotInSameDepartment =
+  const isNotInSelectedDepartment =
+    assignee.department_id !== currentDepartmentId;
   if (result.kind === "ok") {
     return {
       task: TaskMapper.fromDto(result.result),
-      shouldRemoveOne: false,
+      shouldRemoveOne: isNotInSelectedDepartment,
     };
   }
   return rejectWithValue(null);
@@ -142,6 +153,17 @@ export const taskSlice = createSlice({
           id: newTask.id,
           changes: newTask,
         });
+      })
+
+      .addCase(deleteTaskAsync.pending, (state) => {
+        state.pendingDeleteTask = true;
+      })
+      .addCase(deleteTaskAsync.fulfilled, (state, action) => {
+        state.pendingDeleteTask = false;
+        taskAdapter.removeOne(state, action.payload);
+      })
+      .addCase(deleteTaskAsync.rejected, (state) => {
+        state.pendingDeleteTask = false;
       });
   },
 });

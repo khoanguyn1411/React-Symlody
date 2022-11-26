@@ -22,6 +22,7 @@ export class UserMapper {
       first_name: profile.first_name,
       last_name: profile.last_name,
       full_name: generateFullName(profile.last_name, profile.first_name),
+      department_id: profile.department.id,
       email: profile.email,
     };
   }
@@ -39,6 +40,7 @@ export class UserMapper {
       last_name: model.auth_account.last_name,
       full_name: model.auth_account.full_name,
       email: model.auth_account.email,
+      department_id: model.department.id,
     };
   }
 }

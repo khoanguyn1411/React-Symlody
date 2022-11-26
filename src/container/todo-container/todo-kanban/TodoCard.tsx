@@ -1,19 +1,22 @@
 import classNames from "classnames";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 import { Icon } from "@/assets/icons";
-import { Avatar, Dropdown, Tooltip } from "@/components";
-import { useAppSelector } from "@/features";
+import { Avatar, Dropdown, TItemListSelect, Tooltip } from "@/components";
+import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
+import { deleteTaskAsync } from "@/features/reducers/task-reducer";
 import { ITask } from "@/features/types";
 import { FormatService } from "@/utils";
 import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
-import { UNASSIGNED_TEXT } from "../constant";
+import { TODO_MESSAGES, UNASSIGNED_TEXT } from "../constant";
 import { checkStatusOfExpiredDate, getTaskCommonInfo } from "../function";
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 
 export const TodoCard: React.FC<ITask> = (task) => {
+  const dispatch = useAppDispatch();
   const userList = useAppSelector(userSelectors.selectAll);
   const { fullName, avatar, isUnassigned } = getTaskCommonInfo(userList, task);
   const statusOfExpiredDate = checkStatusOfExpiredDate(task);
@@ -35,6 +38,17 @@ export const TodoCard: React.FC<ITask> = (task) => {
 
   const handleListOpen = () => {
     setIsListShow(true);
+  };
+
+  const handleDropdownSelection = async (item: TItemListSelect) => {
+    if (item.key === "delete") {
+      const res = await dispatch(deleteTaskAsync(task.id));
+      if (res.meta.requestStatus === "fulfilled") {
+        toast.success(TODO_MESSAGES.delete.success);
+        return;
+      }
+      toast.error(TODO_MESSAGES.delete.error);
+    }
   };
 
   return (
@@ -60,6 +74,7 @@ export const TodoCard: React.FC<ITask> = (task) => {
             })}
             onListHidden={handleListClose}
             onListShow={handleListOpen}
+            onChange={handleDropdownSelection}
             placement="bottom-right"
             widthContainer="150px"
             listSetting={[{ key: "delete", value: "Xóa" }]}
