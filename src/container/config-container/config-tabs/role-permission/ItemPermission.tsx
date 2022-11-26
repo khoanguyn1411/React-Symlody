@@ -54,13 +54,8 @@ export const ItemPermission: React.FC<TProps> = ({ onOpenEdit }) => {
 
             <Table.CellAction>
               <DeleteAndEditField
-                isShowLoading={false}
-                title="Bạn có chắc muốn xoá quyền thành viên này?"
-                titleDelete="Xoá"
-                isShowDelete={false}
                 handleEvent={{
                   edit: () => onOpenEdit(d),
-                  // delete: () => onDeleteRoleUser(d.id),
                 }}
               />
             </Table.CellAction>
