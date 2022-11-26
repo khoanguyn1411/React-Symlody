@@ -12,7 +12,7 @@ const TableRowContent: GlobalTypes.FCChildren = ({ children }) => {
   const { isSkeleton } = useTableRowContext();
   return (
     <tr
-      className={classNames("hover:bg-gray-50 transition-colors duration-300", {
+      className={classNames("", {
         "animate-skeleton": isSkeleton,
       })}
     >

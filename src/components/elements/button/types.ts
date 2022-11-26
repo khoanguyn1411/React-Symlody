@@ -16,6 +16,7 @@ export const SIZE_MAPS = {
   small: "h-8",
   default: "h-10",
   large: "h-12",
+  none: "",
 } as const;
 
 export const BLOCK = {
