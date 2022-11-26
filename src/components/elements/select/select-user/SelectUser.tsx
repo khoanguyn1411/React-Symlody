@@ -95,13 +95,17 @@ export const SelectUser: React.FC<TProps> = ({
     setCurrentUserList(userList);
   }, [userList]);
 
+  const isShowClearSearch = inputValue !== "" || userSelected != null;
+  const isShowFullNameImage =
+    userSelected && inputValue === userSelected.full_name;
+
   return (
     <div>
       <SelectSearch
         setInputValue={handleInputChange}
         inputValue={inputValue}
         isSearching={isSearching}
-        isShowClearSearch={inputValue !== "" || userSelected != null}
+        isShowClearSearch={isShowClearSearch}
         debounceValue={debounceValue}
         isShowContent={isShowContent}
         onClearSearch={handleClearMemberSelected}
@@ -110,15 +114,8 @@ export const SelectUser: React.FC<TProps> = ({
         postNode={
           <Avatar
             size="small"
-            fullName={
-              userSelected &&
-              inputValue === userSelected.full_name &&
-              userSelected.first_name
-            }
-            src={
-              (!userSelected || inputValue !== userSelected.full_name) &&
-              PLACEHOLDER_IMAGE
-            }
+            fullName={isShowFullNameImage && userSelected.full_name}
+            src={!isShowFullNameImage ? PLACEHOLDER_IMAGE : userSelected.avatar}
           />
         }
         onSearchChange={handleSearchValueChange}
@@ -152,7 +149,11 @@ export const SelectUser: React.FC<TProps> = ({
                 isSelectedItemInList ? "bg-primary-800" : "hover:bg-primary-50 "
               )}
             >
-              <Avatar size="default" fullName={item.first_name} src="" />
+              <Avatar
+                size="default"
+                fullName={item.first_name}
+                src={item.avatar}
+              />
               <div className="flex flex-col">
                 <h1
                   className={classNames(
