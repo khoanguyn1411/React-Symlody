@@ -31,11 +31,14 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
 
   const getUserWithCurrentUserList = useCallback(() => {
     const _currentUser = UserMapper.fromProfile(currentUserProfile);
-    const userListWithoutCurrentUser = userList.filter(
-      (user) => user.id !== _currentUser.id
-    );
+    const userListWithoutCurrentUser = userList.filter((user) => {
+      const isSameWithFilterDepartment =
+        user.department_id === taskStore.listQueryTask.department_id;
+      const isNotCurrenUser = user.id !== _currentUser.id;
+      return isSameWithFilterDepartment && isNotCurrenUser;
+    });
     return [_currentUser].concat(userListWithoutCurrentUser);
-  }, [currentUserProfile, userList]);
+  }, [currentUserProfile, taskStore.listQueryTask.department_id, userList]);
 
   const [currentUserList, setCurrentUserList] = useState(() =>
     getUserWithCurrentUserList()
@@ -46,7 +49,11 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
 
   useEffect(() => {
     setCurrentUserList(getUserWithCurrentUserList());
-  }, [currentUserProfile, getUserWithCurrentUserList]);
+  }, [
+    currentUserProfile,
+    getUserWithCurrentUserList,
+    taskStore.listQueryTask.department_id,
+  ]);
 
   useLayoutEffect(() => {
     dispatch(setSelectedMemberList(selectedMembers));

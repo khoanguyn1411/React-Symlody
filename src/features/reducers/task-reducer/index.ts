@@ -44,15 +44,14 @@ export const createTaskAsync = createAsyncThunk<
   const assignee = userList.find((user) => user.id === body.task.assignee.id);
   const currentDepartmentId = reduxStore.task.listQueryTask.department_id;
 
-  // TODO: Add check not in the same department.
-  // const isNotInSameDepartment =
+  const isInSelectedDepartment = assignee.department_id === currentDepartmentId;
 
   const taskDto = TaskMapper.toDto(body.task);
   const result = await TaskApi.createTask(taskDto);
   if (result.kind === "ok") {
     return {
       task: TaskMapper.fromDto(result.result),
-      shouldAddOne: true,
+      shouldAddOne: isInSelectedDepartment,
     };
   }
   return rejectWithValue(null);
@@ -77,12 +76,12 @@ export const updateTaskAsync = createAsyncThunk<
   const assignee = userList.find((user) => user.id === payload.assignee.id);
   const currentDepartmentId = reduxStore.task.listQueryTask.department_id;
 
-  // TODO: Add check not in the same department.
-  // const isNotInSameDepartment =
+  const isNotInSelectedDepartment =
+    assignee.department_id !== currentDepartmentId;
   if (result.kind === "ok") {
     return {
       task: TaskMapper.fromDto(result.result),
-      shouldRemoveOne: false,
+      shouldRemoveOne: isNotInSelectedDepartment,
     };
   }
   return rejectWithValue(null);

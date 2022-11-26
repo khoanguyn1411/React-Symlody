@@ -84,14 +84,19 @@ export const TodoContainer: React.FC = () => {
     return department ? department.id : currentUser.department.id;
   };
 
-  const [filterDepartment, setFilterDepartment] = useState<string>(() => {
+  const getInitialDepartmentText = () => {
     if (taskStore.listQueryTask.department_id) {
-      return departmentList.find(
+      const department = departmentList.find(
         (department) => department.id === taskStore.listQueryTask.department_id
-      ).name;
+      );
+      if (department) {
+        return department.name;
+      }
     }
     return currentUser.department.name;
-  });
+  };
+
+  const [filterDepartment, setFilterDepartment] = useState<string>();
 
   const isNoData = false;
   const isInvalidUrl =
@@ -115,6 +120,17 @@ export const TodoContainer: React.FC = () => {
   useEffect(() => {
     setContent(getContentTab(_tab, isLoading));
   }, [isLoading, navigate, _tab]);
+
+  useEffect(() => {
+    setFilterDepartment(getInitialDepartmentText());
+    dispatch(
+      setListQueryTask({
+        ...taskStore.listQueryTask,
+        department_id: currentUser.department.id,
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useLayoutEffect(() => {
     const hasUser = userCount > 0;
