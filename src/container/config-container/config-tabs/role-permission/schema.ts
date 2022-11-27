@@ -2,6 +2,7 @@ import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
 
+import { EPermissionOptions } from "./constants";
 import { IConfigManagerForm } from "./types";
 
 export const schema: yup.SchemaOf<IConfigManagerForm> = yup.object().shape({
@@ -10,8 +11,14 @@ export const schema: yup.SchemaOf<IConfigManagerForm> = yup.object().shape({
   roleManager: yup
     .array()
     .of(yup.string())
-    .test({
-      message: APP_ERROR_MESSAGE.REQUIRED,
-      test: (arr) => arr.length > 0,
-    }),
+    .test(
+      "is-empty-role-manager",
+      APP_ERROR_MESSAGE.REQUIRED,
+      function (value) {
+        if (this.parent.type === EPermissionOptions.Manager) {
+          return value.length > 0;
+        }
+        return true;
+      }
+    ),
 });

@@ -51,7 +51,6 @@ export const ModalEditPermission: React.FC<TProps> = ({
   const {
     control,
     formState: { isSubmitting, dirtyFields, errors },
-    setValue,
     handleSubmit,
     reset,
   } = propsForm;
@@ -65,19 +64,6 @@ export const ModalEditPermission: React.FC<TProps> = ({
       reset(formData);
     }
   }, [data, reset, isShowing]);
-
-  useEffect(() => {
-    if (!data) {
-      return;
-    }
-    const formData = RolePermissionFormMapper.fromModel(data);
-    if (isManager) {
-      setValue("roleManager", formData.roleManager);
-      return;
-    }
-    setValue("roleManager", [""]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type]);
 
   const handleSetType = (item: TItemListSelect) => {
     setType(item.value);
