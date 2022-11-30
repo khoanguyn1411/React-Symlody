@@ -1,16 +1,9 @@
-import { ApisauceInstance } from "apisauce";
 import { AxiosRequestConfig } from "axios";
 
-import { RequestRefreshResult, returnResponse } from "@/api";
 import { APP_LOCAL_STORAGE_KEYS } from "@/constants";
-import { IToken, ITokenRefreshDto } from "@/features/types";
-import { TokenMapper } from "@/features/types/mappers/token.mapper";
+import { IToken } from "@/features/types";
 
 import { LocalStorageService } from ".";
-
-const routes = {
-  refreshToken: () => `login/refresh/`,
-};
 
 /**
  * Check if token is required for request or not.
@@ -56,19 +49,4 @@ export function isValid(): boolean {
     return false;
   }
   return true;
-}
-
-/**
- * Refresh token when token is expired.
- * @param token Token need to be refreshed.
- * @param api API instance (get from API class).
- */
-export async function refreshToken(
-  token: IToken,
-  api: ApisauceInstance
-): Promise<RequestRefreshResult> {
-  const tokenRefreshDto = TokenMapper.toParamRefreshDto(token);
-  const url = routes.refreshToken();
-  const result = await api.post<ITokenRefreshDto>(url, tokenRefreshDto);
-  return returnResponse(result);
 }

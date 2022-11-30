@@ -4,6 +4,8 @@ import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 import { TokenService } from "@/utils";
 
+import { AuthApi } from "./auth-api";
+
 export function interceptToken(config: AxiosRequestConfig): AxiosRequestConfig {
   if (!TokenService.shouldInterceptToken(config)) {
     return config;
@@ -34,7 +36,7 @@ export function refreshToken(instance: ApisauceInstance) {
     }
 
     if (error.response.status === 401) {
-      const result = await TokenService.refreshToken(token, instance);
+      const result = await AuthApi.refreshToken(token);
       if (result.kind !== "ok") {
         TokenService.clearToken();
         return Promise.reject(error);

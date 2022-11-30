@@ -1,5 +1,12 @@
-import { ILoginDto, IProfileDto, ITokenDto } from "@/features/types";
+import {
+  ILoginDto,
+  IProfileDto,
+  IToken,
+  ITokenDto,
+  ITokenRefreshDto,
+} from "@/features/types";
 import { IChangePasswordDto } from "@/features/types/dtos/change-password.dto";
+import { TokenMapper } from "@/features/types/mappers/token.mapper";
 
 import { Api } from "../api-core";
 import { returnResponse } from "../api-utilities";
@@ -41,6 +48,13 @@ export const AuthApi = {
     const url = routes.changePassword();
     const result = await Api.http.post<boolean>(url, { ...body });
 
+    return returnResponse(result);
+  },
+
+  async refreshToken(token: IToken): Promise<Types.RequestRefreshResult> {
+    const tokenRefreshDto = TokenMapper.toParamRefreshDto(token);
+    const url = routes.refreshToken();
+    const result = await Api.http.post<ITokenRefreshDto>(url, tokenRefreshDto);
     return returnResponse(result);
   },
 };
