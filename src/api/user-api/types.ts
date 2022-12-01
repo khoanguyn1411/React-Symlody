@@ -1,5 +1,5 @@
 import { IUserDto } from "@/features/types/dtos";
 
-import { Response } from "../types";
+import { Response } from "../api-response";
 
 export type RequestGetUsersResult = Response<IUserDto[]>;

@@ -9,7 +9,7 @@ import { IChangePasswordDto } from "@/features/types/dtos/change-password.dto";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 
 import { http } from "../api-core";
-import { returnResponse } from "../api-utilities";
+import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const routes = {
@@ -23,38 +23,33 @@ const routes = {
 export const AuthApi = {
   async login(loginInfo: ILoginDto): Promise<Types.RequestLoginResult> {
     const url = routes.login();
-    const result = await http.post<ITokenDto>(url, loginInfo);
-    return returnResponse(result);
+    return composeHttpMethodResult(http.post<ITokenDto>(url, loginInfo));
   },
 
   async getProfile(): Promise<Types.RequestGetProfileResult> {
     const url = routes.getProfile();
-    const result = await http.get<IProfileDto>(url);
-
-    return returnResponse(result);
+    return composeHttpMethodResult(http.get<IProfileDto>(url));
   },
 
   async updateProfile(
     profile: FormData
   ): Promise<Types.RequestUpdateProfileResult> {
     const url = routes.updateProfile();
-    const result = await http.patch<IProfileDto>(url, profile);
-    return returnResponse(result);
+    return composeHttpMethodResult(http.patch<IProfileDto>(url, profile));
   },
 
   async changePassword(
     body: IChangePasswordDto
   ): Promise<Types.RequestChangePasswordResult> {
     const url = routes.changePassword();
-    const result = await http.post<boolean>(url, { ...body });
-
-    return returnResponse(result);
+    return composeHttpMethodResult(http.post<boolean>(url, body));
   },
 
   async refreshToken(token: IToken): Promise<Types.RequestRefreshResult> {
     const tokenRefreshDto = TokenMapper.toParamRefreshDto(token);
     const url = routes.refreshToken();
-    const result = await http.post<ITokenRefreshDto>(url, tokenRefreshDto);
-    return returnResponse(result);
+    return composeHttpMethodResult(
+      http.post<ITokenRefreshDto>(url, tokenRefreshDto)
+    );
   },
 };

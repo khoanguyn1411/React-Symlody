@@ -2,7 +2,7 @@
 export * from "./api-config";
 export * from "./api-core";
 export * from "./api-interceptors";
-export * from "./api-problem";
+export * from "./api-response";
 export * from "./api-utilities";
 //api
 export * from "./auth-api";

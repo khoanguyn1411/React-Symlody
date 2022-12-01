@@ -1,8 +1,8 @@
-import { IFileUploadedDto, IMember, IMemberDto } from "@/features/types";
+import { IMember, IMemberDto } from "@/features/types";
 import { TMemberParamQueryDto } from "@/features/types/queries";
 
 import { http } from "../api-core";
-import { returnResponse } from "../api-utilities";
+import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 const routes = {
   createMember: () => `member/`,
@@ -17,26 +17,24 @@ export const MemberApi = {
     param: TMemberParamQueryDto
   ): Promise<Types.RequestGetMembersResult> {
     const url = routes.getMembers();
-    const result = await http.get<IMemberDto[]>(url, param);
-    return returnResponse(result);
+    const method = http.get<IMemberDto[]>(url, param);
+    return composeHttpMethodResult(method);
   },
 
   async deleteMember(
     id: IMember["id"]
   ): Promise<Types.RequestDeleteMembersResult> {
     const url = routes.deleteMember(id);
-    const result = await http.delete<boolean>(url);
-
-    return returnResponse(result);
+    const method = http.delete<boolean>(url);
+    return composeHttpMethodResult(method);
   },
 
   async createMember(
     body: Types.RequestCreateMemberBody
   ): Promise<Types.RequestCreateMembersResult> {
     const url = routes.createMember();
-    const result = await http.post<IMemberDto>(url, body);
-
-    return returnResponse(result);
+    const method = http.post<IMemberDto>(url, body);
+    return composeHttpMethodResult(method);
   },
 
   async updateMember(
@@ -44,16 +42,15 @@ export const MemberApi = {
     body: Types.RequestUpdateMemberBody
   ): Promise<Types.RequestUpdateMembersResult> {
     const url = routes.updateMember(id);
-    const result = await http.patch<IMemberDto>(url, body);
-    return returnResponse(result);
+    const method = http.patch<IMemberDto>(url, body);
+    return composeHttpMethodResult(method);
   },
 
   async uploadMemberExcelFile(
     body: FormData
   ): Promise<Types.RequestUploadMemberExcelFileResult> {
     const url = routes.uploadMemberExcelFile();
-    const result = await http.post<IFileUploadedDto>(url, body);
-
-    return returnResponse(result);
+    const method = http.post<boolean>(url, body);
+    return composeHttpMethodResult(method);
   },
 };

@@ -1,6 +1,6 @@
 import { IProfileDto, ITokenDto, ITokenRefreshDto } from "@/features/types";
 
-import { Response } from "../types";
+import { Response } from "../api-response";
 
 export type RequestLoginResult = Response<ITokenDto>;
 export type RequestGetProfileResult = Response<IProfileDto>;

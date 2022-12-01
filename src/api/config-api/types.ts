@@ -8,7 +8,7 @@ import {
   IConfigManagerDto,
 } from "@/features/types/dtos/config-manager.dto";
 
-import { Response } from "../types";
+import { Response } from "../api-response";
 
 export type RequestGetTenantResult = Response<ITenantDto>;
 export type RequestUpdateTenantResult = Response<ITenantDto>;

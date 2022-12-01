@@ -1,12 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import {
-  MemberApi,
-  RequestCreateMembersResult,
-  RequestGetMembersResult,
-  RequestUpdateMembersResult,
-  RequestUploadMemberExcelFileResult,
-} from "@/api";
+import { MemberApi } from "@/api";
 import { RootState, store } from "@/features/store";
 import {
   FileUploadedMapper,
@@ -32,10 +26,8 @@ export const uploadMemberExcelFileAsync = createAsyncThunk<
   IFileUploaded,
   GlobalTypes.ReduxThunkRejectValue<false>
 >("createMultiples/member", async (payload, { rejectWithValue, dispatch }) => {
-  const result: RequestUploadMemberExcelFileResult =
-    await MemberApi.uploadMemberExcelFile(
-      FileUploadedMapper.toFormData(payload)
-    );
+  const formData = FileUploadedMapper.toFormData(payload);
+  const result = await MemberApi.uploadMemberExcelFile(formData);
   if (result.kind === "ok") {
     dispatch(getUsersAsync());
     return true;
@@ -48,15 +40,15 @@ export const createMemberAsync = createAsyncThunk<
   IMemberCreateUpdate,
   GlobalTypes.ReduxThunkRejectValue<HttpError | null>
 >("create/member", async (payload, { rejectWithValue, dispatch }) => {
-  const result: RequestCreateMembersResult = await MemberApi.createMember(
-    MemberMapper.toCreateDto(payload)
-  );
+  const memberDto = MemberMapper.toCreateDto(payload);
+  const result = await MemberApi.createMember(memberDto);
+  console.log(result);
   if (result.kind === "ok") {
     dispatch(getUsersAsync());
     return MemberMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {
-    const errorBadData = HttpErrorMapper.fromDto(result.result.data);
+    const errorBadData = HttpErrorMapper.fromDto(result.httpError);
     return rejectWithValue(errorBadData);
   }
   return rejectWithValue(null);
@@ -90,7 +82,7 @@ export const getMembersAsync = createAsyncThunk<
   TMemberParamQueryDto,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/members", async (param, { rejectWithValue }) => {
-  const result: RequestGetMembersResult = await MemberApi.getMembers(param);
+  const result = await MemberApi.getMembers(param);
   if (result.kind === "ok") {
     return result.result.map((item) => MemberMapper.fromDto(item));
   }
@@ -104,10 +96,8 @@ export const updateMemberAsync = createAsyncThunk<
 >(
   "update/member",
   async ({ payload, id, isRestore }, { rejectWithValue, dispatch }) => {
-    const result: RequestUpdateMembersResult = await MemberApi.updateMember(
-      id,
-      MemberMapper.toUpdateDto(payload)
-    );
+    const memberDto = MemberMapper.toUpdateDto(payload);
+    const result = await MemberApi.updateMember(id, memberDto);
     if (result.kind === "ok") {
       const memberUpdatedInfo = MemberMapper.fromDto(result.result);
       dispatch(getUsersAsync());
@@ -126,7 +116,7 @@ export const updateMemberAsync = createAsyncThunk<
       };
     }
     if (result.kind === "bad-data") {
-      const errorBadData = HttpErrorMapper.fromDto(result.result.data);
+      const errorBadData = HttpErrorMapper.fromDto(result.httpError);
       return rejectWithValue({ result: errorBadData, isRestore: false });
     }
     return rejectWithValue({ result: result.result, isRestore });

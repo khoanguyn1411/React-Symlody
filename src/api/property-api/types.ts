@@ -1,6 +1,6 @@
 import { IPropertyDto } from "@/features/types/dtos";
 
-import { Response } from "../types";
+import { Response } from "../api-response";
 
 export type RequestGetPropertiesResult = Response<IPropertyDto[]>;
 export type RequestCreatePropertyResult = Response<IPropertyDto>;

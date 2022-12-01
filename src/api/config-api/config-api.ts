@@ -5,7 +5,7 @@ import {
 } from "@/features/types/dtos/config-manager.dto";
 
 import { http } from "../api-core";
-import { returnResponse } from "../api-utilities";
+import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const routes = {
@@ -21,9 +21,7 @@ const routes = {
 export const ConfigApi = {
   async getTenant(): Promise<Types.RequestGetTenantResult> {
     const url = routes.getTenant();
-    const result = await http.get<ITenantDto>(url);
-
-    return returnResponse(result);
+    return composeHttpMethodResult(http.get<ITenantDto>(url));
   },
 
   async updateTenant(
@@ -31,33 +29,25 @@ export const ConfigApi = {
     body: FormData
   ): Promise<Types.RequestUpdateTenantResult> {
     const url = routes.updateTenant(id);
-    const result = await http.patch<ITenantDto>(url, body);
-
-    return returnResponse(result);
+    return composeHttpMethodResult(http.patch<ITenantDto>(url, body));
   },
 
   async getConfigManager(): Promise<Types.RequestGetConfigManagerResult> {
     const url = routes.getConfigManager();
-    const result = await http.get<IConfigManagerDto>(url);
-
-    return returnResponse(result);
+    return composeHttpMethodResult(http.get<IConfigManagerDto>(url));
   },
 
   async updateConfigManager(
     body: Types.RequestUpdateConfigManagerBody
   ): Promise<Types.RequestUpdateConfigManagerResult> {
     const url = routes.updateConfigManager();
-    const result = await http.patch<IConfigManagerDto>(url, body);
-
-    return returnResponse(result);
+    return composeHttpMethodResult(http.patch<IConfigManagerDto>(url, body));
   },
 
   async updateConfigRoleUser(
     params: Types.RequestParamsConfigRoleUser
   ): Promise<Types.RequestUpdateConfigRoleUserResult> {
     const url = routes.updateConfigRoleUser(params.user_id);
-    const result = await http.patch<IConfigInfoDto>(url, params);
-
-    return returnResponse(result);
+    return composeHttpMethodResult(http.patch<IConfigInfoDto>(url, params));
   },
 };

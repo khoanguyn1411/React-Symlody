@@ -1,6 +1,6 @@
 import { ITaskDto } from "@/features/types/dtos";
 
-import { Response } from "../types";
+import { Response } from "../api-response";
 
 export type RequestGetTasksResult = Response<ITaskDto[]>;
 export type RequestCreateTasksResult = Response<ITaskDto>;

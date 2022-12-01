@@ -1,6 +1,6 @@
 import { IDepartmentCreateUpdateDto, IDepartmentDto } from "@/features/types";
 
-import { Response } from "../types";
+import { Response } from "../api-response";
 
 export type RequestCreateDepartmentBody = IDepartmentCreateUpdateDto;
 export type RequestUpdateDepartmentBody = IDepartmentCreateUpdateDto;

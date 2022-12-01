@@ -1,9 +1,7 @@
-import { ApiResponse } from "apisauce";
-
 import { IDepartmentDto } from "@/features/types";
 
 import { http } from "../api-core";
-import { returnResponse } from "../api-utilities";
+import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const routes = {
@@ -16,20 +14,14 @@ const routes = {
 export const DepartmentApi = {
   async getDepartments(): Promise<Types.RequestGetDepartmentResult> {
     const url = routes.getDepartments();
-    const result: ApiResponse<IDepartmentDto[]> = await http.get(url);
-
-    return returnResponse(result);
+    return composeHttpMethodResult(http.get<IDepartmentDto[]>(url));
   },
 
   async createDepartment(
     body: Types.RequestCreateDepartmentBody
   ): Promise<Types.RequestCreateDepartmentResult> {
     const url = routes.createDepartment();
-    const result: ApiResponse<IDepartmentDto> = await http.post(url, {
-      ...body,
-    });
-
-    return returnResponse(result);
+    return composeHttpMethodResult(http.post<IDepartmentDto>(url, body));
   },
 
   async updateDepartment(
@@ -37,19 +29,13 @@ export const DepartmentApi = {
     body: Types.RequestUpdateDepartmentBody
   ): Promise<Types.RequestUpdateDepartmentResult> {
     const url = routes.updateDepartment(id);
-    const result: ApiResponse<IDepartmentDto> = await http.patch(url, {
-      ...body,
-    });
-
-    return returnResponse(result);
+    return composeHttpMethodResult(http.patch<IDepartmentDto>(url, body));
   },
 
   async deleteDepartment(
     id: number
   ): Promise<Types.RequestDeleteDepartmentResult> {
     const url = routes.deleteDepartment(id);
-    const result: ApiResponse<boolean> = await http.delete(url);
-
-    return returnResponse(result);
+    return composeHttpMethodResult(http.delete<boolean>(url));
   },
 };

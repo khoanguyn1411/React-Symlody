@@ -2,7 +2,7 @@ import { ITask, ITaskCreateUpdateDto, ITaskDto } from "@/features/types";
 import { TTaskParamQueryDto } from "@/features/types/queries";
 
 import { http } from "../api-core";
-import { returnResponse } from "../api-utilities";
+import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const routes = {
@@ -17,22 +17,22 @@ export const TaskApi = {
     param?: TTaskParamQueryDto
   ): Promise<Types.RequestGetTasksResult> {
     const url = routes.getTasks();
-    const result = await http.get<ITaskDto[]>(url, param);
-    return returnResponse(result);
+    const method = http.get<ITaskDto[]>(url, param);
+    return composeHttpMethodResult(method);
   },
 
   async deleteTask(id: ITask["id"]): Promise<Types.RequestDeleteTasksResult> {
     const url = routes.deleteTask(id);
-    const result = await http.delete<boolean>(url);
-    return returnResponse(result);
+    const method = http.delete<boolean>(url);
+    return composeHttpMethodResult(method);
   },
 
   async createTask(
     body: ITaskCreateUpdateDto
   ): Promise<Types.RequestCreateTasksResult> {
     const url = routes.createTask();
-    const result = await http.post<ITaskDto>(url, body);
-    return returnResponse(result);
+    const method = http.post<ITaskDto>(url, body);
+    return composeHttpMethodResult(method);
   },
 
   async updateTask(
@@ -40,7 +40,7 @@ export const TaskApi = {
     body: ITaskCreateUpdateDto
   ): Promise<Types.RequestUpdateTasksResult> {
     const url = routes.updateTask(id);
-    const result = await http.patch<ITaskDto>(url, body);
-    return returnResponse(result);
+    const method = http.patch<ITaskDto>(url, body);
+    return composeHttpMethodResult(method);
   },
 };

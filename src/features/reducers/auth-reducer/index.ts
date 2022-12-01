@@ -89,7 +89,7 @@ export const updateProfileAsync = createAsyncThunk<
     return ProfileMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {
-    const errorBadData = HttpErrorMapper.fromDto(result.result.data);
+    const errorBadData = HttpErrorMapper.fromDto(result.httpError);
     return rejectWithValue(errorBadData);
   }
 
