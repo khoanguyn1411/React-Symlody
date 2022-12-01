@@ -1,7 +1,7 @@
 import { IProperty, IPropertyDto } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
 
-import { Api } from "../api-core";
+import { http } from "../api-core";
 import { returnResponse } from "../api-utilities";
 import * as Types from "./types";
 
@@ -15,7 +15,7 @@ export const PropertyApi = {
     param: TPropertyParamQueryDto
   ): Promise<Types.RequestGetPropertiesResult> {
     const url = routes.getProperties();
-    const result = await Api.http.get<IPropertyDto[]>(url, param);
+    const result = await http.get<IPropertyDto[]>(url, param);
     return returnResponse(result);
   },
 
@@ -23,7 +23,7 @@ export const PropertyApi = {
     body: FormData
   ): Promise<Types.RequestCreatePropertyResult> {
     const url = routes.getProperties();
-    const result = await Api.http.post<IPropertyDto>(url, body);
+    const result = await http.post<IPropertyDto>(url, body);
     return returnResponse(result);
   },
 
@@ -31,7 +31,7 @@ export const PropertyApi = {
     id: IProperty["id"]
   ): Promise<Types.RequestDeletePropertyResult> {
     const url = routes.deleteProperty(id);
-    const result = await Api.http.delete<boolean>(url);
+    const result = await http.delete<boolean>(url);
 
     return returnResponse(result);
   },

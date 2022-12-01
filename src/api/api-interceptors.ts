@@ -1,9 +1,9 @@
-import { ApisauceInstance } from "apisauce";
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 import { TokenService } from "@/utils";
 
+import { http } from "./api-core";
 import { AuthApi } from "./auth-api";
 
 export function interceptToken(config: AxiosRequestConfig): AxiosRequestConfig {
@@ -18,7 +18,7 @@ export function interceptToken(config: AxiosRequestConfig): AxiosRequestConfig {
   return config;
 }
 
-export function refreshToken(instance: ApisauceInstance) {
+export function refreshToken() {
   return async (error: AxiosError): Promise<AxiosResponse> => {
     const config = error.config;
     const token = TokenService.getToken();
@@ -44,7 +44,7 @@ export function refreshToken(instance: ApisauceInstance) {
       const newTokenModel = TokenMapper.fromRefreshTokenDto(result.result);
       TokenService.setToken(newTokenModel);
       config.headers["Authorization"] = `Bearer ${newTokenModel.access}`;
-      return instance.axiosInstance.request(config);
+      return http.axiosInstance.request(config);
     }
     return Promise.reject(error);
   };

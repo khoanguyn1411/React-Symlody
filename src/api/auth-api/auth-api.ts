@@ -8,7 +8,7 @@ import {
 import { IChangePasswordDto } from "@/features/types/dtos/change-password.dto";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 
-import { Api } from "../api-core";
+import { http } from "../api-core";
 import { returnResponse } from "../api-utilities";
 import * as Types from "./types";
 
@@ -23,13 +23,13 @@ const routes = {
 export const AuthApi = {
   async login(loginInfo: ILoginDto): Promise<Types.RequestLoginResult> {
     const url = routes.login();
-    const result = await Api.http.post<ITokenDto>(url, loginInfo);
+    const result = await http.post<ITokenDto>(url, loginInfo);
     return returnResponse(result);
   },
 
   async getProfile(): Promise<Types.RequestGetProfileResult> {
     const url = routes.getProfile();
-    const result = await Api.http.get<IProfileDto>(url);
+    const result = await http.get<IProfileDto>(url);
 
     return returnResponse(result);
   },
@@ -38,7 +38,7 @@ export const AuthApi = {
     profile: FormData
   ): Promise<Types.RequestUpdateProfileResult> {
     const url = routes.updateProfile();
-    const result = await Api.http.patch<IProfileDto>(url, profile);
+    const result = await http.patch<IProfileDto>(url, profile);
     return returnResponse(result);
   },
 
@@ -46,7 +46,7 @@ export const AuthApi = {
     body: IChangePasswordDto
   ): Promise<Types.RequestChangePasswordResult> {
     const url = routes.changePassword();
-    const result = await Api.http.post<boolean>(url, { ...body });
+    const result = await http.post<boolean>(url, { ...body });
 
     return returnResponse(result);
   },
@@ -54,7 +54,7 @@ export const AuthApi = {
   async refreshToken(token: IToken): Promise<Types.RequestRefreshResult> {
     const tokenRefreshDto = TokenMapper.toParamRefreshDto(token);
     const url = routes.refreshToken();
-    const result = await Api.http.post<ITokenRefreshDto>(url, tokenRefreshDto);
+    const result = await http.post<ITokenRefreshDto>(url, tokenRefreshDto);
     return returnResponse(result);
   },
 };

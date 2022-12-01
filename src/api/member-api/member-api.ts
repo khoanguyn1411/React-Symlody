@@ -1,7 +1,7 @@
 import { IFileUploadedDto, IMember, IMemberDto } from "@/features/types";
 import { TMemberParamQueryDto } from "@/features/types/queries";
 
-import { Api } from "../api-core";
+import { http } from "../api-core";
 import { returnResponse } from "../api-utilities";
 import * as Types from "./types";
 const routes = {
@@ -17,7 +17,7 @@ export const MemberApi = {
     param: TMemberParamQueryDto
   ): Promise<Types.RequestGetMembersResult> {
     const url = routes.getMembers();
-    const result = await Api.http.get<IMemberDto[]>(url, param);
+    const result = await http.get<IMemberDto[]>(url, param);
     return returnResponse(result);
   },
 
@@ -25,7 +25,7 @@ export const MemberApi = {
     id: IMember["id"]
   ): Promise<Types.RequestDeleteMembersResult> {
     const url = routes.deleteMember(id);
-    const result = await Api.http.delete<boolean>(url);
+    const result = await http.delete<boolean>(url);
 
     return returnResponse(result);
   },
@@ -34,7 +34,7 @@ export const MemberApi = {
     body: Types.RequestCreateMemberBody
   ): Promise<Types.RequestCreateMembersResult> {
     const url = routes.createMember();
-    const result = await Api.http.post<IMemberDto>(url, body);
+    const result = await http.post<IMemberDto>(url, body);
 
     return returnResponse(result);
   },
@@ -44,7 +44,7 @@ export const MemberApi = {
     body: Types.RequestUpdateMemberBody
   ): Promise<Types.RequestUpdateMembersResult> {
     const url = routes.updateMember(id);
-    const result = await Api.http.patch<IMemberDto>(url, body);
+    const result = await http.patch<IMemberDto>(url, body);
     return returnResponse(result);
   },
 
@@ -52,7 +52,7 @@ export const MemberApi = {
     body: FormData
   ): Promise<Types.RequestUploadMemberExcelFileResult> {
     const url = routes.uploadMemberExcelFile();
-    const result = await Api.http.post<IFileUploadedDto>(url, body);
+    const result = await http.post<IFileUploadedDto>(url, body);
 
     return returnResponse(result);
   },
