@@ -6,6 +6,12 @@ export type RequestCreateDepartmentBody = IDepartmentCreateUpdateDto;
 export type RequestUpdateDepartmentBody = IDepartmentCreateUpdateDto;
 
 export type RequestGetDepartmentResult = Response<IDepartmentDto[]>;
-export type RequestCreateDepartmentResult = Response<IDepartmentDto>;
-export type RequestUpdateDepartmentResult = Response<IDepartmentDto>;
+export type RequestCreateDepartmentResult = Response<
+  IDepartmentDto,
+  IDepartmentCreateUpdateDto
+>;
+export type RequestUpdateDepartmentResult = Response<
+  IDepartmentDto,
+  IDepartmentCreateUpdateDto
+>;
 export type RequestDeleteDepartmentResult = Response<boolean>;

@@ -14,7 +14,6 @@ const routes = {
   updateTenant: (id: number) => `config/${id}/`,
   //CONFIG MANAGER
   getConfigManager: () => `config/managers/`,
-  updateConfigManager: () => `config/managers/`,
   updateConfigRoleUser: (userId: number) => `config/roles/${userId}/`,
 };
 
@@ -35,13 +34,6 @@ export const ConfigApi = {
   async getConfigManager(): Promise<Types.RequestGetConfigManagerResult> {
     const url = routes.getConfigManager();
     return composeHttpMethodResult(http.get<IConfigManagerDto>(url));
-  },
-
-  async updateConfigManager(
-    body: Types.RequestUpdateConfigManagerBody
-  ): Promise<Types.RequestUpdateConfigManagerResult> {
-    const url = routes.updateConfigManager();
-    return composeHttpMethodResult(http.patch<IConfigManagerDto>(url, body));
   },
 
   async updateConfigRoleUser(

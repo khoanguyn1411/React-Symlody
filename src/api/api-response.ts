@@ -16,11 +16,11 @@ export type Kind =
   | "bad-data" // The data we received is not in the expected format.
   | "payment-required";
 
-export type Response<T> = {
+export type Response<TResult, TError = TResult> = {
   kind: Kind;
-  result: T;
+  result: TResult;
   unknownError: unknown;
-  httpError: HttpErrorDto;
+  httpError: HttpErrorDto<TError>;
 };
 
 /**

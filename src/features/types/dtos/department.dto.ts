@@ -16,5 +16,5 @@ export type IDepartmentCreateUpdateDto = GlobalTypes.StrictPick<
 >;
 
 export type IConfigManagerUpdate = {
-  groups: IGroup;
+  readonly groups: IGroup;
 };

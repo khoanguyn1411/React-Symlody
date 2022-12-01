@@ -12,5 +12,5 @@ export interface ITenantDto {
 }
 
 export type ITenantCreateUpdateDto = StrictOmit<ITenantDto, "id" | "logo"> & {
-  logo: File | undefined;
+  readonly logo: File | undefined;
 };
