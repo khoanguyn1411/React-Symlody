@@ -11,10 +11,8 @@ import {
   updateMemberAsync,
 } from "@/features/reducers";
 import {
-  DetailNestedErrorOf,
   ERolesID,
   HttpError,
-  IAuthAccount,
   IMember,
   IMemberCreateUpdate,
 } from "@/features/types";
@@ -76,14 +74,9 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
       })
     );
     if (res.meta.requestStatus === "rejected") {
-      if (res.payload.result instanceof HttpError) {
-        const authAccount = res.payload.result.details
-          .auth_account as unknown as DetailNestedErrorOf<IAuthAccount>;
-        if (authAccount?.email) {
-          setError("email", { message: "Email này đã được đăng ký." });
-          return;
-        }
-        toast.error(MEMBER_MESSAGE.create.error);
+      const error = res.payload.result as HttpError<IMemberCreateUpdate>;
+      if (error.detail.auth_account.email) {
+        setError("email", { message: "Email này đã được đăng ký." });
         return;
       }
       toast.error(MEMBER_MESSAGE.create.error);

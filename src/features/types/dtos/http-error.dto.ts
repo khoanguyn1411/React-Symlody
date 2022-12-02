@@ -1,7 +1,11 @@
 export type DetailErrorDto<T> = {
-  readonly [P in keyof T]?: T[P] extends Record<string, any>
+  [P in keyof T]?: T[P] extends File
     ? string[]
-    : DetailErrorDto<T[P]>;
+    : T[P] extends any[]
+    ? string[]
+    : T[P] extends Record<string, any>
+    ? DetailErrorDto<T[P]>
+    : string[];
 };
 
 export interface HttpErrorDto<T> {

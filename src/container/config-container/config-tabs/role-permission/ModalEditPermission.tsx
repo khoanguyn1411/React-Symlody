@@ -14,7 +14,7 @@ import {
 import { TToggleModal } from "@/components/elements/modal/types";
 import { useAppDispatch } from "@/features";
 import { updateConfigRoleUserAsync } from "@/features/reducers";
-import { HttpError, IConfigInfo } from "@/features/types";
+import { HttpError, IConfigInfo, IConfigManager } from "@/features/types";
 import { FormService } from "@/utils";
 import { assertErrorField } from "@/utils/services/form-service";
 import { generateErrorMessageFromErrorArray } from "@/utils/services/generate-service";
@@ -78,17 +78,15 @@ export const ModalEditPermission: React.FC<TProps> = ({
       reset();
       return;
     }
-    if (result.payload instanceof HttpError) {
-      const { errorArray } = result.payload;
-      const readableError = generateErrorMessageFromErrorArray(
-        errorArray,
-        ROLE_PERMISSION_ERROR_TO_READABLE_STRING
-      );
-      toast.error(readableError);
-      return;
-    }
-    toast.error(ROLE_PERMISSION_MESSAGE.update.error);
+    const { detail } = result.payload as HttpError<IConfigManager>;
+    const readableError = generateErrorMessageFromErrorArray(
+      detail as string[],
+      ROLE_PERMISSION_ERROR_TO_READABLE_STRING
+    );
+    toast.error(readableError);
+    return;
   };
+  toast.error(ROLE_PERMISSION_MESSAGE.update.error);
 
   if (data == null) {
     return;

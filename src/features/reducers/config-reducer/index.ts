@@ -9,12 +9,12 @@ import {
   ITenant,
   ITenantCreateUpdate,
 } from "@/features/types";
+import { IConfigUserUpdateDto } from "@/features/types/dtos/config-manager.dto";
 import {
   ConfigInfoMapper,
   ConfigMangerMapper,
   ConfigUserMapper,
 } from "@/features/types/mappers/config-manager.mapper";
-import { HttpErrorMapper } from "@/features/types/mappers/http-error.mapper";
 import { GlobalTypes } from "@/utils";
 import { generateArrayWithNoDuplicate } from "@/utils/services/generate-service";
 
@@ -94,7 +94,7 @@ export const updateTenantAsync = createAsyncThunk<
 export const updateConfigRoleUserAsync = createAsyncThunk<
   IConfigInfo,
   IConfigUserUpdate,
-  GlobalTypes.ReduxThunkRejectValue<HttpError | null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<IConfigUserUpdateDto> | null>
 >("update/user-role", async (payload, { rejectWithValue }) => {
   const paramDto = ConfigUserMapper.toDto(payload);
   const result = await ConfigApi.updateConfigRoleUser(paramDto);
@@ -102,7 +102,7 @@ export const updateConfigRoleUserAsync = createAsyncThunk<
     return ConfigInfoMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {
-    const errorBadData = HttpErrorMapper.fromDto(result.httpError);
+    const errorBadData = ConfigUserMapper.httpErrorFromDto(result.httpError);
     return rejectWithValue(errorBadData);
   }
 

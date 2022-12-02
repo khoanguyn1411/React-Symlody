@@ -7,7 +7,6 @@ import {
   MemberMapper,
   ProfileMapper,
 } from "@/features/types/mappers";
-import { HttpErrorMapper } from "@/features/types/mappers/http-error.mapper";
 import {
   HttpError,
   IFileUploaded,
@@ -38,7 +37,7 @@ export const uploadMemberExcelFileAsync = createAsyncThunk<
 export const createMemberAsync = createAsyncThunk<
   IMember,
   IMemberCreateUpdate,
-  GlobalTypes.ReduxThunkRejectValue<HttpError | null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<IMemberCreateUpdate> | null>
 >("create/member", async (payload, { rejectWithValue, dispatch }) => {
   const memberDto = MemberMapper.toCreateDto(payload);
   const result = await MemberApi.createMember(memberDto);
@@ -48,7 +47,7 @@ export const createMemberAsync = createAsyncThunk<
     return MemberMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {
-    const errorBadData = HttpErrorMapper.fromDto(result.httpError);
+    const errorBadData = MemberMapper.httpErrorFromDto(result.httpError);
     return rejectWithValue(errorBadData);
   }
   return rejectWithValue(null);
@@ -116,7 +115,7 @@ export const updateMemberAsync = createAsyncThunk<
       };
     }
     if (result.kind === "bad-data") {
-      const errorBadData = HttpErrorMapper.fromDto(result.httpError);
+      const errorBadData = MemberMapper.httpErrorFromDto(result.httpError);
       return rejectWithValue({ result: errorBadData, isRestore: false });
     }
     return rejectWithValue({ result: result.result, isRestore });

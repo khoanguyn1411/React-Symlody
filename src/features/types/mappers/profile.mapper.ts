@@ -1,8 +1,16 @@
 import { FormDataService } from "@/utils";
 import { hasElementOfArray } from "@/utils/services/common-service";
 
-import { IProfileDto, IProfileUpdateDto } from "../dtos";
-import { ERoles, IGroup, IMember, IProfile, IProfileUpdate } from "../models";
+import { HttpErrorDto, IProfileDto, IProfileUpdateDto } from "../dtos";
+import {
+  ERoles,
+  extractErrorMessage,
+  HttpError,
+  IGroup,
+  IMember,
+  IProfile,
+  IProfileUpdate,
+} from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 import { DepartmentMapper } from "./department.mapper";
 import { GenderMapper } from "./gender.mapper";
@@ -30,6 +38,40 @@ export class ProfileMapper {
       gender: GenderMapper.fromDto(dto.gender),
       department: DepartmentMapper.fromDto(dto.department),
       isRole: compareRole(authAccountModel.groups),
+    };
+  }
+
+  public static httpErrorFromDto(
+    errorDto: HttpErrorDto<IProfileUpdateDto>
+  ): HttpError<IProfileUpdate> {
+    const {
+      email,
+      first_name,
+      student_id,
+      phone_number,
+      address,
+      home_town,
+      last_name,
+      avatar,
+      gender,
+      dob,
+      class_name,
+    } = errorDto.details;
+    return {
+      error: errorDto.error,
+      detail: {
+        email: extractErrorMessage(email),
+        first_name: extractErrorMessage(first_name),
+        student_id: extractErrorMessage(student_id),
+        phone_number: extractErrorMessage(phone_number),
+        address: extractErrorMessage(address),
+        home_town: extractErrorMessage(home_town),
+        last_name: extractErrorMessage(last_name),
+        avatar: extractErrorMessage(avatar),
+        gender: extractErrorMessage(gender),
+        dob: extractErrorMessage(dob),
+        class_name: extractErrorMessage(class_name),
+      },
     };
   }
 

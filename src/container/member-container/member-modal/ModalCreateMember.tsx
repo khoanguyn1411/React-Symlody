@@ -12,7 +12,7 @@ import {
   getDepartmentAsync,
   uploadMemberExcelFileAsync,
 } from "@/features/reducers";
-import { DetailNestedErrorOf, HttpError, IAuthAccount } from "@/features/types";
+import { HttpError, IMemberCreateUpdate } from "@/features/types";
 import { THookModalProps, usePickFile } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
@@ -51,14 +51,9 @@ const TabCreateAMember: React.FC = () => {
     });
     const res = await dispatch(createMemberAsync(memberModel));
     if (res.meta.requestStatus === "rejected") {
-      if (res.payload instanceof HttpError) {
-        const authAccount = res.payload.details
-          .auth_account as unknown as DetailNestedErrorOf<IAuthAccount>;
-        if (authAccount?.email) {
-          setError("email", { message: "Email này đã được đăng ký." });
-          return;
-        }
-        toast.error(MEMBER_MESSAGE.create.error);
+      const error = res.payload as HttpError<IMemberCreateUpdate>;
+      if (error.detail.auth_account.email) {
+        setError("email", { message: "Email này đã được đăng ký." });
         return;
       }
       toast.error(MEMBER_MESSAGE.create.error);

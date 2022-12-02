@@ -1,5 +1,6 @@
 import { hasElementOfArray } from "@/utils/services/common-service";
 
+import { HttpErrorDto } from "../dtos";
 import {
   IConfigInfoDto,
   IConfigManagerDto,
@@ -7,6 +8,8 @@ import {
 } from "../dtos/config-manager.dto";
 import {
   ERoles,
+  extractErrorMessage,
+  HttpError,
   IConfigInfo,
   IConfigManager,
   IConfigUserUpdate,
@@ -80,6 +83,19 @@ export class ConfigUserMapper {
     return {
       user_id: model.user_id,
       groups: model.groups.map((group) => ROLE_MAP_TO_ID[group]),
+    };
+  }
+
+  public static httpErrorFromDto(
+    errorDto: HttpErrorDto<IConfigUserUpdateDto>
+  ): HttpError<IConfigUserUpdate> {
+    const { user_id, groups } = errorDto.details;
+    return {
+      error: errorDto.error,
+      detail: {
+        user_id: extractErrorMessage(user_id),
+        groups: extractErrorMessage(groups),
+      },
     };
   }
 }

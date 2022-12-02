@@ -12,7 +12,7 @@ import {
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateProfileAsync } from "@/features/reducers";
-import { HttpError } from "@/features/types";
+import { IProfile } from "@/features/types";
 import { EGender } from "@/features/types/models/gender";
 import { FormService } from "@/utils";
 import { generateFullName } from "@/utils/services/generate-service";
@@ -48,15 +48,14 @@ export const TabPersonalInfo: React.FC = () => {
     const result = await dispatch(
       updateProfileAsync(PersonalInfoFormMapper.toModel(data))
     );
-    if (
-      result.meta.requestStatus === "rejected" ||
-      result.payload instanceof HttpError
-    ) {
+    if (result.meta.requestStatus === "rejected") {
       toast.error(PERSONAL_INFO_MESSAGES.update.error);
       return;
     }
     toast.success(PERSONAL_INFO_MESSAGES.update.success);
-    const formData = PersonalInfoFormMapper.fromModel(result.payload);
+    const formData = PersonalInfoFormMapper.fromModel(
+      result.payload as IProfile
+    );
     reset({ ...formData, avatar: undefined });
     return;
   };

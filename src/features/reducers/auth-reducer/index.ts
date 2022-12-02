@@ -8,10 +8,10 @@ import {
   ILogin,
   IProfile,
   IProfileUpdate,
+  IProfileUpdateDto,
   ProfileMapper,
 } from "@/features/types";
 import { ChangePasswordMapper } from "@/features/types/mappers/change-password.mapper";
-import { HttpErrorMapper } from "@/features/types/mappers/http-error.mapper";
 import { LoginMapper } from "@/features/types/mappers/login.mapper";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 import { GlobalTypes, TokenService } from "@/utils";
@@ -81,7 +81,7 @@ export const logoutAsync = createAsyncThunk(
 export const updateProfileAsync = createAsyncThunk<
   IProfile,
   IProfileUpdate,
-  GlobalTypes.ReduxThunkRejectValue<HttpError | null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<IProfileUpdateDto> | null>
 >("auth/update-profile", async (param, { rejectWithValue }) => {
   const paramDto = ProfileMapper.toFormData(param);
   const result = await AuthApi.updateProfile(paramDto);
@@ -89,7 +89,7 @@ export const updateProfileAsync = createAsyncThunk<
     return ProfileMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {
-    const errorBadData = HttpErrorMapper.fromDto(result.httpError);
+    const errorBadData = ProfileMapper.httpErrorFromDto(result.httpError);
     return rejectWithValue(errorBadData);
   }
 
