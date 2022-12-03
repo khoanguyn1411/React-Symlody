@@ -1,5 +1,4 @@
-import { FormatService } from "@/utils";
-import { generateReverseDto } from "@/utils/services/generate-service";
+import { generateReverseRecord } from "@/utils/services/generate-service";
 
 import {
   EPriorityDto,
@@ -8,6 +7,7 @@ import {
   ITaskDto,
 } from "../dtos";
 import { ETodoStatusId, ITask, ITaskCreateUpdate } from "../models";
+import { DateMapper } from "./base-mappers/date.mapper";
 import { UserMapper } from "./user.mapper";
 
 export const TASK_STATUS_TO_MODEL: Readonly<
@@ -28,21 +28,15 @@ export const TASK_STATUS_FROM_DTO: Readonly<
   [ETaskStatusDto.Done]: ETodoStatusId.Done,
 };
 
-export const TASK_STATUS_TO_DTO = generateReverseDto(TASK_STATUS_FROM_DTO);
+export const TASK_STATUS_TO_DTO = generateReverseRecord(TASK_STATUS_FROM_DTO);
 
 export class TaskMapper {
   public static fromDto(dto: ITaskDto): ITask {
     return {
       ...dto,
-      start_date: dto.start_date
-        ? FormatService.toDateString(dto.start_date, "US")
-        : "",
-      end_date: dto.end_date
-        ? FormatService.toDateString(dto.end_date, "US")
-        : "",
-      last_modified_date: dto.last_modified_date
-        ? FormatService.toDateString(dto.last_modified_date, "US")
-        : "",
+      start_date: DateMapper.fromDto(dto.start_date),
+      end_date: DateMapper.fromDto(dto.end_date),
+      last_modified_date: DateMapper.fromDto(dto.last_modified_date),
       isPriority: dto.priority === EPriorityDto.High,
       created_by: UserMapper.fromDto(dto.created_by),
       last_modified_by: dto.last_modified_by
@@ -61,12 +55,8 @@ export class TaskMapper {
       label: model.label,
       priority: model.isPriority ? EPriorityDto.High : EPriorityDto.Default,
       description: model.description,
-      start_date: model.start_date
-        ? FormatService.toDateString(model.start_date, "API")
-        : null,
-      end_date: model.end_date
-        ? FormatService.toDateString(model.end_date, "API")
-        : null,
+      start_date: DateMapper.toDto(model.start_date),
+      end_date: DateMapper.toDto(model.end_date),
       status: TASK_STATUS_TO_DTO[model.status],
     };
   }

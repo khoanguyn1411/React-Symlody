@@ -12,8 +12,8 @@ import {
   IProfileUpdate,
 } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
+import { GenderMapper } from "./base-mappers/gender.mapper";
 import { DepartmentMapper } from "./department.mapper";
-import { GenderMapper } from "./gender.mapper";
 
 const compareRole = (groups: IGroup[]) => (roles: ERoles[]) => {
   const groupsNameList = groups.map((group) => group.name);

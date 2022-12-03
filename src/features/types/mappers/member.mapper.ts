@@ -1,22 +1,19 @@
-import { FormatService } from "@/utils";
 import { extractErrorMessage } from "@/utils/services/error-handler-service";
 
 import { HttpErrorDto, IMemberCreateUpdateDto, IMemberDto } from "../dtos";
 import { HttpError, IMember, IMemberCreateUpdate } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
+import { DateMapper } from "./base-mappers/date.mapper";
+import { GenderMapper } from "./base-mappers/gender.mapper";
 import { DepartmentMapper } from "./department.mapper";
-import { GenderMapper } from "./gender.mapper";
 
 export class MemberMapper {
   public static fromDto(dto: IMemberDto): IMember {
     return {
       ...dto,
       gender: GenderMapper.fromDto(dto.gender),
-      dob: FormatService.toDateString(dto.dob, "US"),
-      last_modified_date: FormatService.toDateString(
-        dto.last_modified_date,
-        "US"
-      ),
+      dob: DateMapper.fromDto(dto.dob),
+      last_modified_date: DateMapper.fromDto(dto.last_modified_date),
       department: DepartmentMapper.fromDto(dto.department),
       auth_account: AuthAccountMapper.fromDto(dto.auth_account),
     };
@@ -69,7 +66,7 @@ export class MemberMapper {
       home_town: model.home_town,
       is_archived: model.is_archived,
       auth_account: AuthAccountMapper.toDto(model.auth_account),
-      dob: FormatService.toDateString(model.dob, "API"),
+      dob: DateMapper.toDto(model.dob),
       gender: GenderMapper.toDto(model.gender),
       department_id: model.department ? model.department.id : undefined,
     };
@@ -87,7 +84,7 @@ export class MemberMapper {
       home_town: model.home_town,
       is_archived: model.is_archived,
       auth_account: AuthAccountMapper.toDto(model.auth_account),
-      dob: FormatService.toDateString(model.dob, "API"),
+      dob: DateMapper.toDto(model.dob),
       gender: GenderMapper.toDto(model.gender),
       department_id: model.department ? model.department.id : undefined,
     };

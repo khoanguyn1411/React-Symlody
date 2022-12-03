@@ -45,11 +45,11 @@ export function generateFullName(lastName: string, firstName: string): string {
  * @param model Model of entity.
  * @param isNumberModel Whether model is number or not.
  */
-export function generateReverseDto<
-  Model extends string | number | symbol,
-  Dto extends string | number | symbol
+export function generateReverseRecord<
+  Model extends PropertyKey,
+  Dto extends PropertyKey
 >(
-  model: Readonly<Record<Dto, Model>>,
+  model: Record<Dto, Model>,
   isNumberModel = false
 ): Readonly<Record<Model, Dto>> {
   let obj: Readonly<Record<Model, Dto>>;
