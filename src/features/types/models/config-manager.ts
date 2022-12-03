@@ -1,7 +1,7 @@
-import { IAuthAccount } from "./auth-account";
+import { AuthAccount } from "./auth-account";
 import { ERoles } from "./group";
 
-export interface IConfigInfo extends IAuthAccount {
+export interface IConfigInfo extends AuthAccount {
   id: number;
   isRole: (role: ERoles | "manager" | "member") => boolean;
 }

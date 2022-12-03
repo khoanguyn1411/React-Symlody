@@ -21,8 +21,8 @@ export class MemberFormMapper {
   }): IMemberCreateUpdate {
     return {
       auth_account: {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
         email: formData.email,
       },
       avatar: formData.avatar,
@@ -42,8 +42,8 @@ export class MemberFormMapper {
   /** Use for map data from model to form values. */
   public static fromModel(model: IMember): IFormMemberInfo {
     return {
-      firstName: model.auth_account.first_name,
-      lastName: model.auth_account.last_name,
+      firstName: model.auth_account.firstName,
+      lastName: model.auth_account.lastName,
       gender: model.gender,
       birthday: model.dob,
       department: model.department.name,
@@ -70,8 +70,8 @@ export class MemberTableMapper {
     return {
       avatar: model.avatar,
       id: model.id,
-      fullName: model.auth_account.full_name,
-      firstName: model.auth_account.first_name,
+      fullName: model.auth_account.fullName,
+      firstName: model.auth_account.firstName,
       email: model.auth_account.email,
       department: model.department.name,
       birthday: FormatService.toDateString(model.dob, "VN"),

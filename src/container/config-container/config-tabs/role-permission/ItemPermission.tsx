@@ -35,9 +35,9 @@ export const ItemPermission: React.FC<TProps> = ({ onOpenEdit }) => {
           <Table.Row key={d.id}>
             <Table.Cell>
               <div className="flex items-center space-x-2">
-                <Avatar src="" fullName={d.full_name} />
+                <Avatar src="" fullName={d.fullName} />
                 <div className="flex flex-col">
-                  <h2 className="font-medium">{d.full_name}</h2>
+                  <h2 className="font-medium">{d.fullName}</h2>
                   <span className="text-xs text-gray-400">{d.email}</span>
                 </div>
               </div>

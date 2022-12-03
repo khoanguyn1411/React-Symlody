@@ -1,11 +1,11 @@
 import { StrictPick } from "@/utils/types";
 
-import { IAuthAccount, IAuthAccountCreateUpdate } from "./auth-account";
+import { AuthAccount, AuthAccountCreation } from "./auth-account";
 import { IDepartment } from "./department";
 import { EGender } from "./gender";
 import { ERoles } from "./group";
 import { ITenant } from "./tenant";
-export interface IProfile extends IAuthAccount {
+export interface IProfile extends AuthAccount {
   id: number;
   gender: EGender;
   phone_number: string;
@@ -21,7 +21,7 @@ export interface IProfile extends IAuthAccount {
   isRole: (roles: ERoles[]) => boolean;
 }
 
-export type IProfileUpdate = IAuthAccountCreateUpdate & {
+export type IProfileUpdate = AuthAccountCreation & {
   avatar?: File;
 } & StrictPick<
     IProfile,

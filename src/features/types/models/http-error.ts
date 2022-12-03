@@ -1,5 +1,5 @@
-export type EntityValidationErrors<T> = {
-  [P in keyof T]?: PropValidationMessage<T[P]>;
+export type EntityValidationErrors<T, K = undefined> = {
+  [P in keyof T]?: K extends P ? PropValidationMessage<T[P]> : string;
 };
 
 /**
@@ -8,13 +8,11 @@ export type EntityValidationErrors<T> = {
  */
 export type PropValidationMessage<T> = T extends unknown[]
   ? string
-  : T extends Record<"id", any>
-  ? string
   : T extends Record<string, any>
   ? EntityValidationErrors<T>
   : string;
 
-export interface HttpError<T> {
-  readonly detail: EntityValidationErrors<T>;
+export interface HttpError<T, P extends keyof T = undefined> {
+  readonly detail: EntityValidationErrors<T, P>;
   readonly error: string;
 }

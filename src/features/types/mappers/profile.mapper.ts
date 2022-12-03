@@ -61,12 +61,12 @@ export class ProfileMapper {
       error: errorDto.error,
       detail: {
         email: extractErrorMessage(email),
-        first_name: extractErrorMessage(first_name),
+        firstName: extractErrorMessage(first_name),
         student_id: extractErrorMessage(student_id),
         phone_number: extractErrorMessage(phone_number),
         address: extractErrorMessage(address),
         home_town: extractErrorMessage(home_town),
-        last_name: extractErrorMessage(last_name),
+        lastName: extractErrorMessage(last_name),
         avatar: extractErrorMessage(avatar),
         gender: extractErrorMessage(gender),
         dob: extractErrorMessage(dob),
@@ -92,19 +92,19 @@ export class ProfileMapper {
       department: model.department,
       organization: currentUser.organization,
       profile_id: model.id,
-      first_name: model.auth_account.first_name,
-      last_name: model.auth_account.last_name,
-      full_name: model.auth_account.full_name,
+      firstName: model.auth_account.firstName,
+      lastName: model.auth_account.lastName,
+      fullName: model.auth_account.fullName,
       email: model.auth_account.email,
       groups: model.auth_account.groups,
       isRole: compareRole(model.auth_account.groups),
     };
   }
   public static toUpdateDto(model: IProfileUpdate): IProfileUpdateDto {
-    const authAccountDto = AuthAccountMapper.toDto({
+    const authAccountDto = AuthAccountMapper.toCreationDto({
       email: model.email,
-      first_name: model.first_name,
-      last_name: model.last_name,
+      firstName: model.firstName,
+      lastName: model.lastName,
     });
     return {
       ...model,

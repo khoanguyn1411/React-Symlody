@@ -8,8 +8,8 @@ export class PersonalInfoFormMapper {
   public static toModel(formData: IFormUserConfig): IProfileUpdate {
     return {
       email: formData.email,
-      first_name: formData.firstName,
-      last_name: formData.lastName,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       gender: formData.gender as EGender,
       phone_number: formData.phone,
       student_id: formData.studentId,
@@ -23,8 +23,8 @@ export class PersonalInfoFormMapper {
 
   public static fromModel(model: IProfile): IFormUserConfig {
     return {
-      firstName: model.first_name,
-      lastName: model.last_name,
+      firstName: model.firstName,
+      lastName: model.fullName,
       email: model.email,
       class: model.class_name,
       studentId: model.student_id,

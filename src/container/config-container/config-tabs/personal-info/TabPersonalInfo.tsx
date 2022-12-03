@@ -15,7 +15,6 @@ import { updateProfileAsync } from "@/features/reducers";
 import { IProfile } from "@/features/types";
 import { EGender } from "@/features/types/models/gender";
 import { FormService } from "@/utils";
-import { generateFullName } from "@/utils/services/generate-service";
 
 import {
   ConfigSubmitButton,
@@ -74,10 +73,7 @@ export const TabPersonalInfo: React.FC = () => {
             <UploadedAvatar
               alt="Ảnh đại diện"
               isUserAvatar
-              fullName={generateFullName(
-                currentUser.last_name,
-                currentUser.first_name
-              )}
+              fullName={currentUser.fullName}
               defaultImageLink={defaultImageLink}
               file={value}
               setFile={onChange}

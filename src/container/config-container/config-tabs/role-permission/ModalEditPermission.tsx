@@ -109,9 +109,9 @@ export const ModalEditPermission: React.FC<TProps> = ({
       toggle={toggle}
     >
       <div className="flex items-center mb-4 space-x-2">
-        <Avatar src={""} fullName={data.full_name} />
+        <Avatar src={""} fullName={data.fullName} />
         <div className="flex flex-col">
-          <span className="font-medium">{data.full_name}</span>
+          <span className="font-medium">{data.fullName}</span>
           <span className="text-xs text-gray-400">{data.email}</span>
         </div>
       </div>

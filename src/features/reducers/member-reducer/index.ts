@@ -155,7 +155,7 @@ export const memberSlice = createSlice({
       }
       const listMemberAfterFilterByName = state.currentMemberList.filter(
         (item) =>
-          FilterService.isTextIncludedIn(item.auth_account.full_name, search)
+          FilterService.isTextIncludedIn(item.auth_account.fullName, search)
       );
       const listMemberAfterFilterByEmail = state.currentMemberList.filter(
         (item) =>

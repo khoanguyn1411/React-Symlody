@@ -2,17 +2,17 @@ import { GlobalTypes } from "@/utils";
 
 import { IGroup } from "./group";
 
-export interface IAuthAccount {
+export interface AuthAccount {
   email?: string;
-  first_name: string;
+  firstName: string;
   groups: IGroup[];
-  last_name: string;
-  full_name: string;
+  lastName: string;
+  fullName: string;
 }
 
-export type IAuthAccountCreateUpdate = GlobalTypes.StrictOmit<
-  IAuthAccount,
-  "groups" | "full_name"
+export type AuthAccountCreation = GlobalTypes.StrictOmit<
+  AuthAccount,
+  "groups" | "fullName"
 >;
 
 export interface IChangePassword {

@@ -63,7 +63,11 @@ export class ConfigInfoMapper {
   }
   public static fromUser(user: IUser): IConfigInfo {
     return {
-      ...user,
+      id: user.id,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      fullName: user.full_name,
+      email: user.email,
       isRole: (role: ERoles | "manager" | "member") => {
         if (role === "manager") {
           return false;

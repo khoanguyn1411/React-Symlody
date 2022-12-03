@@ -1,7 +1,4 @@
-import {
-  IAuthAccountCreateUpdateDto,
-  IAuthAccountDto,
-} from "./auth-account.dto";
+import { AuthAccountCreationDto, AuthAccountDto } from "./auth-account.dto";
 import { IDepartmentDto } from "./department.dto";
 
 interface IMemberGeneralDto {
@@ -16,7 +13,7 @@ interface IMemberGeneralDto {
 }
 
 export interface IMemberDto extends IMemberGeneralDto {
-  auth_account: IAuthAccountDto;
+  auth_account: AuthAccountDto;
   id: number;
   last_modified_date: string;
   created_by: {
@@ -28,7 +25,7 @@ export interface IMemberDto extends IMemberGeneralDto {
 }
 
 export interface IMemberCreateUpdateDto extends IMemberGeneralDto {
-  auth_account: IAuthAccountCreateUpdateDto;
+  auth_account: AuthAccountCreationDto;
   department_id?: number;
   avatar?: File;
 }

@@ -21,7 +21,7 @@ export class MemberMapper {
 
   public static httpErrorFromDto(
     errorDto: HttpErrorDto<IMemberCreateUpdateDto>
-  ): HttpError<IMemberCreateUpdate> {
+  ): HttpError<IMemberCreateUpdate, "auth_account"> {
     const {
       class_name,
       student_id,
@@ -43,11 +43,8 @@ export class MemberMapper {
         phone_number: extractErrorMessage(phone_number),
         home_town: extractErrorMessage(home_town),
         is_archived: extractErrorMessage(is_archived),
-        auth_account: {
-          email: extractErrorMessage(auth_account.email),
-          first_name: extractErrorMessage(auth_account.first_name),
-          last_name: extractErrorMessage(auth_account.last_name),
-        },
+        auth_account:
+          AuthAccountMapper.validationHttpDetailErrorFromDto(auth_account),
         dob: extractErrorMessage(dob),
         gender: extractErrorMessage(gender),
         department: extractErrorMessage(department_id),
@@ -65,7 +62,7 @@ export class MemberMapper {
       phone_number: model.phone_number,
       home_town: model.home_town,
       is_archived: model.is_archived,
-      auth_account: AuthAccountMapper.toDto(model.auth_account),
+      auth_account: AuthAccountMapper.toCreationDto(model.auth_account),
       dob: DateMapper.toDto(model.dob),
       gender: GenderMapper.toDto(model.gender),
       department_id: model.department ? model.department.id : undefined,
@@ -83,7 +80,7 @@ export class MemberMapper {
       phone_number: model.phone_number,
       home_town: model.home_town,
       is_archived: model.is_archived,
-      auth_account: AuthAccountMapper.toDto(model.auth_account),
+      auth_account: AuthAccountMapper.toCreationDto(model.auth_account),
       dob: DateMapper.toDto(model.dob),
       gender: GenderMapper.toDto(model.gender),
       department_id: model.department ? model.department.id : undefined,

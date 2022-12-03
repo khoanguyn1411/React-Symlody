@@ -1,6 +1,6 @@
-import { IAuthAccountDto } from "./auth-account.dto";
+import { AuthAccountDto } from "./auth-account.dto";
 
-export interface IConfigInfoDto extends IAuthAccountDto {
+export interface IConfigInfoDto extends AuthAccountDto {
   id: number;
 }
 

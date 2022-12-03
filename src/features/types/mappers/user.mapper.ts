@@ -19,9 +19,9 @@ export class UserMapper {
     return {
       id: profile.id,
       avatar: profile.avatar,
-      first_name: profile.first_name,
-      last_name: profile.last_name,
-      full_name: generateFullName(profile.last_name, profile.first_name),
+      first_name: profile.firstName,
+      last_name: profile.lastName,
+      full_name: generateFullName(profile.lastName, profile.firstName),
       department_id: profile.department.id,
       email: profile.email,
     };
@@ -36,9 +36,9 @@ export class UserMapper {
   ): GlobalTypes.StrictOmit<IUser, "id"> {
     return {
       avatar: model.avatar,
-      first_name: model.auth_account.first_name,
-      last_name: model.auth_account.last_name,
-      full_name: model.auth_account.full_name,
+      first_name: model.auth_account.firstName,
+      last_name: model.auth_account.lastName,
+      full_name: model.auth_account.fullName,
       email: model.auth_account.email,
       department_id: model.department.id,
     };
