@@ -12,7 +12,6 @@ import {
   getDepartmentAsync,
   uploadMemberExcelFileAsync,
 } from "@/features/reducers";
-import { HttpError, IMemberCreateUpdate } from "@/features/types";
 import { THookModalProps, usePickFile } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
@@ -50,8 +49,8 @@ const TabCreateAMember: React.FC = () => {
       isArchived: false,
     });
     const res = await dispatch(createMemberAsync(memberModel));
-    if (res.meta.requestStatus === "rejected") {
-      const error = res.payload as HttpError<IMemberCreateUpdate>;
+    if (createMemberAsync.rejected.match(res)) {
+      const error = res.payload;
       if (error.detail.auth_account.email) {
         setError("email", { message: "Email này đã được đăng ký." });
         return;

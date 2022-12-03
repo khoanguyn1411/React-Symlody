@@ -90,7 +90,7 @@ export const getMembersAsync = createAsyncThunk<
 export const updateMemberAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRestoreResult<IMember>,
   GlobalTypes.ReduxThunkRestorePayload<IMemberCreateUpdate, IMember>,
-  GlobalTypes.ReduxThunkRestoreRejected<unknown>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<IMemberCreateUpdate> | null>
 >(
   "update/member",
   async ({ payload, id, isRestore }, { rejectWithValue, dispatch }) => {
@@ -115,9 +115,9 @@ export const updateMemberAsync = createAsyncThunk<
     }
     if (result.kind === "bad-data") {
       const errorBadData = MemberMapper.httpErrorFromDto(result.httpError);
-      return rejectWithValue({ result: errorBadData, isRestore: false });
+      return rejectWithValue(errorBadData);
     }
-    return rejectWithValue({ result: result.result, isRestore });
+    return rejectWithValue(null);
   }
 );
 

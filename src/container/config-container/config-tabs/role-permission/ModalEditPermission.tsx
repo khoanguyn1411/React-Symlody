@@ -14,7 +14,7 @@ import {
 import { TToggleModal } from "@/components/elements/modal/types";
 import { useAppDispatch } from "@/features";
 import { updateConfigRoleUserAsync } from "@/features/reducers";
-import { HttpError, IConfigInfo, IConfigManager } from "@/features/types";
+import { IConfigInfo } from "@/features/types";
 import { FormService } from "@/utils";
 import { assertErrorField } from "@/utils/services/form-service";
 import { generateErrorMessageFromErrorArray } from "@/utils/services/generate-service";
@@ -72,13 +72,13 @@ export const ModalEditPermission: React.FC<TProps> = ({
   const handleUpdate = async (body: IConfigManagerForm) => {
     const bodyModel = RolePermissionFormMapper.toModel(body);
     const result = await dispatch(updateConfigRoleUserAsync(bodyModel));
-    if (result.meta.requestStatus === "fulfilled") {
+    if (updateConfigRoleUserAsync.fulfilled.match(result)) {
       toast.success(ROLE_PERMISSION_MESSAGE.update.success);
       toggle.setHidden();
       reset();
       return;
     }
-    const { detail } = result.payload as HttpError<IConfigManager>;
+    const { detail } = result.payload;
     const readableError = generateErrorMessageFromErrorArray(
       detail as string[],
       ROLE_PERMISSION_ERROR_TO_READABLE_STRING

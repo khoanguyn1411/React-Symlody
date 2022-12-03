@@ -10,12 +10,7 @@ import {
   getDepartmentAsync,
   updateMemberAsync,
 } from "@/features/reducers";
-import {
-  ERolesID,
-  HttpError,
-  IMember,
-  IMemberCreateUpdate,
-} from "@/features/types";
+import { ERolesID, IMember, IMemberCreateUpdate } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { THookModalProps } from "@/hooks";
 
@@ -73,8 +68,8 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
         isRestore: false,
       })
     );
-    if (res.meta.requestStatus === "rejected") {
-      const error = res.payload.result as HttpError<IMemberCreateUpdate>;
+    if (updateMemberAsync.rejected.match(res)) {
+      const error = res.payload;
       if (error.detail.auth_account.email) {
         setError("email", { message: "Email này đã được đăng ký." });
         return;
