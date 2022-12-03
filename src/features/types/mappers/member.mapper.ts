@@ -1,27 +1,36 @@
 import { extractErrorMessage } from "@/utils/services/error-handler-service";
 
-import { HttpErrorDto, IMemberCreateUpdateDto, IMemberDto } from "../dtos";
-import { HttpError, IMember, IMemberCreateUpdate } from "../models";
+import { HttpErrorDto, MemberCreationDto, MemberDto } from "../dtos";
+import { HttpError, Member, MemberCreation } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 import { DateMapper } from "./base-mappers/date.mapper";
 import { GenderMapper } from "./base-mappers/gender.mapper";
+import { NameMapper } from "./base-mappers/name.mapper";
 import { DepartmentMapper } from "./department.mapper";
 
 export class MemberMapper {
-  public static fromDto(dto: IMemberDto): IMember {
+  public static fromDto(dto: MemberDto): Member {
     return {
-      ...dto,
+      id: dto.id,
+      className: dto.class_name,
+      avatar: dto.avatar,
+      studentId: dto.student_id,
+      address: dto.address,
+      isArchived: dto.is_archived,
+      homeTown: dto.home_town,
+      phoneNumber: dto.phone_number,
+      createdBy: NameMapper.fromDto(dto.created_by),
       gender: GenderMapper.fromDto(dto.gender),
       dob: DateMapper.fromDto(dto.dob),
-      last_modified_date: DateMapper.fromDto(dto.last_modified_date),
+      lastModifiedDate: DateMapper.fromDto(dto.last_modified_date),
       department: DepartmentMapper.fromDto(dto.department),
-      auth_account: AuthAccountMapper.fromDto(dto.auth_account),
+      authAccount: AuthAccountMapper.fromDto(dto.auth_account),
     };
   }
 
   public static httpErrorFromDto(
-    errorDto: HttpErrorDto<IMemberCreateUpdateDto>
-  ): HttpError<IMemberCreateUpdate, "auth_account"> {
+    errorDto: HttpErrorDto<MemberCreationDto>
+  ): HttpError<MemberCreation, "authAccount"> {
     const {
       class_name,
       student_id,
@@ -37,13 +46,13 @@ export class MemberMapper {
     return {
       error: errorDto.error,
       detail: {
-        class_name: extractErrorMessage(class_name),
-        student_id: extractErrorMessage(student_id),
+        className: extractErrorMessage(class_name),
+        studentId: extractErrorMessage(student_id),
         address: extractErrorMessage(address),
-        phone_number: extractErrorMessage(phone_number),
-        home_town: extractErrorMessage(home_town),
-        is_archived: extractErrorMessage(is_archived),
-        auth_account:
+        phoneNumber: extractErrorMessage(phone_number),
+        homeTown: extractErrorMessage(home_town),
+        isArchived: extractErrorMessage(is_archived),
+        authAccount:
           AuthAccountMapper.validationHttpDetailErrorFromDto(auth_account),
         dob: extractErrorMessage(dob),
         gender: extractErrorMessage(gender),
@@ -52,35 +61,31 @@ export class MemberMapper {
     };
   }
 
-  public static toCreateDto(
-    model: IMemberCreateUpdate
-  ): IMemberCreateUpdateDto {
+  public static toCreateDto(model: MemberCreation): MemberCreationDto {
     return {
-      class_name: model.class_name,
-      student_id: model.student_id,
+      class_name: model.className,
+      student_id: model.studentId,
       address: model.address,
-      phone_number: model.phone_number,
-      home_town: model.home_town,
-      is_archived: model.is_archived,
-      auth_account: AuthAccountMapper.toCreationDto(model.auth_account),
+      phone_number: model.phoneNumber,
+      home_town: model.homeTown,
+      is_archived: model.isArchived,
+      auth_account: AuthAccountMapper.toCreationDto(model.authAccount),
       dob: DateMapper.toDto(model.dob),
       gender: GenderMapper.toDto(model.gender),
       department_id: model.department ? model.department.id : null,
     };
   }
 
-  public static toUpdateDto(
-    model: IMemberCreateUpdate
-  ): IMemberCreateUpdateDto {
+  public static toUpdateDto(model: MemberCreation): MemberCreationDto {
     return {
-      class_name: model.class_name,
-      student_id: model.student_id,
+      class_name: model.className,
+      student_id: model.studentId,
       address: model.address,
       avatar: model.avatar,
-      phone_number: model.phone_number,
-      home_town: model.home_town,
-      is_archived: model.is_archived,
-      auth_account: AuthAccountMapper.toCreationDto(model.auth_account),
+      phone_number: model.phoneNumber,
+      home_town: model.homeTown,
+      is_archived: model.isArchived,
+      auth_account: AuthAccountMapper.toCreationDto(model.authAccount),
       dob: DateMapper.toDto(model.dob),
       gender: GenderMapper.toDto(model.gender),
       department_id: model.department ? model.department.id : null,

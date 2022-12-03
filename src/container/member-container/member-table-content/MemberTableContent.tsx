@@ -2,14 +2,14 @@ import { useMemo, useState } from "react";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
-import { IMember } from "@/features/types";
+import { Member } from "@/features/types";
 
 import { MemberTableMapper } from "../mapper";
 
 type TProps = {
-  onEdit: (member: IMember) => void;
-  onDelete: (member: IMember) => void;
-  onRestore: (member: IMember) => void;
+  onEdit: (member: Member) => void;
+  onDelete: (member: Member) => void;
+  onRestore: (member: Member) => void;
 };
 
 export const MemberTableContent: React.FC<TProps> = ({
@@ -31,15 +31,15 @@ export const MemberTableContent: React.FC<TProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [memberStore.listQueryMemberFE.limit, memberStore.listQueryMemberFE.page]);
 
-  const handleEdit = (item: IMember) => () => {
+  const handleEdit = (item: Member) => () => {
     onEdit(item);
   };
-  const handleDelete = (item: IMember) => () => {
+  const handleDelete = (item: Member) => () => {
     onDelete(item);
     setCurrentInteractiveId(item.id);
   };
 
-  const handleRestore = (item: IMember) => () => {
+  const handleRestore = (item: Member) => () => {
     onRestore(item);
     setCurrentInteractiveId(item.id);
   };
@@ -87,7 +87,7 @@ export const MemberTableContent: React.FC<TProps> = ({
             <Table.CellAction>
               <DeleteAndEditField
                 isShowLoading={shouldShowLoadingOfRestoreButton}
-                isShowRestore={item.is_archived}
+                isShowRestore={item.isArchived}
                 title="Lưu trữ thành viên?"
                 handleEvent={{
                   restore: handleRestore(item),

@@ -1,4 +1,3 @@
-import { GeneratorService } from "@/utils";
 import { extractErrorMessage } from "@/utils/services/error-handler-service";
 import { StrictOmit } from "@/utils/types";
 
@@ -13,18 +12,14 @@ import {
   AuthAccountCreation,
   EntityValidationErrors,
 } from "../models";
+import { NameMapper } from "./base-mappers/name.mapper";
 import { GroupMapper } from "./group.mapper";
 
 export class AuthAccountMapper {
   public static fromDto(dto: AuthAccountDto): AuthAccount {
     return {
+      ...NameMapper.fromDto(dto),
       email: dto.email,
-      firstName: dto.first_name,
-      lastName: dto.last_name,
-      fullName: GeneratorService.generateFullName(
-        dto.last_name,
-        dto.first_name
-      ),
       groups: dto.groups.map((item: GroupDto) => GroupMapper.fromDto(item)),
     };
   }
@@ -45,12 +40,7 @@ export class AuthAccountMapper {
   ): StrictOmit<AuthAccount, "groups"> {
     return {
       email: dto.email,
-      firstName: dto.first_name,
-      lastName: dto.last_name,
-      fullName: GeneratorService.generateFullName(
-        dto.last_name,
-        dto.first_name
-      ),
+      ...NameMapper.fromDto(dto),
     };
   }
 

@@ -10,8 +10,8 @@ import {
 import {
   HttpError,
   IFileUploaded,
-  IMember,
-  IMemberCreateUpdate,
+  Member,
+  MemberCreation,
 } from "@/features/types/models";
 import { TMemberParamQueryDto } from "@/features/types/queries";
 import { FilterService, GeneratorService, GlobalTypes } from "@/utils";
@@ -35,9 +35,9 @@ export const uploadMemberExcelFileAsync = createAsyncThunk<
 });
 
 export const createMemberAsync = createAsyncThunk<
-  IMember,
-  IMemberCreateUpdate,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<IMemberCreateUpdate> | null>
+  Member,
+  MemberCreation,
+  GlobalTypes.ReduxThunkRejectValue<HttpError<MemberCreation> | null>
 >("create/member", async (payload, { rejectWithValue, dispatch }) => {
   const memberDto = MemberMapper.toCreateDto(payload);
   const result = await MemberApi.createMember(memberDto);
@@ -53,8 +53,8 @@ export const createMemberAsync = createAsyncThunk<
 });
 
 export const deleteMemberAsync = createAsyncThunk<
-  IMember["id"],
-  IMember["id"],
+  Member["id"],
+  Member["id"],
   GlobalTypes.ReduxThunkRejectValue<null>
 >("delete/member", async (id, { rejectWithValue, dispatch }) => {
   const result = await MemberApi.deleteMember(id);
@@ -65,7 +65,7 @@ export const deleteMemberAsync = createAsyncThunk<
       const deletedMember = memberSelectors.selectById(reduxStore, id);
       const deletedUser = userSelectors
         .selectAll(reduxStore)
-        .find((item) => item.email === deletedMember.auth_account.email);
+        .find((item) => item.email === deletedMember.authAccount.email);
       if (deletedUser != null) {
         dispatch(removeUser(deletedUser.id));
       }
@@ -76,7 +76,7 @@ export const deleteMemberAsync = createAsyncThunk<
 });
 
 export const getMembersAsync = createAsyncThunk<
-  IMember[],
+  Member[],
   TMemberParamQueryDto,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/members", async (param, { rejectWithValue }) => {
@@ -88,9 +88,9 @@ export const getMembersAsync = createAsyncThunk<
 });
 
 export const updateMemberAsync = createAsyncThunk<
-  GlobalTypes.ReduxThunkRestoreResult<IMember>,
-  GlobalTypes.ReduxThunkRestorePayload<IMemberCreateUpdate, IMember>,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<IMemberCreateUpdate> | null>
+  GlobalTypes.ReduxThunkRestoreResult<Member>,
+  GlobalTypes.ReduxThunkRestorePayload<MemberCreation, Member>,
+  GlobalTypes.ReduxThunkRejectValue<HttpError<MemberCreation> | null>
 >(
   "update/member",
   async ({ payload, id, isRestore }, { rejectWithValue, dispatch }) => {
@@ -132,7 +132,7 @@ export const memberSlice = createSlice({
       state,
       action: PayloadAction<
         GlobalTypes.StrictOmit<TMemberParamQueryDto, "is_archived"> & {
-          memberList?: IMember[];
+          memberList?: Member[];
         }
       >
     ) {
@@ -155,11 +155,10 @@ export const memberSlice = createSlice({
       }
       const listMemberAfterFilterByName = state.currentMemberList.filter(
         (item) =>
-          FilterService.isTextIncludedIn(item.auth_account.fullName, search)
+          FilterService.isTextIncludedIn(item.authAccount.fullName, search)
       );
       const listMemberAfterFilterByEmail = state.currentMemberList.filter(
-        (item) =>
-          FilterService.isTextIncludedIn(item.auth_account.email, search)
+        (item) => FilterService.isTextIncludedIn(item.authAccount.email, search)
       );
 
       const newMemberList = GeneratorService.generateArrayWithNoDuplicate(
@@ -201,7 +200,7 @@ export const memberSlice = createSlice({
         if (state.listQueryMember.is_archived == null) {
           memberAdapter.updateOne(state, {
             id: removedId,
-            changes: { is_archived: true },
+            changes: { isArchived: true },
           });
           return;
         }

@@ -1,9 +1,4 @@
-import {
-  Department,
-  IMember,
-  IMemberCreateUpdate,
-  Roles,
-} from "@/features/types";
+import { Department, Member, MemberCreation, Roles } from "@/features/types";
 import { FormatService } from "@/utils";
 
 import { IFormMemberInfo, IMemberTable } from "./type";
@@ -17,49 +12,49 @@ export class MemberFormMapper {
   }: {
     departmentModel?: Department[];
     formData: IFormMemberInfo;
-    isArchived: IMember["is_archived"];
-  }): IMemberCreateUpdate {
+    isArchived: Member["isArchived"];
+  }): MemberCreation {
     return {
-      auth_account: {
+      authAccount: {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
       },
       avatar: formData.avatar,
       dob: FormatService.toDateString(formData.birthday, "US"),
-      class_name: formData.class,
+      className: formData.class,
       address: formData.address,
-      gender: formData.gender as IMemberCreateUpdate["gender"],
-      student_id: formData.studentId,
-      phone_number: formData.phone,
-      home_town: formData.home,
+      gender: formData.gender as MemberCreation["gender"],
+      studentId: formData.studentId,
+      phoneNumber: formData.phone,
+      homeTown: formData.home,
       department: departmentModel
         ? DepartmentFormMapper.toModel(departmentModel, formData.department)
         : undefined,
-      is_archived: isArchived,
+      isArchived: isArchived,
     };
   }
   /** Use for map data from model to form values. */
-  public static fromModel(model: IMember): IFormMemberInfo {
+  public static fromModel(model: Member): IFormMemberInfo {
     return {
-      firstName: model.auth_account.firstName,
-      lastName: model.auth_account.lastName,
+      firstName: model.authAccount.firstName,
+      lastName: model.authAccount.lastName,
       gender: model.gender,
       birthday: model.dob,
       department: model.department.name,
-      class: model.class_name,
-      studentId: model.student_id,
-      email: model.auth_account.email,
-      phone: model.phone_number,
+      class: model.className,
+      studentId: model.studentId,
+      email: model.authAccount.email,
+      phone: model.phoneNumber,
       address: model.address,
-      home: model.home_town,
+      home: model.homeTown,
     };
   }
 }
 
 export class MemberTableMapper {
-  public static fromModel(model: IMember): IMemberTable {
-    const { groups } = model.auth_account;
+  public static fromModel(model: Member): IMemberTable {
+    const { groups } = model.authAccount;
 
     const isOnlyIncludeMemberRole =
       groups.length === 1 && groups[0].name === Roles.Member;
@@ -70,14 +65,14 @@ export class MemberTableMapper {
     return {
       avatar: model.avatar,
       id: model.id,
-      fullName: model.auth_account.fullName,
-      firstName: model.auth_account.firstName,
-      email: model.auth_account.email,
+      fullName: model.authAccount.fullName,
+      firstName: model.authAccount.firstName,
+      email: model.authAccount.email,
       department: model.department.name,
       birthday: FormatService.toDateString(model.dob, "VN"),
       roles: shouldReturnMemberText
         ? Roles.Member
-        : model.auth_account.groups
+        : model.authAccount.groups
             .filter((item) => item.name !== Roles.Member)
             .map((item) => item.name)
             .join(", "),

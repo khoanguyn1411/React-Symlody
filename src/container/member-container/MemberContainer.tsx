@@ -19,7 +19,7 @@ import {
   setListQueryMember,
   updateMemberAsync,
 } from "@/features/reducers";
-import { IMember, Roles, RolesID } from "@/features/types";
+import { Member, Roles, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
 
@@ -43,7 +43,7 @@ export const MemberContainer: React.FC = () => {
   const currentUser = useAppSelector((state) => state.auth.user);
 
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
-  const propsModalEditMember = useModal<IMember>();
+  const propsModalEditMember = useModal<Member>();
   const propsSearch = useDebounce(memberStore.listQueryMemberFE.search);
 
   const isMemberManager = currentUser.isRole([Roles.Lead, Roles.MemberManager]);
@@ -76,7 +76,7 @@ export const MemberContainer: React.FC = () => {
         break;
     }
   };
-  const handleDelete = hasPermission(async (item: IMember) => {
+  const handleDelete = hasPermission(async (item: Member) => {
     const result = await dispatch(deleteMemberAsync(item.id));
     if (result.payload) {
       toast.success(MEMBER_MESSAGE.achieve.success);
@@ -85,16 +85,18 @@ export const MemberContainer: React.FC = () => {
     toast.error(MEMBER_MESSAGE.achieve.error);
   });
 
-  const handleRestore = hasPermission(async (item: IMember) => {
+  const handleRestore = hasPermission(async (item: Member) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { email, ...authAccountWithoutEmail } = item.auth_account;
     const result = await dispatch(
       updateMemberAsync({
         payload: {
           ...item,
           avatar: undefined,
-          auth_account: authAccountWithoutEmail,
-          is_archived: false,
+          authAccount: {
+            ...item.authAccount,
+            email: undefined,
+          },
+          isArchived: false,
         },
         id: item.id,
         isRestore: true,
@@ -107,7 +109,7 @@ export const MemberContainer: React.FC = () => {
     toast.success(MEMBER_MESSAGE.update.success);
   });
 
-  const handleEdit = (item: IMember) => {
+  const handleEdit = (item: Member) => {
     propsModalEditMember.setData(item);
     propsModalEditMember.toggle.setShow();
   };

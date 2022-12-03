@@ -1,7 +1,7 @@
 import { GlobalTypes } from "@/utils";
 
 import { UserDto } from "../dtos";
-import { AuthAccount, IMember, IProfile, User } from "../models";
+import { IProfile, Member, User } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 
 export class UserMapper {
@@ -23,9 +23,9 @@ export class UserMapper {
     };
   }
 
-  public static fromMember(model: IMember): GlobalTypes.StrictOmit<User, "id"> {
+  public static fromMember(model: Member): GlobalTypes.StrictOmit<User, "id"> {
     return {
-      ...AuthAccountMapper.fromInheritance(model as unknown as AuthAccount),
+      ...AuthAccountMapper.fromInheritance(model.authAccount),
       avatar: model.avatar,
       department_id: model.department.id,
     };

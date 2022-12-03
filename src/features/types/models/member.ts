@@ -1,32 +1,37 @@
+import { StrictOmit, StrictPick } from "@/utils/types";
+
 import { AuthAccount, AuthAccountCreation } from "./auth-account";
 import { Department } from "./department";
 import { EGender } from "./gender";
 
-interface IMemberGeneral {
-  gender: EGender;
-  class_name: string;
-  student_id: string;
-  address: string;
-  phone_number: string;
-  home_town: string;
-  dob: string;
-  is_archived: boolean;
-}
-
-export interface IMember extends IMemberGeneral {
-  auth_account: AuthAccount;
+export interface Member {
   id: number;
-  last_modified_date: string;
+  authAccount: AuthAccount;
+  lastModifiedDate: string;
   avatar: string;
-  created_by: {
-    first_name: string;
-    last_name: string;
-  };
+  createdBy: StrictPick<AuthAccount, "firstName" | "lastName">;
   department: Department;
+
+  gender: EGender;
+  className: string;
+  studentId: string;
+  address: string;
+  phoneNumber: string;
+  homeTown: string;
+  dob: string;
+  isArchived: boolean;
 }
 
-export interface IMemberCreateUpdate extends IMemberGeneral {
-  auth_account: AuthAccountCreation;
+export type MemberCreation = StrictOmit<
+  Member,
+  | "authAccount"
+  | "department"
+  | "avatar"
+  | "id"
+  | "lastModifiedDate"
+  | "createdBy"
+> & {
+  authAccount: AuthAccountCreation;
   department?: Department;
   avatar?: File;
-}
+};

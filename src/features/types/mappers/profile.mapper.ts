@@ -6,9 +6,9 @@ import { HttpErrorDto, IProfileDto, IProfileUpdateDto } from "../dtos";
 import {
   Group,
   HttpError,
-  IMember,
   IProfile,
   IProfileUpdate,
+  Member,
   Roles,
 } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
@@ -75,26 +75,26 @@ export class ProfileMapper {
     };
   }
 
-  public static fromMember(currentUser: IProfile, model: IMember): IProfile {
+  public static fromMember(currentUser: IProfile, model: Member): IProfile {
     return {
       id: currentUser.id,
       gender: model.gender,
-      phone_number: model.phone_number,
-      student_id: model.student_id,
-      home_town: model.home_town,
+      phone_number: model.phoneNumber,
+      student_id: model.studentId,
+      home_town: model.homeTown,
       dob: model.dob,
-      class_name: model.class_name,
+      class_name: model.className,
       avatar: model.avatar,
       address: model.address,
       department: model.department,
       organization: currentUser.organization,
       profile_id: model.id,
-      firstName: model.auth_account.firstName,
-      lastName: model.auth_account.lastName,
-      fullName: model.auth_account.fullName,
-      email: model.auth_account.email,
-      groups: model.auth_account.groups,
-      isRole: compareRole(model.auth_account.groups),
+      firstName: model.authAccount.firstName,
+      lastName: model.authAccount.lastName,
+      fullName: model.authAccount.fullName,
+      email: model.authAccount.email,
+      groups: model.authAccount.groups,
+      isRole: compareRole(model.authAccount.groups),
     };
   }
   public static toUpdateDto(model: IProfileUpdate): IProfileUpdateDto {

@@ -51,7 +51,7 @@ const TabCreateAMember: React.FC = () => {
     const res = await dispatch(createMemberAsync(memberModel));
     if (createMemberAsync.rejected.match(res)) {
       const error = res.payload;
-      if (error.detail.auth_account.email) {
+      if (error.detail.authAccount.email) {
         setError("email", { message: "Email này đã được đăng ký." });
         return;
       }

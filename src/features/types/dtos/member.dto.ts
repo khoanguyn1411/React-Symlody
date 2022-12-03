@@ -1,7 +1,16 @@
+import { StrictOmit, StrictPick } from "@/utils/types";
+
 import { AuthAccountCreationDto, AuthAccountDto } from "./auth-account.dto";
 import { DepartmentDto } from "./department.dto";
 
-interface IMemberGeneralDto {
+export interface MemberDto {
+  auth_account: AuthAccountDto;
+  id: number;
+  last_modified_date: string;
+  created_by: StrictPick<AuthAccountDto, "first_name" | "last_name">;
+  avatar: string;
+  department: DepartmentDto;
+
   gender: number;
   class_name: string;
   student_id: string;
@@ -12,20 +21,16 @@ interface IMemberGeneralDto {
   is_archived: boolean;
 }
 
-export interface IMemberDto extends IMemberGeneralDto {
-  auth_account: AuthAccountDto;
-  id: number;
-  last_modified_date: string;
-  created_by: {
-    first_name: string;
-    last_name: string;
-  };
-  avatar: string;
-  department: DepartmentDto;
-}
-
-export interface IMemberCreateUpdateDto extends IMemberGeneralDto {
+export type MemberCreationDto = StrictOmit<
+  MemberDto,
+  | "auth_account"
+  | "department"
+  | "avatar"
+  | "id"
+  | "last_modified_date"
+  | "created_by"
+> & {
   auth_account: AuthAccountCreationDto;
   department_id?: number;
   avatar?: File;
-}
+};

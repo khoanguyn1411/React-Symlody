@@ -1,7 +1,7 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
 import { APP_PAGINATION } from "@/constants";
-import { IMember } from "@/features/types";
+import { Member } from "@/features/types";
 import { TMemberParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
 
@@ -13,15 +13,15 @@ export interface MemberStateInner {
   listQueryMember: TMemberParamQueryDto;
 
   // Used for pagination and searching in front-end.
-  currentMemberList: IMember[];
-  memberListPagination: IMember[];
+  currentMemberList: Member[];
+  memberListPagination: Member[];
   listQueryMemberFE: GlobalTypes.StrictOmit<
     TMemberParamQueryDto,
     "is_archived"
   >;
 }
 
-export const memberAdapter = createEntityAdapter<IMember>({
+export const memberAdapter = createEntityAdapter<Member>({
   selectId: (member) => member.id,
 });
 

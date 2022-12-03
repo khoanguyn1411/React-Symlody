@@ -10,7 +10,7 @@ import {
   getDepartmentAsync,
   updateMemberAsync,
 } from "@/features/reducers";
-import { IMember, IMemberCreateUpdate, RolesID } from "@/features/types";
+import { Member, MemberCreation, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { THookModalProps } from "@/hooks";
 
@@ -20,7 +20,7 @@ import { schema } from "../schema";
 import { IFormMemberInfo } from "../type";
 import { FormItems } from "./FormItems";
 
-export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
+export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
   data,
   isShowing,
   toggle,
@@ -48,15 +48,15 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     const memberModel = MemberFormMapper.toModel({
       departmentModel: departmentList,
       formData: editInfo,
-      isArchived: data.is_archived,
+      isArchived: data.isArchived,
     });
 
-    let _memberModel: IMemberCreateUpdate;
+    let _memberModel: MemberCreation;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { email, ...authAccountWithoutEmail } = memberModel.auth_account;
+    const { email, ...authAccountWithoutEmail } = memberModel.authAccount;
 
-    if (editInfo.email === data.auth_account.email) {
-      _memberModel = { ...memberModel, auth_account: authAccountWithoutEmail };
+    if (editInfo.email === data.authAccount.email) {
+      _memberModel = { ...memberModel, authAccount: authAccountWithoutEmail };
     } else {
       _memberModel = memberModel;
     }
@@ -70,7 +70,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
     );
     if (updateMemberAsync.rejected.match(res)) {
       const error = res.payload;
-      if (error.detail.auth_account.email) {
+      if (error.detail.authAccount.email) {
         setError("email", { message: "Email này đã được đăng ký." });
         return;
       }
