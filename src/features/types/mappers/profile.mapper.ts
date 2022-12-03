@@ -1,10 +1,10 @@
 import { FormDataService } from "@/utils";
 import { hasElementOfArray } from "@/utils/services/common-service";
+import { extractErrorMessage } from "@/utils/services/error-handler-service";
 
 import { HttpErrorDto, IProfileDto, IProfileUpdateDto } from "../dtos";
 import {
   ERoles,
-  extractErrorMessage,
   HttpError,
   IGroup,
   IMember,

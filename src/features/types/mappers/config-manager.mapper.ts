@@ -1,4 +1,5 @@
 import { hasElementOfArray } from "@/utils/services/common-service";
+import { extractErrorMessage } from "@/utils/services/error-handler-service";
 
 import { HttpErrorDto } from "../dtos";
 import {
@@ -8,7 +9,6 @@ import {
 } from "../dtos/config-manager.dto";
 import {
   ERoles,
-  extractErrorMessage,
   HttpError,
   IConfigInfo,
   IConfigManager,

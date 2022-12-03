@@ -1,12 +1,8 @@
 import { FormatService } from "@/utils";
+import { extractErrorMessage } from "@/utils/services/error-handler-service";
 
 import { HttpErrorDto, IMemberCreateUpdateDto, IMemberDto } from "../dtos";
-import {
-  extractErrorMessage,
-  HttpError,
-  IMember,
-  IMemberCreateUpdate,
-} from "../models";
+import { HttpError, IMember, IMemberCreateUpdate } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 import { DepartmentMapper } from "./department.mapper";
 import { GenderMapper } from "./gender.mapper";
