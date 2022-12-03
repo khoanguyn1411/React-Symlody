@@ -51,7 +51,7 @@ export const getConfigManager = createAsyncThunk<
   const resultConfigManager = res[0];
   const userListAfterPromise = res[1];
 
-  if (!hasUser && userListAfterPromise.meta.requestStatus === "rejected") {
+  if (!hasUser && getConfigManager.rejected.match(userListAfterPromise)) {
     return rejectWithValue([]);
   }
 

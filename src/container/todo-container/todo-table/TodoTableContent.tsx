@@ -53,7 +53,7 @@ export const TodoTableContent: React.FC<TProps> = ({
         payload: { ...task, status },
       })
     );
-    if (result.meta.requestStatus === "rejected") {
+    if (updateTaskAsync.rejected.match(result)) {
       toast.error(TODO_MESSAGES.update.error);
       return;
     }
@@ -66,7 +66,7 @@ export const TodoTableContent: React.FC<TProps> = ({
         payload: { ...task, isPriority },
       })
     );
-    if (result.meta.requestStatus === "rejected") {
+    if (updateTaskAsync.rejected.match(result)) {
       toast.error(TODO_MESSAGES.update.error);
       return;
     }

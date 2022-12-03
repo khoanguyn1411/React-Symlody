@@ -51,7 +51,7 @@ export const ModalEditTodo: React.FC<THookModalProps<ITask>> = ({
         payload: taskModel,
       })
     );
-    if (result.meta.requestStatus === "rejected") {
+    if (updateTaskAsync.rejected.match(result)) {
       toast.error(TODO_MESSAGES.update.error);
       return;
     }

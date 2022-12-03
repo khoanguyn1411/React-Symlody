@@ -45,7 +45,7 @@ export const TodoCard: React.FC<ITask> = (task) => {
   const handleDropdownSelection = async (item: TItemListSelect) => {
     if (item.key === "delete") {
       const res = await dispatch(deleteTaskAsync(task.id));
-      if (res.meta.requestStatus === "fulfilled") {
+      if (deleteTaskAsync.fulfilled.match(res)) {
         toast.success(TODO_MESSAGES.delete.success);
         return;
       }

@@ -78,6 +78,10 @@ export const ModalEditPermission: React.FC<TProps> = ({
       reset();
       return;
     }
+    if (result.payload == null) {
+      toast.error(ROLE_PERMISSION_MESSAGE.update.error);
+      return;
+    }
     const { detail } = result.payload;
     const readableError = generateErrorMessageFromErrorArray(
       detail as string[],
@@ -86,7 +90,6 @@ export const ModalEditPermission: React.FC<TProps> = ({
     toast.error(readableError);
     return;
   };
-  toast.error(ROLE_PERMISSION_MESSAGE.update.error);
 
   if (data == null) {
     return;

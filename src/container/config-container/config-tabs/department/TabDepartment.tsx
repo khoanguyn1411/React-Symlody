@@ -43,7 +43,7 @@ export const TabConfigDepartment: React.FC = () => {
     async (departmentData: IDepartment) => {
       if (departmentData && departmentData.id) {
         const result = await dispatch(deleteDepartmentAsync(departmentData.id));
-        if (result.meta.requestStatus === "rejected") {
+        if (deleteDepartmentAsync.rejected.match(result)) {
           toast.error(DEPARTMENT_MESSAGE.delete.error);
           return;
         }
@@ -98,7 +98,7 @@ export const ActionConfigDepartment: React.FC = () => {
 
   const handleCreateDepartment = async (data: IFormDepartment) => {
     const result = await dispatch(createDepartmentAsync(data));
-    if (result.meta.requestStatus === "rejected") {
+    if (createDepartmentAsync.rejected.match(result)) {
       toast.error(DEPARTMENT_MESSAGE.create.error);
       return;
     }

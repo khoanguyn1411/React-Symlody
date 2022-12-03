@@ -103,7 +103,7 @@ export const MemberContainer: React.FC = () => {
         isRestore: true,
       })
     );
-    if (result.meta.requestStatus === "rejected") {
+    if (updateMemberAsync.rejected.match(result)) {
       toast.error(MEMBER_MESSAGE.update.error);
       return;
     }

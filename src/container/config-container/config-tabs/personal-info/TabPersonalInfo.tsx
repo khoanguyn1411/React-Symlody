@@ -48,7 +48,7 @@ export const TabPersonalInfo: React.FC = () => {
     const result = await dispatch(
       updateProfileAsync(PersonalInfoFormMapper.toModel(data))
     );
-    if (result.meta.requestStatus === "rejected") {
+    if (updateProfileAsync.rejected.match(result)) {
       toast.error(PERSONAL_INFO_MESSAGES.update.error);
       return;
     }

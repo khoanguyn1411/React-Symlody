@@ -25,7 +25,7 @@ export const TodoTable: React.FC<TProps> = ({ isLoading }) => {
 
   const handleDeleteTodo = async (task: ITask) => {
     const res = await dispatch(deleteTaskAsync(task.id));
-    if (res.meta.requestStatus === "fulfilled") {
+    if (deleteTaskAsync.fulfilled.match(res)) {
       toast.success(TODO_MESSAGES.delete.success);
       return;
     }

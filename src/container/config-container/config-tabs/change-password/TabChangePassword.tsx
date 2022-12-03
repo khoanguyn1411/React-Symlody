@@ -30,7 +30,7 @@ export const TabChangePassword: React.FC = () => {
 
   const handleChangePassword = async (data: IFormChangePassword) => {
     const result = await dispatch(changePasswordAsync(data));
-    if (result.meta.requestStatus !== "fulfilled") {
+    if (changePasswordAsync.rejected.match(result)) {
       toast.error(CHANGE_PASSWORD_MESSAGE.error);
       return;
     }
