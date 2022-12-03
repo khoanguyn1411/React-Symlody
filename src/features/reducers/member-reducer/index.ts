@@ -41,7 +41,6 @@ export const createMemberAsync = createAsyncThunk<
 >("create/member", async (payload, { rejectWithValue, dispatch }) => {
   const memberDto = MemberMapper.toCreateDto(payload);
   const result = await MemberApi.createMember(memberDto);
-  console.log(result);
   if (result.kind === "ok") {
     dispatch(getUsersAsync());
     return MemberMapper.fromDto(result.result);
@@ -192,6 +191,7 @@ export const memberSlice = createSlice({
           memberAdapter.addOne(state, newMember);
         }
       })
+
       .addCase(deleteMemberAsync.pending, (state) => {
         state.pendingDeleteMember = true;
       })
