@@ -1,4 +1,4 @@
 export interface IChangePassword {
-  readonly old_password: string;
-  readonly new_password: string;
+  old_password: string;
+  new_password: string;
 }

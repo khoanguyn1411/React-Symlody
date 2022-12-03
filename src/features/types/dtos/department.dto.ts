@@ -3,11 +3,11 @@ import { GlobalTypes } from "@/utils";
 import { IGroup } from "./../models/group";
 
 export interface IDepartmentDto {
-  readonly id: number;
-  readonly name: string;
-  readonly abbreviation_name: string | null;
-  readonly member_count: number;
-  readonly created_date: string;
+  id: number;
+  name: string;
+  abbreviation_name: string | null;
+  member_count: number;
+  created_date: string;
 }
 
 export type IDepartmentCreateUpdateDto = GlobalTypes.StrictPick<
@@ -16,5 +16,5 @@ export type IDepartmentCreateUpdateDto = GlobalTypes.StrictPick<
 >;
 
 export type IConfigManagerUpdate = {
-  readonly groups: IGroup;
+  groups: IGroup;
 };

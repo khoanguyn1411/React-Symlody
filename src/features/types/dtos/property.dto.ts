@@ -3,23 +3,23 @@ import { GlobalTypes } from "@/utils";
 import { IUserDto } from "./user.dto";
 
 export interface IPropertyDto {
-  readonly id: number;
-  readonly incharger: IUserDto;
-  readonly created_by: IUserDto;
-  readonly last_modified_by: string | null;
-  readonly image: string | null;
-  readonly organization: string;
-  readonly created_date: string;
-  readonly last_modified_date: string;
-  readonly archived_date: string;
-  readonly is_archived: boolean;
-  readonly prop_owner: string;
-  readonly name: string;
-  readonly price: number;
-  readonly quantity: number;
-  readonly is_club_property: boolean;
-  readonly note: string;
-  readonly archived_by: number;
+  id: number;
+  incharger: IUserDto;
+  created_by: IUserDto;
+  last_modified_by: string | null;
+  image: string | null;
+  organization: string;
+  created_date: string;
+  last_modified_date: string;
+  archived_date: string;
+  is_archived: boolean;
+  prop_owner: string;
+  name: string;
+  price: number;
+  quantity: number;
+  is_club_property: boolean;
+  note: string;
+  archived_by: number;
 }
 
 export type IPropertyCreateUpdateDto = GlobalTypes.StrictPick<

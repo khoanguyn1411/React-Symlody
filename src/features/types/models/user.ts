@@ -1,11 +1,11 @@
 import { IDepartment } from "./department";
 
 export interface IUser {
-  readonly id: number;
-  readonly first_name: string;
-  readonly last_name: string;
-  readonly full_name: string;
-  readonly email: string;
-  readonly department_id: IDepartment["id"];
-  readonly avatar: string | null;
+  id: number;
+  first_name: string;
+  last_name: string;
+  full_name: string;
+  email: string;
+  department_id: IDepartment["id"];
+  avatar: string | null;
 }

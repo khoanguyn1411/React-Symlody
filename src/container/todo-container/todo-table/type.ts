@@ -3,12 +3,12 @@ import { ReactNode } from "react";
 import { ETodoStatusId } from "@/features/types";
 
 export interface ITodoTable {
-  readonly id: number;
-  readonly job: string;
-  readonly status: ETodoStatusId;
-  readonly expiredDate: string;
-  readonly isPriority: boolean;
-  readonly assignee: string;
+  id: number;
+  job: string;
+  status: ETodoStatusId;
+  expiredDate: string;
+  isPriority: boolean;
+  assignee: string;
 }
 
 export type TPriority = {

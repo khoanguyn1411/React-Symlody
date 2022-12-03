@@ -3,30 +3,30 @@ import { IDepartment } from "./department";
 import { EGender } from "./gender";
 
 interface IMemberGeneral {
-  readonly gender: EGender;
-  readonly class_name: string;
-  readonly student_id: string;
-  readonly address: string;
-  readonly phone_number: string;
-  readonly home_town: string;
-  readonly dob: string;
-  readonly is_archived: boolean;
+  gender: EGender;
+  class_name: string;
+  student_id: string;
+  address: string;
+  phone_number: string;
+  home_town: string;
+  dob: string;
+  is_archived: boolean;
 }
 
 export interface IMember extends IMemberGeneral {
-  readonly auth_account: IAuthAccount;
-  readonly id: number;
-  readonly last_modified_date: string;
-  readonly avatar: string;
-  readonly created_by: {
-    readonly first_name: string;
-    readonly last_name: string;
+  auth_account: IAuthAccount;
+  id: number;
+  last_modified_date: string;
+  avatar: string;
+  created_by: {
+    first_name: string;
+    last_name: string;
   };
-  readonly department: IDepartment;
+  department: IDepartment;
 }
 
 export interface IMemberCreateUpdate extends IMemberGeneral {
-  readonly auth_account: IAuthAccountCreateUpdate;
-  readonly department?: IDepartment;
-  readonly avatar?: File;
+  auth_account: IAuthAccountCreateUpdate;
+  department?: IDepartment;
+  avatar?: File;
 }

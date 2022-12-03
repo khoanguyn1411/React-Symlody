@@ -1,16 +1,16 @@
 import { StrictOmit } from "@/utils/types";
 
 export interface ITenantDto {
-  readonly id: number;
-  readonly name: string;
-  readonly abbreviation_name: string | null;
-  readonly email: string;
-  readonly phone_number: string;
-  readonly school: string;
-  readonly address: string;
-  readonly logo: string | null;
+  id: number;
+  name: string;
+  abbreviation_name: string | null;
+  email: string;
+  phone_number: string;
+  school: string;
+  address: string;
+  logo: string | null;
 }
 
 export type ITenantCreateUpdateDto = StrictOmit<ITenantDto, "id" | "logo"> & {
-  readonly logo: File | undefined;
+  logo: File | undefined;
 };

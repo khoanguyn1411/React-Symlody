@@ -8,10 +8,10 @@ export enum ERolesDto {
   Member = "member",
 }
 export interface IGroupDto {
-  readonly id: number;
-  readonly name: ERolesDto;
+  id: number;
+  name: ERolesDto;
 }
 
 export interface IGroupCreateUpdateDto {
-  readonly name: ERolesDto;
+  name: ERolesDto;
 }

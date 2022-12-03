@@ -1,18 +1,18 @@
 export type IFormPropertyInfo = {
-  readonly assetName: string;
-  readonly quantity: string;
-  readonly price: string;
-  readonly inChargeId: number | null;
-  readonly note?: string;
-  readonly owner: string;
-  readonly image?: File;
-  readonly imageLink?: string;
+  assetName: string;
+  quantity: string;
+  price: string;
+  inChargeId: number | null;
+  note?: string;
+  owner: string;
+  image?: File;
+  imageLink?: string;
 };
 
 export type IPropertyTable = {
-  readonly assetName: string;
-  readonly quantity: string;
-  readonly price: string;
-  readonly inCharge: string;
-  readonly owner: string;
+  assetName: string;
+  quantity: string;
+  price: string;
+  inCharge: string;
+  owner: string;
 };

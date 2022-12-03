@@ -6,19 +6,19 @@ import { EGender } from "./gender";
 import { ERoles } from "./group";
 import { ITenant } from "./tenant";
 export interface IProfile extends IAuthAccount {
-  readonly id: number;
-  readonly gender: EGender;
-  readonly phone_number: string;
-  readonly student_id: string;
-  readonly home_town: string;
-  readonly dob: string;
-  readonly class_name: string;
-  readonly avatar: string | null;
-  readonly address: string;
-  readonly department: IDepartment;
-  readonly organization: ITenant;
-  readonly profile_id: number;
-  readonly isRole: (roles: ERoles[]) => boolean;
+  id: number;
+  gender: EGender;
+  phone_number: string;
+  student_id: string;
+  home_town: string;
+  dob: string;
+  class_name: string;
+  avatar: string | null;
+  address: string;
+  department: IDepartment;
+  organization: ITenant;
+  profile_id: number;
+  isRole: (roles: ERoles[]) => boolean;
 }
 
 export type IProfileUpdate = IAuthAccountCreateUpdate & {

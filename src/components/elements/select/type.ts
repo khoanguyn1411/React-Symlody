@@ -42,16 +42,16 @@ export type TSelectGeneralProps = {
 };
 
 export type TSelectDefaultProps = {
-  list: readonly string[];
+  list: string[];
   value: string;
   suffix?: string;
   onChange: (param: string) => void;
 } & TSelectGeneralProps;
 
 export type TSelectMultipleProps = {
-  list: readonly TOptionProps[];
-  value: readonly string[];
-  onChange: (value: readonly string[]) => void;
+  list: TOptionProps[];
+  value: string[];
+  onChange: (value: string[]) => void;
 } & TSelectGeneralProps;
 
 export type TSelectCustomProps = {

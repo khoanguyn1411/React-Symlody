@@ -9,18 +9,18 @@ import { EGenderDto } from "./gender.dto";
 import { ITenantDto } from "./tenant.dto";
 
 export interface IProfileDto extends IAuthAccountDto {
-  readonly id: number;
-  readonly gender: EGenderDto;
-  readonly phone_number: string;
-  readonly student_id: string;
-  readonly home_town: string;
-  readonly dob: string;
-  readonly class_name: string;
-  readonly avatar: string;
-  readonly address: string;
-  readonly department: IDepartmentDto;
-  readonly organization: ITenantDto;
-  readonly profile_id: number;
+  id: number;
+  gender: EGenderDto;
+  phone_number: string;
+  student_id: string;
+  home_town: string;
+  dob: string;
+  class_name: string;
+  avatar: string;
+  address: string;
+  department: IDepartmentDto;
+  organization: ITenantDto;
+  profile_id: number;
 }
 
 export type IProfileUpdateDto = IAuthAccountCreateUpdateDto & {

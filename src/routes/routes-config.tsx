@@ -76,7 +76,7 @@ export const PageComponent = {
 } as const;
 
 export const APP_DEFAULT_PAGE = EPagePath.Todo;
-const privateRoutes: readonly IRoutes[] = [
+const privateRoutes: IRoutes[] = [
   // {
   //   path: "/",
   //   component: <HomeContainer />,
@@ -145,7 +145,7 @@ const privateRoutes: readonly IRoutes[] = [
   },
 ];
 
-const publicRoutes: readonly IRoutes[] = [
+const publicRoutes: IRoutes[] = [
   {
     path: "/login",
     component: <LoginContainer />,

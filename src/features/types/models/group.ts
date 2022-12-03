@@ -24,6 +24,6 @@ export enum ERolesManagerSortName {
 }
 
 export interface IGroup {
-  readonly id: number;
-  readonly name: ERoles;
+  id: number;
+  name: ERoles;
 }

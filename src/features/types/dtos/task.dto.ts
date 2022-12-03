@@ -15,25 +15,25 @@ export enum ETaskStatusDto {
 }
 
 export interface ITaskDto {
-  readonly id: number;
-  readonly assignee: {
-    readonly id: number;
+  id: number;
+  assignee: {
+    id: number;
   };
-  readonly reporter: {
-    readonly id: number;
+  reporter: {
+    id: number;
   };
-  readonly created_by: IUserDto;
-  readonly last_modified_by: IUserDto;
-  readonly last_modified_date: string;
-  readonly title: string;
-  readonly label: string;
-  readonly description: string;
-  readonly start_date: string;
-  readonly end_date: string;
-  readonly estimation: null | string;
-  readonly priority: EPriorityDto;
-  readonly status: ETaskStatusDto;
-  readonly sent_email: boolean;
+  created_by: IUserDto;
+  last_modified_by: IUserDto;
+  last_modified_date: string;
+  title: string;
+  label: string;
+  description: string;
+  start_date: string;
+  end_date: string;
+  estimation: null | string;
+  priority: EPriorityDto;
+  status: ETaskStatusDto;
+  sent_email: boolean;
 }
 
 export type ITaskCreateUpdateDto = StrictPick<

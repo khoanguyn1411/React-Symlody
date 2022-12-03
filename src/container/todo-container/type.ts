@@ -26,13 +26,13 @@ export type TTodo = {
 };
 
 export interface IFormTodoInfo {
-  readonly name: string;
-  readonly priority?: string;
-  readonly isNotifyEmail?: boolean;
-  readonly expiredDate?: string;
-  readonly assignee?: number;
-  readonly reporter?: number;
-  readonly description?: string;
+  name: string;
+  priority?: string;
+  isNotifyEmail?: boolean;
+  expiredDate?: string;
+  assignee?: number;
+  reporter?: number;
+  description?: string;
 }
 
 export enum ETodoTabReadableString {
@@ -46,9 +46,9 @@ export enum ETodoTabKey {
 }
 
 export interface ITodoTable {
-  readonly fullName: string;
-  readonly avatar: string;
-  readonly isUnassigned: boolean;
-  readonly title: string;
-  readonly expiredDate: string;
+  fullName: string;
+  avatar: string;
+  isUnassigned: boolean;
+  title: string;
+  expiredDate: string;
 }

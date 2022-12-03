@@ -1,3 +1,3 @@
 export interface IFileUploadedDto {
-  readonly file: File;
+  file: File;
 }

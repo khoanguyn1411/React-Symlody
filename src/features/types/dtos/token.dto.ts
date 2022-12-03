@@ -1,10 +1,10 @@
 import { GlobalTypes } from "@/utils";
 
 export interface ITokenDto {
-  readonly access: string;
-  readonly expires_in: string;
-  readonly refresh: string;
-  readonly token_type: string;
+  access: string;
+  expires_in: string;
+  refresh: string;
+  token_type: string;
 }
 
 export type ITokenRefreshParamDto = GlobalTypes.StrictPick<

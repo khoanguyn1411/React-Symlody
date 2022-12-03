@@ -1,25 +1,25 @@
 export interface IFormMemberInfo {
-  readonly firstName: string;
-  readonly lastName: string;
-  readonly gender: string;
-  readonly birthday: string;
-  readonly department?: string;
-  readonly class: string;
-  readonly studentId: string;
-  readonly email: string;
-  readonly phone: string;
-  readonly address: string;
-  readonly home: string;
-  readonly avatar?: File;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  birthday: string;
+  department?: string;
+  class: string;
+  studentId: string;
+  email: string;
+  phone: string;
+  address: string;
+  home: string;
+  avatar?: File;
 }
 
 export interface IMemberTable {
-  readonly id: number;
-  readonly firstName: string;
-  readonly avatar?: string;
-  readonly fullName: string;
-  readonly email: string;
-  readonly department: string;
-  readonly birthday: string;
-  readonly roles: string;
+  id: number;
+  firstName: string;
+  avatar?: string;
+  fullName: string;
+  email: string;
+  department: string;
+  birthday: string;
+  roles: string;
 }

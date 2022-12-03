@@ -12,7 +12,7 @@ export const MEMBER_QUERY_PARAM_KEY = {
   filter: "filter",
 } as const;
 
-export const MEMBER_FILTER_OPTIONS: readonly TItemListSelect[] = [
+export const MEMBER_FILTER_OPTIONS: TItemListSelect[] = [
   {
     key: MEMBER_FILTER_VALUE.active,
     value: "Đang hoạt động",

@@ -3,23 +3,23 @@ import { StrictPick } from "@/utils/types";
 import { IUser } from "./user";
 
 export interface IProperty {
-  readonly id: number;
-  readonly incharger: IUser;
-  readonly created_by: IUser;
-  readonly last_modified_by: string | null;
-  readonly image: string | null;
-  readonly organization: string;
-  readonly created_date: string;
-  readonly last_modified_date: string;
-  readonly archived_date: string;
-  readonly is_archived: boolean;
-  readonly prop_owner: string;
-  readonly name: string;
-  readonly price: string;
-  readonly quantity: string;
-  readonly is_club_property: boolean;
-  readonly note: string;
-  readonly archived_by: number;
+  id: number;
+  incharger: IUser;
+  created_by: IUser;
+  last_modified_by: string | null;
+  image: string | null;
+  organization: string;
+  created_date: string;
+  last_modified_date: string;
+  archived_date: string;
+  is_archived: boolean;
+  prop_owner: string;
+  name: string;
+  price: string;
+  quantity: string;
+  is_club_property: boolean;
+  note: string;
+  archived_by: number;
 }
 
 export type IPropertyCreateUpdate = StrictPick<

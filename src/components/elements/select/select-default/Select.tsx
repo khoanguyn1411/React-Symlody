@@ -18,7 +18,7 @@ export type TItemListSelect = {
 
 type TProps = {
   suffix?: ReactNode;
-  list: readonly TItemListSelect[];
+  list: TItemListSelect[];
   style?: TStyle;
   placeHolder?: string;
   classNameDisplay?: TSelectGeneralProps["classNameDisplay"];

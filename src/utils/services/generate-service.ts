@@ -6,9 +6,9 @@ type TStatusMessage = "update" | "achieve" | "create" | "delete";
  * @param entity Entity of message.
  */
 export function generateStatusMessageFor(entity: string): {
-  readonly [key in TStatusMessage]: {
-    readonly success: string;
-    readonly error: string;
+  [key in TStatusMessage]: {
+    success: string;
+    error: string;
   };
 } {
   return {

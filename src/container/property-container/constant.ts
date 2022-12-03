@@ -20,7 +20,7 @@ export const PROPERTY_QUERY_PARAM_KEY = {
   filter: "filter",
 } as const;
 
-export const PROPERTY_FILTER_OPTIONS: readonly TItemListSelect[] = [
+export const PROPERTY_FILTER_OPTIONS: TItemListSelect[] = [
   {
     key: PROPERTY_FILTER_VALUE.inUse,
     value: "Đang sử dụng",

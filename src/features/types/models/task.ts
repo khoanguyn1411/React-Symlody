@@ -22,25 +22,25 @@ export enum EPriority {
 }
 
 export interface ITask {
-  readonly id: number;
-  readonly assignee: {
-    readonly id: number;
+  id: number;
+  assignee: {
+    id: number;
   };
-  readonly reporter: {
-    readonly id: number;
+  reporter: {
+    id: number;
   };
-  readonly created_by: IUser;
-  readonly last_modified_by: IUser | null;
-  readonly last_modified_date: string;
-  readonly title: string;
-  readonly label: string;
-  readonly description: string;
-  readonly start_date: string;
-  readonly end_date: string;
-  readonly estimation: null | string;
-  readonly isPriority: boolean;
-  readonly status: ETodoStatusId;
-  readonly sent_email: boolean;
+  created_by: IUser;
+  last_modified_by: IUser | null;
+  last_modified_date: string;
+  title: string;
+  label: string;
+  description: string;
+  start_date: string;
+  end_date: string;
+  estimation: null | string;
+  isPriority: boolean;
+  status: ETodoStatusId;
+  sent_email: boolean;
 }
 
 export type ITaskCreateUpdate = StrictPick<
