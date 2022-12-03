@@ -2,17 +2,17 @@ import classNames from "classnames";
 import React, { useEffect, useMemo, useState } from "react";
 
 import { Avatar, Tooltip } from "@/components";
-import { IUser } from "@/features/types";
+import { User } from "@/features/types";
 import { GlobalTypes } from "@/utils";
 
 import { DEFAULT_DISPLAY_MEMBER_COUNT, ZINDEX_SETTING } from "./constant";
 import { TodoCircleBorderWrapper } from "./TodoCircleBorderWrapper";
 
 type TProps = {
-  user: IUser;
+  user: User;
   index: number;
-  selectedMembers: IUser[];
-  setSelectedMembers: GlobalTypes.ReactStateAction<IUser[]>;
+  selectedMembers: User[];
+  setSelectedMembers: GlobalTypes.ReactStateAction<User[]>;
 };
 
 export const TodoAvatar: React.FC<TProps> = ({
@@ -63,8 +63,8 @@ export const TodoAvatar: React.FC<TProps> = ({
       })}
       zIndex={zIndex}
     >
-      <Tooltip space={10} content={user.full_name}>
-        <Avatar src={user.avatar} fullName={user.full_name} />
+      <Tooltip space={10} content={user.fullName}>
+        <Avatar src={user.avatar} fullName={user.fullName} />
       </Tooltip>
     </TodoCircleBorderWrapper>
   );

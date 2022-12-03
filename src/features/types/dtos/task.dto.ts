@@ -1,6 +1,6 @@
 import { StrictOmit, StrictPick } from "@/utils/types";
 
-import { IUserDto } from "./user.dto";
+import { UserDto } from "./user.dto";
 
 export enum EPriorityDto {
   Default = 1,
@@ -22,8 +22,8 @@ export interface ITaskDto {
   reporter: {
     id: number;
   };
-  created_by: IUserDto;
-  last_modified_by: IUserDto;
+  created_by: UserDto;
+  last_modified_by: UserDto;
   last_modified_date: string;
   title: string;
   label: string;

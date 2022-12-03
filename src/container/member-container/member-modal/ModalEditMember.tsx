@@ -10,7 +10,7 @@ import {
   getDepartmentAsync,
   updateMemberAsync,
 } from "@/features/reducers";
-import { ERolesID, IMember, IMemberCreateUpdate } from "@/features/types";
+import { IMember, IMemberCreateUpdate, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { THookModalProps } from "@/hooks";
 
@@ -42,7 +42,7 @@ export const ModalEditMember: React.FC<THookModalProps<IMember>> = ({
   const departmentCount = useAppSelector(departmentSelectors.selectTotal);
 
   const dispatch = useAppDispatch();
-  const hasPermission = withPermission([ERolesID.Lead, ERolesID.MemberManager]);
+  const hasPermission = withPermission([RolesID.Lead, RolesID.MemberManager]);
 
   const handleEditMember = hasPermission(async (editInfo: IFormMemberInfo) => {
     const memberModel = MemberFormMapper.toModel({

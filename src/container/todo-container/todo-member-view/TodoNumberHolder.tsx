@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import { Avatar, Checkbox, Search } from "@/components";
 import { SelectCustom } from "@/components/elements/select/select-custom";
-import { IUser } from "@/features/types";
+import { User } from "@/features/types";
 import { useDebounce, useEffectSkipFirstRender } from "@/hooks";
 import { FilterService, GlobalTypes } from "@/utils";
 
@@ -14,9 +14,9 @@ import {
 import { TodoCircleBorderWrapper } from "./TodoCircleBorderWrapper";
 
 type TProps = {
-  memberList: IUser[];
-  selectedMembers: IUser[];
-  setSelectedMembers: GlobalTypes.ReactStateAction<IUser[]>;
+  memberList: User[];
+  selectedMembers: User[];
+  setSelectedMembers: GlobalTypes.ReactStateAction<User[]>;
 };
 
 export const TodoNumberHolder: React.FC<TProps> = ({
@@ -24,8 +24,8 @@ export const TodoNumberHolder: React.FC<TProps> = ({
   selectedMembers,
   setSelectedMembers,
 }) => {
-  const [_memberList, _setMemberList] = useState<IUser[]>(memberList);
-  const [_selectNumberList, _setSelectNumberList] = useState<IUser[]>([]);
+  const [_memberList, _setMemberList] = useState<User[]>(memberList);
+  const [_selectNumberList, _setSelectNumberList] = useState<User[]>([]);
 
   const { inputValue, setInputValue, debounceValue } = useDebounce();
   const INITIAL_TASK_QUANTITY = memberList.length;
@@ -33,13 +33,13 @@ export const TodoNumberHolder: React.FC<TProps> = ({
   useEffectSkipFirstRender(() => {
     _setMemberList(
       memberList.filter((item) =>
-        FilterService.isTextIncludedIn(item.full_name, debounceValue)
+        FilterService.isTextIncludedIn(item.fullName, debounceValue)
       )
     );
   }, [debounceValue]);
 
-  const handleAddMemberToSelectList = (selectedItem: IUser) => () => {
-    const getSelectNumberList = (prev: IUser[]) => {
+  const handleAddMemberToSelectList = (selectedItem: User) => () => {
+    const getSelectNumberList = (prev: User[]) => {
       const idsPrevList = prev.map((user) => user.id);
       if (idsPrevList.includes(selectedItem.id)) {
         return prev.filter((item) => item.id !== selectedItem.id);
@@ -91,9 +91,9 @@ export const TodoNumberHolder: React.FC<TProps> = ({
                     <Avatar
                       src={item.avatar}
                       size="xsmall"
-                      fullName={item.full_name}
+                      fullName={item.fullName}
                     />
-                    <h1 className="ml-2 text-sm">{item.full_name}</h1>
+                    <h1 className="ml-2 text-sm">{item.fullName}</h1>
                   </button>
                 ))}
             </div>

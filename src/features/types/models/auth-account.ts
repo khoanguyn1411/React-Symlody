@@ -1,11 +1,11 @@
 import { GlobalTypes } from "@/utils";
 
-import { IGroup } from "./group";
+import { Group } from "./group";
 
 export interface AuthAccount {
   email?: string;
   firstName: string;
-  groups: IGroup[];
+  groups: Group[];
   lastName: string;
   fullName: string;
 }

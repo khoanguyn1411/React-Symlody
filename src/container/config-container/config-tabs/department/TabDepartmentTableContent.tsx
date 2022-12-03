@@ -3,14 +3,14 @@ import React from "react";
 import { DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
 import { departmentSelectors } from "@/features/reducers";
-import { IDepartment } from "@/features/types";
+import { Department } from "@/features/types";
 import { FormatService } from "@/utils";
 
 import { DEPARTMENT_MESSAGE } from "./constants";
 
 type TProps = {
-  onEdit: (department: IDepartment) => void;
-  onDelete: (department: IDepartment) => void;
+  onEdit: (department: Department) => void;
+  onDelete: (department: Department) => void;
 };
 
 export const TabDepartmentTableContent: React.FC<TProps> = ({

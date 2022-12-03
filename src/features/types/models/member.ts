@@ -1,5 +1,5 @@
 import { AuthAccount, AuthAccountCreation } from "./auth-account";
-import { IDepartment } from "./department";
+import { Department } from "./department";
 import { EGender } from "./gender";
 
 interface IMemberGeneral {
@@ -22,11 +22,11 @@ export interface IMember extends IMemberGeneral {
     first_name: string;
     last_name: string;
   };
-  department: IDepartment;
+  department: Department;
 }
 
 export interface IMemberCreateUpdate extends IMemberGeneral {
   auth_account: AuthAccountCreation;
-  department?: IDepartment;
+  department?: Department;
   avatar?: File;
 }

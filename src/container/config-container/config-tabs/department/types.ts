@@ -1,7 +1,7 @@
-import { IDepartment } from "@/features/types";
+import { Department } from "@/features/types";
 import { StrictPick } from "@/utils/types";
 
 export type IFormDepartment = StrictPick<
-  IDepartment,
+  Department,
   "id" | "abbreviation_name" | "name"
 >;

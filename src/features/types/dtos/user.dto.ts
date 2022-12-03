@@ -1,10 +1,10 @@
-import { IDepartmentDto } from "./department.dto";
+import { StrictOmit } from "@/utils/types";
 
-export interface IUserDto {
+import { AuthAccountDto } from "./auth-account.dto";
+import { DepartmentDto } from "./department.dto";
+
+export interface UserDto extends StrictOmit<AuthAccountDto, "groups"> {
   id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  department_id: IDepartmentDto["id"];
+  department_id: DepartmentDto["id"];
   avatar: string | null;
 }

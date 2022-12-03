@@ -102,7 +102,7 @@ export const updateMemberAsync = createAsyncThunk<
       const reduxStore = store.getState();
       const currentUser = reduxStore.auth.user;
       if (reduxStore.auth.user.profile_id === id) {
-        const profileModel = ProfileMapper.fromMemberModel(
+        const profileModel = ProfileMapper.fromMember(
           currentUser,
           memberUpdatedInfo
         );

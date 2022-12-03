@@ -65,7 +65,7 @@ export class MemberMapper {
       auth_account: AuthAccountMapper.toCreationDto(model.auth_account),
       dob: DateMapper.toDto(model.dob),
       gender: GenderMapper.toDto(model.gender),
-      department_id: model.department ? model.department.id : undefined,
+      department_id: model.department ? model.department.id : null,
     };
   }
 
@@ -83,7 +83,7 @@ export class MemberMapper {
       auth_account: AuthAccountMapper.toCreationDto(model.auth_account),
       dob: DateMapper.toDto(model.dob),
       gender: GenderMapper.toDto(model.gender),
-      department_id: model.department ? model.department.id : undefined,
+      department_id: model.department ? model.department.id : null,
     };
   }
 }

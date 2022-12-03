@@ -1,8 +1,8 @@
 import { GlobalTypes } from "@/utils";
 
-import { IGroup } from "./../models/group";
+import { Group } from "./../models/group";
 
-export interface IDepartmentDto {
+export interface DepartmentDto {
   id: number;
   name: string;
   abbreviation_name: string | null;
@@ -11,10 +11,10 @@ export interface IDepartmentDto {
 }
 
 export type IDepartmentCreateUpdateDto = GlobalTypes.StrictPick<
-  IDepartmentDto,
+  DepartmentDto,
   "name" | "abbreviation_name"
 >;
 
 export type IConfigManagerUpdate = {
-  groups: IGroup;
+  groups: Group;
 };

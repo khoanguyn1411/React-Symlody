@@ -1,11 +1,11 @@
 import { StrictPick } from "@/utils/types";
 
-import { IUser } from "./user";
+import { User } from "./user";
 
 export interface IProperty {
   id: number;
-  incharger: IUser;
-  created_by: IUser;
+  incharger: User;
+  created_by: User;
   last_modified_by: string | null;
   image: string | null;
   organization: string;
@@ -25,4 +25,4 @@ export interface IProperty {
 export type IPropertyCreateUpdate = StrictPick<
   IProperty,
   "name" | "quantity" | "price" | "prop_owner" | "note" | "is_club_property"
-> & { incharger_id: IUser["id"]; image?: File };
+> & { incharger_id: User["id"]; image?: File };

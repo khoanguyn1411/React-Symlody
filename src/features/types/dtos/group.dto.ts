@@ -1,4 +1,4 @@
-export enum ERolesDto {
+export enum RolesDto {
   SystemAdmin = "system_admin",
   Lead = "lead",
   MemberManager = "member_manager",
@@ -7,11 +7,7 @@ export enum ERolesDto {
   EventManager = "event_manager",
   Member = "member",
 }
-export interface IGroupDto {
+export interface GroupDto {
   id: number;
-  name: ERolesDto;
-}
-
-export interface IGroupCreateUpdateDto {
-  name: ERolesDto;
+  name: RolesDto;
 }

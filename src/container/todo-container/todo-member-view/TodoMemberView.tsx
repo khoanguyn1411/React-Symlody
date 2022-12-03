@@ -8,7 +8,7 @@ import React, {
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import { setSelectedMemberList } from "@/features/reducers/task-reducer";
-import { IUser, UserMapper } from "@/features/types";
+import { User, UserMapper } from "@/features/types";
 
 import { DEFAULT_DISPLAY_MEMBER_COUNT } from "./constant";
 import { TodoAvatar } from "./TodoAvatar";
@@ -25,7 +25,7 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
   const userList = useAppSelector(userSelectors.selectAll);
   const currentUserProfile = useAppSelector((state) => state.auth.user);
 
-  const [selectedMembers, setSelectedMembers] = useState<IUser[]>(
+  const [selectedMembers, setSelectedMembers] = useState<User[]>(
     taskStore.listQueryTask.selected_member_list
   );
 

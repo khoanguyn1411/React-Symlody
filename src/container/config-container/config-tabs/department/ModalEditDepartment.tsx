@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { Modal } from "@/components";
 import { useAppDispatch } from "@/features";
 import { updateDepartmentAsync } from "@/features/reducers";
-import { IDepartment } from "@/features/types";
+import { Department } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 import { FormService } from "@/utils";
 
@@ -15,7 +15,7 @@ import { FormItems } from "./FormItems";
 import { schema } from "./schema";
 import { IFormDepartment } from "./types";
 
-export const ModalEditDepartment: React.FC<THookModalProps<IDepartment>> = ({
+export const ModalEditDepartment: React.FC<THookModalProps<Department>> = ({
   isShowing,
   toggle,
   data,

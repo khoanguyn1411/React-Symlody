@@ -1,5 +1,5 @@
 import { AuthAccountCreationDto, AuthAccountDto } from "./auth-account.dto";
-import { IDepartmentDto } from "./department.dto";
+import { DepartmentDto } from "./department.dto";
 
 interface IMemberGeneralDto {
   gender: number;
@@ -21,7 +21,7 @@ export interface IMemberDto extends IMemberGeneralDto {
     last_name: string;
   };
   avatar: string;
-  department: IDepartmentDto;
+  department: DepartmentDto;
 }
 
 export interface IMemberCreateUpdateDto extends IMemberGeneralDto {

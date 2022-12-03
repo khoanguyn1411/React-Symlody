@@ -1,4 +1,4 @@
-import { IUserDto } from "@/features/types";
+import { UserDto } from "@/features/types";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
@@ -11,7 +11,7 @@ const routes = {
 export const UserApi = {
   async getUsers(): Promise<Types.RequestGetUsersResult> {
     const url = routes.getUsers();
-    const method = http.get<IUserDto[]>(url);
+    const method = http.get<UserDto[]>(url);
     return composeHttpMethodResult(method);
   },
 };

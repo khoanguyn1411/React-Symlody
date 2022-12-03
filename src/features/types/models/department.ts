@@ -1,6 +1,6 @@
 import { GlobalTypes } from "@/utils";
 
-export interface IDepartment {
+export interface Department {
   id: number;
   name: string;
   abbreviation_name: string | null;
@@ -9,6 +9,6 @@ export interface IDepartment {
 }
 
 export type IDepartmentCreateUpdate = GlobalTypes.StrictPick<
-  IDepartment,
+  Department,
   "name" | "abbreviation_name"
 >;

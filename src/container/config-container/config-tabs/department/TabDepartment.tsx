@@ -10,7 +10,7 @@ import {
   deleteDepartmentAsync,
   getDepartmentAsync,
 } from "@/features/reducers";
-import { ERolesID, IDepartment } from "@/features/types";
+import { Department, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
 
@@ -23,15 +23,15 @@ import { IFormDepartment } from "./types";
 
 export const TabConfigDepartment: React.FC = () => {
   const dispatch = useAppDispatch();
-  const propsModalEditDepartment = useModal<IDepartment>();
+  const propsModalEditDepartment = useModal<Department>();
 
   useEffect(() => {
     dispatch(getDepartmentAsync());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleEdit = withPermission([ERolesID.Lead, ERolesID.SystemAdmin])(
-    (departmentData: IDepartment) => {
+  const handleEdit = withPermission([RolesID.Lead, RolesID.SystemAdmin])(
+    (departmentData: Department) => {
       if (departmentData) {
         propsModalEditDepartment.setData(departmentData);
         propsModalEditDepartment.toggle.setShow();
@@ -39,8 +39,8 @@ export const TabConfigDepartment: React.FC = () => {
     }
   );
 
-  const handleDelete = withPermission([ERolesID.Lead, ERolesID.SystemAdmin])(
-    async (departmentData: IDepartment) => {
+  const handleDelete = withPermission([RolesID.Lead, RolesID.SystemAdmin])(
+    async (departmentData: Department) => {
       if (departmentData && departmentData.id) {
         const result = await dispatch(deleteDepartmentAsync(departmentData.id));
         if (deleteDepartmentAsync.rejected.match(result)) {

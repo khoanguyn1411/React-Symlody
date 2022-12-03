@@ -19,7 +19,7 @@ import {
   setListQueryMember,
   updateMemberAsync,
 } from "@/features/reducers";
-import { ERoles, ERolesID, IMember } from "@/features/types";
+import { IMember, Roles, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
 
@@ -46,12 +46,9 @@ export const MemberContainer: React.FC = () => {
   const propsModalEditMember = useModal<IMember>();
   const propsSearch = useDebounce(memberStore.listQueryMemberFE.search);
 
-  const isMemberManager = currentUser.isRole([
-    ERoles.Lead,
-    ERoles.MemberManager,
-  ]);
+  const isMemberManager = currentUser.isRole([Roles.Lead, Roles.MemberManager]);
 
-  const hasPermission = withPermission([ERolesID.MemberManager, ERolesID.Lead]);
+  const hasPermission = withPermission([RolesID.MemberManager, RolesID.Lead]);
 
   const [filter, setFilter] = useState<string>(() => {
     switch (memberStore.listQueryMember.is_archived) {

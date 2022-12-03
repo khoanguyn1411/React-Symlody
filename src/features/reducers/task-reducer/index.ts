@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
 import { RootState, store } from "@/features/store";
-import { ITask, IUser, TaskMapper } from "@/features/types";
+import { ITask, TaskMapper, User } from "@/features/types";
 import { ITaskCreateUpdate } from "@/features/types/models/task";
 import { TTaskParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
@@ -94,7 +94,7 @@ export const taskSlice = createSlice({
     setListQueryTask(state, action: PayloadAction<TTaskParamQueryDto>) {
       state.listQueryTask = action.payload;
     },
-    setSelectedMemberList(state, action: PayloadAction<IUser[] | null>) {
+    setSelectedMemberList(state, action: PayloadAction<User[] | null>) {
       state.listQueryTask = {
         ...state.listQueryTask,
         selected_member_list: action.payload,
@@ -102,7 +102,7 @@ export const taskSlice = createSlice({
     },
     getTasksByAssignee(
       state,
-      action: PayloadAction<{ taskList: ITask[]; userList: IUser[] }>
+      action: PayloadAction<{ taskList: ITask[]; userList: User[] }>
     ) {
       const { taskList, userList } = action.payload;
 

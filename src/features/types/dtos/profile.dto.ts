@@ -1,7 +1,7 @@
 import { StrictPick } from "@/utils/types";
 
 import { AuthAccountCreationDto, AuthAccountDto } from "./auth-account.dto";
-import { IDepartmentDto } from "./department.dto";
+import { DepartmentDto } from "./department.dto";
 import { EGenderDto } from "./gender.dto";
 import { ITenantDto } from "./tenant.dto";
 
@@ -15,7 +15,7 @@ export interface IProfileDto extends AuthAccountDto {
   class_name: string;
   avatar: string;
   address: string;
-  department: IDepartmentDto;
+  department: DepartmentDto;
   organization: ITenantDto;
   profile_id: number;
 }

@@ -1,6 +1,6 @@
 import { StrictOmit, StrictPick } from "@/utils/types";
 
-import { IUser } from "./user";
+import { User } from "./user";
 
 export enum ETodoStatusId {
   Todo = "todo",
@@ -29,8 +29,8 @@ export interface ITask {
   reporter: {
     id: number;
   };
-  created_by: IUser;
-  last_modified_by: IUser | null;
+  created_by: User;
+  last_modified_by: User | null;
   last_modified_date: string;
   title: string;
   label: string;

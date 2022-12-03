@@ -4,21 +4,21 @@ import { extractErrorMessage } from "@/utils/services/error-handler-service";
 
 import { HttpErrorDto, IProfileDto, IProfileUpdateDto } from "../dtos";
 import {
-  ERoles,
+  Group,
   HttpError,
-  IGroup,
   IMember,
   IProfile,
   IProfileUpdate,
+  Roles,
 } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 import { GenderMapper } from "./base-mappers/gender.mapper";
 import { DepartmentMapper } from "./department.mapper";
 
-const compareRole = (groups: IGroup[]) => (roles: ERoles[]) => {
+const compareRole = (groups: Group[]) => (roles: Roles[]) => {
   const groupsNameList = groups.map((group) => group.name);
   // System Admin has whole permission of apps so we don't need to check for roles.
-  if (groupsNameList.includes(ERoles.SystemAdmin)) {
+  if (groupsNameList.includes(Roles.SystemAdmin)) {
     return true;
   }
   return hasElementOfArray(groupsNameList, roles);
@@ -75,10 +75,7 @@ export class ProfileMapper {
     };
   }
 
-  public static fromMemberModel(
-    currentUser: IProfile,
-    model: IMember
-  ): IProfile {
+  public static fromMember(currentUser: IProfile, model: IMember): IProfile {
     return {
       id: currentUser.id,
       gender: model.gender,

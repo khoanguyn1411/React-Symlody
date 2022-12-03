@@ -1,18 +1,18 @@
 import {
-  ERoles,
-  ERolesManagerSortName,
   IConfigInfo,
   IConfigUserUpdate,
   ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME,
   ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL,
+  Roles,
+  RolesManagerSortName,
 } from "@/features/types";
 
 import { EPermissionOptions } from "./constants";
 import { IConfigManagerForm } from "./types";
 
-const getModelGroup = ({ type, roleManager }: IConfigManagerForm): ERoles[] => {
+const getModelGroup = ({ type, roleManager }: IConfigManagerForm): Roles[] => {
   if (type === EPermissionOptions.Lead) {
-    return [ERoles.Lead];
+    return [Roles.Lead];
   }
   if (type === EPermissionOptions.Manager) {
     return roleManager.map(
@@ -25,7 +25,7 @@ const getModelGroup = ({ type, roleManager }: IConfigManagerForm): ERoles[] => {
 };
 
 const getFormType = (model: IConfigInfo): EPermissionOptions => {
-  if (model.isRole(ERoles.Lead)) {
+  if (model.isRole(Roles.Lead)) {
     return EPermissionOptions.Lead;
   }
   if (model.isRole("manager")) {
@@ -41,7 +41,7 @@ export class RolePermissionFormMapper {
     return {
       userId: model.id,
       type: getFormType(model),
-      roleManager: model.groups.reduce((acc: ERolesManagerSortName[], cur) => {
+      roleManager: model.groups.reduce((acc: RolesManagerSortName[], cur) => {
         const sortNameManager = ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME[cur.name];
         if (sortNameManager) {
           return [...acc, sortNameManager];

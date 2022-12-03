@@ -1,4 +1,4 @@
-export enum ERoles {
+export enum Roles {
   Member = "Thành viên",
   Lead = "Quản lý chung",
   EventManager = "Quản lý sự kiện",
@@ -8,7 +8,7 @@ export enum ERoles {
   SystemAdmin = "Quản lý hệ thống",
 }
 
-export enum ERolesID {
+export enum RolesID {
   SystemAdmin = 1,
   Lead = 2,
   MemberManager = 3,
@@ -18,12 +18,12 @@ export enum ERolesID {
   Member = 7,
 }
 
-export enum ERolesManagerSortName {
+export enum RolesManagerSortName {
   MemberManager = "Thành viên",
   PropertyManager = "Tài sản",
 }
 
-export interface IGroup {
+export interface Group {
   id: number;
-  name: ERoles;
+  name: Roles;
 }

@@ -18,7 +18,7 @@ import {
   propertySelectors,
   setListQueryProperty,
 } from "@/features/reducers/property-reducer";
-import { ERoles, ERolesID, IProperty } from "@/features/types";
+import { IProperty, Roles, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
 
@@ -47,14 +47,11 @@ export const PropertyContainer: React.FC = () => {
   const propsSearch = useDebounce(propertyStore.listQueryPropertyFE.search);
 
   const isPropertyManager = currentUser.isRole([
-    ERoles.Lead,
-    ERoles.PropertyManager,
+    Roles.Lead,
+    Roles.PropertyManager,
   ]);
 
-  const hasPermission = withPermission([
-    ERolesID.PropertyManager,
-    ERolesID.Lead,
-  ]);
+  const hasPermission = withPermission([RolesID.PropertyManager, RolesID.Lead]);
 
   const [filter, setFilter] = useState<string>(() => {
     switch (propertyStore.listQueryProperty.is_archived) {

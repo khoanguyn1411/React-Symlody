@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from "react-toastify";
 
-import { ERolesID } from "@/features/types";
+import { RolesID } from "@/features/types";
 import { hasElementOfArray } from "@/utils/services/common-service";
 
 import { useAppSelector } from "./../features/hooks";
 
 export const withPermission =
-  (alowRoles: ERolesID[]) =>
+  (alowRoles: RolesID[]) =>
   <T extends (...args: any[]) => any>(
     func: T
   ): ((...funcArgs: Parameters<T>) => ReturnType<T> | void) => {

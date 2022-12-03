@@ -1,45 +1,32 @@
-import { GeneratorService, GlobalTypes } from "@/utils";
-import { generateFullName } from "@/utils/services/generate-service";
+import { GlobalTypes } from "@/utils";
 
-import { IUserDto } from "../dtos";
-import { IMember, IProfile, IUser } from "../models";
+import { UserDto } from "../dtos";
+import { AuthAccount, IMember, IProfile, User } from "../models";
+import { AuthAccountMapper } from "./auth-account.mapper";
 
 export class UserMapper {
-  public static fromDto(dto: IUserDto): IUser {
+  public static fromDto(dto: UserDto): User {
     return {
-      ...dto,
-      full_name: GeneratorService.generateFullName(
-        dto.last_name,
-        dto.first_name
-      ),
+      ...AuthAccountMapper.fromDtoWithOutGroups(dto),
+      id: dto.id,
+      department_id: dto.department_id,
+      avatar: dto.avatar,
     };
   }
 
-  public static fromProfile(profile: IProfile): IUser {
+  public static fromProfile(profile: IProfile): User {
     return {
+      ...AuthAccountMapper.fromInheritance(profile),
       id: profile.id,
       avatar: profile.avatar,
-      first_name: profile.firstName,
-      last_name: profile.lastName,
-      full_name: generateFullName(profile.lastName, profile.firstName),
       department_id: profile.department.id,
-      email: profile.email,
     };
   }
 
-  public static toDto(model: IUser): IUserDto {
-    return { ...model };
-  }
-
-  public static fromMemberModel(
-    model: IMember
-  ): GlobalTypes.StrictOmit<IUser, "id"> {
+  public static fromMember(model: IMember): GlobalTypes.StrictOmit<User, "id"> {
     return {
+      ...AuthAccountMapper.fromInheritance(model as unknown as AuthAccount),
       avatar: model.avatar,
-      first_name: model.auth_account.firstName,
-      last_name: model.auth_account.lastName,
-      full_name: model.auth_account.fullName,
-      email: model.auth_account.email,
       department_id: model.department.id,
     };
   }

@@ -1,8 +1,8 @@
 import {
-  ERoles,
-  IDepartment,
+  Department,
   IMember,
   IMemberCreateUpdate,
+  Roles,
 } from "@/features/types";
 import { FormatService } from "@/utils";
 
@@ -15,7 +15,7 @@ export class MemberFormMapper {
     formData,
     isArchived,
   }: {
-    departmentModel?: IDepartment[];
+    departmentModel?: Department[];
     formData: IFormMemberInfo;
     isArchived: IMember["is_archived"];
   }): IMemberCreateUpdate {
@@ -62,7 +62,7 @@ export class MemberTableMapper {
     const { groups } = model.auth_account;
 
     const isOnlyIncludeMemberRole =
-      groups.length === 1 && groups[0].name === ERoles.Member;
+      groups.length === 1 && groups[0].name === Roles.Member;
     const isNotIncludeAnyRole = groups.length === 0;
 
     const shouldReturnMemberText =
@@ -76,9 +76,9 @@ export class MemberTableMapper {
       department: model.department.name,
       birthday: FormatService.toDateString(model.dob, "VN"),
       roles: shouldReturnMemberText
-        ? ERoles.Member
+        ? Roles.Member
         : model.auth_account.groups
-            .filter((item) => item.name !== ERoles.Member)
+            .filter((item) => item.name !== Roles.Member)
             .map((item) => item.name)
             .join(", "),
     };
@@ -86,7 +86,7 @@ export class MemberTableMapper {
 }
 
 export class DepartmentFormMapper {
-  public static toModel(model: IDepartment[], formData: string): IDepartment {
+  public static toModel(model: Department[], formData: string): Department {
     return {
       ...model.find((item) => item.name === formData),
     };

@@ -1,12 +1,12 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
-import { IUser } from "@/features/types";
+import { User } from "@/features/types";
 
 export interface UserStateInner {
   pending: boolean;
 }
 
-export const userAdapter = createEntityAdapter<IUser>({
+export const userAdapter = createEntityAdapter<User>({
   selectId: (user) => user.id,
 });
 

@@ -1,8 +1,8 @@
-import { IDepartmentCreateUpdateDto, IDepartmentDto } from "../dtos";
-import { IDepartment, IDepartmentCreateUpdate } from "../models";
+import { DepartmentDto, IDepartmentCreateUpdateDto } from "../dtos";
+import { Department, IDepartmentCreateUpdate } from "../models";
 
 export class DepartmentMapper {
-  public static fromDto(dto: IDepartmentDto): IDepartment {
+  public static fromDto(dto: DepartmentDto): Department {
     return { ...dto };
   }
 

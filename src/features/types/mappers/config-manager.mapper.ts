@@ -8,21 +8,21 @@ import {
   IConfigUserUpdateDto,
 } from "../dtos/config-manager.dto";
 import {
-  ERoles,
   HttpError,
   IConfigInfo,
   IConfigManager,
   IConfigUserUpdate,
-  IUser,
+  Roles,
+  User,
 } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 import { ROLE_MAP_TO_ID } from "./group.mapper";
 
 export const MANAGER_ROLES = [
-  ERoles.EventManager,
-  ERoles.MemberManager,
-  ERoles.NotificationManager,
-  ERoles.PropertyManager,
+  Roles.EventManager,
+  Roles.MemberManager,
+  Roles.NotificationManager,
+  Roles.PropertyManager,
 ];
 
 export class ConfigMangerMapper {
@@ -48,27 +48,27 @@ export class ConfigInfoMapper {
     return {
       ...dto,
       ...authAccountModel,
-      isRole: (role: ERoles | "manager" | "member") => {
+      isRole: (role: Roles | "manager" | "member") => {
         if (role === "manager") {
           return hasElementOfArray(groupNameList, MANAGER_ROLES);
         }
         if (role === "member") {
           return (
-            groupNameList.includes(ERoles.Member) && groupNameList.length === 1
+            groupNameList.includes(Roles.Member) && groupNameList.length === 1
           );
         }
         return groupNameList.includes(role);
       },
     };
   }
-  public static fromUser(user: IUser): IConfigInfo {
+  public static fromUser(user: User): IConfigInfo {
     return {
       id: user.id,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      fullName: user.full_name,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      fullName: user.fullName,
       email: user.email,
-      isRole: (role: ERoles | "manager" | "member") => {
+      isRole: (role: Roles | "manager" | "member") => {
         if (role === "manager") {
           return false;
         }

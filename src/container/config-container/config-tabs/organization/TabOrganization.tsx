@@ -7,7 +7,7 @@ import { FormItem, Input, Loading } from "@/components";
 import { UploadedAvatar } from "@/components/elements/uploaded/avatar/UploadedAvatar";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateTenantAsync } from "@/features/reducers";
-import { ERolesID, ITenant } from "@/features/types";
+import { ITenant, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useEffectSkipFirstRender } from "@/hooks";
 import { FormService } from "@/utils";
@@ -58,20 +58,19 @@ export const _TabOrganization: React.FC = () => {
     defaultValues: getDefaultValue(tenant),
   });
 
-  const handleEditOrgInfo = withPermission([
-    ERolesID.Lead,
-    ERolesID.SystemAdmin,
-  ])(async (data: IFormOrganizationConfig) => {
-    const result = await dispatch(
-      updateTenantAsync({ id: tenant.id, body: data })
-    );
-    if (!result.payload) {
-      toast.error(ORGANIZATION_MESSAGES.update.error);
-      return;
+  const handleEditOrgInfo = withPermission([RolesID.Lead, RolesID.SystemAdmin])(
+    async (data: IFormOrganizationConfig) => {
+      const result = await dispatch(
+        updateTenantAsync({ id: tenant.id, body: data })
+      );
+      if (!result.payload) {
+        toast.error(ORGANIZATION_MESSAGES.update.error);
+        return;
+      }
+      toast.success(ORGANIZATION_MESSAGES.update.success);
+      reset(getDefaultValue(result.payload));
     }
-    toast.success(ORGANIZATION_MESSAGES.update.success);
-    reset(getDefaultValue(result.payload));
-  });
+  );
 
   useEffectSkipFirstRender(() => {
     if (tenant) {

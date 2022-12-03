@@ -1,12 +1,12 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
-import { IDepartment } from "@/features/types";
+import { Department } from "@/features/types";
 
 export interface DepartmentStateInner {
   pending: boolean;
 }
 
-export const departmentAdapter = createEntityAdapter<IDepartment>({
+export const departmentAdapter = createEntityAdapter<Department>({
   selectId: (department) => department.id,
 });
 

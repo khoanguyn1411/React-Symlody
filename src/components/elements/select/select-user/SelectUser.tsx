@@ -5,7 +5,7 @@ import { Avatar, SelectSearch } from "@/components";
 import { PLACEHOLDER_IMAGE } from "@/constants";
 import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
-import { IUser } from "@/features/types";
+import { User } from "@/features/types";
 import { useDebounce } from "@/hooks";
 import { FormatService } from "@/utils";
 
@@ -24,11 +24,11 @@ export const SelectUser: React.FC<TProps> = ({
   const { inputValue, setInputValue, debounceValue } = useDebounce();
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [userSelected, setUserSelected] = useState<IUser>(() => {
+  const [userSelected, setUserSelected] = useState<User>(() => {
     return userList.find((item) => item.id === userId);
   });
 
-  const [currentUserList, setCurrentUserList] = useState<IUser[]>(userList);
+  const [currentUserList, setCurrentUserList] = useState<User[]>(userList);
 
   const handleInputChange = (value: string): void => {
     setInputValue(value);
@@ -48,17 +48,17 @@ export const SelectUser: React.FC<TProps> = ({
     }
 
     const newUserFilterList = userList.filter((item) =>
-      FormatService.toCleanedString(item.full_name).includes(
+      FormatService.toCleanedString(item.fullName).includes(
         FormatService.toCleanedString(value)
       )
     );
     setCurrentUserList(newUserFilterList);
   };
 
-  const handleSelectMember = (user: IUser) => () => {
+  const handleSelectMember = (user: User) => () => {
     setUserSelected(user);
     setIsShowContent(false);
-    setInputValue(user.full_name);
+    setInputValue(user.fullName);
     setIsSearching(false);
     setUserId(user.id);
   };
@@ -78,7 +78,7 @@ export const SelectUser: React.FC<TProps> = ({
 
   useLayoutEffect(() => {
     if (!isShowContent && userSelected) {
-      setInputValue(userSelected.full_name);
+      setInputValue(userSelected.fullName);
       setIsSearching(false);
     }
     if (!isShowContent && !userSelected) {
@@ -97,7 +97,7 @@ export const SelectUser: React.FC<TProps> = ({
 
   const isShowClearSearch = inputValue !== "" || userSelected != null;
   const isShowFullNameImage =
-    userSelected && inputValue === userSelected.full_name;
+    userSelected && inputValue === userSelected.fullName;
 
   return (
     <div>
@@ -114,7 +114,7 @@ export const SelectUser: React.FC<TProps> = ({
         postNode={
           <Avatar
             size="small"
-            fullName={isShowFullNameImage && userSelected.full_name}
+            fullName={isShowFullNameImage && userSelected.fullName}
             src={!isShowFullNameImage ? PLACEHOLDER_IMAGE : userSelected.avatar}
           />
         }
@@ -126,12 +126,12 @@ export const SelectUser: React.FC<TProps> = ({
               "flex p-2 w-full space-x-3 items-center bg-primary-50"
             )}
           >
-            <Avatar size="default" fullName={userSelected.first_name} src="" />
+            <Avatar size="default" fullName={userSelected.fullName} src="" />
             <div className="flex flex-col">
               <h1
                 className={classNames("text-left text-primary-800 font-medium")}
               >
-                {userSelected.full_name}
+                {userSelected.fullName}
               </h1>
               <h2 className="text-sm">{userSelected.email}</h2>
             </div>
@@ -151,7 +151,7 @@ export const SelectUser: React.FC<TProps> = ({
             >
               <Avatar
                 size="default"
-                fullName={item.first_name}
+                fullName={item.fullName}
                 src={item.avatar}
               />
               <div className="flex flex-col">
@@ -161,7 +161,7 @@ export const SelectUser: React.FC<TProps> = ({
                     isSelectedItemInList && "text-white font-medium"
                   )}
                 >
-                  {item.full_name}
+                  {item.fullName}
                 </h1>
                 {/* {isSelectedItemInList && (
                   <h2 className="text-sm">{item.email}</h2>

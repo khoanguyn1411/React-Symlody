@@ -1,11 +1,12 @@
 import { GeneratorService } from "@/utils";
 import { extractErrorMessage } from "@/utils/services/error-handler-service";
+import { StrictOmit } from "@/utils/types";
 
 import {
   AuthAccountCreationDto,
   AuthAccountDto,
   DetailErrorDto,
-  IGroupDto,
+  GroupDto,
 } from "../dtos";
 import {
   AuthAccount,
@@ -24,7 +25,32 @@ export class AuthAccountMapper {
         dto.last_name,
         dto.first_name
       ),
-      groups: dto.groups.map((item: IGroupDto) => GroupMapper.fromDto(item)),
+      groups: dto.groups.map((item: GroupDto) => GroupMapper.fromDto(item)),
+    };
+  }
+
+  public static fromInheritance<T extends AuthAccount>(
+    model: T
+  ): StrictOmit<AuthAccount, "groups"> {
+    return {
+      email: model.email,
+      firstName: model.firstName,
+      lastName: model.lastName,
+      fullName: model.fullName,
+    };
+  }
+
+  public static fromDtoWithOutGroups(
+    dto: StrictOmit<AuthAccountDto, "groups">
+  ): StrictOmit<AuthAccount, "groups"> {
+    return {
+      email: dto.email,
+      firstName: dto.first_name,
+      lastName: dto.last_name,
+      fullName: GeneratorService.generateFullName(
+        dto.last_name,
+        dto.first_name
+      ),
     };
   }
 

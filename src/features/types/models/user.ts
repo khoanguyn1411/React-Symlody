@@ -1,11 +1,10 @@
-import { IDepartment } from "./department";
+import { StrictOmit } from "@/utils/types";
 
-export interface IUser {
+import { AuthAccount } from "./auth-account";
+import { Department } from "./department";
+
+export interface User extends StrictOmit<AuthAccount, "groups"> {
   id: number;
-  first_name: string;
-  last_name: string;
-  full_name: string;
-  email: string;
-  department_id: IDepartment["id"];
+  department_id: Department["id"];
   avatar: string | null;
 }

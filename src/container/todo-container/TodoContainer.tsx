@@ -18,7 +18,7 @@ import {
   userSelectors,
 } from "@/features/reducers";
 import { setListQueryTask } from "@/features/reducers/task-reducer";
-import { ERoles, IDepartment } from "@/features/types";
+import { Department, Roles } from "@/features/types";
 import { useModal } from "@/hooks";
 import { EPagePath } from "@/routes";
 import { generateArrayFromEnum } from "@/utils/services/generate-service";
@@ -75,9 +75,7 @@ export const TodoContainer: React.FC = () => {
     getContentTab(_tab, isLoading)
   );
 
-  const getDepartmentId = (
-    departmentText: string
-  ): IDepartment["id"] | null => {
+  const getDepartmentId = (departmentText: string): Department["id"] | null => {
     const department = departmentList.find(
       (department) => department.name === departmentText
     );
@@ -101,7 +99,7 @@ export const TodoContainer: React.FC = () => {
   const isNoData = false;
   const isInvalidUrl =
     !generateArrayFromEnum(ETodoTabKey).includes(_tab) && tab != null;
-  const isShowSelect = currentUser.isRole([ERoles.Lead]);
+  const isShowSelect = currentUser.isRole([Roles.Lead]);
 
   const handleOpenCreateTodoModal = () => {
     propsModal.toggle.setShow();

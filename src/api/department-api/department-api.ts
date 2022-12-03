@@ -1,4 +1,4 @@
-import { IDepartmentDto } from "@/features/types";
+import { DepartmentDto } from "@/features/types";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
@@ -14,14 +14,14 @@ const routes = {
 export const DepartmentApi = {
   async getDepartments(): Promise<Types.RequestGetDepartmentResult> {
     const url = routes.getDepartments();
-    return composeHttpMethodResult(http.get<IDepartmentDto[]>(url));
+    return composeHttpMethodResult(http.get<DepartmentDto[]>(url));
   },
 
   async createDepartment(
     body: Types.RequestCreateDepartmentBody
   ): Promise<Types.RequestCreateDepartmentResult> {
     const url = routes.createDepartment();
-    return composeHttpMethodResult(http.post<IDepartmentDto>(url, body));
+    return composeHttpMethodResult(http.post<DepartmentDto>(url, body));
   },
 
   async updateDepartment(
@@ -29,7 +29,7 @@ export const DepartmentApi = {
     body: Types.RequestUpdateDepartmentBody
   ): Promise<Types.RequestUpdateDepartmentResult> {
     const url = routes.updateDepartment(id);
-    return composeHttpMethodResult(http.patch<IDepartmentDto>(url, body));
+    return composeHttpMethodResult(http.patch<DepartmentDto>(url, body));
   },
 
   async deleteDepartment(

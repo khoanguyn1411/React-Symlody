@@ -1,9 +1,9 @@
 import { AuthAccount } from "./auth-account";
-import { ERoles } from "./group";
+import { Roles } from "./group";
 
 export interface IConfigInfo extends AuthAccount {
   id: number;
-  isRole: (role: ERoles | "manager" | "member") => boolean;
+  isRole: (role: Roles | "manager" | "member") => boolean;
 }
 
 export interface IConfigManager {
@@ -13,5 +13,5 @@ export interface IConfigManager {
 
 export interface IConfigUserUpdate {
   user_id: number;
-  groups: ERoles[];
+  groups: Roles[];
 }

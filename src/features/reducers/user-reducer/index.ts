@@ -2,24 +2,24 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { UserApi } from "@/api";
 import { RootState } from "@/features/store";
-import { IUser, UserMapper } from "@/features/types";
+import { User, UserMapper } from "@/features/types";
 import { GlobalTypes } from "@/utils";
 import { StrictOmit } from "@/utils/types";
 
 import { initialState, userAdapter } from "./state";
 
-export const addUser = createAsyncThunk("user/add", (user: IUser) => user);
+export const addUser = createAsyncThunk("user/add", (user: User) => user);
 export const updateUser = createAsyncThunk(
   "user/update",
-  (param: { id: IUser["id"]; payload: StrictOmit<IUser, "id"> }) => param
+  (param: { id: User["id"]; payload: StrictOmit<User, "id"> }) => param
 );
 export const removeUser = createAsyncThunk(
   "user/remove",
-  (id: IUser["id"]) => id
+  (id: User["id"]) => id
 );
 
 export const getUsersAsync = createAsyncThunk<
-  IUser[],
+  User[],
   null,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/users", async (_, { rejectWithValue }) => {

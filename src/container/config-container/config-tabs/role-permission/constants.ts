@@ -1,6 +1,6 @@
 import { TItemListSelect } from "@/components";
 import { TOptionProps } from "@/components/elements/select/type";
-import { ERolesManagerSortName } from "@/features/types";
+import { RolesManagerSortName } from "@/features/types";
 import {
   generateArrayFromEnum,
   generateStatusMessageFor,
@@ -17,7 +17,7 @@ export const PERMISSION_OPTIONS: TItemListSelect[] = generateArrayFromEnum(
 ).map((item) => ({ value: item }));
 
 export const MANAGE_OPTIONS: TOptionProps[] = generateArrayFromEnum(
-  ERolesManagerSortName
+  RolesManagerSortName
 ).map((item) => ({ value: item, label: item }));
 
 export const ROLE_PERMISSION_MESSAGE = generateStatusMessageFor("quyền");

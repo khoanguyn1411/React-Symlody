@@ -7,8 +7,8 @@ import {
 } from "@/api/department-api";
 import { RootState } from "@/features/store";
 import {
+  Department,
   DepartmentMapper,
-  IDepartment,
   IDepartmentCreateUpdate,
 } from "@/features/types";
 import { GlobalTypes } from "@/utils";
@@ -16,7 +16,7 @@ import { GlobalTypes } from "@/utils";
 import { departmentAdapter, initialState } from "./state";
 
 export const getDepartmentAsync = createAsyncThunk<
-  IDepartment[],
+  Department[],
   null,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/department", async (_, { rejectWithValue }) => {
@@ -29,7 +29,7 @@ export const getDepartmentAsync = createAsyncThunk<
 });
 
 export const createDepartmentAsync = createAsyncThunk<
-  IDepartment,
+  Department,
   IDepartmentCreateUpdate,
   GlobalTypes.ReduxThunkRejectValue<RequestCreateDepartmentResult>
 >("create/department", async (payload, { rejectWithValue }) => {
@@ -43,7 +43,7 @@ export const createDepartmentAsync = createAsyncThunk<
 });
 
 export const updateDepartmentAsync = createAsyncThunk<
-  IDepartment,
+  Department,
   { id: number; body: IDepartmentCreateUpdate },
   GlobalTypes.ReduxThunkRestoreRejected<RequestUpdateDepartmentResult>
 >("update/department", async (payload, { rejectWithValue }) => {
@@ -57,8 +57,8 @@ export const updateDepartmentAsync = createAsyncThunk<
 });
 
 export const deleteDepartmentAsync = createAsyncThunk<
-  IDepartment["id"],
-  IDepartment["id"],
+  Department["id"],
+  Department["id"],
   GlobalTypes.ReduxThunkRejectValue<boolean>
 >("delete/department", async (id, { rejectWithValue }) => {
   const result = await DepartmentApi.deleteDepartment(id);

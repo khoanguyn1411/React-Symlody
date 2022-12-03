@@ -1,8 +1,8 @@
-import { IUser } from "../models";
+import { User } from "../models";
 
 type _TTaskParamQueryDto = {
   department_id: number;
-  selected_member_list: IUser[];
+  selected_member_list: User[];
 };
 
 export type TTaskParamQueryDto = Partial<_TTaskParamQueryDto>;

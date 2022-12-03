@@ -37,7 +37,7 @@ export class PropertyTableMapper {
       assetName: model.name,
       quantity: model.quantity,
       price: model.price !== "0" ? FormatService.toCurrency(model.price) : "--",
-      inCharge: model.incharger.full_name,
+      inCharge: model.incharger.fullName,
       owner: model.prop_owner,
     };
   }

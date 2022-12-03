@@ -1,4 +1,4 @@
-import { IUser } from "@/features/types";
+import { User } from "@/features/types";
 import {
   ETodoStatus,
   ETodoStatusId,
@@ -51,9 +51,9 @@ export class TodoFormMapper {
 }
 
 export class TodoViewMapper {
-  public static fromModel(userList: IUser[], model: ITask): ITodoTable {
+  public static fromModel(userList: User[], model: ITask): ITodoTable {
     const assignee = userList.find((user) => user.id === model.assignee.id);
-    const fullName = assignee?.full_name ?? UNASSIGNED_TEXT;
+    const fullName = assignee?.fullName ?? UNASSIGNED_TEXT;
     const isUnassigned = fullName === UNASSIGNED_TEXT;
     return {
       fullName: isUnassigned ? UNASSIGNED_TEXT : fullName,
