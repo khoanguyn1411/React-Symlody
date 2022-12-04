@@ -1,10 +1,9 @@
 import { Container } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getPaginationMember } from "@/features/reducers";
+import { setListQueryMember } from "@/features/reducers";
 
 export const MemberPagination: React.FC = () => {
   const dispatch = useAppDispatch();
-
   const memberStore = useAppSelector((state) => state.member);
 
   // TO_UPDATE: When BE release pagination, change it to the original memberCount:
@@ -13,21 +12,21 @@ export const MemberPagination: React.FC = () => {
 
   const handlePaginationChange = (page: number) => {
     dispatch(
-      getPaginationMember({
+      setListQueryMember({
         page,
       })
     );
   };
   const handleResetPagination = () => {
     dispatch(
-      getPaginationMember({
+      setListQueryMember({
         page: 1,
       })
     );
   };
   const handleLimitChange = (_page: number, limit: number) => {
     dispatch(
-      getPaginationMember({
+      setListQueryMember({
         page: 1,
         limit,
       })
@@ -37,11 +36,11 @@ export const MemberPagination: React.FC = () => {
   return (
     <Container.Pagination
       count={memberCount}
-      defaultLimit={memberStore.listQueryMemberFE.limit}
+      defaultLimit={memberStore.listQueryMember.limit}
       onResetPagination={{
         changeListener: [
-          memberStore.listQueryMember,
-          memberStore.listQueryMemberFE.search,
+          memberStore.listQueryMember.search,
+          memberStore.listQueryMember.isArchived,
         ],
         callback: handleResetPagination,
       }}

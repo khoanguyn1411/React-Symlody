@@ -1,5 +1,5 @@
 import { Property, PropertyDto } from "@/features/types";
-import { TPropertyParamQueryDto } from "@/features/types/queries";
+import { TPropertyParamQueryDto } from "@/features/types/filter-params";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";

@@ -7,13 +7,14 @@ import {
   MemberMapper,
   ProfileMapper,
 } from "@/features/types/mappers";
+import { MemberFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import {
   FileUploaded,
   HttpError,
   Member,
   MemberCreation,
 } from "@/features/types/models";
-import { TMemberParamQueryDto } from "@/features/types/queries";
+import { MemberFilterParams } from "@/features/types/models/filter-params";
 import { FilterService, GeneratorService, GlobalTypes } from "@/utils";
 
 import { updateCurrentUser } from "../auth-reducer";
@@ -77,12 +78,15 @@ export const deleteMemberAsync = createAsyncThunk<
 
 export const getMembersAsync = createAsyncThunk<
   Member[],
-  TMemberParamQueryDto,
+  MemberFilterParams,
   GlobalTypes.ReduxThunkRejectValue<[]>
->("get/members", async (param, { rejectWithValue }) => {
-  const result = await MemberApi.getMembers(param);
+>("get/members", async (param, { rejectWithValue, dispatch }) => {
+  const filterParamsDto = MemberFilterParamsMapper.toDto(param);
+  const result = await MemberApi.getMembers(filterParamsDto);
   if (result.kind === "ok") {
-    return result.result.map((item) => MemberMapper.fromDto(item));
+    const memberList = result.result.map((item) => MemberMapper.fromDto(item));
+    dispatch(setCurrentMemberList(memberList));
+    return memberList;
   }
   return rejectWithValue([]);
 });
@@ -121,54 +125,62 @@ export const updateMemberAsync = createAsyncThunk<
   }
 );
 
+export const paginateMemberAsync = createAsyncThunk<void, undefined>(
+  "paginate/members",
+  async (_, { dispatch }) => {
+    const reduxStore = store.getState();
+    const memberState = reduxStore.member;
+    const { currentMemberList } = memberState;
+    const { page, limit } = memberState.listQueryMember;
+    const memberListPagination = currentMemberList.slice(
+      (page - 1) * limit,
+      page * limit
+    );
+    dispatch(setMemberListWithPagination(memberListPagination));
+  }
+);
+
+export const filterMemberBySearch = createAsyncThunk<void, string>(
+  "paginate/members",
+  async (search, { dispatch }) => {
+    const reduxStore = store.getState();
+    const memberState = reduxStore.member;
+    const memberList = memberSelectors.selectAll(reduxStore);
+    const { currentMemberList } = memberState;
+    dispatch(setListQueryMember(search));
+    if (!search) {
+      dispatch(setCurrentMemberList(memberList));
+      return;
+    }
+    const listMemberAfterFilterByName = currentMemberList.filter((item) =>
+      FilterService.isTextIncludedIn(item.authAccount.fullName, search)
+    );
+    const listMemberAfterFilterByEmail = currentMemberList.filter((item) =>
+      FilterService.isTextIncludedIn(item.authAccount.email, search)
+    );
+
+    const newMemberList = GeneratorService.generateArrayWithNoDuplicate(
+      listMemberAfterFilterByName.concat(listMemberAfterFilterByEmail)
+    );
+    dispatch(setCurrentMemberList(newMemberList));
+  }
+);
+
 export const memberSlice = createSlice({
   name: "member",
   initialState,
   reducers: {
-    setListQueryMember(state, action: PayloadAction<TMemberParamQueryDto>) {
-      state.listQueryMember = action.payload;
-    },
-    getPaginationMember(
+    setListQueryMember(
       state,
-      action: PayloadAction<
-        GlobalTypes.StrictOmit<TMemberParamQueryDto, "is_archived"> & {
-          memberList?: Member[];
-        }
-      >
+      action: PayloadAction<Partial<MemberFilterParams>>
     ) {
-      const { memberList, ...rest } = action.payload;
-      if (memberList) {
-        state.currentMemberList = memberList;
-      }
-      state.listQueryMemberFE = { ...state.listQueryMemberFE, ...rest };
-      const { limit, page, search } = state.listQueryMemberFE;
-      const memberListPagination = state.currentMemberList.slice(
-        (page - 1) * limit,
-        page * limit
-      );
-      if (!search) {
-        if (memberList) {
-          state.currentMemberList = memberList;
-        }
-        state.memberListPagination = memberListPagination;
-        return;
-      }
-      const listMemberAfterFilterByName = state.currentMemberList.filter(
-        (item) =>
-          FilterService.isTextIncludedIn(item.authAccount.fullName, search)
-      );
-      const listMemberAfterFilterByEmail = state.currentMemberList.filter(
-        (item) => FilterService.isTextIncludedIn(item.authAccount.email, search)
-      );
-
-      const newMemberList = GeneratorService.generateArrayWithNoDuplicate(
-        listMemberAfterFilterByName.concat(listMemberAfterFilterByEmail)
-      );
-      state.currentMemberList = newMemberList;
-      state.memberListPagination = newMemberList.slice(
-        (page - 1) * limit,
-        page * limit
-      );
+      state.listQueryMember = { ...state.listQueryMember, ...action.payload };
+    },
+    setCurrentMemberList(state, action: PayloadAction<Member[]>) {
+      state.currentMemberList = action.payload;
+    },
+    setMemberListWithPagination(state, action: PayloadAction<Member[]>) {
+      state.memberListPagination = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -186,7 +198,7 @@ export const memberSlice = createSlice({
       })
       .addCase(createMemberAsync.fulfilled, (state, action) => {
         const newMember = action.payload;
-        if (state.listQueryMember.is_archived !== true) {
+        if (state.listQueryMember.isArchived !== true) {
           memberAdapter.addOne(state, newMember);
         }
       })
@@ -197,7 +209,7 @@ export const memberSlice = createSlice({
       .addCase(deleteMemberAsync.fulfilled, (state, action) => {
         state.pendingDeleteMember = false;
         const removedId = action.payload;
-        if (state.listQueryMember.is_archived == null) {
+        if (state.listQueryMember.isArchived == null) {
           memberAdapter.updateOne(state, {
             id: removedId,
             changes: { isArchived: true },
@@ -220,7 +232,7 @@ export const memberSlice = createSlice({
         state.pendingRestoreMember = false;
         const newMember = action.payload.result;
         const shouldRemoveOne =
-          action.payload.isRestore && state.listQueryMember.is_archived != null;
+          action.payload.isRestore && state.listQueryMember.isArchived != null;
         if (shouldRemoveOne) {
           memberAdapter.removeOne(state, newMember.id);
           return;
@@ -248,6 +260,10 @@ export const memberStore = (state: RootState) => state.member;
 export const memberSelectors = memberAdapter.getSelectors(
   (state: RootState) => state.member
 );
-export const { setListQueryMember, getPaginationMember } = memberSlice.actions;
+export const {
+  setListQueryMember,
+  setMemberListWithPagination,
+  setCurrentMemberList,
+} = memberSlice.actions;
 
 export default memberSlice.reducer;

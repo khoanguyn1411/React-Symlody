@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PropertyApi } from "@/api/property-api";
 import { RootState } from "@/features/store";
 import { Property, PropertyCreation, PropertyMapper } from "@/features/types";
-import { TPropertyParamQueryDto } from "@/features/types/queries";
+import { TPropertyParamQueryDto } from "@/features/types/filter-params";
 import { FilterService, GlobalTypes } from "@/utils";
 
 import { initialState, propertyAdapter } from "./state";

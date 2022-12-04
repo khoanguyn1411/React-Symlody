@@ -13,15 +13,16 @@ import {
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deleteMemberAsync,
+  filterMemberBySearch,
   getMembersAsync,
-  getPaginationMember,
   memberSelectors,
+  paginateMemberAsync,
   setListQueryMember,
   updateMemberAsync,
 } from "@/features/reducers";
 import { Member, Roles, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
-import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
+import { useDebounce, useModal } from "@/hooks";
 
 import {
   MEMBER_FILTER_OPTIONS,
@@ -39,19 +40,19 @@ const getFilterValue = (key: string) => {
 export const MemberContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const memberStore = useAppSelector((state) => state.member);
-  const memberList = useAppSelector(memberSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.auth.user);
+  const memberList = useAppSelector(memberSelectors.selectAll);
 
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<Member>();
-  const propsSearch = useDebounce(memberStore.listQueryMemberFE.search);
+  const propsSearch = useDebounce(memberStore.listQueryMember.search);
 
   const isMemberManager = currentUser.isRole([Roles.Lead, Roles.MemberManager]);
 
   const hasPermission = withPermission([RolesID.MemberManager, RolesID.Lead]);
 
   const [filter, setFilter] = useState<string>(() => {
-    switch (memberStore.listQueryMember.is_archived) {
+    switch (memberStore.listQueryMember.isArchived) {
       case true:
         return getFilterValue(MEMBER_FILTER_VALUE.isArchived);
       case false:
@@ -62,17 +63,15 @@ export const MemberContainer: React.FC = () => {
   });
 
   const handleSetFilter = (item: TItemListSelect) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { is_archived, ...rest } = memberStore.listQueryMember;
     switch (item.key) {
       case MEMBER_FILTER_VALUE.all:
-        dispatch(setListQueryMember(rest));
+        dispatch(setListQueryMember({ isArchived: null }));
         break;
       case MEMBER_FILTER_VALUE.isArchived:
-        dispatch(setListQueryMember({ ...rest, is_archived: true }));
+        dispatch(setListQueryMember({ isArchived: true }));
         break;
       case MEMBER_FILTER_VALUE.active:
-        dispatch(setListQueryMember({ ...rest, is_archived: false }));
+        dispatch(setListQueryMember({ isArchived: false }));
         break;
     }
   };
@@ -116,26 +115,21 @@ export const MemberContainer: React.FC = () => {
 
   useEffect(() => {
     dispatch(getMembersAsync(memberStore.listQueryMember));
-  }, [dispatch, memberStore.listQueryMember]);
-
-  // TO_UPDATE: When BE release pagination...
-  useEffectSkipFirstRender(() => {
-    dispatch(
-      getPaginationMember({
-        memberList,
-        page: 1,
-        search: propsSearch.debounceValue,
-      })
-    );
-  }, [propsSearch.debounceValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, memberStore.listQueryMember.isArchived]);
 
   useEffect(() => {
-    dispatch(
-      getPaginationMember({
-        memberList,
-      })
-    );
-  }, [dispatch, memberList]);
+    dispatch(filterMemberBySearch(propsSearch.debounceValue));
+  }, [dispatch, propsSearch.debounceValue, memberList]);
+
+  useEffect(() => {
+    dispatch(paginateMemberAsync());
+  }, [
+    dispatch,
+    memberStore.listQueryMember.page,
+    memberStore.listQueryMember.limit,
+    memberStore.currentMemberList,
+  ]);
 
   const showNoData = false;
   if (showNoData) {

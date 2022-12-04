@@ -1,5 +1,5 @@
 import { Member, MemberDto } from "@/features/types";
-import { TMemberParamQueryDto } from "@/features/types/queries";
+import { MemberFilterParamsDto } from "@/features/types/dtos/filter-params";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
@@ -14,7 +14,7 @@ const routes = {
 
 export const MemberApi = {
   async getMembers(
-    param: TMemberParamQueryDto
+    param: MemberFilterParamsDto
   ): Promise<Types.RequestGetMembersResult> {
     const url = routes.getMembers();
     const method = http.get<MemberDto[]>(url, param);

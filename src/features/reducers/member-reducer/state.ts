@@ -2,23 +2,18 @@ import { createEntityAdapter } from "@reduxjs/toolkit";
 
 import { APP_PAGINATION } from "@/constants";
 import { Member } from "@/features/types";
-import { TMemberParamQueryDto } from "@/features/types/queries";
-import { GlobalTypes } from "@/utils";
+import { MemberFilterParams } from "@/features/types/models/filter-params";
 
 export interface MemberStateInner {
   pending: boolean;
   pendingRestoreMember: boolean;
   pendingDeleteMember: boolean;
   pendingUploadFileMember: boolean;
-  listQueryMember: TMemberParamQueryDto;
+  listQueryMember: MemberFilterParams;
 
   // Used for pagination and searching in front-end.
   currentMemberList: Member[];
   memberListPagination: Member[];
-  listQueryMemberFE: GlobalTypes.StrictOmit<
-    TMemberParamQueryDto,
-    "is_archived"
-  >;
 }
 
 export const memberAdapter = createEntityAdapter<Member>({
@@ -30,16 +25,16 @@ export const initialState = memberAdapter.getInitialState<MemberStateInner>({
   pendingDeleteMember: false,
   pendingRestoreMember: false,
   pendingUploadFileMember: false,
-  listQueryMember: { is_archived: false },
-
-  // Used for pagination and searching in front-end.
-  currentMemberList: [],
-  memberListPagination: [],
-  listQueryMemberFE: {
+  listQueryMember: {
+    isArchived: false,
     page: 1,
     limit: APP_PAGINATION.DEFAULT_PAGINATION_LIMIT,
     search: "",
   },
+
+  // Used for pagination and searching in front-end.
+  currentMemberList: [],
+  memberListPagination: [],
 });
 
 export type MemberState = typeof initialState;

@@ -1,7 +1,7 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
 import { Task } from "@/features/types";
-import { TTaskParamQueryDto } from "@/features/types/queries";
+import { TTaskParamQueryDto } from "@/features/types/filter-params";
 
 export interface TaskStateInner {
   pending: boolean;

@@ -3,8 +3,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TaskApi } from "@/api";
 import { RootState, store } from "@/features/store";
 import { Task, TaskMapper, User } from "@/features/types";
+import { TTaskParamQueryDto } from "@/features/types/filter-params";
 import { TaskCreation } from "@/features/types/models/task";
-import { TTaskParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
 
 import { userSelectors } from "../user-reducer";

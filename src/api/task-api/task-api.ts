@@ -1,5 +1,5 @@
 import { Task, TaskCreationDto, TaskDto } from "@/features/types";
-import { TTaskParamQueryDto } from "@/features/types/queries";
+import { TTaskParamQueryDto } from "@/features/types/filter-params";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";

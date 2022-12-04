@@ -2,7 +2,7 @@ import { createEntityAdapter } from "@reduxjs/toolkit";
 
 import { APP_PAGINATION } from "@/constants";
 import { Property } from "@/features/types";
-import { TPropertyParamQueryDto } from "@/features/types/queries";
+import { TPropertyParamQueryDto } from "@/features/types/filter-params";
 import { GlobalTypes } from "@/utils";
 
 export interface PropertiesStateInner {
