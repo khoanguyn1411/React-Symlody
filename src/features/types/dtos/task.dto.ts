@@ -2,19 +2,19 @@ import { StrictOmit, StrictPick } from "@/utils/types";
 
 import { UserDto } from "./user.dto";
 
-export enum EPriorityDto {
+export enum PriorityDto {
   Default = 1,
   High = 2,
 }
 
-export enum ETaskStatusDto {
+export enum TaskStatusDto {
   Todo = 1,
   InProgress = 2,
   Review = 3,
   Done = 4,
 }
 
-export interface ITaskDto {
+export interface TaskDto {
   id: number;
   assignee: {
     id: number;
@@ -31,18 +31,18 @@ export interface ITaskDto {
   start_date: string;
   end_date: string;
   estimation: null | string;
-  priority: EPriorityDto;
-  status: ETaskStatusDto;
+  priority: PriorityDto;
+  status: TaskStatusDto;
   sent_email: boolean;
 }
 
-export type ITaskCreateUpdateDto = StrictPick<
-  ITaskDto,
+export type TaskCreationDto = StrictPick<
+  TaskDto,
   "title" | "assignee" | "reporter"
 > &
   Partial<
     StrictOmit<
-      ITaskDto,
+      TaskDto,
       | "created_by"
       | "last_modified_by"
       | "last_modified_date"

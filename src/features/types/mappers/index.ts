@@ -7,5 +7,5 @@ export * from "./member.mapper";
 export * from "./profile.mapper";
 export * from "./property.mapper";
 export * from "./task.mapper";
-export * from "./tenant.mapper";
+export * from "./organization.mapper";
 export * from "./user.mapper";

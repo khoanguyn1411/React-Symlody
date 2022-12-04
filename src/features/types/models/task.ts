@@ -2,26 +2,26 @@ import { StrictOmit, StrictPick } from "@/utils/types";
 
 import { User } from "./user";
 
-export enum ETodoStatusId {
+export enum TodoStatusId {
   Todo = "todo",
   InProgress = "in-progress",
   Review = "review",
   Done = "done",
 }
 
-export enum ETodoStatus {
+export enum TodoStatus {
   Todo = "Cần thực hiện",
   InProgress = "Đang thực hiện",
   Review = "Kiểm tra",
   Done = "Hoàn thành",
 }
 
-export enum EPriority {
+export enum Priority {
   High = "Cao",
   Normal = "Bình thường",
 }
 
-export interface ITask {
+export interface Task {
   id: number;
   assignee: {
     id: number;
@@ -29,31 +29,28 @@ export interface ITask {
   reporter: {
     id: number;
   };
-  created_by: User;
-  last_modified_by: User | null;
-  last_modified_date: string;
+  createdBy: User;
+  lastModifiedBy: User | null;
+  lastModifiedDate: string;
   title: string;
   label: string;
   description: string;
-  start_date: string;
-  end_date: string;
+  startDate: string;
+  endDate: string;
   estimation: null | string;
   isPriority: boolean;
-  status: ETodoStatusId;
-  sent_email: boolean;
+  status: TodoStatusId;
+  isSentEmail: boolean;
 }
 
-export type ITaskCreateUpdate = StrictPick<
-  ITask,
-  "title" | "assignee" | "reporter"
-> &
+export type TaskCreation = StrictPick<Task, "title" | "assignee" | "reporter"> &
   Partial<
     StrictOmit<
-      ITask,
+      Task,
       | "id"
-      | "created_by"
-      | "last_modified_by"
-      | "last_modified_date"
+      | "createdBy"
+      | "lastModifiedBy"
+      | "lastModifiedDate"
       | "title"
       | "assignee"
       | "reporter"

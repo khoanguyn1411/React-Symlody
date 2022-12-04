@@ -10,14 +10,14 @@ import { Avatar, Dropdown, TItemListSelect, Tooltip } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import { deleteTaskAsync } from "@/features/reducers/task-reducer";
-import { ITask } from "@/features/types";
+import { Task } from "@/features/types";
 
 import { TODO_MESSAGES } from "../constant";
 import { checkStatusOfExpiredDate } from "../function";
 import { TodoViewMapper } from "../mapper";
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 
-export const TodoCard: React.FC<ITask> = (task) => {
+export const TodoCard: React.FC<Task> = (task) => {
   const dispatch = useAppDispatch();
   const userList = useAppSelector(userSelectors.selectAll);
   const taskViewInfo = TodoViewMapper.fromModel(userList, task);

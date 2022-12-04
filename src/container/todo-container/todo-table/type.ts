@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 
-import { ETodoStatusId } from "@/features/types";
+import { TodoStatusId } from "@/features/types";
 
 export interface ITodoTable {
   id: number;
   job: string;
-  status: ETodoStatusId;
+  status: TodoStatusId;
   expiredDate: string;
   isPriority: boolean;
   assignee: string;

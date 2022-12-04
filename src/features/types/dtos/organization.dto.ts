@@ -1,6 +1,6 @@
 import { StrictOmit } from "@/utils/types";
 
-export interface ITenant {
+export interface OrganizationDto {
   id: number;
   name: string;
   abbreviation_name: string | null;
@@ -11,6 +11,9 @@ export interface ITenant {
   logo: string | null;
 }
 
-export type ITenantCreateUpdate = StrictOmit<ITenant, "id" | "logo"> & {
+export type OrganizationCreationDto = StrictOmit<
+  OrganizationDto,
+  "id" | "logo"
+> & {
   logo: File | undefined;
 };

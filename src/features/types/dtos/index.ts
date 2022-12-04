@@ -12,6 +12,6 @@ export * from "./profile.dto";
 export * from "./property.dto";
 export * from "./task.dto";
 export * from "./task.dto";
-export * from "./tenant.dto";
+export * from "./organization.dto";
 export * from "./token.dto";
 export * from "./user.dto";

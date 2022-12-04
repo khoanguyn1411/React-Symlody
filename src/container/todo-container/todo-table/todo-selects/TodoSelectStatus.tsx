@@ -2,15 +2,15 @@ import classNames from "classnames";
 import React, { useState } from "react";
 
 import { SelectCustom } from "@/components";
-import { ETodoStatusId, ITask } from "@/features/types";
+import { TodoStatusId, Task } from "@/features/types";
 import { generateArrayFromEnum } from "@/utils/services/generate-service";
 
 import { TODO_STATUS_MAP_FROM_ID } from "../../mapper";
 import { COLOR_MAP } from "./type";
 
 type TProps = {
-  task: ITask;
-  onStatusChange: (status: ETodoStatusId, task: ITask) => void;
+  task: Task;
+  onStatusChange: (status: TodoStatusId, task: Task) => void;
 };
 
 export const TodoSelectStatus: React.FC<TProps> = ({
@@ -18,9 +18,9 @@ export const TodoSelectStatus: React.FC<TProps> = ({
   onStatusChange,
 }) => {
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
-  const [_status, _setStatus] = useState<ETodoStatusId>(task.status);
+  const [_status, _setStatus] = useState<TodoStatusId>(task.status);
 
-  const handleChangeStatus = (status: ETodoStatusId) => () => {
+  const handleChangeStatus = (status: TodoStatusId) => () => {
     setIsShowContent(false);
     _setStatus(status);
     onStatusChange(status, task);
@@ -36,7 +36,7 @@ export const TodoSelectStatus: React.FC<TProps> = ({
       isShowArrow
       renderListItem={
         <div className="flex flex-col">
-          {generateArrayFromEnum(ETodoStatusId).map((item, index) => (
+          {generateArrayFromEnum(TodoStatusId).map((item, index) => (
             <button
               onClick={handleChangeStatus(item)}
               key={index}

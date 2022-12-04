@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
 import { SelectCustom } from "@/components";
-import { ITask } from "@/features/types";
+import { Task } from "@/features/types";
 
 import { TodoPriorityIcon } from "../../TodoPriorityIcon";
 import { PRIORITY_LIST } from "../constant";
 
 type TProps = {
-  task: ITask;
-  onPriorityChange: (isPriority: boolean, task: ITask) => void;
+  task: Task;
+  onPriorityChange: (isPriority: boolean, task: Task) => void;
 };
 
 export const TodoSelectPriority: React.FC<TProps> = ({

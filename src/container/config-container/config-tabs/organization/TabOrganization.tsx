@@ -7,7 +7,7 @@ import { FormItem, Input, Loading } from "@/components";
 import { UploadedAvatar } from "@/components/elements/uploaded/avatar/UploadedAvatar";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateTenantAsync } from "@/features/reducers";
-import { ITenant, RolesID } from "@/features/types";
+import { Organization, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useEffectSkipFirstRender } from "@/hooks";
 import { FormService } from "@/utils";
@@ -22,29 +22,31 @@ import { schema } from "./schema";
 import { IFormOrganizationConfig } from "./type";
 
 export const TabOrganization: React.FC = () => {
-  const { tenant, pendingTenant } = useAppSelector((state) => state.config);
-  if (pendingTenant || !tenant) {
+  const { organization, pendingOrganization } = useAppSelector(
+    (state) => state.config
+  );
+  if (pendingOrganization || !organization) {
     return <Loading />;
   }
   return <_TabOrganization />;
 };
 
 export const _TabOrganization: React.FC = () => {
-  const { tenant } = useAppSelector((state) => state.config);
+  const { organization } = useAppSelector((state) => state.config);
   const dispatch = useAppDispatch();
 
   const [defaultImageLink, setDefaultImageLink] = useState<string>(
-    tenant.logo ?? ""
+    organization.logo ?? ""
   );
 
-  const getDefaultValue = (rest: ITenant): IFormOrganizationConfig => {
+  const getDefaultValue = (rest: Organization): IFormOrganizationConfig => {
     return {
       ...rest,
       logo: undefined,
-      email: tenant.email ?? "",
-      phone_number: tenant.phone_number ?? "",
-      school: tenant.school ?? "",
-      address: tenant.address ?? "",
+      email: organization.email ?? "",
+      phoneNumber: organization.phoneNumber ?? "",
+      school: organization.school ?? "",
+      address: organization.address ?? "",
     };
   };
 
@@ -55,13 +57,13 @@ export const _TabOrganization: React.FC = () => {
     handleSubmit,
   } = useForm<IFormOrganizationConfig>({
     resolver: yupResolver(schema),
-    defaultValues: getDefaultValue(tenant),
+    defaultValues: getDefaultValue(organization),
   });
 
   const handleEditOrgInfo = withPermission([RolesID.Lead, RolesID.SystemAdmin])(
     async (data: IFormOrganizationConfig) => {
       const result = await dispatch(
-        updateTenantAsync({ id: tenant.id, body: data })
+        updateTenantAsync({ id: organization.id, body: data })
       );
       if (!result.payload) {
         toast.error(ORGANIZATION_MESSAGES.update.error);
@@ -73,10 +75,10 @@ export const _TabOrganization: React.FC = () => {
   );
 
   useEffectSkipFirstRender(() => {
-    if (tenant) {
-      setDefaultImageLink(tenant.logo);
+    if (organization) {
+      setDefaultImageLink(organization.logo);
     }
-  }, [reset, tenant]);
+  }, [reset, organization]);
 
   return (
     <ConfigTabContentContainer>
@@ -112,11 +114,11 @@ export const _TabOrganization: React.FC = () => {
         <FormItem
           label="Tên viết tắt"
           isRequired
-          error={errors.abbreviation_name?.message}
+          error={errors.abbreviationName?.message}
         >
           <Controller
             control={control}
-            name="abbreviation_name"
+            name="abbreviationName"
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Tên viết tẳt"
@@ -144,7 +146,7 @@ export const _TabOrganization: React.FC = () => {
         <FormItem label="Số điện thoại">
           <Controller
             control={control}
-            name="phone_number"
+            name="phoneNumber"
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Số điện thoại"

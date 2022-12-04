@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
-import { ITask } from "@/features/types";
+import { Task } from "@/features/types";
 import { FormatService, SortService } from "@/utils";
 
 import { TODO_DATA } from "../constant";
@@ -22,10 +22,10 @@ export const TodoColumn: React.FC<TProps> = ({
   draggingCard,
   onClickCard,
 }) => {
-  const [listCard, setListCard] = useState<ITask[]>(columnData.cards);
+  const [listCard, setListCard] = useState<Task[]>(columnData.cards);
 
   useLayoutEffect(() => {
-    const sortedCardList = SortService.mapOrder<ITask>(
+    const sortedCardList = SortService.mapOrder<Task>(
       columnData.cards,
       columnData.cardOrder,
       "id"
@@ -51,7 +51,7 @@ export const TodoColumn: React.FC<TProps> = ({
     [draggingCard.columnId]
   );
 
-  const _onCardClick = (cardInfo: ITask) => () => {
+  const _onCardClick = (cardInfo: Task) => () => {
     onClickCard(cardInfo);
   };
 

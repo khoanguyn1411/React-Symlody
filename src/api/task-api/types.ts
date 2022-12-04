@@ -1,8 +1,8 @@
-import { ITaskCreateUpdateDto, ITaskDto } from "@/features/types/dtos";
+import { TaskCreationDto, TaskDto } from "@/features/types/dtos";
 
 import { Response } from "../api-response";
 
-export type RequestGetTasksResult = Response<ITaskDto[]>;
-export type RequestCreateTasksResult = Response<ITaskDto>;
-export type RequestUpdateTasksResult = Response<ITaskDto, ITaskCreateUpdateDto>;
+export type RequestGetTasksResult = Response<TaskDto[]>;
+export type RequestCreateTasksResult = Response<TaskDto>;
+export type RequestUpdateTasksResult = Response<TaskDto, TaskCreationDto>;
 export type RequestDeleteTasksResult = Response<boolean>;

@@ -1,16 +1,16 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
-import { ITask } from "@/features/types";
+import { Task } from "@/features/types";
 import { TTaskParamQueryDto } from "@/features/types/queries";
 
 export interface TaskStateInner {
   pending: boolean;
   pendingDeleteTask: boolean;
   listQueryTask: TTaskParamQueryDto;
-  listTasksByAssignee: ITask[];
+  listTasksByAssignee: Task[];
 }
 
-export const taskAdapter = createEntityAdapter<ITask>({
+export const taskAdapter = createEntityAdapter<Task>({
   selectId: (task) => task.id,
 });
 

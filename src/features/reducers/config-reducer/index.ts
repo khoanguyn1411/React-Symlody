@@ -6,8 +6,8 @@ import {
   HttpError,
   IConfigInfo,
   IConfigUserUpdate,
-  ITenant,
-  ITenantCreateUpdate,
+  Organization,
+  OrganizationCreation,
 } from "@/features/types";
 import { IConfigUserUpdateDto } from "@/features/types/dtos/config-manager.dto";
 import {
@@ -18,18 +18,18 @@ import {
 import { GlobalTypes } from "@/utils";
 import { generateArrayWithNoDuplicate } from "@/utils/services/generate-service";
 
-import { TenantMapper } from "../../types/mappers/tenant.mapper";
+import { OrganizationMapper } from "../../types/mappers/organization.mapper";
 import { getUsersAsync, userSelectors } from "../user-reducer";
 import { configInfoAdapter, initialState } from "./state";
 
 export const getTenantAsync = createAsyncThunk<
-  ITenant,
+  Organization,
   null,
   GlobalTypes.ReduxThunkRejectValue<null>
 >("get/tenant", async (_, { rejectWithValue }) => {
-  const result = await ConfigApi.getTenant();
+  const result = await ConfigApi.getOrganization();
   if (result.kind === "ok") {
-    return result.result;
+    return OrganizationMapper.fromDto(result.result);
   }
 
   return rejectWithValue(null);
@@ -77,15 +77,15 @@ export const getConfigManager = createAsyncThunk<
 });
 
 export const updateTenantAsync = createAsyncThunk<
-  ITenant,
-  { id: number; body: ITenantCreateUpdate },
+  Organization,
+  { id: number; body: OrganizationCreation },
   GlobalTypes.ReduxThunkRejectValue<null>
 >("update/tenant", async (payload, { rejectWithValue }) => {
-  const paramDto = TenantMapper.toFormData(payload.body);
+  const paramDto = OrganizationMapper.toFormData(payload.body);
   console.log(paramDto);
-  const result = await ConfigApi.updateTenant(payload.id, paramDto);
+  const result = await ConfigApi.updateOrganization(payload.id, paramDto);
   if (result.kind === "ok") {
-    return TenantMapper.fromDto(result.result);
+    return OrganizationMapper.fromDto(result.result);
   }
 
   return rejectWithValue(null);
@@ -117,19 +117,19 @@ export const configSlice = createSlice({
     builder
       //GET TENANT
       .addCase(getTenantAsync.pending, (state) => {
-        state.pendingTenant = true;
+        state.pendingOrganization = true;
       })
       .addCase(getTenantAsync.fulfilled, (state, action) => {
-        state.pendingTenant = false;
-        state.tenant = action.payload;
+        state.pendingOrganization = false;
+        state.organization = action.payload;
       })
       .addCase(getTenantAsync.rejected, (state) => {
-        state.pendingTenant = false;
-        state.tenant = null;
+        state.pendingOrganization = false;
+        state.organization = null;
       })
       //UPDATE TENANT
       .addCase(updateTenantAsync.fulfilled, (state, action) => {
-        state.tenant = action.payload;
+        state.organization = action.payload;
       })
 
       // Get config manager

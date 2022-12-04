@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { Container, Table } from "@/components";
 import { useAppDispatch } from "@/features";
 import { deleteTaskAsync } from "@/features/reducers/task-reducer";
-import { ITask } from "@/features/types";
+import { Task } from "@/features/types";
 import { useModal } from "@/hooks";
 
 import { TODO_MESSAGES } from "../constant";
@@ -16,14 +16,14 @@ type TProps = {
 };
 export const TodoTable: React.FC<TProps> = ({ isLoading }) => {
   const dispatch = useAppDispatch();
-  const propsModalEdit = useModal<ITask>();
+  const propsModalEdit = useModal<Task>();
 
-  const handleEditTodo = (task: ITask) => {
+  const handleEditTodo = (task: Task) => {
     propsModalEdit.toggle.setToggle();
     propsModalEdit.setData(task);
   };
 
-  const handleDeleteTodo = async (task: ITask) => {
+  const handleDeleteTodo = async (task: Task) => {
     const res = await dispatch(deleteTaskAsync(task.id));
     if (deleteTaskAsync.fulfilled.match(res)) {
       toast.success(TODO_MESSAGES.delete.success);

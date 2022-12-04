@@ -1,62 +1,68 @@
 import { generateReverseRecord } from "@/utils/services/generate-service";
 
-import {
-  EPriorityDto,
-  ETaskStatusDto,
-  ITaskCreateUpdateDto,
-  ITaskDto,
-} from "../dtos";
-import { ETodoStatusId, ITask, ITaskCreateUpdate } from "../models";
+import { PriorityDto, TaskCreationDto, TaskDto, TaskStatusDto } from "../dtos";
+import { Task, TaskCreation, TodoStatusId } from "../models";
 import { DateMapper } from "./base-mappers/date.mapper";
 import { UserMapper } from "./user.mapper";
 
 export const TASK_STATUS_TO_MODEL: Readonly<
-  Record<ETaskStatusDto, ETodoStatusId>
+  Record<TaskStatusDto, TodoStatusId>
 > = {
-  [ETaskStatusDto.Todo]: ETodoStatusId.Todo,
-  [ETaskStatusDto.InProgress]: ETodoStatusId.InProgress,
-  [ETaskStatusDto.Review]: ETodoStatusId.Review,
-  [ETaskStatusDto.Done]: ETodoStatusId.Done,
+  [TaskStatusDto.Todo]: TodoStatusId.Todo,
+  [TaskStatusDto.InProgress]: TodoStatusId.InProgress,
+  [TaskStatusDto.Review]: TodoStatusId.Review,
+  [TaskStatusDto.Done]: TodoStatusId.Done,
 };
 
 export const TASK_STATUS_FROM_DTO: Readonly<
-  Record<ETaskStatusDto, ETodoStatusId>
+  Record<TaskStatusDto, TodoStatusId>
 > = {
-  [ETaskStatusDto.Todo]: ETodoStatusId.Todo,
-  [ETaskStatusDto.InProgress]: ETodoStatusId.InProgress,
-  [ETaskStatusDto.Review]: ETodoStatusId.Review,
-  [ETaskStatusDto.Done]: ETodoStatusId.Done,
+  [TaskStatusDto.Todo]: TodoStatusId.Todo,
+  [TaskStatusDto.InProgress]: TodoStatusId.InProgress,
+  [TaskStatusDto.Review]: TodoStatusId.Review,
+  [TaskStatusDto.Done]: TodoStatusId.Done,
 };
 
 export const TASK_STATUS_TO_DTO = generateReverseRecord(TASK_STATUS_FROM_DTO);
 
 export class TaskMapper {
-  public static fromDto(dto: ITaskDto): ITask {
+  public static fromDto(dto: TaskDto): Task {
     return {
-      ...dto,
-      start_date: DateMapper.fromDto(dto.start_date),
-      end_date: DateMapper.fromDto(dto.end_date),
-      last_modified_date: DateMapper.fromDto(dto.last_modified_date),
-      isPriority: dto.priority === EPriorityDto.High,
-      created_by: UserMapper.fromDto(dto.created_by),
-      last_modified_by: dto.last_modified_by
+      id: dto.id,
+      assignee: {
+        id: dto.assignee.id,
+      },
+      reporter: {
+        id: dto.reporter.id,
+      },
+      title: dto.title,
+      description: dto.description,
+      label: dto.label,
+      estimation: dto.estimation,
+      isSentEmail: dto.sent_email,
+      startDate: DateMapper.fromDto(dto.start_date),
+      endDate: DateMapper.fromDto(dto.end_date),
+      lastModifiedDate: DateMapper.fromDto(dto.last_modified_date),
+      isPriority: dto.priority === PriorityDto.High,
+      createdBy: UserMapper.fromDto(dto.created_by),
+      lastModifiedBy: dto.last_modified_by
         ? UserMapper.fromDto(dto.last_modified_by)
         : null,
       status: TASK_STATUS_TO_MODEL[dto.status],
     };
   }
 
-  public static toDto(model: ITaskCreateUpdate): ITaskCreateUpdateDto {
+  public static toDto(model: TaskCreation): TaskCreationDto {
     return {
-      sent_email: model.sent_email,
+      sent_email: model.isSentEmail,
       assignee: model.assignee,
       reporter: model.reporter,
       title: model.title,
       label: model.label,
-      priority: model.isPriority ? EPriorityDto.High : EPriorityDto.Default,
+      priority: model.isPriority ? PriorityDto.High : PriorityDto.Default,
       description: model.description,
-      start_date: DateMapper.toDto(model.start_date),
-      end_date: DateMapper.toDto(model.end_date),
+      start_date: DateMapper.toDto(model.startDate),
+      end_date: DateMapper.toDto(model.endDate),
       status: TASK_STATUS_TO_DTO[model.status],
     };
   }

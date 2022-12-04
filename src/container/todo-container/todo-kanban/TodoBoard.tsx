@@ -10,7 +10,7 @@ import {
   taskSelectors,
   updateTaskAsync,
 } from "@/features/reducers/task-reducer";
-import { ITask } from "@/features/types";
+import { Task } from "@/features/types";
 import { useModal } from "@/hooks";
 import { FormatService } from "@/utils";
 
@@ -35,7 +35,7 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
   const [columnList, setColumnList] = useState<TTodoColumn[]>(
     TODO_DATA.columns
   );
-  const propsModalEdit = useModal<ITask>();
+  const propsModalEdit = useModal<Task>();
 
   const [draggingCard, setCardHiddenStatus] = useState<TCardHiddenStatus>({
     cardId: null,
@@ -62,7 +62,7 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
         id: FormatService.toNumber(dropResult.draggableId),
         payload: {
           ...currentTask,
-          status: destination.droppableId as ITask["status"],
+          status: destination.droppableId as Task["status"],
         },
       })
     );
@@ -77,7 +77,7 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
       columnId: initial.source.droppableId,
     });
   };
-  const handleCardClick = (cardInfo: ITask) => {
+  const handleCardClick = (cardInfo: Task) => {
     propsModalEdit.toggle.setToggle();
     propsModalEdit.setData(cardInfo);
   };

@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
 import { RootState, store } from "@/features/store";
-import { ITask, TaskMapper, User } from "@/features/types";
-import { ITaskCreateUpdate } from "@/features/types/models/task";
+import { Task, TaskMapper, User } from "@/features/types";
+import { TaskCreation } from "@/features/types/models/task";
 import { TTaskParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
 
@@ -11,7 +11,7 @@ import { userSelectors } from "../user-reducer";
 import { initialState, taskAdapter } from "./state";
 
 export const getTasksAsync = createAsyncThunk<
-  ITask[],
+  Task[],
   TTaskParamQueryDto,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/tasks", async (param, { rejectWithValue }) => {
@@ -23,8 +23,8 @@ export const getTasksAsync = createAsyncThunk<
 });
 
 export const deleteTaskAsync = createAsyncThunk<
-  ITask["id"],
-  ITask["id"],
+  Task["id"],
+  Task["id"],
   GlobalTypes.ReduxThunkRejectValue<null>
 >("delete/task", async (id, { rejectWithValue }) => {
   const result = await TaskApi.deleteTask(id);
@@ -35,8 +35,8 @@ export const deleteTaskAsync = createAsyncThunk<
 });
 
 export const createTaskAsync = createAsyncThunk<
-  { task: ITask; shouldAddOne: boolean },
-  { task: ITaskCreateUpdate },
+  { task: Task; shouldAddOne: boolean },
+  { task: TaskCreation },
   GlobalTypes.ReduxThunkRejectValue<null>
 >("create/task", async (body, { rejectWithValue }) => {
   const reduxStore = store.getState();
@@ -59,12 +59,12 @@ export const createTaskAsync = createAsyncThunk<
 
 export const updateTaskAsync = createAsyncThunk<
   {
-    task: ITask;
+    task: Task;
     shouldRemoveOne: boolean;
   },
   {
-    id: ITask["id"];
-    payload: ITaskCreateUpdate;
+    id: Task["id"];
+    payload: TaskCreation;
   },
   GlobalTypes.ReduxThunkRejectValue<null>
 >("update/task", async ({ id, payload }, { rejectWithValue }) => {
@@ -102,7 +102,7 @@ export const taskSlice = createSlice({
     },
     getTasksByAssignee(
       state,
-      action: PayloadAction<{ taskList: ITask[]; userList: User[] }>
+      action: PayloadAction<{ taskList: Task[]; userList: User[] }>
     ) {
       const { taskList, userList } = action.payload;
 

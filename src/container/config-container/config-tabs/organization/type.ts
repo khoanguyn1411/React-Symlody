@@ -1,3 +1,3 @@
-import { ITenantCreateUpdate } from "@/features/types";
+import { OrganizationCreation } from "@/features/types";
 
-export type IFormOrganizationConfig = ITenantCreateUpdate;
+export type IFormOrganizationConfig = OrganizationCreation;

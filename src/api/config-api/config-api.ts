@@ -1,4 +1,4 @@
-import { ITenantDto } from "@/features/types";
+import { OrganizationDto } from "@/features/types";
 import {
   IConfigInfoDto,
   IConfigManagerDto,
@@ -10,25 +10,25 @@ import * as Types from "./types";
 
 const routes = {
   //TENANT
-  getTenant: () => `config/`,
-  updateTenant: (id: number) => `config/${id}/`,
+  getOrganization: () => `config/`,
+  updateOrganization: (id: number) => `config/${id}/`,
   //CONFIG MANAGER
   getConfigManager: () => `config/managers/`,
   updateConfigRoleUser: (userId: number) => `config/roles/${userId}/`,
 };
 
 export const ConfigApi = {
-  async getTenant(): Promise<Types.RequestGetTenantResult> {
-    const url = routes.getTenant();
-    return composeHttpMethodResult(http.get<ITenantDto>(url));
+  async getOrganization(): Promise<Types.RequestGetTenantResult> {
+    const url = routes.getOrganization();
+    return composeHttpMethodResult(http.get<OrganizationDto>(url));
   },
 
-  async updateTenant(
+  async updateOrganization(
     id: number,
     body: FormData
   ): Promise<Types.RequestUpdateTenantResult> {
-    const url = routes.updateTenant(id);
-    return composeHttpMethodResult(http.patch<ITenantDto>(url, body));
+    const url = routes.updateOrganization(id);
+    return composeHttpMethodResult(http.patch<OrganizationDto>(url, body));
   },
 
   async getConfigManager(): Promise<Types.RequestGetConfigManagerResult> {

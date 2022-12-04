@@ -1,6 +1,6 @@
 import { images } from "@/assets/images";
 import { TNodataConfig } from "@/components";
-import { ETodoStatusId } from "@/features/types";
+import { TodoStatusId } from "@/features/types";
 import { generateStatusMessageFor } from "@/utils/services/generate-service";
 
 import { TODO_STATUS_MAP_FROM_ID } from "./mapper";
@@ -23,32 +23,32 @@ export const TODO_DATA: TTodo = {
     {
       color: "blue",
       boardId: "board-1",
-      id: ETodoStatusId.Todo,
-      title: TODO_STATUS_MAP_FROM_ID[ETodoStatusId.Todo],
+      id: TodoStatusId.Todo,
+      title: TODO_STATUS_MAP_FROM_ID[TodoStatusId.Todo],
       cardOrder: [],
       cards: [],
     },
     {
       color: "blue",
       boardId: "board-1",
-      id: ETodoStatusId.InProgress,
-      title: TODO_STATUS_MAP_FROM_ID[ETodoStatusId.InProgress],
+      id: TodoStatusId.InProgress,
+      title: TODO_STATUS_MAP_FROM_ID[TodoStatusId.InProgress],
       cardOrder: [],
       cards: [],
     },
     {
       color: "blue",
       boardId: "board-1",
-      id: ETodoStatusId.Review,
-      title: TODO_STATUS_MAP_FROM_ID[ETodoStatusId.Review],
+      id: TodoStatusId.Review,
+      title: TODO_STATUS_MAP_FROM_ID[TodoStatusId.Review],
       cardOrder: [],
       cards: [],
     },
     {
       color: "green",
       boardId: "board-1",
-      id: ETodoStatusId.Done,
-      title: TODO_STATUS_MAP_FROM_ID[ETodoStatusId.Done],
+      id: TodoStatusId.Done,
+      title: TODO_STATUS_MAP_FROM_ID[TodoStatusId.Done],
       cardOrder: [],
       cards: [],
     },

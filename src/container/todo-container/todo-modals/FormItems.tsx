@@ -13,7 +13,7 @@ import {
 } from "@/components";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
-import { EPriority, IFormTodoInfo } from "../type";
+import { Priority, IFormTodoInfo } from "../type";
 
 type TProps = {
   mode: "edit" | "create";
@@ -79,11 +79,11 @@ export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
                     list={[
                       {
                         prefix: <TodoPriorityIcon isPriority={false} />,
-                        value: EPriority.Normal,
+                        value: Priority.Normal,
                       },
                       {
                         prefix: <TodoPriorityIcon isPriority />,
-                        value: EPriority.High,
+                        value: Priority.High,
                       },
                     ]}
                   />

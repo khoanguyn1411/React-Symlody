@@ -1,6 +1,6 @@
-import { ETodoStatus, ETodoStatusId, ITask } from "@/features/types";
+import { Task, TodoStatus, TodoStatusId } from "@/features/types";
 
-export enum EPriority {
+export enum Priority {
   High = "Cao",
   Normal = "Bình thường",
 }
@@ -9,15 +9,15 @@ export type TTodoCard = {
   id: string;
   boardId: TTodo["id"];
   columnId: TTodoColumn["id"];
-} & ITask;
+} & Task;
 
 export type TTodoColumn = {
   color?: "green" | "blue";
-  id: ETodoStatusId;
+  id: TodoStatusId;
   boardId: TTodo["id"];
-  title: ETodoStatus;
+  title: TodoStatus;
   cardOrder: number[];
-  cards: ITask[];
+  cards: Task[];
 };
 
 export type TTodo = {

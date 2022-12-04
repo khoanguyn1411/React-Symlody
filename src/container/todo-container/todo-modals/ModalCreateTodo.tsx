@@ -17,7 +17,7 @@ import { FormatService } from "@/utils";
 import { TODO_MESSAGES } from "../constant";
 import { TodoFormMapper } from "../mapper";
 import { schema } from "../shema";
-import { EPriority, IFormTodoInfo } from "../type";
+import { Priority, IFormTodoInfo } from "../type";
 import { FormItems } from "./FormItems";
 
 const getDayAfterWeek = (): string => {
@@ -65,7 +65,7 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
 
   useEffect(() => {
     reset({
-      priority: EPriority.Normal,
+      priority: Priority.Normal,
       expiredDate: getDayAfterWeek(),
       reporter: currentUserStore.user.id,
       isNotifyEmail: false,

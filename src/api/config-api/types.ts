@@ -1,5 +1,8 @@
 import { IConfigManagerUpdate } from "@/features/types";
-import { ITenantCreateUpdateDto, ITenantDto } from "@/features/types/dtos";
+import {
+  OrganizationCreationDto,
+  OrganizationDto,
+} from "@/features/types/dtos";
 import {
   IConfigInfoDto,
   IConfigManagerDto,
@@ -8,10 +11,10 @@ import {
 
 import { Response } from "../api-response";
 
-export type RequestGetTenantResult = Response<ITenantDto>;
+export type RequestGetTenantResult = Response<OrganizationDto>;
 export type RequestUpdateTenantResult = Response<
-  ITenantDto,
-  ITenantCreateUpdateDto
+  OrganizationDto,
+  OrganizationCreationDto
 >;
 
 export type RequestGetConfigManagerResult = Response<IConfigManagerDto>;
@@ -21,7 +24,7 @@ export type RequestUpdateConfigRoleUserResult = Response<
   IConfigUserUpdateDto
 >;
 
-export type RequestUpdateTenantBody = ITenantCreateUpdateDto;
+export type RequestUpdateTenantBody = OrganizationCreationDto;
 export type RequestUpdateConfigManagerBody = IConfigManagerUpdate;
 
 export type RequestParamsConfigRoleUser = IConfigUserUpdateDto;

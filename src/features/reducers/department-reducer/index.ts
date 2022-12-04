@@ -75,7 +75,7 @@ export const deleteDepartmentAsync = createAsyncThunk<
 });
 
 // export const getTenantAsync = createAsyncThunk<
-//   ITenant,
+//   Organization,
 //   null,
 //   GlobalTypes.ReduxThunkRejectValue<null>
 // >("get/tenant", async (payload, { rejectWithValue }) => {

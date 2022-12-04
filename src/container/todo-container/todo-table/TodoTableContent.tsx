@@ -11,7 +11,7 @@ import {
   taskSelectors,
   updateTaskAsync,
 } from "@/features/reducers/task-reducer";
-import { ETodoStatusId, ITask } from "@/features/types";
+import { TodoStatusId, Task } from "@/features/types";
 
 import { TODO_MESSAGES } from "../constant";
 import { checkStatusOfExpiredDate } from "../function";
@@ -19,8 +19,8 @@ import { TodoViewMapper } from "../mapper";
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
 type TProps = {
-  onEdit: (task: ITask) => void;
-  onDelete: (task: ITask) => void;
+  onEdit: (task: Task) => void;
+  onDelete: (task: Task) => void;
   isLoading: boolean;
 };
 
@@ -36,17 +36,17 @@ export const TodoTableContent: React.FC<TProps> = ({
   const currentUser = useAppSelector((state) => state.auth.user);
 
   const [currentInteractiveTask, setCurrentInteractiveTask] =
-    useState<ITask["id"]>();
+    useState<Task["id"]>();
 
-  const handleEdit = (item: ITask) => () => {
+  const handleEdit = (item: Task) => () => {
     onEdit(item);
   };
-  const handleDelete = (item: ITask) => () => {
+  const handleDelete = (item: Task) => () => {
     setCurrentInteractiveTask(item.id);
     onDelete(item);
   };
 
-  const handleChangeStatus = async (status: ETodoStatusId, task: ITask) => {
+  const handleChangeStatus = async (status: TodoStatusId, task: Task) => {
     const result = await dispatch(
       updateTaskAsync({
         id: task.id,
@@ -59,7 +59,7 @@ export const TodoTableContent: React.FC<TProps> = ({
     }
   };
 
-  const handlePriorityChange = async (isPriority: boolean, task: ITask) => {
+  const handlePriorityChange = async (isPriority: boolean, task: Task) => {
     const result = await dispatch(
       updateTaskAsync({
         id: task.id,

@@ -7,7 +7,7 @@ import { Loading, Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { updateTaskAsync } from "@/features/reducers/task-reducer";
-import { ITask } from "@/features/types";
+import { Task } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 import { FormService } from "@/utils";
 
@@ -17,7 +17,7 @@ import { schema } from "../shema";
 import { IFormTodoInfo } from "../type";
 import { FormItems } from "./FormItems";
 
-export const ModalEditTodo: React.FC<THookModalProps<ITask>> = ({
+export const ModalEditTodo: React.FC<THookModalProps<Task>> = ({
   data,
   isShowing,
   toggle,

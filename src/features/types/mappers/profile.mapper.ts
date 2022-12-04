@@ -14,6 +14,7 @@ import {
 import { AuthAccountMapper } from "./auth-account.mapper";
 import { GenderMapper } from "./base-mappers/gender.mapper";
 import { DepartmentMapper } from "./department.mapper";
+import { OrganizationMapper } from "./organization.mapper";
 
 const compareRole = (groups: Group[]) => (roles: Roles[]) => {
   const groupsNameList = groups.map((group) => group.name);
@@ -26,15 +27,11 @@ const compareRole = (groups: Group[]) => (roles: Roles[]) => {
 
 export class ProfileMapper {
   public static fromDto(dto: IProfileDto): IProfile {
-    const authAccountModel = AuthAccountMapper.fromDto({
-      email: dto.email,
-      first_name: dto.first_name,
-      last_name: dto.last_name,
-      groups: dto.groups,
-    });
+    const authAccountModel = AuthAccountMapper.fromDto(dto);
     return {
       ...dto,
       ...authAccountModel,
+      organization: OrganizationMapper.fromDto(dto.organization),
       gender: GenderMapper.fromDto(dto.gender),
       department: DepartmentMapper.fromDto(dto.department),
       isRole: compareRole(authAccountModel.groups),

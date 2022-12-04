@@ -4,7 +4,7 @@ import { AuthAccount, AuthAccountCreation } from "./auth-account";
 import { Department } from "./department";
 import { Gender } from "./gender";
 import { Roles } from "./group";
-import { ITenant } from "./tenant";
+import { Organization } from "./organization";
 export interface IProfile extends AuthAccount {
   id: number;
   gender: Gender;
@@ -16,7 +16,7 @@ export interface IProfile extends AuthAccount {
   avatar: string | null;
   address: string;
   department: Department;
-  organization: ITenant;
+  organization: Organization;
   profile_id: number;
   isRole: (roles: Roles[]) => boolean;
 }

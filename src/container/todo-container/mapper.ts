@@ -1,30 +1,30 @@
 import { User } from "@/features/types";
 import {
-  ETodoStatus,
-  ETodoStatusId,
-  ITask,
-  ITaskCreateUpdate,
+  Task,
+  TaskCreation,
+  TodoStatus,
+  TodoStatusId,
 } from "@/features/types/models/task";
 import { FormatService } from "@/utils";
 import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
 import { UNASSIGNED_TEXT } from "./constant";
-import { EPriority, IFormTodoInfo, ITodoTable } from "./type";
+import { IFormTodoInfo, ITodoTable, Priority } from "./type";
 
 export const TODO_STATUS_MAP_FROM_ID: Readonly<
-  Record<ETodoStatusId, ETodoStatus>
+  Record<TodoStatusId, TodoStatus>
 > = {
-  [ETodoStatusId.Todo]: ETodoStatus.Todo,
-  [ETodoStatusId.InProgress]: ETodoStatus.InProgress,
-  [ETodoStatusId.Review]: ETodoStatus.Review,
-  [ETodoStatusId.Done]: ETodoStatus.Done,
+  [TodoStatusId.Todo]: TodoStatus.Todo,
+  [TodoStatusId.InProgress]: TodoStatus.InProgress,
+  [TodoStatusId.Review]: TodoStatus.Review,
+  [TodoStatusId.Done]: TodoStatus.Done,
 };
 
 export class TodoFormMapper {
-  public static toModel(formData: IFormTodoInfo): ITaskCreateUpdate {
+  public static toModel(formData: IFormTodoInfo): TaskCreation {
     return {
       title: formData.name,
-      isPriority: formData.priority === EPriority.High,
+      isPriority: formData.priority === Priority.High,
       assignee: {
         id: formData.assignee,
       },
@@ -32,26 +32,26 @@ export class TodoFormMapper {
         id: formData.reporter,
       },
       description: formData.description,
-      end_date: formData.expiredDate,
-      sent_email: formData.isNotifyEmail,
+      endDate: formData.expiredDate,
+      isSentEmail: formData.isNotifyEmail,
     };
   }
 
-  public static fromModel(model: ITaskCreateUpdate): IFormTodoInfo {
+  public static fromModel(model: TaskCreation): IFormTodoInfo {
     return {
       name: model.title,
-      priority: model.isPriority ? EPriority.High : EPriority.Normal,
-      expiredDate: model.end_date,
+      priority: model.isPriority ? Priority.High : Priority.Normal,
+      expiredDate: model.endDate,
       assignee: model.assignee.id,
       reporter: model.reporter.id,
       description: model.description,
-      isNotifyEmail: model.sent_email,
+      isNotifyEmail: model.isSentEmail,
     };
   }
 }
 
 export class TodoViewMapper {
-  public static fromModel(userList: User[], model: ITask): ITodoTable {
+  public static fromModel(userList: User[], model: Task): ITodoTable {
     const assignee = userList.find((user) => user.id === model.assignee.id);
     const fullName = assignee?.fullName ?? UNASSIGNED_TEXT;
     const isUnassigned = fullName === UNASSIGNED_TEXT;
@@ -60,9 +60,9 @@ export class TodoViewMapper {
       avatar: assignee?.avatar ?? "",
       isUnassigned,
       title: generatePlaceholderEmptyValue(model.title),
-      expiredDate: model.end_date
-        ? FormatService.toDateString(model.end_date, "VN")
-        : generatePlaceholderEmptyValue(model.end_date),
+      expiredDate: model.endDate
+        ? FormatService.toDateString(model.endDate, "VN")
+        : generatePlaceholderEmptyValue(model.endDate),
     };
   }
 }

@@ -5,7 +5,7 @@ import { images } from "@/assets/images";
 import { EConfigTabKey } from "@/container/config-container/type";
 import { useAppDispatch } from "@/features";
 import { logoutAsync } from "@/features/reducers";
-import { IProfile, ITenant } from "@/features/types";
+import { IProfile, Organization } from "@/features/types";
 import { EPagePath } from "@/routes";
 
 import { Avatar, Dropdown, TItemListSelect } from "../../elements";
@@ -32,9 +32,9 @@ const getTabUrl = (url: string): string => {
 
 type TProps = {
   user: IProfile;
-  tenant: ITenant;
+  organization: Organization;
 };
-export const UserDropdown: React.FC<TProps> = ({ user, tenant }) => {
+export const UserDropdown: React.FC<TProps> = ({ user, organization }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -68,9 +68,12 @@ export const UserDropdown: React.FC<TProps> = ({ user, tenant }) => {
       >
         <div className="flex items-center justify-between space-x-4">
           <div className="flex items-center space-x-2">
-            <Avatar src={tenant?.logo || images.Logo} fullName={tenant?.name} />
+            <Avatar
+              src={organization?.logo || images.Logo}
+              fullName={organization?.name}
+            />
             <span className="font-medium">
-              {tenant?.abbreviation_name || tenant?.name}
+              {organization?.abbreviationName || organization?.name}
             </span>
           </div>
           <div className="flex items-center cursor-pointer space-x-2">
