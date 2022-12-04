@@ -6,7 +6,7 @@ import { PropertyFilterParams } from "@/features/types/models/filter-params";
 
 export interface PropertiesStateInner {
   pending: boolean;
-  listQueryProperty: PropertyFilterParams;
+  filterParamsProperty: PropertyFilterParams;
   pendingRestoreProperty: boolean;
   pendingDeleteProperty: boolean;
 
@@ -24,7 +24,7 @@ export const initialState =
     pending: false,
     pendingRestoreProperty: false,
     pendingDeleteProperty: false,
-    listQueryProperty: {
+    filterParamsProperty: {
       isArchived: false,
       page: 1,
       limit: APP_PAGINATION.DEFAULT_PAGINATION_LIMIT,

@@ -131,7 +131,7 @@ export const paginateMemberAsync = createAsyncThunk<void, undefined>(
     const reduxStore = store.getState();
     const memberState = reduxStore.member;
     const { currentMemberList } = memberState;
-    const { page, limit } = memberState.listQueryMember;
+    const { page, limit } = memberState.filterParamsMember;
     const memberListPagination = currentMemberList.slice(
       (page - 1) * limit,
       page * limit
@@ -174,7 +174,10 @@ export const memberSlice = createSlice({
       state,
       action: PayloadAction<Partial<MemberFilterParams>>
     ) {
-      state.listQueryMember = { ...state.listQueryMember, ...action.payload };
+      state.filterParamsMember = {
+        ...state.filterParamsMember,
+        ...action.payload,
+      };
     },
     setCurrentMemberList(state, action: PayloadAction<Member[]>) {
       state.currentMemberList = action.payload;
@@ -198,7 +201,7 @@ export const memberSlice = createSlice({
       })
       .addCase(createMemberAsync.fulfilled, (state, action) => {
         const newMember = action.payload;
-        if (state.listQueryMember.isArchived !== true) {
+        if (state.filterParamsMember.isArchived !== true) {
           memberAdapter.addOne(state, newMember);
         }
       })
@@ -209,7 +212,7 @@ export const memberSlice = createSlice({
       .addCase(deleteMemberAsync.fulfilled, (state, action) => {
         state.pendingDeleteMember = false;
         const removedId = action.payload;
-        if (state.listQueryMember.isArchived == null) {
+        if (state.filterParamsMember.isArchived == null) {
           memberAdapter.updateOne(state, {
             id: removedId,
             changes: { isArchived: true },
@@ -232,7 +235,8 @@ export const memberSlice = createSlice({
         state.pendingRestoreMember = false;
         const newMember = action.payload.result;
         const shouldRemoveOne =
-          action.payload.isRestore && state.listQueryMember.isArchived != null;
+          action.payload.isRestore &&
+          state.filterParamsMember.isArchived != null;
         if (shouldRemoveOne) {
           memberAdapter.removeOne(state, newMember.id);
           return;

@@ -58,7 +58,7 @@ export const paginatePropertyAsync = createAsyncThunk<void, undefined>(
     const reduxStore = store.getState();
     const propertyState = reduxStore.property;
     const { currentPropertyList } = propertyState;
-    const { page, limit } = propertyState.listQueryProperty;
+    const { page, limit } = propertyState.filterParamsProperty;
     const propertyListPagination = currentPropertyList.slice(
       (page - 1) * limit,
       page * limit
@@ -95,8 +95,8 @@ export const propertySlice = createSlice({
       state,
       action: PayloadAction<Partial<PropertyFilterParams>>
     ) {
-      state.listQueryProperty = {
-        ...state.listQueryProperty,
+      state.filterParamsProperty = {
+        ...state.filterParamsProperty,
         ...action.payload,
       };
     },
@@ -130,7 +130,7 @@ export const propertySlice = createSlice({
       })
       .addCase(deletePropertyAsync.fulfilled, (state, action) => {
         state.pendingDeleteProperty = false;
-        if (state.listQueryProperty.isArchived == null) {
+        if (state.filterParamsProperty.isArchived == null) {
           propertyAdapter.updateOne(state, {
             id: action.payload,
             changes: { isArchived: true },

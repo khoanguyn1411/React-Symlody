@@ -45,7 +45,7 @@ export const PropertyContainer: React.FC = () => {
 
   const propsModal = useModal({ isHotkeyOpen: true });
   const propsModalEdit = useModal<Property>();
-  const propsSearch = useDebounce(propertyStore.listQueryProperty.search);
+  const propsSearch = useDebounce(propertyStore.filterParamsProperty.search);
 
   const isPropertyManager = currentUser.isRole([
     Roles.Lead,
@@ -55,7 +55,7 @@ export const PropertyContainer: React.FC = () => {
   const hasPermission = withPermission([RolesID.PropertyManager, RolesID.Lead]);
 
   const [filter, setFilter] = useState<string>(() => {
-    switch (propertyStore.listQueryProperty.isArchived) {
+    switch (propertyStore.filterParamsProperty.isArchived) {
       case true:
         return getFilterValue(PROPERTY_FILTER_VALUE.isArchived);
       case false:
@@ -102,9 +102,9 @@ export const PropertyContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(getPropertyAsync(propertyStore.listQueryProperty));
+    dispatch(getPropertyAsync(propertyStore.filterParamsProperty));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, propertyStore.listQueryProperty.isArchived]);
+  }, [dispatch, propertyStore.filterParamsProperty.isArchived]);
 
   useEffect(() => {
     dispatch(filterPropertyBySearch(propsSearch.debounceValue));
@@ -114,8 +114,8 @@ export const PropertyContainer: React.FC = () => {
     dispatch(paginatePropertyAsync());
   }, [
     dispatch,
-    propertyStore.listQueryProperty.page,
-    propertyStore.listQueryProperty.limit,
+    propertyStore.filterParamsProperty.page,
+    propertyStore.filterParamsProperty.limit,
     propertyStore.currentPropertyList,
   ]);
 

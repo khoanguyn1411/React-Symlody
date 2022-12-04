@@ -25,12 +25,12 @@ export const PropertyTableContent: React.FC<TProps> = ({
   const propertyCount = propertyStore.currentPropertyList.length;
 
   const getPropertyIndex = useMemo(() => {
-    const { page, limit } = propertyStore.listQueryProperty;
+    const { page, limit } = propertyStore.filterParamsProperty;
     return (index: number) => (page - 1) * limit + index + 1;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    propertyStore.listQueryProperty.limit,
-    propertyStore.listQueryProperty.page,
+    propertyStore.filterParamsProperty.limit,
+    propertyStore.filterParamsProperty.page,
   ]);
 
   const handleEdit = (item: Property) => () => {

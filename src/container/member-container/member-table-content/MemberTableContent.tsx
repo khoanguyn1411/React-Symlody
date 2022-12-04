@@ -26,10 +26,13 @@ export const MemberTableContent: React.FC<TProps> = ({
   const [currentInteractiveId, setCurrentInteractiveId] = useState<number>();
 
   const getMemberIndex = useMemo(() => {
-    const { page, limit } = memberStore.listQueryMember;
+    const { page, limit } = memberStore.filterParamsMember;
     return (index: number) => (page - 1) * limit + index + 1;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [memberStore.listQueryMember.limit, memberStore.listQueryMember.page]);
+  }, [
+    memberStore.filterParamsMember.limit,
+    memberStore.filterParamsMember.page,
+  ]);
 
   const handleEdit = (item: Member) => () => {
     onEdit(item);

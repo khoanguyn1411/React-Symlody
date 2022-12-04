@@ -36,11 +36,11 @@ export const PropertyPagination: React.FC = () => {
   return (
     <Container.Pagination
       count={propertyCount}
-      defaultLimit={propertyStore.listQueryProperty.limit}
+      defaultLimit={propertyStore.filterParamsProperty.limit}
       onResetPagination={{
         changeListener: [
-          propertyStore.listQueryProperty.isArchived,
-          propertyStore.listQueryProperty.search,
+          propertyStore.filterParamsProperty.isArchived,
+          propertyStore.filterParamsProperty.search,
         ],
         callback: handleResetPagination,
       }}

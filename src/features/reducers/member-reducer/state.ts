@@ -9,7 +9,7 @@ export interface MemberStateInner {
   pendingRestoreMember: boolean;
   pendingDeleteMember: boolean;
   pendingUploadFileMember: boolean;
-  listQueryMember: MemberFilterParams;
+  filterParamsMember: MemberFilterParams;
 
   // Used for pagination and searching in front-end.
   currentMemberList: Member[];
@@ -25,7 +25,7 @@ export const initialState = memberAdapter.getInitialState<MemberStateInner>({
   pendingDeleteMember: false,
   pendingRestoreMember: false,
   pendingUploadFileMember: false,
-  listQueryMember: {
+  filterParamsMember: {
     isArchived: false,
     page: 1,
     limit: APP_PAGINATION.DEFAULT_PAGINATION_LIMIT,

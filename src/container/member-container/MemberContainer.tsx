@@ -45,14 +45,14 @@ export const MemberContainer: React.FC = () => {
 
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<Member>();
-  const propsSearch = useDebounce(memberStore.listQueryMember.search);
+  const propsSearch = useDebounce(memberStore.filterParamsMember.search);
 
   const isMemberManager = currentUser.isRole([Roles.Lead, Roles.MemberManager]);
 
   const hasPermission = withPermission([RolesID.MemberManager, RolesID.Lead]);
 
   const [filter, setFilter] = useState<string>(() => {
-    switch (memberStore.listQueryMember.isArchived) {
+    switch (memberStore.filterParamsMember.isArchived) {
       case true:
         return getFilterValue(MEMBER_FILTER_VALUE.isArchived);
       case false:
@@ -114,9 +114,9 @@ export const MemberContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(getMembersAsync(memberStore.listQueryMember));
+    dispatch(getMembersAsync(memberStore.filterParamsMember));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, memberStore.listQueryMember.isArchived]);
+  }, [dispatch, memberStore.filterParamsMember.isArchived]);
 
   useEffect(() => {
     dispatch(filterMemberBySearch(propsSearch.debounceValue));
@@ -126,8 +126,8 @@ export const MemberContainer: React.FC = () => {
     dispatch(paginateMemberAsync());
   }, [
     dispatch,
-    memberStore.listQueryMember.page,
-    memberStore.listQueryMember.limit,
+    memberStore.filterParamsMember.page,
+    memberStore.filterParamsMember.limit,
     memberStore.currentMemberList,
   ]);
 
