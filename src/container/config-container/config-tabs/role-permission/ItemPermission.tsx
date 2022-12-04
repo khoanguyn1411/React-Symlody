@@ -3,11 +3,11 @@ import classNames from "classnames";
 import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
 import { configSelectors } from "@/features/reducers";
-import { IConfigInfo, Roles } from "@/features/types";
+import { Roles, UserShort } from "@/features/types";
 
 type TProps = {
   title: string;
-  onOpenEdit: (data: IConfigInfo) => void;
+  onOpenEdit: (data: UserShort) => void;
 };
 
 interface TCheckDone {
@@ -43,13 +43,13 @@ export const ItemPermission: React.FC<TProps> = ({ onOpenEdit }) => {
               </div>
             </Table.Cell>
             <Table.Cell width="4rem" textAlign="center">
-              <CheckDone isActive={d.isRole(Roles.Lead)} />
+              <CheckDone isActive={d.isRole([Roles.Lead])} />
             </Table.Cell>
             <Table.Cell width="4rem" textAlign="center">
-              <CheckDone isActive={d.isRole(Roles.MemberManager)} />
+              <CheckDone isActive={d.isRole([Roles.MemberManager])} />
             </Table.Cell>
             <Table.Cell width="4rem" textAlign="center">
-              <CheckDone isActive={d.isRole(Roles.PropertyManager)} />
+              <CheckDone isActive={d.isRole([Roles.PropertyManager])} />
             </Table.Cell>
 
             <Table.CellAction>

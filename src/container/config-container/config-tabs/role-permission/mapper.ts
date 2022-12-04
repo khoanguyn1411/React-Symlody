@@ -1,10 +1,10 @@
 import {
-  IConfigInfo,
-  IConfigUserUpdate,
   ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME,
   ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL,
   Roles,
   RolesManagerSortName,
+  UserPermissionConfigCreation,
+  UserShort,
 } from "@/features/types";
 
 import { EPermissionOptions } from "./constants";
@@ -24,8 +24,8 @@ const getModelGroup = ({ type, roleManager }: IConfigManagerForm): Roles[] => {
   }
 };
 
-const getFormType = (model: IConfigInfo): EPermissionOptions => {
-  if (model.isRole(Roles.Lead)) {
+const getFormType = (model: UserShort): EPermissionOptions => {
+  if (model.isRole([Roles.Lead])) {
     return EPermissionOptions.Lead;
   }
   if (model.isRole("manager")) {
@@ -37,7 +37,7 @@ const getFormType = (model: IConfigInfo): EPermissionOptions => {
 };
 
 export class RolePermissionFormMapper {
-  public static fromModel(model: IConfigInfo): IConfigManagerForm {
+  public static fromModel(model: UserShort): IConfigManagerForm {
     return {
       userId: model.id,
       type: getFormType(model),
@@ -51,7 +51,9 @@ export class RolePermissionFormMapper {
     };
   }
 
-  public static toModel(formData: IConfigManagerForm): IConfigUserUpdate {
+  public static toModel(
+    formData: IConfigManagerForm
+  ): UserPermissionConfigCreation {
     return {
       user_id: formData.userId,
       groups: getModelGroup(formData),

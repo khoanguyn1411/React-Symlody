@@ -1,8 +1,5 @@
-import { OrganizationDto } from "@/features/types";
-import {
-  IConfigInfoDto,
-  IConfigManagerDto,
-} from "@/features/types/dtos/config-manager.dto";
+import { OrganizationDto, UserShortDto } from "@/features/types";
+import { LeadersAndManagersDto } from "@/features/types/dtos/config-permission.dto";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
@@ -20,7 +17,8 @@ const routes = {
 export const ConfigApi = {
   async getOrganization(): Promise<Types.RequestGetTenantResult> {
     const url = routes.getOrganization();
-    return composeHttpMethodResult(http.get<OrganizationDto>(url));
+    const method = http.get<OrganizationDto>(url);
+    return composeHttpMethodResult(method);
   },
 
   async updateOrganization(
@@ -33,13 +31,15 @@ export const ConfigApi = {
 
   async getConfigManager(): Promise<Types.RequestGetConfigManagerResult> {
     const url = routes.getConfigManager();
-    return composeHttpMethodResult(http.get<IConfigManagerDto>(url));
+    const method = http.get<LeadersAndManagersDto>(url);
+    return composeHttpMethodResult(method);
   },
 
   async updateConfigRoleUser(
     params: Types.RequestParamsConfigRoleUser
   ): Promise<Types.RequestUpdateConfigRoleUserResult> {
     const url = routes.updateConfigRoleUser(params.user_id);
-    return composeHttpMethodResult(http.patch<IConfigInfoDto>(url, params));
+    const method = http.patch<UserShortDto>(url, params);
+    return composeHttpMethodResult(method);
   },
 };

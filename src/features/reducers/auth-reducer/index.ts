@@ -5,7 +5,7 @@ import { RootState } from "@/features/store";
 import {
   HttpError,
   IChangePassword,
-  ILogin,
+  Login,
   Profile,
   ProfileCreation,
   ProfileCreationDto,
@@ -32,7 +32,7 @@ const initialState: AuthState = {
 
 export const loginAsync = createAsyncThunk<
   boolean,
-  ILogin,
+  Login,
   GlobalTypes.ReduxThunkRejectValue<false>
 >("auth/login", async (payload, { rejectWithValue }) => {
   const loginInfoDto = LoginMapper.toDto(payload);

@@ -4,17 +4,17 @@ import { ConfigApi } from "@/api";
 import { RootState, store } from "@/features/store";
 import {
   HttpError,
-  IConfigInfo,
-  IConfigUserUpdate,
   Organization,
   OrganizationCreation,
+  UserPermissionConfigCreation,
+  UserShort,
+  UserShortMapper,
 } from "@/features/types";
-import { IConfigUserUpdateDto } from "@/features/types/dtos/config-manager.dto";
+import { UserPermissionConfigCreationDto } from "@/features/types/dtos/config-permission.dto";
 import {
-  ConfigInfoMapper,
-  ConfigMangerMapper,
-  ConfigUserMapper,
-} from "@/features/types/mappers/config-manager.mapper";
+  LeadersAndManagersMapper,
+  UserPermissionConfigMapper,
+} from "@/features/types/mappers/config-permission.mapper";
 import { GlobalTypes } from "@/utils";
 import { generateArrayWithNoDuplicate } from "@/utils/services/generate-service";
 
@@ -36,9 +36,9 @@ export const getTenantAsync = createAsyncThunk<
 });
 
 export const getConfigManager = createAsyncThunk<
-  IConfigInfo[],
+  UserShort[],
   null,
-  GlobalTypes.ReduxThunkRejectValue<IConfigInfo[]>
+  GlobalTypes.ReduxThunkRejectValue<UserShort[]>
 >("get/config-manager", async (_, { rejectWithValue, dispatch }) => {
   const reduxStore = store.getState();
   const hasUser = userSelectors.selectTotal(reduxStore) > 0;
@@ -58,7 +58,7 @@ export const getConfigManager = createAsyncThunk<
   if (resultConfigManager.kind !== "ok") {
     return rejectWithValue([]);
   }
-  const configManagerModel = ConfigMangerMapper.fromDto(
+  const configManagerModel = LeadersAndManagersMapper.fromDto(
     resultConfigManager.result
   );
   const combinedLeaderManagerList = generateArrayWithNoDuplicate(
@@ -72,7 +72,7 @@ export const getConfigManager = createAsyncThunk<
     const userWithRole = combinedLeaderManagerList.find(
       (r) => r.id === user.id
     );
-    return userWithRole ?? ConfigInfoMapper.fromUser(user);
+    return userWithRole ?? UserShortMapper.fromUser(user);
   });
 });
 
@@ -92,17 +92,19 @@ export const updateTenantAsync = createAsyncThunk<
 });
 
 export const updateConfigRoleUserAsync = createAsyncThunk<
-  IConfigInfo,
-  IConfigUserUpdate,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<IConfigUserUpdateDto> | null>
+  UserShort,
+  UserPermissionConfigCreation,
+  GlobalTypes.ReduxThunkRejectValue<HttpError<UserPermissionConfigCreationDto> | null>
 >("update/user-role", async (payload, { rejectWithValue }) => {
-  const paramDto = ConfigUserMapper.toDto(payload);
+  const paramDto = UserPermissionConfigMapper.toCreationDto(payload);
   const result = await ConfigApi.updateConfigRoleUser(paramDto);
   if (result.kind === "ok") {
-    return ConfigInfoMapper.fromDto(result.result);
+    return UserShortMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {
-    const errorBadData = ConfigUserMapper.httpErrorFromDto(result.httpError);
+    const errorBadData = UserPermissionConfigMapper.httpErrorFromDto(
+      result.httpError
+    );
     return rejectWithValue(errorBadData);
   }
 

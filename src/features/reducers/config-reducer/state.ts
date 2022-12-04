@@ -1,6 +1,6 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
-import { IConfigInfo, Organization } from "@/features/types";
+import { Organization, UserShort } from "@/features/types";
 
 export interface ConfigInfosInner {
   pendingConfigManager: boolean;
@@ -8,7 +8,7 @@ export interface ConfigInfosInner {
   organization: Organization;
 }
 
-export const configInfoAdapter = createEntityAdapter<IConfigInfo>({
+export const configInfoAdapter = createEntityAdapter<UserShort>({
   selectId: (configInfo) => configInfo.id,
 });
 

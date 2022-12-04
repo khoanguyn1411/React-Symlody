@@ -1,8 +1,9 @@
 import { GlobalTypes } from "@/utils";
 
-import { UserDto } from "../dtos";
-import { Profile, Member, User } from "../models";
+import { UserDto, UserShortDto } from "../dtos";
+import { Member, Profile, Roles, User, UserShort } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
+import { IsRoleMapper } from "./base-mappers/is-role.mapper";
 
 export class UserMapper {
   public static fromDto(dto: UserDto): User {
@@ -28,6 +29,37 @@ export class UserMapper {
       ...AuthAccountMapper.fromInheritance(model.authAccount),
       avatar: model.avatar,
       department_id: model.department.id,
+    };
+  }
+}
+
+export class UserShortMapper {
+  public static fromDto(dto: UserShortDto): UserShort {
+    const authAccount = AuthAccountMapper.fromDto(dto);
+    return {
+      ...authAccount,
+      isRole: IsRoleMapper.fromGroupModel(authAccount.groups),
+      id: dto.id,
+    };
+  }
+
+  public static fromUser(user: User): UserShort {
+    return {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      fullName: user.fullName,
+      email: user.email,
+      isRole: (role: Roles[] | "manager" | "member") => {
+        if (role === "manager") {
+          return false;
+        }
+        if (role === "member") {
+          return true;
+        }
+        return false;
+      },
+      groups: [],
     };
   }
 }

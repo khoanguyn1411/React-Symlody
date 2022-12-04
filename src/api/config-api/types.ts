@@ -2,12 +2,12 @@ import { IConfigManagerUpdate } from "@/features/types";
 import {
   OrganizationCreationDto,
   OrganizationDto,
+  UserShortDto,
 } from "@/features/types/dtos";
 import {
-  IConfigInfoDto,
-  IConfigManagerDto,
-  IConfigUserUpdateDto,
-} from "@/features/types/dtos/config-manager.dto";
+  LeadersAndManagersDto,
+  UserPermissionConfigCreationDto,
+} from "@/features/types/dtos/config-permission.dto";
 
 import { Response } from "../api-response";
 
@@ -17,14 +17,14 @@ export type RequestUpdateTenantResult = Response<
   OrganizationCreationDto
 >;
 
-export type RequestGetConfigManagerResult = Response<IConfigManagerDto>;
-export type RequestUpdateConfigManagerResult = Response<IConfigManagerDto>;
+export type RequestGetConfigManagerResult = Response<LeadersAndManagersDto>;
+export type RequestUpdateConfigManagerResult = Response<LeadersAndManagersDto>;
 export type RequestUpdateConfigRoleUserResult = Response<
-  IConfigInfoDto,
-  IConfigUserUpdateDto
+  UserShortDto,
+  UserPermissionConfigCreationDto
 >;
 
 export type RequestUpdateTenantBody = OrganizationCreationDto;
 export type RequestUpdateConfigManagerBody = IConfigManagerUpdate;
 
-export type RequestParamsConfigRoleUser = IConfigUserUpdateDto;
+export type RequestParamsConfigRoleUser = UserPermissionConfigCreationDto;

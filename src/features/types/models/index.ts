@@ -1,5 +1,5 @@
 export * from "./auth-account";
-export * from "./config-manager";
+export * from "./config-permission";
 export * from "./department";
 export * from "./file-uploaded";
 export * from "./gender";

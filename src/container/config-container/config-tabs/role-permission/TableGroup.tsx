@@ -1,12 +1,12 @@
 import { Table } from "@/components";
 import { useAppSelector } from "@/features";
 import { configSelectors } from "@/features/reducers";
-import { IConfigInfo } from "@/features/types";
+import { UserShort } from "@/features/types";
 
 import { ItemPermission } from "./ItemPermission";
 
 type TProps = {
-  onOpenEdit: (data: IConfigInfo) => void;
+  onOpenEdit: (data: UserShort) => void;
   isRendered: boolean;
 };
 export const TableGroup: React.FC<TProps> = ({ isRendered, onOpenEdit }) => {

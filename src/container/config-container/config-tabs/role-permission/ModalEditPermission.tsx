@@ -14,7 +14,7 @@ import {
 import { TToggleModal } from "@/components/elements/modal/types";
 import { useAppDispatch } from "@/features";
 import { updateConfigRoleUserAsync } from "@/features/reducers";
-import { IConfigInfo } from "@/features/types";
+import { UserShort } from "@/features/types";
 import { FormService } from "@/utils";
 import { assertErrorField } from "@/utils/services/form-service";
 import { generateErrorMessageFromErrorArray } from "@/utils/services/generate-service";
@@ -35,7 +35,7 @@ import { IConfigManagerForm } from "./types";
 type TProps = {
   isShowing: boolean;
   toggle: TToggleModal;
-  data: IConfigInfo;
+  data: UserShort;
 };
 
 export const ModalEditPermission: React.FC<TProps> = ({

@@ -1,5 +1,5 @@
 import {
-  ILoginDto,
+  LoginDto,
   ProfileDto,
   Token,
   TokenDto,
@@ -21,7 +21,7 @@ const routes = {
 };
 
 export const AuthApi = {
-  async login(loginInfo: ILoginDto): Promise<Types.RequestLoginResult> {
+  async login(loginInfo: LoginDto): Promise<Types.RequestLoginResult> {
     const url = routes.login();
     return composeHttpMethodResult(http.post<TokenDto>(url, loginInfo));
   },

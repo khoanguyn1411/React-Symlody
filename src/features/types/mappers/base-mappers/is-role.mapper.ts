@@ -2,14 +2,24 @@ import { hasElementOfArray } from "@/utils/services/common-service";
 
 import { Group, Roles } from "../../models";
 
-const compareRole = (groups: Group[]) => (roles: Roles[]) => {
-  const groupsNameList = groups.map((group) => group.name);
-  // System Admin has whole permission of apps so we don't need to check for roles.
-  if (groupsNameList.includes(Roles.SystemAdmin)) {
-    return true;
-  }
-  return hasElementOfArray(groupsNameList, roles);
-};
+export const MANAGER_ROLES = [
+  Roles.EventManager,
+  Roles.MemberManager,
+  Roles.NotificationManager,
+  Roles.PropertyManager,
+];
+
+const compareRole =
+  (groups: Group[]) => (roles: Roles[] | "manager" | "member") => {
+    const groupNameList = groups.map((group) => group.name);
+    if (roles === "manager") {
+      return hasElementOfArray(groupNameList, MANAGER_ROLES);
+    }
+    if (roles === "member") {
+      return groupNameList.includes(Roles.Member) && groupNameList.length === 1;
+    }
+    return hasElementOfArray(groupNameList, roles);
+  };
 
 export class IsRoleMapper {
   public static fromGroupModel(groupModels: Group[]) {

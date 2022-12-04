@@ -8,3 +8,7 @@ export interface UserDto extends StrictOmit<AuthAccountDto, "groups"> {
   department_id: DepartmentDto["id"];
   avatar: string | null;
 }
+
+export interface UserShortDto extends AuthAccountDto {
+  id: number;
+}

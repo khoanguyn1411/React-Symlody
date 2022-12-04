@@ -3,7 +3,7 @@ import React, { Suspense, useEffect } from "react";
 import { Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getConfigManager } from "@/features/reducers";
-import { IConfigInfo, RolesID } from "@/features/types";
+import { RolesID, UserShort } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
 import { lazyImport } from "@/utils/services/lazyImport";
@@ -19,17 +19,18 @@ export const TabRolePermission: React.FC = () => {
   const dispatch = useAppDispatch();
   const configManagerStore = useAppSelector((state) => state.config);
 
-  const propsModalEditPermission = useModal<IConfigInfo>();
-  useEffect(() => {
-    dispatch(getConfigManager());
-  }, [dispatch]);
+  const propsModalEditPermission = useModal<UserShort>();
 
   const handleOpenEdit = withPermission([RolesID.Lead, RolesID.SystemAdmin])(
-    (data: IConfigInfo) => {
+    (data: UserShort) => {
       propsModalEditPermission.setData(data);
       propsModalEditPermission.toggle.setShow();
     }
   );
+
+  useEffect(() => {
+    dispatch(getConfigManager());
+  }, [dispatch]);
 
   return (
     <>

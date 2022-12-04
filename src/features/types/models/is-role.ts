@@ -1,5 +1,5 @@
 import { Roles } from "..";
 
 export interface IsRole {
-  isRole: (roles: Roles[]) => boolean;
+  isRole: (roles: Roles[] | "manager" | "member") => boolean;
 }
