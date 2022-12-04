@@ -12,6 +12,9 @@ export const MANAGER_ROLES = [
 const compareRole =
   (groups: Group[]) => (roles: Roles[] | "manager" | "member") => {
     const groupNameList = groups.map((group) => group.name);
+    if (groupNameList.includes(Roles.SystemAdmin)) {
+      return true;
+    }
     if (roles === "manager") {
       return hasElementOfArray(groupNameList, MANAGER_ROLES);
     }

@@ -5,7 +5,7 @@ import {
   TokenDto,
   TokenRefreshDto,
 } from "@/features/types";
-import { IChangePasswordDto } from "@/features/types/dtos/change-password.dto";
+import { ChangePasswordDto } from "@/features/types/dtos/change-password.dto";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
 
 import { http } from "../api-core";
@@ -39,7 +39,7 @@ export const AuthApi = {
   },
 
   async changePassword(
-    body: IChangePasswordDto
+    body: ChangePasswordDto
   ): Promise<Types.RequestChangePasswordResult> {
     const url = routes.changePassword();
     return composeHttpMethodResult(http.post<boolean>(url, body));

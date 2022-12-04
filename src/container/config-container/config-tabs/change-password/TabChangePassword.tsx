@@ -25,7 +25,7 @@ export const TabChangePassword: React.FC = () => {
     reset,
   } = useForm<IFormChangePassword>({
     resolver: yupResolver(schema),
-    defaultValues: { new_password: "", old_password: "", confirm_password: "" },
+    defaultValues: { newPassword: "", oldPassword: "", confirmPassword: "" },
   });
 
   const handleChangePassword = async (data: IFormChangePassword) => {
@@ -42,11 +42,11 @@ export const TabChangePassword: React.FC = () => {
       <FormItem
         label="Mật khẩu hiện tại"
         isRequired
-        error={errors.old_password?.message}
+        error={errors.oldPassword?.message}
       >
         <Controller
           control={control}
-          name="old_password"
+          name="oldPassword"
           render={({ field: { value, onChange } }) => (
             <InputPassword
               placeholder="Mật khẩu hiện tại"
@@ -59,11 +59,11 @@ export const TabChangePassword: React.FC = () => {
       <FormItem
         label="Mật khẩu mới"
         isRequired
-        error={errors.new_password?.message}
+        error={errors.newPassword?.message}
       >
         <Controller
           control={control}
-          name="new_password"
+          name="newPassword"
           render={({ field: { value, onChange } }) => (
             <InputPassword
               placeholder="Mật khẩu mới"
@@ -76,11 +76,11 @@ export const TabChangePassword: React.FC = () => {
       <FormItem
         label="Xác nhận mật khẩu"
         isRequired
-        error={errors.confirm_password?.message}
+        error={errors.confirmPassword?.message}
       >
         <Controller
           control={control}
-          name="confirm_password"
+          name="confirmPassword"
           render={({ field: { value, onChange } }) => (
             <InputPassword
               placeholder="Xác nhận mật khẩu"

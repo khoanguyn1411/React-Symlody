@@ -37,7 +37,7 @@ export function toString(entity: any): string {
   try {
     return entity.toString();
   } catch (error) {
-    throw new Error("Cannot cast this entity to string: ", entity);
+    throw new Error("Cannot cast this entity to string: ", error);
   }
 }
 
@@ -49,7 +49,7 @@ export function toNumber(entity: any): number {
   try {
     return Number(entity);
   } catch (error) {
-    throw new Error("Cannot cast this entity to string: ", entity);
+    throw new Error("Cannot cast this entity to string: ", error);
   }
 }
 

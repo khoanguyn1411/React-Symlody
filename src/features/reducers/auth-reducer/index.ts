@@ -4,7 +4,6 @@ import { AuthApi } from "@/api";
 import { RootState } from "@/features/store";
 import {
   HttpError,
-  IChangePassword,
   Login,
   Profile,
   ProfileCreation,
@@ -14,6 +13,7 @@ import {
 import { ChangePasswordMapper } from "@/features/types/mappers/change-password.mapper";
 import { LoginMapper } from "@/features/types/mappers/login.mapper";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
+import { ChangePassword } from "@/features/types/models/change-password";
 import { GlobalTypes, TokenService } from "@/utils";
 
 export type AuthState = {
@@ -46,7 +46,7 @@ export const loginAsync = createAsyncThunk<
 
 export const changePasswordAsync = createAsyncThunk<
   true,
-  IChangePassword,
+  ChangePassword,
   GlobalTypes.ReduxThunkRejectValue<false>
 >("auth/change-password", async (payload, { rejectWithValue }) => {
   const changePasswordDto = ChangePasswordMapper.toDto(payload);

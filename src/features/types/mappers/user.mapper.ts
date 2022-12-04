@@ -1,7 +1,15 @@
 import { GlobalTypes } from "@/utils";
 
 import { UserDto, UserShortDto } from "../dtos";
-import { Member, Profile, Roles, User, UserShort } from "../models";
+import {
+  Group,
+  Member,
+  Profile,
+  Roles,
+  RolesID,
+  User,
+  UserShort,
+} from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 import { IsRoleMapper } from "./base-mappers/is-role.mapper";
 
@@ -44,22 +52,15 @@ export class UserShortMapper {
   }
 
   public static fromUser(user: User): UserShort {
+    const memberGroup: Group[] = [{ id: RolesID.Member, name: Roles.Member }];
     return {
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       fullName: user.fullName,
       email: user.email,
-      isRole: (role: Roles[] | "manager" | "member") => {
-        if (role === "manager") {
-          return false;
-        }
-        if (role === "member") {
-          return true;
-        }
-        return false;
-      },
-      groups: [],
+      groups: memberGroup,
+      isRole: IsRoleMapper.fromGroupModel(memberGroup),
     };
   }
 }

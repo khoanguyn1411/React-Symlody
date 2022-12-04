@@ -14,9 +14,3 @@ export type AuthAccountCreation = GlobalTypes.StrictOmit<
   AuthAccount,
   "groups" | "fullName"
 >;
-
-export interface IChangePassword {
-  old_password: string;
-  new_password: string;
-  confirm_password: string;
-}

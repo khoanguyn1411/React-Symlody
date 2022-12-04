@@ -1,11 +1,11 @@
-import { IChangePasswordDto } from "../dtos/change-password.dto";
-import { IChangePassword } from "../models";
+import { ChangePasswordDto } from "../dtos/change-password.dto";
+import { ChangePassword } from "../models/change-password";
 
 export class ChangePasswordMapper {
-  public static toDto(model: IChangePassword): IChangePasswordDto {
+  public static toDto(model: ChangePassword): ChangePasswordDto {
     return {
-      old_password: model.old_password,
-      new_password: model.new_password,
+      old_password: model.oldPassword,
+      new_password: model.newPassword,
     };
   }
 }
