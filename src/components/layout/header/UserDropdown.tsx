@@ -5,7 +5,7 @@ import { images } from "@/assets/images";
 import { EConfigTabKey } from "@/container/config-container/type";
 import { useAppDispatch } from "@/features";
 import { logoutAsync } from "@/features/reducers";
-import { IProfile, Organization } from "@/features/types";
+import { Organization, Profile } from "@/features/types";
 import { EPagePath } from "@/routes";
 
 import { Avatar, Dropdown, TItemListSelect } from "../../elements";
@@ -31,7 +31,7 @@ const getTabUrl = (url: string): string => {
 };
 
 type TProps = {
-  user: IProfile;
+  user: Profile;
   organization: Organization;
 };
 export const UserDropdown: React.FC<TProps> = ({ user, organization }) => {

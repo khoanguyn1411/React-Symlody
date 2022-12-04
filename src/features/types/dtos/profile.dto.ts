@@ -5,7 +5,7 @@ import { DepartmentDto } from "./department.dto";
 import { GenderDto } from "./gender.dto";
 import { OrganizationDto } from "./organization.dto";
 
-export interface IProfileDto extends AuthAccountDto {
+export interface ProfileDto extends AuthAccountDto {
   id: number;
   gender: GenderDto;
   phone_number: string;
@@ -20,10 +20,10 @@ export interface IProfileDto extends AuthAccountDto {
   profile_id: number;
 }
 
-export type IProfileUpdateDto = AuthAccountCreationDto & {
+export type ProfileCreationDto = AuthAccountCreationDto & {
   avatar?: File;
 } & StrictPick<
-    IProfileDto,
+    ProfileDto,
     | "gender"
     | "dob"
     | "class_name"

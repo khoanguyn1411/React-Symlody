@@ -6,9 +6,9 @@ import {
   HttpError,
   IChangePassword,
   ILogin,
-  IProfile,
-  IProfileUpdate,
-  IProfileUpdateDto,
+  Profile,
+  ProfileCreation,
+  ProfileCreationDto,
   ProfileMapper,
 } from "@/features/types";
 import { ChangePasswordMapper } from "@/features/types/mappers/change-password.mapper";
@@ -18,7 +18,7 @@ import { GlobalTypes, TokenService } from "@/utils";
 
 export type AuthState = {
   pending: boolean;
-  user: IProfile;
+  user: Profile;
   isAuth: boolean;
   isAlreadyGetMe: boolean;
 };
@@ -58,7 +58,7 @@ export const changePasswordAsync = createAsyncThunk<
 });
 
 export const getMeAsync = createAsyncThunk<
-  IProfile,
+  Profile,
   null,
   GlobalTypes.ReduxThunkRejectValue<null>
 >("auth/login/me", async (_, { rejectWithValue }) => {
@@ -79,9 +79,9 @@ export const logoutAsync = createAsyncThunk(
 );
 
 export const updateProfileAsync = createAsyncThunk<
-  IProfile,
-  IProfileUpdate,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<IProfileUpdateDto> | null>
+  Profile,
+  ProfileCreation,
+  GlobalTypes.ReduxThunkRejectValue<HttpError<ProfileCreationDto> | null>
 >("auth/update-profile", async (param, { rejectWithValue }) => {
   const paramDto = ProfileMapper.toFormData(param);
   const result = await AuthApi.updateProfile(paramDto);
@@ -110,7 +110,7 @@ export const authSlice = createSlice({
       state.isAuth = false;
       TokenService.clearToken();
     },
-    updateCurrentUser: (state, action: PayloadAction<IProfile>) => {
+    updateCurrentUser: (state, action: PayloadAction<Profile>) => {
       const { avatar, ...rest } = action.payload;
       if (avatar == null) {
         state.user = { ...state.user, ...rest };

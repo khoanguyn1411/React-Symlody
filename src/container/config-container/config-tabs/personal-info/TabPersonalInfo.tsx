@@ -12,7 +12,7 @@ import {
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateProfileAsync } from "@/features/reducers";
-import { IProfile } from "@/features/types";
+import { Profile } from "@/features/types";
 import { Gender } from "@/features/types/models/gender";
 import { FormService } from "@/utils";
 
@@ -53,7 +53,7 @@ export const TabPersonalInfo: React.FC = () => {
     }
     toast.success(PERSONAL_INFO_MESSAGES.update.success);
     const formData = PersonalInfoFormMapper.fromModel(
-      result.payload as IProfile
+      result.payload as Profile
     );
     reset({ ...formData, avatar: undefined });
     return;

@@ -1,6 +1,6 @@
 import {
   ILoginDto,
-  IProfileDto,
+  ProfileDto,
   Token,
   TokenDto,
   TokenRefreshDto,
@@ -28,14 +28,14 @@ export const AuthApi = {
 
   async getProfile(): Promise<Types.RequestGetProfileResult> {
     const url = routes.getProfile();
-    return composeHttpMethodResult(http.get<IProfileDto>(url));
+    return composeHttpMethodResult(http.get<ProfileDto>(url));
   },
 
   async updateProfile(
     profile: FormData
   ): Promise<Types.RequestUpdateProfileResult> {
     const url = routes.updateProfile();
-    return composeHttpMethodResult(http.patch<IProfileDto>(url, profile));
+    return composeHttpMethodResult(http.patch<ProfileDto>(url, profile));
   },
 
   async changePassword(

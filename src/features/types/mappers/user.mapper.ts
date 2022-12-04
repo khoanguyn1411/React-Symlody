@@ -1,7 +1,7 @@
 import { GlobalTypes } from "@/utils";
 
 import { UserDto } from "../dtos";
-import { IProfile, Member, User } from "../models";
+import { Profile, Member, User } from "../models";
 import { AuthAccountMapper } from "./auth-account.mapper";
 
 export class UserMapper {
@@ -14,7 +14,7 @@ export class UserMapper {
     };
   }
 
-  public static fromProfile(profile: IProfile): User {
+  public static fromProfile(profile: Profile): User {
     return {
       ...AuthAccountMapper.fromInheritance(profile),
       id: profile.id,

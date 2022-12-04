@@ -3,33 +3,32 @@ import { StrictPick } from "@/utils/types";
 import { AuthAccount, AuthAccountCreation } from "./auth-account";
 import { Department } from "./department";
 import { Gender } from "./gender";
-import { Roles } from "./group";
+import { IsRole } from "./is-role";
 import { Organization } from "./organization";
-export interface IProfile extends AuthAccount {
+export interface Profile extends AuthAccount, IsRole {
   id: number;
   gender: Gender;
-  phone_number: string;
-  student_id: string;
-  home_town: string;
+  phoneNumber: string;
+  studentId: string;
+  homeTown: string;
   dob: string;
-  class_name: string;
+  className: string;
   avatar: string | null;
   address: string;
   department: Department;
   organization: Organization;
-  profile_id: number;
-  isRole: (roles: Roles[]) => boolean;
+  memberId: number;
 }
 
-export type IProfileUpdate = AuthAccountCreation & {
+export type ProfileCreation = AuthAccountCreation & {
   avatar?: File;
 } & StrictPick<
-    IProfile,
+    Profile,
     | "gender"
     | "dob"
-    | "class_name"
-    | "student_id"
+    | "className"
+    | "studentId"
     | "address"
-    | "phone_number"
-    | "home_town"
+    | "phoneNumber"
+    | "homeTown"
   >;
