@@ -1,3 +1,3 @@
-export interface IFileUploadedDto {
+export interface FileUploadedDto {
   file: File;
 }

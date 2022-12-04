@@ -1,5 +1,5 @@
 import {
-  IFileUploadedDto,
+  FileUploadedDto,
   MemberCreationDto,
   MemberDto,
 } from "@/features/types/dtos";
@@ -8,7 +8,7 @@ import { Response } from "../api-response";
 
 export type RequestCreateMemberBody = MemberCreationDto;
 export type RequestUpdateMemberBody = MemberCreationDto;
-export type RequestUploadMemberExcelFile = IFileUploadedDto;
+export type RequestUploadMemberExcelFile = FileUploadedDto;
 
 export type RequestGetMembersResult = Response<MemberDto[]>;
 export type RequestCreateMembersResult = Response<MemberDto, MemberCreationDto>;

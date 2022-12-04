@@ -8,8 +8,8 @@ import {
   ProfileMapper,
 } from "@/features/types/mappers";
 import {
+  FileUploaded,
   HttpError,
-  IFileUploaded,
   Member,
   MemberCreation,
 } from "@/features/types/models";
@@ -22,7 +22,7 @@ import { initialState, memberAdapter } from "./state";
 
 export const uploadMemberExcelFileAsync = createAsyncThunk<
   any,
-  IFileUploaded,
+  FileUploaded,
   GlobalTypes.ReduxThunkRejectValue<false>
 >("createMultiples/member", async (payload, { rejectWithValue, dispatch }) => {
   const formData = FileUploadedMapper.toFormData(payload);

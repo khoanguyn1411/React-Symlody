@@ -1,14 +1,14 @@
 import { FormDataService } from "@/utils";
 
-import { IFileUploadedDto } from "../dtos";
-import { IFileUploaded } from "../models";
+import { FileUploadedDto } from "../dtos";
+import { FileUploaded } from "../models";
 
 export class FileUploadedMapper {
-  public static toDto(model: IFileUploaded): IFileUploadedDto {
-    return model;
+  public static toDto(model: FileUploaded): FileUploadedDto {
+    return { file: model.file };
   }
 
-  public static toFormData(model: IFileUploaded): FormData {
+  public static toFormData(model: FileUploaded): FormData {
     return FormDataService.repairFormData(this.toDto(model));
   }
 }
