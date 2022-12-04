@@ -4,7 +4,7 @@ import { PropertyFilterParams } from "../../models/filter-params/property-filter
 export class PropertyFilterParamsMapper {
   public static toDto(data: PropertyFilterParams): PropertyFilterParamsDto {
     return {
-      is_archived: data.isArchived,
+      is_archived: data.isArchived === null ? undefined : data.isArchived,
     };
   }
 }

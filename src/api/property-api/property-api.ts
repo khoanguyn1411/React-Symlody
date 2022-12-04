@@ -1,5 +1,5 @@
 import { Property, PropertyDto } from "@/features/types";
-import { TPropertyParamQueryDto } from "@/features/types/filter-params";
+import { PropertyFilterParamsDto } from "@/features/types/dtos/filter-params";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
@@ -12,7 +12,7 @@ const routes = {
 
 export const PropertyApi = {
   async getProperties(
-    param: TPropertyParamQueryDto
+    param: PropertyFilterParamsDto
   ): Promise<Types.RequestGetPropertiesResult> {
     const url = routes.getProperties();
     const method = http.get<PropertyDto[]>(url, param);

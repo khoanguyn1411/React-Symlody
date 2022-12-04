@@ -1,21 +1,27 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { PropertyApi } from "@/api/property-api";
-import { RootState } from "@/features/store";
+import { RootState, store } from "@/features/store";
 import { Property, PropertyCreation, PropertyMapper } from "@/features/types";
-import { TPropertyParamQueryDto } from "@/features/types/filter-params";
+import { PropertyFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
+import { PropertyFilterParams } from "@/features/types/models/filter-params";
 import { FilterService, GlobalTypes } from "@/utils";
 
 import { initialState, propertyAdapter } from "./state";
 
 export const getPropertyAsync = createAsyncThunk<
   Property[],
-  TPropertyParamQueryDto,
+  PropertyFilterParams,
   GlobalTypes.ReduxThunkRejectValue<[]>
->("get/properties", async (param, { rejectWithValue }) => {
-  const result = await PropertyApi.getProperties(param);
+>("get/properties", async (param, { rejectWithValue, dispatch }) => {
+  const paramDto = PropertyFilterParamsMapper.toDto(param);
+  const result = await PropertyApi.getProperties(paramDto);
   if (result.kind === "ok") {
-    return result.result.map((item) => PropertyMapper.fromDto(item));
+    const propertyList = result.result.map((item) =>
+      PropertyMapper.fromDto(item)
+    );
+    dispatch(setCurrentPropertyList(propertyList));
+    return propertyList;
   }
   return rejectWithValue([]);
 });
@@ -46,46 +52,59 @@ export const deletePropertyAsync = createAsyncThunk<
   return rejectWithValue(null);
 });
 
+export const paginatePropertyAsync = createAsyncThunk<void, undefined>(
+  "paginate/members",
+  async (_, { dispatch }) => {
+    const reduxStore = store.getState();
+    const propertyState = reduxStore.property;
+    const { currentPropertyList } = propertyState;
+    const { page, limit } = propertyState.listQueryProperty;
+    const propertyListPagination = currentPropertyList.slice(
+      (page - 1) * limit,
+      page * limit
+    );
+    dispatch(setPropertyListWithPagination(propertyListPagination));
+  }
+);
+
+export const filterPropertyBySearch = createAsyncThunk<void, string>(
+  "paginate/members",
+  async (search, { dispatch }) => {
+    const reduxStore = store.getState();
+    const propertyState = reduxStore.property;
+    const propertyList = propertySelectors.selectAll(reduxStore);
+    const { currentPropertyList } = propertyState;
+    dispatch(setListQueryProperty(search));
+    if (!search) {
+      dispatch(setCurrentPropertyList(propertyList));
+      return;
+    }
+    const newListProperty = currentPropertyList.filter((item) =>
+      FilterService.isTextIncludedIn(item.name, search)
+    );
+
+    dispatch(setCurrentPropertyList(newListProperty));
+  }
+);
+
 export const propertySlice = createSlice({
   name: "property",
   initialState,
   reducers: {
-    setListQueryProperty(state, action: PayloadAction<TPropertyParamQueryDto>) {
-      state.listQueryProperty = action.payload;
-    },
-    getPaginationProperty(
+    setListQueryProperty(
       state,
-      action: PayloadAction<
-        GlobalTypes.StrictOmit<TPropertyParamQueryDto, "is_archived"> & {
-          propertyList?: Property[];
-        }
-      >
+      action: PayloadAction<Partial<PropertyFilterParams>>
     ) {
-      const { propertyList, ...rest } = action.payload;
-      if (propertyList) {
-        state.currentPropertyList = propertyList;
-      }
-      state.listQueryPropertyFE = { ...state.listQueryPropertyFE, ...rest };
-      const { limit, page, search } = state.listQueryPropertyFE;
-      const propertyListPagination = state.currentPropertyList.slice(
-        (page - 1) * limit,
-        page * limit
-      );
-      if (!search) {
-        if (propertyList) {
-          state.currentPropertyList = propertyList;
-        }
-        state.propertyListPagination = propertyListPagination;
-        return;
-      }
-      const listPropertyAfterFilterByName = state.currentPropertyList.filter(
-        (item) => FilterService.isTextIncludedIn(item.name, search)
-      );
-      state.currentPropertyList = listPropertyAfterFilterByName;
-      state.propertyListPagination = listPropertyAfterFilterByName.slice(
-        (page - 1) * limit,
-        page * limit
-      );
+      state.listQueryProperty = {
+        ...state.listQueryProperty,
+        ...action.payload,
+      };
+    },
+    setCurrentPropertyList(state, action: PayloadAction<Property[]>) {
+      state.currentPropertyList = action.payload;
+    },
+    setPropertyListWithPagination(state, action: PayloadAction<Property[]>) {
+      state.propertyListPagination = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -111,7 +130,7 @@ export const propertySlice = createSlice({
       })
       .addCase(deletePropertyAsync.fulfilled, (state, action) => {
         state.pendingDeleteProperty = false;
-        if (state.listQueryProperty.is_archived == null) {
+        if (state.listQueryProperty.isArchived == null) {
           propertyAdapter.updateOne(state, {
             id: action.payload,
             changes: { isArchived: true },
@@ -129,6 +148,9 @@ export const propertySelectors = propertyAdapter.getSelectors(
   (state: RootState) => state.property
 );
 export const propertyStore = (state: RootState) => state.property;
-export const { setListQueryProperty, getPaginationProperty } =
-  propertySlice.actions;
+export const {
+  setListQueryProperty,
+  setCurrentPropertyList,
+  setPropertyListWithPagination,
+} = propertySlice.actions;
 export default propertySlice.reducer;

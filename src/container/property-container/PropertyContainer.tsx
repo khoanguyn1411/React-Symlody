@@ -13,14 +13,15 @@ import {
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deletePropertyAsync,
-  getPaginationProperty,
+  filterPropertyBySearch,
   getPropertyAsync,
+  paginatePropertyAsync,
   propertySelectors,
   setListQueryProperty,
 } from "@/features/reducers/property-reducer";
 import { Property, Roles, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
-import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
+import { useDebounce, useModal } from "@/hooks";
 
 import {
   PROPERTY_FILTER_OPTIONS,
@@ -44,7 +45,7 @@ export const PropertyContainer: React.FC = () => {
 
   const propsModal = useModal({ isHotkeyOpen: true });
   const propsModalEdit = useModal<Property>();
-  const propsSearch = useDebounce(propertyStore.listQueryPropertyFE.search);
+  const propsSearch = useDebounce(propertyStore.listQueryProperty.search);
 
   const isPropertyManager = currentUser.isRole([
     Roles.Lead,
@@ -54,7 +55,7 @@ export const PropertyContainer: React.FC = () => {
   const hasPermission = withPermission([RolesID.PropertyManager, RolesID.Lead]);
 
   const [filter, setFilter] = useState<string>(() => {
-    switch (propertyStore.listQueryProperty.is_archived) {
+    switch (propertyStore.listQueryProperty.isArchived) {
       case true:
         return getFilterValue(PROPERTY_FILTER_VALUE.isArchived);
       case false:
@@ -65,17 +66,15 @@ export const PropertyContainer: React.FC = () => {
   });
 
   const handleSetFilter = (item: TItemListSelect) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { is_archived, ...rest } = propertyStore.listQueryProperty;
     switch (item.key) {
       case PROPERTY_FILTER_VALUE.all:
-        dispatch(setListQueryProperty(rest));
+        dispatch(setListQueryProperty({ isArchived: null }));
         break;
       case PROPERTY_FILTER_VALUE.isArchived:
-        dispatch(setListQueryProperty({ ...rest, is_archived: true }));
+        dispatch(setListQueryProperty({ isArchived: true }));
         break;
       case PROPERTY_FILTER_VALUE.inUse:
-        dispatch(setListQueryProperty({ ...rest, is_archived: false }));
+        dispatch(setListQueryProperty({ isArchived: false }));
         break;
     }
   };
@@ -104,25 +103,21 @@ export const PropertyContainer: React.FC = () => {
 
   useEffect(() => {
     dispatch(getPropertyAsync(propertyStore.listQueryProperty));
-  }, [dispatch, propertyStore.listQueryProperty]);
-
-  // TO_UPDATE: When BE release pagination.
-  useEffectSkipFirstRender(() => {
-    dispatch(
-      getPaginationProperty({
-        propertyList,
-        search: propsSearch.debounceValue,
-      })
-    );
-  }, [propsSearch.debounceValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, propertyStore.listQueryProperty.isArchived]);
 
   useEffect(() => {
-    dispatch(
-      getPaginationProperty({
-        propertyList,
-      })
-    );
-  }, [dispatch, propertyList]);
+    dispatch(filterPropertyBySearch(propsSearch.debounceValue));
+  }, [dispatch, propsSearch.debounceValue, propertyList]);
+
+  useEffect(() => {
+    dispatch(paginatePropertyAsync());
+  }, [
+    dispatch,
+    propertyStore.listQueryProperty.page,
+    propertyStore.listQueryProperty.limit,
+    propertyStore.currentPropertyList,
+  ]);
 
   const isNodata = false;
   if (isNodata) {
