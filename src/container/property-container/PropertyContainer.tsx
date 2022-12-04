@@ -60,7 +60,7 @@ export const PropertyContainer: React.FC = () => {
         return getFilterValue(PROPERTY_FILTER_VALUE.isArchived);
       case false:
         return getFilterValue(PROPERTY_FILTER_VALUE.inUse);
-      case undefined:
+      case null:
         return getFilterValue(PROPERTY_FILTER_VALUE.all);
     }
   });

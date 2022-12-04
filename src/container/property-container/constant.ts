@@ -11,13 +11,9 @@ export const PROPERTY_NO_DATA_CONFIG: TNodataConfig = {
 };
 
 export const PROPERTY_FILTER_VALUE = {
-  isArchived: "is_archived",
-  all: "get_all",
-  inUse: "in_use",
-} as const;
-
-export const PROPERTY_QUERY_PARAM_KEY = {
-  filter: "filter",
+  isArchived: "is-archived",
+  all: "get-all",
+  inUse: "in-use",
 } as const;
 
 export const PROPERTY_FILTER_OPTIONS: TItemListSelect[] = [

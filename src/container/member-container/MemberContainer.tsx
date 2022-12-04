@@ -57,7 +57,7 @@ export const MemberContainer: React.FC = () => {
         return getFilterValue(MEMBER_FILTER_VALUE.isArchived);
       case false:
         return getFilterValue(MEMBER_FILTER_VALUE.active);
-      case undefined:
+      case null:
         return getFilterValue(MEMBER_FILTER_VALUE.all);
     }
   });

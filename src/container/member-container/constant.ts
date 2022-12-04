@@ -3,13 +3,9 @@ import { TItemListSelect, TNodataConfig } from "@/components";
 import { GeneratorService } from "@/utils";
 
 export const MEMBER_FILTER_VALUE = {
-  isArchived: "is_archived",
-  all: "get_all",
+  isArchived: "is-archived",
+  all: "get-all",
   active: "active",
-} as const;
-
-export const MEMBER_QUERY_PARAM_KEY = {
-  filter: "filter",
 } as const;
 
 export const MEMBER_FILTER_OPTIONS: TItemListSelect[] = [
