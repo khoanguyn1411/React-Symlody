@@ -1,5 +1,4 @@
 export * from "./config-container";
-export * from "./dashboard-container";
 export * from "./event-container";
 export * from "./home-container";
 export * from "./login-container";
