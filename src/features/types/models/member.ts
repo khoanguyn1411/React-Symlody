@@ -2,7 +2,7 @@ import { StrictOmit, StrictPick } from "@/utils/types";
 
 import { AuthAccount, AuthAccountCreation } from "./auth-account";
 import { Department } from "./department";
-import { EGender } from "./gender";
+import { Gender } from "./gender";
 
 export interface Member {
   id: number;
@@ -12,7 +12,7 @@ export interface Member {
   createdBy: StrictPick<AuthAccount, "firstName" | "lastName">;
   department: Department;
 
-  gender: EGender;
+  gender: Gender;
   className: string;
   studentId: string;
   address: string;

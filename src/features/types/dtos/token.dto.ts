@@ -1,15 +1,11 @@
-import { GlobalTypes } from "@/utils";
+import { StrictPick } from "@/utils/types";
 
-export interface ITokenDto {
+export interface TokenDto {
   access: string;
   expires_in: string;
   refresh: string;
   token_type: string;
 }
 
-export type ITokenRefreshParamDto = GlobalTypes.StrictPick<
-  ITokenDto,
-  "refresh"
->;
-
-export type ITokenRefreshDto = GlobalTypes.StrictPick<ITokenDto, "access">;
+export type TokenRefreshDto = StrictPick<TokenDto, "access">;
+export type TokenRefreshCreationDto = StrictPick<TokenDto, "refresh">;

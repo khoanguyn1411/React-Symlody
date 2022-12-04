@@ -2,12 +2,12 @@ import { StrictPick } from "@/utils/types";
 
 import { AuthAccount, AuthAccountCreation } from "./auth-account";
 import { Department } from "./department";
-import { EGender } from "./gender";
+import { Gender } from "./gender";
 import { Roles } from "./group";
 import { ITenant } from "./tenant";
 export interface IProfile extends AuthAccount {
   id: number;
-  gender: EGender;
+  gender: Gender;
   phone_number: string;
   student_id: string;
   home_town: string;

@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 
 import { APP_LOCAL_STORAGE_KEYS } from "@/constants";
-import { IToken } from "@/features/types";
+import { Token } from "@/features/types";
 
 import { LocalStorageService } from ".";
 
@@ -20,16 +20,16 @@ export function shouldInterceptToken(request: AxiosRequestConfig): boolean {
  * Get token from local storage.
  * @returns Return null if there is no token in local storage.
  */
-export function getToken(): IToken | null {
-  return LocalStorageService.getValue<IToken>(APP_LOCAL_STORAGE_KEYS.AUTH);
+export function getToken(): Token | null {
+  return LocalStorageService.getValue<Token>(APP_LOCAL_STORAGE_KEYS.AUTH);
 }
 
 /**
  * Save token to local storage.
  * @param token Token need to be saved.
  */
-export function setToken(token: IToken): void {
-  LocalStorageService.setValue<IToken>(APP_LOCAL_STORAGE_KEYS.AUTH, token);
+export function setToken(token: Token): void {
+  LocalStorageService.setValue<Token>(APP_LOCAL_STORAGE_KEYS.AUTH, token);
 }
 
 /**

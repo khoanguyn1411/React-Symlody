@@ -1,9 +1,9 @@
 import {
   ILoginDto,
   IProfileDto,
-  IToken,
-  ITokenDto,
-  ITokenRefreshDto,
+  Token,
+  TokenDto,
+  TokenRefreshDto,
 } from "@/features/types";
 import { IChangePasswordDto } from "@/features/types/dtos/change-password.dto";
 import { TokenMapper } from "@/features/types/mappers/token.mapper";
@@ -23,7 +23,7 @@ const routes = {
 export const AuthApi = {
   async login(loginInfo: ILoginDto): Promise<Types.RequestLoginResult> {
     const url = routes.login();
-    return composeHttpMethodResult(http.post<ITokenDto>(url, loginInfo));
+    return composeHttpMethodResult(http.post<TokenDto>(url, loginInfo));
   },
 
   async getProfile(): Promise<Types.RequestGetProfileResult> {
@@ -45,11 +45,11 @@ export const AuthApi = {
     return composeHttpMethodResult(http.post<boolean>(url, body));
   },
 
-  async refreshToken(token: IToken): Promise<Types.RequestRefreshResult> {
-    const tokenRefreshDto = TokenMapper.toParamRefreshDto(token);
+  async refreshToken(token: Token): Promise<Types.RequestRefreshResult> {
+    const tokenRefreshDto = TokenMapper.toTokenRefreshCreationDto(token);
     const url = routes.refreshToken();
     return composeHttpMethodResult(
-      http.post<ITokenRefreshDto>(url, tokenRefreshDto)
+      http.post<TokenRefreshDto>(url, tokenRefreshDto)
     );
   },
 };

@@ -1,17 +1,17 @@
 import { TokenService } from "@/utils";
 
-import { ITokenDto, ITokenRefreshDto, ITokenRefreshParamDto } from "../dtos";
-import { IToken } from "../models";
+import { TokenDto, TokenRefreshCreationDto, TokenRefreshDto } from "../dtos";
+import { Token } from "../models";
 
 export class TokenMapper {
-  public static fromDto(dto: ITokenDto): IToken {
+  public static fromDto(dto: TokenDto): Token {
     return {
       access: dto.access,
       refresh: dto.refresh,
     };
   }
 
-  public static fromRefreshTokenDto(dto: ITokenRefreshDto): IToken {
+  public static fromRefreshTokenDto(dto: TokenRefreshDto): Token {
     const currentToken = TokenService.getToken();
     return {
       access: dto.access,
@@ -19,15 +19,11 @@ export class TokenMapper {
     };
   }
 
-  public static toParamRefreshDto(model: IToken): ITokenRefreshParamDto {
+  public static toTokenRefreshCreationDto(
+    model: Token
+  ): TokenRefreshCreationDto {
     return {
       refresh: model.refresh,
-    };
-  }
-
-  public static toDto(model: IToken): ITokenRefreshDto {
-    return {
-      access: model.access,
     };
   }
 }

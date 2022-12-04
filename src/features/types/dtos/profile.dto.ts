@@ -2,12 +2,12 @@ import { StrictPick } from "@/utils/types";
 
 import { AuthAccountCreationDto, AuthAccountDto } from "./auth-account.dto";
 import { DepartmentDto } from "./department.dto";
-import { EGenderDto } from "./gender.dto";
+import { GenderDto } from "./gender.dto";
 import { ITenantDto } from "./tenant.dto";
 
 export interface IProfileDto extends AuthAccountDto {
   id: number;
-  gender: EGenderDto;
+  gender: GenderDto;
   phone_number: string;
   student_id: string;
   home_town: string;

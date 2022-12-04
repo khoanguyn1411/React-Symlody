@@ -1,4 +1,4 @@
-export enum EGender {
+export enum Gender {
   Male = "Nam",
   Female = "Nữ",
 }
