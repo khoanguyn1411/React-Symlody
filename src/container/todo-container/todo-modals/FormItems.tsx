@@ -13,7 +13,7 @@ import {
 } from "@/components";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
-import { Priority, IFormTodoInfo } from "../type";
+import { IFormTodoInfo, Priority } from "../type";
 
 type TProps = {
   mode: "edit" | "create";

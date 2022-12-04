@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useState } from "react";
 
 import { SelectCustom } from "@/components";
-import { TodoStatusId, Task } from "@/features/types";
+import { Task, TodoStatusId } from "@/features/types";
 import { generateArrayFromEnum } from "@/utils/services/generate-service";
 
 import { TODO_STATUS_MAP_FROM_ID } from "../../mapper";
