@@ -39,9 +39,9 @@ export const usePickImage = ({
   };
 
   const handleRemoveFile = useCallback(() => {
-    setFile(undefined);
-    setFileData({ url: defaultImageLink, type: EFile.Image });
-  }, [defaultImageLink, setFile]);
+    setFile(null);
+    setFileData({ url: null, type: EFile.Image });
+  }, [setFile]);
 
   const handleUploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
@@ -61,8 +61,9 @@ export const usePickImage = ({
   };
 
   useEffect(() => {
-    handleRemoveFile();
-  }, [defaultImageLink, handleRemoveFile]);
+    setFile(undefined);
+    setFileData({ url: defaultImageLink, type: EFile.Image });
+  }, [defaultImageLink, handleRemoveFile, setFile]);
 
   useEffectSkipFirstRender(() => {
     let fileReader: FileReader = null,

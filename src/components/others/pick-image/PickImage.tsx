@@ -44,7 +44,6 @@ export const PickImage: React.FC<TProps> = ({
     onPreviewSuccess: handleResetMessage,
     setFile,
   });
-
   return (
     <div className="flex flex-col">
       <input
