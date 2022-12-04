@@ -25,7 +25,9 @@ const compareRole =
   };
 
 export class IsRoleMapper {
-  public static fromGroupModel(groupModels: Group[]) {
+  public fromGroupModel(groupModels: Group[]) {
     return compareRole(groupModels);
   }
 }
+
+export const isRoleMapper = new IsRoleMapper();

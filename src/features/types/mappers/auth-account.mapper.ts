@@ -12,19 +12,24 @@ import {
   AuthAccountCreation,
   EntityValidationErrors,
 } from "../models";
-import { NameMapper } from "./base-mappers/name.mapper";
-import { GroupMapper } from "./group.mapper";
+import { IMapperFromDto, IMapperToCreationDto } from "./base-mappers/mapper";
+import { nameMapper } from "./base-mappers/name.mapper";
+import { groupMapper } from "./group.mapper";
 
-export class AuthAccountMapper {
-  public static fromDto(dto: AuthAccountDto): AuthAccount {
+export class AuthAccountMapper
+  implements
+    IMapperFromDto<AuthAccountDto, AuthAccount>,
+    IMapperToCreationDto<AuthAccountCreationDto, AuthAccount>
+{
+  public fromDto(dto: AuthAccountDto): AuthAccount {
     return {
-      ...NameMapper.fromDto(dto),
+      ...nameMapper.fromDto(dto),
       email: dto.email,
-      groups: dto.groups.map((item: GroupDto) => GroupMapper.fromDto(item)),
+      groups: dto.groups.map((item: GroupDto) => groupMapper.fromDto(item)),
     };
   }
 
-  public static fromInheritance<T extends AuthAccount>(
+  public fromInheritance<T extends AuthAccount>(
     model: T
   ): StrictOmit<AuthAccount, "groups"> {
     return {
@@ -35,18 +40,16 @@ export class AuthAccountMapper {
     };
   }
 
-  public static fromDtoWithOutGroups(
+  public fromDtoWithOutGroups(
     dto: StrictOmit<AuthAccountDto, "groups">
   ): StrictOmit<AuthAccount, "groups"> {
     return {
       email: dto.email,
-      ...NameMapper.fromDto(dto),
+      ...nameMapper.fromDto(dto),
     };
   }
 
-  public static toCreationDto(
-    model: AuthAccountCreation
-  ): AuthAccountCreationDto {
+  public toCreationDto(model: AuthAccountCreation): AuthAccountCreationDto {
     return {
       email: model.email,
       first_name: model.firstName,
@@ -54,7 +57,7 @@ export class AuthAccountMapper {
     };
   }
 
-  public static validationHttpDetailErrorFromDto(
+  public validationHttpDetailErrorFromDto(
     errorDto: DetailErrorDto<AuthAccountCreationDto>
   ): EntityValidationErrors<AuthAccountCreation> {
     const { email, last_name, first_name } = errorDto;
@@ -65,3 +68,5 @@ export class AuthAccountMapper {
     };
   }
 }
+
+export const authAccountMapper = new AuthAccountMapper();

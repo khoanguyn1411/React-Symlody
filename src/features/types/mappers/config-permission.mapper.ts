@@ -10,20 +10,39 @@ import {
   LeadersAndManagers,
   UserPermissionConfigCreation,
 } from "../models";
+import {
+  IMapperFromDto,
+  IMapperToCreationDto,
+  IMapperToHttpError,
+} from "./base-mappers/mapper";
 import { ROLE_MAP_TO_ID } from "./group.mapper";
-import { UserShortMapper } from "./user.mapper";
+import { userShortMapper } from "./user.mapper";
 
-export class LeadersAndManagersMapper {
-  public static fromDto(dto: LeadersAndManagersDto): LeadersAndManagers {
+export class LeadersAndManagersMapper
+  implements IMapperFromDto<LeadersAndManagersDto, LeadersAndManagers>
+{
+  public fromDto(dto: LeadersAndManagersDto): LeadersAndManagers {
     return {
-      managers: dto.managers.map((manager) => UserShortMapper.fromDto(manager)),
-      leaders: dto.leaders.map((leader) => UserShortMapper.fromDto(leader)),
+      managers: dto.managers.map((manager) => userShortMapper.fromDto(manager)),
+      leaders: dto.leaders.map((leader) => userShortMapper.fromDto(leader)),
     };
   }
 }
 
-export class UserPermissionConfigMapper {
-  public static toCreationDto(
+export const leadersAndManagersMapper = new LeadersAndManagersMapper();
+
+export class UserPermissionConfigMapper
+  implements
+    IMapperToCreationDto<
+      UserPermissionConfigCreationDto,
+      UserPermissionConfigCreation
+    >,
+    IMapperToHttpError<
+      UserPermissionConfigCreationDto,
+      UserPermissionConfigCreation
+    >
+{
+  public toCreationDto(
     model: UserPermissionConfigCreation
   ): UserPermissionConfigCreationDto {
     return {
@@ -32,7 +51,7 @@ export class UserPermissionConfigMapper {
     };
   }
 
-  public static httpErrorFromDto(
+  public httpErrorFromDto(
     errorDto: HttpErrorDto<UserPermissionConfigCreationDto>
   ): HttpError<UserPermissionConfigCreation> {
     const { user_id, groups } = errorDto.details;
@@ -45,3 +64,5 @@ export class UserPermissionConfigMapper {
     };
   }
 }
+
+export const userPermissionConfigMapper = new UserPermissionConfigMapper();

@@ -3,11 +3,11 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MemberApi } from "@/api";
 import { RootState, store } from "@/features/store";
 import {
-  FileUploadedMapper,
-  MemberMapper,
-  ProfileMapper,
+  fileUploadedMapper,
+  memberMapper,
+  profileMapper,
 } from "@/features/types/mappers";
-import { MemberFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
+import { memberFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import {
   FileUploaded,
   HttpError,
@@ -26,7 +26,7 @@ export const uploadMemberExcelFileAsync = createAsyncThunk<
   FileUploaded,
   GlobalTypes.ReduxThunkRejectValue<false>
 >("createMultiples/member", async (payload, { rejectWithValue, dispatch }) => {
-  const formData = FileUploadedMapper.toFormData(payload);
+  const formData = fileUploadedMapper.toFormData(payload);
   const result = await MemberApi.uploadMemberExcelFile(formData);
   if (result.kind === "ok") {
     dispatch(getUsersAsync());
@@ -40,14 +40,14 @@ export const createMemberAsync = createAsyncThunk<
   MemberCreation,
   GlobalTypes.ReduxThunkRejectValue<HttpError<MemberCreation> | null>
 >("create/member", async (payload, { rejectWithValue, dispatch }) => {
-  const memberDto = MemberMapper.toCreateDto(payload);
+  const memberDto = memberMapper.toCreationDto(payload);
   const result = await MemberApi.createMember(memberDto);
   if (result.kind === "ok") {
     dispatch(getUsersAsync());
-    return MemberMapper.fromDto(result.result);
+    return memberMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {
-    const errorBadData = MemberMapper.httpErrorFromDto(result.httpError);
+    const errorBadData = memberMapper.httpErrorFromDto(result.httpError);
     return rejectWithValue(errorBadData);
   }
   return rejectWithValue(null);
@@ -81,10 +81,10 @@ export const getMembersAsync = createAsyncThunk<
   MemberFilterParams,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/members", async (param, { rejectWithValue, dispatch }) => {
-  const filterParamsDto = MemberFilterParamsMapper.toDto(param);
+  const filterParamsDto = memberFilterParamsMapper.toDto(param);
   const result = await MemberApi.getMembers(filterParamsDto);
   if (result.kind === "ok") {
-    const memberList = result.result.map((item) => MemberMapper.fromDto(item));
+    const memberList = result.result.map((item) => memberMapper.fromDto(item));
     dispatch(setCurrentMemberList(memberList));
     return memberList;
   }
@@ -98,15 +98,15 @@ export const updateMemberAsync = createAsyncThunk<
 >(
   "update/member",
   async ({ payload, id, isRestore }, { rejectWithValue, dispatch }) => {
-    const memberDto = MemberMapper.toUpdateDto(payload);
+    const memberDto = memberMapper.toCreationDto(payload);
     const result = await MemberApi.updateMember(id, memberDto);
     if (result.kind === "ok") {
-      const memberUpdatedInfo = MemberMapper.fromDto(result.result);
+      const memberUpdatedInfo = memberMapper.fromDto(result.result);
       dispatch(getUsersAsync());
       const reduxStore = store.getState();
       const currentUser = reduxStore.auth.user;
       if (reduxStore.auth.user.memberId === id) {
-        const profileModel = ProfileMapper.fromMember(
+        const profileModel = profileMapper.fromMember(
           currentUser,
           memberUpdatedInfo
         );
@@ -118,7 +118,7 @@ export const updateMemberAsync = createAsyncThunk<
       };
     }
     if (result.kind === "bad-data") {
-      const errorBadData = MemberMapper.httpErrorFromDto(result.httpError);
+      const errorBadData = memberMapper.httpErrorFromDto(result.httpError);
       return rejectWithValue(errorBadData);
     }
     return rejectWithValue(null);

@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { PropertyApi } from "@/api/property-api";
 import { RootState, store } from "@/features/store";
-import { Property, PropertyCreation, PropertyMapper } from "@/features/types";
-import { PropertyFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
+import { Property, PropertyCreation, propertyMapper } from "@/features/types";
+import { propertyFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import { PropertyFilterParams } from "@/features/types/models/filter-params";
 import { FilterService, GlobalTypes } from "@/utils";
 
@@ -14,11 +14,11 @@ export const getPropertyAsync = createAsyncThunk<
   PropertyFilterParams,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/properties", async (param, { rejectWithValue, dispatch }) => {
-  const paramDto = PropertyFilterParamsMapper.toDto(param);
+  const paramDto = propertyFilterParamsMapper.toDto(param);
   const result = await PropertyApi.getProperties(paramDto);
   if (result.kind === "ok") {
     const propertyList = result.result.map((item) =>
-      PropertyMapper.fromDto(item)
+      propertyMapper.fromDto(item)
     );
     dispatch(setCurrentPropertyList(propertyList));
     return propertyList;
@@ -32,10 +32,10 @@ export const createPropertyAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRejectValue<null>
 >("create/property", async (payload, { rejectWithValue }) => {
   const result = await PropertyApi.createProperty(
-    PropertyMapper.toFormData(payload)
+    propertyMapper.toFormData(payload)
   );
   if (result.kind === "ok") {
-    return PropertyMapper.fromDto(result.result);
+    return propertyMapper.fromDto(result.result);
   }
   return rejectWithValue(null);
 });

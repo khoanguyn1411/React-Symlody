@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
 import { RootState, store } from "@/features/store";
-import { Task, TaskMapper, User } from "@/features/types";
-import { TaskFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
+import { Task, taskMapper, User } from "@/features/types";
+import { taskFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import { TaskFilterParams } from "@/features/types/models/filter-params";
 import { TaskCreation } from "@/features/types/models/task";
 import { GlobalTypes } from "@/utils";
@@ -16,10 +16,10 @@ export const getTasksAsync = createAsyncThunk<
   TaskFilterParams,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/tasks", async (param, { rejectWithValue }) => {
-  const paramDto = TaskFilterParamsMapper.toDto(param);
+  const paramDto = taskFilterParamsMapper.toDto(param);
   const result = await TaskApi.getTasks(paramDto);
   if (result.kind === "ok") {
-    return result.result.map((item) => TaskMapper.fromDto(item));
+    return result.result.map((item) => taskMapper.fromDto(item));
   }
   return rejectWithValue([]);
 });
@@ -48,11 +48,11 @@ export const createTaskAsync = createAsyncThunk<
 
   const isInSelectedDepartment = assignee.department_id === currentDepartmentId;
 
-  const taskDto = TaskMapper.toDto(body.task);
+  const taskDto = taskMapper.toCreationDto(body.task);
   const result = await TaskApi.createTask(taskDto);
   if (result.kind === "ok") {
     return {
-      task: TaskMapper.fromDto(result.result),
+      task: taskMapper.fromDto(result.result),
       shouldAddOne: isInSelectedDepartment,
     };
   }
@@ -70,7 +70,7 @@ export const updateTaskAsync = createAsyncThunk<
   },
   GlobalTypes.ReduxThunkRejectValue<null>
 >("update/task", async ({ id, payload }, { rejectWithValue }) => {
-  const taskDto = TaskMapper.toDto(payload);
+  const taskDto = taskMapper.toCreationDto(payload);
   const result = await TaskApi.updateTask(id, taskDto);
 
   const reduxStore = store.getState();
@@ -82,7 +82,7 @@ export const updateTaskAsync = createAsyncThunk<
     assignee.department_id !== currentDepartmentId;
   if (result.kind === "ok") {
     return {
-      task: TaskMapper.fromDto(result.result),
+      task: taskMapper.fromDto(result.result),
       shouldRemoveOne: isNotInSelectedDepartment,
     };
   }

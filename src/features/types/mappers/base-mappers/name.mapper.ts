@@ -1,7 +1,7 @@
 import { GeneratorService } from "@/utils";
 
 export class NameMapper {
-  public static fromDto(dto: { first_name: string; last_name: string }) {
+  public fromDto(dto: { first_name: string; last_name: string }) {
     return {
       firstName: dto.first_name,
       lastName: dto.last_name,
@@ -12,3 +12,5 @@ export class NameMapper {
     };
   }
 }
+
+export const nameMapper = new NameMapper();

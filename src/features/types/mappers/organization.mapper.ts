@@ -2,9 +2,14 @@ import { OrganizationCreationDto, OrganizationDto } from "@/features/types";
 import { FormDataService } from "@/utils";
 
 import { Organization, OrganizationCreation } from "../models";
+import { IMapperFromDto, IMapperToCreationDto } from "./base-mappers/mapper";
 
-export class OrganizationMapper {
-  public static fromDto(dto: OrganizationDto): Organization {
+export class OrganizationMapper
+  implements
+    IMapperFromDto<OrganizationDto, Organization>,
+    IMapperToCreationDto<OrganizationCreationDto, OrganizationCreation>
+{
+  public fromDto(dto: OrganizationDto): Organization {
     return {
       id: dto.id,
       email: dto.email,
@@ -17,9 +22,7 @@ export class OrganizationMapper {
     };
   }
 
-  public static toCreationDto(
-    model: OrganizationCreation
-  ): OrganizationCreationDto {
+  public toCreationDto(model: OrganizationCreation): OrganizationCreationDto {
     return {
       name: model.name,
       abbreviation_name: model.abbreviationName,
@@ -31,8 +34,10 @@ export class OrganizationMapper {
     };
   }
 
-  public static toFormData(model: OrganizationCreation): FormData {
+  public toFormData(model: OrganizationCreation): FormData {
     const dataDto = this.toCreationDto(model);
     return FormDataService.repairFormData(dataDto);
   }
 }
+
+export const organizationMapper = new OrganizationMapper();

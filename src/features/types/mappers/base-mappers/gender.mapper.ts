@@ -2,6 +2,7 @@ import { generateReverseRecord } from "@/utils/services/generate-service";
 
 import { GenderDto } from "../../dtos/gender.dto";
 import { Gender } from "../../models/gender";
+import { IMapperToDto } from "./mapper";
 
 const GENDER_MAP_FROM_DTO: Readonly<Record<GenderDto, Gender>> = {
   [GenderDto.Male]: Gender.Male,
@@ -10,12 +11,14 @@ const GENDER_MAP_FROM_DTO: Readonly<Record<GenderDto, Gender>> = {
 
 const GENDER_MAP_TO_DTO = generateReverseRecord(GENDER_MAP_FROM_DTO);
 
-export class GenderMapper {
-  public static fromDto(gender: GenderDto): Gender {
+export class GenderMapper implements IMapperToDto<GenderDto, Gender> {
+  public fromDto(gender: GenderDto): Gender {
     return GENDER_MAP_FROM_DTO[gender];
   }
 
-  public static toDto(gender: Gender): GenderDto {
+  public toDto(gender: Gender): GenderDto {
     return GENDER_MAP_TO_DTO[gender];
   }
 }
+
+export const genderMapper = new GenderMapper();

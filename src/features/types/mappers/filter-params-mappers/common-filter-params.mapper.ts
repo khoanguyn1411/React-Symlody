@@ -1,8 +1,12 @@
 import { CommonFilterParamsDto } from "../../dtos/filter-params/common-filter-params.dto";
 import { CommonFilterParams } from "../../models/filter-params/common-filter-params";
+import { IMapperToDto } from "../base-mappers/mapper";
 
-export class CommonFilterParamsMapper {
-  public static toDto(
+export class CommonFilterParamsMapper
+  implements
+    IMapperToDto<CommonFilterParams.Combined, CommonFilterParamsDto.Combined>
+{
+  public toDto(
     data: CommonFilterParams.Combined
   ): CommonFilterParamsDto.Combined {
     return {
@@ -10,7 +14,7 @@ export class CommonFilterParamsMapper {
       ...this.toPaginationFilterDto(data),
     };
   }
-  public static toSearchFilterDto(
+  public toSearchFilterDto(
     data: CommonFilterParams.Search
   ): CommonFilterParamsDto.SearchDto {
     return {
@@ -18,7 +22,7 @@ export class CommonFilterParamsMapper {
     };
   }
 
-  public static toPaginationFilterDto(
+  public toPaginationFilterDto(
     data: CommonFilterParams.Pagination
   ): CommonFilterParamsDto.PaginationDto {
     return {
@@ -27,3 +31,5 @@ export class CommonFilterParamsMapper {
     };
   }
 }
+
+export const commonFilterParamsMapper = new CommonFilterParamsMapper();

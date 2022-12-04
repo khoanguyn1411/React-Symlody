@@ -1,6 +1,6 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
-import { TokenMapper } from "@/features/types/mappers/token.mapper";
+import { tokenMapper } from "@/features/types/mappers/token.mapper";
 import { TokenService } from "@/utils";
 
 import { http } from "./api-core";
@@ -41,7 +41,7 @@ export function refreshToken() {
         TokenService.clearToken();
         return Promise.reject(error);
       }
-      const newTokenModel = TokenMapper.fromRefreshTokenDto(result.result);
+      const newTokenModel = tokenMapper.fromRefreshTokenDto(result.result);
       TokenService.setToken(newTokenModel);
       config.headers["Authorization"] = `Bearer ${newTokenModel.access}`;
       return http.axiosInstance.request(config);

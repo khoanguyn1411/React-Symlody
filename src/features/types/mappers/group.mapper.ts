@@ -2,6 +2,7 @@ import { GeneratorService } from "@/utils";
 
 import { GroupDto, RolesDto } from "../dtos";
 import { Group, Roles, RolesID, RolesManagerSortName } from "../models";
+import { IMapperFromDto } from "./base-mappers/mapper";
 
 export const ROLE_MAP_FROM_DTO: Readonly<Record<RolesDto, Roles>> = {
   [RolesDto.EventManager]: Roles.EventManager,
@@ -46,8 +47,8 @@ export const ROLE_IDS_MAP_TO_DTO: Readonly<Record<RolesID, RolesDto>> = {
   [RolesID.Lead]: RolesDto.Lead,
 };
 
-export class GroupMapper {
-  public static fromDto(dto: GroupDto): Group {
+export class GroupMapper implements IMapperFromDto<GroupDto, Group> {
+  public fromDto(dto: GroupDto): Group {
     const groupNameModel = ROLE_MAP_FROM_DTO[dto.name];
     return {
       id: dto.id,
@@ -55,3 +56,5 @@ export class GroupMapper {
     };
   }
 }
+
+export const groupMapper = new GroupMapper();

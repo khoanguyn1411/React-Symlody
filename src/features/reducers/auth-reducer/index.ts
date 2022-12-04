@@ -8,11 +8,11 @@ import {
   Profile,
   ProfileCreation,
   ProfileCreationDto,
-  ProfileMapper,
+  profileMapper,
 } from "@/features/types";
-import { ChangePasswordMapper } from "@/features/types/mappers/change-password.mapper";
-import { LoginMapper } from "@/features/types/mappers/login.mapper";
-import { TokenMapper } from "@/features/types/mappers/token.mapper";
+import { changePasswordMapper } from "@/features/types/mappers/change-password.mapper";
+import { loginMapper } from "@/features/types/mappers/login.mapper";
+import { tokenMapper } from "@/features/types/mappers/token.mapper";
 import { ChangePassword } from "@/features/types/models/change-password";
 import { GlobalTypes, TokenService } from "@/utils";
 
@@ -35,10 +35,10 @@ export const loginAsync = createAsyncThunk<
   Login,
   GlobalTypes.ReduxThunkRejectValue<false>
 >("auth/login", async (payload, { rejectWithValue }) => {
-  const loginInfoDto = LoginMapper.toDto(payload);
+  const loginInfoDto = loginMapper.toDto(payload);
   const result = await AuthApi.login(loginInfoDto);
   if (result.kind === "ok") {
-    TokenService.setToken(TokenMapper.fromDto(result.result));
+    TokenService.setToken(tokenMapper.fromDto(result.result));
     return true;
   }
   return rejectWithValue(false);
@@ -49,7 +49,7 @@ export const changePasswordAsync = createAsyncThunk<
   ChangePassword,
   GlobalTypes.ReduxThunkRejectValue<false>
 >("auth/change-password", async (payload, { rejectWithValue }) => {
-  const changePasswordDto = ChangePasswordMapper.toDto(payload);
+  const changePasswordDto = changePasswordMapper.toDto(payload);
   const result = await AuthApi.changePassword(changePasswordDto);
   if (result.kind === "ok") {
     return true;
@@ -64,7 +64,7 @@ export const getMeAsync = createAsyncThunk<
 >("auth/login/me", async (_, { rejectWithValue }) => {
   const result = await AuthApi.getProfile();
   if (result.kind === "ok") {
-    return ProfileMapper.fromDto(result.result);
+    return profileMapper.fromDto(result.result);
   }
 
   return rejectWithValue(null);
@@ -83,13 +83,13 @@ export const updateProfileAsync = createAsyncThunk<
   ProfileCreation,
   GlobalTypes.ReduxThunkRejectValue<HttpError<ProfileCreationDto> | null>
 >("auth/update-profile", async (param, { rejectWithValue }) => {
-  const paramDto = ProfileMapper.toFormData(param);
+  const paramDto = profileMapper.toFormData(param);
   const result = await AuthApi.updateProfile(paramDto);
   if (result.kind === "ok") {
-    return ProfileMapper.fromDto(result.result);
+    return profileMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {
-    const errorBadData = ProfileMapper.httpErrorFromDto(result.httpError);
+    const errorBadData = profileMapper.httpErrorFromDto(result.httpError);
     return rejectWithValue(errorBadData);
   }
 

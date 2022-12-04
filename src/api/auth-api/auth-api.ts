@@ -6,7 +6,7 @@ import {
   TokenRefreshDto,
 } from "@/features/types";
 import { ChangePasswordDto } from "@/features/types/dtos/change-password.dto";
-import { TokenMapper } from "@/features/types/mappers/token.mapper";
+import { tokenMapper } from "@/features/types/mappers/token.mapper";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
@@ -46,7 +46,7 @@ export const AuthApi = {
   },
 
   async refreshToken(token: Token): Promise<Types.RequestRefreshResult> {
-    const tokenRefreshDto = TokenMapper.toTokenRefreshCreationDto(token);
+    const tokenRefreshDto = tokenMapper.toTokenRefreshCreationDto(token);
     const url = routes.refreshToken();
     return composeHttpMethodResult(
       http.post<TokenRefreshDto>(url, tokenRefreshDto)

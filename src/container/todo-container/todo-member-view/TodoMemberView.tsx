@@ -8,7 +8,7 @@ import React, {
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import { setFilterParamsTask } from "@/features/reducers/task-reducer";
-import { User, UserMapper } from "@/features/types";
+import { User, userMapper } from "@/features/types";
 
 import { DEFAULT_DISPLAY_MEMBER_COUNT } from "./constant";
 import { TodoAvatar } from "./TodoAvatar";
@@ -30,7 +30,7 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
   );
 
   const getUserWithCurrentUserList = useCallback(() => {
-    const _currentUser = UserMapper.fromProfile(currentUserProfile);
+    const _currentUser = userMapper.fromProfile(currentUserProfile);
     const userListWithoutCurrentUser = userList.filter((user) => {
       const isSameWithFilterDepartment =
         user.department_id === taskStore.filterParamsTask.departmentId;

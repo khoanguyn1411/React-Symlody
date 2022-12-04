@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { UserApi } from "@/api";
 import { RootState } from "@/features/store";
-import { User, UserMapper } from "@/features/types";
+import { User, userMapper } from "@/features/types";
 import { GlobalTypes } from "@/utils";
 import { StrictOmit } from "@/utils/types";
 
@@ -25,7 +25,7 @@ export const getUsersAsync = createAsyncThunk<
 >("get/users", async (_, { rejectWithValue }) => {
   const result = await UserApi.getUsers();
   if (result.kind === "ok") {
-    return result.result.map((item) => UserMapper.fromDto(item));
+    return result.result.map((item) => userMapper.fromDto(item));
   }
   return rejectWithValue([]);
 });

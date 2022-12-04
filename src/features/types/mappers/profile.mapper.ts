@@ -3,15 +3,25 @@ import { extractErrorMessage } from "@/utils/services/error-handler-service";
 
 import { HttpErrorDto, ProfileCreationDto, ProfileDto } from "../dtos";
 import { HttpError, Member, Profile, ProfileCreation } from "../models";
-import { AuthAccountMapper } from "./auth-account.mapper";
-import { GenderMapper } from "./base-mappers/gender.mapper";
-import { IsRoleMapper } from "./base-mappers/is-role.mapper";
-import { DepartmentMapper } from "./department.mapper";
-import { OrganizationMapper } from "./organization.mapper";
+import { authAccountMapper } from "./auth-account.mapper";
+import { genderMapper } from "./base-mappers/gender.mapper";
+import { isRoleMapper } from "./base-mappers/is-role.mapper";
+import {
+  IMapperFromDto,
+  IMapperToCreationDto,
+  IMapperToHttpError,
+} from "./base-mappers/mapper";
+import { departmentMapper } from "./department.mapper";
+import { organizationMapper } from "./organization.mapper";
 
-export class ProfileMapper {
-  public static fromDto(dto: ProfileDto): Profile {
-    const authAccountModel = AuthAccountMapper.fromDto(dto);
+export class ProfileMapper
+  implements
+    IMapperFromDto<ProfileDto, Profile>,
+    IMapperToCreationDto<ProfileCreationDto, ProfileCreation>,
+    IMapperToHttpError<ProfileCreationDto, ProfileCreation>
+{
+  public fromDto(dto: ProfileDto): Profile {
+    const authAccountModel = authAccountMapper.fromDto(dto);
     return {
       ...authAccountModel,
       id: dto.id,
@@ -23,14 +33,14 @@ export class ProfileMapper {
       avatar: dto.avatar,
       address: dto.address,
       memberId: dto.profile_id,
-      organization: OrganizationMapper.fromDto(dto.organization),
-      gender: GenderMapper.fromDto(dto.gender),
-      department: DepartmentMapper.fromDto(dto.department),
-      isRole: IsRoleMapper.fromGroupModel(authAccountModel.groups),
+      organization: organizationMapper.fromDto(dto.organization),
+      gender: genderMapper.fromDto(dto.gender),
+      department: departmentMapper.fromDto(dto.department),
+      isRole: isRoleMapper.fromGroupModel(authAccountModel.groups),
     };
   }
 
-  public static httpErrorFromDto(
+  public httpErrorFromDto(
     errorDto: HttpErrorDto<ProfileCreationDto>
   ): HttpError<ProfileCreation> {
     const {
@@ -64,8 +74,8 @@ export class ProfileMapper {
     };
   }
 
-  public static fromMember(currentUser: Profile, model: Member): Profile {
-    const authAccountModel = AuthAccountMapper.fromInheritance(
+  public fromMember(currentUser: Profile, model: Member): Profile {
+    const authAccountModel = authAccountMapper.fromInheritance(
       model.authAccount
     );
     return {
@@ -83,11 +93,11 @@ export class ProfileMapper {
       department: model.department,
       organization: currentUser.organization,
       memberId: model.id,
-      isRole: IsRoleMapper.fromGroupModel(model.authAccount.groups),
+      isRole: isRoleMapper.fromGroupModel(model.authAccount.groups),
     };
   }
-  public static toCreationDto(model: ProfileCreation): ProfileCreationDto {
-    const authAccountDto = AuthAccountMapper.toCreationDto(model);
+  public toCreationDto(model: ProfileCreation): ProfileCreationDto {
+    const authAccountDto = authAccountMapper.toCreationDto(model);
     return {
       ...authAccountDto,
       dob: model.dob,
@@ -96,12 +106,14 @@ export class ProfileMapper {
       address: model.address,
       phone_number: model.phoneNumber,
       home_town: model.homeTown,
-      gender: GenderMapper.toDto(model.gender),
+      gender: genderMapper.toDto(model.gender),
     };
   }
 
-  public static toFormData(model: ProfileCreation): FormData {
+  public toFormData(model: ProfileCreation): FormData {
     const dataDto = this.toCreationDto(model);
     return FormDataService.repairFormData(dataDto);
   }
 }
+
+export const profileMapper = new ProfileMapper();

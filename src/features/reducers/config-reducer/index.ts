@@ -8,17 +8,17 @@ import {
   OrganizationCreation,
   UserPermissionConfigCreation,
   UserShort,
-  UserShortMapper,
+  userShortMapper,
 } from "@/features/types";
 import { UserPermissionConfigCreationDto } from "@/features/types/dtos/config-permission.dto";
 import {
-  LeadersAndManagersMapper,
-  UserPermissionConfigMapper,
+  leadersAndManagersMapper,
+  userPermissionConfigMapper,
 } from "@/features/types/mappers/config-permission.mapper";
 import { GlobalTypes } from "@/utils";
 import { generateArrayWithNoDuplicate } from "@/utils/services/generate-service";
 
-import { OrganizationMapper } from "../../types/mappers/organization.mapper";
+import { organizationMapper } from "../../types/mappers/organization.mapper";
 import { getUsersAsync, userSelectors } from "../user-reducer";
 import { configInfoAdapter, initialState } from "./state";
 
@@ -29,7 +29,7 @@ export const getTenantAsync = createAsyncThunk<
 >("get/tenant", async (_, { rejectWithValue }) => {
   const result = await ConfigApi.getOrganization();
   if (result.kind === "ok") {
-    return OrganizationMapper.fromDto(result.result);
+    return organizationMapper.fromDto(result.result);
   }
 
   return rejectWithValue(null);
@@ -58,7 +58,7 @@ export const getConfigManager = createAsyncThunk<
   if (resultConfigManager.kind !== "ok") {
     return rejectWithValue([]);
   }
-  const configManagerModel = LeadersAndManagersMapper.fromDto(
+  const configManagerModel = leadersAndManagersMapper.fromDto(
     resultConfigManager.result
   );
   const combinedLeaderManagerList = generateArrayWithNoDuplicate(
@@ -72,7 +72,7 @@ export const getConfigManager = createAsyncThunk<
     const userWithRole = combinedLeaderManagerList.find(
       (r) => r.id === user.id
     );
-    return userWithRole ?? UserShortMapper.fromUser(user);
+    return userWithRole ?? userShortMapper.fromUser(user);
   });
 });
 
@@ -81,11 +81,11 @@ export const updateTenantAsync = createAsyncThunk<
   { id: number; body: OrganizationCreation },
   GlobalTypes.ReduxThunkRejectValue<null>
 >("update/tenant", async (payload, { rejectWithValue }) => {
-  const paramDto = OrganizationMapper.toFormData(payload.body);
+  const paramDto = organizationMapper.toFormData(payload.body);
   console.log(paramDto);
   const result = await ConfigApi.updateOrganization(payload.id, paramDto);
   if (result.kind === "ok") {
-    return OrganizationMapper.fromDto(result.result);
+    return organizationMapper.fromDto(result.result);
   }
 
   return rejectWithValue(null);
@@ -96,13 +96,13 @@ export const updateConfigRoleUserAsync = createAsyncThunk<
   UserPermissionConfigCreation,
   GlobalTypes.ReduxThunkRejectValue<HttpError<UserPermissionConfigCreationDto> | null>
 >("update/user-role", async (payload, { rejectWithValue }) => {
-  const paramDto = UserPermissionConfigMapper.toCreationDto(payload);
+  const paramDto = userPermissionConfigMapper.toCreationDto(payload);
   const result = await ConfigApi.updateConfigRoleUser(paramDto);
   if (result.kind === "ok") {
-    return UserShortMapper.fromDto(result.result);
+    return userShortMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {
-    const errorBadData = UserPermissionConfigMapper.httpErrorFromDto(
+    const errorBadData = userPermissionConfigMapper.httpErrorFromDto(
       result.httpError
     );
     return rejectWithValue(errorBadData);
