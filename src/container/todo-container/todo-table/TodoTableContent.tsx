@@ -6,12 +6,12 @@ import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import {
+  filterTaskByAssignee,
   getTasksAsync,
-  getTasksByAssignee,
   taskSelectors,
   updateTaskAsync,
 } from "@/features/reducers/task-reducer";
-import { TodoStatusId, Task } from "@/features/types";
+import { Task, TodoStatusId } from "@/features/types";
 
 import { TODO_MESSAGES } from "../constant";
 import { checkStatusOfExpiredDate } from "../function";
@@ -73,36 +73,37 @@ export const TodoTableContent: React.FC<TProps> = ({
   };
 
   useEffect(() => {
-    dispatch(getTasksByAssignee({ taskList, userList }));
+    dispatch(filterTaskByAssignee());
   }, [
     dispatch,
     taskList,
-    taskStore.listQueryTask.selected_member_list,
+    taskStore.listQueryTask.selectedMemberList,
     userList,
   ]);
 
   useLayoutEffect(() => {
-    const { department_id } = taskStore.listQueryTask;
+    const { departmentId } = taskStore.listQueryTask;
     dispatch(
       getTasksAsync({
-        department_id: department_id ?? currentUser.department.id,
+        ...taskStore.listQueryTask,
+        departmentId: departmentId ?? currentUser.department.id,
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, taskStore.listQueryTask.department_id]);
+  }, [dispatch, taskStore.listQueryTask.departmentId]);
 
   if (isLoading || taskStore.pending) {
     return <Table.Skeleton colsNumber={6} />;
   }
 
-  if (taskStore.listTasksByAssignee.length === 0) {
+  if (taskStore.currentListTask.length === 0) {
     return <Table.NoData colsNumber={6} />;
   }
 
   return (
     <>
       <Table.Body>
-        {taskStore.listTasksByAssignee.map((task, index) => {
+        {taskStore.currentListTask.map((task, index) => {
           const itemTable = TodoViewMapper.fromModel(userList, task);
           const statusOfExpiredDate = checkStatusOfExpiredDate(task);
           const isShowLoadingDelete =

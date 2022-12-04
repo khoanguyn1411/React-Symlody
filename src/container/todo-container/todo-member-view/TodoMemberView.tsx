@@ -7,7 +7,7 @@ import React, {
 
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
-import { setSelectedMemberList } from "@/features/reducers/task-reducer";
+import { setFilterParamsTask } from "@/features/reducers/task-reducer";
 import { User, UserMapper } from "@/features/types";
 
 import { DEFAULT_DISPLAY_MEMBER_COUNT } from "./constant";
@@ -26,19 +26,19 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
   const currentUserProfile = useAppSelector((state) => state.auth.user);
 
   const [selectedMembers, setSelectedMembers] = useState<User[]>(
-    taskStore.listQueryTask.selected_member_list
+    taskStore.listQueryTask.selectedMemberList
   );
 
   const getUserWithCurrentUserList = useCallback(() => {
     const _currentUser = UserMapper.fromProfile(currentUserProfile);
     const userListWithoutCurrentUser = userList.filter((user) => {
       const isSameWithFilterDepartment =
-        user.department_id === taskStore.listQueryTask.department_id;
+        user.department_id === taskStore.listQueryTask.departmentId;
       const isNotCurrenUser = user.id !== _currentUser.id;
       return isSameWithFilterDepartment && isNotCurrenUser;
     });
     return [_currentUser].concat(userListWithoutCurrentUser);
-  }, [currentUserProfile, taskStore.listQueryTask.department_id, userList]);
+  }, [currentUserProfile, taskStore.listQueryTask.departmentId, userList]);
 
   const [currentUserList, setCurrentUserList] = useState(() =>
     getUserWithCurrentUserList()
@@ -52,11 +52,11 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
   }, [
     currentUserProfile,
     getUserWithCurrentUserList,
-    taskStore.listQueryTask.department_id,
+    taskStore.listQueryTask.departmentId,
   ]);
 
   useLayoutEffect(() => {
-    dispatch(setSelectedMemberList(selectedMembers));
+    dispatch(setFilterParamsTask({ selectedMemberList: selectedMembers }));
   }, [dispatch, selectedMembers]);
 
   return (

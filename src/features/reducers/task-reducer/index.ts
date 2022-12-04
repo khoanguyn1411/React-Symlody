@@ -3,7 +3,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TaskApi } from "@/api";
 import { RootState, store } from "@/features/store";
 import { Task, TaskMapper, User } from "@/features/types";
-import { TTaskParamQueryDto } from "@/features/types/filter-params";
+import { TaskFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
+import { TaskFilterParams } from "@/features/types/models/filter-params";
 import { TaskCreation } from "@/features/types/models/task";
 import { GlobalTypes } from "@/utils";
 
@@ -12,10 +13,11 @@ import { initialState, taskAdapter } from "./state";
 
 export const getTasksAsync = createAsyncThunk<
   Task[],
-  TTaskParamQueryDto,
+  TaskFilterParams,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/tasks", async (param, { rejectWithValue }) => {
-  const result = await TaskApi.getTasks(param);
+  const paramDto = TaskFilterParamsMapper.toDto(param);
+  const result = await TaskApi.getTasks(paramDto);
   if (result.kind === "ok") {
     return result.result.map((item) => TaskMapper.fromDto(item));
   }
@@ -42,7 +44,7 @@ export const createTaskAsync = createAsyncThunk<
   const reduxStore = store.getState();
   const userList = userSelectors.selectAll(reduxStore);
   const assignee = userList.find((user) => user.id === body.task.assignee.id);
-  const currentDepartmentId = reduxStore.task.listQueryTask.department_id;
+  const currentDepartmentId = reduxStore.task.listQueryTask.departmentId;
 
   const isInSelectedDepartment = assignee.department_id === currentDepartmentId;
 
@@ -74,7 +76,7 @@ export const updateTaskAsync = createAsyncThunk<
   const reduxStore = store.getState();
   const userList = userSelectors.selectAll(reduxStore);
   const assignee = userList.find((user) => user.id === payload.assignee.id);
-  const currentDepartmentId = reduxStore.task.listQueryTask.department_id;
+  const currentDepartmentId = reduxStore.task.listQueryTask.departmentId;
 
   const isNotInSelectedDepartment =
     assignee.department_id !== currentDepartmentId;
@@ -87,18 +89,46 @@ export const updateTaskAsync = createAsyncThunk<
   return rejectWithValue(null);
 });
 
+export const filterTaskByAssignee = createAsyncThunk<
+  void,
+  undefined,
+  GlobalTypes.ReduxThunkRejectValue<null>
+>("filter-by-assignee/task", async (_, { dispatch }) => {
+  const reduxStore = store.getState();
+  const taskList = taskSelectors.selectAll(reduxStore);
+  const userList = userSelectors.selectAll(reduxStore);
+  const taskStore = reduxStore.task;
+
+  const selectedMemberIdsList = taskStore.listQueryTask.selectedMemberList.map(
+    (member) => member.id
+  );
+
+  if (selectedMemberIdsList.length === 0) {
+    dispatch(setCurrentListTask(taskList));
+    return;
+  }
+  const newTaskList = taskList.filter((task) => {
+    const taskInfo = userList.find((user) => user.id === task.assignee.id);
+    if (taskInfo) {
+      return selectedMemberIdsList.includes(taskInfo.id);
+    }
+  });
+  dispatch(setCurrentListTask(newTaskList));
+});
+
 export const taskSlice = createSlice({
   name: "task",
   initialState,
   reducers: {
-    setListQueryTask(state, action: PayloadAction<TTaskParamQueryDto>) {
-      state.listQueryTask = action.payload;
+    setFilterParamsTask(
+      state,
+      action: PayloadAction<Partial<TaskFilterParams>>
+    ) {
+      state.listQueryTask = { ...state.listQueryTask, ...action.payload };
     },
-    setSelectedMemberList(state, action: PayloadAction<User[] | null>) {
-      state.listQueryTask = {
-        ...state.listQueryTask,
-        selected_member_list: action.payload,
-      };
+
+    setCurrentListTask(state, action: PayloadAction<Task[]>) {
+      state.currentListTask = action.payload;
     },
     getTasksByAssignee(
       state,
@@ -106,14 +136,15 @@ export const taskSlice = createSlice({
     ) {
       const { taskList, userList } = action.payload;
 
-      const selectedMemberIdsList =
-        state.listQueryTask.selected_member_list.map((member) => member.id);
+      const selectedMemberIdsList = state.listQueryTask.selectedMemberList.map(
+        (member) => member.id
+      );
 
       if (selectedMemberIdsList.length === 0) {
-        state.listTasksByAssignee = taskList;
+        state.currentListTask = taskList;
         return;
       }
-      state.listTasksByAssignee = taskList.filter((task) => {
+      state.currentListTask = taskList.filter((task) => {
         const taskInfo = userList.find((user) => user.id === task.assignee.id);
         if (taskInfo) {
           return selectedMemberIdsList.includes(taskInfo.id);
@@ -171,7 +202,6 @@ export const taskSelectors = taskAdapter.getSelectors(
   (state: RootState) => state.task
 );
 export const taskStore = (state: RootState) => state.task;
-export const { setListQueryTask, setSelectedMemberList, getTasksByAssignee } =
-  taskSlice.actions;
+export const { setFilterParamsTask, setCurrentListTask } = taskSlice.actions;
 
 export default taskSlice.reducer;

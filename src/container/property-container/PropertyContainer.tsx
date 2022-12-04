@@ -17,7 +17,7 @@ import {
   getPropertyAsync,
   paginatePropertyAsync,
   propertySelectors,
-  setListQueryProperty,
+  setFilterParamsProperty,
 } from "@/features/reducers/property-reducer";
 import { Property, Roles, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
@@ -68,13 +68,13 @@ export const PropertyContainer: React.FC = () => {
   const handleSetFilter = (item: TItemListSelect) => {
     switch (item.key) {
       case PROPERTY_FILTER_VALUE.all:
-        dispatch(setListQueryProperty({ isArchived: null }));
+        dispatch(setFilterParamsProperty({ isArchived: null }));
         break;
       case PROPERTY_FILTER_VALUE.isArchived:
-        dispatch(setListQueryProperty({ isArchived: true }));
+        dispatch(setFilterParamsProperty({ isArchived: true }));
         break;
       case PROPERTY_FILTER_VALUE.inUse:
-        dispatch(setListQueryProperty({ isArchived: false }));
+        dispatch(setFilterParamsProperty({ isArchived: false }));
         break;
     }
   };

@@ -1,13 +1,13 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
 import { Task } from "@/features/types";
-import { TTaskParamQueryDto } from "@/features/types/filter-params";
+import { TaskFilterParams } from "@/features/types/models/filter-params";
 
 export interface TaskStateInner {
   pending: boolean;
   pendingDeleteTask: boolean;
-  listQueryTask: TTaskParamQueryDto;
-  listTasksByAssignee: Task[];
+  listQueryTask: TaskFilterParams;
+  currentListTask: Task[];
 }
 
 export const taskAdapter = createEntityAdapter<Task>({
@@ -17,8 +17,8 @@ export const taskAdapter = createEntityAdapter<Task>({
 export const initialState = taskAdapter.getInitialState<TaskStateInner>({
   pending: false,
   pendingDeleteTask: false,
-  listQueryTask: { selected_member_list: [] },
-  listTasksByAssignee: [],
+  listQueryTask: { departmentId: null, selectedMemberList: [] },
+  currentListTask: [],
 });
 
 export type TaskState = typeof initialState;

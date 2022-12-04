@@ -74,7 +74,7 @@ export const filterPropertyBySearch = createAsyncThunk<void, string>(
     const propertyState = reduxStore.property;
     const propertyList = propertySelectors.selectAll(reduxStore);
     const { currentPropertyList } = propertyState;
-    dispatch(setListQueryProperty(search));
+    dispatch(setFilterParamsProperty(search));
     if (!search) {
       dispatch(setCurrentPropertyList(propertyList));
       return;
@@ -91,7 +91,7 @@ export const propertySlice = createSlice({
   name: "property",
   initialState,
   reducers: {
-    setListQueryProperty(
+    setFilterParamsProperty(
       state,
       action: PayloadAction<Partial<PropertyFilterParams>>
     ) {
@@ -149,7 +149,7 @@ export const propertySelectors = propertyAdapter.getSelectors(
 );
 export const propertyStore = (state: RootState) => state.property;
 export const {
-  setListQueryProperty,
+  setFilterParamsProperty,
   setCurrentPropertyList,
   setPropertyListWithPagination,
 } = propertySlice.actions;

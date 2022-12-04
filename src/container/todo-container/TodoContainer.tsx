@@ -17,7 +17,7 @@ import {
   getUsersAsync,
   userSelectors,
 } from "@/features/reducers";
-import { setListQueryTask } from "@/features/reducers/task-reducer";
+import { setFilterParamsTask } from "@/features/reducers/task-reducer";
 import { Department, Roles } from "@/features/types";
 import { useModal } from "@/hooks";
 import { EPagePath } from "@/routes";
@@ -83,9 +83,9 @@ export const TodoContainer: React.FC = () => {
   };
 
   const getInitialDepartmentText = () => {
-    if (taskStore.listQueryTask.department_id) {
+    if (taskStore.listQueryTask.departmentId) {
       const department = departmentList.find(
-        (department) => department.id === taskStore.listQueryTask.department_id
+        (department) => department.id === taskStore.listQueryTask.departmentId
       );
       if (department) {
         return department.name;
@@ -107,12 +107,7 @@ export const TodoContainer: React.FC = () => {
 
   const handleSetFilter = (item: TItemListSelect) => {
     const departmentID = getDepartmentId(item.value);
-    dispatch(
-      setListQueryTask({
-        ...taskStore.listQueryTask,
-        department_id: departmentID,
-      })
-    );
+    dispatch(setFilterParamsTask({ departmentId: departmentID }));
   };
 
   useEffect(() => {
@@ -121,10 +116,10 @@ export const TodoContainer: React.FC = () => {
 
   useEffect(() => {
     setFilterDepartment(getInitialDepartmentText());
+    const { departmentId } = taskStore.listQueryTask;
     dispatch(
-      setListQueryTask({
-        ...taskStore.listQueryTask,
-        department_id: currentUser.department.id,
+      setFilterParamsTask({
+        departmentId: departmentId ?? currentUser.department.id,
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

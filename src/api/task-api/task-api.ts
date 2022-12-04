@@ -1,5 +1,5 @@
 import { Task, TaskCreationDto, TaskDto } from "@/features/types";
-import { TTaskParamQueryDto } from "@/features/types/filter-params";
+import { TaskFilterParamsDto } from "@/features/types/dtos/filter-params";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
@@ -14,7 +14,7 @@ const routes = {
 
 export const TaskApi = {
   async getTasks(
-    param?: TTaskParamQueryDto
+    param: TaskFilterParamsDto
   ): Promise<Types.RequestGetTasksResult> {
     const url = routes.getTasks();
     const method = http.get<TaskDto[]>(url, param);

@@ -8,8 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import { getUsersAsync, userSelectors } from "@/features/reducers";
 import {
   createTaskAsync,
-  getTasksByAssignee,
-  taskSelectors,
+  filterTaskByAssignee,
 } from "@/features/reducers/task-reducer";
 import { THookModalProps } from "@/hooks";
 import { FormatService } from "@/utils";
@@ -17,7 +16,7 @@ import { FormatService } from "@/utils";
 import { TODO_MESSAGES } from "../constant";
 import { TodoFormMapper } from "../mapper";
 import { schema } from "../shema";
-import { Priority, IFormTodoInfo } from "../type";
+import { IFormTodoInfo, Priority } from "../type";
 import { FormItems } from "./FormItems";
 
 const getDayAfterWeek = (): string => {
@@ -33,8 +32,6 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
   const dispatch = useAppDispatch();
   const userCount = useAppSelector(userSelectors.selectTotal);
   const userStore = useAppSelector((state) => state.user);
-  const userList = useAppSelector(userSelectors.selectAll);
-  const taskList = useAppSelector(taskSelectors.selectAll);
   const currentUserStore = useAppSelector((state) => state.auth);
 
   useEffect(() => {
@@ -56,7 +53,7 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
     if (createTaskAsync.fulfilled.match(result)) {
       toast.success(TODO_MESSAGES.create.success);
       reset();
-      dispatch(getTasksByAssignee({ userList, taskList }));
+      dispatch(filterTaskByAssignee());
       toggle.setHidden();
       return;
     }

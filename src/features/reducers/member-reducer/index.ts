@@ -147,7 +147,7 @@ export const filterMemberBySearch = createAsyncThunk<void, string>(
     const memberState = reduxStore.member;
     const memberList = memberSelectors.selectAll(reduxStore);
     const { currentMemberList } = memberState;
-    dispatch(setListQueryMember(search));
+    dispatch(setFilterParamsMember(search));
     if (!search) {
       dispatch(setCurrentMemberList(memberList));
       return;
@@ -170,7 +170,7 @@ export const memberSlice = createSlice({
   name: "member",
   initialState,
   reducers: {
-    setListQueryMember(
+    setFilterParamsMember(
       state,
       action: PayloadAction<Partial<MemberFilterParams>>
     ) {
@@ -265,7 +265,7 @@ export const memberSelectors = memberAdapter.getSelectors(
   (state: RootState) => state.member
 );
 export const {
-  setListQueryMember,
+  setFilterParamsMember,
   setMemberListWithPagination,
   setCurrentMemberList,
 } = memberSlice.actions;

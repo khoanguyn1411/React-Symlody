@@ -17,7 +17,7 @@ import {
   getMembersAsync,
   memberSelectors,
   paginateMemberAsync,
-  setListQueryMember,
+  setFilterParamsMember,
   updateMemberAsync,
 } from "@/features/reducers";
 import { Member, Roles, RolesID } from "@/features/types";
@@ -65,13 +65,13 @@ export const MemberContainer: React.FC = () => {
   const handleSetFilter = (item: TItemListSelect) => {
     switch (item.key) {
       case MEMBER_FILTER_VALUE.all:
-        dispatch(setListQueryMember({ isArchived: null }));
+        dispatch(setFilterParamsMember({ isArchived: null }));
         break;
       case MEMBER_FILTER_VALUE.isArchived:
-        dispatch(setListQueryMember({ isArchived: true }));
+        dispatch(setFilterParamsMember({ isArchived: true }));
         break;
       case MEMBER_FILTER_VALUE.active:
-        dispatch(setListQueryMember({ isArchived: false }));
+        dispatch(setFilterParamsMember({ isArchived: false }));
         break;
     }
   };

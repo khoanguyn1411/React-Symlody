@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import {
+  filterTaskByAssignee,
   getTasksAsync,
-  getTasksByAssignee,
   taskSelectors,
   updateTaskAsync,
 } from "@/features/reducers/task-reducer";
@@ -30,7 +30,6 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
   const taskStore = useAppSelector((state) => state.task);
   const taskList = useAppSelector(taskSelectors.selectAll);
   const userList = useAppSelector(userSelectors.selectAll);
-  const currentUser = useAppSelector((state) => state.auth.user);
 
   const [columnList, setColumnList] = useState<TTodoColumn[]>(
     TODO_DATA.columns
@@ -86,31 +85,26 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
     const columnWithTasks: TTodoColumn[] = columnList.map((column) => {
       return {
         ...column,
-        cards: taskStore.listTasksByAssignee.filter(
+        cards: taskStore.currentListTask.filter(
           (item) => item.status === column.id
         ),
       };
     });
     setColumnList(columnWithTasks);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taskStore.listTasksByAssignee]);
+  }, [taskStore.currentListTask]);
 
   useLayoutEffect(() => {
-    const { department_id } = taskStore.listQueryTask;
-    dispatch(
-      getTasksAsync({
-        department_id: department_id ?? currentUser.department.id,
-      })
-    );
+    dispatch(getTasksAsync(taskStore.listQueryTask));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, taskStore.listQueryTask.department_id]);
+  }, [dispatch, taskStore.listQueryTask.departmentId]);
 
   useEffect(() => {
-    dispatch(getTasksByAssignee({ taskList, userList }));
+    dispatch(filterTaskByAssignee());
   }, [
     dispatch,
     taskList,
-    taskStore.listQueryTask.selected_member_list,
+    taskStore.listQueryTask.selectedMemberList,
     userList,
   ]);
 
