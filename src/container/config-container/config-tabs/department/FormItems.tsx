@@ -34,11 +34,11 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
       <FormItem
         label="Tên viết tắt"
         isRequired
-        error={errors.abbreviation_name?.message}
+        error={errors.abbreviationName?.message}
       >
         <Controller
           control={control}
-          name="abbreviation_name"
+          name="abbreviationName"
           render={({ field: { value, onChange } }) => (
             <Input
               style="modal"

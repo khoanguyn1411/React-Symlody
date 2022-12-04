@@ -34,7 +34,12 @@ export function composeErrors<TResult, TError>(
   error: unknown
 ): Response<TResult, TError> {
   if (!isAxiosError(error)) {
-    throw new Error("Invalid error.");
+    return {
+      kind: "unknown",
+      result: null,
+      unknownError: error,
+      httpError: null,
+    };
   }
   const kind = getGeneralApiProblem(error);
   const isHttpError = validateHttpError(error.data, kind);

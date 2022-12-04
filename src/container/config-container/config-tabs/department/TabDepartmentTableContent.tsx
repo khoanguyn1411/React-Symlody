@@ -30,7 +30,7 @@ export const TabDepartmentTableContent: React.FC<TProps> = ({
   return (
     <Table.Body>
       {departmentList.map((item, index) => {
-        const hasMember = item.member_count > 0;
+        const hasMember = item.memberCount > 0;
         return (
           <Table.Row key={`${item.id}-${index}`}>
             <Table.Cell width="5rem" textAlign="center">
@@ -43,10 +43,10 @@ export const TabDepartmentTableContent: React.FC<TProps> = ({
             </Table.Cell>
 
             <Table.Cell width="10rem" textAlign="center">
-              {item.member_count}
+              {item.memberCount}
             </Table.Cell>
             <Table.Cell width="8rem" textAlign="right">
-              {FormatService.toDateString(item.created_date, "VN")}
+              {FormatService.toDateString(item.createdDate, "VN")}
             </Table.Cell>
             <Table.CellAction>
               <DeleteAndEditField

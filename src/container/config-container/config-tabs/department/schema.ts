@@ -7,5 +7,5 @@ import { IFormDepartment } from "./types";
 export const schema: yup.SchemaOf<IFormDepartment> = yup.object().shape({
   id: yup.number(),
   name: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-  abbreviation_name: yup.string(),
+  abbreviationName: yup.string(),
 });

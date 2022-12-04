@@ -8,8 +8,8 @@ import {
 import { RootState } from "@/features/store";
 import {
   Department,
+  DepartmentCreation,
   DepartmentMapper,
-  IDepartmentCreateUpdate,
 } from "@/features/types";
 import { GlobalTypes } from "@/utils";
 
@@ -30,10 +30,11 @@ export const getDepartmentAsync = createAsyncThunk<
 
 export const createDepartmentAsync = createAsyncThunk<
   Department,
-  IDepartmentCreateUpdate,
+  DepartmentCreation,
   GlobalTypes.ReduxThunkRejectValue<RequestCreateDepartmentResult>
 >("create/department", async (payload, { rejectWithValue }) => {
-  const result = await DepartmentApi.createDepartment(payload);
+  const departmentCreationDto = DepartmentMapper.toCreationDto(payload);
+  const result = await DepartmentApi.createDepartment(departmentCreationDto);
   if (result.kind === "ok") {
     const department = result.result;
     return DepartmentMapper.fromDto(department);
@@ -44,10 +45,14 @@ export const createDepartmentAsync = createAsyncThunk<
 
 export const updateDepartmentAsync = createAsyncThunk<
   Department,
-  { id: number; body: IDepartmentCreateUpdate },
+  { id: number; body: DepartmentCreation },
   GlobalTypes.ReduxThunkRestoreRejected<RequestUpdateDepartmentResult>
 >("update/department", async (payload, { rejectWithValue }) => {
-  const result = await DepartmentApi.updateDepartment(payload.id, payload.body);
+  const departmentCreationDto = DepartmentMapper.toCreationDto(payload.body);
+  const result = await DepartmentApi.updateDepartment(
+    payload.id,
+    departmentCreationDto
+  );
   if (result.kind === "ok") {
     const department = result.result;
     return DepartmentMapper.fromDto(department);

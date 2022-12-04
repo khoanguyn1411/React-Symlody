@@ -43,7 +43,7 @@ export const ModalEditDepartment: React.FC<THookModalProps<Department>> = ({
 
   useEffect(() => {
     if (data) {
-      reset({ ...data, abbreviation_name: data.abbreviation_name ?? "" });
+      reset({ ...data, abbreviationName: data.abbreviationName ?? "" });
     }
   }, [data, reset]);
 

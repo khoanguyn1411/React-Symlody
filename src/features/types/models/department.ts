@@ -3,12 +3,12 @@ import { GlobalTypes } from "@/utils";
 export interface Department {
   id: number;
   name: string;
-  abbreviation_name: string | null;
-  member_count: number;
-  created_date: string;
+  abbreviationName: string | null;
+  memberCount: number;
+  createdDate: string;
 }
 
-export type IDepartmentCreateUpdate = GlobalTypes.StrictPick<
+export type DepartmentCreation = GlobalTypes.StrictPick<
   Department,
-  "name" | "abbreviation_name"
+  "name" | "abbreviationName"
 >;

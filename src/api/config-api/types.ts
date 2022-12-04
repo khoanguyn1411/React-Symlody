@@ -1,8 +1,5 @@
-import {
-  IConfigManagerUpdate,
-  ITenantCreateUpdateDto,
-  ITenantDto,
-} from "@/features/types/dtos";
+import { IConfigManagerUpdate } from "@/features/types";
+import { ITenantCreateUpdateDto, ITenantDto } from "@/features/types/dtos";
 import {
   IConfigInfoDto,
   IConfigManagerDto,

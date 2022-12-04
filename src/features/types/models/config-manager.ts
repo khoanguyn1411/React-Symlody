@@ -1,5 +1,5 @@
 import { AuthAccount } from "./auth-account";
-import { Roles } from "./group";
+import { Group, Roles } from "./group";
 
 export interface IConfigInfo extends AuthAccount {
   id: number;
@@ -15,3 +15,7 @@ export interface IConfigUserUpdate {
   user_id: number;
   groups: Roles[];
 }
+
+export type IConfigManagerUpdate = {
+  groups: Group;
+};
