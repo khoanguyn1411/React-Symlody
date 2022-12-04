@@ -6,7 +6,7 @@ import { TaskFilterParams } from "@/features/types/models/filter-params";
 export interface TaskStateInner {
   pending: boolean;
   pendingDeleteTask: boolean;
-  listQueryTask: TaskFilterParams;
+  filterParamsTask: TaskFilterParams;
   currentListTask: Task[];
 }
 
@@ -17,7 +17,7 @@ export const taskAdapter = createEntityAdapter<Task>({
 export const initialState = taskAdapter.getInitialState<TaskStateInner>({
   pending: false,
   pendingDeleteTask: false,
-  listQueryTask: { departmentId: null, selectedMemberList: [] },
+  filterParamsTask: { departmentId: null, selectedMemberList: [] },
   currentListTask: [],
 });
 

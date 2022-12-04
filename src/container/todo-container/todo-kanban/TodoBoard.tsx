@@ -95,16 +95,16 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
   }, [taskStore.currentListTask]);
 
   useLayoutEffect(() => {
-    dispatch(getTasksAsync(taskStore.listQueryTask));
+    dispatch(getTasksAsync(taskStore.filterParamsTask));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, taskStore.listQueryTask.departmentId]);
+  }, [dispatch, taskStore.filterParamsTask.departmentId]);
 
   useEffect(() => {
     dispatch(filterTaskByAssignee());
   }, [
     dispatch,
     taskList,
-    taskStore.listQueryTask.selectedMemberList,
+    taskStore.filterParamsTask.selectedMemberList,
     userList,
   ]);
 

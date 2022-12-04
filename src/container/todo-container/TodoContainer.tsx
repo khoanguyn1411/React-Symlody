@@ -83,9 +83,10 @@ export const TodoContainer: React.FC = () => {
   };
 
   const getInitialDepartmentText = () => {
-    if (taskStore.listQueryTask.departmentId) {
+    if (taskStore.filterParamsTask.departmentId) {
       const department = departmentList.find(
-        (department) => department.id === taskStore.listQueryTask.departmentId
+        (department) =>
+          department.id === taskStore.filterParamsTask.departmentId
       );
       if (department) {
         return department.name;
@@ -116,7 +117,7 @@ export const TodoContainer: React.FC = () => {
 
   useEffect(() => {
     setFilterDepartment(getInitialDepartmentText());
-    const { departmentId } = taskStore.listQueryTask;
+    const { departmentId } = taskStore.filterParamsTask;
     dispatch(
       setFilterParamsTask({
         departmentId: departmentId ?? currentUser.department.id,

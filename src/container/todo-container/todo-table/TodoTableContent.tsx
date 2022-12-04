@@ -77,20 +77,20 @@ export const TodoTableContent: React.FC<TProps> = ({
   }, [
     dispatch,
     taskList,
-    taskStore.listQueryTask.selectedMemberList,
+    taskStore.filterParamsTask.selectedMemberList,
     userList,
   ]);
 
   useLayoutEffect(() => {
-    const { departmentId } = taskStore.listQueryTask;
+    const { departmentId } = taskStore.filterParamsTask;
     dispatch(
       getTasksAsync({
-        ...taskStore.listQueryTask,
+        ...taskStore.filterParamsTask,
         departmentId: departmentId ?? currentUser.department.id,
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, taskStore.listQueryTask.departmentId]);
+  }, [dispatch, taskStore.filterParamsTask.departmentId]);
 
   if (isLoading || taskStore.pending) {
     return <Table.Skeleton colsNumber={6} />;

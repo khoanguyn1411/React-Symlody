@@ -44,7 +44,7 @@ export const createTaskAsync = createAsyncThunk<
   const reduxStore = store.getState();
   const userList = userSelectors.selectAll(reduxStore);
   const assignee = userList.find((user) => user.id === body.task.assignee.id);
-  const currentDepartmentId = reduxStore.task.listQueryTask.departmentId;
+  const currentDepartmentId = reduxStore.task.filterParamsTask.departmentId;
 
   const isInSelectedDepartment = assignee.department_id === currentDepartmentId;
 
@@ -76,7 +76,7 @@ export const updateTaskAsync = createAsyncThunk<
   const reduxStore = store.getState();
   const userList = userSelectors.selectAll(reduxStore);
   const assignee = userList.find((user) => user.id === payload.assignee.id);
-  const currentDepartmentId = reduxStore.task.listQueryTask.departmentId;
+  const currentDepartmentId = reduxStore.task.filterParamsTask.departmentId;
 
   const isNotInSelectedDepartment =
     assignee.department_id !== currentDepartmentId;
@@ -99,9 +99,8 @@ export const filterTaskByAssignee = createAsyncThunk<
   const userList = userSelectors.selectAll(reduxStore);
   const taskStore = reduxStore.task;
 
-  const selectedMemberIdsList = taskStore.listQueryTask.selectedMemberList.map(
-    (member) => member.id
-  );
+  const selectedMemberIdsList =
+    taskStore.filterParamsTask.selectedMemberList.map((member) => member.id);
 
   if (selectedMemberIdsList.length === 0) {
     dispatch(setCurrentListTask(taskList));
@@ -124,7 +123,7 @@ export const taskSlice = createSlice({
       state,
       action: PayloadAction<Partial<TaskFilterParams>>
     ) {
-      state.listQueryTask = { ...state.listQueryTask, ...action.payload };
+      state.filterParamsTask = { ...state.filterParamsTask, ...action.payload };
     },
 
     setCurrentListTask(state, action: PayloadAction<Task[]>) {
@@ -136,9 +135,8 @@ export const taskSlice = createSlice({
     ) {
       const { taskList, userList } = action.payload;
 
-      const selectedMemberIdsList = state.listQueryTask.selectedMemberList.map(
-        (member) => member.id
-      );
+      const selectedMemberIdsList =
+        state.filterParamsTask.selectedMemberList.map((member) => member.id);
 
       if (selectedMemberIdsList.length === 0) {
         state.currentListTask = taskList;
