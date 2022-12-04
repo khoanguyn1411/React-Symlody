@@ -2,18 +2,14 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { PropertyApi } from "@/api/property-api";
 import { RootState } from "@/features/store";
-import {
-  IProperty,
-  IPropertyCreateUpdate,
-  PropertyMapper,
-} from "@/features/types";
+import { Property, PropertyCreation, PropertyMapper } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
 import { FilterService, GlobalTypes } from "@/utils";
 
 import { initialState, propertyAdapter } from "./state";
 
 export const getPropertyAsync = createAsyncThunk<
-  IProperty[],
+  Property[],
   TPropertyParamQueryDto,
   GlobalTypes.ReduxThunkRejectValue<[]>
 >("get/properties", async (param, { rejectWithValue }) => {
@@ -25,8 +21,8 @@ export const getPropertyAsync = createAsyncThunk<
 });
 
 export const createPropertyAsync = createAsyncThunk<
-  IProperty,
-  IPropertyCreateUpdate,
+  Property,
+  PropertyCreation,
   GlobalTypes.ReduxThunkRejectValue<null>
 >("create/property", async (payload, { rejectWithValue }) => {
   const result = await PropertyApi.createProperty(
@@ -39,8 +35,8 @@ export const createPropertyAsync = createAsyncThunk<
 });
 
 export const deletePropertyAsync = createAsyncThunk<
-  IProperty["id"],
-  IProperty["id"],
+  Property["id"],
+  Property["id"],
   GlobalTypes.ReduxThunkRejectValue<null>
 >("delete/property", async (id, { rejectWithValue }) => {
   const result = await PropertyApi.deleteProperty(id);
@@ -61,7 +57,7 @@ export const propertySlice = createSlice({
       state,
       action: PayloadAction<
         GlobalTypes.StrictOmit<TPropertyParamQueryDto, "is_archived"> & {
-          propertyList?: IProperty[];
+          propertyList?: Property[];
         }
       >
     ) {
@@ -118,7 +114,7 @@ export const propertySlice = createSlice({
         if (state.listQueryProperty.is_archived == null) {
           propertyAdapter.updateOne(state, {
             id: action.payload,
-            changes: { is_archived: true },
+            changes: { isArchived: true },
           });
           return;
         }

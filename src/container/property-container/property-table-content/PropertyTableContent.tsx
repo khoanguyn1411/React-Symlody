@@ -2,14 +2,14 @@ import React, { useMemo, useState } from "react";
 
 import { DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
-import { IProperty } from "@/features/types";
+import { Property } from "@/features/types";
 
 import { PropertyTableMapper } from "../mapper";
 
 type TProps = {
-  onEdit: (property: IProperty) => void;
-  onDelete: (property: IProperty) => void;
-  onRestore: (property: IProperty) => void;
+  onEdit: (property: Property) => void;
+  onDelete: (property: Property) => void;
+  onRestore: (property: Property) => void;
 };
 
 export const PropertyTableContent: React.FC<TProps> = ({
@@ -33,14 +33,14 @@ export const PropertyTableContent: React.FC<TProps> = ({
     propertyStore.listQueryPropertyFE.page,
   ]);
 
-  const handleEdit = (item: IProperty) => () => {
+  const handleEdit = (item: Property) => () => {
     onEdit(item);
   };
-  const handleDelete = (item: IProperty) => () => {
+  const handleDelete = (item: Property) => () => {
     onDelete(item);
     setCurrentInteractiveId(item.id);
   };
-  const handleRestore = (item: IProperty) => () => {
+  const handleRestore = (item: Property) => () => {
     onRestore(item);
   };
 
@@ -77,7 +77,7 @@ export const PropertyTableContent: React.FC<TProps> = ({
             <Table.CellAction>
               <DeleteAndEditField
                 isShowLoading={shouldShowLoadingOfRestoreButton}
-                isShowRestore={item.is_archived}
+                isShowRestore={item.isArchived}
                 title="Lưu trữ tài sản?"
                 handleEvent={{
                   edit: handleEdit(item),

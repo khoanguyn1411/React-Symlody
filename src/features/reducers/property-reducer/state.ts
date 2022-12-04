@@ -1,7 +1,7 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
 import { APP_PAGINATION } from "@/constants";
-import { IProperty } from "@/features/types";
+import { Property } from "@/features/types";
 import { TPropertyParamQueryDto } from "@/features/types/queries";
 import { GlobalTypes } from "@/utils";
 
@@ -12,15 +12,15 @@ export interface PropertiesStateInner {
   pendingDeleteProperty: boolean;
 
   // Used for pagination and searching in front-end.
-  currentPropertyList: IProperty[];
+  currentPropertyList: Property[];
   listQueryPropertyFE: GlobalTypes.StrictOmit<
     TPropertyParamQueryDto,
     "is_archived"
   >;
-  propertyListPagination: IProperty[];
+  propertyListPagination: Property[];
 }
 
-export const propertyAdapter = createEntityAdapter<IProperty>({
+export const propertyAdapter = createEntityAdapter<Property>({
   selectId: (property) => property.id,
 });
 

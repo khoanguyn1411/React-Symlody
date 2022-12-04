@@ -18,7 +18,7 @@ import {
   propertySelectors,
   setListQueryProperty,
 } from "@/features/reducers/property-reducer";
-import { IProperty, Roles, RolesID } from "@/features/types";
+import { Property, Roles, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useDebounce, useEffectSkipFirstRender, useModal } from "@/hooks";
 
@@ -43,7 +43,7 @@ export const PropertyContainer: React.FC = () => {
   const currentUser = useAppSelector((state) => state.auth.user);
 
   const propsModal = useModal({ isHotkeyOpen: true });
-  const propsModalEdit = useModal<IProperty>();
+  const propsModalEdit = useModal<Property>();
   const propsSearch = useDebounce(propertyStore.listQueryPropertyFE.search);
 
   const isPropertyManager = currentUser.isRole([
@@ -80,12 +80,12 @@ export const PropertyContainer: React.FC = () => {
     }
   };
 
-  const handleEdit = (item: IProperty) => {
+  const handleEdit = (item: Property) => {
     propsModalEdit.setData(item);
     propsModalEdit.toggle.setToggle();
   };
 
-  const handleDelete = hasPermission(async (item: IProperty) => {
+  const handleDelete = hasPermission(async (item: Property) => {
     const result = await dispatch(deletePropertyAsync(item.id));
     if (result.payload) {
       toast.success(PROPERTY_MESSAGE.delete.success);

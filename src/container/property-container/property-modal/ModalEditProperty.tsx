@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getUsersAsync, userSelectors } from "@/features/reducers";
-import { IProperty } from "@/features/types";
+import { Property } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 import { FormatService, FormService } from "@/utils";
 
@@ -14,7 +14,7 @@ import { schema } from "../schema";
 import { IFormPropertyInfo } from "../type";
 import { FormItems } from "./FormItems";
 
-export const ModalEditProperty: React.FC<THookModalProps<IProperty>> = ({
+export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
   data,
   isShowing,
   toggle,
