@@ -19,7 +19,7 @@ export class UserMapper implements IMapperFromDto<UserDto, User> {
     return {
       ...authAccountMapper.fromDtoWithOutGroups(dto),
       id: dto.id,
-      department_id: dto.department_id,
+      departmentId: dto.department_id,
       avatar: dto.avatar,
     };
   }
@@ -29,7 +29,7 @@ export class UserMapper implements IMapperFromDto<UserDto, User> {
       ...authAccountMapper.fromInheritance(profile),
       id: profile.id,
       avatar: profile.avatar,
-      department_id: profile.department.id,
+      departmentId: profile.department.id,
     };
   }
 
@@ -37,7 +37,7 @@ export class UserMapper implements IMapperFromDto<UserDto, User> {
     return {
       ...authAccountMapper.fromInheritance(model.authAccount),
       avatar: model.avatar,
-      department_id: model.department.id,
+      departmentId: model.department.id,
     };
   }
 }

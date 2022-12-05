@@ -65,6 +65,7 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
         },
       })
     );
+    console.log(result);
     if (updateTaskAsync.rejected.match(result)) {
       toast.error(TODO_MESSAGES.update.error);
     }

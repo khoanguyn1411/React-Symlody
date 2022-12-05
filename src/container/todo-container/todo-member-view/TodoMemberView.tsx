@@ -33,7 +33,7 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
     const _currentUser = userMapper.fromProfile(currentUserProfile);
     const userListWithoutCurrentUser = userList.filter((user) => {
       const isSameWithFilterDepartment =
-        user.department_id === taskStore.filterParamsTask.departmentId;
+        user.departmentId === taskStore.filterParamsTask.departmentId;
       const isNotCurrenUser = user.id !== _currentUser.id;
       return isSameWithFilterDepartment && isNotCurrenUser;
     });

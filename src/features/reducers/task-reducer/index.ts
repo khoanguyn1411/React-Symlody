@@ -46,7 +46,7 @@ export const createTaskAsync = createAsyncThunk<
   const assignee = userList.find((user) => user.id === body.task.assignee.id);
   const currentDepartmentId = reduxStore.task.filterParamsTask.departmentId;
 
-  const isInSelectedDepartment = assignee.department_id === currentDepartmentId;
+  const isInSelectedDepartment = assignee.departmentId === currentDepartmentId;
 
   const taskDto = taskMapper.toCreationDto(body.task);
   const result = await TaskApi.createTask(taskDto);
@@ -77,9 +77,8 @@ export const updateTaskAsync = createAsyncThunk<
   const userList = userSelectors.selectAll(reduxStore);
   const assignee = userList.find((user) => user.id === payload.assignee.id);
   const currentDepartmentId = reduxStore.task.filterParamsTask.departmentId;
-
   const isNotInSelectedDepartment =
-    assignee.department_id !== currentDepartmentId;
+    assignee.departmentId !== currentDepartmentId;
   if (result.kind === "ok") {
     return {
       task: taskMapper.fromDto(result.result),

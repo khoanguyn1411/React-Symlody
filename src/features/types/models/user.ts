@@ -6,7 +6,7 @@ import { IsRole } from "./is-role";
 
 export interface User extends StrictOmit<AuthAccount, "groups"> {
   id: number;
-  department_id: Department["id"];
+  departmentId: Department["id"];
   avatar: string | null;
 }
 
