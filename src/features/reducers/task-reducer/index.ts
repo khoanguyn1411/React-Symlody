@@ -90,7 +90,7 @@ export const updateTaskAsync = createAsyncThunk<
 
 export const filterTaskByAssignee = createAsyncThunk<
   void,
-  undefined,
+  null,
   GlobalTypes.ReduxThunkRejectValue<null>
 >("filter-by-assignee/task", async (_, { dispatch }) => {
   const reduxStore = store.getState();

@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React, { useEffect, useMemo, useState } from "react";
 
 import { Avatar, Tooltip } from "@/components";
+import { useAppSelector } from "@/features";
 import { User } from "@/features/types";
 import { GlobalTypes } from "@/utils";
 
@@ -21,6 +22,7 @@ export const TodoAvatar: React.FC<TProps> = ({
   selectedMembers,
   setSelectedMembers,
 }) => {
+  const taskStore = useAppSelector((state) => state.task);
   const idsSelectedMembers = selectedMembers.map((member) => member.id);
   const getZIndex = useMemo(() => {
     return idsSelectedMembers.includes(user.id)
@@ -52,6 +54,11 @@ export const TodoAvatar: React.FC<TProps> = ({
   const handleChangeZIndexOnMouseOut = () => {
     setZIndex(getZIndex);
   };
+
+  useEffect(() => {
+    setSelectedMembers([]);
+  }, [setSelectedMembers, taskStore.filterParamsTask.departmentId]);
+
   return (
     <TodoCircleBorderWrapper
       onMouseOver={handleChangeZIndexOnMouseOver}

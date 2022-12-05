@@ -108,14 +108,19 @@ export const TodoContainer: React.FC = () => {
 
   const handleSetFilter = (item: TItemListSelect) => {
     const departmentID = getDepartmentId(item.value);
-    dispatch(setFilterParamsTask({ departmentId: departmentID }));
+    dispatch(
+      setFilterParamsTask({
+        departmentId: departmentID,
+        selectedMemberList: [],
+      })
+    );
   };
 
   useEffect(() => {
     setContent(getContentTab(_tab, isLoading));
   }, [isLoading, navigate, _tab]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setFilterDepartment(getInitialDepartmentText());
     const { departmentId } = taskStore.filterParamsTask;
     dispatch(
@@ -123,10 +128,7 @@ export const TodoContainer: React.FC = () => {
         departmentId: departmentId ?? currentUser.department.id,
       })
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  useLayoutEffect(() => {
     const hasUser = userCount > 0;
     const hasDepartment = departmentCount > 0;
     const hasBoth = hasUser && hasDepartment;
