@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { FormItem, InputPassword } from "@/components";
+import { SelectTest } from "@/components/elements/select/select-custom-new/SelectTest";
 import { useAppDispatch } from "@/features";
 import { changePasswordAsync } from "@/features/reducers";
 import { FormService } from "@/utils";
@@ -39,6 +40,18 @@ export const TabChangePassword: React.FC = () => {
   };
   return (
     <ConfigTabContentContainer onSubmit={handleSubmit(handleChangePassword)}>
+      <SelectTest
+        list={[
+          {
+            label: "label 1",
+            value: "test 1",
+          },
+          {
+            label: "label 2",
+            value: "test 2",
+          },
+        ]}
+      ></SelectTest>
       <FormItem
         label="Mật khẩu hiện tại"
         isRequired

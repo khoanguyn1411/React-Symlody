@@ -56,7 +56,7 @@ export type TSelectMultipleProps = {
 
 export type TSelectCustomProps = {
   isShowArrow?: boolean;
-  renderListItem: ReactNode;
+  renderListItem?: ReactNode;
   isShowContent?: boolean;
   setIsShowContent?: GlobalTypes.ReactStateAction<boolean>;
 } & TSelectGeneralProps;
