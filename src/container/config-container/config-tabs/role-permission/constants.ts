@@ -1,4 +1,3 @@
-import { TItemListSelect } from "@/components";
 import { TOptionProps } from "@/components/elements/select/type";
 import { RolesManagerSortName } from "@/features/types";
 import {
@@ -12,9 +11,9 @@ export enum EPermissionOptions {
   Member = "Thành viên",
 }
 
-export const PERMISSION_OPTIONS: TItemListSelect[] = generateArrayFromEnum(
+export const PERMISSION_OPTIONS: TOptionProps[] = generateArrayFromEnum(
   EPermissionOptions
-).map((item) => ({ value: item }));
+).map((item) => ({ value: item, label: item }));
 
 export const MANAGE_OPTIONS: TOptionProps[] = generateArrayFromEnum(
   RolesManagerSortName

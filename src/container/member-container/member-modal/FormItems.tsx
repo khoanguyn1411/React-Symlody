@@ -14,7 +14,6 @@ type TProps = {
 };
 
 export const FormItems: React.FC<TProps> = ({ formProps }) => {
-  const departmentStore = useAppSelector((state) => state.department);
   const departmentList = useAppSelector(departmentSelectors.selectAll);
 
   const {
@@ -59,7 +58,10 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
             name="gender"
             render={({ field: { value, onChange } }) => (
               <Select
-                list={[{ value: Gender.Male }, { value: Gender.Female }]}
+                list={[
+                  { value: Gender.Male, label: Gender.Male },
+                  { value: Gender.Female, label: Gender.Female },
+                ]}
                 style="modal"
                 value={value}
                 onChange={onChange}
@@ -152,8 +154,8 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
             <Select
               list={departmentList.map((item) => ({
                 value: item.name,
+                label: item.name,
               }))}
-              isLoading={departmentStore.pending}
               style={"modal"}
               value={value}
               placeHolder="Ban"

@@ -1,6 +1,6 @@
 import { FormatService } from "@/utils";
 
-import { Select, TItemListSelect } from "../../select";
+import { Select } from "../../select";
 import { usePaginationContext } from "../context";
 
 export const PaginationPickRows: React.FC = () => {
@@ -21,9 +21,12 @@ export const PaginationPickRows: React.FC = () => {
       <Select
         className="w-32"
         classNameDisplay="h-9"
-        suffix="hàng"
         placement="top-left"
-        list={quantityDisplay.map((item): TItemListSelect => ({ value: item }))}
+        list={quantityDisplay.map((item) => ({
+          value: item,
+          label: item,
+          suffix: "hàng",
+        }))}
         value={FormatService.toString(limit)}
         onChange={handleRowsChange}
       />

@@ -4,8 +4,6 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { FormItem, InputPassword } from "@/components";
-import { SelectTest } from "@/components/elements/select/select-custom-new/SelectTest";
-import { TOptionProps } from "@/components/elements/select/type";
 import { useAppDispatch } from "@/features";
 import { changePasswordAsync } from "@/features/reducers";
 import { FormService } from "@/utils";
@@ -39,24 +37,9 @@ export const TabChangePassword: React.FC = () => {
     toast.success(CHANGE_PASSWORD_MESSAGE.success);
     reset();
   };
-  const listTest: TOptionProps<{ test: string; fun: number }>[] = [
-    {
-      label: "label 1",
-      value: "test1",
-    },
-    {
-      label: "label 2",
-      value: "test2",
-    },
-  ];
+
   return (
     <ConfigTabContentContainer onSubmit={handleSubmit(handleChangePassword)}>
-      <SelectTest
-        isMultiple
-        placeHolder="Test"
-        isShowArrow
-        list={listTest}
-      ></SelectTest>
       <FormItem
         label="Mật khẩu hiện tại"
         isRequired

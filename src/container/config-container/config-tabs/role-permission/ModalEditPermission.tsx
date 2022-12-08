@@ -3,14 +3,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import {
-  Avatar,
-  FormItem,
-  Modal,
-  Select,
-  SelectMultiple,
-  TItemListSelect,
-} from "@/components";
+import { Avatar, FormItem, Modal, Select, TItemListSelect } from "@/components";
 import { TToggleModal } from "@/components/elements/modal/types";
 import { useAppDispatch } from "@/features";
 import { updateConfigRoleUserAsync } from "@/features/reducers";
@@ -142,7 +135,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
             control={control}
             name="roleManager"
             render={({ field: { value, onChange } }) => (
-              <SelectMultiple
+              <Select
                 placeHolder="Chọn tính năng"
                 list={MANAGE_OPTIONS}
                 value={value}

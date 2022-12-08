@@ -202,6 +202,7 @@ export const TodoContainer: React.FC = () => {
               placeHolder="Chọn phòng ban"
               list={departmentList.map((department) => ({
                 value: department.name,
+                label: department.name,
               }))}
               onChangeSideEffect={handleSetFilter}
               value={filterDepartment}

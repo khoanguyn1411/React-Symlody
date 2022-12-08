@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Select, TItemListSelect } from "../../../elements";
+import { Select } from "../../../elements";
 import { TField, TValueQuery } from "../Sort";
 
 type TProps = {
@@ -57,7 +57,7 @@ export const SortIncludeValues: React.FC<TProps> = ({
           isPortal={false}
           className="col-span-3"
           classNameDisplay="h-8"
-          list={listSelect.map((item): TItemListSelect => ({ value: item }))}
+          list={listSelect.map((item) => ({ value: item, label: item }))}
           value={sortSelected.title}
           onChange={handleSetSortSelected}
         />
@@ -65,9 +65,10 @@ export const SortIncludeValues: React.FC<TProps> = ({
           isPortal={false}
           className="ml-3 col-span-3"
           classNameDisplay="h-8"
-          list={sortSelected.children.map(
-            (value): TItemListSelect => ({ value: value.title })
-          )}
+          list={sortSelected.children.map((value) => ({
+            value: value.title,
+            label: value.title,
+          }))}
           value={
             sortSelected.children.find(
               (item) => item.isAscending === isAscending

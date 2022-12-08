@@ -1,5 +1,6 @@
 import { images } from "@/assets/images";
-import { TItemListSelect, TNodataConfig } from "@/components";
+import { TNodataConfig } from "@/components";
+import { TOptionProps } from "@/components/elements/select/type";
 import { GeneratorService } from "@/utils";
 
 export const PROPERTY_NO_DATA_CONFIG: TNodataConfig = {
@@ -16,18 +17,18 @@ export const PROPERTY_FILTER_VALUE = {
   inUse: "in-use",
 } as const;
 
-export const PROPERTY_FILTER_OPTIONS: TItemListSelect[] = [
+export const PROPERTY_FILTER_OPTIONS: TOptionProps[] = [
   {
-    key: PROPERTY_FILTER_VALUE.inUse,
-    value: "Đang sử dụng",
+    value: PROPERTY_FILTER_VALUE.inUse,
+    label: "Đang sử dụng",
   },
   {
-    key: PROPERTY_FILTER_VALUE.isArchived,
-    value: "Đã lưu trữ",
+    value: PROPERTY_FILTER_VALUE.isArchived,
+    label: "Đã lưu trữ",
   },
   {
-    key: PROPERTY_FILTER_VALUE.all,
-    value: "Tất cả tài sản",
+    value: PROPERTY_FILTER_VALUE.all,
+    label: "Tất cả tài sản",
   },
 ];
 

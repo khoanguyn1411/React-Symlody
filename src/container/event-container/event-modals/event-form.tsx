@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
-import { AppDatePicker, FormItem, Input, Select, TextArea } from "@/components";
+import { AppDatePicker, FormItem, Input, Select } from "@/components";
 import { generateArrayFromEnum } from "@/utils/services/generate-service";
 
 import { EEventStatus } from "../constant";
@@ -103,6 +103,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
               onChange={onChange}
               list={generateArrayFromEnum(EEventStatus).map((item) => ({
                 value: item,
+                label: item,
               }))}
               placeHolder="Trạng thái"
             />
@@ -125,6 +126,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
               onChange={onChange}
               list={["AD", "HR"].map((item) => ({
                 value: item,
+                label: item,
               }))}
               placeHolder="Ban nắm chính"
             />

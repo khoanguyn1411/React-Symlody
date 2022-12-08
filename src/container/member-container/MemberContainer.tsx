@@ -8,8 +8,8 @@ import {
   Search,
   Select,
   Table,
-  TItemListSelect,
 } from "@/components";
+import { TOptionProps } from "@/components/elements/select/type";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deleteMemberAsync,
@@ -34,8 +34,8 @@ import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { MemberPagination } from "./member-pagination";
 import { MemberTableContent } from "./member-table-content";
 
-const getFilterValue = (key: string) => {
-  return MEMBER_FILTER_OPTIONS.find((item) => item.key === key).value;
+const getFilterValue = (value: string) => {
+  return MEMBER_FILTER_OPTIONS.find((item) => item.value === value).value;
 };
 export const MemberContainer: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -62,8 +62,8 @@ export const MemberContainer: React.FC = () => {
     }
   });
 
-  const handleSetFilter = (item: TItemListSelect) => {
-    switch (item.key) {
+  const handleSetFilter = (item: TOptionProps) => {
+    switch (item.value) {
       case MEMBER_FILTER_VALUE.all:
         dispatch(setFilterParamsMember({ isArchived: null }));
         break;

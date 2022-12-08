@@ -1,5 +1,6 @@
 import { images } from "@/assets/images";
-import { TItemListSelect, TNodataConfig } from "@/components";
+import { TNodataConfig } from "@/components";
+import { TOptionProps } from "@/components/elements/select/type";
 import { GeneratorService } from "@/utils";
 
 export const MEMBER_FILTER_VALUE = {
@@ -8,18 +9,18 @@ export const MEMBER_FILTER_VALUE = {
   active: "active",
 } as const;
 
-export const MEMBER_FILTER_OPTIONS: TItemListSelect[] = [
+export const MEMBER_FILTER_OPTIONS: TOptionProps[] = [
   {
-    key: MEMBER_FILTER_VALUE.active,
-    value: "Đang hoạt động",
+    value: MEMBER_FILTER_VALUE.active,
+    label: "Đang hoạt động",
   },
   {
-    key: MEMBER_FILTER_VALUE.isArchived,
-    value: "Hết nhiệm kỳ",
+    value: MEMBER_FILTER_VALUE.isArchived,
+    label: "Hết nhiệm kỳ",
   },
   {
-    key: MEMBER_FILTER_VALUE.all,
-    value: "Tất cả thành viên",
+    value: MEMBER_FILTER_VALUE.all,
+    label: "Tất cả thành viên",
   },
 ];
 

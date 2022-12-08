@@ -8,8 +8,8 @@ import {
   Search,
   Select,
   Table,
-  TItemListSelect,
 } from "@/components";
+import { TOptionProps } from "@/components/elements/select/type";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deletePropertyAsync,
@@ -33,8 +33,8 @@ import { ModalCreateProperty, ModalEditProperty } from "./property-modal";
 import { PropertyPagination } from "./property-pagination";
 import { PropertyTableContent } from "./property-table-content";
 
-const getFilterValue = (key: string) => {
-  return PROPERTY_FILTER_OPTIONS.find((item) => item.key === key).value;
+const getFilterValue = (value: string) => {
+  return PROPERTY_FILTER_OPTIONS.find((item) => item.value === value).value;
 };
 
 export const PropertyContainer: React.FC = () => {
@@ -65,8 +65,8 @@ export const PropertyContainer: React.FC = () => {
     }
   });
 
-  const handleSetFilter = (item: TItemListSelect) => {
-    switch (item.key) {
+  const handleSetFilter = (item: TOptionProps) => {
+    switch (item.value) {
       case PROPERTY_FILTER_VALUE.all:
         dispatch(setFilterParamsProperty({ isArchived: null }));
         break;

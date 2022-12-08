@@ -175,7 +175,10 @@ export const TabPersonalInfo: React.FC = () => {
             name="gender"
             render={({ field: { value, onChange } }) => (
               <Select
-                list={[{ value: Gender.Male }, { value: Gender.Female }]}
+                list={[
+                  { value: Gender.Male, label: Gender.Male },
+                  { value: Gender.Female, label: Gender.Female },
+                ]}
                 style="modal"
                 value={value}
                 onChange={onChange}

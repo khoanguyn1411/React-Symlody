@@ -1,5 +1,6 @@
 import { images } from "@/assets/images";
-import { TItemListSelect, TNodataConfig } from "@/components";
+import { TNodataConfig } from "@/components";
+import { TOptionProps } from "@/components/elements/select/type";
 import { generateArrayFromEnum } from "@/utils/services/generate-service";
 
 import { TEventTable } from "./type";
@@ -35,7 +36,7 @@ export const EVENT_NO_DATA_CONFIG: TNodataConfig = {
   imageSrc: images.noData.event,
 };
 
-export const EVENT_STATUS_LIST_OPTIONS: TItemListSelect[] = [
+export const EVENT_STATUS_LIST_OPTIONS: TOptionProps[] = [
   "Tất cả sự kiện",
   ...generateArrayFromEnum(EEventStatus),
-].map((item) => ({ value: item }));
+].map((item) => ({ value: item, label: item }));

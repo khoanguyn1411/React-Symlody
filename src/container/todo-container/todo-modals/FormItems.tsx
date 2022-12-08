@@ -80,9 +80,11 @@ export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
                       {
                         prefix: <TodoPriorityIcon isPriority={false} />,
                         value: Priority.Normal,
+                        label: Priority.Normal,
                       },
                       {
                         prefix: <TodoPriorityIcon isPriority />,
+                        label: Priority.High,
                         value: Priority.High,
                       },
                     ]}
