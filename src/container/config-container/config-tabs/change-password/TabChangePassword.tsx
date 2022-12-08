@@ -41,6 +41,9 @@ export const TabChangePassword: React.FC = () => {
   return (
     <ConfigTabContentContainer onSubmit={handleSubmit(handleChangePassword)}>
       <SelectTest
+        isMultiple
+        placeHolder="Test"
+        isShowArrow
         list={[
           {
             label: "label 1",

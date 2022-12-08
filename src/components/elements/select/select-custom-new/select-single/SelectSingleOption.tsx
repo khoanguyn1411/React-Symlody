@@ -1,31 +1,18 @@
 import classNames from "classnames";
 import React from "react";
 
-import { TOptionProps } from "../type";
+import { TOptionProps } from "../../type";
 
 export const SelectDefaultOption: React.FC<
   TOptionProps & {
-    selectedUncontrolledOption: TOptionProps;
-    selectedControlledValue: string;
+    selectedOption: TOptionProps;
   }
-> = ({
-  suffix,
-  prefix,
-  label,
-  value,
-  selectedControlledValue,
-  selectedUncontrolledOption,
-}) => {
-  const hasNoneSelectedEntity =
-    selectedControlledValue == null && selectedUncontrolledOption == null;
+> = ({ suffix, prefix, label, value, selectedOption }) => {
   const getValue = () => {
-    if (hasNoneSelectedEntity) {
-      return null;
+    if (selectedOption != null) {
+      return selectedOption.value;
     }
-    if (selectedControlledValue != null) {
-      return selectedControlledValue;
-    }
-    return selectedUncontrolledOption.value;
+    return null;
   };
   return (
     <div

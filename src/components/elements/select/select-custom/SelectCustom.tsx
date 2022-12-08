@@ -21,7 +21,7 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
   children,
   placement = "bottom-left",
   isNoPaddingY = false,
-  isShowContent,
+  isShowContent = false,
   setIsShowContent,
 }) => {
   let _isShowContent: boolean,
@@ -87,7 +87,7 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
   );
 
   return (
-    <div className="relative flex items-center cursor-pointer">
+    <div className="relative flex items-center cursor-pointer h-9">
       {/* Display */}
       <SelectDisplayWrapper
         ref={displayRef}

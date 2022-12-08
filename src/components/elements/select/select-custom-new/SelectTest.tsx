@@ -1,28 +1,44 @@
 import { ReactNode, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
+import {
+  assertArray,
+  assertNotArray,
+  assertString,
+} from "@/utils/services/common-service";
 
 import { SelectCustom } from "../select-custom/SelectCustom";
 import { TOptionProps, TSelectCustomProps } from "../type";
-import { SelectDefaultDisplay } from "./SelectDefaultDisplay";
-import { SelectDefaultOption } from "./SelectDefaultOption";
+import { SelectMultipleDisplay } from "./select-multiple/SelectMultipleDisplay";
+import { SelectMultipleOption } from "./select-multiple/SelectMultipleOption";
+import { SelectDefaultDisplay } from "./select-single/SelectSingleDisplay";
+import { SelectDefaultOption } from "./select-single/SelectSingleOption";
 
 type Props = TSelectCustomProps & {
   list: TOptionProps[];
-  value?: string;
+  value?: string | string[];
+  isMultiple?: boolean;
+  children?: (option: TOptionProps | TOptionProps[]) => ReactNode;
   renderOption?: (option: TOptionProps) => ReactNode;
+  renderDisplayOption?: (
+    option: TOptionProps,
+    removeOptionFn?: () => void
+  ) => ReactNode;
   onChangeSideEffect?: (option: TOptionProps) => void;
-  onChange?: GlobalTypes.ReactStateAction<string>;
+  onChange?: GlobalTypes.ReactStateAction<string | string[]>;
 };
 
-export const SelectTest: GlobalTypes.FCPropsWithChildren<Props> = ({
+export const SelectTest: React.FC<Props> = ({
   list,
   value,
   isShowContent,
+  isMultiple = false,
+  children,
   setIsShowContent,
   renderOption,
   onChange,
   onChangeSideEffect,
+  renderDisplayOption,
   ...props
 }) => {
   let _isShowContent: boolean,
@@ -38,25 +54,79 @@ export const SelectTest: GlobalTypes.FCPropsWithChildren<Props> = ({
     _setIsShowContent = setIsShowContent;
   }
 
-  const [selectedOption, setSelectedOption] = useState<TOptionProps>(
-    list.find((item) => item.value === value) ?? null
-  );
+  const [selectedOption, setSelectedOption] = useState<
+    TOptionProps | TOptionProps[]
+  >(() => {
+    if (isMultiple) {
+      assertArray(value);
+      return value
+        ? list.filter((item) => value.filter((val) => val === item.value))
+        : [];
+    }
+    return list.find((item) => item.value === value) ?? null;
+  });
+
   const handleSetSelectedItem = (option: TOptionProps) => () => {
-    onChange?.(option.value);
     onChangeSideEffect?.(option);
-    setSelectedOption(option);
-    _setIsShowContent(false);
+    if (!isMultiple) {
+      onChange?.(option.value);
+      setSelectedOption(option);
+      _setIsShowContent(false);
+      return;
+    }
+    assertArray(selectedOption);
+    const optionValues = selectedOption.map((option) => option.value);
+    if (optionValues.includes(option.value)) {
+      const newSelectedList = selectedOption.filter(
+        (_option) => _option.value !== option.value
+      );
+      onChange?.(newSelectedList.map((option) => option.value));
+      setSelectedOption(newSelectedList);
+      return;
+    }
+    const newSelectedList = [...selectedOption, option];
+    onChange?.(newSelectedList.map((option) => option.value));
+    setSelectedOption(newSelectedList);
   };
 
   const getOptionUI = (option: TOptionProps) => {
     if (renderOption) {
       return renderOption(option);
     }
+    if (!isMultiple) {
+      assertNotArray<TOptionProps>(selectedOption);
+      assertString(value);
+      return (
+        <SelectDefaultOption {...option} selectedOption={selectedOption} />
+      );
+    }
+    assertArray(selectedOption);
+    return <SelectMultipleOption selectedOption={selectedOption} {...option} />;
+  };
+
+  const getDisplayUI = () => {
+    if (children) {
+      return children(selectedOption);
+    }
+    if (!isMultiple) {
+      assertNotArray<TOptionProps>(selectedOption);
+      assertString(value);
+      return (
+        <SelectDefaultDisplay
+          selectedOption={selectedOption}
+          isShowContent={_isShowContent}
+          placeholder={props.placeHolder}
+        />
+      );
+    }
+    assertArray(selectedOption);
     return (
-      <SelectDefaultOption
-        {...option}
-        selectedUncontrolledOption={selectedOption}
-        selectedControlledValue={value}
+      <SelectMultipleDisplay
+        selectedOption={selectedOption}
+        handleSetSelectedItem={handleSetSelectedItem}
+        style={props.style}
+        placeholder={props.placeHolder}
+        renderDisplayOption={renderDisplayOption}
       />
     );
   };
@@ -80,14 +150,7 @@ export const SelectTest: GlobalTypes.FCPropsWithChildren<Props> = ({
         );
       })}
     >
-      {props.children ?? (
-        <SelectDefaultDisplay
-          selectedUncontrolledOption={selectedOption}
-          selectedControlledValue={value}
-          isShowContent={_isShowContent}
-          placeholder={props.placeHolder}
-        />
-      )}
+      {getDisplayUI()}
     </SelectCustom>
   );
 };
