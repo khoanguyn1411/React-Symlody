@@ -121,8 +121,8 @@ export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
             render={({ field: { value, onChange } }) => (
               <SelectUser
                 placeholder="Người được giao"
-                userId={value}
-                setUserId={onChange}
+                selectedUserId={value}
+                setSelectedUserId={onChange}
               />
             )}
           />
@@ -138,8 +138,8 @@ export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
             render={({ field: { value, onChange } }) => (
               <SelectUser
                 placeholder="Người theo dõi"
-                userId={value}
-                setUserId={onChange}
+                selectedUserId={value}
+                setSelectedUserId={onChange}
               />
             )}
           />

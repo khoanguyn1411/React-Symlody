@@ -8,8 +8,8 @@ import {
   NotificationImg,
   Select,
   TabHost,
-  TItemListSelect,
 } from "@/components";
+import { TOptionProps } from "@/components/elements/select/type";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   departmentSelectors,
@@ -106,7 +106,7 @@ export const TodoContainer: React.FC = () => {
     propsModal.toggle.setShow();
   };
 
-  const handleSetFilter = (item: TItemListSelect) => {
+  const handleSetFilter = (item: TOptionProps) => {
     const departmentID = getDepartmentId(item.value);
     dispatch(
       setFilterParamsTask({
@@ -198,7 +198,7 @@ export const TodoContainer: React.FC = () => {
         <Container.HeaderRight>
           {!isLoading && isShowSelect && (
             <Select
-              className="w-36"
+              classNameDisplay="w-36"
               placeHolder="Chọn phòng ban"
               list={departmentList.map((department) => ({
                 value: department.name,

@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
 import {
@@ -7,11 +7,11 @@ import {
   assertString,
 } from "@/utils/services/common-service";
 
+import { SelectBase } from "../select-base/SelectBase";
 import { SelectMultipleDisplay } from "../select-components/select-multiple/SelectMultipleDisplay";
 import { SelectMultipleOption } from "../select-components/select-multiple/SelectMultipleOption";
 import { SelectDefaultDisplay } from "../select-components/select-single/SelectSingleDisplay";
 import { SelectDefaultOption } from "../select-components/select-single/SelectSingleOption";
-import { SelectCustom } from "../select-custom/SelectCustom";
 import { TOptionProps, TSelectCustomProps } from "../type";
 
 export type TItemListSelect = {
@@ -25,11 +25,11 @@ type Props<T> = TSelectCustomProps & {
   list: TOptionProps<T>[];
   value?: string | string[];
   isMultiple?: boolean;
-  setOptionChosen?: GlobalTypes.ReactStateAction<
-    TOptionProps<T> | TOptionProps<T>[]
-  >;
-  children?: (option: TOptionProps<T> | TOptionProps<T>[]) => ReactNode;
-  renderOption?: (option: TOptionProps<T>) => ReactNode;
+  // setOptionChosen?: GlobalTypes.ReactStateAction<
+  //   TOptionProps<T> | TOptionProps<T>[]
+  // >;
+  children?: (option: TOptionProps<T>) => ReactNode;
+  renderOption?: (option: TOptionProps<T>, isChosen?: boolean) => ReactNode;
   renderDisplayOption?: (
     option: TOptionProps<T>,
     removeOptionFn?: () => void
@@ -38,6 +38,7 @@ type Props<T> = TSelectCustomProps & {
   onChange?: GlobalTypes.ReactStateAction<string | string[]>;
   renderBeforeList?: ReactNode;
   renderAfterList?: ReactNode;
+  renderEmptyListPlaceholder?: ReactNode;
 };
 
 export function Select<T>({
@@ -50,10 +51,10 @@ export function Select<T>({
   children,
   setIsShowContent,
   renderOption,
+  renderEmptyListPlaceholder,
   onChange,
   onChangeSideEffect,
   renderDisplayOption,
-  setOptionChosen,
   ...props
 }: Props<T>): JSX.Element {
   let _isShowContent: boolean,
@@ -88,8 +89,8 @@ export function Select<T>({
     onChangeSideEffect?.(option);
     if (!isMultiple) {
       onChange?.(option.value);
+
       setSelectedOption(option);
-      setOptionChosen?.(option);
       _setIsShowContent(false);
       return;
     }
@@ -99,20 +100,18 @@ export function Select<T>({
       const newSelectedList = selectedOption.filter(
         (_option) => _option.value !== option.value
       );
-      onChange?.(newSelectedList.map((option) => option.value));
       setSelectedOption(newSelectedList);
-      setOptionChosen?.(option);
+      onChange?.(newSelectedList.map((option) => option.value));
       return;
     }
     const newSelectedList = [...selectedOption, option];
-    onChange?.(newSelectedList.map((option) => option.value));
     setSelectedOption(newSelectedList);
-    setOptionChosen?.(option);
   };
 
   const getOptionUI = (option: TOptionProps<T>) => {
     if (renderOption) {
-      return renderOption(option);
+      const isChosen = option.value === value;
+      return renderOption(option, isChosen);
     }
     if (!isMultiple) {
       assertNotArray<TOptionProps<T>>(selectedOption);
@@ -126,12 +125,31 @@ export function Select<T>({
   };
 
   const getDisplayUI = () => {
+    assertNotArray<TOptionProps<T>>(selectedOption);
+    assertString(value);
     if (children) {
+      // let isNoSelectedOption: boolean;
+      // if (isMultiple) {
+
+      //   assertArray(selectedOption);
+      //   isNoSelectedOption =
+      //     selectedOption == null || selectedOption.length === 0;
+      // } else {
+      //   isNoSelectedOption = selectedOption == null;
+      // }
+
+      // if (isNoSelectedOption && !props.placeHolder) {
+      //   console.warn(
+      //     "Seem like your select does not include a default value. You should provide a placeholder in such case."
+      //   );
+      //   return <></>;
+      // }
+      // if (isNoSelectedOption) {
+      //   return props.placeHolder;
+      // }
       return children(selectedOption);
     }
     if (!isMultiple) {
-      assertNotArray<TOptionProps<T>>(selectedOption);
-      assertString(value);
       return (
         <SelectDefaultDisplay
           selectedOption={selectedOption}
@@ -153,8 +171,21 @@ export function Select<T>({
     );
   };
 
+  useEffect(() => {
+    if (isMultiple) {
+      assertArray(selectedOption);
+      const newSelectedList = selectedOption.filter(
+        (_option) => _option.value !== value
+      );
+      setSelectedOption(newSelectedList);
+      return;
+    }
+    setSelectedOption(list.find((option) => option.value === value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
   return (
-    <SelectCustom
+    <SelectBase
       {...props}
       wrapperSelectRef={wrapperSelectRef}
       isShowContent={_isShowContent}
@@ -162,11 +193,12 @@ export function Select<T>({
       renderListItem={
         <>
           {renderBeforeList}
+          {list.length === 0 && renderEmptyListPlaceholder}
           {list.map((option, index) => {
             return (
               <li
                 onClick={handleSetSelectedItem(option)}
-                key={option.value + index}
+                key={`${option.value}-${index}`}
                 role={"menuitem"}
                 onKeyDown={null}
                 tabIndex={0}
@@ -180,6 +212,6 @@ export function Select<T>({
       }
     >
       {getDisplayUI()}
-    </SelectCustom>
+    </SelectBase>
   );
 }

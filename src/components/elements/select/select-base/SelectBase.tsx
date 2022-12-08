@@ -9,7 +9,7 @@ import { SelectDisplayWrapper } from "../select-components";
 import { SelectListWrapper } from "../select-components/SelectListWrapper";
 import { TSelectCustomProps } from "../type";
 
-export const SelectCustom: GlobalTypes.FCPropsWithChildren<
+export const SelectBase: GlobalTypes.FCPropsWithChildren<
   TSelectCustomProps
 > = ({
   classNameDisplay,
@@ -23,6 +23,7 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
   isNoPaddingY = false,
   isShowContent = false,
   wrapperSelectRef,
+  isNonePadding = false,
   setIsShowContent,
 }) => {
   let _isShowContent: boolean,
@@ -53,7 +54,7 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    if (!wrapperSelectRef) {
+    if (!wrapperSelectRef.current) {
       const elementDisplay = displayRef?.current;
       const elementIcon = iconRef?.current;
       if (elementIcon) {
@@ -106,6 +107,7 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
     <div className="relative flex items-center cursor-pointer h-9">
       {/* Display */}
       <SelectDisplayWrapper
+        isNonePadding={isNonePadding}
         ref={displayRef}
         classNameDisplay={classNameDisplay}
         onClick={handleToggleContent}

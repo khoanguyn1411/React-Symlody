@@ -1,7 +1,6 @@
 import classNames from "classnames";
-import { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 
-import { Avatar, SelectSearch } from "@/components";
 import { PLACEHOLDER_IMAGE } from "@/constants";
 import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
@@ -9,37 +8,69 @@ import { User } from "@/features/types";
 import { useDebounce } from "@/hooks";
 import { FormatService } from "@/utils";
 
-export type TProps = {
-  userId: number;
-  placeholder: string;
-  setUserId: (userId: number) => void;
+import { Avatar } from "../../avatar";
+import { Button } from "../../button";
+import { Input } from "../../input";
+import { Select } from "../select-default";
+import { TOptionProps } from "../type";
+
+type Props = {
+  placeholder?: string;
+  selectedUserId: User["id"];
+  setSelectedUserId: (value: User["id"]) => void;
 };
 
-export const SelectUser: React.FC<TProps> = ({
+export const SelectUser: React.FC<Props> = ({
   placeholder,
-  userId,
-  setUserId,
+  selectedUserId,
+  setSelectedUserId,
 }) => {
   const userList = useAppSelector(userSelectors.selectAll);
-  const { inputValue, setInputValue, debounceValue } = useDebounce();
-  const [isShowContent, setIsShowContent] = useState<boolean>(false);
-  const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [userSelected, setUserSelected] = useState<User>(() => {
-    return userList.find((item) => item.id === userId);
-  });
 
   const [currentUserList, setCurrentUserList] = useState<User[]>(userList);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [isShowContent, setIsShowContent] = useState<boolean>(false);
 
-  const handleInputChange = (value: string): void => {
-    setInputValue(value);
-    setIsSearching(true);
+  const LIST_OPTIONS: TOptionProps<User>[] = currentUserList.map((user) => ({
+    value: user.id.toString(),
+    objectValue: user,
+    label: user.fullName,
+  }));
+  const {
+    inputValue: searchValue,
+    setInputValue: setSearchValue,
+    debounceValue: debounceSearchValue,
+  } = useDebounce();
+
+  const isShowClearSearch = searchValue !== "" || selectedUserId != null;
+
+  const handleClearSelectedUserId = () => {
+    setSelectedUserId(null);
+    setSearchValue("");
   };
 
   const handleSearchValueChange = (value: string): void => {
-    if (!value) {
-      if (userSelected) {
+    setIsShowContent(true);
+    setSearchValue(value);
+    setIsSearching(true);
+  };
+
+  const selectedUser = userList.find(
+    (user) => user.id === Number(selectedUserId)
+  );
+
+  useEffect(() => {
+    setCurrentUserList(userList);
+  }, [userList]);
+
+  useEffect(() => {
+    if (!isSearching) {
+      return;
+    }
+    if (!searchValue) {
+      if (selectedUserId) {
         setCurrentUserList(
-          userList.filter((item) => item.id !== userSelected.id)
+          userList.filter((item) => item.id !== Number(selectedUserId))
         );
         return;
       }
@@ -49,40 +80,22 @@ export const SelectUser: React.FC<TProps> = ({
 
     const newUserFilterList = userList.filter((item) =>
       FormatService.toCleanedString(item.fullName).includes(
-        FormatService.toCleanedString(value)
+        FormatService.toCleanedString(searchValue)
       )
     );
     setCurrentUserList(newUserFilterList);
-  };
-
-  const handleSelectMember = (user: User) => () => {
-    setUserSelected(user);
-    setIsShowContent(false);
-    setInputValue(user.fullName);
-    setIsSearching(false);
-    setUserId(user.id);
-  };
-
-  const handleClearMemberSelected = () => {
-    setUserSelected(null);
-    setUserId(null);
-    setInputValue("");
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debounceSearchValue]);
 
   useLayoutEffect(() => {
-    if (userId == null) {
-      setInputValue("");
-      setUserSelected(null);
-    }
-  }, [userId, setInputValue]);
-
-  useLayoutEffect(() => {
-    if (!isShowContent && userSelected) {
-      setInputValue(userSelected.fullName);
+    if (!isShowContent && selectedUserId) {
+      if (selectedUser) {
+        setSearchValue(selectedUser.fullName);
+      }
       setIsSearching(false);
     }
-    if (!isShowContent && !userSelected) {
-      setInputValue("");
+    if (!isShowContent && !selectedUserId) {
+      setSearchValue("");
       setIsSearching(false);
     }
     if (isShowContent && !isSearching) {
@@ -91,89 +104,100 @@ export const SelectUser: React.FC<TProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isShowContent]);
 
-  useEffect(() => {
-    setCurrentUserList(userList);
-  }, [userList]);
-
-  const isShowClearSearch = inputValue !== "" || userSelected != null;
-  const isShowFullNameImage =
-    userSelected && inputValue === userSelected.fullName;
-
   return (
-    <div>
-      <SelectSearch
-        setInputValue={handleInputChange}
-        inputValue={inputValue}
-        isSearching={isSearching}
-        isShowClearSearch={isShowClearSearch}
-        debounceValue={debounceValue}
-        isShowContent={isShowContent}
-        onClearSearch={handleClearMemberSelected}
-        setIsShowContent={setIsShowContent}
-        placeholder={placeholder}
-        postNode={
-          <Avatar
-            size="small"
-            fullName={isShowFullNameImage && userSelected.fullName}
-            src={!isShowFullNameImage ? PLACEHOLDER_IMAGE : userSelected.avatar}
-          />
-        }
-        onSearchChange={handleSearchValueChange}
-      >
-        {userSelected && !debounceValue && (
-          <button
-            className={classNames(
-              "flex p-2 w-full space-x-3 items-center bg-primary-50"
-            )}
-          >
-            <Avatar size="default" fullName={userSelected.fullName} src="" />
-            <div className="flex flex-col">
-              <h1
-                className={classNames("text-left text-primary-800 font-medium")}
-              >
-                {userSelected.fullName}
-              </h1>
-              <h2 className="text-sm">{userSelected.email}</h2>
-            </div>
-          </button>
-        )}
-        {currentUserList.map((item) => {
-          const isSelectedItemInList =
-            userSelected && item.id === userSelected.id;
-          return (
+    <Select
+      isShowContent={isShowContent}
+      setIsShowContent={setIsShowContent}
+      isNonePadding
+      value={selectedUserId && selectedUserId.toString()}
+      onChange={(value) => setSelectedUserId(Number(value))}
+      list={LIST_OPTIONS}
+      renderEmptyListPlaceholder={
+        <div className="p-2">Không có dữ liệu thành viên</div>
+      }
+      renderBeforeList={
+        <>
+          {selectedUser && !debounceSearchValue && (
             <button
-              onClick={handleSelectMember(item)}
-              key={item.id}
               className={classNames(
-                "flex py-2 px-3 w-full space-x-3 items-center transition-colors duration-200",
-                isSelectedItemInList ? "bg-primary-800" : "hover:bg-primary-50 "
+                "flex p-2 w-full space-x-3 items-center bg-primary-50"
               )}
             >
-              <Avatar
-                size="default"
-                fullName={item.fullName}
-                src={item.avatar}
-              />
+              <Avatar size="default" fullName={selectedUser.fullName} src="" />
               <div className="flex flex-col">
                 <h1
                   className={classNames(
-                    "text-left",
-                    isSelectedItemInList && "text-white font-medium"
+                    "text-left text-primary-800 font-medium"
                   )}
                 >
-                  {item.fullName}
+                  {selectedUser.fullName}
                 </h1>
-                {/* {isSelectedItemInList && (
-                  <h2 className="text-sm">{item.email}</h2>
-                )} */}
+                <h2 className="text-sm">{selectedUser.email}</h2>
               </div>
             </button>
-          );
-        })}
-        {currentUserList.length === 0 && (
-          <div className="p-2">Không có dữ liệu thành viên</div>
-        )}
-      </SelectSearch>
-    </div>
+          )}
+        </>
+      }
+      renderOption={({ objectValue: { fullName, avatar } }, isChosen) => (
+        <div
+          className={classNames(
+            "flex items-center w-full px-3 py-2 cursor-pointer space-x-3 transition-colors duration-200",
+            isChosen ? "bg-primary-800" : "hover:bg-primary-50 "
+          )}
+        >
+          <Avatar size="default" fullName={fullName} src={avatar} />
+          <div className="flex flex-col">
+            <h1
+              className={classNames(
+                "text-left",
+                isChosen && "text-white font-medium"
+              )}
+            >
+              {fullName}
+            </h1>
+          </div>
+        </div>
+      )}
+      placeHolder={placeholder}
+    >
+      {(option) => {
+        const hasOption = option != null;
+        const isShowFullNameImage =
+          hasOption && searchValue === option.objectValue.fullName;
+
+        const avatar = !isShowFullNameImage
+          ? PLACEHOLDER_IMAGE
+          : option.objectValue.avatar;
+
+        return (
+          <div className="relative w-full">
+            <div className="absolute top-0 bottom-0 left-0 flex items-center w-full px-3">
+              <Avatar
+                size="small"
+                fullName={isShowFullNameImage && option.objectValue.fullName}
+                src={avatar}
+              />
+              <Input
+                style="none"
+                placeholder={placeholder}
+                value={searchValue}
+                onChange={handleSearchValueChange}
+                className="flex-1 ml-2 box-border"
+              />
+              {isShowClearSearch && (
+                <Button
+                  isIconOnly
+                  style="none"
+                  onClick={handleClearSelectedUserId}
+                >
+                  <i className="text-gray-400 fas fa-times" />
+                </Button>
+              )}
+            </div>
+            <div className="h-10 bg-gray-100 rounded-md" />
+          </div>
+        );
+      }}
+    </Select>
   );
 };

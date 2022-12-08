@@ -1,12 +1,12 @@
 import classNames from "classnames";
-import React from "react";
+import React, { ReactNode } from "react";
 
 import { TOptionProps } from "../../type";
 
 type Props<T> = {
   selectedOption: TOptionProps<T>;
   isShowContent: boolean;
-  placeholder: string;
+  placeholder: ReactNode;
 };
 
 export function SelectDefaultDisplay<T>({

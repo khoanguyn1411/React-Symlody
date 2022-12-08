@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useState } from "react";
 
 import { Avatar, Checkbox, Search } from "@/components";
-import { SelectCustom } from "@/components/elements/select/select-custom";
+import { SelectBase } from "@/components/elements/select/select-base";
 import { User } from "@/features/types";
 import { useDebounce, useEffectSkipFirstRender } from "@/hooks";
 import { FilterService, GlobalTypes } from "@/utils";
@@ -61,7 +61,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
         }
       )}
     >
-      <SelectCustom
+      <SelectBase
         style="none"
         isNoPaddingY
         classNameList="border border-gray-200 bg-white"
@@ -108,7 +108,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
           isFullText
           fullName={`+${INITIAL_TASK_QUANTITY}`}
         />
-      </SelectCustom>
+      </SelectBase>
     </TodoCircleBorderWrapper>
   );
 };

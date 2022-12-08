@@ -8,7 +8,7 @@ import { TOptionProps } from "../../type";
 type Props<T> = {
   selectedOption: TOptionProps<T>[];
   style: TStyle;
-  placeholder: string;
+  placeholder: ReactNode;
   elementWrapperSelect: React.MutableRefObject<HTMLDivElement>;
   handleSetSelectedItem: (option: TOptionProps<T>) => () => void;
   renderDisplayOption: (

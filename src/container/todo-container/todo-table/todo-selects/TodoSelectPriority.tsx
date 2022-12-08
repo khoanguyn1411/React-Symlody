@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { SelectCustom } from "@/components";
+import { SelectBase } from "@/components";
 import { Task } from "@/features/types";
 
 import { TodoPriorityIcon } from "../../TodoPriorityIcon";
@@ -24,7 +24,7 @@ export const TodoSelectPriority: React.FC<TProps> = ({
     onPriorityChange(isPriority, task);
   };
   return (
-    <SelectCustom
+    <SelectBase
       isShowContent={isShowContent}
       setIsShowContent={setIsShowContent}
       placement="bottom-right"
@@ -45,6 +45,6 @@ export const TodoSelectPriority: React.FC<TProps> = ({
       ))}
     >
       <TodoPriorityIcon isPriority={_isPriority} />
-    </SelectCustom>
+    </SelectBase>
   );
 };

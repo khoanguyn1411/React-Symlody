@@ -32,7 +32,7 @@ export type TOptionProps<T extends Record<string, any> = undefined> = {
 };
 
 export type TSelectGeneralProps = {
-  placeHolder?: string;
+  placeHolder?: ReactNode;
   style?: TStyle;
   isPortal?: boolean;
   className?: string;
@@ -49,14 +49,9 @@ export type TSelectDefaultProps = {
   onChange: (param: string) => void;
 } & TSelectGeneralProps;
 
-export type TSelectMultipleProps = {
-  list: TOptionProps[];
-  value: string[];
-  onChange: (value: string[]) => void;
-} & TSelectGeneralProps;
-
 export type TSelectCustomProps = {
   isShowArrow?: boolean;
+  isNonePadding?: boolean;
   renderListItem?: ReactNode;
   isShowContent?: boolean;
   wrapperSelectRef?: React.MutableRefObject<HTMLDivElement>;

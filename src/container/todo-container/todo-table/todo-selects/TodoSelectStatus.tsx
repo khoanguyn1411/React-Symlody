@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 
-import { SelectCustom } from "@/components";
+import { SelectBase } from "@/components";
 import { Task, TodoStatusId } from "@/features/types";
 import { generateArrayFromEnum } from "@/utils/services/generate-service";
 
@@ -26,7 +26,7 @@ export const TodoSelectStatus: React.FC<TProps> = ({
     onStatusChange(status, task);
   };
   return (
-    <SelectCustom
+    <SelectBase
       isShowContent={isShowContent}
       setIsShowContent={setIsShowContent}
       placement="bottom-left"
@@ -61,6 +61,6 @@ export const TodoSelectStatus: React.FC<TProps> = ({
         <li className="text-[6px] fas fa-circle" />
         <span>{TODO_STATUS_MAP_FROM_ID[_status]}</span>
       </button>
-    </SelectCustom>
+    </SelectBase>
   );
 };
