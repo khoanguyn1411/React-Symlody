@@ -5,25 +5,25 @@ import { TStyle } from "@/components/elements/input/type";
 
 import { TOptionProps } from "../../type";
 
-type Props = {
-  selectedOption: TOptionProps[];
+type Props<T> = {
+  selectedOption: TOptionProps<T>[];
   style: TStyle;
   placeholder: string;
   elementWrapperSelect: React.MutableRefObject<HTMLDivElement>;
-  handleSetSelectedItem: (option: TOptionProps) => () => void;
+  handleSetSelectedItem: (option: TOptionProps<T>) => () => void;
   renderDisplayOption: (
-    option: TOptionProps,
+    option: TOptionProps<T>,
     removeOptionFn: () => void
   ) => ReactNode;
 };
-export const SelectMultipleDisplay: React.FC<Props> = ({
+export function SelectMultipleDisplay<T>({
   selectedOption,
   style,
   placeholder,
   elementWrapperSelect,
   handleSetSelectedItem,
   renderDisplayOption,
-}) => {
+}: Props<T>): JSX.Element {
   return (
     <div className="flex flex-wrap gap-3" ref={elementWrapperSelect}>
       {selectedOption.length === 0 && (
@@ -60,4 +60,4 @@ export const SelectMultipleDisplay: React.FC<Props> = ({
       })}
     </div>
   );
-};
+}

@@ -14,21 +14,21 @@ import { SelectMultipleOption } from "./select-multiple/SelectMultipleOption";
 import { SelectDefaultDisplay } from "./select-single/SelectSingleDisplay";
 import { SelectDefaultOption } from "./select-single/SelectSingleOption";
 
-type Props = TSelectCustomProps & {
-  list: TOptionProps[];
+type Props<T> = TSelectCustomProps & {
+  list: TOptionProps<T>[];
   value?: string | string[];
   isMultiple?: boolean;
-  children?: (option: TOptionProps | TOptionProps[]) => ReactNode;
-  renderOption?: (option: TOptionProps) => ReactNode;
+  children?: (option: TOptionProps<T> | TOptionProps<T>[]) => ReactNode;
+  renderOption?: (option: TOptionProps<T>) => ReactNode;
   renderDisplayOption?: (
-    option: TOptionProps,
+    option: TOptionProps<T>,
     removeOptionFn?: () => void
   ) => ReactNode;
-  onChangeSideEffect?: (option: TOptionProps) => void;
+  onChangeSideEffect?: (option: TOptionProps<T>) => void;
   onChange?: GlobalTypes.ReactStateAction<string | string[]>;
 };
 
-export const SelectTest: React.FC<Props> = ({
+export function SelectTest<T>({
   list,
   value,
   isShowContent,
@@ -40,7 +40,7 @@ export const SelectTest: React.FC<Props> = ({
   onChangeSideEffect,
   renderDisplayOption,
   ...props
-}) => {
+}: Props<T>): JSX.Element {
   let _isShowContent: boolean,
     _setIsShowContent: GlobalTypes.ReactStateAction<boolean>;
 
@@ -58,7 +58,7 @@ export const SelectTest: React.FC<Props> = ({
   const elementWrapperSelect = wrapperSelectRef?.current;
 
   const [selectedOption, setSelectedOption] = useState<
-    TOptionProps | TOptionProps[]
+    TOptionProps<T> | TOptionProps<T>[]
   >(() => {
     if (isMultiple) {
       assertArray(value);
@@ -69,7 +69,7 @@ export const SelectTest: React.FC<Props> = ({
     return list.find((item) => item.value === value) ?? null;
   });
 
-  const handleSetSelectedItem = (option: TOptionProps) => () => {
+  const handleSetSelectedItem = (option: TOptionProps<T>) => () => {
     onChangeSideEffect?.(option);
     if (!isMultiple) {
       onChange?.(option.value);
@@ -92,12 +92,12 @@ export const SelectTest: React.FC<Props> = ({
     setSelectedOption(newSelectedList);
   };
 
-  const getOptionUI = (option: TOptionProps) => {
+  const getOptionUI = (option: TOptionProps<T>) => {
     if (renderOption) {
       return renderOption(option);
     }
     if (!isMultiple) {
-      assertNotArray<TOptionProps>(selectedOption);
+      assertNotArray<TOptionProps<T>>(selectedOption);
       assertString(value);
       return (
         <SelectDefaultOption {...option} selectedOption={selectedOption} />
@@ -112,7 +112,7 @@ export const SelectTest: React.FC<Props> = ({
       return children(selectedOption);
     }
     if (!isMultiple) {
-      assertNotArray<TOptionProps>(selectedOption);
+      assertNotArray<TOptionProps<T>>(selectedOption);
       assertString(value);
       return (
         <SelectDefaultDisplay
@@ -158,4 +158,4 @@ export const SelectTest: React.FC<Props> = ({
       {getDisplayUI()}
     </SelectCustom>
   );
-};
+}

@@ -3,17 +3,17 @@ import React from "react";
 
 import { TOptionProps } from "../../type";
 
-type Props = {
-  selectedOption: TOptionProps;
+type Props<T> = {
+  selectedOption: TOptionProps<T>;
   isShowContent: boolean;
   placeholder: string;
 };
 
-export const SelectDefaultDisplay: React.FC<Props> = ({
+export function SelectDefaultDisplay<T>({
   selectedOption,
   isShowContent,
   placeholder,
-}) => {
+}: Props<T>): JSX.Element {
   const getDisplayUI = () => {
     if (selectedOption) {
       return (
@@ -50,4 +50,4 @@ export const SelectDefaultDisplay: React.FC<Props> = ({
       </span>
     </>
   );
-};
+}

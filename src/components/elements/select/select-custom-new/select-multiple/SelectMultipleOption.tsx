@@ -1,13 +1,16 @@
 import classNames from "classnames";
-import React from "react";
 
 import { Checkbox } from "@/components/elements/checkbox";
 
 import { TOptionProps } from "../../type";
 
-export const SelectMultipleOption: React.FC<
-  TOptionProps & { selectedOption: TOptionProps[] }
-> = ({ label, value, selectedOption }) => {
+type Props<T> = TOptionProps<T> & { selectedOption: TOptionProps<T>[] };
+
+export function SelectMultipleOption<T>({
+  label,
+  value,
+  selectedOption,
+}: Props<T>): JSX.Element {
   const selectedOptionValues = selectedOption.map((option) => option.value);
   return (
     <div
@@ -21,4 +24,4 @@ export const SelectMultipleOption: React.FC<
       <h1>{label}</h1>
     </div>
   );
-};
+}

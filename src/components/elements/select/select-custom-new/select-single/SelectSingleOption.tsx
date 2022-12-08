@@ -1,13 +1,17 @@
 import classNames from "classnames";
-import React from "react";
 
 import { TOptionProps } from "../../type";
+type Props<T> = TOptionProps<T> & {
+  selectedOption: TOptionProps<T>;
+};
 
-export const SelectDefaultOption: React.FC<
-  TOptionProps & {
-    selectedOption: TOptionProps;
-  }
-> = ({ suffix, prefix, label, value, selectedOption }) => {
+export function SelectDefaultOption<T>({
+  suffix,
+  prefix,
+  label,
+  value,
+  selectedOption,
+}: Props<T>): JSX.Element {
   const getValue = () => {
     if (selectedOption != null) {
       return selectedOption.value;
@@ -31,4 +35,4 @@ export const SelectDefaultOption: React.FC<
       </h1>
     </div>
   );
-};
+}
