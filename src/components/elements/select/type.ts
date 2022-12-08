@@ -23,9 +23,9 @@ export const STYLE_LIST_WRAPPER_MAPS = {
   [STYLE.modal]: "bg-white",
 } as const;
 
-export type TOptionProps = {
+export type TOptionProps<T = string> = {
   label: string;
-  value: string;
+  value: T;
   suffix?: string | JSX.Element;
   prefix?: string | JSX.Element;
 };

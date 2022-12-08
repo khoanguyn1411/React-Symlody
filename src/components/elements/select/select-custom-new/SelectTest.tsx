@@ -145,7 +145,7 @@ export const SelectTest: React.FC<Props> = ({
         return (
           <li
             onClick={handleSetSelectedItem(option)}
-            key={index}
+            key={option.value + index}
             role={"menuitem"}
             onKeyDown={null}
             tabIndex={0}

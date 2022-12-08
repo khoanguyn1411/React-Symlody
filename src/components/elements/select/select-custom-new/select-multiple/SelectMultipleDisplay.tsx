@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { ReactNode } from "react";
+import React, { Fragment, ReactNode } from "react";
 
 import { TStyle } from "@/components/elements/input/type";
 
@@ -31,7 +31,11 @@ export const SelectMultipleDisplay: React.FC<Props> = ({
       )}
       {selectedOption.map((option, index) => {
         if (renderDisplayOption) {
-          return renderDisplayOption(option, handleSetSelectedItem(option));
+          return (
+            <Fragment key={option.value + index}>
+              {renderDisplayOption(option, handleSetSelectedItem(option))}
+            </Fragment>
+          );
         }
         return (
           <div
