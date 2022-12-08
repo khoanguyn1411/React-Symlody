@@ -26,6 +26,8 @@ type Props<T> = TSelectCustomProps & {
   ) => ReactNode;
   onChangeSideEffect?: (option: TOptionProps<T>) => void;
   onChange?: GlobalTypes.ReactStateAction<string | string[]>;
+  renderBeforeList?: ReactNode;
+  renderAfterList?: ReactNode;
 };
 
 export function SelectTest<T>({
@@ -33,6 +35,8 @@ export function SelectTest<T>({
   value,
   isShowContent,
   isMultiple = false,
+  renderBeforeList,
+  renderAfterList,
   children,
   setIsShowContent,
   renderOption,
@@ -141,19 +145,25 @@ export function SelectTest<T>({
       wrapperSelectRef={wrapperSelectRef}
       isShowContent={_isShowContent}
       setIsShowContent={_setIsShowContent}
-      renderListItem={list.map((option, index) => {
-        return (
-          <li
-            onClick={handleSetSelectedItem(option)}
-            key={option.value + index}
-            role={"menuitem"}
-            onKeyDown={null}
-            tabIndex={0}
-          >
-            {getOptionUI(option)}
-          </li>
-        );
-      })}
+      renderListItem={
+        <>
+          {renderBeforeList}
+          {list.map((option, index) => {
+            return (
+              <li
+                onClick={handleSetSelectedItem(option)}
+                key={option.value + index}
+                role={"menuitem"}
+                onKeyDown={null}
+                tabIndex={0}
+              >
+                {getOptionUI(option)}
+              </li>
+            );
+          })}
+          {renderAfterList}
+        </>
+      }
     >
       {getDisplayUI()}
     </SelectCustom>
