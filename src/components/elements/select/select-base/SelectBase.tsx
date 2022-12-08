@@ -54,7 +54,7 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    if (!wrapperSelectRef.current) {
+    if (!wrapperSelectRef || !wrapperSelectRef.current) {
       const elementDisplay = displayRef?.current;
       const elementIcon = iconRef?.current;
       if (elementIcon) {
@@ -104,7 +104,7 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
   );
 
   return (
-    <div className="relative flex items-center cursor-pointer h-9">
+    <div className="relative flex items-center cursor-pointer">
       {/* Display */}
       <SelectDisplayWrapper
         isNonePadding={isNonePadding}

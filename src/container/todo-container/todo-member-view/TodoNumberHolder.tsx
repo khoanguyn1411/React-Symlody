@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 
-import { Avatar, Checkbox, Search } from "@/components";
-import { SelectBase } from "@/components/elements/select/select-base";
+import { Avatar, Checkbox, Search, Select } from "@/components";
+import { TOptionProps } from "@/components/elements/select/type";
 import { User } from "@/features/types";
 import { useDebounce, useEffectSkipFirstRender } from "@/hooks";
 import { FilterService, GlobalTypes } from "@/utils";
@@ -25,7 +25,21 @@ export const TodoNumberHolder: React.FC<TProps> = ({
   setSelectedMembers,
 }) => {
   const [_memberList, _setMemberList] = useState<User[]>(memberList);
-  const [_selectNumberList, _setSelectNumberList] = useState<User[]>([]);
+
+  const [selectedListOptions, setSelectedListOptions] = useState<
+    TOptionProps<User>[]
+  >(
+    selectedMembers.map((user) => ({
+      value: user.id.toString(),
+      label: user.fullName,
+      objectValue: user,
+    }))
+  );
+
+  const handleSetList = (options: TOptionProps<User>[]) => {
+    setSelectedListOptions(options);
+    setSelectedMembers(options.map((item) => item.objectValue));
+  };
 
   const { inputValue, setInputValue, debounceValue } = useDebounce();
   const INITIAL_TASK_QUANTITY = memberList.length;
@@ -38,37 +52,37 @@ export const TodoNumberHolder: React.FC<TProps> = ({
     );
   }, [debounceValue]);
 
-  const handleAddMemberToSelectList = (selectedItem: User) => () => {
-    const getSelectNumberList = (prev: User[]) => {
-      const idsPrevList = prev.map((user) => user.id);
-      if (idsPrevList.includes(selectedItem.id)) {
-        return prev.filter((item) => item.id !== selectedItem.id);
-      }
-      return [...prev, selectedItem];
-    };
+  const MEMBER_LIST: TOptionProps<User>[] = _memberList.map((option) => ({
+    label: option.fullName,
+    value: option.id.toString(),
+    objectValue: option,
+  }));
 
-    _setSelectNumberList((prev) => getSelectNumberList(prev));
-    setSelectedMembers((prev) => getSelectNumberList(prev));
-  };
   return (
     <TodoCircleBorderWrapper
       zIndex={ZINDEX_SETTING.NUMBER_HOLDER}
       className={classNames(
         "hover:border-primary-600 transition-colors duration-200",
         {
-          "border-primary-800 bg-primary-800": _selectNumberList.length > 0,
-          "border-white bg-white": _selectNumberList.length === 0,
+          "border-primary-800 bg-primary-800": selectedListOptions.length > 0,
+          "border-white bg-white": selectedListOptions.length === 0,
         }
       )}
     >
-      <SelectBase
+      <Select
         style="none"
         isNoPaddingY
-        classNameList="border border-gray-200 bg-white"
-        renderListItem={
-          <div className="flex flex-col gap-1">
+        isNonePadding
+        list={MEMBER_LIST}
+        isMultiple
+        classNameList="border border-gray-200 bg-white overflow-hidden"
+        classNameWrapperOptions="overflow-auto max-h-56 py-1.5"
+        selectValueControlled={selectedListOptions}
+        setSelectValueControlled={handleSetList}
+        renderBeforeList={
+          <>
             {INITIAL_TASK_QUANTITY > DEFAULT_SHOULD_SHOW_SEARCH_QUANTITY && (
-              <div className="px-3 pt-3 overflow-hidden bg-white">
+              <div className="px-3 pt-3 pb-2 overflow-hidden bg-white">
                 <Search
                   placeholder="Tìm kiếm ..."
                   inputValue={inputValue}
@@ -76,29 +90,16 @@ export const TodoNumberHolder: React.FC<TProps> = ({
                 />
               </div>
             )}
-            <div className="overflow-auto max-h-56 py-1.5">
-              {_memberList.length === 0 && (
-                <h1 className="px-2 py-2">No data</h1>
-              )}
-              {_memberList.length > 0 &&
-                _memberList.map((item, index) => (
-                  <button
-                    key={index}
-                    onClick={handleAddMemberToSelectList(item)}
-                    className="flex items-center w-full pl-1 pr-3 cursor-pointer transition-colors hover:bg-primary-100"
-                  >
-                    <Checkbox checked={selectedMembers.includes(item)} />
-                    <Avatar
-                      src={item.avatar}
-                      size="xsmall"
-                      fullName={item.fullName}
-                    />
-                    <h1 className="ml-2 text-sm">{item.fullName}</h1>
-                  </button>
-                ))}
-            </div>
-          </div>
+          </>
         }
+        renderEmptyListPlaceholder={<h1 className="px-2 py-2">No data</h1>}
+        renderOption={({ objectValue: { fullName, avatar } }, isChosen) => (
+          <button className="flex items-center w-full pl-1 pr-3 cursor-pointer transition-colors hover:bg-primary-100">
+            <Checkbox checked={isChosen} />
+            <Avatar src={avatar} size="xsmall" fullName={fullName} />
+            <h1 className="ml-2 text-sm">{fullName}</h1>
+          </button>
+        )}
       >
         <Avatar
           fontSize={15}
@@ -108,7 +109,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
           isFullText
           fullName={`+${INITIAL_TASK_QUANTITY}`}
         />
-      </SelectBase>
+      </Select>
     </TodoCircleBorderWrapper>
   );
 };

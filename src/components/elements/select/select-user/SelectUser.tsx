@@ -104,6 +104,11 @@ export const SelectUser: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isShowContent]);
 
+  const hasOption = selectedUser != null;
+  const isShowFullNameImage =
+    hasOption && searchValue === selectedUser.fullName;
+  const avatar = !isShowFullNameImage ? PLACEHOLDER_IMAGE : selectedUser.avatar;
+
   return (
     <Select
       isShowContent={isShowContent}
@@ -160,44 +165,28 @@ export const SelectUser: React.FC<Props> = ({
       )}
       placeHolder={placeholder}
     >
-      {(option) => {
-        const hasOption = option != null;
-        const isShowFullNameImage =
-          hasOption && searchValue === option.objectValue.fullName;
-
-        const avatar = !isShowFullNameImage
-          ? PLACEHOLDER_IMAGE
-          : option.objectValue.avatar;
-
-        return (
-          <div className="relative w-full">
-            <div className="absolute top-0 bottom-0 left-0 flex items-center w-full px-3">
-              <Avatar
-                size="small"
-                fullName={isShowFullNameImage && option.objectValue.fullName}
-                src={avatar}
-              />
-              <Input
-                style="none"
-                placeholder={placeholder}
-                value={searchValue}
-                onChange={handleSearchValueChange}
-                className="flex-1 ml-2 box-border"
-              />
-              {isShowClearSearch && (
-                <Button
-                  isIconOnly
-                  style="none"
-                  onClick={handleClearSelectedUserId}
-                >
-                  <i className="text-gray-400 fas fa-times" />
-                </Button>
-              )}
-            </div>
-            <div className="h-10 bg-gray-100 rounded-md" />
-          </div>
-        );
-      }}
+      <div className="relative w-full">
+        <div className="absolute top-0 bottom-0 left-0 flex items-center w-full px-3">
+          <Avatar
+            size="small"
+            fullName={isShowFullNameImage && selectedUser.fullName}
+            src={avatar}
+          />
+          <Input
+            style="none"
+            placeholder={placeholder}
+            value={searchValue}
+            onChange={handleSearchValueChange}
+            className="flex-1 ml-2 box-border"
+          />
+          {isShowClearSearch && (
+            <Button isIconOnly style="none" onClick={handleClearSelectedUserId}>
+              <i className="text-gray-400 fas fa-times" />
+            </Button>
+          )}
+        </div>
+        <div className="h-10 bg-gray-100 rounded-md" />
+      </div>
     </Select>
   );
 };
