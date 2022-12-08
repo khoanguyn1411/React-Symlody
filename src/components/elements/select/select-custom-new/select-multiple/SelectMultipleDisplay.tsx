@@ -9,6 +9,7 @@ type Props = {
   selectedOption: TOptionProps[];
   style: TStyle;
   placeholder: string;
+  elementWrapperSelect: React.MutableRefObject<HTMLDivElement>;
   handleSetSelectedItem: (option: TOptionProps) => () => void;
   renderDisplayOption: (
     option: TOptionProps,
@@ -19,11 +20,12 @@ export const SelectMultipleDisplay: React.FC<Props> = ({
   selectedOption,
   style,
   placeholder,
+  elementWrapperSelect,
   handleSetSelectedItem,
   renderDisplayOption,
 }) => {
   return (
-    <div className="flex flex-wrap gap-3">
+    <div className="flex flex-wrap gap-3" ref={elementWrapperSelect}>
       {selectedOption.length === 0 && (
         <h1 className="text-gray-400">{placeholder}</h1>
       )}

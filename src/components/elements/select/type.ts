@@ -58,5 +58,6 @@ export type TSelectCustomProps = {
   isShowArrow?: boolean;
   renderListItem?: ReactNode;
   isShowContent?: boolean;
+  wrapperSelectRef?: React.MutableRefObject<HTMLDivElement>;
   setIsShowContent?: GlobalTypes.ReactStateAction<boolean>;
 } & TSelectGeneralProps;

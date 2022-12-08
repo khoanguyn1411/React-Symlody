@@ -22,6 +22,7 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
   placement = "bottom-left",
   isNoPaddingY = false,
   isShowContent = false,
+  wrapperSelectRef,
   setIsShowContent,
 }) => {
   let _isShowContent: boolean,
@@ -52,24 +53,39 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    const elementDisplay = displayRef?.current;
-    const elementIcon = iconRef?.current;
-    if (elementIcon) {
-      if (
-        !elementDisplay.contains(e.target as Node) &&
-        !elementIcon.contains(e.target)
-      ) {
+    if (!wrapperSelectRef) {
+      const elementDisplay = displayRef?.current;
+      const elementIcon = iconRef?.current;
+      if (elementIcon) {
+        if (
+          !elementDisplay.contains(e.target as Node) &&
+          !elementIcon.contains(e.target)
+        ) {
+          return;
+        }
+        setPositionList();
+        _setIsShowContent(!_isShowContent);
+      }
+
+      if (!elementDisplay.contains(e.target as Node)) {
         return;
       }
       setPositionList();
       _setIsShowContent(!_isShowContent);
+      return;
     }
-
-    if (!elementDisplay.contains(e.target as Node)) {
+    const elementWrapperSelect = wrapperSelectRef?.current;
+    const elementDisplay = displayRef?.current;
+    const elementIcon = iconRef?.current;
+    if (
+      elementWrapperSelect !== e.target &&
+      elementDisplay != e.target &&
+      !elementIcon.contains(e.target)
+    ) {
       return;
     }
     setPositionList();
-    _setIsShowContent(!_isShowContent);
+    setIsShowContent(!isShowContent);
   };
   const ListComponent: JSX.Element = (
     <ul ref={listRef}>
@@ -93,7 +109,7 @@ export const SelectCustom: GlobalTypes.FCPropsWithChildren<
         ref={displayRef}
         classNameDisplay={classNameDisplay}
         onClick={handleToggleContent}
-        aria-hidden="true"
+        aria-hidden
         style={style}
       >
         {children}

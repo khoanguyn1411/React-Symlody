@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
 import {
@@ -53,6 +53,9 @@ export const SelectTest: React.FC<Props> = ({
     _isShowContent = isShowContent;
     _setIsShowContent = setIsShowContent;
   }
+
+  const wrapperSelectRef = useRef(null);
+  const elementWrapperSelect = wrapperSelectRef?.current;
 
   const [selectedOption, setSelectedOption] = useState<
     TOptionProps | TOptionProps[]
@@ -127,6 +130,7 @@ export const SelectTest: React.FC<Props> = ({
         style={props.style}
         placeholder={props.placeHolder}
         renderDisplayOption={renderDisplayOption}
+        elementWrapperSelect={elementWrapperSelect}
       />
     );
   };
@@ -134,6 +138,7 @@ export const SelectTest: React.FC<Props> = ({
   return (
     <SelectCustom
       {...props}
+      wrapperSelectRef={wrapperSelectRef}
       isShowContent={_isShowContent}
       setIsShowContent={_setIsShowContent}
       renderListItem={list.map((option, index) => {
