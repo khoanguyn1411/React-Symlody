@@ -68,6 +68,7 @@ type InputFormError<T> = {
  * - Execute perfectly with nested error objects.
  * - Provide solutions for custom errors.
  * - Provide strict type for validation.
+ * ----------------------------------
  * @param error HttpError (`error.detail` of result of request)
  * @param previousKey Please do not use this key because it's only for generating recursive function purpose.
  * @param customMessage Custom message if you need to override current backend error.
@@ -112,8 +113,8 @@ export function generateFormErrors<T extends HttpError<any>["detail"]>({
     generateFormErrors({
       error: error[key] as T,
       previousKey: newPreviousKey,
-      setError,
       customMessage: customMessage,
+      setError,
     });
   });
 }
