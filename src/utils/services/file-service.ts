@@ -2,13 +2,13 @@
  * Check if file is in a correct extension.
  * @param fileName File name.
  */
-export function isCorrectExtension(fileName: string): boolean {
+export function isCorrectExtension(
+  fileName: string,
+  availableExtensions: string[]
+): boolean {
   const arrStr = fileName.split(".");
   const strExtension = arrStr[arrStr.length - 1];
-  if (strExtension === "xlsx") {
-    return true;
-  }
-  return false;
+  return availableExtensions.includes(strExtension);
 }
 
 /**

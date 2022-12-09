@@ -82,7 +82,6 @@ export const updateTenantAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRejectValue<null>
 >("update/tenant", async (payload, { rejectWithValue }) => {
   const paramDto = organizationMapper.toFormData(payload.body);
-  console.log(paramDto);
   const result = await ConfigApi.updateOrganization(payload.id, paramDto);
   if (result.kind === "ok") {
     return organizationMapper.fromDto(result.result);

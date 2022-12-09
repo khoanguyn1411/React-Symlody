@@ -16,6 +16,7 @@ type THookPickImage = {
   inputFileRef: React.MutableRefObject<HTMLInputElement>;
   onImageOverSize?: () => void;
   onPreviewSuccess?: () => void;
+  onNotImageType?: () => void;
 };
 
 export const usePickImage = ({
@@ -24,6 +25,7 @@ export const usePickImage = ({
   inputFileRef,
   setFile,
   onImageOverSize,
+  onNotImageType,
   onPreviewSuccess,
 }: THookPickImage) => {
   const [fileData, setFileData] = useState<TFileData>({
@@ -49,6 +51,11 @@ export const usePickImage = ({
       onImageOverSize?.();
       return;
     }
+    const fileType = file.type.split("/")[0];
+    if (fileType !== "image") {
+      onNotImageType?.();
+      return;
+    }
     onPreviewSuccess?.();
     setFile(file);
   };
@@ -69,7 +76,6 @@ export const usePickImage = ({
     let fileReader: FileReader = null,
       isCancel = false;
     if (!file) {
-      handleRemoveFile();
       return;
     }
 

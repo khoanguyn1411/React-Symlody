@@ -24,7 +24,7 @@ export class PersonalInfoFormMapper {
   public static fromModel(model: Profile): IFormUserConfig {
     return {
       firstName: model.firstName,
-      lastName: model.fullName,
+      lastName: model.lastName,
       email: model.email,
       class: model.className,
       studentId: model.studentId,

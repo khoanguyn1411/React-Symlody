@@ -21,7 +21,7 @@ export interface Profile extends AuthAccount, IsRole {
 }
 
 export type ProfileCreation = AuthAccountCreation & {
-  avatar?: File;
+  avatar: File;
 } & StrictPick<
     Profile,
     | "gender"

@@ -1,12 +1,13 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { images } from "@/assets/images";
 import { EFile } from "@/constants";
-import { usePickImage } from "@/hooks";
+import { useModal, usePickImage } from "@/hooks";
 import { FormatService } from "@/utils";
 
 import { Avatar } from "../../avatar";
+import { Dialog } from "../../dialog";
 
 type TProps = {
   defaultImageLink?: string;
@@ -15,6 +16,13 @@ type TProps = {
   isUserAvatar?: boolean;
   fullName?: string;
   setFile: (file: File) => void;
+};
+
+const ERROR_UPLOAD_AVATAR_MESSAGE = {
+  wrongFormatType:
+    "Vui lòng chọn tập tin hình ảnh (file có đuôi là .jpg, .png, .jpeg, ...)",
+  oversize: (size: string) =>
+    `File bạn chọn có dung lượng vượt quá ${size}. Vui lòng chọn file khác.`,
 };
 
 export const UploadedAvatar: React.FC<TProps> = ({
@@ -26,6 +34,23 @@ export const UploadedAvatar: React.FC<TProps> = ({
   setFile,
 }) => {
   const inputFileRef = useRef<HTMLInputElement>();
+  const dialogProps = useModal();
+  const [message, setMessage] = useState<string>("");
+
+  const handleOpenDialog = () => {
+    dialogProps.toggle.setShow();
+  };
+
+  const handleWrongFileFormat = () => {
+    handleOpenDialog();
+    setMessage(ERROR_UPLOAD_AVATAR_MESSAGE.wrongFormatType);
+  };
+
+  const handleOversizeImage = () => {
+    handleOpenDialog();
+    setMessage(ERROR_UPLOAD_AVATAR_MESSAGE.oversize("1024MB"));
+  };
+
   const {
     handleResetInput,
     handleUploadFile,
@@ -37,6 +62,8 @@ export const UploadedAvatar: React.FC<TProps> = ({
     defaultImageLink,
     inputFileRef,
     setFile,
+    onNotImageType: handleWrongFileFormat,
+    onImageOverSize: handleOversizeImage,
   });
 
   return (
@@ -79,6 +106,10 @@ export const UploadedAvatar: React.FC<TProps> = ({
       >
         <Icon.Camera customColor="gray" />
       </button>
+
+      <Dialog title="Lỗi" {...dialogProps}>
+        <h1>{message}</h1>
+      </Dialog>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { FileService, FormatService } from "@/utils";
+import { isCorrectExtension } from "@/utils/services/file-service";
 
 import { Button } from "../../elements";
 import { PICK_FILE_MESSAGE } from "./constant";
@@ -49,7 +50,7 @@ export const PickFile: React.FC<TPropsPickFile> = ({
   };
 
   const handlePickedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!FileService.isCorrectExtension(event.target.files[0].name)) {
+    if (!isCorrectExtension(event.target.files[0].name, ["xlsx"])) {
       setMessage(PICK_FILE_MESSAGE.wrongExtension);
       return;
     }
@@ -75,7 +76,7 @@ export const PickFile: React.FC<TPropsPickFile> = ({
     event.preventDefault();
     event.stopPropagation();
     setIsDragActive(false);
-    if (!FileService.isCorrectExtension(event.dataTransfer.files[0].name)) {
+    if (!isCorrectExtension(event.dataTransfer.files[0].name, ["xlsx"])) {
       setMessage(PICK_FILE_MESSAGE.wrongExtension);
       return;
     }

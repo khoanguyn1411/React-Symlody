@@ -21,7 +21,7 @@ export interface ProfileDto extends AuthAccountDto {
 }
 
 export type ProfileCreationDto = AuthAccountCreationDto & {
-  avatar?: File;
+  avatar: File;
 } & StrictPick<
     ProfileDto,
     | "gender"

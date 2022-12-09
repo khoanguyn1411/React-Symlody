@@ -100,6 +100,7 @@ export class ProfileMapper
     const authAccountDto = authAccountMapper.toCreationDto(model);
     return {
       ...authAccountDto,
+      avatar: model.avatar,
       dob: model.dob,
       class_name: model.className,
       student_id: model.studentId,
