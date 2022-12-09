@@ -16,12 +16,11 @@ import { THookModalProps, usePickFile } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
 import { MemberFormMapper } from "../mapper";
-import { schema } from "../schema";
-import { IFormMemberInfo } from "../type";
+import { MemberForm, schema } from "../schema";
 import { FormItems } from "./FormItems";
 
 const TabCreateAMember: React.FC = () => {
-  const propsForm = useForm<IFormMemberInfo>({
+  const propsForm = useForm<MemberForm>({
     resolver: yupResolver(schema),
   });
   const {
@@ -42,7 +41,7 @@ const TabCreateAMember: React.FC = () => {
     }
   }, [departmentCount, dispatch]);
 
-  const handleCreateMember = async (data: IFormMemberInfo) => {
+  const handleCreateMember = async (data: MemberForm) => {
     const memberModel = MemberFormMapper.toModel({
       departmentModel: departmentList,
       formData: data,

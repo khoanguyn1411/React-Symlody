@@ -16,8 +16,7 @@ import { THookModalProps } from "@/hooks";
 
 import { MEMBER_MESSAGE } from "../constant";
 import { MemberFormMapper } from "../mapper";
-import { schema } from "../schema";
-import { IFormMemberInfo } from "../type";
+import { MemberForm, schema } from "../schema";
 import { FormItems } from "./FormItems";
 
 export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
@@ -25,7 +24,7 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
   isShowing,
   toggle,
 }) => {
-  const propsForm = useForm<IFormMemberInfo>({
+  const propsForm = useForm<MemberForm>({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
@@ -44,7 +43,7 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
   const dispatch = useAppDispatch();
   const hasPermission = withPermission([RolesID.Lead, RolesID.MemberManager]);
 
-  const handleEditMember = hasPermission(async (editInfo: IFormMemberInfo) => {
+  const handleEditMember = hasPermission(async (editInfo: MemberForm) => {
     const memberModel = MemberFormMapper.toModel({
       departmentModel: departmentList,
       formData: editInfo,
@@ -55,7 +54,7 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { email, ...authAccountWithoutEmail } = memberModel.authAccount;
 
-    if (editInfo.email === data.authAccount.email) {
+    if (editInfo.authAccount.email === data.authAccount.email) {
       _memberModel = { ...memberModel, authAccount: authAccountWithoutEmail };
     } else {
       _memberModel = memberModel;
@@ -70,9 +69,8 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
     );
     if (updateMemberAsync.rejected.match(res)) {
       const error = res.payload;
-      if (error.detail.authAccount.email) {
-        setError("email", { message: "Email này đã được đăng ký." });
-        return;
+      if (error && error.detail) {
+        setError("authAccount");
       }
       toast.error(MEMBER_MESSAGE.create.error);
       return;

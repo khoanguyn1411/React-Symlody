@@ -1,7 +1,8 @@
 import { Department, Member, MemberCreation, Roles } from "@/features/types";
 import { FormatService } from "@/utils";
 
-import { IFormMemberInfo, IMemberTable } from "./type";
+import { MemberForm } from "./schema";
+import { IMemberTable } from "./type";
 
 export class MemberFormMapper {
   /** Use for map data from form values to member model. */
@@ -11,23 +12,22 @@ export class MemberFormMapper {
     isArchived,
   }: {
     departmentModel?: Department[];
-    formData: IFormMemberInfo;
+    formData: MemberForm;
     isArchived: Member["isArchived"];
   }): MemberCreation {
     return {
       authAccount: {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
+        firstName: formData.authAccount.firstName,
+        lastName: formData.authAccount.lastName,
+        email: formData.authAccount.email,
       },
-      avatar: formData.avatar,
-      dob: FormatService.toDateString(formData.birthday, "US"),
-      className: formData.class,
+      dob: FormatService.toDateString(formData.dob, "US"),
+      className: formData.className,
       address: formData.address,
-      gender: formData.gender as MemberCreation["gender"],
+      gender: formData.gender,
       studentId: formData.studentId,
-      phoneNumber: formData.phone,
-      homeTown: formData.home,
+      phoneNumber: formData.phoneNumber,
+      homeTown: formData.homeTown,
       department: departmentModel
         ? DepartmentFormMapper.toModel(departmentModel, formData.department)
         : undefined,
@@ -35,19 +35,21 @@ export class MemberFormMapper {
     };
   }
   /** Use for map data from model to form values. */
-  public static fromModel(model: Member): IFormMemberInfo {
+  public static fromModel(model: Member): MemberForm {
     return {
-      firstName: model.authAccount.firstName,
-      lastName: model.authAccount.lastName,
+      authAccount: {
+        firstName: model.authAccount.firstName,
+        lastName: model.authAccount.lastName,
+        email: model.authAccount.email,
+      },
       gender: model.gender,
-      birthday: model.dob,
+      dob: model.dob,
       department: model.department.name,
-      class: model.className,
+      className: model.className,
       studentId: model.studentId,
-      email: model.authAccount.email,
-      phone: model.phoneNumber,
+      phoneNumber: model.phoneNumber,
       address: model.address,
-      home: model.homeTown,
+      homeTown: model.homeTown,
     };
   }
 }
