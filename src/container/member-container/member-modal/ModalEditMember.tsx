@@ -13,6 +13,7 @@ import {
 import { Member, MemberCreation, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { THookModalProps } from "@/hooks";
+import { generateFormErrors } from "@/utils/services/form-service";
 
 import { MEMBER_MESSAGE } from "../constant";
 import { MemberFormMapper } from "../mapper";
@@ -70,7 +71,11 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
     if (updateMemberAsync.rejected.match(res)) {
       const error = res.payload;
       if (error && error.detail) {
-        setError("authAccount");
+        generateFormErrors({
+          error: error.detail,
+          customMessage: { "authAccount.email": "Email này đã được đăng ký." },
+          setError,
+        });
       }
       toast.error(MEMBER_MESSAGE.create.error);
       return;

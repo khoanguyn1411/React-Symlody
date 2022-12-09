@@ -31,7 +31,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
         >
           <Controller
             control={control}
-            name="authAccount.firstName"
+            name="authAccount.lastName"
             render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"

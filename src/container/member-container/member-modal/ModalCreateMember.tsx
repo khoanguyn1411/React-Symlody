@@ -13,6 +13,7 @@ import {
   uploadMemberExcelFileAsync,
 } from "@/features/reducers";
 import { THookModalProps, usePickFile } from "@/hooks";
+import { generateFormErrors } from "@/utils/services/form-service";
 
 import { MEMBER_MESSAGE } from "../constant";
 import { MemberFormMapper } from "../mapper";
@@ -50,8 +51,12 @@ const TabCreateAMember: React.FC = () => {
     const res = await dispatch(createMemberAsync(memberModel));
     if (createMemberAsync.rejected.match(res)) {
       const error = res.payload;
-      if (error.detail.authAccount.email) {
-        setError("email", { message: "Email này đã được đăng ký." });
+      if (error && error.detail) {
+        generateFormErrors({
+          error: error.detail,
+          customMessage: { "authAccount.email": "Email này đã được đăng ký." },
+          setError,
+        });
         return;
       }
       toast.error(MEMBER_MESSAGE.create.error);
