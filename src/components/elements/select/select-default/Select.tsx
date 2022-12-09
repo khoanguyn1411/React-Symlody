@@ -169,6 +169,9 @@ export function Select<T>({
   };
 
   useEffect(() => {
+    if (!value) {
+      return;
+    }
     if (isMultiple) {
       assertArray(selectedOption);
       const newSelectedList = selectedOption.filter(

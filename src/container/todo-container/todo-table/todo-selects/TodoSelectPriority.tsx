@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
-import { SelectBase } from "@/components";
+import { Select } from "@/components";
+import { TOptionProps } from "@/components/elements/select/type";
 import { Task } from "@/features/types";
 
 import { TodoPriorityIcon } from "../../TodoPriorityIcon";
-import { PRIORITY_LIST } from "../constant";
+import { PRIORITY_LIST_OPTIONS } from "../constant";
 
 type TProps = {
   task: Task;
@@ -15,36 +16,41 @@ export const TodoSelectPriority: React.FC<TProps> = ({
   task,
   onPriorityChange,
 }) => {
-  const [isShowContent, setIsShowContent] = useState<boolean>(false);
-  const [_isPriority, _setIsPriority] = useState<boolean>(task.isPriority);
+  const [_isPriority, _setIsPriority] = useState<TOptionProps>({
+    label: task.isPriority.toString(),
+    value: task.isPriority.toString(),
+  });
 
-  const handleChangePriority = (isPriority: boolean) => () => {
-    setIsShowContent(false);
-    _setIsPriority(isPriority);
-    onPriorityChange(isPriority, task);
+  const isPriority = (type: string) => {
+    return type === "true";
   };
+
+  const handlePriorityChange = (option: TOptionProps) => {
+    onPriorityChange(isPriority(option.value), task);
+  };
+
   return (
-    <SelectBase
-      isShowContent={isShowContent}
-      setIsShowContent={setIsShowContent}
+    <Select
       placement="bottom-right"
+      setSelectValueControlled={_setIsPriority}
+      selectValueControlled={_isPriority}
       classNameDisplay="flex items-center justify-center"
       classNameList="w-10 bg-white"
       style="none"
       isShowArrow
-      renderListItem={PRIORITY_LIST.map((item, index) => (
-        <div
-          className="flex items-center justify-center w-full px-2 py-1 mx-auto hover:bg-primary-50 duration-200 transition-colors"
-          key={index}
-        >
-          <TodoPriorityIcon
-            onClick={handleChangePriority(item)}
-            isPriority={item}
-          />
-        </div>
-      ))}
+      onChangeSideEffect={handlePriorityChange}
+      list={PRIORITY_LIST_OPTIONS}
+      renderOption={(option) => {
+        return (
+          <div className="flex items-center justify-center w-full px-2 py-1 mx-auto hover:bg-primary-50 duration-200 transition-colors">
+            <TodoPriorityIcon isPriority={isPriority(option.value)} />
+          </div>
+        );
+      }}
     >
-      <TodoPriorityIcon isPriority={_isPriority} />
-    </SelectBase>
+      <TodoPriorityIcon
+        isPriority={isPriority(_isPriority ? _isPriority.value : "false")}
+      />
+    </Select>
   );
 };
