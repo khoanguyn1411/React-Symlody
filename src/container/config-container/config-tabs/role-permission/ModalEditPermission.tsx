@@ -136,6 +136,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
             name="roleManager"
             render={({ field: { value, onChange } }) => (
               <Select
+                isMultiple
                 placeHolder="Chọn tính năng"
                 list={MANAGE_OPTIONS}
                 value={value}
