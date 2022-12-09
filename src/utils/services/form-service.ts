@@ -50,6 +50,7 @@ export function isDirtyFields<T extends Record<string, any>>(
 export function assertErrorField<T extends unknown>(errorField: T): FieldError {
   return errorField as FieldError;
 }
+
 type CustomMessage<T> = {
   [P in Path<T>]?: string;
 };
@@ -63,6 +64,10 @@ type InputFormError<T> = {
 
 /**
  * Generate form errors returned from backend.
+ * Advantages for this usage:
+ * - Execute perfectly with nested error objects.
+ * - Provide solutions for custom errors.
+ * - Provide strict type for validation.
  * @param error HttpError (`error.detail` of result of request)
  * @param previousKey Please do not use this key because it's only for generating recursive function purpose.
  * @param customMessage Custom message if you need to override current backend error.
@@ -73,7 +78,7 @@ export function generateFormErrors<T extends HttpError<any>["detail"]>({
   previousKey = null,
   customMessage,
   setError,
-}: InputFormError<T>) {
+}: InputFormError<T>): void {
   Object.entries(error).forEach(([key, value]) => {
     if (!isObject(error[key])) {
       assertString(value);
