@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { GlobalTypes } from "@/utils";
 
 import { AlignedPlacement } from "../portal/type";
+import { PrimitiveType } from "./select-default";
 
 export const STYLE = {
   modal: "modal",
@@ -23,9 +24,12 @@ export const STYLE_LIST_WRAPPER_MAPS = {
   [STYLE.modal]: "bg-white",
 } as const;
 
-export type TOptionProps<T extends Record<string, any> = undefined> = {
+export type TOptionProps<
+  T extends Record<string, any> = undefined,
+  E extends PrimitiveType = string
+> = {
   label: string;
-  value: string;
+  value: E;
   objectValue?: T;
   suffix?: string | JSX.Element;
   prefix?: string | JSX.Element;

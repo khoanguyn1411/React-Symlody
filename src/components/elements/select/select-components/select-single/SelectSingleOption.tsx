@@ -1,17 +1,18 @@
 import classNames from "classnames";
 
+import { PrimitiveType } from "../../select-default";
 import { TOptionProps } from "../../type";
-type Props<T> = TOptionProps<T> & {
-  selectedOption: TOptionProps<T>;
+type Props<T, E extends PrimitiveType> = TOptionProps<T, E> & {
+  selectedOption: TOptionProps<T, E>;
 };
 
-export function SelectDefaultOption<T>({
+export function SelectDefaultOption<T, E extends PrimitiveType>({
   suffix,
   prefix,
   label,
   value,
   selectedOption,
-}: Props<T>): JSX.Element {
+}: Props<T, E>): JSX.Element {
   const getValue = () => {
     if (selectedOption != null) {
       return selectedOption.value;

@@ -1,19 +1,20 @@
 import classNames from "classnames";
 import React, { ReactNode } from "react";
 
+import { PrimitiveType } from "../../select-default";
 import { TOptionProps } from "../../type";
 
-type Props<T> = {
-  selectedOption: TOptionProps<T>;
+type Props<T, E extends PrimitiveType> = {
+  selectedOption: TOptionProps<T, E>;
   isShowContent: boolean;
   placeholder: ReactNode;
 };
 
-export function SelectDefaultDisplay<T>({
+export function SelectDefaultDisplay<T, E extends PrimitiveType>({
   selectedOption,
   isShowContent,
   placeholder,
-}: Props<T>): JSX.Element {
+}: Props<T, E>): JSX.Element {
   const getDisplayUI = () => {
     if (selectedOption) {
       return (

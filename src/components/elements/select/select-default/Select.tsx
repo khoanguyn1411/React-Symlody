@@ -21,21 +21,23 @@ export type TItemListSelect = {
   value: string;
 };
 
-type Props<T> = TSelectCustomProps & {
-  list: TOptionProps<T>[];
-  value?: string | string[];
+export type PrimitiveType = string | number | boolean;
+
+type Props<T, E extends PrimitiveType> = TSelectCustomProps & {
+  list: TOptionProps<T, E>[];
+  value?: PrimitiveType | PrimitiveType[];
   isMultiple?: boolean;
   children?: ReactNode;
-  renderOption?: (option: TOptionProps<T>, isChosen?: boolean) => ReactNode;
+  renderOption?: (option: TOptionProps<T, E>, isChosen?: boolean) => ReactNode;
   renderDisplayOption?: (
-    option: TOptionProps<T>,
+    option: TOptionProps<T, E>,
     removeOptionFn?: () => void
   ) => ReactNode;
-  onChangeSideEffect?: (option: TOptionProps<T>) => void;
-  onChange?: GlobalTypes.ReactStateAction<string | string[]>;
-  selectValueControlled?: TOptionProps<T> | TOptionProps<T>[];
+  onChangeSideEffect?: (option: TOptionProps<T, E>) => void;
+  onChange?: GlobalTypes.ReactStateAction<PrimitiveType | PrimitiveType[]>;
+  selectValueControlled?: TOptionProps<T, E> | TOptionProps<T, E>[];
   setSelectValueControlled?: GlobalTypes.ReactStateAction<
-    TOptionProps<T> | TOptionProps<T>[]
+    TOptionProps<T, E> | TOptionProps<T, E>[]
   >;
   renderBeforeList?: ReactNode;
   renderAfterList?: ReactNode;
@@ -43,7 +45,7 @@ type Props<T> = TSelectCustomProps & {
   classNameWrapperOptions?: string;
 };
 
-export function Select<T>({
+export function Select<T, E extends PrimitiveType>({
   list,
   value,
   isShowContent,
@@ -61,7 +63,7 @@ export function Select<T>({
   renderOption,
   renderDisplayOption,
   ...props
-}: Props<T>): JSX.Element {
+}: Props<T, E>): JSX.Element {
   let _isShowContent: boolean,
     _setIsShowContent: GlobalTypes.ReactStateAction<boolean>;
 
@@ -82,7 +84,7 @@ export function Select<T>({
     setSelectValueControlled != null
       ? [selectValueControlled, setSelectValueControlled]
       : // eslint-disable-next-line react-hooks/rules-of-hooks
-        useState<TOptionProps<T> | TOptionProps<T>[]>(() => {
+        useState<TOptionProps<T, E> | TOptionProps<T, E>[]>(() => {
           if (isMultiple) {
             assertArray(value);
             return value
@@ -92,7 +94,7 @@ export function Select<T>({
           return list.find((item) => item.value === value) ?? null;
         });
 
-  const handleSetSelectedItem = (option: TOptionProps<T>) => () => {
+  const handleSetSelectedItem = (option: TOptionProps<T, E>) => () => {
     onChangeSideEffect?.(option);
     if (!isMultiple) {
       onChange?.(option.value);
@@ -116,7 +118,7 @@ export function Select<T>({
     onChange?.(newSelectedList.map((option) => option.value));
   };
 
-  const getOptionUI = (option: TOptionProps<T>) => {
+  const getOptionUI = (option: TOptionProps<T, E>) => {
     if (renderOption) {
       let isChosen: boolean;
       if (isMultiple) {
@@ -130,7 +132,7 @@ export function Select<T>({
       return renderOption(option, isChosen);
     }
     if (!isMultiple) {
-      assertNotArray<TOptionProps<T>>(selectedOption);
+      assertNotArray<TOptionProps<T, E>>(selectedOption);
       assertString(value);
       return (
         <SelectDefaultOption {...option} selectedOption={selectedOption} />
@@ -145,7 +147,7 @@ export function Select<T>({
       return children;
     }
     if (!isMultiple) {
-      assertNotArray<TOptionProps<T>>(selectedOption);
+      assertNotArray<TOptionProps<T, E>>(selectedOption);
       return (
         <SelectDefaultDisplay
           selectedOption={selectedOption}

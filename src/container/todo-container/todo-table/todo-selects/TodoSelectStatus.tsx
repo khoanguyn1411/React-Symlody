@@ -1,7 +1,8 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 
-import { SelectBase } from "@/components";
+import { Select } from "@/components";
+import { TOptionProps } from "@/components/elements/select/type";
 import { Task, TodoStatusId } from "@/features/types";
 import { generateArrayFromEnum } from "@/utils/services/generate-service";
 
@@ -17,50 +18,49 @@ export const TodoSelectStatus: React.FC<TProps> = ({
   task,
   onStatusChange,
 }) => {
-  const [isShowContent, setIsShowContent] = useState<boolean>(false);
-  const [_status, _setStatus] = useState<TodoStatusId>(task.status);
+  const [_status, _setStatus] = useState<TOptionProps<null, TodoStatusId>>({
+    label: TODO_STATUS_MAP_FROM_ID[task.status],
+    value: task.status,
+  });
 
-  const handleChangeStatus = (status: TodoStatusId) => () => {
-    setIsShowContent(false);
-    _setStatus(status);
-    onStatusChange(status, task);
+  const handleChangeStatus = (status: TOptionProps<null, TodoStatusId>) => {
+    onStatusChange(status.value, task);
   };
   return (
-    <SelectBase
-      isShowContent={isShowContent}
-      setIsShowContent={setIsShowContent}
+    <Select
       placement="bottom-left"
+      setSelectValueControlled={_setStatus}
+      selectValueControlled={_status}
+      onChangeSideEffect={handleChangeStatus}
       classNameDisplay="flex items-center justify-center"
       classNameList="w-24 bg-white"
       style="none"
       isShowArrow
-      renderListItem={
-        <div className="flex flex-col">
-          {generateArrayFromEnum(TodoStatusId).map((item, index) => (
-            <button
-              onClick={handleChangeStatus(item)}
-              key={index}
-              className={classNames(
-                COLOR_MAP[item],
-                { "bg-primary-50": item === _status },
-                "px-2 py-1 justify-start flex hover:bg-primary-50 transition-colors duration-200"
-              )}
-            >
-              {TODO_STATUS_MAP_FROM_ID[item]}
-            </button>
-          ))}
-        </div>
-      }
+      list={generateArrayFromEnum(TodoStatusId).map((item) => ({
+        value: item,
+        label: TODO_STATUS_MAP_FROM_ID[item],
+      }))}
+      renderOption={(option, isChosen) => (
+        <button
+          className={classNames(
+            COLOR_MAP[option.value],
+            { "bg-primary-50": isChosen },
+            "px-2 py-1 justify-start w-full flex hover:bg-primary-50 transition-colors duration-200"
+          )}
+        >
+          {option.label}
+        </button>
+      )}
     >
-      <button
+      <div
         className={classNames(
-          COLOR_MAP[_status],
+          COLOR_MAP[_status.value],
           "flex font-medium items-center space-x-3"
         )}
       >
         <li className="text-[6px] fas fa-circle" />
-        <span>{TODO_STATUS_MAP_FROM_ID[_status]}</span>
-      </button>
-    </SelectBase>
+        <span>{_status.label}</span>
+      </div>
+    </Select>
   );
 };

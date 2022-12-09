@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { Select } from "@/components";
 import { TOptionProps } from "@/components/elements/select/type";
@@ -16,18 +16,23 @@ export const TodoSelectPriority: React.FC<TProps> = ({
   task,
   onPriorityChange,
 }) => {
-  const [_isPriority, _setIsPriority] = useState<TOptionProps>({
-    label: task.isPriority.toString(),
-    value: task.isPriority.toString(),
-  });
+  const getPriorityTask = useCallback((): TOptionProps<null, boolean> => {
+    return {
+      label: task.isPriority.toString(),
+      value: task.isPriority,
+    };
+  }, [task.isPriority]);
+  const [_isPriority, _setIsPriority] = useState<TOptionProps<null, boolean>>(
+    () => getPriorityTask()
+  );
 
-  const isPriority = (type: string) => {
-    return type === "true";
+  const handlePriorityChange = (option: TOptionProps<null, boolean>) => {
+    onPriorityChange(option.value, task);
   };
 
-  const handlePriorityChange = (option: TOptionProps) => {
-    onPriorityChange(isPriority(option.value), task);
-  };
+  useEffect(() => {
+    _setIsPriority(getPriorityTask());
+  }, [getPriorityTask, task.isPriority]);
 
   return (
     <Select
@@ -43,14 +48,12 @@ export const TodoSelectPriority: React.FC<TProps> = ({
       renderOption={(option) => {
         return (
           <div className="flex items-center justify-center w-full px-2 py-1 mx-auto hover:bg-primary-50 duration-200 transition-colors">
-            <TodoPriorityIcon isPriority={isPriority(option.value)} />
+            <TodoPriorityIcon isPriority={option.value} />
           </div>
         );
       }}
     >
-      <TodoPriorityIcon
-        isPriority={isPriority(_isPriority ? _isPriority.value : "false")}
-      />
+      <TodoPriorityIcon isPriority={_isPriority.value} />
     </Select>
   );
 };

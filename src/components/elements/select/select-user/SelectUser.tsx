@@ -31,11 +31,13 @@ export const SelectUser: React.FC<Props> = ({
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
 
-  const LIST_OPTIONS: TOptionProps<User>[] = currentUserList.map((user) => ({
-    value: user.id.toString(),
-    objectValue: user,
-    label: user.fullName,
-  }));
+  const LIST_OPTIONS: TOptionProps<User, User["id"]>[] = currentUserList.map(
+    (user) => ({
+      value: user.id,
+      objectValue: user,
+      label: user.fullName,
+    })
+  );
   const {
     inputValue: searchValue,
     setInputValue: setSearchValue,
@@ -55,9 +57,7 @@ export const SelectUser: React.FC<Props> = ({
     setIsSearching(true);
   };
 
-  const selectedUser = userList.find(
-    (user) => user.id === Number(selectedUserId)
-  );
+  const selectedUser = userList.find((user) => user.id === selectedUserId);
 
   useEffect(() => {
     setCurrentUserList(userList);
@@ -114,7 +114,7 @@ export const SelectUser: React.FC<Props> = ({
       isShowContent={isShowContent}
       setIsShowContent={setIsShowContent}
       isNonePadding
-      value={selectedUserId && selectedUserId.toString()}
+      value={selectedUserId}
       onChange={(value) => setSelectedUserId(Number(value))}
       list={LIST_OPTIONS}
       renderEmptyListPlaceholder={

@@ -2,15 +2,18 @@ import classNames from "classnames";
 
 import { Checkbox } from "@/components/elements/checkbox";
 
+import { PrimitiveType } from "../../select-default";
 import { TOptionProps } from "../../type";
 
-type Props<T> = TOptionProps<T> & { selectedOption: TOptionProps<T>[] };
+type Props<T, E extends PrimitiveType> = TOptionProps<T, E> & {
+  selectedOption: TOptionProps<T, E>[];
+};
 
-export function SelectMultipleOption<T>({
+export function SelectMultipleOption<T, E extends PrimitiveType>({
   label,
   value,
   selectedOption,
-}: Props<T>): JSX.Element {
+}: Props<T, E>): JSX.Element {
   const selectedOptionValues = selectedOption.map((option) => option.value);
   return (
     <div

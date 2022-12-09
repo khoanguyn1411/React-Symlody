@@ -3,27 +3,28 @@ import React, { Fragment, ReactNode } from "react";
 
 import { TStyle } from "@/components/elements/input/type";
 
+import { PrimitiveType } from "../../select-default";
 import { TOptionProps } from "../../type";
 
-type Props<T> = {
-  selectedOption: TOptionProps<T>[];
+type Props<T, E extends PrimitiveType> = {
+  selectedOption: TOptionProps<T, E>[];
   style: TStyle;
   placeholder: ReactNode;
   elementWrapperSelect: React.MutableRefObject<HTMLDivElement>;
-  handleSetSelectedItem: (option: TOptionProps<T>) => () => void;
+  handleSetSelectedItem: (option: TOptionProps<T, E>) => () => void;
   renderDisplayOption: (
-    option: TOptionProps<T>,
+    option: TOptionProps<T, E>,
     removeOptionFn: () => void
   ) => ReactNode;
 };
-export function SelectMultipleDisplay<T>({
+export function SelectMultipleDisplay<T, E extends PrimitiveType>({
   selectedOption,
   style,
   placeholder,
   elementWrapperSelect,
   handleSetSelectedItem,
   renderDisplayOption,
-}: Props<T>): JSX.Element {
+}: Props<T, E>): JSX.Element {
   return (
     <div className="flex flex-wrap gap-3" ref={elementWrapperSelect}>
       {selectedOption.length === 0 && (
@@ -32,7 +33,7 @@ export function SelectMultipleDisplay<T>({
       {selectedOption.map((option, index) => {
         if (renderDisplayOption) {
           return (
-            <Fragment key={option.value + index}>
+            <Fragment key={`${option.value}-${index}`}>
               {renderDisplayOption(option, handleSetSelectedItem(option))}
             </Fragment>
           );
@@ -45,7 +46,7 @@ export function SelectMultipleDisplay<T>({
                 ? "bg-white hover:bg-gray-50"
                 : "bg-gray-100 hover:bg-gray-200"
             )}
-            key={option.value + index}
+            key={`${option.value}-${index}`}
           >
             <span>{option.label}</span>
             <span
