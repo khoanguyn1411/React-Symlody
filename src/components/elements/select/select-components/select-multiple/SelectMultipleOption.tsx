@@ -1,8 +1,8 @@
 import classNames from "classnames";
 
 import { Checkbox } from "@/components/elements/checkbox";
+import { PrimitiveType } from "@/utils/types";
 
-import { PrimitiveType } from "../../select-default";
 import { TOptionProps } from "../../type";
 
 type Props<T, E extends PrimitiveType> = TOptionProps<T, E> & {

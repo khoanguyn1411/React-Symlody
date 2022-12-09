@@ -1,6 +1,7 @@
 import classNames from "classnames";
 
-import { PrimitiveType } from "../../select-default";
+import { PrimitiveType } from "@/utils/types";
+
 import { TOptionProps } from "../../type";
 type Props<T, E extends PrimitiveType> = TOptionProps<T, E> & {
   selectedOption: TOptionProps<T, E>;

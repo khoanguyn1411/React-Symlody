@@ -11,8 +11,14 @@ import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
 import { Portal } from "../../portal";
 import { AlignedPlacement } from "../../portal/type";
-import { TItemListSelect } from "../../select";
 import { DropdownListWrapper } from "../dropdown-components";
+
+export type TItemListSelect = {
+  prefix?: ReactNode;
+  suffix?: ReactNode;
+  key?: string;
+  value: string;
+};
 
 type TProps = {
   children: ReactNode;

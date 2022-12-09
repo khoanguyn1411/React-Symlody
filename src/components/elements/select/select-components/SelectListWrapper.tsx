@@ -4,13 +4,13 @@ import React from "react";
 import { GlobalTypes } from "@/utils";
 
 import { AnimationCustom } from "../../animation-custom";
-import { TSelectGeneralProps, TStyle } from "../type";
+import { TStyle } from "../type";
 
 type TProps = {
   style: TStyle;
   isShowContent: boolean;
   position?: React.CSSProperties;
-  isPortal: TSelectGeneralProps["isPortal"];
+  isPortal: boolean;
   classNameList?: string;
   isNoPaddingY?: boolean;
 };

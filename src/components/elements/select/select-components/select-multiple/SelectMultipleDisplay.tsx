@@ -2,8 +2,8 @@ import classNames from "classnames";
 import React, { Fragment, ReactNode } from "react";
 
 import { TStyle } from "@/components/elements/input/type";
+import { PrimitiveType } from "@/utils/types";
 
-import { PrimitiveType } from "../../select-default";
 import { TOptionProps } from "../../type";
 
 type Props<T, E extends PrimitiveType> = {

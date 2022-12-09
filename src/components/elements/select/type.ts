@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 
 import { GlobalTypes } from "@/utils";
+import { PrimitiveType } from "@/utils/types";
 
 import { AlignedPlacement } from "../portal/type";
-import { PrimitiveType } from "./select-default";
 
 export const STYLE = {
   modal: "modal",
@@ -35,7 +35,7 @@ export type TOptionProps<
   prefix?: string | JSX.Element;
 };
 
-export type TSelectGeneralProps = {
+export type TSelectCustomProps = {
   placeHolder?: ReactNode;
   style?: TStyle;
   isPortal?: boolean;
@@ -44,20 +44,11 @@ export type TSelectGeneralProps = {
   classNameList?: string;
   placement?: AlignedPlacement;
   isNoPaddingY?: boolean;
-};
 
-export type TSelectDefaultProps = {
-  list: string[];
-  value: string;
-  suffix?: string;
-  onChange: (param: string) => void;
-} & TSelectGeneralProps;
-
-export type TSelectCustomProps = {
   isShowArrow?: boolean;
   isNonePadding?: boolean;
   renderListItem?: ReactNode;
   isShowContent?: boolean;
   wrapperSelectRef?: React.MutableRefObject<HTMLDivElement>;
   setIsShowContent?: GlobalTypes.ReactStateAction<boolean>;
-} & TSelectGeneralProps;
+};

@@ -1,14 +1,10 @@
 import classNames from "classnames";
 import React, { forwardRef, ReactNode } from "react";
 
-import {
-  STYLE_DISPLAY_WRAPPER_MAPS,
-  TSelectGeneralProps,
-  TStyle,
-} from "../type";
+import { STYLE_DISPLAY_WRAPPER_MAPS, TStyle } from "../type";
 
 type TProps = {
-  classNameDisplay?: TSelectGeneralProps["classNameDisplay"];
+  classNameDisplay?: string;
   style?: TStyle;
   children: ReactNode;
   isNonePadding?: boolean;

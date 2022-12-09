@@ -6,6 +6,7 @@ import {
   assertNotArray,
   assertString,
 } from "@/utils/services/common-service";
+import { PrimitiveType } from "@/utils/types";
 
 import { SelectBase } from "../select-base/SelectBase";
 import { SelectMultipleDisplay } from "../select-components/select-multiple/SelectMultipleDisplay";
@@ -13,15 +14,6 @@ import { SelectMultipleOption } from "../select-components/select-multiple/Selec
 import { SelectDefaultDisplay } from "../select-components/select-single/SelectSingleDisplay";
 import { SelectDefaultOption } from "../select-components/select-single/SelectSingleOption";
 import { TOptionProps, TSelectCustomProps } from "../type";
-
-export type TItemListSelect = {
-  prefix?: ReactNode;
-  suffix?: ReactNode;
-  key?: string;
-  value: string;
-};
-
-export type PrimitiveType = string | number | boolean;
 
 type Props<T, E extends PrimitiveType> = TSelectCustomProps & {
   list: TOptionProps<T, E>[];
