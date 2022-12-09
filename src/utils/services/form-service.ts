@@ -69,7 +69,7 @@ type InputFormError<T> = {
  * - Provide solutions for custom errors.
  * - Provide strict type for validation.
  * ----------------------------------
- * @param error HttpError (`error.detail` of result of request)
+ * @param error HttpError (`error.detail` of request's result)
  * @param previousKey Please do not use this key because it's only for generating recursive function purpose.
  * @param customMessage Custom message if you need to override current backend error.
  * @param setError setError function of `useForm` hook.
