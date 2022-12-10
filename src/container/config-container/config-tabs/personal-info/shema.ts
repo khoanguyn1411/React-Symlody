@@ -1,12 +1,15 @@
 import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
-import { StrictOmit } from "@/utils/types";
+import { Gender } from "@/features/types";
+import { generateArrayFromEnum } from "@/utils/services/generate-service";
+import { YupValidation } from "@/utils/types";
 
-import { IFormUserConfig } from "./type";
-export const schema: yup.SchemaOf<
-  StrictOmit<IFormUserConfig, "avatar" | "avatarUrl">
-> = yup.object().shape({
+import { PersonalInfoForm } from "./type";
+
+export const schema = yup.object().shape<YupValidation<PersonalInfoForm>>({
+  avatar: yup.mixed(),
+  avatarUrl: yup.string(),
   firstName: yup
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)
@@ -15,9 +18,12 @@ export const schema: yup.SchemaOf<
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)
     .max(150, APP_ERROR_MESSAGE.MAX(150, "Họ")),
-  gender: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-  birthday: yup.string().required(APP_ERROR_MESSAGE.REQUIRED).nullable(),
-  class: yup
+  gender: yup
+    .mixed<Gender>()
+    .oneOf(generateArrayFromEnum(Gender))
+    .required(APP_ERROR_MESSAGE.REQUIRED),
+  dob: yup.string().required(APP_ERROR_MESSAGE.REQUIRED).nullable(),
+  className: yup
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)
     .max(8, APP_ERROR_MESSAGE.MAX(8, "Mã lớp")),
@@ -25,7 +31,7 @@ export const schema: yup.SchemaOf<
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)
     .max(10, APP_ERROR_MESSAGE.MAX(10, "MSSV")),
-  phone: yup
+  phoneNumber: yup
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)
     .max(11, APP_ERROR_MESSAGE.MAX(11, "Số điện thoại")),
@@ -33,7 +39,7 @@ export const schema: yup.SchemaOf<
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)
     .max(300, APP_ERROR_MESSAGE.MAX(300, "Địa chỉ")),
-  home: yup
+  homeTown: yup
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)
     .max(100, APP_ERROR_MESSAGE.MAX(100, "Quê quán")),

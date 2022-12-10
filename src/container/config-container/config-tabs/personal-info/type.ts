@@ -1,7 +1,5 @@
-import { IFormMemberInfo } from "@/container/member-container/type";
-import { GlobalTypes } from "@/utils";
+import { ProfileCreation } from "@/features/types";
 
-export type IFormUserConfig = GlobalTypes.StrictOmit<
-  IFormMemberInfo,
-  "department"
-> & { avatar?: File; avatarUrl?: string };
+export type PersonalInfoForm = ProfileCreation & {
+  avatarUrl: string;
+};

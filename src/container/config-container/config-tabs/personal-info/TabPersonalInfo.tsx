@@ -23,7 +23,7 @@ import {
 import { PERSONAL_INFO_MESSAGES, PROVINCES_LIST } from "./constants";
 import { PersonalInfoFormMapper } from "./mapper";
 import { schema } from "./shema";
-import { IFormUserConfig } from "./type";
+import { PersonalInfoForm } from "./type";
 
 export const TabPersonalInfo: React.FC = () => {
   const { user: currentUser } = useAppSelector((state) => state.auth);
@@ -38,12 +38,12 @@ export const TabPersonalInfo: React.FC = () => {
     formState: { errors, isSubmitting, dirtyFields },
     reset,
     handleSubmit,
-  } = useForm<IFormUserConfig>({
+  } = useForm<PersonalInfoForm>({
     resolver: yupResolver(schema),
     defaultValues: PersonalInfoFormMapper.fromModel(currentUser),
   });
 
-  const handleEditPersonalInfo = async (data: IFormUserConfig) => {
+  const handleEditPersonalInfo = async (data: PersonalInfoForm) => {
     const result = await dispatch(
       updateProfileAsync(PersonalInfoFormMapper.toModel(data))
     );
@@ -127,20 +127,20 @@ export const TabPersonalInfo: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-3 gap-3">
-        <FormItem label="Ngày sinh" isRequired error={errors.birthday?.message}>
+        <FormItem label="Ngày sinh" isRequired error={errors.dob?.message}>
           <Controller
             control={control}
-            name="birthday"
+            name="dob"
             render={({ field: { value, onChange } }) => (
               <AppDatePicker value={value} style="modal" onChange={onChange} />
             )}
           />
         </FormItem>
 
-        <FormItem label="Lớp" isRequired error={errors.class?.message}>
+        <FormItem label="Lớp" isRequired error={errors.className?.message}>
           <Controller
             control={control}
-            name="class"
+            name="className"
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Lớp"
@@ -191,11 +191,11 @@ export const TabPersonalInfo: React.FC = () => {
         <FormItem
           label="Số điện thoại"
           isRequired
-          error={errors.phone?.message}
+          error={errors.phoneNumber?.message}
         >
           <Controller
             control={control}
-            name="phone"
+            name="phoneNumber"
             render={({ field: { value, onChange } }) => (
               <Input
                 placeholder="Số điện thoại"
@@ -222,10 +222,10 @@ export const TabPersonalInfo: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem label="Quê quán" isRequired error={errors.home?.message}>
+        <FormItem label="Quê quán" isRequired error={errors.homeTown?.message}>
           <Controller
             control={control}
-            name="home"
+            name="homeTown"
             render={({ field: { value, onChange } }) => (
               <Select
                 list={PROVINCES_LIST}
