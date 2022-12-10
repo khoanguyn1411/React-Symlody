@@ -73,6 +73,7 @@ export const getMeAsync = createAsyncThunk<
 export const logoutAsync = createAsyncThunk(
   "auth/logout",
   async function (_, { dispatch }) {
+    await AuthApi.logout();
     dispatch({ type: "auth/logout" });
     dispatch(logout());
   }
