@@ -1,2 +1,1 @@
 - Implement non-field-error validation when BE apply it.
-- Remove redundant member type.
