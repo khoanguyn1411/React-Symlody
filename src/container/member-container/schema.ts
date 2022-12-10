@@ -2,6 +2,7 @@ import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
 import { AuthAccountCreation, Gender, MemberCreation } from "@/features/types";
+import { generateArrayFromEnum } from "@/utils/services/generate-service";
 import { StrictOmit, YupValidation } from "@/utils/types";
 
 type AuthAccountForm = AuthAccountCreation;
@@ -31,7 +32,7 @@ export const schema = yup.object().shape<YupValidation<MemberForm>>({
   }),
   gender: yup
     .mixed<Gender>()
-    .oneOf(Object.values(Gender))
+    .oneOf(generateArrayFromEnum(Gender))
     .required(APP_ERROR_MESSAGE.REQUIRED),
   dob: yup.string().required(APP_ERROR_MESSAGE.REQUIRED).nullable(),
   department: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
