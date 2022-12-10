@@ -47,12 +47,16 @@ export const loginAsync = createAsyncThunk<
 export const changePasswordAsync = createAsyncThunk<
   true,
   ChangePassword,
-  GlobalTypes.ReduxThunkRejectValue<false>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<ChangePassword> | false>
 >("auth/change-password", async (payload, { rejectWithValue }) => {
   const changePasswordDto = changePasswordMapper.toDto(payload);
   const result = await AuthApi.changePassword(changePasswordDto);
   if (result.kind === "ok") {
     return true;
+  }
+  if (result.kind === "bad-data") {
+    const error = changePasswordMapper.httpErrorFromDto(result.httpError);
+    return rejectWithValue(error);
   }
   return rejectWithValue(false);
 });

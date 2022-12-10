@@ -7,6 +7,7 @@ import { FormItem, InputPassword } from "@/components";
 import { useAppDispatch } from "@/features";
 import { changePasswordAsync } from "@/features/reducers";
 import { FormService } from "@/utils";
+import { generateFormErrors } from "@/utils/services/form-service";
 
 import {
   ConfigSubmitButton,
@@ -14,23 +15,28 @@ import {
 } from "../../config-components";
 import { CHANGE_PASSWORD_MESSAGE } from "./constant";
 import { schema } from "./schema";
-import { IFormChangePassword } from "./type";
+import { ChangePasswordForm } from "./type";
 
 export const TabChangePassword: React.FC = () => {
   const dispatch = useAppDispatch();
   const {
     control,
+    setError,
     formState: { errors, isSubmitting, dirtyFields },
     handleSubmit,
     reset,
-  } = useForm<IFormChangePassword>({
+  } = useForm<ChangePasswordForm>({
     resolver: yupResolver(schema),
     defaultValues: { newPassword: "", oldPassword: "", confirmPassword: "" },
   });
 
-  const handleChangePassword = async (data: IFormChangePassword) => {
+  const handleChangePassword = async (data: ChangePasswordForm) => {
     const result = await dispatch(changePasswordAsync(data));
     if (changePasswordAsync.rejected.match(result)) {
+      if (result.payload) {
+        generateFormErrors({ errors: result.payload.detail, setError });
+        return;
+      }
       toast.error(CHANGE_PASSWORD_MESSAGE.error);
       return;
     }

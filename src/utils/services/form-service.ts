@@ -56,7 +56,7 @@ type CustomMessage<T> = {
 };
 
 type InputFormError<T> = {
-  error: T;
+  errors: T;
   previousKey?: string;
   customMessage?: CustomMessage<T>;
   setError: UseFormSetError<any>;
@@ -75,13 +75,13 @@ type InputFormError<T> = {
  * @param setError setError function of `useForm` hook.
  */
 export function generateFormErrors<T extends HttpError<any>["detail"]>({
-  error,
+  errors,
   previousKey = null,
   customMessage,
   setError,
 }: InputFormError<T>): void {
-  Object.entries(error).forEach(([key, value]) => {
-    if (!isObject(error[key])) {
+  Object.entries(errors).forEach(([key, value]) => {
+    if (!isObject(errors[key])) {
       assertString(value);
       if (value == null) {
         return;
@@ -111,7 +111,7 @@ export function generateFormErrors<T extends HttpError<any>["detail"]>({
       newPreviousKey = key;
     }
     generateFormErrors({
-      error: error[key] as T,
+      errors: errors[key] as T,
       previousKey: newPreviousKey,
       customMessage: customMessage,
       setError,

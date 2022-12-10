@@ -12,9 +12,9 @@ import {
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateProfileAsync } from "@/features/reducers";
-import { Profile } from "@/features/types";
 import { Gender } from "@/features/types/models/gender";
 import { FormService } from "@/utils";
+import { generateFormErrors } from "@/utils/services/form-service";
 
 import {
   ConfigSubmitButton,
@@ -37,6 +37,7 @@ export const TabPersonalInfo: React.FC = () => {
     control,
     formState: { errors, isSubmitting, dirtyFields },
     reset,
+    setError,
     handleSubmit,
   } = useForm<PersonalInfoForm>({
     resolver: yupResolver(schema),
@@ -48,13 +49,15 @@ export const TabPersonalInfo: React.FC = () => {
       updateProfileAsync(PersonalInfoFormMapper.toModel(data))
     );
     if (updateProfileAsync.rejected.match(result)) {
+      if (result.payload) {
+        generateFormErrors({ errors: result.payload.detail, setError });
+        return;
+      }
       toast.error(PERSONAL_INFO_MESSAGES.update.error);
       return;
     }
     toast.success(PERSONAL_INFO_MESSAGES.update.success);
-    const formData = PersonalInfoFormMapper.fromModel(
-      result.payload as Profile
-    );
+    const formData = PersonalInfoFormMapper.fromModel(result.payload);
     reset({ ...formData, avatar: undefined });
     return;
   };

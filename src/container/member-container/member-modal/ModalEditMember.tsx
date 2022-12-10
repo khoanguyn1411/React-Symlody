@@ -73,7 +73,7 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
       const error = res.payload;
       if (error && error.detail) {
         generateFormErrors({
-          error: error.detail,
+          errors: error.detail,
           customMessage: { "authAccount.email": "Email này đã được đăng ký." },
           setError,
         });

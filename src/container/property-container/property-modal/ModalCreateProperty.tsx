@@ -65,7 +65,7 @@ const TabCreateAProperty: React.FC = () => {
     const result = await dispatch(createPropertyAsync(propertyModel));
     if (createPropertyAsync.rejected.match(result)) {
       if (result.payload) {
-        generateFormErrors({ setError, error: result.payload.detail });
+        generateFormErrors({ setError, errors: result.payload.detail });
         return;
       }
       toast.error(PROPERTY_MESSAGE.create.error);
