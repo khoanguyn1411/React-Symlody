@@ -19,7 +19,7 @@ import {
 } from "../../config-components";
 import { ORGANIZATION_MESSAGES } from "./constant";
 import { schema } from "./schema";
-import { IFormOrganizationConfig } from "./type";
+import { OrganizationForm } from "./type";
 
 export const TabOrganization: React.FC = () => {
   const { organization, pendingOrganization } = useAppSelector(
@@ -39,7 +39,7 @@ export const _TabOrganization: React.FC = () => {
     organization.logo ?? ""
   );
 
-  const getDefaultValue = (rest: Organization): IFormOrganizationConfig => {
+  const getDefaultValue = (rest: Organization): OrganizationForm => {
     return {
       ...rest,
       logo: undefined,
@@ -55,13 +55,13 @@ export const _TabOrganization: React.FC = () => {
     formState: { errors, isSubmitting, dirtyFields },
     reset,
     handleSubmit,
-  } = useForm<IFormOrganizationConfig>({
+  } = useForm<OrganizationForm>({
     resolver: yupResolver(schema),
     defaultValues: getDefaultValue(organization),
   });
 
   const handleEditOrgInfo = withPermission([RolesID.Lead, RolesID.SystemAdmin])(
-    async (data: IFormOrganizationConfig) => {
+    async (data: OrganizationForm) => {
       const result = await dispatch(
         updateTenantAsync({ id: organization.id, body: data })
       );

@@ -19,7 +19,7 @@ import { FormItems } from "./FormItems";
 import { ModalEditDepartment } from "./ModalEditDepartment";
 import { schema } from "./schema";
 import { TabDepartmentTableContent } from "./TabDepartmentTableContent";
-import { IFormDepartment } from "./types";
+import { DepartmentForm } from "./types";
 
 export const TabConfigDepartment: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -82,7 +82,7 @@ export const TabConfigDepartment: React.FC = () => {
 
 export const ActionConfigDepartment: React.FC = () => {
   const dispatch = useAppDispatch();
-  const propsForm = useForm<IFormDepartment>({
+  const propsForm = useForm<DepartmentForm>({
     resolver: yupResolver(schema),
   });
   const {
@@ -96,7 +96,7 @@ export const ActionConfigDepartment: React.FC = () => {
     toggle.setToggle();
   };
 
-  const handleCreateDepartment = async (data: IFormDepartment) => {
+  const handleCreateDepartment = async (data: DepartmentForm) => {
     const result = await dispatch(createDepartmentAsync(data));
     if (createDepartmentAsync.rejected.match(result)) {
       toast.error(DEPARTMENT_MESSAGE.create.error);

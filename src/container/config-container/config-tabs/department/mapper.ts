@@ -1,12 +1,9 @@
 import { DepartmentCreation } from "@/features/types";
 
-import { IFormDepartment } from "./types";
+import { DepartmentForm } from "./types";
 
 export class DepartmentFormMapper {
-  /** Use for map data from form values to member model. */
-  public static toModel(formData: IFormDepartment): DepartmentCreation {
-    return {
-      ...formData,
-    };
+  public static toModel(formData: DepartmentForm): DepartmentCreation {
+    return formData;
   }
 }

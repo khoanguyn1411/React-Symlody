@@ -19,8 +19,8 @@ export const schema = yup.object().shape<YupValidation<PropertyForm>>({
     .required(APP_ERROR_MESSAGE.REQUIRED)
     .test("no-leading-zero", APP_ERROR_MESSAGE.MIN_NUMBER(0), (value) => {
       return value && FormatService.toNumber(value) !== 0;
+    })
+    .test("no-overload-32767", APP_ERROR_MESSAGE.MAX_NUMBER(32767), (value) => {
+      return value && FormatService.toNumber(value) <= 32767;
     }),
-  // .test("no-overload-32767", APP_ERROR_MESSAGE.MAX_NUMBER(32767), (value) => {
-  //   return value && FormatService.toNumber(value) <= 32767;
-  // }),
 });
