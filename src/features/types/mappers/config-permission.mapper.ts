@@ -46,7 +46,7 @@ export class UserPermissionConfigMapper
     model: UserPermissionConfigCreation
   ): UserPermissionConfigCreationDto {
     return {
-      user_id: model.user_id,
+      user_id: model.userId,
       groups: model.groups.map((group) => ROLE_MAP_TO_ID[group]),
     };
   }
@@ -58,7 +58,7 @@ export class UserPermissionConfigMapper
     return {
       error: errorDto.error,
       detail: {
-        user_id: extractErrorMessage(user_id),
+        userId: extractErrorMessage(user_id),
         groups: extractErrorMessage(groups),
       },
     };

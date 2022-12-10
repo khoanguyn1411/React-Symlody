@@ -1,5 +1,6 @@
-export interface IConfigManagerForm {
-  userId: number;
-  type: string;
-  roleManager: string[];
-}
+import { UserPermissionConfigCreation } from "@/features/types";
+
+export type RolePermissionForm = Pick<
+  UserPermissionConfigCreation,
+  "userId"
+> & { type: string; roleManager: string[] };

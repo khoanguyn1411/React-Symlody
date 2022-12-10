@@ -23,7 +23,7 @@ import {
 } from "./constants";
 import { RolePermissionFormMapper } from "./mapper";
 import { schema } from "./schema";
-import { IConfigManagerForm } from "./types";
+import { RolePermissionForm } from "./types";
 
 type TProps = {
   isShowing: boolean;
@@ -38,7 +38,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const [type, setType] = useState<string>("");
-  const propsForm = useForm<IConfigManagerForm>({
+  const propsForm = useForm<RolePermissionForm>({
     resolver: yupResolver(schema),
   });
   const {
@@ -62,7 +62,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
     setType(item.value);
   };
 
-  const handleUpdate = async (body: IConfigManagerForm) => {
+  const handleUpdate = async (body: RolePermissionForm) => {
     const bodyModel = RolePermissionFormMapper.toModel(body);
     const result = await dispatch(updateConfigRoleUserAsync(bodyModel));
     if (updateConfigRoleUserAsync.fulfilled.match(result)) {
