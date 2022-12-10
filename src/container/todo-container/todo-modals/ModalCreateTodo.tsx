@@ -16,7 +16,7 @@ import { FormatService } from "@/utils";
 import { TODO_MESSAGES } from "../constant";
 import { TodoFormMapper } from "../mapper";
 import { schema } from "../shema";
-import { IFormTodoInfo, Priority } from "../type";
+import { TodoForm } from "../type";
 import { FormItems } from "./FormItems";
 
 const getDayAfterWeek = (): string => {
@@ -40,14 +40,14 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
     }
   }, [dispatch, isShowing, userCount]);
 
-  const propsForm = useForm<IFormTodoInfo>({
+  const propsForm = useForm<TodoForm>({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
 
   const { handleSubmit, reset } = propsForm;
 
-  const handleCreateTask = async (data: IFormTodoInfo) => {
+  const handleCreateTask = async (data: TodoForm) => {
     const taskModel = TodoFormMapper.toModel(data);
     const result = await dispatch(createTaskAsync({ task: taskModel }));
     if (createTaskAsync.fulfilled.match(result)) {
@@ -62,10 +62,10 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
 
   useEffect(() => {
     reset({
-      priority: Priority.Normal,
-      expiredDate: getDayAfterWeek(),
+      isPriority: false,
+      endDate: getDayAfterWeek(),
       reporter: currentUserStore.user.id,
-      isNotifyEmail: false,
+      isSentEmail: false,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

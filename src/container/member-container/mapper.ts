@@ -1,8 +1,7 @@
 import { Department, Member, MemberCreation, Roles } from "@/features/types";
 import { FormatService } from "@/utils";
 
-import { MemberForm } from "./schema";
-import { IMemberTable } from "./type";
+import { IMemberTable, MemberForm } from "./type";
 
 export class MemberFormMapper {
   /** Use for map data from form values to member model. */
@@ -16,18 +15,7 @@ export class MemberFormMapper {
     isArchived: Member["isArchived"];
   }): MemberCreation {
     return {
-      authAccount: {
-        firstName: formData.authAccount.firstName,
-        lastName: formData.authAccount.lastName,
-        email: formData.authAccount.email,
-      },
-      dob: FormatService.toDateString(formData.dob, "US"),
-      className: formData.className,
-      address: formData.address,
-      gender: formData.gender,
-      studentId: formData.studentId,
-      phoneNumber: formData.phoneNumber,
-      homeTown: formData.homeTown,
+      ...formData,
       department: departmentModel
         ? DepartmentFormMapper.toModel(departmentModel, formData.department)
         : undefined,

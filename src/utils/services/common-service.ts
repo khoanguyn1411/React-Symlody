@@ -1,3 +1,5 @@
+import { Primitive } from "../types";
+
 /**
  * Check whether entity is object or not.
  * @param entity Entity that need to be checked.
@@ -29,6 +31,17 @@ export function assertNotArray<T>(entity: unknown): asserts entity is T {
 
 export function assertString(entity: unknown): asserts entity is string {
   if (typeof entity !== "string" && entity != null) {
+    throw new Error(`Suppose to be string but got ${typeof entity}.`);
+  }
+}
+
+export function assertPrimitive(entity: unknown): asserts entity is Primitive {
+  if (
+    typeof entity !== "string" &&
+    typeof entity !== "boolean" &&
+    typeof entity !== "number" &&
+    entity != null
+  ) {
     throw new Error(`Suppose to be string but got ${typeof entity}.`);
   }
 }

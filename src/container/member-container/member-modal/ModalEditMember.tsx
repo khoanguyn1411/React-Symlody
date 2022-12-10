@@ -17,7 +17,8 @@ import { generateFormErrors } from "@/utils/services/form-service";
 
 import { MEMBER_MESSAGE } from "../constant";
 import { MemberFormMapper } from "../mapper";
-import { MemberForm, schema } from "../schema";
+import { schema } from "../schema";
+import { MemberForm } from "../type";
 import { FormItems } from "./FormItems";
 
 export const ModalEditMember: React.FC<THookModalProps<Member>> = ({

@@ -13,11 +13,11 @@ import {
 } from "@/components";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
-import { IFormTodoInfo, Priority } from "../type";
+import { Priority, TodoForm } from "../type";
 
 type TProps = {
   mode: "edit" | "create";
-  formProps: UseFormReturn<IFormTodoInfo>;
+  formProps: UseFormReturn<TodoForm>;
 };
 
 export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
@@ -29,10 +29,14 @@ export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
   return (
     <div className={classNames(isEditMode && "grid grid-cols-2 gap-5")}>
       <div>
-        <FormItem label="Tên công việc" isRequired error={errors.name?.message}>
+        <FormItem
+          label="Tên công việc"
+          isRequired
+          error={errors.title?.message}
+        >
           <Controller
             control={control}
-            name="name"
+            name="title"
             render={({ field: { value, onChange } }) => (
               <TextArea
                 height={"40px"}
@@ -66,11 +70,11 @@ export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
             <FormItem
               label="Mức độ ưu tiên"
               isRequired
-              error={errors.priority?.message}
+              error={errors.isPriority?.message}
             >
               <Controller
                 control={control}
-                name="priority"
+                name="isPriority"
                 render={({ field: { value, onChange } }) => (
                   <Select
                     style="modal"
@@ -79,13 +83,13 @@ export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
                     list={[
                       {
                         prefix: <TodoPriorityIcon isPriority={false} />,
-                        value: Priority.Normal,
+                        value: false,
                         label: Priority.Normal,
                       },
                       {
                         prefix: <TodoPriorityIcon isPriority />,
                         label: Priority.High,
-                        value: Priority.High,
+                        value: true,
                       },
                     ]}
                   />
@@ -95,10 +99,10 @@ export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
           </div>
 
           <div className="col-span-3">
-            <FormItem label="Ngày hết hạn" error={errors.expiredDate?.message}>
+            <FormItem label="Ngày hết hạn" error={errors.endDate?.message}>
               <Controller
                 control={control}
-                name="expiredDate"
+                name="endDate"
                 render={({ field: { value, onChange } }) => (
                   <AppDatePicker
                     style="modal"
@@ -145,10 +149,10 @@ export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
           />
         </FormItem>
 
-        <FormItem label="" error={errors.isNotifyEmail?.message}>
+        <FormItem label="" error={errors.isSentEmail?.message}>
           <Controller
             control={control}
-            name="isNotifyEmail"
+            name="isSentEmail"
             render={({ field: { value, onChange } }) => {
               return (
                 <CheckboxGroup

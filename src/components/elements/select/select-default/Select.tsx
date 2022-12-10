@@ -4,7 +4,7 @@ import { GlobalTypes } from "@/utils";
 import {
   assertArray,
   assertNotArray,
-  assertString,
+  assertPrimitive,
 } from "@/utils/services/common-service";
 import { Primitive } from "@/utils/types";
 
@@ -125,7 +125,7 @@ export function Select<T, E extends Primitive>({
     }
     if (!isMultiple) {
       assertNotArray<TOptionProps<T, E>>(selectedOption);
-      assertString(value);
+      assertPrimitive(value);
       return (
         <SelectDefaultOption {...option} selectedOption={selectedOption} />
       );
@@ -148,7 +148,7 @@ export function Select<T, E extends Primitive>({
         />
       );
     }
-    assertString(value);
+    assertPrimitive(value);
     assertArray(selectedOption);
     return (
       <SelectMultipleDisplay

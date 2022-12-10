@@ -9,7 +9,7 @@ import { FormatService } from "@/utils";
 import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
 
 import { UNASSIGNED_TEXT } from "./constant";
-import { IFormTodoInfo, ITodoTable, Priority } from "./type";
+import { ITodoTable, TodoForm } from "./type";
 
 export const TODO_STATUS_MAP_FROM_ID: Readonly<
   Record<TodoStatusId, TodoStatus>
@@ -21,31 +21,23 @@ export const TODO_STATUS_MAP_FROM_ID: Readonly<
 };
 
 export class TodoFormMapper {
-  public static toModel(formData: IFormTodoInfo): TaskCreation {
+  public static toModel(formData: TodoForm): TaskCreation {
     return {
-      title: formData.name,
-      isPriority: formData.priority === Priority.High,
+      ...formData,
       assignee: {
         id: formData.assignee,
       },
       reporter: {
         id: formData.reporter,
       },
-      description: formData.description,
-      endDate: formData.expiredDate,
-      isSentEmail: formData.isNotifyEmail,
     };
   }
 
-  public static fromModel(model: TaskCreation): IFormTodoInfo {
+  public static fromModel(model: TaskCreation): TodoForm {
     return {
-      name: model.title,
-      priority: model.isPriority ? Priority.High : Priority.Normal,
-      expiredDate: model.endDate,
+      ...model,
       assignee: model.assignee.id,
       reporter: model.reporter.id,
-      description: model.description,
-      isNotifyEmail: model.isSentEmail,
     };
   }
 }

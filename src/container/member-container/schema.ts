@@ -1,18 +1,11 @@
 import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
-import { AuthAccountCreation, Gender, MemberCreation } from "@/features/types";
+import { Gender } from "@/features/types";
 import { generateArrayFromEnum } from "@/utils/services/generate-service";
-import { StrictOmit, YupValidation } from "@/utils/types";
+import { YupValidation } from "@/utils/types";
 
-type AuthAccountForm = AuthAccountCreation;
-
-export type MemberForm = StrictOmit<
-  MemberCreation,
-  "department" | "avatar" | "isArchived"
-> & {
-  department: string;
-};
+import { AuthAccountForm, MemberForm } from "./type";
 
 export const schema = yup.object().shape<YupValidation<MemberForm>>({
   authAccount: yup.object().shape<YupValidation<AuthAccountForm>>({

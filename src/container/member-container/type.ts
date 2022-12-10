@@ -1,3 +1,14 @@
+import { AuthAccountCreation, MemberCreation } from "@/features/types";
+import { StrictOmit } from "@/utils/types";
+
+export type AuthAccountForm = AuthAccountCreation;
+
+export type MemberForm = StrictOmit<
+  MemberCreation,
+  "department" | "avatar" | "isArchived"
+> & {
+  department: string;
+};
 export interface IFormMemberInfo {
   firstName: string;
   lastName: string;

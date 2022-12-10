@@ -7,7 +7,7 @@ import { useAppSelector } from "@/features";
 import { departmentSelectors } from "@/features/reducers/department-reducer";
 import { Gender } from "@/features/types/models/gender";
 
-import { MemberForm } from "../schema";
+import { MemberForm } from "../type";
 
 type TProps = {
   formProps: UseFormReturn<MemberForm>;
