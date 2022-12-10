@@ -8,11 +8,12 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { createPropertyAsync } from "@/features/reducers/property-reducer";
 import { THookModalProps } from "@/hooks";
+import { generateFormErrors } from "@/utils/services/form-service";
 
 import { PROPERTY_MESSAGE } from "../constant";
 import { PropertyFormMapper } from "../mapper";
 import { schema } from "../schema";
-import { IFormPropertyInfo } from "../type";
+import { PropertyForm } from "../type";
 import { FormItems } from "./FormItems";
 
 export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
@@ -41,12 +42,13 @@ export const ModalCreateProperty: React.FC<THookModalProps<undefined>> = ({
 };
 
 const TabCreateAProperty: React.FC = () => {
-  const propsForm = useForm<IFormPropertyInfo>({
+  const propsForm = useForm<PropertyForm>({
     resolver: yupResolver(schema),
   });
   const {
     handleSubmit,
     reset,
+    setError,
     formState: { isSubmitting },
   } = propsForm;
   const dispatch = useAppDispatch();
@@ -58,10 +60,14 @@ const TabCreateAProperty: React.FC = () => {
     }
   }, [dispatch, userCount]);
 
-  const handleCreateAProperty = async (propertyData: IFormPropertyInfo) => {
+  const handleCreateAProperty = async (propertyData: PropertyForm) => {
     const propertyModel = PropertyFormMapper.toModel(propertyData);
     const result = await dispatch(createPropertyAsync(propertyModel));
     if (createPropertyAsync.rejected.match(result)) {
+      if (result.payload) {
+        generateFormErrors({ setError, error: result.payload.detail });
+        return;
+      }
       toast.error(PROPERTY_MESSAGE.create.error);
       return;
     }

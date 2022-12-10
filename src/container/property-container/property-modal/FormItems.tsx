@@ -11,10 +11,10 @@ import {
 } from "@/components";
 import { FormatService } from "@/utils";
 
-import { IFormPropertyInfo } from "../type";
+import { PropertyForm } from "../type";
 
 type TProps = {
-  formProps: UseFormReturn<IFormPropertyInfo, any>;
+  formProps: UseFormReturn<PropertyForm>;
 };
 
 export const FormItems: React.FC<TProps> = ({ formProps }) => {
@@ -55,14 +55,10 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
 
   return (
     <>
-      <FormItem
-        label="Tên tài sản"
-        isRequired
-        error={errors.assetName?.message}
-      >
+      <FormItem label="Tên tài sản" isRequired error={errors.name?.message}>
         <Controller
           control={control}
-          name="assetName"
+          name="name"
           render={({ field: { value, onChange } }) => (
             <Input
               style="modal"
@@ -109,11 +105,11 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
       <FormItem
         label="Người chịu trách nhiệm"
         isRequired
-        error={errors.inChargeId?.message}
+        error={errors.inChargerId?.message}
       >
         <Controller
           control={control}
-          name="inChargeId"
+          name="inChargerId"
           render={({ field: { value, onChange } }) => {
             return (
               <SelectUser
@@ -128,11 +124,11 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
       <FormItem
         label="Chủ sở hữu tài sản"
         isRequired
-        error={errors.owner?.message}
+        error={errors.propOwner?.message}
       >
         <Controller
           control={control}
-          name="owner"
+          name="propOwner"
           render={({ field: { value, onChange } }) => {
             return (
               <RadioGroup

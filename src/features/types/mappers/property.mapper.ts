@@ -1,16 +1,51 @@
-import { FormatService, FormDataService } from "@/utils";
+import { FormDataService } from "@/utils";
+import { extractErrorMessage } from "@/utils/services/error-handler-service";
 
-import { PropertyCreationDto, PropertyDto } from "../dtos";
-import { Property, PropertyCreation } from "../models";
+import { HttpErrorDto, PropertyCreationDto, PropertyDto } from "../dtos";
+import { HttpError, Property, PropertyCreation } from "../models";
 import { dateMapper } from "./base-mappers/date.mapper";
-import { IMapperFromDto, IMapperToCreationDto } from "./base-mappers/mapper";
+import {
+  IMapperFromDto,
+  IMapperToCreationDto,
+  IMapperToHttpError,
+} from "./base-mappers/mapper";
 import { userMapper } from "./user.mapper";
 
 export class PropertyMapper
   implements
     IMapperFromDto<PropertyDto, Property>,
-    IMapperToCreationDto<PropertyCreationDto, PropertyCreation>
+    IMapperToCreationDto<PropertyCreationDto, PropertyCreation>,
+    IMapperToHttpError<PropertyCreationDto, PropertyCreation>
 {
+  public httpErrorFromDto(
+    errorDto: HttpErrorDto<PropertyCreationDto>
+  ): HttpError<PropertyCreation> {
+    const {
+      details: {
+        name,
+        is_club_property,
+        note,
+        prop_owner,
+        incharger_id,
+        image,
+        price,
+        quantity,
+      },
+    } = errorDto;
+    return {
+      error: errorDto.error,
+      detail: {
+        name: extractErrorMessage(name),
+        isClubProperty: extractErrorMessage(is_club_property),
+        note: extractErrorMessage(note),
+        propOwner: extractErrorMessage(prop_owner),
+        inChargerId: extractErrorMessage(incharger_id),
+        image: extractErrorMessage(image),
+        price: extractErrorMessage(price),
+        quantity: extractErrorMessage(quantity),
+      },
+    };
+  }
   public fromDto(dto: PropertyDto): Property {
     return {
       id: dto.id,
@@ -26,8 +61,8 @@ export class PropertyMapper
       isClubProperty: dto.is_club_property,
       note: dto.note,
       archivedBy: dto.archived_by,
-      price: FormatService.toString(dto.price),
-      quantity: FormatService.toString(dto.quantity),
+      price: dto.price,
+      quantity: dto.quantity,
       inCharger: userMapper.fromDto(dto.incharger),
       createdBy: userMapper.fromDto(dto.created_by),
     };
@@ -40,9 +75,9 @@ export class PropertyMapper
       note: model.note,
       prop_owner: model.propOwner,
       incharger_id: model.inChargerId,
-      image: model.image,
-      price: model.price && FormatService.toNumber(model.price),
-      quantity: model.quantity && FormatService.toNumber(model.quantity),
+      image: model.image ?? undefined,
+      price: model.price,
+      quantity: model.quantity,
     };
   }
 

@@ -11,7 +11,7 @@ import { FormatService, FormService } from "@/utils";
 
 import { PropertyFormMapper } from "../mapper";
 import { schema } from "../schema";
-import { IFormPropertyInfo } from "../type";
+import { PropertyForm } from "../type";
 import { FormItems } from "./FormItems";
 
 export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
@@ -24,7 +24,7 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
   const userStore = useAppSelector((state) => state.user);
   const userIds = useAppSelector(userSelectors.selectIds);
 
-  const propsForm = useForm<IFormPropertyInfo>({
+  const propsForm = useForm<PropertyForm>({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
@@ -34,7 +34,7 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
     formState: { dirtyFields, isSubmitting },
   } = propsForm;
 
-  const handleEditProperty = (editValue: IFormPropertyInfo) => {
+  const handleEditProperty = (editValue: PropertyForm) => {
     //TODO: Handle update property.
   };
 
@@ -50,7 +50,7 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
     }
     const formData = PropertyFormMapper.fromModel(data);
     const getInChargeIdDefaultValue = () => {
-      const defaultInChargeId = formData.inChargeId;
+      const defaultInChargeId = formData.inChargerId;
       if (!defaultInChargeId) {
         return null;
       }
@@ -60,7 +60,7 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
       }
       return inChargeIdAsNumber;
     };
-    reset({ ...formData, inChargeId: getInChargeIdDefaultValue() });
+    reset({ ...formData, inChargerId: getInChargeIdDefaultValue() });
   }, [data, reset, userIds]);
 
   return (

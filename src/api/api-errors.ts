@@ -42,7 +42,7 @@ export function composeErrors<TResult, TError>(
     };
   }
   const kind = getGeneralApiProblem(error);
-  const isHttpError = validateHttpError(error.data, kind);
+  const isHttpError = validateHttpError(error, kind);
   if (isHttpError) {
     assertsHttpErrorDto<TError>(error.data, isHttpError);
     return {

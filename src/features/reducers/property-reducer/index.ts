@@ -2,7 +2,12 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { PropertyApi } from "@/api/property-api";
 import { RootState, store } from "@/features/store";
-import { Property, PropertyCreation, propertyMapper } from "@/features/types";
+import {
+  HttpError,
+  Property,
+  PropertyCreation,
+  propertyMapper,
+} from "@/features/types";
 import { propertyFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import { PropertyFilterParams } from "@/features/types/models/filter-params";
 import { FilterService, GlobalTypes } from "@/utils";
@@ -29,13 +34,17 @@ export const getPropertyAsync = createAsyncThunk<
 export const createPropertyAsync = createAsyncThunk<
   Property,
   PropertyCreation,
-  GlobalTypes.ReduxThunkRejectValue<null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<PropertyCreation> | null>
 >("create/property", async (payload, { rejectWithValue }) => {
   const result = await PropertyApi.createProperty(
     propertyMapper.toFormData(payload)
   );
   if (result.kind === "ok") {
     return propertyMapper.fromDto(result.result);
+  }
+  if (result.kind === "bad-data") {
+    const httpError = propertyMapper.httpErrorFromDto(result.httpError);
+    return rejectWithValue(httpError);
   }
   return rejectWithValue(null);
 });
