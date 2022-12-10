@@ -14,6 +14,7 @@ import * as Types from "./types";
 
 const routes = {
   login: () => `login/`,
+  logout: () => `logout/`,
   refreshToken: () => `login/refresh/`,
   getProfile: () => `login/`,
   updateProfile: () => `user/update_profile/`,
@@ -29,6 +30,11 @@ export const AuthApi = {
   async getProfile(): Promise<Types.RequestGetProfileResult> {
     const url = routes.getProfile();
     return composeHttpMethodResult(http.get<ProfileDto>(url));
+  },
+
+  async logout(): Promise<Types.RequestLogoutResult> {
+    const url = routes.logout();
+    return composeHttpMethodResult(http.post<boolean>(url));
   },
 
   async updateProfile(
