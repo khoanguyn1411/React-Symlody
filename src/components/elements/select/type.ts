@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 import { GlobalTypes } from "@/utils";
-import { PrimitiveType } from "@/utils/types";
+import { Primitive } from "@/utils/types";
 
 import { AlignedPlacement } from "../portal/type";
 
@@ -26,7 +26,7 @@ export const STYLE_LIST_WRAPPER_MAPS = {
 
 export type TOptionProps<
   T extends Record<string, any> = undefined,
-  E extends PrimitiveType = string
+  E extends Primitive = string
 > = {
   label: string;
   value: E;

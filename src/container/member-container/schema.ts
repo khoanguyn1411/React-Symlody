@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
 import { AuthAccountCreation, Gender, MemberCreation } from "@/features/types";
-import { StrictOmit } from "@/utils/types";
+import { StrictOmit, YupValidation } from "@/utils/types";
 
 type AuthAccountForm = AuthAccountCreation;
 
@@ -13,24 +13,22 @@ export type MemberForm = StrictOmit<
   department: string;
 };
 
-export const schema: yup.SchemaOf<MemberForm> = yup.object().shape({
-  authAccount: yup
-    .object()
-    .shape<Record<keyof AuthAccountForm, yup.AnySchema>>({
-      firstName: yup
-        .string()
-        .required(APP_ERROR_MESSAGE.REQUIRED)
-        .max(150, APP_ERROR_MESSAGE.MAX(150, "Tên")),
-      lastName: yup
-        .string()
-        .required(APP_ERROR_MESSAGE.REQUIRED)
-        .max(150, APP_ERROR_MESSAGE.MAX(150, "Họ")),
-      email: yup
-        .string()
-        .email("Trường này phải là email")
-        .required(APP_ERROR_MESSAGE.REQUIRED)
-        .max(254, APP_ERROR_MESSAGE.MAX(254, "Email")),
-    }),
+export const schema = yup.object().shape<YupValidation<MemberForm>>({
+  authAccount: yup.object().shape<YupValidation<AuthAccountForm>>({
+    firstName: yup
+      .string()
+      .required(APP_ERROR_MESSAGE.REQUIRED)
+      .max(150, APP_ERROR_MESSAGE.MAX(150, "Tên")),
+    lastName: yup
+      .string()
+      .required(APP_ERROR_MESSAGE.REQUIRED)
+      .max(150, APP_ERROR_MESSAGE.MAX(150, "Họ")),
+    email: yup
+      .string()
+      .email(APP_ERROR_MESSAGE.EMAIL)
+      .required(APP_ERROR_MESSAGE.REQUIRED)
+      .max(254, APP_ERROR_MESSAGE.MAX(254, "Email")),
+  }),
   gender: yup
     .mixed<Gender>()
     .oneOf(Object.values(Gender))

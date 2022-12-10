@@ -6,7 +6,7 @@ import {
   assertNotArray,
   assertString,
 } from "@/utils/services/common-service";
-import { PrimitiveType } from "@/utils/types";
+import { Primitive } from "@/utils/types";
 
 import { SelectBase } from "../select-base/SelectBase";
 import { SelectMultipleDisplay } from "../select-components/select-multiple/SelectMultipleDisplay";
@@ -15,9 +15,9 @@ import { SelectDefaultDisplay } from "../select-components/select-single/SelectS
 import { SelectDefaultOption } from "../select-components/select-single/SelectSingleOption";
 import { TOptionProps, TSelectCustomProps } from "../type";
 
-type Props<T, E extends PrimitiveType> = TSelectCustomProps & {
+type Props<T, E extends Primitive> = TSelectCustomProps & {
   list: TOptionProps<T, E>[];
-  value?: PrimitiveType | PrimitiveType[];
+  value?: Primitive | Primitive[];
   isMultiple?: boolean;
   children?: ReactNode;
   renderOption?: (option: TOptionProps<T, E>, isChosen?: boolean) => ReactNode;
@@ -26,7 +26,7 @@ type Props<T, E extends PrimitiveType> = TSelectCustomProps & {
     removeOptionFn?: () => void
   ) => ReactNode;
   onChangeSideEffect?: (option: TOptionProps<T, E>) => void;
-  onChange?: GlobalTypes.ReactStateAction<PrimitiveType | PrimitiveType[]>;
+  onChange?: GlobalTypes.ReactStateAction<Primitive | Primitive[]>;
   selectValueControlled?: TOptionProps<T, E> | TOptionProps<T, E>[];
   setSelectValueControlled?: GlobalTypes.ReactStateAction<
     TOptionProps<T, E> | TOptionProps<T, E>[]
@@ -37,7 +37,7 @@ type Props<T, E extends PrimitiveType> = TSelectCustomProps & {
   classNameWrapperOptions?: string;
 };
 
-export function Select<T, E extends PrimitiveType>({
+export function Select<T, E extends Primitive>({
   list,
   value,
   isShowContent,
