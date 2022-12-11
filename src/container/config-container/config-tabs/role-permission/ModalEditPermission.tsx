@@ -9,15 +9,16 @@ import { useAppDispatch } from "@/features";
 import { updateConfigRoleUserAsync } from "@/features/reducers";
 import { UserShort } from "@/features/types";
 import { FormService } from "@/utils";
-import { assertErrorField } from "@/utils/services/form-service";
-import { generateErrorMessageFromErrorArray } from "@/utils/services/generate-service";
+import {
+  assertErrorField,
+  generateFormErrors,
+} from "@/utils/services/form-service";
 
 import {
   EPermissionOptions,
   MANAGE_OPTIONS,
   PERMISSION_LIST,
   PERMISSION_OPTIONS,
-  ROLE_PERMISSION_ERROR_TO_READABLE_STRING,
   ROLE_PERMISSION_MESSAGE,
   ROLE_PERMISSION_TO_NOTE,
 } from "./constants";
@@ -43,6 +44,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
   });
   const {
     control,
+    setError,
     formState: { isSubmitting, dirtyFields, errors },
     handleSubmit,
     reset,
@@ -75,13 +77,8 @@ export const ModalEditPermission: React.FC<TProps> = ({
       toast.error(ROLE_PERMISSION_MESSAGE.update.error);
       return;
     }
-    // const { detail } = result.payload;
-    // const readableError = generateErrorMessageFromErrorArray(
-    //   detail as string[],
-    //   ROLE_PERMISSION_ERROR_TO_READABLE_STRING
-    // );
-    // toast.error(readableError);
-    // return;
+    generateFormErrors({ setError, errors: result.payload });
+    return;
   };
 
   if (data == null) {
