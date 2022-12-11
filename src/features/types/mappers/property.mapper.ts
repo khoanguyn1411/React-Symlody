@@ -21,29 +21,26 @@ export class PropertyMapper
     errorDto: HttpErrorDto<PropertyCreationDto>
   ): HttpError<PropertyCreation> {
     const {
-      details: {
-        name,
-        is_club_property,
-        note,
-        prop_owner,
-        incharger_id,
-        image,
-        price,
-        quantity,
-      },
+      name,
+      is_club_property,
+      note,
+      prop_owner,
+      incharger_id,
+      image,
+      price,
+      quantity,
+      non_field_errors,
     } = errorDto;
     return {
-      error: errorDto.error,
-      detail: {
-        name: extractErrorMessage(name),
-        isClubProperty: extractErrorMessage(is_club_property),
-        note: extractErrorMessage(note),
-        propOwner: extractErrorMessage(prop_owner),
-        inChargerId: extractErrorMessage(incharger_id),
-        image: extractErrorMessage(image),
-        price: extractErrorMessage(price),
-        quantity: extractErrorMessage(quantity),
-      },
+      name: extractErrorMessage(name),
+      isClubProperty: extractErrorMessage(is_club_property),
+      note: extractErrorMessage(note),
+      propOwner: extractErrorMessage(prop_owner),
+      inChargerId: extractErrorMessage(incharger_id),
+      image: extractErrorMessage(image),
+      price: extractErrorMessage(price),
+      quantity: extractErrorMessage(quantity),
+      non_field_errors: extractErrorMessage(non_field_errors),
     };
   }
   public fromDto(dto: PropertyDto): Property {

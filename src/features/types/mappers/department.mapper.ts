@@ -1,13 +1,31 @@
-import { DepartmentCreationDto, DepartmentDto } from "../dtos";
-import { Department, DepartmentCreation } from "../models";
+import { extractErrorMessage } from "@/utils/services/error-handler-service";
+
+import { DepartmentCreationDto, DepartmentDto, HttpErrorDto } from "../dtos";
+import { Department, DepartmentCreation, HttpError } from "../models";
 import { dateMapper } from "./base-mappers/date.mapper";
-import { IMapperFromDto, IMapperToCreationDto } from "./base-mappers/mapper";
+import {
+  IMapperFromDto,
+  IMapperToCreationDto,
+  IMapperToHttpError,
+} from "./base-mappers/mapper";
 
 export class DepartmentMapper
   implements
     IMapperFromDto<DepartmentDto, Department>,
-    IMapperToCreationDto<DepartmentCreationDto, DepartmentCreation>
+    IMapperToCreationDto<DepartmentCreationDto, DepartmentCreation>,
+    IMapperToHttpError<DepartmentCreationDto, DepartmentCreation>
 {
+  public httpErrorFromDto(
+    errorDto: HttpErrorDto<DepartmentCreationDto>
+  ): HttpError<DepartmentCreation> {
+    return {
+      name:
+        extractErrorMessage(errorDto.name) ??
+        extractErrorMessage(errorDto.non_field_errors),
+      abbreviationName: extractErrorMessage(errorDto.abbreviation_name),
+    };
+  }
+
   public fromDto(dto: DepartmentDto): Department {
     return {
       id: dto.id,

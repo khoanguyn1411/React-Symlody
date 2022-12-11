@@ -54,13 +54,11 @@ export class UserPermissionConfigMapper
   public httpErrorFromDto(
     errorDto: HttpErrorDto<UserPermissionConfigCreationDto>
   ): HttpError<UserPermissionConfigCreation> {
-    const { user_id, groups } = errorDto.details;
+    const { user_id, groups, non_field_errors } = errorDto;
     return {
-      error: errorDto.error,
-      detail: {
-        userId: extractErrorMessage(user_id),
-        groups: extractErrorMessage(groups),
-      },
+      userId: extractErrorMessage(user_id),
+      groups: extractErrorMessage(groups),
+      non_field_errors: extractErrorMessage(non_field_errors),
     };
   }
 }

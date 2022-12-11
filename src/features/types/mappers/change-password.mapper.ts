@@ -15,11 +15,10 @@ export class ChangePasswordMapper
     errorDto: HttpErrorDto<ChangePasswordDto>
   ): HttpError<ChangePassword, undefined> {
     return {
-      error: errorDto.error,
-      detail: {
-        oldPassword: extractErrorMessage(errorDto.details.old_password),
-        newPassword: extractErrorMessage(errorDto.details.new_password),
-      },
+      oldPassword:
+        extractErrorMessage(errorDto.old_password) ??
+        extractErrorMessage(errorDto.non_field_errors),
+      newPassword: extractErrorMessage(errorDto.new_password),
     };
   }
   public toDto(model: ChangePassword): ChangePasswordDto {

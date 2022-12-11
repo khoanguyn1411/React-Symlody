@@ -70,10 +70,10 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
       })
     );
     if (updateMemberAsync.rejected.match(res)) {
-      const error = res.payload;
-      if (error && error.detail) {
+      const errors = res.payload;
+      if (errors) {
         generateFormErrors({
-          errors: error.detail,
+          errors,
           customMessage: { "authAccount.email": "Email này đã được đăng ký." },
           setError,
         });

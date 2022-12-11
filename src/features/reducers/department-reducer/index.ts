@@ -1,15 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import {
-  DepartmentApi,
-  RequestCreateDepartmentResult,
-  RequestUpdateDepartmentResult,
-} from "@/api/department-api";
+import { DepartmentApi } from "@/api/department-api";
 import { RootState } from "@/features/store";
 import {
   Department,
   DepartmentCreation,
   departmentMapper,
+  HttpError,
 } from "@/features/types";
 import { GlobalTypes } from "@/utils";
 
@@ -31,7 +28,7 @@ export const getDepartmentAsync = createAsyncThunk<
 export const createDepartmentAsync = createAsyncThunk<
   Department,
   DepartmentCreation,
-  GlobalTypes.ReduxThunkRejectValue<RequestCreateDepartmentResult>
+  GlobalTypes.ReduxThunkRejectValue<null | HttpError<DepartmentCreation>>
 >("create/department", async (payload, { rejectWithValue }) => {
   const departmentCreationDto = departmentMapper.toCreationDto(payload);
   const result = await DepartmentApi.createDepartment(departmentCreationDto);
@@ -40,13 +37,18 @@ export const createDepartmentAsync = createAsyncThunk<
     return departmentMapper.fromDto(department);
   }
 
+  if (result.kind === "bad-data") {
+    const error = departmentMapper.httpErrorFromDto(result.httpError);
+    return rejectWithValue(error);
+  }
+
   return rejectWithValue(null);
 });
 
 export const updateDepartmentAsync = createAsyncThunk<
   Department,
   { id: number; body: DepartmentCreation },
-  GlobalTypes.ReduxThunkRestoreRejected<RequestUpdateDepartmentResult>
+  GlobalTypes.ReduxThunkRejectValue<null | HttpError<DepartmentCreation>>
 >("update/department", async (payload, { rejectWithValue }) => {
   const departmentCreationDto = departmentMapper.toCreationDto(payload.body);
   const result = await DepartmentApi.updateDepartment(
@@ -56,6 +58,11 @@ export const updateDepartmentAsync = createAsyncThunk<
   if (result.kind === "ok") {
     const department = result.result;
     return departmentMapper.fromDto(department);
+  }
+
+  if (result.kind === "bad-data") {
+    const error = departmentMapper.httpErrorFromDto(result.httpError);
+    return rejectWithValue(error);
   }
 
   return rejectWithValue(null);

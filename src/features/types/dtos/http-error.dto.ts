@@ -8,10 +8,6 @@ export type DetailErrorDto<T> = {
     : string[];
 };
 
-export interface HttpErrorDto<T> {
-  /** Error detail. */
-  readonly details?: DetailErrorDto<T>;
-
-  /** Error detail. */
-  readonly error: string;
-}
+export type HttpErrorDto<T> = DetailErrorDto<T> & {
+  non_field_errors?: string[];
+};

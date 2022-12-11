@@ -52,22 +52,21 @@ export class MemberMapper
       dob,
       gender,
       department_id,
-    } = errorDto.details;
+      non_field_errors,
+    } = errorDto;
     return {
-      error: errorDto.error,
-      detail: {
-        className: extractErrorMessage(class_name),
-        studentId: extractErrorMessage(student_id),
-        address: extractErrorMessage(address),
-        phoneNumber: extractErrorMessage(phone_number),
-        homeTown: extractErrorMessage(home_town),
-        isArchived: extractErrorMessage(is_archived),
-        authAccount:
-          authAccountMapper.validationHttpDetailErrorFromDto(auth_account),
-        dob: extractErrorMessage(dob),
-        gender: extractErrorMessage(gender),
-        department: extractErrorMessage(department_id),
-      },
+      className: extractErrorMessage(class_name),
+      studentId: extractErrorMessage(student_id),
+      address: extractErrorMessage(address),
+      phoneNumber: extractErrorMessage(phone_number),
+      homeTown: extractErrorMessage(home_town),
+      isArchived: extractErrorMessage(is_archived),
+      authAccount:
+        authAccountMapper.validationHttpDetailErrorFromDto(auth_account),
+      dob: extractErrorMessage(dob),
+      gender: extractErrorMessage(gender),
+      department: extractErrorMessage(department_id),
+      non_field_errors: extractErrorMessage(non_field_errors),
     };
   }
 

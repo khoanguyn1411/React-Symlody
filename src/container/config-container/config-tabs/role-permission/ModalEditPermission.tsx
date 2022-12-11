@@ -75,13 +75,13 @@ export const ModalEditPermission: React.FC<TProps> = ({
       toast.error(ROLE_PERMISSION_MESSAGE.update.error);
       return;
     }
-    const { detail } = result.payload;
-    const readableError = generateErrorMessageFromErrorArray(
-      detail as string[],
-      ROLE_PERMISSION_ERROR_TO_READABLE_STRING
-    );
-    toast.error(readableError);
-    return;
+    // const { detail } = result.payload;
+    // const readableError = generateErrorMessageFromErrorArray(
+    //   detail as string[],
+    //   ROLE_PERMISSION_ERROR_TO_READABLE_STRING
+    // );
+    // toast.error(readableError);
+    // return;
   };
 
   if (data == null) {

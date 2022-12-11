@@ -76,17 +76,22 @@ export const getConfigManager = createAsyncThunk<
   });
 });
 
-export const updateTenantAsync = createAsyncThunk<
+export const updateOrganizationAsync = createAsyncThunk<
   Organization,
   { id: number; body: OrganizationCreation },
-  GlobalTypes.ReduxThunkRejectValue<null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<OrganizationCreation> | null>
 >("update/tenant", async (payload, { rejectWithValue }) => {
   const paramDto = organizationMapper.toFormData(payload.body);
   const result = await ConfigApi.updateOrganization(payload.id, paramDto);
+  console.log(result);
   if (result.kind === "ok") {
     return organizationMapper.fromDto(result.result);
   }
 
+  if (result.kind === "bad-data") {
+    const httpError = organizationMapper.httpErrorFromDto(result.httpError);
+    return rejectWithValue(httpError);
+  }
   return rejectWithValue(null);
 });
 
@@ -129,7 +134,7 @@ export const configSlice = createSlice({
         state.organization = null;
       })
       //UPDATE TENANT
-      .addCase(updateTenantAsync.fulfilled, (state, action) => {
+      .addCase(updateOrganizationAsync.fulfilled, (state, action) => {
         state.organization = action.payload;
       })
 

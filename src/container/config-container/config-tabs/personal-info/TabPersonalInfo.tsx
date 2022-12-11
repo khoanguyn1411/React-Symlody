@@ -50,7 +50,7 @@ export const TabPersonalInfo: React.FC = () => {
     );
     if (updateProfileAsync.rejected.match(result)) {
       if (result.payload) {
-        generateFormErrors({ errors: result.payload.detail, setError });
+        generateFormErrors({ errors: result.payload, setError });
         return;
       }
       toast.error(PERSONAL_INFO_MESSAGES.update.error);

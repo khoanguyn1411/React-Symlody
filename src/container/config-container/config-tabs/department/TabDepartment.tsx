@@ -13,6 +13,7 @@ import {
 import { Department, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
+import { generateFormErrors } from "@/utils/services/form-service";
 
 import { DEPARTMENT_MESSAGE } from "./constants";
 import { FormItems } from "./FormItems";
@@ -88,6 +89,7 @@ export const ActionConfigDepartment: React.FC = () => {
   const {
     handleSubmit,
     reset,
+    setError,
     formState: { isSubmitting },
   } = propsForm;
 
@@ -99,6 +101,11 @@ export const ActionConfigDepartment: React.FC = () => {
   const handleCreateDepartment = async (data: DepartmentForm) => {
     const result = await dispatch(createDepartmentAsync(data));
     if (createDepartmentAsync.rejected.match(result)) {
+      if (result.payload) {
+        const errors = result.payload;
+        generateFormErrors({ errors, setError });
+        return;
+      }
       toast.error(DEPARTMENT_MESSAGE.create.error);
       return;
     }
@@ -116,6 +123,7 @@ export const ActionConfigDepartment: React.FC = () => {
         Tạo mới
       </Button>
       <Modal
+        reset={reset}
         handleEvent={{
           title: "Tạo",
           event: handleSubmit(handleCreateDepartment),

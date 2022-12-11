@@ -38,7 +38,10 @@ export const uploadMemberExcelFileAsync = createAsyncThunk<
 export const createMemberAsync = createAsyncThunk<
   Member,
   MemberCreation,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<MemberCreation> | null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<
+    MemberCreation,
+    "authAccount"
+  > | null>
 >("create/member", async (payload, { rejectWithValue, dispatch }) => {
   const memberDto = memberMapper.toCreationDto(payload);
   const result = await MemberApi.createMember(memberDto);
@@ -94,7 +97,10 @@ export const getMembersAsync = createAsyncThunk<
 export const updateMemberAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRestoreResult<Member>,
   GlobalTypes.ReduxThunkRestorePayload<MemberCreation, Member>,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<MemberCreation> | null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<
+    MemberCreation,
+    "authAccount"
+  > | null>
 >(
   "update/member",
   async ({ payload, id, isRestore }, { rejectWithValue, dispatch }) => {

@@ -34,7 +34,7 @@ export const TabChangePassword: React.FC = () => {
     const result = await dispatch(changePasswordAsync(data));
     if (changePasswordAsync.rejected.match(result)) {
       if (result.payload) {
-        generateFormErrors({ errors: result.payload.detail, setError });
+        generateFormErrors({ errors: result.payload, setError });
         return;
       }
       toast.error(CHANGE_PASSWORD_MESSAGE.error);

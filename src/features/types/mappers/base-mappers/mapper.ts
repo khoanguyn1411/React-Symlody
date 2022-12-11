@@ -39,7 +39,9 @@ export interface IMapperToHttpError<TDto, TDomain> {
    * Map validation error DTO to error for domain model.
    * @param errorDto Error DTO.
    */
-  httpErrorFromDto(errorDto: HttpErrorDto<TDto>): HttpError<TDomain>;
+  httpErrorFromDto(
+    errorDto: HttpErrorDto<TDto>
+  ): HttpError<TDomain, undefined | keyof TDomain>;
 }
 
 /**
