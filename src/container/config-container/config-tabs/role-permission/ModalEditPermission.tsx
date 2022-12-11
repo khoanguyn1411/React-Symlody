@@ -9,10 +9,7 @@ import { useAppDispatch } from "@/features";
 import { updateConfigRoleUserAsync } from "@/features/reducers";
 import { UserShort } from "@/features/types";
 import { FormService } from "@/utils";
-import {
-  assertErrorField,
-  generateFormErrors,
-} from "@/utils/services/form-service";
+import { assertErrorField } from "@/utils/services/form-service";
 
 import {
   EPermissionOptions,
@@ -77,7 +74,9 @@ export const ModalEditPermission: React.FC<TProps> = ({
       toast.error(ROLE_PERMISSION_MESSAGE.update.error);
       return;
     }
-    generateFormErrors({ setError, errors: result.payload });
+    setError("type", {
+      message: result.payload.groups ?? result.payload.non_field_errors,
+    });
     return;
   };
 
