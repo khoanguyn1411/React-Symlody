@@ -20,8 +20,8 @@ export const TODO_STATUS_MAP_FROM_ID: Readonly<
   [TodoStatusId.Done]: TodoStatus.Done,
 };
 
-export class TodoFormMapper {
-  public static toModel(formData: TodoForm): TaskCreation {
+class TodoFormMapper {
+  public toModel(formData: TodoForm): TaskCreation {
     return {
       ...formData,
       assignee: {
@@ -33,7 +33,7 @@ export class TodoFormMapper {
     };
   }
 
-  public static fromModel(model: TaskCreation): TodoForm {
+  public fromModel(model: TaskCreation): TodoForm {
     return {
       ...model,
       assignee: model.assignee.id,
@@ -42,8 +42,8 @@ export class TodoFormMapper {
   }
 }
 
-export class TodoViewMapper {
-  public static fromModel(userList: User[], model: Task): ITodoTable {
+class TodoViewMapper {
+  public fromModel(userList: User[], model: Task): ITodoTable {
     const assignee = userList.find((user) => user.id === model.assignee.id);
     const fullName = assignee?.fullName ?? UNASSIGNED_TEXT;
     const isUnassigned = fullName === UNASSIGNED_TEXT;
@@ -58,3 +58,6 @@ export class TodoViewMapper {
     };
   }
 }
+
+export const todoViewMapper = new TodoViewMapper();
+export const todoFormMapper = new TodoFormMapper();

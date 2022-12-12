@@ -2,9 +2,9 @@ import { Profile, ProfileCreation } from "@/features/types";
 
 import { PersonalInfoForm } from "./type";
 
-export class PersonalInfoFormMapper {
+class PersonalInfoFormMapper {
   /** Use for map data from form values to member model. */
-  public static toModel(formData: PersonalInfoForm): ProfileCreation {
+  public toModel(formData: PersonalInfoForm): ProfileCreation {
     return {
       email: formData.email,
       firstName: formData.firstName,
@@ -20,7 +20,7 @@ export class PersonalInfoFormMapper {
     };
   }
 
-  public static fromModel(model: Profile): PersonalInfoForm {
+  public fromModel(model: Profile): PersonalInfoForm {
     return {
       firstName: model.firstName,
       lastName: model.lastName,
@@ -37,3 +37,5 @@ export class PersonalInfoFormMapper {
     };
   }
 }
+
+export const personalInfoFormMapper = new PersonalInfoFormMapper();

@@ -83,6 +83,7 @@ export function composeErrors<TResult, TError>(
       assertsHttpErrorDto<TError>(error, isHttpError);
       httpError = error;
     } else {
+      assertsHttpErrorDto<TError>(rootHttpError, isHttpError);
       httpError = rootHttpError;
     }
     return {

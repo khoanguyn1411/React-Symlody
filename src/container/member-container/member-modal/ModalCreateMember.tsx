@@ -16,7 +16,7 @@ import { THookModalProps, usePickFile } from "@/hooks";
 import { generateFormErrors } from "@/utils/services/form-service";
 
 import { MEMBER_MESSAGE } from "../constant";
-import { MemberFormMapper } from "../mapper";
+import { memberFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { MemberForm } from "../type";
 import { FormItems } from "./FormItems";
@@ -44,7 +44,7 @@ const TabCreateAMember: React.FC = () => {
   }, [departmentCount, dispatch]);
 
   const handleCreateMember = async (data: MemberForm) => {
-    const memberModel = MemberFormMapper.toModel({
+    const memberModel = memberFormMapper.toModel({
       departmentModel: departmentList,
       formData: data,
       isArchived: false,

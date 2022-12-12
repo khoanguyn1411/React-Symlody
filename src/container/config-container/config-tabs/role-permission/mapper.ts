@@ -1,4 +1,5 @@
 import {
+  HttpError,
   ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME,
   ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL,
   Roles,
@@ -36,8 +37,17 @@ const getFormType = (model: UserShort): EPermissionOptions => {
   }
 };
 
-export class RolePermissionFormMapper {
-  public static fromModel(model: UserShort): RolePermissionForm {
+class RolePermissionFormMapper {
+  public fromHttpError(
+    error: HttpError<UserPermissionConfigCreation>
+  ): HttpError<RolePermissionForm> {
+    return {
+      userId: error.userId,
+      type: error.groups ?? error.non_field_errors,
+    };
+  }
+
+  public fromModel(model: UserShort): RolePermissionForm {
     return {
       userId: model.id,
       type: getFormType(model),
@@ -51,12 +61,12 @@ export class RolePermissionFormMapper {
     };
   }
 
-  public static toModel(
-    formData: RolePermissionForm
-  ): UserPermissionConfigCreation {
+  public toModel(formData: RolePermissionForm): UserPermissionConfigCreation {
     return {
       userId: formData.userId,
       groups: getModelGroup(formData),
     };
   }
 }
+
+export const rolePermissionFormMapper = new RolePermissionFormMapper();

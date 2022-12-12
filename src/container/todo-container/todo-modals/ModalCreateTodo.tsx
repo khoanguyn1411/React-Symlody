@@ -14,7 +14,7 @@ import { THookModalProps } from "@/hooks";
 import { FormatService } from "@/utils";
 
 import { TODO_MESSAGES } from "../constant";
-import { TodoFormMapper } from "../mapper";
+import { todoFormMapper } from "../mapper";
 import { schema } from "../shema";
 import { TodoForm } from "../type";
 import { FormItems } from "./FormItems";
@@ -48,7 +48,7 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
   const { handleSubmit, reset } = propsForm;
 
   const handleCreateTask = async (data: TodoForm) => {
-    const taskModel = TodoFormMapper.toModel(data);
+    const taskModel = todoFormMapper.toModel(data);
     const result = await dispatch(createTaskAsync({ task: taskModel }));
     if (createTaskAsync.fulfilled.match(result)) {
       toast.success(TODO_MESSAGES.create.success);

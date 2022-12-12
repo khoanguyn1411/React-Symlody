@@ -16,7 +16,7 @@ import { THookModalProps } from "@/hooks";
 import { generateFormErrors } from "@/utils/services/form-service";
 
 import { MEMBER_MESSAGE } from "../constant";
-import { MemberFormMapper } from "../mapper";
+import { memberFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { MemberForm } from "../type";
 import { FormItems } from "./FormItems";
@@ -46,7 +46,7 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
   const hasPermission = withPermission([RolesID.Lead, RolesID.MemberManager]);
 
   const handleEditMember = hasPermission(async (editInfo: MemberForm) => {
-    const memberModel = MemberFormMapper.toModel({
+    const memberModel = memberFormMapper.toModel({
       departmentModel: departmentList,
       formData: editInfo,
       isArchived: data.isArchived,
@@ -93,7 +93,7 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
 
   useEffect(() => {
     if (data) {
-      reset(MemberFormMapper.fromModel(data));
+      reset(memberFormMapper.fromModel(data));
     }
   }, [data, reset]);
 

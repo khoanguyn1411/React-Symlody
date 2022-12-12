@@ -15,7 +15,7 @@ import { Task, TodoStatusId } from "@/features/types";
 
 import { TODO_MESSAGES } from "../constant";
 import { checkStatusOfExpiredDate } from "../function";
-import { TodoViewMapper } from "../mapper";
+import { todoViewMapper } from "../mapper";
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
 type TProps = {
@@ -104,7 +104,7 @@ export const TodoTableContent: React.FC<TProps> = ({
     <>
       <Table.Body>
         {taskStore.currentListTask.map((task, index) => {
-          const itemTable = TodoViewMapper.fromModel(userList, task);
+          const itemTable = todoViewMapper.fromModel(userList, task);
           const statusOfExpiredDate = checkStatusOfExpiredDate(task);
           const isShowLoadingDelete =
             taskStore.pendingDeleteTask && task.id === currentInteractiveTask;

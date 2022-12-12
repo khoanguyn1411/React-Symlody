@@ -4,7 +4,7 @@ import { DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
 import { Property } from "@/features/types";
 
-import { PropertyTableMapper } from "../mapper";
+import { propertyTableMapper } from "../mapper";
 
 type TProps = {
   onEdit: (property: Property) => void;
@@ -54,7 +54,7 @@ export const PropertyTableContent: React.FC<TProps> = ({
   return (
     <Table.Body>
       {propertyStore.propertyListPagination.map((item, index) => {
-        const propertyTableItem = PropertyTableMapper.fromModel(item);
+        const propertyTableItem = propertyTableMapper.fromModel(item);
         const isPending =
           propertyStore.pendingDeleteProperty ||
           propertyStore.pendingRestoreProperty;

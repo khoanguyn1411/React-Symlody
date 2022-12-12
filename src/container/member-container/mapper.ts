@@ -3,9 +3,9 @@ import { FormatService } from "@/utils";
 
 import { IMemberTable, MemberForm } from "./type";
 
-export class MemberFormMapper {
+class MemberFormMapper {
   /** Use for map data from form values to member model. */
-  public static toModel({
+  public toModel({
     departmentModel,
     formData,
     isArchived,
@@ -17,13 +17,13 @@ export class MemberFormMapper {
     return {
       ...formData,
       department: departmentModel
-        ? DepartmentFormMapper.toModel(departmentModel, formData.department)
+        ? departmentFormMapper.toModel(departmentModel, formData.department)
         : undefined,
       isArchived: isArchived,
     };
   }
   /** Use for map data from model to form values. */
-  public static fromModel(model: Member): MemberForm {
+  public fromModel(model: Member): MemberForm {
     return {
       authAccount: {
         firstName: model.authAccount.firstName,
@@ -42,8 +42,8 @@ export class MemberFormMapper {
   }
 }
 
-export class MemberTableMapper {
-  public static fromModel(model: Member): IMemberTable {
+class MemberTableMapper {
+  public fromModel(model: Member): IMemberTable {
     const { groups } = model.authAccount;
 
     const isOnlyIncludeMemberRole =
@@ -70,10 +70,14 @@ export class MemberTableMapper {
   }
 }
 
-export class DepartmentFormMapper {
-  public static toModel(model: Department[], formData: string): Department {
+class DepartmentFormMapper {
+  public toModel(model: Department[], formData: string): Department {
     return {
       ...model.find((item) => item.name === formData),
     };
   }
 }
+
+export const departmentFormMapper = new DepartmentFormMapper();
+export const memberTableMapper = new MemberTableMapper();
+export const memberFormMapper = new MemberFormMapper();

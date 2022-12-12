@@ -11,7 +11,7 @@ import { THookModalProps } from "@/hooks";
 import { generateFormErrors } from "@/utils/services/form-service";
 
 import { PROPERTY_MESSAGE } from "../constant";
-import { PropertyFormMapper } from "../mapper";
+import { propertyFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { PropertyForm } from "../type";
 import { FormItems } from "./FormItems";
@@ -61,7 +61,7 @@ const TabCreateAProperty: React.FC = () => {
   }, [dispatch, userCount]);
 
   const handleCreateAProperty = async (propertyData: PropertyForm) => {
-    const propertyModel = PropertyFormMapper.toModel(propertyData);
+    const propertyModel = propertyFormMapper.toModel(propertyData);
     const result = await dispatch(createPropertyAsync(propertyModel));
     if (createPropertyAsync.rejected.match(result)) {
       if (result.payload) {

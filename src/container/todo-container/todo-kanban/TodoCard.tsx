@@ -14,13 +14,13 @@ import { Task } from "@/features/types";
 
 import { TODO_MESSAGES } from "../constant";
 import { checkStatusOfExpiredDate } from "../function";
-import { TodoViewMapper } from "../mapper";
+import { todoViewMapper } from "../mapper";
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
 
 export const TodoCard: React.FC<Task> = (task) => {
   const dispatch = useAppDispatch();
   const userList = useAppSelector(userSelectors.selectAll);
-  const taskViewInfo = TodoViewMapper.fromModel(userList, task);
+  const taskViewInfo = todoViewMapper.fromModel(userList, task);
   const statusOfExpiredDate = checkStatusOfExpiredDate(task);
 
   const [isShowDropdown, setIsShowDropdown] = useState(false);

@@ -56,9 +56,16 @@ type CustomMessage<T> = {
 };
 
 type InputFormError<T> = {
+  /** HttpError (`error.detail` of request's result) */
   errors: T;
+
+  /** Please do not use this key because it's only for generating recursive function purpose. */
   previousKey?: string;
+
+  /** Custom message if you need to override current backend error. */
   customMessage?: CustomMessage<T>;
+
+  /** setError function of `useForm` hook. */
   setError: UseFormSetError<any>;
 };
 
@@ -69,10 +76,7 @@ type InputFormError<T> = {
  * - Provide solutions for custom errors.
  * - Provide strict type for validation.
  * ----------------------------------
- * @param error HttpError (`error.detail` of request's result)
- * @param previousKey Please do not use this key because it's only for generating recursive function purpose.
- * @param customMessage Custom message if you need to override current backend error.
- * @param setError setError function of `useForm` hook.
+ * @param input Input object, please see docs in this type for more detail.
  */
 export function generateFormErrors<T extends HttpError<any>["detail"]>({
   errors,

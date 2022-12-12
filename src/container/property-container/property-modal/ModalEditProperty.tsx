@@ -9,7 +9,7 @@ import { Property } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 import { FormatService, FormService } from "@/utils";
 
-import { PropertyFormMapper } from "../mapper";
+import { propertyFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { PropertyForm } from "../type";
 import { FormItems } from "./FormItems";
@@ -48,7 +48,7 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
     if (!data) {
       return;
     }
-    const formData = PropertyFormMapper.fromModel(data);
+    const formData = propertyFormMapper.fromModel(data);
     const getInChargeIdDefaultValue = () => {
       const defaultInChargeId = formData.inChargerId;
       if (!defaultInChargeId) {

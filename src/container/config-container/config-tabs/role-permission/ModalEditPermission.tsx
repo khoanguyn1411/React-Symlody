@@ -9,7 +9,10 @@ import { useAppDispatch } from "@/features";
 import { updateConfigRoleUserAsync } from "@/features/reducers";
 import { UserShort } from "@/features/types";
 import { FormService } from "@/utils";
-import { assertErrorField } from "@/utils/services/form-service";
+import {
+  assertErrorField,
+  generateFormErrors,
+} from "@/utils/services/form-service";
 
 import {
   EPermissionOptions,
@@ -19,7 +22,7 @@ import {
   ROLE_PERMISSION_MESSAGE,
   ROLE_PERMISSION_TO_NOTE,
 } from "./constants";
-import { RolePermissionFormMapper } from "./mapper";
+import { rolePermissionFormMapper } from "./mapper";
 import { schema } from "./schema";
 import { RolePermissionForm } from "./types";
 
@@ -51,7 +54,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
 
   useEffect(() => {
     if (data) {
-      const formData = RolePermissionFormMapper.fromModel(data);
+      const formData = rolePermissionFormMapper.fromModel(data);
       setType(formData.type);
       reset(formData);
     }
@@ -62,7 +65,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
   };
 
   const handleUpdate = async (body: RolePermissionForm) => {
-    const bodyModel = RolePermissionFormMapper.toModel(body);
+    const bodyModel = rolePermissionFormMapper.toModel(body);
     const result = await dispatch(updateConfigRoleUserAsync(bodyModel));
     if (updateConfigRoleUserAsync.fulfilled.match(result)) {
       toast.success(ROLE_PERMISSION_MESSAGE.update.success);
@@ -74,8 +77,9 @@ export const ModalEditPermission: React.FC<TProps> = ({
       toast.error(ROLE_PERMISSION_MESSAGE.update.error);
       return;
     }
-    setError("type", {
-      message: result.payload.groups ?? result.payload.non_field_errors,
+    generateFormErrors({
+      setError,
+      errors: rolePermissionFormMapper.fromHttpError(result.payload),
     });
     return;
   };

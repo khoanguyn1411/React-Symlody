@@ -21,7 +21,7 @@ import {
   ConfigTabContentContainer,
 } from "../../config-components";
 import { PERSONAL_INFO_MESSAGES, PROVINCES_LIST } from "./constants";
-import { PersonalInfoFormMapper } from "./mapper";
+import { personalInfoFormMapper } from "./mapper";
 import { schema } from "./shema";
 import { PersonalInfoForm } from "./type";
 
@@ -41,12 +41,12 @@ export const TabPersonalInfo: React.FC = () => {
     handleSubmit,
   } = useForm<PersonalInfoForm>({
     resolver: yupResolver(schema),
-    defaultValues: PersonalInfoFormMapper.fromModel(currentUser),
+    defaultValues: personalInfoFormMapper.fromModel(currentUser),
   });
 
   const handleEditPersonalInfo = async (data: PersonalInfoForm) => {
     const result = await dispatch(
-      updateProfileAsync(PersonalInfoFormMapper.toModel(data))
+      updateProfileAsync(personalInfoFormMapper.toModel(data))
     );
     if (updateProfileAsync.rejected.match(result)) {
       if (result.payload) {
@@ -57,7 +57,7 @@ export const TabPersonalInfo: React.FC = () => {
       return;
     }
     toast.success(PERSONAL_INFO_MESSAGES.update.success);
-    const formData = PersonalInfoFormMapper.fromModel(result.payload);
+    const formData = personalInfoFormMapper.fromModel(result.payload);
     reset({ ...formData, avatar: undefined });
     return;
   };

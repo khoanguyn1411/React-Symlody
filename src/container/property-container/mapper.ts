@@ -4,7 +4,7 @@ import { FormatService } from "@/utils";
 import { IPropertyTable, PropertyForm } from "./type";
 
 export class PropertyFormMapper {
-  public static fromModel(model: Property): PropertyForm {
+  public fromModel(model: Property): PropertyForm {
     return {
       name: model.name,
       quantity: FormatService.toString(model.quantity),
@@ -16,7 +16,7 @@ export class PropertyFormMapper {
       image: null,
     };
   }
-  public static toModel(propertyFormData: PropertyForm): PropertyCreation {
+  public toModel(propertyFormData: PropertyForm): PropertyCreation {
     return {
       name: propertyFormData.name,
       quantity: Number(propertyFormData.quantity),
@@ -31,7 +31,7 @@ export class PropertyFormMapper {
 }
 
 export class PropertyTableMapper {
-  public static fromModel(model: Property): IPropertyTable {
+  public fromModel(model: Property): IPropertyTable {
     return {
       assetName: model.name,
       quantity: model.quantity,
@@ -41,3 +41,6 @@ export class PropertyTableMapper {
     };
   }
 }
+
+export const propertyTableMapper = new PropertyTableMapper();
+export const propertyFormMapper = new PropertyFormMapper();
