@@ -41,7 +41,6 @@ export const UserDropdown: React.FC<TProps> = ({ user, organization }) => {
   const handleChangeMenu = (item: TItemListSelect) => {
     if (item.key === "LOGOUT") {
       dispatch(logoutAsync());
-      navigate(getTabUrl(EPagePath.Login));
       return;
     }
     if (item.key === "PROFILE") {
