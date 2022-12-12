@@ -2,10 +2,12 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import styled from "@emotion/styled";
 import classNames from "classnames";
-import React from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
+import { addSyntheticLeadingComment } from "typescript";
 
 import { Icon } from "@/assets/icons";
+import { FormatService } from "@/utils";
 
 import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
 import { Portal } from "../portal";
@@ -16,6 +18,7 @@ type TProps = {
   value: string;
   isTimePicker?: boolean;
   onChange: (param: Date) => void;
+  isDefault2000?: boolean;
 };
 
 const WrapperModule = styled.div`
@@ -63,23 +66,41 @@ export const AppDatePicker: React.FC<TProps> = ({
   isTimePicker = false,
   style = "default",
   value,
+  isDefault2000 = false,
   onChange,
 }) => {
   const handleChangeDate = (date: Date): void => {
+    _setValue(value);
     onChange(date);
+  };
+
+  const [_value, _setValue] = useState(() => {
+    if (isDefault2000) {
+      return !value ? "" : FormatService.toDateString(value, "VN");
+    }
+    return value && FormatService.toDateString(value, "VN");
+  });
+
+  const getSelectedDate = () => {
+    if (isDefault2000) {
+      return !value ? new Date("01/01/2000") : new Date(value);
+    }
+    return value && new Date(value);
   };
 
   return (
     <WrapperModule className="relative">
       <DatePicker
         dateFormat={!isTimePicker ? "dd/MM/yyyy" : "dd/MM/yyyy hh:mm aa"}
-        selected={value && new Date(value)}
+        selected={getSelectedDate()}
         minDate={new Date("01/01/2000")}
         maxDate={getMaxDate()}
         onChange={handleChangeDate}
         placeholderText={!isTimePicker ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm aa"}
         portalId="portal-date"
         popperClassName="!z-30"
+        locale="vi-VN"
+        value={_value}
         popperPlacement="bottom-end"
         className={classNames(
           "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
