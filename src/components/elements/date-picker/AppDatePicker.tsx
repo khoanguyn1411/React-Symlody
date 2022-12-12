@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 import classNames from "classnames";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
-import { addSyntheticLeadingComment } from "typescript";
 
 import { Icon } from "@/assets/icons";
 import { FormatService } from "@/utils";
