@@ -77,6 +77,7 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
           customMessage: { "authAccount.email": "Email này đã được đăng ký." },
           setError,
         });
+        return;
       }
       toast.error(MEMBER_MESSAGE.create.error);
       return;

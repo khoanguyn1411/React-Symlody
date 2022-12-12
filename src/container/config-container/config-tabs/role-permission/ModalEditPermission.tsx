@@ -41,6 +41,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
   const [type, setType] = useState<string>("");
   const propsForm = useForm<RolePermissionForm>({
     resolver: yupResolver(schema),
+    shouldUnregister: true,
   });
   const {
     control,

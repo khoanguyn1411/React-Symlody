@@ -25,6 +25,7 @@ export const ModalEditDepartment: React.FC<THookModalProps<Department>> = ({
 
   const propsForm = useForm<DepartmentForm>({
     resolver: yupResolver(schema),
+    shouldUnregister: true,
   });
   const {
     handleSubmit,
@@ -56,7 +57,6 @@ export const ModalEditDepartment: React.FC<THookModalProps<Department>> = ({
 
   return (
     <Modal
-      reset={reset}
       handleEvent={{
         title: "Tạo",
         event: handleSubmit(handleUpdateDepartment),
