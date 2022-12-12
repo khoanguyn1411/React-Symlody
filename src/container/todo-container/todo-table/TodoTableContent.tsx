@@ -117,7 +117,9 @@ export const TodoTableContent: React.FC<TProps> = ({
                     task={task}
                     onPriorityChange={handlePriorityChange}
                   />
-                  <span className="ellipsis-text-1">{itemTable.title}</span>
+                  <span className="ellipsis-text-1" title={itemTable.title}>
+                    {itemTable.title}
+                  </span>
                 </div>
               </Table.Cell>
               <Table.Cell textAlign="right">
