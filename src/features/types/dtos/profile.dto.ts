@@ -13,7 +13,7 @@ export interface ProfileDto extends AuthAccountDto {
   home_town: string;
   dob: string;
   class_name: string;
-  avatar: string;
+  avatar_url: string;
   address: string;
   department: DepartmentDto;
   organization: OrganizationDto;

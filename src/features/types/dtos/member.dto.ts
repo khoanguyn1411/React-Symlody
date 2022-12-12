@@ -8,7 +8,7 @@ export interface MemberDto {
   id: number;
   last_modified_date: string;
   created_by: StrictPick<AuthAccountDto, "first_name" | "last_name">;
-  avatar: string;
+  avatar_url: string;
   department: DepartmentDto;
 
   gender: number;
@@ -25,7 +25,7 @@ export type MemberCreationDto = StrictOmit<
   MemberDto,
   | "auth_account"
   | "department"
-  | "avatar"
+  | "avatar_url"
   | "id"
   | "last_modified_date"
   | "created_by"

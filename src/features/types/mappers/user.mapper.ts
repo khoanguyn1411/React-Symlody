@@ -20,7 +20,7 @@ export class UserMapper implements IMapperFromDto<UserDto, User> {
       ...authAccountMapper.fromDtoWithOutGroups(dto),
       id: dto.id,
       departmentId: dto.department_id,
-      avatar: dto.avatar,
+      avatarUrl: dto.avatar_url,
     };
   }
 
@@ -28,7 +28,7 @@ export class UserMapper implements IMapperFromDto<UserDto, User> {
     return {
       ...authAccountMapper.fromInheritance(profile),
       id: profile.id,
-      avatar: profile.avatar,
+      avatarUrl: profile.avatarUrl,
       departmentId: profile.department.id,
     };
   }
@@ -36,7 +36,7 @@ export class UserMapper implements IMapperFromDto<UserDto, User> {
   public fromMember(model: Member): GlobalTypes.StrictOmit<User, "id"> {
     return {
       ...authAccountMapper.fromInheritance(model.authAccount),
-      avatar: model.avatar,
+      avatarUrl: model.avatarUrl,
       departmentId: model.department.id,
     };
   }
@@ -49,6 +49,7 @@ export class UserShortMapper
     const authAccount = authAccountMapper.fromDto(dto);
     return {
       ...authAccount,
+      avatarUrl: dto.avatar_url,
       isRole: isRoleMapper.fromGroupModel(authAccount.groups),
       id: dto.id,
     };
@@ -58,6 +59,7 @@ export class UserShortMapper
     const memberGroup: Group[] = [{ id: RolesID.Member, name: Roles.Member }];
     return {
       id: user.id,
+      avatarUrl: user.avatarUrl,
       firstName: user.firstName,
       lastName: user.lastName,
       fullName: user.fullName,

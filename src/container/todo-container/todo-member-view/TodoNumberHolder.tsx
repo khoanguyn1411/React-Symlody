@@ -93,10 +93,10 @@ export const TodoNumberHolder: React.FC<TProps> = ({
           </>
         }
         renderEmptyListPlaceholder={<h1 className="px-2 py-2">No data</h1>}
-        renderOption={({ objectValue: { fullName, avatar } }, isChosen) => (
+        renderOption={({ objectValue: { fullName, avatarUrl } }, isChosen) => (
           <button className="flex items-center w-full pl-1 pr-3 cursor-pointer transition-colors hover:bg-primary-100">
             <Checkbox checked={isChosen} />
-            <Avatar src={avatar} size="xsmall" fullName={fullName} />
+            <Avatar src={avatarUrl} size="xsmall" fullName={fullName} />
             <h1 className="ml-2 text-sm">{fullName}</h1>
           </button>
         )}

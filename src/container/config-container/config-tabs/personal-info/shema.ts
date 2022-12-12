@@ -9,7 +9,7 @@ import { PersonalInfoForm } from "./type";
 
 export const schema = yup.object().shape<YupValidation<PersonalInfoForm>>({
   avatar: yup.mixed(),
-  avatarUrl: yup.string(),
+  avatarUrl: yup.string().nullable(),
   firstName: yup
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)

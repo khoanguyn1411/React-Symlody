@@ -31,32 +31,32 @@ export const ItemPermission: React.FC<TProps> = ({ onOpenEdit }) => {
   return (
     <>
       {configUsersList.length > 0 &&
-        configUsersList.map((d) => (
-          <Table.Row key={d.id}>
+        configUsersList.map((user) => (
+          <Table.Row key={user.id}>
             <Table.Cell>
               <div className="flex items-center space-x-2">
-                <Avatar src="" fullName={d.fullName} />
+                <Avatar src={user.avatarUrl} fullName={user.fullName} />
                 <div className="flex flex-col">
-                  <h2 className="font-medium">{d.fullName}</h2>
-                  <span className="text-xs text-gray-400">{d.email}</span>
+                  <h2 className="font-medium">{user.fullName}</h2>
+                  <span className="text-xs text-gray-400">{user.email}</span>
                 </div>
               </div>
             </Table.Cell>
             <Table.Cell width="4rem" textAlign="center">
-              <CheckDone isActive={d.isRole([Roles.Lead])} />
+              <CheckDone isActive={user.isRole([Roles.Lead])} />
             </Table.Cell>
             <Table.Cell width="4rem" textAlign="center">
-              <CheckDone isActive={d.isRole([Roles.MemberManager])} />
+              <CheckDone isActive={user.isRole([Roles.MemberManager])} />
             </Table.Cell>
             <Table.Cell width="4rem" textAlign="center">
-              <CheckDone isActive={d.isRole([Roles.PropertyManager])} />
+              <CheckDone isActive={user.isRole([Roles.PropertyManager])} />
             </Table.Cell>
 
             <Table.CellAction>
               <DeleteAndEditField
                 isShowDelete={false}
                 handleEvent={{
-                  edit: () => onOpenEdit(d),
+                  edit: () => onOpenEdit(user),
                 }}
               />
             </Table.CellAction>

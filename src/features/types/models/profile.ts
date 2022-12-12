@@ -13,7 +13,7 @@ export interface Profile extends AuthAccount, IsRole {
   homeTown: string;
   dob: string;
   className: string;
-  avatar: string | null;
+  avatarUrl: string | null;
   address: string;
   department: Department;
   organization: Organization;

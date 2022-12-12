@@ -49,7 +49,7 @@ class TodoViewMapper {
     const isUnassigned = fullName === UNASSIGNED_TEXT;
     return {
       fullName: isUnassigned ? UNASSIGNED_TEXT : fullName,
-      avatar: assignee?.avatar ?? "",
+      avatar: assignee?.avatarUrl ?? "",
       isUnassigned,
       title: generatePlaceholderEmptyValue(model.title),
       expiredDate: model.endDate
