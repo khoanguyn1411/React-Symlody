@@ -2,10 +2,10 @@ import { Controller, UseFormReturn } from "react-hook-form";
 
 import { FormItem, Input } from "@/components";
 
-import { IFormDepartment } from "./types";
+import { DepartmentForm } from "./types";
 
 type TProps = {
-  formProps: UseFormReturn<IFormDepartment>;
+  formProps: UseFormReturn<DepartmentForm>;
 };
 
 export const FormItems: React.FC<TProps> = ({ formProps }) => {

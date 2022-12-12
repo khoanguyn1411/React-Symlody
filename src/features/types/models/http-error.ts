@@ -12,7 +12,7 @@ export type PropValidationMessage<T> = T extends unknown[]
   ? EntityValidationErrors<T>
   : string;
 
-export interface HttpError<T, P extends keyof T = undefined> {
-  readonly detail: EntityValidationErrors<T, P>;
-  readonly error: string;
-}
+export type HttpError<
+  T,
+  P extends keyof T = undefined
+> = EntityValidationErrors<T, P> & { non_field_errors?: string };

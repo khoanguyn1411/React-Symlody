@@ -6,11 +6,12 @@ import { toast } from "react-toastify";
 import { FormItem, Input, Loading } from "@/components";
 import { UploadedAvatar } from "@/components/elements/uploaded/avatar/UploadedAvatar";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { updateTenantAsync } from "@/features/reducers";
+import { updateOrganizationAsync } from "@/features/reducers";
 import { Organization, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useEffectSkipFirstRender } from "@/hooks";
 import { FormService } from "@/utils";
+import { generateFormErrors } from "@/utils/services/form-service";
 
 import {
   ConfigSplitColumn,
@@ -19,7 +20,7 @@ import {
 } from "../../config-components";
 import { ORGANIZATION_MESSAGES } from "./constant";
 import { schema } from "./schema";
-import { IFormOrganizationConfig } from "./type";
+import { OrganizationForm } from "./type";
 
 export const TabOrganization: React.FC = () => {
   const { organization, pendingOrganization } = useAppSelector(
@@ -39,33 +40,40 @@ export const _TabOrganization: React.FC = () => {
     organization.logo ?? ""
   );
 
-  const getDefaultValue = (rest: Organization): IFormOrganizationConfig => {
+  const getDefaultValue = (rest: Organization): OrganizationForm => {
     return {
-      ...rest,
+      name: rest.name ?? "",
+      abbreviationName: rest.abbreviationName ?? "",
+      email: rest.email ?? "",
+      phoneNumber: rest.phoneNumber ?? "",
+      school: rest.school ?? "",
+      address: rest.address ?? "",
       logo: undefined,
-      email: organization.email ?? "",
-      phoneNumber: organization.phoneNumber ?? "",
-      school: organization.school ?? "",
-      address: organization.address ?? "",
     };
   };
 
   const {
     control,
     formState: { errors, isSubmitting, dirtyFields },
+    setError,
     reset,
     handleSubmit,
-  } = useForm<IFormOrganizationConfig>({
+  } = useForm<OrganizationForm>({
     resolver: yupResolver(schema),
     defaultValues: getDefaultValue(organization),
   });
 
   const handleEditOrgInfo = withPermission([RolesID.Lead, RolesID.SystemAdmin])(
-    async (data: IFormOrganizationConfig) => {
+    async (data: OrganizationForm) => {
       const result = await dispatch(
-        updateTenantAsync({ id: organization.id, body: data })
+        updateOrganizationAsync({ id: organization.id, body: data })
       );
-      if (!result.payload) {
+      if (updateOrganizationAsync.rejected.match(result)) {
+        const errors = result.payload;
+        if (errors) {
+          generateFormErrors({ errors, setError });
+          return;
+        }
         toast.error(ORGANIZATION_MESSAGES.update.error);
         return;
       }
@@ -82,7 +90,7 @@ export const _TabOrganization: React.FC = () => {
 
   return (
     <ConfigTabContentContainer>
-      <FormItem label="Ảnh đại diện tổ chức">
+      <FormItem label="Ảnh đại diện tổ chức" error={errors.logo?.message}>
         <Controller
           control={control}
           name="logo"
@@ -129,7 +137,7 @@ export const _TabOrganization: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem label="Địa chỉ mail">
+        <FormItem label="Địa chỉ mail" error={errors.email?.message}>
           <Controller
             control={control}
             name="email"
@@ -143,7 +151,7 @@ export const _TabOrganization: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem label="Số điện thoại">
+        <FormItem label="Số điện thoại" error={errors.phoneNumber?.message}>
           <Controller
             control={control}
             name="phoneNumber"
@@ -157,7 +165,7 @@ export const _TabOrganization: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem label="Trực thuộc trường">
+        <FormItem label="Trực thuộc trường" error={errors.school?.message}>
           <Controller
             control={control}
             name="school"
@@ -171,7 +179,7 @@ export const _TabOrganization: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem label="Địa chỉ">
+        <FormItem label="Địa chỉ" error={errors.address?.message}>
           <Controller
             control={control}
             name="address"

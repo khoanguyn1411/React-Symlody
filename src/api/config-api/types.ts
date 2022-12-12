@@ -11,8 +11,8 @@ import {
 
 import { Response } from "../api-response";
 
-export type RequestGetTenantResult = Response<OrganizationDto>;
-export type RequestUpdateTenantResult = Response<
+export type RequestGetOrganizationResult = Response<OrganizationDto>;
+export type RequestUpdateOrganizationResult = Response<
   OrganizationDto,
   OrganizationCreationDto
 >;

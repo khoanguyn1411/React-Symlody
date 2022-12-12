@@ -4,7 +4,7 @@ import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
 import { Member } from "@/features/types";
 
-import { MemberTableMapper } from "../mapper";
+import { memberTableMapper } from "../mapper";
 
 type TProps = {
   onEdit: (member: Member) => void;
@@ -58,7 +58,7 @@ export const MemberTableContent: React.FC<TProps> = ({
   return (
     <Table.Body>
       {memberStore.memberListPagination.map((item, index) => {
-        const memberTableItem = MemberTableMapper.fromModel(item);
+        const memberTableItem = memberTableMapper.fromModel(item);
         const isPending =
           memberStore.pendingDeleteMember || memberStore.pendingRestoreMember;
         const isSameId = currentInteractiveId === item.id;

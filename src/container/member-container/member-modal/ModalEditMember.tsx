@@ -13,11 +13,12 @@ import {
 import { Member, MemberCreation, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { THookModalProps } from "@/hooks";
+import { generateFormErrors } from "@/utils/services/form-service";
 
 import { MEMBER_MESSAGE } from "../constant";
-import { MemberFormMapper } from "../mapper";
+import { memberFormMapper } from "../mapper";
 import { schema } from "../schema";
-import { IFormMemberInfo } from "../type";
+import { MemberForm } from "../type";
 import { FormItems } from "./FormItems";
 
 export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
@@ -25,7 +26,7 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
   isShowing,
   toggle,
 }) => {
-  const propsForm = useForm<IFormMemberInfo>({
+  const propsForm = useForm<MemberForm>({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
@@ -44,8 +45,8 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
   const dispatch = useAppDispatch();
   const hasPermission = withPermission([RolesID.Lead, RolesID.MemberManager]);
 
-  const handleEditMember = hasPermission(async (editInfo: IFormMemberInfo) => {
-    const memberModel = MemberFormMapper.toModel({
+  const handleEditMember = hasPermission(async (editInfo: MemberForm) => {
+    const memberModel = memberFormMapper.toModel({
       departmentModel: departmentList,
       formData: editInfo,
       isArchived: data.isArchived,
@@ -55,7 +56,7 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { email, ...authAccountWithoutEmail } = memberModel.authAccount;
 
-    if (editInfo.email === data.authAccount.email) {
+    if (editInfo.authAccount.email === data.authAccount.email) {
       _memberModel = { ...memberModel, authAccount: authAccountWithoutEmail };
     } else {
       _memberModel = memberModel;
@@ -69,9 +70,13 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
       })
     );
     if (updateMemberAsync.rejected.match(res)) {
-      const error = res.payload;
-      if (error.detail.authAccount.email) {
-        setError("email", { message: "Email này đã được đăng ký." });
+      const errors = res.payload;
+      if (errors) {
+        generateFormErrors({
+          errors,
+          customMessage: { "authAccount.email": "Email này đã được đăng ký." },
+          setError,
+        });
         return;
       }
       toast.error(MEMBER_MESSAGE.create.error);
@@ -89,7 +94,7 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
 
   useEffect(() => {
     if (data) {
-      reset(MemberFormMapper.fromModel(data));
+      reset(memberFormMapper.fromModel(data));
     }
   }, [data, reset]);
 

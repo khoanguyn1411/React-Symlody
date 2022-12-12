@@ -1,17 +1,14 @@
-export interface IFormMemberInfo {
-  firstName: string;
-  lastName: string;
-  gender: string;
-  birthday: string;
-  department?: string;
-  class: string;
-  studentId: string;
-  email: string;
-  phone: string;
-  address: string;
-  home: string;
-  avatar?: File;
-}
+import { AuthAccountCreation, MemberCreation } from "@/features/types";
+import { StrictOmit } from "@/utils/types";
+
+export type AuthAccountForm = AuthAccountCreation;
+
+export type MemberForm = StrictOmit<
+  MemberCreation,
+  "department" | "avatar" | "isArchived"
+> & {
+  department: string;
+};
 
 export interface IMemberTable {
   id: number;

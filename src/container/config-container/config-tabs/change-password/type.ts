@@ -1,3 +1,3 @@
 import { ChangePassword } from "@/features/types/models/change-password";
 
-export type IFormChangePassword = ChangePassword;
+export type ChangePasswordForm = ChangePassword;

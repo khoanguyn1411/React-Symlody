@@ -1,17 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import {
-  DepartmentApi,
-  RequestCreateDepartmentResult,
-  RequestUpdateDepartmentResult,
-} from "@/api/department-api";
+import { DepartmentApi } from "@/api/department-api";
 import { RootState } from "@/features/store";
 import {
   Department,
   DepartmentCreation,
   departmentMapper,
+  HttpError,
 } from "@/features/types";
 import { GlobalTypes } from "@/utils";
+import { validateSimpleRequestResult } from "@/utils/services/error-handler-service";
 
 import { departmentAdapter, initialState } from "./state";
 
@@ -31,34 +29,32 @@ export const getDepartmentAsync = createAsyncThunk<
 export const createDepartmentAsync = createAsyncThunk<
   Department,
   DepartmentCreation,
-  GlobalTypes.ReduxThunkRejectValue<RequestCreateDepartmentResult>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<DepartmentCreation>>
 >("create/department", async (payload, { rejectWithValue }) => {
   const departmentCreationDto = departmentMapper.toCreationDto(payload);
   const result = await DepartmentApi.createDepartment(departmentCreationDto);
-  if (result.kind === "ok") {
-    const department = result.result;
-    return departmentMapper.fromDto(department);
-  }
-
-  return rejectWithValue(null);
+  return validateSimpleRequestResult({
+    rejectWithValue,
+    result,
+    mapper: departmentMapper,
+  });
 });
 
 export const updateDepartmentAsync = createAsyncThunk<
   Department,
   { id: number; body: DepartmentCreation },
-  GlobalTypes.ReduxThunkRestoreRejected<RequestUpdateDepartmentResult>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<DepartmentCreation>>
 >("update/department", async (payload, { rejectWithValue }) => {
   const departmentCreationDto = departmentMapper.toCreationDto(payload.body);
   const result = await DepartmentApi.updateDepartment(
     payload.id,
     departmentCreationDto
   );
-  if (result.kind === "ok") {
-    const department = result.result;
-    return departmentMapper.fromDto(department);
-  }
-
-  return rejectWithValue(null);
+  return validateSimpleRequestResult({
+    rejectWithValue,
+    result,
+    mapper: departmentMapper,
+  });
 });
 
 export const deleteDepartmentAsync = createAsyncThunk<
@@ -70,22 +66,8 @@ export const deleteDepartmentAsync = createAsyncThunk<
   if (result.kind === "ok") {
     return id;
   }
-
   return rejectWithValue(null);
 });
-
-// export const getTenantAsync = createAsyncThunk<
-//   Organization,
-//   null,
-//   GlobalTypes.ReduxThunkRejectValue<null>
-// >("get/tenant", async (payload, { rejectWithValue }) => {
-//   const result = await DepartmentApi.getTenant();
-//   if (result.kind === "ok") {
-//     return result.result;
-//   }
-
-//   return rejectWithValue(null);
-// });
 
 export const departmentSlice = createSlice({
   name: "department",
@@ -122,18 +104,6 @@ export const departmentSlice = createSlice({
         const departmentId = action.payload;
         departmentAdapter.removeOne(state, departmentId);
       });
-    //GET TENANT
-    // .addCase(getTenantAsync.pending, (state) => {
-    //   state.pending = true;
-    // })
-    // .addCase(getTenantAsync.fulfilled, (state, action) => {
-    //   state.pending = false;
-    //   state.tenant = action.payload;
-    // })
-    // .addCase(getTenantAsync.rejected, (state) => {
-    //   state.pending = false;
-    //   state.tenant = null;
-    // });
   },
 });
 export const departmentStore = (state: RootState) => state.department;

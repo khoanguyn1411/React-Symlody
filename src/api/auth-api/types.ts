@@ -1,4 +1,5 @@
 import { ProfileDto, TokenDto, TokenRefreshDto } from "@/features/types";
+import { ChangePasswordDto } from "@/features/types/dtos/change-password.dto";
 
 import { Response } from "../api-response";
 
@@ -8,4 +9,4 @@ export type RequestLogoutResult = Response<boolean>;
 export type RequestUpdateProfileResult = Response<ProfileDto>;
 export type RequestRefreshResult = Response<TokenRefreshDto>;
 
-export type RequestChangePasswordResult = Response<boolean>;
+export type RequestChangePasswordResult = Response<boolean, ChangePasswordDto>;

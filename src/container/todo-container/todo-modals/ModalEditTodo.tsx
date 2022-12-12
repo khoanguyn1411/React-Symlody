@@ -12,9 +12,9 @@ import { THookModalProps } from "@/hooks";
 import { FormService } from "@/utils";
 
 import { TODO_MESSAGES } from "../constant";
-import { TodoFormMapper } from "../mapper";
+import { todoFormMapper } from "../mapper";
 import { schema } from "../shema";
-import { IFormTodoInfo } from "../type";
+import { TodoForm } from "../type";
 import { FormItems } from "./FormItems";
 
 export const ModalEditTodo: React.FC<THookModalProps<Task>> = ({
@@ -32,7 +32,7 @@ export const ModalEditTodo: React.FC<THookModalProps<Task>> = ({
     }
   }, [dispatch, isShowing, userCount]);
 
-  const propsForm = useForm<IFormTodoInfo>({
+  const propsForm = useForm<TodoForm>({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
@@ -43,8 +43,8 @@ export const ModalEditTodo: React.FC<THookModalProps<Task>> = ({
     formState: { isSubmitting, dirtyFields },
   } = propsForm;
 
-  const handleEditTask = async (task: IFormTodoInfo) => {
-    const taskModel = TodoFormMapper.toModel(task);
+  const handleEditTask = async (task: TodoForm) => {
+    const taskModel = todoFormMapper.toModel(task);
     const result = await dispatch(
       updateTaskAsync({
         id: data.id,
@@ -61,7 +61,7 @@ export const ModalEditTodo: React.FC<THookModalProps<Task>> = ({
 
   useEffect(() => {
     if (data) {
-      reset(TodoFormMapper.fromModel(data));
+      reset(todoFormMapper.fromModel(data));
       return;
     }
   }, [data, reset]);

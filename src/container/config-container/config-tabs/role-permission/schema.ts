@@ -1,11 +1,12 @@
 import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
+import { YupValidation } from "@/utils/types";
 
 import { EPermissionOptions } from "./constants";
-import { IConfigManagerForm } from "./types";
+import { RolePermissionForm } from "./types";
 
-export const schema: yup.SchemaOf<IConfigManagerForm> = yup.object().shape({
+export const schema = yup.object().shape<YupValidation<RolePermissionForm>>({
   userId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
   type: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
   roleManager: yup

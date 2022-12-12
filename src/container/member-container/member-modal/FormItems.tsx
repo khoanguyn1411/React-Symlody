@@ -7,10 +7,10 @@ import { useAppSelector } from "@/features";
 import { departmentSelectors } from "@/features/reducers/department-reducer";
 import { Gender } from "@/features/types/models/gender";
 
-import { IFormMemberInfo } from "../type";
+import { MemberForm } from "../type";
 
 type TProps = {
-  formProps: UseFormReturn<IFormMemberInfo>;
+  formProps: UseFormReturn<MemberForm>;
 };
 
 export const FormItems: React.FC<TProps> = ({ formProps }) => {
@@ -24,10 +24,14 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
   return (
     <>
       <div className="grid grid-cols-2 gap-x-5">
-        <FormItem label="Họ" isRequired error={errors.lastName?.message}>
+        <FormItem
+          label="Họ"
+          isRequired
+          error={errors.authAccount?.lastName?.message}
+        >
           <Controller
             control={control}
-            name="lastName"
+            name="authAccount.lastName"
             render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
@@ -38,10 +42,14 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
             )}
           />
         </FormItem>
-        <FormItem label="Tên" isRequired error={errors.firstName?.message}>
+        <FormItem
+          label="Tên"
+          isRequired
+          error={errors.authAccount?.firstName?.message}
+        >
           <Controller
             control={control}
-            name="firstName"
+            name="authAccount.firstName"
             render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
@@ -71,20 +79,20 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
           />
         </FormItem>
 
-        <FormItem label="Ngày sinh" isRequired error={errors.birthday?.message}>
+        <FormItem label="Ngày sinh" isRequired error={errors.dob?.message}>
           <Controller
             control={control}
-            name="birthday"
+            name="dob"
             render={({ field: { value, onChange } }) => (
               <AppDatePicker style="modal" value={value} onChange={onChange} />
             )}
           />
         </FormItem>
 
-        <FormItem label="Lớp" isRequired error={errors.class?.message}>
+        <FormItem label="Lớp" isRequired error={errors.className?.message}>
           <Controller
             control={control}
-            name="class"
+            name="className"
             render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
@@ -111,10 +119,14 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
           />
         </FormItem>
 
-        <FormItem label="Email" isRequired error={errors.email?.message}>
+        <FormItem
+          label="Email"
+          isRequired
+          error={errors.authAccount?.email?.message}
+        >
           <Controller
             control={control}
-            name="email"
+            name="authAccount.email"
             render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
@@ -129,11 +141,11 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
         <FormItem
           label="Số điện thoại"
           isRequired
-          error={errors.phone?.message}
+          error={errors.phoneNumber?.message}
         >
           <Controller
             control={control}
-            name="phone"
+            name="phoneNumber"
             render={({ field: { value, onChange } }) => (
               <Input
                 style="modal"
@@ -180,10 +192,10 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
         />
       </FormItem>
 
-      <FormItem label="Quê quán" isRequired error={errors.home?.message}>
+      <FormItem label="Quê quán" isRequired error={errors.homeTown?.message}>
         <Controller
           control={control}
-          name="home"
+          name="homeTown"
           render={({ field: { value, onChange } }) => (
             <Select
               list={PROVINCES_LIST}

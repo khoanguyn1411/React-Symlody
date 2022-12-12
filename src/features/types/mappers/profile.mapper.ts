@@ -54,23 +54,22 @@ export class ProfileMapper
       avatar,
       gender,
       dob,
+      non_field_errors,
       class_name,
-    } = errorDto.details;
+    } = errorDto;
     return {
-      error: errorDto.error,
-      detail: {
-        email: extractErrorMessage(email),
-        firstName: extractErrorMessage(first_name),
-        studentId: extractErrorMessage(student_id),
-        phoneNumber: extractErrorMessage(phone_number),
-        address: extractErrorMessage(address),
-        homeTown: extractErrorMessage(home_town),
-        lastName: extractErrorMessage(last_name),
-        avatar: extractErrorMessage(avatar),
-        gender: extractErrorMessage(gender),
-        dob: extractErrorMessage(dob),
-        className: extractErrorMessage(class_name),
-      },
+      email: extractErrorMessage(email),
+      firstName: extractErrorMessage(first_name),
+      studentId: extractErrorMessage(student_id),
+      phoneNumber: extractErrorMessage(phone_number),
+      address: extractErrorMessage(address),
+      homeTown: extractErrorMessage(home_town),
+      lastName: extractErrorMessage(last_name),
+      avatar: extractErrorMessage(avatar),
+      gender: extractErrorMessage(gender),
+      dob: extractErrorMessage(dob),
+      className: extractErrorMessage(class_name),
+      non_field_errors: extractErrorMessage(non_field_errors),
     };
   }
 

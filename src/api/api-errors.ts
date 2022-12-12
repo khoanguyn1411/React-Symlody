@@ -1,6 +1,6 @@
 import { ApiErrorResponse } from "apisauce";
 
-import { HttpErrorDto } from "@/features/types";
+import { DetailErrorDto, HttpErrorDto } from "@/features/types";
 
 import { getGeneralApiProblem, Kind, Response } from "./api-response";
 
@@ -12,19 +12,42 @@ export function isAxiosError(error: any): error is ApiErrorResponse<any> {
 }
 
 export function validateHttpError<T>(
-  error: Record<string, any>,
+  _error: Record<string, any>,
   kind: Kind
-): error is HttpErrorDto<T> {
+): _error is HttpErrorDto<T> {
+  return kind === "bad-data";
+}
+
+export function isErrorWithDetail<T>(
+  error: Record<string, any>
+): error is { error: string; details: DetailErrorDto<T> } {
   const isNotExceedKey = Object.keys(error).length < 3;
+  const hasDetails = error.details != null;
   const hasError = error.error != null;
-  const isBadData = kind === "bad-data";
-  return isNotExceedKey && hasError && isBadData;
+  return isNotExceedKey && hasDetails && hasError;
+}
+
+export function isErrorWithError(
+  error: Record<string, any>
+): error is { error: string } {
+  const isNotExceedKey = Object.keys(error).length === 1;
+  const hasError = error.error != null;
+  return hasError && isNotExceedKey;
+}
+
+export function isErrorWithArrayDetails(
+  error: Record<string, any>
+): error is { details: string[] } {
+  const isNotExceedKey = Object.keys(error).length === 1;
+  const hasDetails = error.details != null;
+  const isArray = Array.isArray(error.details);
+  return hasDetails && isArray && isNotExceedKey;
 }
 
 export function assertsHttpErrorDto<T>(
-  error: Record<string, any>,
+  _error: Record<string, any>,
   isHttpError: boolean
-): asserts error is HttpErrorDto<T> {
+): asserts _error is HttpErrorDto<T> {
   if (!isHttpError) {
     throw new Error("Invalid error.");
   }
@@ -44,12 +67,30 @@ export function composeErrors<TResult, TError>(
   const kind = getGeneralApiProblem(error);
   const isHttpError = validateHttpError(error.data, kind);
   if (isHttpError) {
-    assertsHttpErrorDto<TError>(error.data, isHttpError);
+    const rootHttpError = error.data;
+    let httpError: Response<TResult, TError>["httpError"];
+    if (Array.isArray(rootHttpError)) {
+      assertsHttpErrorDto<TError>(rootHttpError, isHttpError);
+      httpError = { non_field_errors: rootHttpError };
+    } else if (isErrorWithDetail<TError>(rootHttpError)) {
+      httpError = rootHttpError.details;
+    } else if (isErrorWithError(rootHttpError)) {
+      const error = { non_field_errors: [rootHttpError.error] };
+      assertsHttpErrorDto<TError>(error, isHttpError);
+      httpError = error;
+    } else if (isErrorWithArrayDetails(rootHttpError)) {
+      const error = { non_field_errors: rootHttpError.details };
+      assertsHttpErrorDto<TError>(error, isHttpError);
+      httpError = error;
+    } else {
+      assertsHttpErrorDto<TError>(rootHttpError, isHttpError);
+      httpError = rootHttpError;
+    }
     return {
       kind: kind,
       result: null,
       unknownError: null,
-      httpError: error.data,
+      httpError: httpError,
     };
   }
   return {

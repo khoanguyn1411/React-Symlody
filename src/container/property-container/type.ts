@@ -1,17 +1,13 @@
-export type IFormPropertyInfo = {
-  assetName: string;
-  quantity: string;
-  price: string;
-  inChargeId: number | null;
-  note?: string;
-  owner: string;
-  image?: File;
-  imageLink?: string;
-};
+import { PropertyCreation } from "@/features/types";
+
+export type PropertyForm = Pick<
+  PropertyCreation,
+  "name" | "inChargerId" | "note" | "propOwner"
+> & { quantity: string; price: string; image: File; imageLink: string };
 
 export type IPropertyTable = {
   assetName: string;
-  quantity: string;
+  quantity: number;
   price: string;
   inCharge: string;
   owner: string;

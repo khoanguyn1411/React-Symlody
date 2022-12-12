@@ -13,15 +13,16 @@ import {
   uploadMemberExcelFileAsync,
 } from "@/features/reducers";
 import { THookModalProps, usePickFile } from "@/hooks";
+import { generateFormErrors } from "@/utils/services/form-service";
 
 import { MEMBER_MESSAGE } from "../constant";
-import { MemberFormMapper } from "../mapper";
+import { memberFormMapper } from "../mapper";
 import { schema } from "../schema";
-import { IFormMemberInfo } from "../type";
+import { MemberForm } from "../type";
 import { FormItems } from "./FormItems";
 
 const TabCreateAMember: React.FC = () => {
-  const propsForm = useForm<IFormMemberInfo>({
+  const propsForm = useForm<MemberForm>({
     resolver: yupResolver(schema),
   });
   const {
@@ -42,17 +43,21 @@ const TabCreateAMember: React.FC = () => {
     }
   }, [departmentCount, dispatch]);
 
-  const handleCreateMember = async (data: IFormMemberInfo) => {
-    const memberModel = MemberFormMapper.toModel({
+  const handleCreateMember = async (data: MemberForm) => {
+    const memberModel = memberFormMapper.toModel({
       departmentModel: departmentList,
       formData: data,
       isArchived: false,
     });
     const res = await dispatch(createMemberAsync(memberModel));
     if (createMemberAsync.rejected.match(res)) {
-      const error = res.payload;
-      if (error.detail.authAccount.email) {
-        setError("email", { message: "Email này đã được đăng ký." });
+      const errors = res.payload;
+      if (errors) {
+        generateFormErrors({
+          errors,
+          customMessage: { "authAccount.email": "Email này đã được đăng ký." },
+          setError,
+        });
         return;
       }
       toast.error(MEMBER_MESSAGE.create.error);

@@ -1,1 +1,2 @@
 - Implement non-field-error validation when BE apply it.
+- Change error validation in modal edit permission

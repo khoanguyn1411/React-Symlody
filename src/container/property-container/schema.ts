@@ -2,17 +2,18 @@ import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
 import { FormatService } from "@/utils";
-import { StrictPick } from "@/utils/types";
+import { YupValidation } from "@/utils/types";
 
-import { IFormPropertyInfo } from "./type";
-type IPropertySchema = StrictPick<
-  IFormPropertyInfo,
-  "assetName" | "inChargeId" | "owner" | "quantity"
->;
-export const schema: yup.SchemaOf<IPropertySchema> = yup.object().shape({
-  assetName: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-  owner: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-  inChargeId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED).nullable(),
+import { PropertyForm } from "./type";
+
+export const schema = yup.object().shape<YupValidation<PropertyForm>>({
+  name: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  propOwner: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  inChargerId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED).nullable(),
+  price: yup.string().notRequired(),
+  note: yup.string().notRequired(),
+  image: yup.mixed().notRequired().nullable(),
+  imageLink: yup.string().notRequired(),
   quantity: yup
     .string()
     .required(APP_ERROR_MESSAGE.REQUIRED)

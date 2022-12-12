@@ -1,17 +1,17 @@
 import classNames from "classnames";
 import React, { ReactNode } from "react";
 
-import { PrimitiveType } from "@/utils/types";
+import { Primitive } from "@/utils/types";
 
 import { TOptionProps } from "../../type";
 
-type Props<T, E extends PrimitiveType> = {
+type Props<T, E extends Primitive> = {
   selectedOption: TOptionProps<T, E>;
   isShowContent: boolean;
   placeholder: ReactNode;
 };
 
-export function SelectDefaultDisplay<T, E extends PrimitiveType>({
+export function SelectDefaultDisplay<T, E extends Primitive>({
   selectedOption,
   isShowContent,
   placeholder,

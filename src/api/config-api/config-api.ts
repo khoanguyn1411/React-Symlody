@@ -15,7 +15,7 @@ const routes = {
 };
 
 export const ConfigApi = {
-  async getOrganization(): Promise<Types.RequestGetTenantResult> {
+  async getOrganization(): Promise<Types.RequestGetOrganizationResult> {
     const url = routes.getOrganization();
     const method = http.get<OrganizationDto>(url);
     return composeHttpMethodResult(method);
@@ -24,7 +24,7 @@ export const ConfigApi = {
   async updateOrganization(
     id: number,
     body: FormData
-  ): Promise<Types.RequestUpdateTenantResult> {
+  ): Promise<Types.RequestUpdateOrganizationResult> {
     const url = routes.updateOrganization(id);
     return composeHttpMethodResult(http.patch<OrganizationDto>(url, body));
   },

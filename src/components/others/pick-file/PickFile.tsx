@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
-import { FileService, FormatService } from "@/utils";
+import { FormatService } from "@/utils";
 import { isCorrectExtension } from "@/utils/services/file-service";
 
 import { Button } from "../../elements";

@@ -1,4 +1,5 @@
 import {
+  HttpError,
   ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME,
   ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL,
   Roles,
@@ -8,9 +9,9 @@ import {
 } from "@/features/types";
 
 import { EPermissionOptions } from "./constants";
-import { IConfigManagerForm } from "./types";
+import { RolePermissionForm } from "./types";
 
-const getModelGroup = ({ type, roleManager }: IConfigManagerForm): Roles[] => {
+const getModelGroup = ({ type, roleManager }: RolePermissionForm): Roles[] => {
   if (type === EPermissionOptions.Lead) {
     return [Roles.Lead];
   }
@@ -36,8 +37,17 @@ const getFormType = (model: UserShort): EPermissionOptions => {
   }
 };
 
-export class RolePermissionFormMapper {
-  public static fromModel(model: UserShort): IConfigManagerForm {
+class RolePermissionFormMapper {
+  public fromHttpError(
+    error: HttpError<UserPermissionConfigCreation>
+  ): HttpError<RolePermissionForm> {
+    return {
+      userId: error.userId,
+      type: error.groups ?? error.non_field_errors,
+    };
+  }
+
+  public fromModel(model: UserShort): RolePermissionForm {
     return {
       userId: model.id,
       type: getFormType(model),
@@ -51,12 +61,12 @@ export class RolePermissionFormMapper {
     };
   }
 
-  public static toModel(
-    formData: IConfigManagerForm
-  ): UserPermissionConfigCreation {
+  public toModel(formData: RolePermissionForm): UserPermissionConfigCreation {
     return {
-      user_id: formData.userId,
+      userId: formData.userId,
       groups: getModelGroup(formData),
     };
   }
 }
+
+export const rolePermissionFormMapper = new RolePermissionFormMapper();

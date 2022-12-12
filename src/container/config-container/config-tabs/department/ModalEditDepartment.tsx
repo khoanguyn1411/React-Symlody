@@ -9,11 +9,12 @@ import { updateDepartmentAsync } from "@/features/reducers";
 import { Department } from "@/features/types";
 import { THookModalProps } from "@/hooks";
 import { FormService } from "@/utils";
+import { generateFormErrors } from "@/utils/services/form-service";
 
 import { DEPARTMENT_MESSAGE } from "./constants";
 import { FormItems } from "./FormItems";
 import { schema } from "./schema";
-import { IFormDepartment } from "./types";
+import { DepartmentForm } from "./types";
 
 export const ModalEditDepartment: React.FC<THookModalProps<Department>> = ({
   isShowing,
@@ -22,18 +23,25 @@ export const ModalEditDepartment: React.FC<THookModalProps<Department>> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const propsForm = useForm<IFormDepartment>({
+  const propsForm = useForm<DepartmentForm>({
     resolver: yupResolver(schema),
+    shouldUnregister: true,
   });
   const {
     handleSubmit,
     reset,
+    setError,
     formState: { isSubmitting, dirtyFields },
   } = propsForm;
 
-  const handleUpdateDepartment = async (body: IFormDepartment) => {
+  const handleUpdateDepartment = async (body: DepartmentForm) => {
     const result = await dispatch(updateDepartmentAsync({ id: data.id, body }));
     if (updateDepartmentAsync.rejected.match(result)) {
+      if (result.payload) {
+        const errors = result.payload;
+        generateFormErrors({ errors, setError });
+        return;
+      }
       toast.error(DEPARTMENT_MESSAGE.update.error);
       return;
     }

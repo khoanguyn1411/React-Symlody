@@ -1,4 +1,4 @@
-import { Task, TodoStatus, TodoStatusId } from "@/features/types";
+import { Task, TaskCreation, TodoStatus, TodoStatusId } from "@/features/types";
 
 export enum Priority {
   High = "Cao",
@@ -25,15 +25,13 @@ export type TTodo = {
   columns: TTodoColumn[];
 };
 
-export interface IFormTodoInfo {
-  name: string;
-  priority?: string;
-  isNotifyEmail?: boolean;
-  expiredDate?: string;
-  assignee?: number;
-  reporter?: number;
-  description?: string;
-}
+export type TodoForm = Pick<
+  TaskCreation,
+  "title" | "isPriority" | "isSentEmail" | "endDate" | "description"
+> & {
+  assignee: TaskCreation["assignee"]["id"];
+  reporter: TaskCreation["reporter"]["id"];
+};
 
 export enum ETodoTabReadableString {
   Kanban = "Kanban",

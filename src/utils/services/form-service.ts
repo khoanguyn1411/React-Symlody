@@ -1,4 +1,8 @@
-import { FieldError } from "react-hook-form";
+import { FieldError, Path, UseFormSetError } from "react-hook-form";
+
+import { HttpError } from "@/features/types";
+
+import { assertString, isObject } from "./common-service";
 
 /**
  * Closure interaction function for form default values (values from api).
@@ -45,4 +49,76 @@ export function isDirtyFields<T extends Record<string, any>>(
  */
 export function assertErrorField<T extends unknown>(errorField: T): FieldError {
   return errorField as FieldError;
+}
+
+type CustomMessage<T> = {
+  [P in Path<T>]?: string;
+};
+
+type InputFormError<T> = {
+  /** HttpError (`error.detail` of request's result) */
+  errors: T;
+
+  /** Please do not use this key because it's only for generating recursive function purpose. */
+  previousKey?: string;
+
+  /** Custom message if you need to override current backend error. */
+  customMessage?: CustomMessage<T>;
+
+  /** setError function of `useForm` hook. */
+  setError: UseFormSetError<any>;
+};
+
+/**
+ * Generate form errors returned from backend.
+ * Advantages for this usage:
+ * - Execute perfectly with nested error objects.
+ * - Provide solutions for custom errors.
+ * - Provide strict type for validation.
+ * ----------------------------------
+ * @param input Input object, please see docs in this type for more detail.
+ */
+export function generateFormErrors<T extends HttpError<any>["detail"]>({
+  errors,
+  previousKey = null,
+  customMessage,
+  setError,
+}: InputFormError<T>): void {
+  Object.entries(errors).forEach(([key, value]) => {
+    if (!isObject(errors[key])) {
+      assertString(value);
+      if (value == null) {
+        return;
+      }
+
+      if (previousKey) {
+        const newKey = `${previousKey}.${key}`;
+        if (customMessage && customMessage[newKey] != null) {
+          setError(newKey, { message: customMessage[newKey] });
+          return;
+        }
+        setError(newKey, { message: value });
+        return;
+      }
+
+      if (customMessage && customMessage[key] != null) {
+        setError(key, { message: customMessage[key] });
+        return;
+      }
+      setError(key, { message: value });
+      return;
+    }
+    let newPreviousKey: string;
+    if (previousKey) {
+      newPreviousKey = `${previousKey}.${key}`;
+    } else {
+      newPreviousKey = key;
+    }
+    generateFormErrors({
+      errors: errors[key] as T,
+      previousKey: newPreviousKey,
+      customMessage: customMessage,
+      setError,
+    });
+  });
 }

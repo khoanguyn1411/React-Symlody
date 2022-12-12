@@ -1,10 +1,11 @@
 import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
+import { YupValidation } from "@/utils/types";
 
-import { IFormChangePassword } from "./type";
+import { ChangePasswordForm } from "./type";
 
-export const schema: yup.SchemaOf<IFormChangePassword> = yup.object().shape({
+export const schema = yup.object().shape<YupValidation<ChangePasswordForm>>({
   oldPassword: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
   newPassword: yup
     .string()

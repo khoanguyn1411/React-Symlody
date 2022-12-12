@@ -15,8 +15,8 @@ export interface Property {
   isArchived: boolean;
   propOwner: string;
   name: string;
-  price: string;
-  quantity: string;
+  price: number;
+  quantity: number;
   isClubProperty: boolean;
   note: string;
   archivedBy: number;
