@@ -67,7 +67,6 @@ export const getConfigManager = createAsyncThunk<
 
   const userListCurrent = userSelectors.selectAll(reduxStore);
   const userList = hasUser ? userListCurrent : userListAfterPromise.payload;
-
   return userList.map((user) => {
     const userWithRole = combinedLeaderManagerList.find(
       (r) => r.id === user.id

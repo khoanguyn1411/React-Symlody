@@ -71,7 +71,7 @@ export const TodoAvatar: React.FC<TProps> = ({
       zIndex={zIndex}
     >
       <Tooltip space={10} content={user.fullName}>
-        <Avatar src={user.avatar} fullName={user.fullName} />
+        <Avatar src={user.avatarUrl} fullName={user.fullName} />
       </Tooltip>
     </TodoCircleBorderWrapper>
   );

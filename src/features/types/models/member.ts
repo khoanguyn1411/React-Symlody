@@ -8,7 +8,7 @@ export interface Member {
   id: number;
   authAccount: AuthAccount;
   lastModifiedDate: string;
-  avatar: string;
+  avatarUrl: string;
   createdBy: StrictPick<AuthAccount, "firstName" | "lastName">;
   department: Department;
 
@@ -26,7 +26,7 @@ export type MemberCreation = StrictOmit<
   Member,
   | "authAccount"
   | "department"
-  | "avatar"
+  | "avatarUrl"
   | "id"
   | "lastModifiedDate"
   | "createdBy"

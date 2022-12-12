@@ -23,7 +23,7 @@ export class MemberMapper
     return {
       id: dto.id,
       className: dto.class_name,
-      avatar: dto.avatar,
+      avatarUrl: dto.avatar_url,
       studentId: dto.student_id,
       address: dto.address,
       isArchived: dto.is_archived,
