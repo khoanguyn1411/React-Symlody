@@ -95,6 +95,9 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
   }, [taskStore.currentListTask]);
 
   useLayoutEffect(() => {
+    if (!taskStore.filterParamsTask.departmentId) {
+      return;
+    }
     dispatch(getTasksAsync(taskStore.filterParamsTask));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, taskStore.filterParamsTask.departmentId]);

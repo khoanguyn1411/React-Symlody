@@ -83,6 +83,9 @@ export const TodoTableContent: React.FC<TProps> = ({
 
   useLayoutEffect(() => {
     const { departmentId } = taskStore.filterParamsTask;
+    if (!departmentId) {
+      return;
+    }
     dispatch(
       getTasksAsync({
         ...taskStore.filterParamsTask,
