@@ -16,6 +16,7 @@ import {
   userPermissionConfigMapper,
 } from "@/features/types/mappers/config-permission.mapper";
 import { GlobalTypes } from "@/utils";
+import { validateSimpleRequestResult } from "@/utils/services/error-handler-service";
 import { generateArrayWithNoDuplicate } from "@/utils/services/generate-service";
 
 import { organizationMapper } from "../../types/mappers/organization.mapper";
@@ -31,7 +32,6 @@ export const getTenantAsync = createAsyncThunk<
   if (result.kind === "ok") {
     return organizationMapper.fromDto(result.result);
   }
-
   return rejectWithValue(null);
 });
 
@@ -79,40 +79,30 @@ export const getConfigManager = createAsyncThunk<
 export const updateOrganizationAsync = createAsyncThunk<
   Organization,
   { id: number; body: OrganizationCreation },
-  GlobalTypes.ReduxThunkRejectValue<HttpError<OrganizationCreation> | null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<OrganizationCreation>>
 >("update/tenant", async (payload, { rejectWithValue }) => {
   const paramDto = organizationMapper.toFormData(payload.body);
   const result = await ConfigApi.updateOrganization(payload.id, paramDto);
-  console.log(result);
-  if (result.kind === "ok") {
-    return organizationMapper.fromDto(result.result);
-  }
-
-  if (result.kind === "bad-data") {
-    const httpError = organizationMapper.httpErrorFromDto(result.httpError);
-    return rejectWithValue(httpError);
-  }
-  return rejectWithValue(null);
+  return validateSimpleRequestResult({
+    rejectWithValue,
+    result,
+    mapper: organizationMapper,
+  });
 });
 
 export const updateConfigRoleUserAsync = createAsyncThunk<
   UserShort,
   UserPermissionConfigCreation,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<UserPermissionConfigCreationDto> | null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<UserPermissionConfigCreationDto>>
 >("update/user-role", async (payload, { rejectWithValue }) => {
   const paramDto = userPermissionConfigMapper.toCreationDto(payload);
   const result = await ConfigApi.updateConfigRoleUser(paramDto);
-  if (result.kind === "ok") {
-    return userShortMapper.fromDto(result.result);
-  }
-  if (result.kind === "bad-data") {
-    const errorBadData = userPermissionConfigMapper.httpErrorFromDto(
-      result.httpError
-    );
-    return rejectWithValue(errorBadData);
-  }
-
-  return rejectWithValue(null);
+  return validateSimpleRequestResult({
+    rejectWithValue,
+    result,
+    mapper: userPermissionConfigMapper,
+    fromDtoMapperSupport: userShortMapper,
+  });
 });
 
 export const configSlice = createSlice({

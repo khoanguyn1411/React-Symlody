@@ -15,6 +15,7 @@ import { loginMapper } from "@/features/types/mappers/login.mapper";
 import { tokenMapper } from "@/features/types/mappers/token.mapper";
 import { ChangePassword } from "@/features/types/models/change-password";
 import { GlobalTypes, TokenService } from "@/utils";
+import { catchHttpError } from "@/utils/services/error-handler-service";
 
 export type AuthState = {
   pending: boolean;
@@ -47,18 +48,14 @@ export const loginAsync = createAsyncThunk<
 export const changePasswordAsync = createAsyncThunk<
   true,
   ChangePassword,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<ChangePassword> | false>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<ChangePassword>>
 >("auth/change-password", async (payload, { rejectWithValue }) => {
   const changePasswordDto = changePasswordMapper.toDto(payload);
   const result = await AuthApi.changePassword(changePasswordDto);
   if (result.kind === "ok") {
     return true;
   }
-  if (result.kind === "bad-data") {
-    const error = changePasswordMapper.httpErrorFromDto(result.httpError);
-    return rejectWithValue(error);
-  }
-  return rejectWithValue(false);
+  return catchHttpError(changePasswordMapper, result, rejectWithValue, false);
 });
 
 export const getMeAsync = createAsyncThunk<

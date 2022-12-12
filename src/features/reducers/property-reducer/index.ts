@@ -11,6 +11,7 @@ import {
 import { propertyFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import { PropertyFilterParams } from "@/features/types/models/filter-params";
 import { FilterService, GlobalTypes } from "@/utils";
+import { validateSimpleRequestResult } from "@/utils/services/error-handler-service";
 
 import { initialState, propertyAdapter } from "./state";
 
@@ -34,19 +35,16 @@ export const getPropertyAsync = createAsyncThunk<
 export const createPropertyAsync = createAsyncThunk<
   Property,
   PropertyCreation,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<PropertyCreation> | null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<PropertyCreation>>
 >("create/property", async (payload, { rejectWithValue }) => {
   const result = await PropertyApi.createProperty(
     propertyMapper.toFormData(payload)
   );
-  if (result.kind === "ok") {
-    return propertyMapper.fromDto(result.result);
-  }
-  if (result.kind === "bad-data") {
-    const httpError = propertyMapper.httpErrorFromDto(result.httpError);
-    return rejectWithValue(httpError);
-  }
-  return rejectWithValue(null);
+  return validateSimpleRequestResult({
+    result,
+    mapper: propertyMapper,
+    rejectWithValue,
+  });
 });
 
 export const deletePropertyAsync = createAsyncThunk<

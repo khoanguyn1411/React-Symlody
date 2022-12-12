@@ -16,6 +16,7 @@ import {
 } from "@/features/types/models";
 import { MemberFilterParams } from "@/features/types/models/filter-params";
 import { FilterService, GeneratorService, GlobalTypes } from "@/utils";
+import { catchHttpError } from "@/utils/services/error-handler-service";
 
 import { updateCurrentUser } from "../auth-reducer";
 import { getUsersAsync, removeUser, userSelectors } from "../user-reducer";
@@ -38,10 +39,7 @@ export const uploadMemberExcelFileAsync = createAsyncThunk<
 export const createMemberAsync = createAsyncThunk<
   Member,
   MemberCreation,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<
-    MemberCreation,
-    "authAccount"
-  > | null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<MemberCreation, "authAccount">>
 >("create/member", async (payload, { rejectWithValue, dispatch }) => {
   const memberDto = memberMapper.toCreationDto(payload);
   const result = await MemberApi.createMember(memberDto);
@@ -49,11 +47,7 @@ export const createMemberAsync = createAsyncThunk<
     dispatch(getUsersAsync());
     return memberMapper.fromDto(result.result);
   }
-  if (result.kind === "bad-data") {
-    const errorBadData = memberMapper.httpErrorFromDto(result.httpError);
-    return rejectWithValue(errorBadData);
-  }
-  return rejectWithValue(null);
+  return catchHttpError(memberMapper, result, rejectWithValue);
 });
 
 export const deleteMemberAsync = createAsyncThunk<
@@ -97,10 +91,7 @@ export const getMembersAsync = createAsyncThunk<
 export const updateMemberAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRestoreResult<Member>,
   GlobalTypes.ReduxThunkRestorePayload<MemberCreation, Member>,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<
-    MemberCreation,
-    "authAccount"
-  > | null>
+  GlobalTypes.ReduxThunkRejectValue<HttpError<MemberCreation, "authAccount">>
 >(
   "update/member",
   async ({ payload, id, isRestore }, { rejectWithValue, dispatch }) => {
@@ -123,11 +114,7 @@ export const updateMemberAsync = createAsyncThunk<
         isRestore,
       };
     }
-    if (result.kind === "bad-data") {
-      const errorBadData = memberMapper.httpErrorFromDto(result.httpError);
-      return rejectWithValue(errorBadData);
-    }
-    return rejectWithValue(null);
+    return catchHttpError(memberMapper, result, rejectWithValue);
   }
 );
 

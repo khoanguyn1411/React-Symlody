@@ -42,12 +42,13 @@ export const _TabOrganization: React.FC = () => {
 
   const getDefaultValue = (rest: Organization): OrganizationForm => {
     return {
-      ...rest,
+      name: rest.name ?? "",
+      abbreviationName: rest.abbreviationName ?? "",
+      email: rest.email ?? "",
+      phoneNumber: rest.phoneNumber ?? "",
+      school: rest.school ?? "",
+      address: rest.address ?? "",
       logo: undefined,
-      email: organization.email ?? "",
-      phoneNumber: organization.phoneNumber ?? "",
-      school: organization.school ?? "",
-      address: organization.address ?? "",
     };
   };
 
