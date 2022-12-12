@@ -44,15 +44,6 @@ export function isErrorWithArrayDetails(
   return hasDetails && isArray && isNotExceedKey;
 }
 
-export function assertsHttpErrorDto<T>(
-  _error: Record<string, any>,
-  isHttpError: boolean
-): asserts _error is HttpErrorDto<T> {
-  if (!isHttpError) {
-    throw new Error("Invalid error.");
-  }
-}
-
 export function composeErrors<TResult, TError>(
   error: unknown
 ): Response<TResult, TError> {
@@ -70,21 +61,19 @@ export function composeErrors<TResult, TError>(
     const rootHttpError = error.data;
     let httpError: Response<TResult, TError>["httpError"];
     if (Array.isArray(rootHttpError)) {
-      assertsHttpErrorDto<TError>(rootHttpError, isHttpError);
-      httpError = { non_field_errors: rootHttpError };
+      httpError = { non_field_errors: rootHttpError } as HttpErrorDto<TError>;
     } else if (isErrorWithDetail<TError>(rootHttpError)) {
       httpError = rootHttpError.details;
     } else if (isErrorWithError(rootHttpError)) {
-      const error = { non_field_errors: [rootHttpError.error] };
-      assertsHttpErrorDto<TError>(error, isHttpError);
-      httpError = error;
+      httpError = {
+        non_field_errors: [rootHttpError.error],
+      } as HttpErrorDto<TError>;
     } else if (isErrorWithArrayDetails(rootHttpError)) {
-      const error = { non_field_errors: rootHttpError.details };
-      assertsHttpErrorDto<TError>(error, isHttpError);
-      httpError = error;
+      httpError = {
+        non_field_errors: rootHttpError.details,
+      } as HttpErrorDto<TError>;
     } else {
-      assertsHttpErrorDto<TError>(rootHttpError, isHttpError);
-      httpError = rootHttpError;
+      httpError = rootHttpError as HttpErrorDto<TError>;
     }
     return {
       kind: kind,
