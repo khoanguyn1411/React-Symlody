@@ -126,7 +126,6 @@ export function Select<T, E extends Primitive>({
     }
     if (!isMultiple) {
       assertNotArray<TOptionProps<T, E>>(selectedOption);
-      assertPrimitive(value);
       return (
         <SelectDefaultOption {...option} selectedOption={selectedOption} />
       );
@@ -149,7 +148,6 @@ export function Select<T, E extends Primitive>({
         />
       );
     }
-    assertPrimitive(value);
     assertArray(selectedOption);
     return (
       <SelectMultipleDisplay
