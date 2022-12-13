@@ -138,6 +138,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
             render={({ field: { value, onChange } }) => (
               <Select
                 isMultiple
+                isShowArrow
                 placeHolder="Chọn tính năng"
                 list={MANAGE_OPTIONS}
                 value={value}
