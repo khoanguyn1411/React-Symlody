@@ -61,7 +61,7 @@ export const usePositionPortal = <T extends HTMLElement>({
 
     const position = {
       top: {
-        bottom: window.innerHeight - coords.top + space,
+        bottom: window.innerHeight - coords.top + space + 10,
       },
       bottom: {
         top: coords.bottom + space,

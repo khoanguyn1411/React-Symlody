@@ -24,8 +24,7 @@ export const PaginationPickRows: React.FC = () => {
         placement="top-left"
         list={quantityDisplay.map((item) => ({
           value: item,
-          label: item,
-          suffix: "hàng",
+          label: `${item} hàng`,
         }))}
         value={FormatService.toString(limit)}
         onChange={handleRowsChange}
