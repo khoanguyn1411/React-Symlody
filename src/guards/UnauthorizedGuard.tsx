@@ -11,11 +11,6 @@ export const UnauthorizedGuard: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
   isAuth,
 }) => {
-  // const location = useLocation();
-  // const stateLocation: TStateLocation = location?.state;
-  // const pathLocation = stateLocation?.path;
-  // navigate(pathLocation || "/todo");
-
   if (!isAuth) {
     return <>{children}</>;
   }

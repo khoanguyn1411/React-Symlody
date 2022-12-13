@@ -1,9 +1,9 @@
-import { Table } from "@/components";
+import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
 import { configSelectors } from "@/features/reducers";
-import { UserShort } from "@/features/types";
+import { Roles, UserShort } from "@/features/types";
 
-import { ItemPermission } from "./ItemPermission";
+import { CheckDone } from "./CheckDone";
 
 type TProps = {
   onOpenEdit: (data: UserShort) => void;
@@ -11,6 +11,8 @@ type TProps = {
 };
 export const TableGroup: React.FC<TProps> = ({ isRendered, onOpenEdit }) => {
   const configUsersCount = useAppSelector(configSelectors.selectTotal);
+  const configUsersList = useAppSelector(configSelectors.selectAll);
+
   if (!isRendered) {
     return <Table.Skeleton colsNumber={5} />;
   }
@@ -20,7 +22,38 @@ export const TableGroup: React.FC<TProps> = ({ isRendered, onOpenEdit }) => {
 
   return (
     <Table.Body>
-      <ItemPermission title="Lead" onOpenEdit={onOpenEdit} />
+      {configUsersList.length > 0 &&
+        configUsersList.map((user) => (
+          <Table.Row key={user.id}>
+            <Table.Cell>
+              <div className="flex items-center space-x-2">
+                <Avatar src={user.avatarUrl} fullName={user.fullName} />
+                <div className="flex flex-col">
+                  <h2 className="font-medium">{user.fullName}</h2>
+                  <span className="text-xs text-gray-400">{user.email}</span>
+                </div>
+              </div>
+            </Table.Cell>
+            <Table.Cell width="4rem" textAlign="center">
+              <CheckDone isActive={user.isRole([Roles.Lead])} />
+            </Table.Cell>
+            <Table.Cell width="4rem" textAlign="center">
+              <CheckDone isActive={user.isRole([Roles.MemberManager])} />
+            </Table.Cell>
+            <Table.Cell width="4rem" textAlign="center">
+              <CheckDone isActive={user.isRole([Roles.PropertyManager])} />
+            </Table.Cell>
+
+            <Table.CellAction>
+              <DeleteAndEditField
+                isShowDelete={false}
+                handleEvent={{
+                  edit: () => onOpenEdit(user),
+                }}
+              />
+            </Table.CellAction>
+          </Table.Row>
+        ))}
     </Table.Body>
   );
 };
