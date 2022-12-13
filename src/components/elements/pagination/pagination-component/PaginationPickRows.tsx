@@ -21,7 +21,6 @@ export const PaginationPickRows: React.FC = () => {
       <Select
         className="w-32"
         classNameDisplay="h-9"
-        placement="top-left"
         list={quantityDisplay.map((item) => ({
           value: item,
           label: `${item} hàng`,

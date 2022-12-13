@@ -85,48 +85,65 @@ export const usePositionPortal = <T extends HTMLElement>({
       },
     };
 
-    switch (placement) {
-      case "top-left":
-        return {
-          width: coords.right - coords.left,
-          ...position.top,
-          ...position.left,
-        };
-      case "top-right":
-        return {
-          ...position.top,
-          ...position.right,
-        };
-      case "bottom-right":
-        return {
-          ...position.bottom,
-          ...position.right,
-        };
-      case "bottom-left":
-        return {
-          width: coords.right - coords.left,
-          ...position.bottom,
-          ...position.left,
-        };
-      case "top-center":
-        return {
-          ...position.top,
-          ...position.center,
-        };
-      case "bottom-center":
-        return {
-          ...position.bottom,
-          ...position.center,
-        };
-      default: {
-        return {
-          ...position.top,
-          ...position.left,
-        };
+    const getPositionFromPlacement = (_placement: AlignedPlacement) => {
+      switch (_placement) {
+        case "top-left":
+          return {
+            width: coords.right - coords.left,
+            ...position.top,
+            ...position.left,
+          };
+        case "top-right":
+          return {
+            ...position.top,
+            ...position.right,
+          };
+        case "bottom-right":
+          return {
+            ...position.bottom,
+            ...position.right,
+          };
+        case "bottom-left":
+          return {
+            width: coords.right - coords.left,
+            ...position.bottom,
+            ...position.left,
+          };
+        case "top-center":
+          return {
+            ...position.top,
+            ...position.center,
+          };
+        case "bottom-center":
+          return {
+            ...position.bottom,
+            ...position.center,
+          };
+        default: {
+          return {
+            ...position.top,
+            ...position.left,
+          };
+        }
+      }
+    };
+
+    if (toggleRef && toggleRef.current) {
+      const bottomPositionToggleRef = coords.bottom + 210;
+      if (bottomPositionToggleRef > window.innerHeight) {
+        const splittedPosition = placement.split("-");
+        const bottomTop = splittedPosition[0];
+        const leftRight = splittedPosition[1];
+        if (bottomTop === "bottom") {
+          const newPlacement = `top-${leftRight}` as AlignedPlacement;
+          return getPositionFromPlacement(newPlacement);
+        }
+        return;
       }
     }
-  };
 
+    return getPositionFromPlacement(placement);
+  };
   useEffect(() => {
     if (isShowing) {
       window.addEventListener("scroll", setPositionList, true);

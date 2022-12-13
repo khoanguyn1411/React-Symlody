@@ -53,6 +53,7 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
     isShowing: _isShowContent,
     placement: placement,
     spaceAdditionalTop: 10,
+    toggleRef: listRef,
   });
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
