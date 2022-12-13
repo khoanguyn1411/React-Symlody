@@ -9,7 +9,10 @@ type TProps = {
   onOpenEdit: (data: UserShort) => void;
   isRendered: boolean;
 };
-export const TableGroup: React.FC<TProps> = ({ isRendered, onOpenEdit }) => {
+export const TabRolePermissionTable: React.FC<TProps> = ({
+  isRendered,
+  onOpenEdit,
+}) => {
   const configUsersCount = useAppSelector(configSelectors.selectTotal);
   const configUsersList = useAppSelector(configSelectors.selectAll);
 
