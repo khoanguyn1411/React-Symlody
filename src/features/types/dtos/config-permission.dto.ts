@@ -6,6 +6,5 @@ export interface LeadersAndManagersDto {
 }
 
 export interface UserPermissionConfigCreationDto {
-  user_id: number;
   groups: number[];
 }

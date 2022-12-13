@@ -7,7 +7,6 @@ export interface LeadersAndManagers {
 }
 
 export interface UserPermissionConfigCreation {
-  userId: number;
   groups: Roles[];
 }
 

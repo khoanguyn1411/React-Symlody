@@ -77,7 +77,7 @@ export function Select<T, E extends Primitive>({
           if (isMultiple) {
             assertArray(value);
             return value
-              ? list.filter((item) => value.filter((val) => val === item.value))
+              ? list.filter((item) => value.includes(item.value))
               : [];
           }
           return list.find((item) => item.value === value) ?? null;

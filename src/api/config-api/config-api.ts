@@ -36,9 +36,10 @@ export const ConfigApi = {
   },
 
   async updateConfigRoleUser(
-    params: Types.RequestParamsConfigRoleUser
+    params: Types.RequestParamsConfigRoleUser,
+    id: UserShortDto["id"]
   ): Promise<Types.RequestUpdateConfigRoleUserResult> {
-    const url = routes.updateConfigRoleUser(params.user_id);
+    const url = routes.updateConfigRoleUser(id);
     const method = http.patch<UserShortDto>(url, params);
     return composeHttpMethodResult(method);
   },

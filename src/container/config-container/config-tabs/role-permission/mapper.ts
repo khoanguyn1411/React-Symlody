@@ -42,14 +42,12 @@ class RolePermissionFormMapper {
     error: HttpError<UserPermissionConfigCreation>
   ): HttpError<RolePermissionForm> {
     return {
-      userId: error.userId,
       type: error.groups ?? error.non_field_errors,
     };
   }
 
   public fromModel(model: UserShort): RolePermissionForm {
     return {
-      userId: model.id,
       type: getFormType(model),
       roleManager: model.groups.reduce((acc: RolesManagerSortName[], cur) => {
         const sortNameManager = ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME[cur.name];
@@ -63,7 +61,6 @@ class RolePermissionFormMapper {
 
   public toModel(formData: RolePermissionForm): UserPermissionConfigCreation {
     return {
-      userId: formData.userId,
       groups: getModelGroup(formData),
     };
   }

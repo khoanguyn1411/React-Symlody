@@ -46,7 +46,6 @@ export class UserPermissionConfigMapper
     model: UserPermissionConfigCreation
   ): UserPermissionConfigCreationDto {
     return {
-      user_id: model.userId,
       groups: model.groups.map((group) => ROLE_MAP_TO_ID[group]),
     };
   }
@@ -54,9 +53,8 @@ export class UserPermissionConfigMapper
   public httpErrorFromDto(
     errorDto: HttpErrorDto<UserPermissionConfigCreationDto>
   ): HttpError<UserPermissionConfigCreation> {
-    const { user_id, groups, non_field_errors } = errorDto;
+    const { groups, non_field_errors } = errorDto;
     return {
-      userId: extractErrorMessage(user_id),
       groups: extractErrorMessage(groups),
       non_field_errors: extractErrorMessage(non_field_errors),
     };
