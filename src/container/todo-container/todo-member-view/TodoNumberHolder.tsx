@@ -73,6 +73,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
         style="none"
         isNoPaddingY
         isNonePadding
+        maxHeight={288}
         list={MEMBER_LIST}
         isMultiple
         classNameList="border border-gray-200 bg-white overflow-hidden"

@@ -24,6 +24,7 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
   isShowContent = false,
   wrapperSelectRef,
   isNonePadding = false,
+  maxHeight,
   setIsShowContent,
 }) => {
   let _isShowContent: boolean,
@@ -45,6 +46,7 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
     _isShowContent,
     _setIsShowContent
   );
+
   const { setPositionList, position } = usePositionPortal({
     displayRef,
     isPortal,
@@ -91,6 +93,7 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
   const ListComponent: JSX.Element = (
     <ul ref={listRef}>
       <SelectListWrapper
+        maxHeight={maxHeight}
         isPortal={isPortal}
         isNoPaddingY={isNoPaddingY}
         position={position}
