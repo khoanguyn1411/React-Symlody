@@ -93,7 +93,6 @@ export const ModalEditPermission: React.FC<TProps> = ({
 
   return (
     <Modal
-      reset={reset}
       handleEvent={{
         title: "Cập nhật",
         event: handleSubmit(handleUpdate),
