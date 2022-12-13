@@ -15,6 +15,7 @@ type TProps<T> = {
   isShowing: boolean;
   toggleRef?: React.MutableRefObject<HTMLDivElement>;
   space?: number;
+  listItemQuantity?: number;
   spaceAdditionalTop?: number;
 };
 
@@ -24,6 +25,7 @@ export const usePositionPortal = <T extends HTMLElement>({
   placement,
   toggleRef,
   isShowing,
+  listItemQuantity = 0,
   spaceAdditionalTop = 0,
   space = 0,
 }: TProps<T>): THookPositionPortal => {
@@ -34,7 +36,7 @@ export const usePositionPortal = <T extends HTMLElement>({
     bottom: 0,
   });
 
-  const setPositionList = () => {
+  const setPositionList = (): void => {
     if (!displayRef || !displayRef.current || !isPortal) {
       return;
     }
@@ -129,7 +131,9 @@ export const usePositionPortal = <T extends HTMLElement>({
     };
 
     if (toggleRef && toggleRef.current) {
-      const bottomPositionToggleRef = coords.bottom + 210;
+      const listHeight =
+        listItemQuantity * 45 > 210 ? 210 : listItemQuantity * 45;
+      const bottomPositionToggleRef = coords.bottom + listHeight;
       if (bottomPositionToggleRef > window.innerHeight) {
         const splittedPosition = placement.split("-");
         const bottomTop = splittedPosition[0];
@@ -144,6 +148,7 @@ export const usePositionPortal = <T extends HTMLElement>({
 
     return getPositionFromPlacement(placement);
   };
+
   useEffect(() => {
     if (isShowing) {
       window.addEventListener("scroll", setPositionList, true);
