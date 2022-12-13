@@ -13,6 +13,7 @@ import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
 import { Portal } from "../portal";
 import { Select } from "../select";
 import { TOptionProps } from "../select/type";
+import { MONTH_LIST, WEEK_DAY_ENG, YEAR_LIST } from "./constant";
 import { STYLE_MAP } from "./type";
 
 type TProps = {
@@ -64,28 +65,6 @@ export const DatePortal: React.FC = () => {
   );
 };
 
-const MONTH_LIST: TOptionProps<undefined, Primitive>[] = [
-  { value: 1, label: "Jan" },
-  { value: 2, label: "Feb" },
-  { value: 3, label: "Mar" },
-  { value: 4, label: "Apr" },
-  { value: 5, label: "May" },
-  { value: 6, label: "Jun" },
-  { value: 7, label: "Jul" },
-  { value: 8, label: "Aug" },
-  { value: 9, label: "Sep" },
-  { value: 10, label: "Oct" },
-  { value: 11, label: "Nov" },
-  { value: 12, label: "Dec" },
-];
-
-const YEARS: number[] = [...Array(100)].map((_, index) => 2000 + index);
-
-const YEAR_LIST: TOptionProps<undefined, Primitive>[] = YEARS.map((year) => ({
-  value: year,
-  label: year.toString(),
-}));
-
 export const AppDatePicker: React.FC<TProps> = ({
   isTimePicker = false,
   style = "default",
@@ -121,6 +100,11 @@ export const AppDatePicker: React.FC<TProps> = ({
         maxDate={getMaxDate()}
         renderCustomHeader={(param) => {
           return <AppDatePickerHeaderCustom {...param} />;
+        }}
+        formatWeekDay={(weekDay) => {
+          return (
+            <h1 className="mt-2 font-semibold">{WEEK_DAY_ENG[weekDay]}</h1>
+          );
         }}
         onChange={handleChangeDate}
         placeholderText={!isTimePicker ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm aa"}

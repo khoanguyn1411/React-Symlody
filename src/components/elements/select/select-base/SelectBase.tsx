@@ -46,6 +46,7 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
     _isShowContent,
     _setIsShowContent
   );
+
   const { setPositionList, position } = usePositionPortal({
     displayRef,
     isPortal,

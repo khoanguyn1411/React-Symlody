@@ -74,7 +74,7 @@ export const usePositionPortal = <T extends HTMLElement>({
       },
       center: {
         left:
-          displayRef && displayRef.current
+          displayRef && displayRef.current && toggleRef && toggleRef.current
             ? coords.left +
               displayRef?.current.offsetWidth / 2 -
               toggleRef?.current.offsetWidth / 2 -
