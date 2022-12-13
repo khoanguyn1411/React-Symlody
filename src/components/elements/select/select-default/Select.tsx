@@ -176,6 +176,7 @@ export function Select<T, E extends Primitive>({
   return (
     <SelectBase
       {...props}
+      listItemQuantity={list.length}
       maxHeight={maxHeight}
       wrapperSelectRef={wrapperSelectRef}
       isShowContent={_isShowContent}

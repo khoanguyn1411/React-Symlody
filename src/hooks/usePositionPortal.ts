@@ -15,6 +15,7 @@ type TProps<T> = {
   isShowing: boolean;
   toggleRef?: React.MutableRefObject<HTMLDivElement>;
   space?: number;
+  listItemQuantity?: number;
   spaceAdditionalTop?: number;
 };
 
@@ -24,6 +25,7 @@ export const usePositionPortal = <T extends HTMLElement>({
   placement,
   toggleRef,
   isShowing,
+  listItemQuantity = 0,
   spaceAdditionalTop = 0,
   space = 0,
 }: TProps<T>): THookPositionPortal => {
@@ -34,7 +36,7 @@ export const usePositionPortal = <T extends HTMLElement>({
     bottom: 0,
   });
 
-  const setPositionList = () => {
+  const setPositionList = (): void => {
     if (!displayRef || !displayRef.current || !isPortal) {
       return;
     }
@@ -85,46 +87,66 @@ export const usePositionPortal = <T extends HTMLElement>({
       },
     };
 
-    switch (placement) {
-      case "top-left":
-        return {
-          width: coords.right - coords.left,
-          ...position.top,
-          ...position.left,
-        };
-      case "top-right":
-        return {
-          ...position.top,
-          ...position.right,
-        };
-      case "bottom-right":
-        return {
-          ...position.bottom,
-          ...position.right,
-        };
-      case "bottom-left":
-        return {
-          width: coords.right - coords.left,
-          ...position.bottom,
-          ...position.left,
-        };
-      case "top-center":
-        return {
-          ...position.top,
-          ...position.center,
-        };
-      case "bottom-center":
-        return {
-          ...position.bottom,
-          ...position.center,
-        };
-      default: {
-        return {
-          ...position.top,
-          ...position.left,
-        };
+    const getPositionFromPlacement = (_placement: AlignedPlacement) => {
+      switch (_placement) {
+        case "top-left":
+          return {
+            width: coords.right - coords.left,
+            ...position.top,
+            ...position.left,
+          };
+        case "top-right":
+          return {
+            ...position.top,
+            ...position.right,
+          };
+        case "bottom-right":
+          return {
+            ...position.bottom,
+            ...position.right,
+          };
+        case "bottom-left":
+          return {
+            width: coords.right - coords.left,
+            ...position.bottom,
+            ...position.left,
+          };
+        case "top-center":
+          return {
+            ...position.top,
+            ...position.center,
+          };
+        case "bottom-center":
+          return {
+            ...position.bottom,
+            ...position.center,
+          };
+        default: {
+          return {
+            ...position.top,
+            ...position.left,
+          };
+        }
+      }
+    };
+
+    if (toggleRef && toggleRef.current) {
+      const listHeight =
+        listItemQuantity * 45 > 210 ? 210 : listItemQuantity * 45;
+      const bottomPositionToggleRef = coords.bottom + listHeight;
+      if (bottomPositionToggleRef > window.innerHeight) {
+        const splittedPosition = placement.split("-");
+        const bottomTop = splittedPosition[0];
+        const leftRight = splittedPosition[1];
+        if (bottomTop === "bottom") {
+          const newPlacement = `top-${leftRight}` as AlignedPlacement;
+          return getPositionFromPlacement(newPlacement);
+        }
+        return;
       }
     }
+
+    return getPositionFromPlacement(placement);
   };
 
   useEffect(() => {
