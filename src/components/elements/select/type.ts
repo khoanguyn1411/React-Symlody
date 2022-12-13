@@ -38,6 +38,7 @@ export type TOptionProps<
 export type TSelectCustomProps = {
   placeHolder?: ReactNode;
   style?: TStyle;
+  maxHeight?: number;
   isPortal?: boolean;
   className?: string;
   classNameDisplay?: string;

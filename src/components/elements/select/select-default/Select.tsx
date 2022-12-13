@@ -47,6 +47,7 @@ export function Select<T, E extends Primitive>({
   renderEmptyListPlaceholder,
   selectValueControlled,
   classNameWrapperOptions,
+  maxHeight,
   setSelectValueControlled,
   setIsShowContent,
   onChange,
@@ -181,6 +182,7 @@ export function Select<T, E extends Primitive>({
   return (
     <SelectBase
       {...props}
+      maxHeight={maxHeight}
       wrapperSelectRef={wrapperSelectRef}
       isShowContent={_isShowContent}
       setIsShowContent={_setIsShowContent}
