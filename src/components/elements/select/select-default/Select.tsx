@@ -1,11 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
-import {
-  assertArray,
-  assertNotArray,
-  assertPrimitive,
-} from "@/utils/services/common-service";
+import { assertArray, assertNotArray } from "@/utils/services/common-service";
 import { Primitive } from "@/utils/types";
 
 import { SelectBase } from "../select-base/SelectBase";
