@@ -15,6 +15,7 @@ type TProps<T> = {
   isShowing: boolean;
   toggleRef?: React.MutableRefObject<HTMLDivElement>;
   space?: number;
+  spaceAdditionalTop?: number;
 };
 
 export const usePositionPortal = <T extends HTMLElement>({
@@ -23,6 +24,7 @@ export const usePositionPortal = <T extends HTMLElement>({
   placement,
   toggleRef,
   isShowing,
+  spaceAdditionalTop = 0,
   space = 0,
 }: TProps<T>): THookPositionPortal => {
   const [coords, setCoords] = useState<TPosition>({
@@ -61,7 +63,7 @@ export const usePositionPortal = <T extends HTMLElement>({
 
     const position = {
       top: {
-        bottom: window.innerHeight - coords.top + space + 10,
+        bottom: window.innerHeight - coords.top + space + spaceAdditionalTop,
       },
       bottom: {
         top: coords.bottom + space,
