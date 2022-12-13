@@ -3,7 +3,7 @@ import React from "react";
 
 import { GlobalTypes } from "@/utils";
 
-import { AnimationKeepDom } from "../../animation-custom";
+import { AnimationCustom } from "../../animation-custom";
 import { TStyle } from "../type";
 
 type TProps = {
@@ -28,7 +28,7 @@ export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
   isNoPaddingY = false,
 }) => {
   return (
-    <AnimationKeepDom
+    <AnimationCustom
       attrs={{ style: { ...position, maxHeight: maxHeight } }}
       className={classNames(
         "w-full min-w-[fit-content] bg-white border border-gray-200 rounded-md overflow-auto shadow-md mt-2",
@@ -43,6 +43,6 @@ export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
       isShowing={isShowContent}
     >
       {children}
-    </AnimationKeepDom>
+    </AnimationCustom>
   );
 };

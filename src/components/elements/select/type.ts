@@ -21,7 +21,7 @@ export const STYLE_DISPLAY_WRAPPER_MAPS = {
 
 export const STYLE_LIST_WRAPPER_MAPS = {
   [STYLE.default]: "bg-white",
-  [STYLE.modal]: "bg-white",
+  [STYLE.modal]: "bg-gray-50",
 } as const;
 
 export type TOptionProps<
