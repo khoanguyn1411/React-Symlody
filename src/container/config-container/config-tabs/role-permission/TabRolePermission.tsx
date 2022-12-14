@@ -8,7 +8,7 @@ import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
 import { lazyImport } from "@/utils/services/lazyImport";
 
-import { TableGroup } from "./TableGroup";
+import { TabRolePermissionTable } from "./TabRolePermissionTable";
 
 const { ModalEditPermission } = lazyImport(
   () => import("./ModalEditPermission"),
@@ -52,7 +52,7 @@ export const TabRolePermission: React.FC = () => {
           <Table.CellHeadAction />
         </Table.Head>
 
-        <TableGroup
+        <TabRolePermissionTable
           isRendered={!configManagerStore.pendingConfigManager}
           onOpenEdit={handleOpenEdit}
         />

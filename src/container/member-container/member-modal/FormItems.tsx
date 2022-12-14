@@ -84,7 +84,12 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
             control={control}
             name="dob"
             render={({ field: { value, onChange } }) => (
-              <AppDatePicker style="modal" value={value} onChange={onChange} />
+              <AppDatePicker
+                isDefault2000
+                style="modal"
+                value={value}
+                onChange={onChange}
+              />
             )}
           />
         </FormItem>

@@ -32,7 +32,7 @@ class PersonalInfoFormMapper {
       homeTown: model.homeTown,
       address: model.address,
       gender: model.gender,
-      avatarUrl: model.avatar,
+      avatarUrl: model.avatarUrl,
       avatar: undefined,
     };
   }

@@ -1,11 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
-import {
-  assertArray,
-  assertNotArray,
-  assertPrimitive,
-} from "@/utils/services/common-service";
+import { assertArray, assertNotArray } from "@/utils/services/common-service";
 import { Primitive } from "@/utils/types";
 
 import { SelectBase } from "../select-base/SelectBase";
@@ -47,6 +43,7 @@ export function Select<T, E extends Primitive>({
   renderEmptyListPlaceholder,
   selectValueControlled,
   classNameWrapperOptions,
+  maxHeight,
   setSelectValueControlled,
   setIsShowContent,
   onChange,
@@ -80,7 +77,7 @@ export function Select<T, E extends Primitive>({
           if (isMultiple) {
             assertArray(value);
             return value
-              ? list.filter((item) => value.filter((val) => val === item.value))
+              ? list.filter((item) => value.includes(item.value))
               : [];
           }
           return list.find((item) => item.value === value) ?? null;
@@ -125,7 +122,6 @@ export function Select<T, E extends Primitive>({
     }
     if (!isMultiple) {
       assertNotArray<TOptionProps<T, E>>(selectedOption);
-      assertPrimitive(value);
       return (
         <SelectDefaultOption {...option} selectedOption={selectedOption} />
       );
@@ -148,7 +144,6 @@ export function Select<T, E extends Primitive>({
         />
       );
     }
-    assertPrimitive(value);
     assertArray(selectedOption);
     return (
       <SelectMultipleDisplay
@@ -181,6 +176,8 @@ export function Select<T, E extends Primitive>({
   return (
     <SelectBase
       {...props}
+      listItemQuantity={list.length}
+      maxHeight={maxHeight}
       wrapperSelectRef={wrapperSelectRef}
       isShowContent={_isShowContent}
       setIsShowContent={_setIsShowContent}

@@ -67,7 +67,9 @@ export const ModalEditPermission: React.FC<TProps> = ({
 
   const handleUpdate = async (body: RolePermissionForm) => {
     const bodyModel = rolePermissionFormMapper.toModel(body);
-    const result = await dispatch(updateConfigRoleUserAsync(bodyModel));
+    const result = await dispatch(
+      updateConfigRoleUserAsync({ body: bodyModel, id: data.id })
+    );
     if (updateConfigRoleUserAsync.fulfilled.match(result)) {
       toast.success(ROLE_PERMISSION_MESSAGE.update.success);
       toggle.setHidden();
@@ -91,7 +93,6 @@ export const ModalEditPermission: React.FC<TProps> = ({
 
   return (
     <Modal
-      reset={reset}
       handleEvent={{
         title: "Cập nhật",
         event: handleSubmit(handleUpdate),
@@ -135,16 +136,19 @@ export const ModalEditPermission: React.FC<TProps> = ({
           <Controller
             control={control}
             name="roleManager"
-            render={({ field: { value, onChange } }) => (
-              <Select
-                isMultiple
-                placeHolder="Chọn tính năng"
-                list={MANAGE_OPTIONS}
-                value={value}
-                style="modal"
-                onChange={onChange}
-              />
-            )}
+            render={({ field: { value, onChange } }) => {
+              return (
+                <Select
+                  isMultiple
+                  isShowArrow
+                  placeHolder="Chọn tính năng"
+                  list={MANAGE_OPTIONS}
+                  value={value}
+                  style="modal"
+                  onChange={onChange}
+                />
+              );
+            }}
           />
         </FormItem>
       )}

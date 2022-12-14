@@ -67,7 +67,6 @@ export const getConfigManager = createAsyncThunk<
 
   const userListCurrent = userSelectors.selectAll(reduxStore);
   const userList = hasUser ? userListCurrent : userListAfterPromise.payload;
-
   return userList.map((user) => {
     const userWithRole = combinedLeaderManagerList.find(
       (r) => r.id === user.id
@@ -92,11 +91,11 @@ export const updateOrganizationAsync = createAsyncThunk<
 
 export const updateConfigRoleUserAsync = createAsyncThunk<
   UserShort,
-  UserPermissionConfigCreation,
+  { body: UserPermissionConfigCreation; id: UserShort["id"] },
   GlobalTypes.ReduxThunkRejectValue<HttpError<UserPermissionConfigCreationDto>>
->("update/user-role", async (payload, { rejectWithValue }) => {
-  const paramDto = userPermissionConfigMapper.toCreationDto(payload);
-  const result = await ConfigApi.updateConfigRoleUser(paramDto);
+>("update/user-role", async ({ body, id }, { rejectWithValue }) => {
+  const paramDto = userPermissionConfigMapper.toCreationDto(body);
+  const result = await ConfigApi.updateConfigRoleUser(paramDto, id);
   return validateSimpleRequestResult({
     rejectWithValue,
     result,

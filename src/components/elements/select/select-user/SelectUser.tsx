@@ -107,7 +107,9 @@ export const SelectUser: React.FC<Props> = ({
   const hasOption = selectedUser != null;
   const isShowFullNameImage =
     hasOption && searchValue === selectedUser.fullName;
-  const avatar = !isShowFullNameImage ? PLACEHOLDER_IMAGE : selectedUser.avatar;
+  const avatar = !isShowFullNameImage
+    ? PLACEHOLDER_IMAGE
+    : selectedUser.avatarUrl;
 
   return (
     <Select
@@ -143,14 +145,14 @@ export const SelectUser: React.FC<Props> = ({
           )}
         </>
       }
-      renderOption={({ objectValue: { fullName, avatar } }, isChosen) => (
+      renderOption={({ objectValue: { fullName, avatarUrl } }, isChosen) => (
         <div
           className={classNames(
             "flex items-center w-full px-3 py-2 cursor-pointer space-x-3 transition-colors duration-200",
             isChosen ? "bg-primary-800" : "hover:bg-primary-50 "
           )}
         >
-          <Avatar size="default" fullName={fullName} src={avatar} />
+          <Avatar size="default" fullName={fullName} src={avatarUrl} />
           <div className="flex flex-col">
             <h1
               className={classNames(

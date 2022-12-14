@@ -13,6 +13,8 @@ type TProps = {
   isPortal: boolean;
   classNameList?: string;
   isNoPaddingY?: boolean;
+  maxHeight?: number;
+  toggleRef?: React.MutableRefObject<HTMLDivElement>;
 };
 
 export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
@@ -21,17 +23,18 @@ export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
   isShowContent,
   position,
   classNameList,
+  maxHeight = 200,
   isPortal,
   isNoPaddingY = false,
 }) => {
   return (
     <AnimationCustom
-      attrs={{ style: position }}
+      attrs={{ style: { ...position, maxHeight: maxHeight } }}
       className={classNames(
-        "w-full min-w-[fit-content] bg-white border border-gray-200 rounded-md max-h-72 overflow-auto shadow-md mt-2",
+        "w-full min-w-[fit-content] bg-white border border-gray-200 rounded-md overflow-auto shadow-md mt-2",
         {
           "z-30 fixed": isPortal,
-          "z-10 absolute top-8": !isPortal,
+          "z-10 absolute top-11 left-0": !isPortal,
           "py-1.5": !isNoPaddingY,
         },
         classNameList

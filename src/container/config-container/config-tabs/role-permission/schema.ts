@@ -7,7 +7,6 @@ import { EPermissionOptions } from "./constants";
 import { RolePermissionForm } from "./types";
 
 export const schema = yup.object().shape<YupValidation<RolePermissionForm>>({
-  userId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
   type: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
   roleManager: yup
     .array()
@@ -16,6 +15,9 @@ export const schema = yup.object().shape<YupValidation<RolePermissionForm>>({
       "is-empty-role-manager",
       APP_ERROR_MESSAGE.REQUIRED,
       function (value) {
+        if (value == null) {
+          return true;
+        }
         if (this.parent.type === EPermissionOptions.Manager) {
           return value.length > 0;
         }

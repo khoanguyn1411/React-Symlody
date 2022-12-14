@@ -113,8 +113,8 @@ export const authSlice = createSlice({
       TokenService.clearToken();
     },
     updateCurrentUser: (state, action: PayloadAction<Profile>) => {
-      const { avatar, ...rest } = action.payload;
-      if (avatar == null) {
+      const { avatarUrl, ...rest } = action.payload;
+      if (avatarUrl == null) {
         state.user = { ...state.user, ...rest };
         return;
       }

@@ -2,13 +2,18 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import styled from "@emotion/styled";
 import classNames from "classnames";
-import React from "react";
-import DatePicker from "react-datepicker";
+import React, { useState } from "react";
+import DatePicker, { ReactDatePickerCustomHeaderProps } from "react-datepicker";
 
 import { Icon } from "@/assets/icons";
+import { FormatService } from "@/utils";
+import { Primitive } from "@/utils/types";
 
 import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
 import { Portal } from "../portal";
+import { Select } from "../select";
+import { TOptionProps } from "../select/type";
+import { MONTH_LIST, WEEK_DAY_ENG, YEAR_LIST } from "./constant";
 import { STYLE_MAP } from "./type";
 
 type TProps = {
@@ -16,6 +21,7 @@ type TProps = {
   value: string;
   isTimePicker?: boolean;
   onChange: (param: Date) => void;
+  isDefault2000?: boolean;
 };
 
 const WrapperModule = styled.div`
@@ -63,23 +69,48 @@ export const AppDatePicker: React.FC<TProps> = ({
   isTimePicker = false,
   style = "default",
   value,
+  isDefault2000 = false,
   onChange,
 }) => {
   const handleChangeDate = (date: Date): void => {
+    _setValue(value);
     onChange(date);
+  };
+
+  const [_value, _setValue] = useState(() => {
+    if (isDefault2000) {
+      return !value ? "" : FormatService.toDateString(value, "VN");
+    }
+    return value && FormatService.toDateString(value, "VN");
+  });
+
+  const getSelectedDate = () => {
+    if (isDefault2000) {
+      return !value ? new Date("01/01/2000") : new Date(value);
+    }
+    return value && new Date(value);
   };
 
   return (
     <WrapperModule className="relative">
       <DatePicker
         dateFormat={!isTimePicker ? "dd/MM/yyyy" : "dd/MM/yyyy hh:mm aa"}
-        selected={value && new Date(value)}
+        selected={getSelectedDate()}
         minDate={new Date("01/01/2000")}
         maxDate={getMaxDate()}
+        renderCustomHeader={(param) => {
+          return <AppDatePickerHeaderCustom {...param} />;
+        }}
+        formatWeekDay={(weekDay) => {
+          return (
+            <h1 className="mt-2 font-semibold">{WEEK_DAY_ENG[weekDay]}</h1>
+          );
+        }}
         onChange={handleChangeDate}
         placeholderText={!isTimePicker ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm aa"}
         portalId="portal-date"
         popperClassName="!z-30"
+        value={_value}
         popperPlacement="bottom-end"
         className={classNames(
           "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
@@ -95,5 +126,56 @@ export const AppDatePicker: React.FC<TProps> = ({
         <Icon.Calendar size="small" customColor="gray" />
       </div>
     </WrapperModule>
+  );
+};
+
+export const AppDatePickerHeaderCustom: React.FC<
+  ReactDatePickerCustomHeaderProps
+> = (param) => {
+  const [selectedMonth, setSelectedMonth] = useState<
+    TOptionProps<undefined, Primitive>
+  >(() => ({
+    value: param.date.getMonth() + 1,
+    label: MONTH_LIST.find((month) => month.value === param.date.getMonth() + 1)
+      .label,
+  }));
+
+  const [selectedYear, setSelectedYear] = useState<
+    TOptionProps<undefined, Primitive>
+  >(() => ({
+    value: param.date.getFullYear(),
+    label: YEAR_LIST.find((year) => year.value === param.date.getFullYear())
+      .label,
+  }));
+
+  const handleChangeMonth = (option: TOptionProps<undefined, Primitive>) => {
+    setSelectedMonth(option);
+    param.changeMonth(Number(option.value) - 1);
+  };
+
+  const handleChangeYear = (option: TOptionProps<undefined, Primitive>) => {
+    setSelectedYear(option);
+    param.changeYear(Number(option.value));
+  };
+
+  return (
+    <div className="flex px-3 gap-3">
+      <div className="flex-1">
+        <Select
+          list={MONTH_LIST}
+          isPortal={false}
+          selectValueControlled={selectedMonth}
+          setSelectValueControlled={handleChangeMonth}
+        />
+      </div>
+      <div className="flex-1">
+        <Select
+          isPortal={false}
+          list={YEAR_LIST}
+          selectValueControlled={selectedYear}
+          setSelectValueControlled={handleChangeYear}
+        />
+      </div>
+    </div>
   );
 };

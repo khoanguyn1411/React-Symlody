@@ -10,7 +10,7 @@ import { SelectListWrapper } from "../select-components/SelectListWrapper";
 import { TSelectCustomProps } from "../type";
 
 export const SelectBase: GlobalTypes.FCPropsWithChildren<
-  TSelectCustomProps
+  TSelectCustomProps & { listItemQuantity?: number }
 > = ({
   classNameDisplay,
   classNameList,
@@ -19,11 +19,13 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
   isShowArrow = false,
   isPortal = true,
   children,
+  listItemQuantity,
   placement = "bottom-left",
   isNoPaddingY = false,
   isShowContent = false,
   wrapperSelectRef,
   isNonePadding = false,
+  maxHeight,
   setIsShowContent,
 }) => {
   let _isShowContent: boolean,
@@ -45,11 +47,15 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
     _isShowContent,
     _setIsShowContent
   );
+
   const { setPositionList, position } = usePositionPortal({
     displayRef,
     isPortal,
     isShowing: _isShowContent,
     placement: placement,
+    spaceAdditionalTop: 10,
+    toggleRef: listRef,
+    listItemQuantity: listItemQuantity,
   });
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -91,6 +97,7 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
   const ListComponent: JSX.Element = (
     <ul ref={listRef}>
       <SelectListWrapper
+        maxHeight={maxHeight}
         isPortal={isPortal}
         isNoPaddingY={isNoPaddingY}
         position={position}

@@ -30,7 +30,7 @@ export const TabPersonalInfo: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [defaultImageLink, setDefaultImageLink] = useState<string>(
-    currentUser.avatar ?? ""
+    currentUser.avatarUrl ?? ""
   );
 
   const {
@@ -61,9 +61,8 @@ export const TabPersonalInfo: React.FC = () => {
     reset({ ...formData, avatar: undefined });
     return;
   };
-
   useEffect(() => {
-    setDefaultImageLink(currentUser.avatar);
+    setDefaultImageLink(currentUser.avatarUrl);
   }, [currentUser]);
 
   return (
@@ -135,7 +134,12 @@ export const TabPersonalInfo: React.FC = () => {
             control={control}
             name="dob"
             render={({ field: { value, onChange } }) => (
-              <AppDatePicker value={value} style="modal" onChange={onChange} />
+              <AppDatePicker
+                isDefault2000
+                value={value}
+                style="modal"
+                onChange={onChange}
+              />
             )}
           />
         </FormItem>
