@@ -19,7 +19,7 @@ export const getPropertyAsync = createAsyncThunk<
   Property[],
   PropertyFilterParams,
   GlobalTypes.ReduxThunkRejectValue<[]>
->("get/properties", async (param, { rejectWithValue, dispatch }) => {
+>("property/get-list", async (param, { rejectWithValue, dispatch }) => {
   const paramDto = propertyFilterParamsMapper.toDto(param);
   const result = await PropertyApi.getProperties(paramDto);
   if (result.kind === "ok") {
@@ -36,7 +36,7 @@ export const createPropertyAsync = createAsyncThunk<
   Property,
   PropertyCreation,
   GlobalTypes.ReduxThunkRejectValue<HttpError<PropertyCreation>>
->("create/property", async (payload, { rejectWithValue }) => {
+>("property/create", async (payload, { rejectWithValue }) => {
   const result = await PropertyApi.createProperty(
     propertyMapper.toFormData(payload)
   );
@@ -51,7 +51,7 @@ export const deletePropertyAsync = createAsyncThunk<
   Property["id"],
   Property["id"],
   GlobalTypes.ReduxThunkRejectValue<null>
->("delete/property", async (id, { rejectWithValue }) => {
+>("property/delete", async (id, { rejectWithValue }) => {
   const result = await PropertyApi.deleteProperty(id);
   if (result.kind === "ok") {
     return id;
@@ -60,7 +60,7 @@ export const deletePropertyAsync = createAsyncThunk<
 });
 
 export const paginatePropertyAsync = createAsyncThunk<void, undefined>(
-  "paginate/members",
+  "property/paginate",
   async (_, { dispatch }) => {
     const reduxStore = store.getState();
     const propertyState = reduxStore.property;
@@ -74,14 +74,23 @@ export const paginatePropertyAsync = createAsyncThunk<void, undefined>(
   }
 );
 
-export const filterPropertyBySearch = createAsyncThunk<void, string>(
-  "paginate/members",
+export const setFilterParamsPropertyAsync = createAsyncThunk<
+  void,
+  Partial<PropertyFilterParams>
+>("property/set-filter-params", async (params, { dispatch }) => {
+  const reduxStore = store.getState();
+  const currentPropertyParams = reduxStore.property.filterParamsProperty;
+  dispatch(setFilterParamsProperty({ ...currentPropertyParams, ...params }));
+});
+
+export const filterPropertyBySearchAsync = createAsyncThunk<void, string>(
+  "property/filter-by-search",
   async (search, { dispatch }) => {
     const reduxStore = store.getState();
     const propertyState = reduxStore.property;
     const propertyList = propertySelectors.selectAll(reduxStore);
     const { currentPropertyList } = propertyState;
-    dispatch(setFilterParamsProperty(search));
+    dispatch(setFilterParamsPropertyAsync({ search: search }));
     if (!search) {
       dispatch(setCurrentPropertyList(propertyList));
       return;
@@ -100,12 +109,9 @@ export const propertySlice = createSlice({
   reducers: {
     setFilterParamsProperty(
       state,
-      action: PayloadAction<Partial<PropertyFilterParams>>
+      action: PayloadAction<PropertyFilterParams>
     ) {
-      state.filterParamsProperty = {
-        ...state.filterParamsProperty,
-        ...action.payload,
-      };
+      state.filterParamsProperty = action.payload;
     },
     setCurrentPropertyList(state, action: PayloadAction<Property[]>) {
       state.currentPropertyList = action.payload;

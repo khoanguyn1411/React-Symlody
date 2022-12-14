@@ -17,7 +17,7 @@ export const getDepartmentAsync = createAsyncThunk<
   Department[],
   null,
   GlobalTypes.ReduxThunkRejectValue<[]>
->("get/department", async (_, { rejectWithValue }) => {
+>("department/get-list", async (_, { rejectWithValue }) => {
   const result = await DepartmentApi.getDepartments();
   if (result.kind === "ok") {
     return result.result.map((item) => departmentMapper.fromDto(item));
@@ -30,7 +30,7 @@ export const createDepartmentAsync = createAsyncThunk<
   Department,
   DepartmentCreation,
   GlobalTypes.ReduxThunkRejectValue<HttpError<DepartmentCreation>>
->("create/department", async (payload, { rejectWithValue }) => {
+>("department/create", async (payload, { rejectWithValue }) => {
   const departmentCreationDto = departmentMapper.toCreationDto(payload);
   const result = await DepartmentApi.createDepartment(departmentCreationDto);
   return validateSimpleRequestResult({
@@ -44,7 +44,7 @@ export const updateDepartmentAsync = createAsyncThunk<
   Department,
   { id: number; body: DepartmentCreation },
   GlobalTypes.ReduxThunkRejectValue<HttpError<DepartmentCreation>>
->("update/department", async (payload, { rejectWithValue }) => {
+>("department/update", async (payload, { rejectWithValue }) => {
   const departmentCreationDto = departmentMapper.toCreationDto(payload.body);
   const result = await DepartmentApi.updateDepartment(
     payload.id,
@@ -61,7 +61,7 @@ export const deleteDepartmentAsync = createAsyncThunk<
   Department["id"],
   Department["id"],
   GlobalTypes.ReduxThunkRejectValue<boolean>
->("delete/department", async (id, { rejectWithValue }) => {
+>("department/delete", async (id, { rejectWithValue }) => {
   const result = await DepartmentApi.deleteDepartment(id);
   if (result.kind === "ok") {
     return id;

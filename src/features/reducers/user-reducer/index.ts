@@ -22,7 +22,7 @@ export const getUsersAsync = createAsyncThunk<
   User[],
   null,
   GlobalTypes.ReduxThunkRejectValue<[]>
->("get/users", async (_, { rejectWithValue }) => {
+>("user/get-list", async (_, { rejectWithValue }) => {
   const result = await UserApi.getUsers();
   if (result.kind === "ok") {
     return result.result.map((item) => userMapper.fromDto(item));

@@ -4,7 +4,7 @@ import { APP_LOCAL_STORAGE_KEYS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   getMeAsync,
-  getTenantAsync,
+  getOrganizationAsync,
   logoutAsync,
   setIsAlreadyGetMe,
   setIsAuth,
@@ -36,7 +36,7 @@ export const useAuth = () => {
       setIsLoading(false);
       if (res.payload) {
         dispatch(setIsAuth(true));
-        dispatch(getTenantAsync());
+        dispatch(getOrganizationAsync());
         dispatch(setIsAlreadyGetMe(true));
         return;
       }

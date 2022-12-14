@@ -23,11 +23,11 @@ import { organizationMapper } from "../../types/mappers/organization.mapper";
 import { getUsersAsync, userSelectors } from "../user-reducer";
 import { configInfoAdapter, initialState } from "./state";
 
-export const getTenantAsync = createAsyncThunk<
+export const getOrganizationAsync = createAsyncThunk<
   Organization,
   null,
   GlobalTypes.ReduxThunkRejectValue<null>
->("get/tenant", async (_, { rejectWithValue }) => {
+>("organization/get", async (_, { rejectWithValue }) => {
   const result = await ConfigApi.getOrganization();
   if (result.kind === "ok") {
     return organizationMapper.fromDto(result.result);
@@ -39,7 +39,7 @@ export const getConfigManager = createAsyncThunk<
   UserShort[],
   null,
   GlobalTypes.ReduxThunkRejectValue<UserShort[]>
->("get/config-manager", async (_, { rejectWithValue, dispatch }) => {
+>("organization/get-managers", async (_, { rejectWithValue, dispatch }) => {
   const reduxStore = store.getState();
   const hasUser = userSelectors.selectTotal(reduxStore) > 0;
 
@@ -79,7 +79,7 @@ export const updateOrganizationAsync = createAsyncThunk<
   Organization,
   { id: number; body: OrganizationCreation },
   GlobalTypes.ReduxThunkRejectValue<HttpError<OrganizationCreation>>
->("update/tenant", async (payload, { rejectWithValue }) => {
+>("organization/update", async (payload, { rejectWithValue }) => {
   const paramDto = organizationMapper.toFormData(payload.body);
   const result = await ConfigApi.updateOrganization(payload.id, paramDto);
   return validateSimpleRequestResult({
@@ -93,7 +93,7 @@ export const updateConfigRoleUserAsync = createAsyncThunk<
   UserShort,
   { body: UserPermissionConfigCreation; id: UserShort["id"] },
   GlobalTypes.ReduxThunkRejectValue<HttpError<UserPermissionConfigCreationDto>>
->("update/user-role", async ({ body, id }, { rejectWithValue }) => {
+>("user-role/update", async ({ body, id }, { rejectWithValue }) => {
   const paramDto = userPermissionConfigMapper.toCreationDto(body);
   const result = await ConfigApi.updateConfigRoleUser(paramDto, id);
   return validateSimpleRequestResult({
@@ -105,29 +105,26 @@ export const updateConfigRoleUserAsync = createAsyncThunk<
 });
 
 export const configSlice = createSlice({
-  name: "tenant",
+  name: "organization",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      //GET TENANT
-      .addCase(getTenantAsync.pending, (state) => {
+      .addCase(getOrganizationAsync.pending, (state) => {
         state.pendingOrganization = true;
       })
-      .addCase(getTenantAsync.fulfilled, (state, action) => {
+      .addCase(getOrganizationAsync.fulfilled, (state, action) => {
         state.pendingOrganization = false;
         state.organization = action.payload;
       })
-      .addCase(getTenantAsync.rejected, (state) => {
+      .addCase(getOrganizationAsync.rejected, (state) => {
         state.pendingOrganization = false;
         state.organization = null;
       })
-      //UPDATE TENANT
       .addCase(updateOrganizationAsync.fulfilled, (state, action) => {
         state.organization = action.payload;
       })
 
-      // Get config manager
       .addCase(getConfigManager.pending, (state) => {
         state.pendingConfigManager = true;
       })

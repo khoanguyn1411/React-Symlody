@@ -26,7 +26,7 @@ export const uploadMemberExcelFileAsync = createAsyncThunk<
   any,
   FileUploaded,
   GlobalTypes.ReduxThunkRejectValue<false>
->("createMultiples/member", async (payload, { rejectWithValue, dispatch }) => {
+>("member/create-multiple", async (payload, { rejectWithValue, dispatch }) => {
   const formData = fileUploadedMapper.toFormData(payload);
   const result = await MemberApi.uploadMemberExcelFile(formData);
   if (result.kind === "ok") {
@@ -40,7 +40,7 @@ export const createMemberAsync = createAsyncThunk<
   Member,
   MemberCreation,
   GlobalTypes.ReduxThunkRejectValue<HttpError<MemberCreation, "authAccount">>
->("create/member", async (payload, { rejectWithValue, dispatch }) => {
+>("member/create", async (payload, { rejectWithValue, dispatch }) => {
   const memberDto = memberMapper.toCreationDto(payload);
   const result = await MemberApi.createMember(memberDto);
   if (result.kind === "ok") {
@@ -54,7 +54,7 @@ export const deleteMemberAsync = createAsyncThunk<
   Member["id"],
   Member["id"],
   GlobalTypes.ReduxThunkRejectValue<null>
->("delete/member", async (id, { rejectWithValue, dispatch }) => {
+>("member/archive", async (id, { rejectWithValue, dispatch }) => {
   const result = await MemberApi.deleteMember(id);
   if (result.kind === "ok") {
     const reduxStore = store.getState();
@@ -77,7 +77,7 @@ export const getMembersAsync = createAsyncThunk<
   Member[],
   MemberFilterParams,
   GlobalTypes.ReduxThunkRejectValue<[]>
->("get/members", async (param, { rejectWithValue, dispatch }) => {
+>("member/get-list", async (param, { rejectWithValue, dispatch }) => {
   const filterParamsDto = memberFilterParamsMapper.toDto(param);
   const result = await MemberApi.getMembers(filterParamsDto);
   if (result.kind === "ok") {
@@ -93,7 +93,7 @@ export const updateMemberAsync = createAsyncThunk<
   GlobalTypes.ReduxThunkRestorePayload<MemberCreation, Member>,
   GlobalTypes.ReduxThunkRejectValue<HttpError<MemberCreation, "authAccount">>
 >(
-  "update/member",
+  "member/update",
   async ({ payload, id, isRestore }, { rejectWithValue, dispatch }) => {
     const memberDto = memberMapper.toCreationDto(payload);
     const result = await MemberApi.updateMember(id, memberDto);
@@ -119,7 +119,7 @@ export const updateMemberAsync = createAsyncThunk<
 );
 
 export const paginateMemberAsync = createAsyncThunk<void, undefined>(
-  "paginate/members",
+  "member/paginate",
   async (_, { dispatch }) => {
     const reduxStore = store.getState();
     const memberState = reduxStore.member;
@@ -133,14 +133,14 @@ export const paginateMemberAsync = createAsyncThunk<void, undefined>(
   }
 );
 
-export const filterMemberBySearch = createAsyncThunk<void, string>(
-  "paginate/members",
+export const filterMemberBySearchAsync = createAsyncThunk<void, string>(
+  "member/filter-by-search",
   async (search, { dispatch }) => {
     const reduxStore = store.getState();
     const memberState = reduxStore.member;
     const memberList = memberSelectors.selectAll(reduxStore);
     const { currentMemberList } = memberState;
-    dispatch(setFilterParamsMember(search));
+    dispatch(setFilterParamsMemberAsync({ search: search }));
     if (!search) {
       dispatch(setCurrentMemberList(memberList));
       return;
@@ -159,18 +159,21 @@ export const filterMemberBySearch = createAsyncThunk<void, string>(
   }
 );
 
+export const setFilterParamsMemberAsync = createAsyncThunk<
+  void,
+  Partial<MemberFilterParams>
+>("member/set-filter-params", async (params, { dispatch }) => {
+  const reduxStore = store.getState();
+  const currentMemberParams = reduxStore.member.filterParamsMember;
+  dispatch(setFilterParamsMember({ ...currentMemberParams, ...params }));
+});
+
 export const memberSlice = createSlice({
   name: "member",
   initialState,
   reducers: {
-    setFilterParamsMember(
-      state,
-      action: PayloadAction<Partial<MemberFilterParams>>
-    ) {
-      state.filterParamsMember = {
-        ...state.filterParamsMember,
-        ...action.payload,
-      };
+    setFilterParamsMember(state, action: PayloadAction<MemberFilterParams>) {
+      state.filterParamsMember = action.payload;
     },
     setCurrentMemberList(state, action: PayloadAction<Member[]>) {
       state.currentMemberList = action.payload;

@@ -15,7 +15,7 @@ export const getTasksAsync = createAsyncThunk<
   Task[],
   TaskFilterParams,
   GlobalTypes.ReduxThunkRejectValue<[]>
->("get/tasks", async (param, { rejectWithValue }) => {
+>("task/get-list", async (param, { rejectWithValue }) => {
   const paramDto = taskFilterParamsMapper.toDto(param);
   const result = await TaskApi.getTasks(paramDto);
   if (result.kind === "ok") {
@@ -28,7 +28,7 @@ export const deleteTaskAsync = createAsyncThunk<
   Task["id"],
   Task["id"],
   GlobalTypes.ReduxThunkRejectValue<null>
->("delete/task", async (id, { rejectWithValue }) => {
+>("task/delete", async (id, { rejectWithValue }) => {
   const result = await TaskApi.deleteTask(id);
   if (result.kind === "ok") {
     return id;
@@ -40,7 +40,7 @@ export const createTaskAsync = createAsyncThunk<
   { task: Task; shouldAddOne: boolean },
   { task: TaskCreation },
   GlobalTypes.ReduxThunkRejectValue<null>
->("create/task", async (body, { rejectWithValue }) => {
+>("task/create", async (body, { rejectWithValue }) => {
   const reduxStore = store.getState();
   const userList = userSelectors.selectAll(reduxStore);
   const assignee = userList.find((user) => user.id === body.task.assignee.id);
@@ -69,7 +69,7 @@ export const updateTaskAsync = createAsyncThunk<
     payload: TaskCreation;
   },
   GlobalTypes.ReduxThunkRejectValue<null>
->("update/task", async ({ id, payload }, { rejectWithValue }) => {
+>("task/update", async ({ id, payload }, { rejectWithValue }) => {
   const taskDto = taskMapper.toCreationDto(payload);
   const result = await TaskApi.updateTask(id, taskDto);
 
@@ -92,7 +92,7 @@ export const filterTaskByAssignee = createAsyncThunk<
   void,
   null,
   GlobalTypes.ReduxThunkRejectValue<null>
->("filter-by-assignee/task", async (_, { dispatch }) => {
+>("task/filter-by-assignee", async (_, { dispatch }) => {
   const reduxStore = store.getState();
   const taskList = taskSelectors.selectAll(reduxStore);
   const userList = userSelectors.selectAll(reduxStore);

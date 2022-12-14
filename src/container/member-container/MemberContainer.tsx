@@ -13,11 +13,11 @@ import { TOptionProps } from "@/components/elements/select/type";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deleteMemberAsync,
-  filterMemberBySearch,
+  filterMemberBySearchAsync,
   getMembersAsync,
   memberSelectors,
   paginateMemberAsync,
-  setFilterParamsMember,
+  setFilterParamsMemberAsync,
   updateMemberAsync,
 } from "@/features/reducers";
 import { Member, Roles, RolesID } from "@/features/types";
@@ -65,13 +65,13 @@ export const MemberContainer: React.FC = () => {
   const handleSetFilter = (item: TOptionProps) => {
     switch (item.value) {
       case MEMBER_FILTER_VALUE.all:
-        dispatch(setFilterParamsMember({ isArchived: null }));
+        dispatch(setFilterParamsMemberAsync({ isArchived: null }));
         break;
       case MEMBER_FILTER_VALUE.isArchived:
-        dispatch(setFilterParamsMember({ isArchived: true }));
+        dispatch(setFilterParamsMemberAsync({ isArchived: true }));
         break;
       case MEMBER_FILTER_VALUE.active:
-        dispatch(setFilterParamsMember({ isArchived: false }));
+        dispatch(setFilterParamsMemberAsync({ isArchived: false }));
         break;
     }
   };
@@ -119,7 +119,7 @@ export const MemberContainer: React.FC = () => {
   }, [dispatch, memberStore.filterParamsMember.isArchived]);
 
   useEffect(() => {
-    dispatch(filterMemberBySearch(propsSearch.debounceValue));
+    dispatch(filterMemberBySearchAsync(propsSearch.debounceValue));
   }, [dispatch, propsSearch.debounceValue, memberList]);
 
   useEffect(() => {
