@@ -4,7 +4,7 @@ import { TOptionProps } from "../select/type";
 
 const MONTHS = [...Array(12)].map((_, index) => index + 1);
 
-const YEARS: number[] = [...Array(100)].map((_, index) => 2000 + index);
+const YEARS: number[] = [...Array(100)].map((_, index) => 1990 + index);
 
 export const YEAR_LIST: TOptionProps<undefined, Primitive>[] = YEARS.map(
   (year) => ({

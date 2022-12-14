@@ -21,7 +21,7 @@ type TProps = {
   value: string;
   isTimePicker?: boolean;
   onChange: (param: Date) => void;
-  isDefault2000?: boolean;
+  isDefault1990?: boolean;
 };
 
 const WrapperModule = styled.div`
@@ -69,7 +69,7 @@ export const AppDatePicker: React.FC<TProps> = ({
   isTimePicker = false,
   style = "default",
   value,
-  isDefault2000 = false,
+  isDefault1990 = false,
   onChange,
 }) => {
   const handleChangeDate = (date: Date): void => {
@@ -78,15 +78,15 @@ export const AppDatePicker: React.FC<TProps> = ({
   };
 
   const [_value, _setValue] = useState(() => {
-    if (isDefault2000) {
+    if (isDefault1990) {
       return !value ? "" : FormatService.toDateString(value, "VN");
     }
     return value && FormatService.toDateString(value, "VN");
   });
 
   const getSelectedDate = () => {
-    if (isDefault2000) {
-      return !value ? new Date("01/01/2000") : new Date(value);
+    if (isDefault1990) {
+      return !value ? new Date("01/01/1990") : new Date(value);
     }
     return value && new Date(value);
   };
@@ -96,7 +96,7 @@ export const AppDatePicker: React.FC<TProps> = ({
       <DatePicker
         dateFormat={!isTimePicker ? "dd/MM/yyyy" : "dd/MM/yyyy hh:mm aa"}
         selected={getSelectedDate()}
-        minDate={new Date("01/01/2000")}
+        minDate={new Date("01/01/1990")}
         maxDate={getMaxDate()}
         renderCustomHeader={(param) => {
           return <AppDatePickerHeaderCustom {...param} />;
