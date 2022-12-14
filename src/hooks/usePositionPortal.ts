@@ -17,6 +17,7 @@ type TProps<T> = {
   space?: number;
   listItemQuantity?: number;
   spaceAdditionalTop?: number;
+  maxHeight?: number;
 };
 
 export const usePositionPortal = <T extends HTMLElement>({
@@ -28,6 +29,7 @@ export const usePositionPortal = <T extends HTMLElement>({
   listItemQuantity = 0,
   spaceAdditionalTop = 0,
   space = 0,
+  maxHeight = 200,
 }: TProps<T>): THookPositionPortal => {
   const [coords, setCoords] = useState<TPosition>({
     top: 0,
@@ -132,7 +134,9 @@ export const usePositionPortal = <T extends HTMLElement>({
 
     if (toggleRef && toggleRef.current) {
       const listHeight =
-        listItemQuantity * 45 > 210 ? 210 : listItemQuantity * 45;
+        listItemQuantity * 45 > maxHeight + 10
+          ? maxHeight + 10
+          : listItemQuantity * 45;
       const bottomPositionToggleRef = coords.bottom + listHeight;
       if (bottomPositionToggleRef > window.innerHeight) {
         const splittedPosition = placement.split("-");

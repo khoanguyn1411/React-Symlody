@@ -56,6 +56,7 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
     spaceAdditionalTop: 10,
     toggleRef: listRef,
     listItemQuantity: listItemQuantity,
+    maxHeight: maxHeight,
   });
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
