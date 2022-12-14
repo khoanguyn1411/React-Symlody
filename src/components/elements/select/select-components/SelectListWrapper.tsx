@@ -60,7 +60,8 @@ const SelectListContent: FCPropsWithChildren<TProps> = ({
     if (isShowing) {
       setPositionList();
     }
-  }, [isShowing, setPositionList]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isShowing]);
 
   return (
     <ul

@@ -1,12 +1,11 @@
-import classNames from "classnames";
-import { memo, useLayoutEffect, useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 
-import { usePositionPortal } from "@/hooks";
 import { GlobalTypes } from "@/utils";
 
-import { AnimationKeepDom } from "../animation-custom";
+import { AnimationCustom } from "../animation-custom";
 import { Portal } from "../portal";
 import { AlignedPlacement } from "../portal/type";
+import { TooltipContent } from "./TooltipContent";
 
 type TProps = {
   content: string;
@@ -24,28 +23,12 @@ const _Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const refChildren = useRef<HTMLDivElement>(null);
-  const toggleRef = useRef<HTMLDivElement>(null);
-
-  const { setPositionList, position } = usePositionPortal({
-    displayRef: refChildren,
-    isPortal: true,
-    placement,
-    space: space,
-    isShowing: isActive,
-    toggleRef,
-  });
-
-  useLayoutEffect(() => {
-    setPositionList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content]);
 
   const handleMouseEnter = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     event.stopPropagation();
     event.preventDefault();
-    setPositionList();
     setIsActive(true);
   };
   const handleMouseLeave = (
@@ -66,21 +49,16 @@ const _Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
         {children}
       </div>
       <Portal>
-        <AnimationKeepDom
-          isShowing={isActive}
-          className={classNames(
-            `min-w-max h-[fit-content] fixed z-20 text-white px-2 py-1 rounded-md select-none pointer-events-none`
-          )}
-          attrs={{
-            style: { ...position, backgroundColor: "#333" },
-          }}
-        >
-          <div ref={toggleRef}>
-            <h1 className="text-center min-w-min" role="tooltip">
-              {content}
-            </h1>
-          </div>
-        </AnimationKeepDom>
+        <AnimationCustom isShowing={isActive} className="fixed z-30">
+          <TooltipContent
+            displayRef={refChildren}
+            placement={placement}
+            isActive={isActive}
+            space={space}
+            setIsActive={setIsActive}
+            content={content}
+          />
+        </AnimationCustom>
       </Portal>
     </>
   );

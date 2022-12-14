@@ -48,6 +48,7 @@ const DropdownListContent: FCPropsWithChildren<TProps> = ({
     displayRef,
     isPortal: true,
     placement,
+    toggleRef: listRef,
     isShowing: isShowContent,
   });
 
@@ -55,7 +56,8 @@ const DropdownListContent: FCPropsWithChildren<TProps> = ({
     if (isShowContent) {
       setPositionList();
     }
-  }, [isShowContent, setPositionList]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isShowContent]);
 
   return (
     <ul
