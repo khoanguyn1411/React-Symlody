@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { Button, Modal, Table } from "@/components";
+import { Button, ButtonCreate, Modal, Table } from "@/components";
 import { useAppDispatch } from "@/features";
 import {
   createDepartmentAsync,
@@ -116,12 +116,7 @@ export const ActionConfigDepartment: React.FC = () => {
 
   return (
     <>
-      <Button
-        prefix={<i className="mr-2 fas fa-plus-circle" />}
-        onClick={handleToggleModal}
-      >
-        Tạo mới
-      </Button>
+      <ButtonCreate onClick={handleToggleModal}>Tạo mới</ButtonCreate>
       <Modal
         reset={reset}
         handleEvent={{
