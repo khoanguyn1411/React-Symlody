@@ -30,7 +30,9 @@ export const DrawerWrapperModule = styled.div`
   }
   /* Drawer Mask Blur */
   .drawer.drawer-mask-blur .drawer-mask {
-    @apply bg-black bg-opacity-30 backdrop-filter backdrop-blur-sm;
+    --tw-backdrop-blur: blur(4px);
+    background-color: #00000053;
+    backdrop-filter: var(--tw-backdrop-blur);
   }
   .drawer-content-wrapper {
     position: absolute;
