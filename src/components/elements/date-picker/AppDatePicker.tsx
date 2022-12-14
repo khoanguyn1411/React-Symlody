@@ -111,7 +111,7 @@ export const AppDatePicker: React.FC<TProps> = ({
         portalId="portal-date"
         popperClassName="!z-30"
         value={_value}
-        popperPlacement="bottom-end"
+        popperPlacement="top-end"
         className={classNames(
           "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
           STYLE_MAP[style]
