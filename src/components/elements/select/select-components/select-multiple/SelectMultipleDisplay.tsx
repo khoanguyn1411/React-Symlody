@@ -10,7 +10,6 @@ type Props<T, E extends Primitive> = {
   selectedOption: TOptionProps<T, E>[];
   style: TStyle;
   placeholder: ReactNode;
-  elementWrapperSelect: React.MutableRefObject<HTMLDivElement>;
   handleSetSelectedItem: (option: TOptionProps<T, E>) => () => void;
   renderDisplayOption: (
     option: TOptionProps<T, E>,
@@ -21,12 +20,11 @@ export function SelectMultipleDisplay<T, E extends Primitive>({
   selectedOption,
   style,
   placeholder,
-  elementWrapperSelect,
   handleSetSelectedItem,
   renderDisplayOption,
 }: Props<T, E>): JSX.Element {
   return (
-    <div className="flex flex-wrap gap-3" ref={elementWrapperSelect}>
+    <div className="flex flex-wrap gap-3">
       {selectedOption.length === 0 && (
         <h1 className="text-gray-400">{placeholder}</h1>
       )}

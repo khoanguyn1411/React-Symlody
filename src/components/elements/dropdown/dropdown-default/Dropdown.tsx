@@ -4,10 +4,9 @@ import {
   ReactNode,
   useEffect,
   useImperativeHandle,
+  useRef,
   useState,
 } from "react";
-
-import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 
 import { Portal } from "../../portal";
 import { AlignedPlacement } from "../../portal/type";
@@ -55,29 +54,17 @@ export const Dropdown = forwardRef<TDropdownMethod, TProps>(
     ref
   ) => {
     const [isShowContent, setIsShowContent] = useState<boolean>(false);
-
+    const displayRef = useRef<HTMLDivElement>(null);
     useImperativeHandle(ref, () => ({
       hideDropdown() {
         setIsShowContent(false);
       },
     }));
 
-    const { listRef, displayRef } = useHideOnClickOutside(
-      isShowContent,
-      setIsShowContent
-    );
-    const { setPositionList, position } = usePositionPortal<HTMLDivElement>({
-      displayRef,
-      isPortal: true,
-      placement,
-      isShowing: isShowContent,
-    });
-
     const handleToggleDropdown = (
       event: React.MouseEvent<HTMLDivElement, MouseEvent>
     ) => {
       event.stopPropagation();
-      setPositionList();
       setIsShowContent((prev) => !prev);
     };
     const handleClickItem =
@@ -111,33 +98,33 @@ export const Dropdown = forwardRef<TDropdownMethod, TProps>(
         </div>
         {/* List */}
         <Portal>
-          <ul ref={listRef}>
-            <DropdownListWrapper
-              position={position}
-              isShowContent={isShowContent}
-              widthContainer={widthContainer}
-              isOverflow={isOverflow}
-            >
-              {renderCustom}
-              {!renderCustom &&
-                listSetting.map((item) => (
-                  <li
-                    role={"menuitem"}
-                    key={item.key}
-                    tabIndex={0}
-                    onKeyDown={null}
-                    onClick={handleClickItem(item)}
-                    className={classNames(
-                      "py-1 px-2 hover:bg-primary-100 cursor-pointer transition-all duration-70"
-                    )}
-                  >
-                    {item.prefix}
-                    <h1>{item.value}</h1>
-                    {item.suffix}
-                  </li>
-                ))}
-            </DropdownListWrapper>
-          </ul>
+          <DropdownListWrapper
+            isShowContent={isShowContent}
+            widthContainer={widthContainer}
+            isOverflow={isOverflow}
+            placement={placement}
+            displayRef={displayRef}
+            setIsContent={setIsShowContent}
+          >
+            {renderCustom}
+            {!renderCustom &&
+              listSetting.map((item) => (
+                <li
+                  role={"menuitem"}
+                  key={item.key}
+                  tabIndex={0}
+                  onKeyDown={null}
+                  onClick={handleClickItem(item)}
+                  className={classNames(
+                    "py-1 px-2 hover:bg-primary-100 cursor-pointer transition-all duration-70"
+                  )}
+                >
+                  {item.prefix}
+                  <h1>{item.value}</h1>
+                  {item.suffix}
+                </li>
+              ))}
+          </DropdownListWrapper>
         </Portal>
       </div>
     );

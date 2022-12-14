@@ -13,11 +13,10 @@ type TProps<T> = {
   isPortal: boolean;
   placement: AlignedPlacement;
   isShowing: boolean;
-  toggleRef?: React.MutableRefObject<HTMLDivElement>;
+  toggleRef?: React.MutableRefObject<HTMLDivElement | HTMLUListElement>;
   space?: number;
   listItemQuantity?: number;
   spaceAdditionalTop?: number;
-  maxHeight?: number;
 };
 
 export const usePositionPortal = <T extends HTMLElement>({
@@ -26,10 +25,8 @@ export const usePositionPortal = <T extends HTMLElement>({
   placement,
   toggleRef,
   isShowing,
-  listItemQuantity = 0,
   spaceAdditionalTop = 0,
   space = 0,
-  maxHeight = 200,
 }: TProps<T>): THookPositionPortal => {
   const [coords, setCoords] = useState<TPosition>({
     top: 0,
@@ -133,11 +130,8 @@ export const usePositionPortal = <T extends HTMLElement>({
     };
 
     if (toggleRef && toggleRef.current) {
-      const listHeight =
-        listItemQuantity * 45 > maxHeight + 10
-          ? maxHeight + 10
-          : listItemQuantity * 45;
-      const bottomPositionToggleRef = coords.bottom + listHeight;
+      const listHeight = toggleRef.current.clientHeight;
+      const bottomPositionToggleRef = coords.bottom + listHeight + 10;
       if (bottomPositionToggleRef > window.innerHeight) {
         const splittedPosition = placement.split("-");
         const bottomTop = splittedPosition[0];
@@ -164,7 +158,7 @@ export const usePositionPortal = <T extends HTMLElement>({
     }
     return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isShowing]);
+  }, []);
 
   return { coords, position: getPosition(), setPositionList };
 };
