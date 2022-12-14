@@ -93,7 +93,7 @@ export const ActionConfigDepartment: React.FC = () => {
     formState: { isSubmitting },
   } = propsForm;
 
-  const { toggle, isShowing } = useModal();
+  const { toggle, isShowing } = useModal({ isHotkeyOpen: true });
   const handleToggleModal = () => {
     toggle.setToggle();
   };
