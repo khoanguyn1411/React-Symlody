@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
 import { assertArray, assertNotArray } from "@/utils/services/common-service";
@@ -65,9 +65,6 @@ export function Select<T, E extends Primitive>({
     _isShowContent = isShowContent;
     _setIsShowContent = setIsShowContent;
   }
-
-  const wrapperSelectRef = useRef(null);
-  const elementWrapperSelect = wrapperSelectRef?.current;
 
   const [selectedOption, setSelectedOption] =
     setSelectValueControlled != null
@@ -152,7 +149,6 @@ export function Select<T, E extends Primitive>({
         style={props.style}
         placeholder={props.placeHolder}
         renderDisplayOption={renderDisplayOption}
-        elementWrapperSelect={elementWrapperSelect}
       />
     );
   };
@@ -176,9 +172,7 @@ export function Select<T, E extends Primitive>({
   return (
     <SelectBase
       {...props}
-      listItemQuantity={list.length}
       maxHeight={maxHeight}
-      wrapperSelectRef={wrapperSelectRef}
       isShowContent={_isShowContent}
       setIsShowContent={_setIsShowContent}
       renderListItem={

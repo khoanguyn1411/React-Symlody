@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import React, { useRef, useState } from "react";
 
-import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 import { GlobalTypes } from "@/utils";
 
 import { Portal } from "../../portal";
@@ -10,7 +9,7 @@ import { SelectListWrapper } from "../select-components/SelectListWrapper";
 import { TSelectCustomProps } from "../type";
 
 export const SelectBase: GlobalTypes.FCPropsWithChildren<
-  TSelectCustomProps & { listItemQuantity?: number }
+  TSelectCustomProps
 > = ({
   classNameDisplay,
   classNameList,
@@ -19,13 +18,12 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
   isShowArrow = false,
   isPortal = true,
   children,
-  listItemQuantity,
   placement = "bottom-left",
   isNoPaddingY = false,
-  isShowContent = false,
   wrapperSelectRef,
   isNonePadding = false,
   maxHeight,
+  isShowContent = false,
   setIsShowContent,
 }) => {
   let _isShowContent: boolean,
@@ -43,21 +41,8 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
 
   const iconRef = useRef(null);
 
-  const { listRef, displayRef } = useHideOnClickOutside(
-    _isShowContent,
-    _setIsShowContent
-  );
+  const displayRef = useRef<HTMLDivElement>(null);
 
-  const { setPositionList, position } = usePositionPortal({
-    displayRef,
-    isPortal,
-    isShowing: _isShowContent,
-    placement: placement,
-    spaceAdditionalTop: 10,
-    toggleRef: listRef,
-    listItemQuantity: listItemQuantity,
-    maxHeight: maxHeight,
-  });
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -71,14 +56,12 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
         ) {
           return;
         }
-        setPositionList();
         _setIsShowContent(!_isShowContent);
       }
 
       if (!elementDisplay.contains(e.target as Node)) {
         return;
       }
-      setPositionList();
       _setIsShowContent(!_isShowContent);
       return;
     }
@@ -92,23 +75,21 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
     ) {
       return;
     }
-    setPositionList();
     setIsShowContent(!isShowContent);
   };
   const ListComponent: JSX.Element = (
-    <ul ref={listRef}>
-      <SelectListWrapper
-        maxHeight={maxHeight}
-        isPortal={isPortal}
-        isNoPaddingY={isNoPaddingY}
-        position={position}
-        style={style}
-        classNameList={classNameList}
-        isShowContent={_isShowContent}
-      >
-        {renderListItem}
-      </SelectListWrapper>
-    </ul>
+    <SelectListWrapper
+      maxHeight={maxHeight}
+      isPortal={isPortal}
+      isNoPaddingY={isNoPaddingY}
+      classNameList={classNameList}
+      isShowing={_isShowContent}
+      setIsShowing={_setIsShowContent}
+      displayRef={displayRef}
+      placement={placement}
+    >
+      {renderListItem}
+    </SelectListWrapper>
   );
 
   return (

@@ -13,11 +13,10 @@ type TProps<T> = {
   isPortal: boolean;
   placement: AlignedPlacement;
   isShowing: boolean;
-  toggleRef?: React.MutableRefObject<HTMLDivElement>;
+  toggleRef?: React.MutableRefObject<HTMLDivElement | HTMLUListElement>;
   space?: number;
   listItemQuantity?: number;
   spaceAdditionalTop?: number;
-  maxHeight?: number;
 };
 
 export const usePositionPortal = <T extends HTMLElement>({
@@ -26,10 +25,8 @@ export const usePositionPortal = <T extends HTMLElement>({
   placement,
   toggleRef,
   isShowing,
-  listItemQuantity = 0,
   spaceAdditionalTop = 0,
   space = 0,
-  maxHeight = 200,
 }: TProps<T>): THookPositionPortal => {
   const [coords, setCoords] = useState<TPosition>({
     top: 0,
@@ -39,7 +36,7 @@ export const usePositionPortal = <T extends HTMLElement>({
   });
 
   const setPositionList = (): void => {
-    if (!displayRef || !displayRef.current || !isPortal) {
+    if (!isPortal) {
       return;
     }
     const rect = displayRef.current.getBoundingClientRect();
@@ -58,13 +55,6 @@ export const usePositionPortal = <T extends HTMLElement>({
     if (!isPortal || !coords) {
       return;
     }
-
-    if (placement === "top-center" || placement === "bottom-center") {
-      if (!toggleRef || !displayRef) {
-        throw new Error("There is no toggleRef");
-      }
-    }
-
     const position = {
       top: {
         bottom: window.innerHeight - coords.top + space + spaceAdditionalTop,
@@ -83,14 +73,52 @@ export const usePositionPortal = <T extends HTMLElement>({
           displayRef && displayRef.current && toggleRef && toggleRef.current
             ? coords.left +
               displayRef?.current.offsetWidth / 2 -
-              toggleRef?.current.offsetWidth / 2 -
-              7
+              toggleRef?.current.offsetWidth / 2
             : 0,
       },
     };
+    const positionExtracted = getPositionFromPlacement(coords, position);
+    if (toggleRef && toggleRef.current) {
+      const listHeight = toggleRef.current.clientHeight;
+      const bottomPositionToggleRef = coords.bottom + listHeight + 10;
+      if (bottomPositionToggleRef > window.innerHeight) {
+        const splittedPosition = placement.split("-");
+        const bottomTop = splittedPosition[0];
+        const leftRight = splittedPosition[1];
+        if (bottomTop === "bottom") {
+          const newPlacement = `top-${leftRight}` as AlignedPlacement;
+          return positionExtracted.get(newPlacement);
+        }
+        return;
+      }
+    }
 
-    const getPositionFromPlacement = (_placement: AlignedPlacement) => {
-      switch (_placement) {
+    return positionExtracted.get(placement);
+  };
+
+  useEffect(() => {
+    if (isShowing) {
+      window.addEventListener("scroll", setPositionList, true);
+      window.addEventListener("resize", setPositionList, true);
+      return () => {
+        window.removeEventListener("scroll", setPositionList, true);
+        window.removeEventListener("resize", setPositionList, true);
+      };
+    }
+    return;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return { coords, position: getPosition(), setPositionList };
+};
+
+function getPositionFromPlacement<T extends Record<string, any>>(
+  coords: TPosition,
+  position: T
+) {
+  return {
+    get(placement: AlignedPlacement) {
+      switch (placement) {
         case "top-left":
           return {
             width: coords.right - coords.left,
@@ -130,41 +158,6 @@ export const usePositionPortal = <T extends HTMLElement>({
           };
         }
       }
-    };
-
-    if (toggleRef && toggleRef.current) {
-      const listHeight =
-        listItemQuantity * 45 > maxHeight + 10
-          ? maxHeight + 10
-          : listItemQuantity * 45;
-      const bottomPositionToggleRef = coords.bottom + listHeight;
-      if (bottomPositionToggleRef > window.innerHeight) {
-        const splittedPosition = placement.split("-");
-        const bottomTop = splittedPosition[0];
-        const leftRight = splittedPosition[1];
-        if (bottomTop === "bottom") {
-          const newPlacement = `top-${leftRight}` as AlignedPlacement;
-          return getPositionFromPlacement(newPlacement);
-        }
-        return;
-      }
-    }
-
-    return getPositionFromPlacement(placement);
+    },
   };
-
-  useEffect(() => {
-    if (isShowing) {
-      window.addEventListener("scroll", setPositionList, true);
-      window.addEventListener("resize", setPositionList, true);
-      return () => {
-        window.removeEventListener("scroll", setPositionList, true);
-        window.removeEventListener("resize", setPositionList, true);
-      };
-    }
-    return;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isShowing]);
-
-  return { coords, position: getPosition(), setPositionList };
-};
+}

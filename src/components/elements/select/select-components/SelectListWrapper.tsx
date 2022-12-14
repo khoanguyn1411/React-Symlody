@@ -1,48 +1,83 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
+import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
 import { GlobalTypes } from "@/utils";
+import { FCPropsWithChildren, ReactStateAction } from "@/utils/types";
 
 import { AnimationCustom } from "../../animation-custom";
-import { TStyle } from "../type";
+import { AlignedPlacement } from "../../portal/type";
 
 type TProps = {
-  style: TStyle;
-  isShowContent: boolean;
-  position?: React.CSSProperties;
+  displayRef: React.MutableRefObject<HTMLDivElement>;
   isPortal: boolean;
-  classNameList?: string;
-  isNoPaddingY?: boolean;
-  maxHeight?: number;
-  toggleRef?: React.MutableRefObject<HTMLDivElement>;
+  placement: AlignedPlacement;
+  isShowing: boolean;
+  setIsShowing: ReactStateAction<boolean>;
+  maxHeight: number;
+  classNameList: string;
+  isNoPaddingY: boolean;
 };
 
 export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
   children,
-  // style,
-  isShowContent,
-  position,
-  classNameList,
-  maxHeight = 200,
-  isPortal,
-  isNoPaddingY = false,
+  ...props
 }) => {
   return (
     <AnimationCustom
-      attrs={{ style: { ...position, maxHeight: maxHeight } }}
+      isShowing={props.isShowing}
+      className={classNames(props.isPortal ? "!z-30 fixed" : "z-10")}
+    >
+      <SelectListContent {...props}>{children}</SelectListContent>
+    </AnimationCustom>
+  );
+};
+
+const SelectListContent: FCPropsWithChildren<TProps> = ({
+  children,
+  displayRef,
+  isPortal,
+  isShowing,
+  placement,
+  maxHeight = 200,
+  isNoPaddingY,
+  classNameList,
+  setIsShowing,
+}) => {
+  const listRef = useRef<HTMLUListElement>(null);
+  useHideOnClickOutside(isShowing, setIsShowing, listRef, displayRef);
+
+  const { setPositionList, position } = usePositionPortal({
+    displayRef,
+    isPortal,
+    isShowing: isShowing,
+    placement: placement,
+    spaceAdditionalTop: 10,
+    toggleRef: listRef,
+  });
+
+  useEffect(() => {
+    if (isShowing) {
+      setPositionList();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isShowing]);
+
+  return (
+    <ul
+      ref={listRef}
       className={classNames(
         "w-full min-w-[fit-content] bg-white border border-gray-200 rounded-md overflow-auto shadow-md mt-2",
         {
-          "z-30 fixed": isPortal,
-          "z-10 absolute top-11 left-0": !isPortal,
+          fixed: isPortal,
+          "absolute top-11 left-0": !isPortal,
           "py-1.5": !isNoPaddingY,
         },
         classNameList
-        // STYLE_LIST_WRAPPER_MAPS[style]
       )}
-      isShowing={isShowContent}
+      style={{ ...position, maxHeight: maxHeight }}
     >
       {children}
-    </AnimationCustom>
+    </ul>
   );
 };
