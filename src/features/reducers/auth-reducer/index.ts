@@ -62,7 +62,7 @@ export const getMeAsync = createAsyncThunk<
   Profile,
   null,
   GlobalTypes.ReduxThunkRejectValue<null>
->("auth/login/me", async (_, { rejectWithValue }) => {
+>("auth/get-me", async (_, { rejectWithValue }) => {
   const result = await AuthApi.getProfile();
   if (result.kind === "ok") {
     return profileMapper.fromDto(result.result);

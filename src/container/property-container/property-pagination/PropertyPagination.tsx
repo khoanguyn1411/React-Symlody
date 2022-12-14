@@ -1,6 +1,6 @@
 import { Container } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { setFilterParamsProperty } from "@/features/reducers";
+import { setFilterParamsPropertyAsync } from "@/features/reducers";
 
 export const PropertyPagination: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -12,21 +12,21 @@ export const PropertyPagination: React.FC = () => {
 
   const handlePaginationChange = (page: number) => {
     dispatch(
-      setFilterParamsProperty({
+      setFilterParamsPropertyAsync({
         page,
       })
     );
   };
   const handleResetPagination = () => {
     dispatch(
-      setFilterParamsProperty({
+      setFilterParamsPropertyAsync({
         page: 1,
       })
     );
   };
   const handleLimitChange = (_page: number, limit: number) => {
     dispatch(
-      setFilterParamsProperty({
+      setFilterParamsPropertyAsync({
         page: 1,
         limit,
       })

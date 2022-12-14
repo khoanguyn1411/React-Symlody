@@ -1,4 +1,3 @@
-import { IConfigManagerUpdate } from "@/features/types";
 import {
   OrganizationCreationDto,
   OrganizationDto,
@@ -24,7 +23,5 @@ export type RequestUpdateConfigRoleUserResult = Response<
   UserPermissionConfigCreationDto
 >;
 
-export type RequestUpdateTenantBody = OrganizationCreationDto;
-export type RequestUpdateConfigManagerBody = IConfigManagerUpdate;
-
+export type RequestUpdateOrganizationBody = OrganizationCreationDto;
 export type RequestParamsConfigRoleUser = UserPermissionConfigCreationDto;

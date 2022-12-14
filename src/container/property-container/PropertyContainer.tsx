@@ -13,11 +13,11 @@ import { TOptionProps } from "@/components/elements/select/type";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deletePropertyAsync,
-  filterPropertyBySearch,
+  filterPropertyBySearchAsync,
   getPropertyAsync,
   paginatePropertyAsync,
   propertySelectors,
-  setFilterParamsProperty,
+  setFilterParamsPropertyAsync,
 } from "@/features/reducers/property-reducer";
 import { Property, Roles, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
@@ -68,13 +68,13 @@ export const PropertyContainer: React.FC = () => {
   const handleSetFilter = (item: TOptionProps) => {
     switch (item.value) {
       case PROPERTY_FILTER_VALUE.all:
-        dispatch(setFilterParamsProperty({ isArchived: null }));
+        dispatch(setFilterParamsPropertyAsync({ isArchived: null }));
         break;
       case PROPERTY_FILTER_VALUE.isArchived:
-        dispatch(setFilterParamsProperty({ isArchived: true }));
+        dispatch(setFilterParamsPropertyAsync({ isArchived: true }));
         break;
       case PROPERTY_FILTER_VALUE.inUse:
-        dispatch(setFilterParamsProperty({ isArchived: false }));
+        dispatch(setFilterParamsPropertyAsync({ isArchived: false }));
         break;
     }
   };
@@ -107,7 +107,7 @@ export const PropertyContainer: React.FC = () => {
   }, [dispatch, propertyStore.filterParamsProperty.isArchived]);
 
   useEffect(() => {
-    dispatch(filterPropertyBySearch(propsSearch.debounceValue));
+    dispatch(filterPropertyBySearchAsync(propsSearch.debounceValue));
   }, [dispatch, propsSearch.debounceValue, propertyList]);
 
   useEffect(() => {

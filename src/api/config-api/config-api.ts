@@ -6,10 +6,8 @@ import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const routes = {
-  //TENANT
   getOrganization: () => `config/`,
   updateOrganization: (id: number) => `config/${id}/`,
-  //CONFIG MANAGER
   getConfigManager: () => `config/managers/`,
   updateConfigRoleUser: (userId: number) => `config/roles/${userId}/`,
 };

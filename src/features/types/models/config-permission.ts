@@ -1,4 +1,4 @@
-import { Group, Roles } from "./group";
+import { Roles } from "./group";
 import { UserShort } from "./user";
 
 export interface LeadersAndManagers {
@@ -9,7 +9,3 @@ export interface LeadersAndManagers {
 export interface UserPermissionConfigCreation {
   groups: Roles[];
 }
-
-export type IConfigManagerUpdate = {
-  groups: Group;
-};
