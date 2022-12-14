@@ -5,6 +5,8 @@ import { useMemo } from "react";
 import { BREAKPOINTS } from "@/constants";
 import useWindowSize from "@/hooks/useWindowSize";
 
+import { DrawerWrapperModule } from "./DrawerWrapperModule";
+
 interface IProps {
   title?: string;
   subTitle?: string | JSX.Element;
@@ -109,40 +111,42 @@ export const Drawer: React.FC<IProps> = ({
     : {};
 
   return (
-    <ReactDrawer
-      open={visible}
-      onClose={onClose}
-      handler={false}
-      width={drawerWidth}
-      placement={placement}
-      id={id}
-      level={level}
-      levelMove={32}
-      afterVisibleChange={afterVisibleChange}
-      className={classNames(className, {
-        "drawer-mask-blur": isBackdropBlur,
-      })}
-      {...props}
-    >
-      {title && (
-        <Header
-          title={title}
-          subTitle={subTitle}
-          right={right}
-          onClose={onClose}
-          level={level}
-        />
-      )}
+    <DrawerWrapperModule>
+      <ReactDrawer
+        open={visible}
+        onClose={onClose}
+        handler={false}
+        width={drawerWidth}
+        placement={placement}
+        id={id}
+        level={level}
+        levelMove={32}
+        afterVisibleChange={afterVisibleChange}
+        className={classNames(className, {
+          "drawer-mask-blur": isBackdropBlur,
+        })}
+        {...props}
+      >
+        {title && (
+          <Header
+            title={title}
+            subTitle={subTitle}
+            right={right}
+            onClose={onClose}
+            level={level}
+          />
+        )}
 
-      <div className="px-6 py-4" style={{ height: maxHeight }}>
-        {children}
-      </div>
-
-      {footer && (
-        <div className="flex items-center h-16 px-6 py-4 overflow-hidden border-t">
-          {footer}
+        <div className="px-6 py-4" style={{ height: maxHeight }}>
+          {children}
         </div>
-      )}
-    </ReactDrawer>
+
+        {footer && (
+          <div className="flex items-center h-16 px-6 py-4 overflow-hidden border-t">
+            {footer}
+          </div>
+        )}
+      </ReactDrawer>
+    </DrawerWrapperModule>
   );
 };

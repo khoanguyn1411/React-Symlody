@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+
+import { EditorWrapperModule } from "./EditorWrapperModule";
 
 type IEvent = {
   target: { value: string };
@@ -44,32 +45,34 @@ export const Editor: React.FC<IProps> = ({
   }
 
   return (
-    <div className="SymphonyEditor">
-      <CKEditor
-        editor={ClassicEditor}
-        config={{
-          placeholder,
-          extraPlugins: [],
-        }}
-        data={value}
-        onChange={(_event: any, editor: any) => {
-          const data = editor.getData();
+    <EditorWrapperModule>
+      <div className="SymphonyEditor">
+        <CKEditor
+          editor={ClassicEditor}
+          config={{
+            placeholder,
+            extraPlugins: [],
+          }}
+          data={value}
+          onChange={(_event: any, editor: any) => {
+            const data = editor.getData();
 
-          if (onChange) {
-            onChange({
-              target: {
-                value: data,
-              },
-            });
-          }
-        }}
-        onBlur={() => {
-          onBlur && onBlur();
-        }}
-        onFocus={() => {
-          onFocus && onFocus();
-        }}
-      />
-    </div>
+            if (onChange) {
+              onChange({
+                target: {
+                  value: data,
+                },
+              });
+            }
+          }}
+          onBlur={() => {
+            onBlur && onBlur();
+          }}
+          onFocus={() => {
+            onFocus && onFocus();
+          }}
+        />
+      </div>
+    </EditorWrapperModule>
   );
 };
