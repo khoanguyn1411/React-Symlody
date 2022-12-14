@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { Button, ButtonCreate, Modal, Table } from "@/components";
+import { ButtonCreate, Modal, Table } from "@/components";
 import { useAppDispatch } from "@/features";
 import {
   createDepartmentAsync,
