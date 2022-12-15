@@ -10,7 +10,6 @@ import { FormatService } from "@/utils";
 import { Primitive } from "@/utils/types";
 
 import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
-import { Portal } from "../portal";
 import { Select } from "../select";
 import { TOptionProps } from "../select/type";
 import { MONTH_LIST, WEEK_DAY_ENG, YEAR_LIST } from "./constant";
@@ -57,14 +56,6 @@ const getMaxDate = () => {
   return new Date(`${mm}/${dd}/${yyyy + 10}`);
 };
 
-export const DatePortal: React.FC = () => {
-  return (
-    <Portal>
-      <WrapperModule id="portal-date" />
-    </Portal>
-  );
-};
-
 export const AppDatePicker: React.FC<TProps> = ({
   isTimePicker = false,
   style = "default",
@@ -101,14 +92,18 @@ export const AppDatePicker: React.FC<TProps> = ({
         renderCustomHeader={(param) => {
           return <AppDatePickerHeaderCustom {...param} />;
         }}
+        portalId={"portal-root"}
         formatWeekDay={(weekDay) => {
           return (
             <h1 className="mt-2 font-semibold">{WEEK_DAY_ENG[weekDay]}</h1>
           );
         }}
+        popperContainer={({ children }) => (
+          <WrapperModule>{children}</WrapperModule>
+        )}
         onChange={handleChangeDate}
         placeholderText={!isTimePicker ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm aa"}
-        portalId="portal-date"
+        // portalId="portal-date"
         popperClassName="!z-30"
         value={_value}
         popperPlacement="top-end"

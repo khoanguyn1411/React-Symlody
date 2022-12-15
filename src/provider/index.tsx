@@ -3,7 +3,6 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { Icon } from "@/assets/icons";
-import { DatePortal } from "@/components";
 import { GlobalTypes } from "@/utils";
 
 export const AppProvider: GlobalTypes.FCChildren = ({ children }) => {
@@ -31,10 +30,5 @@ const theme: Partial<Theme> | ((outerTheme: Theme) => Theme) = {
 };
 
 export const ThemeProvider: GlobalTypes.FCChildren = ({ children }) => {
-  return (
-    <Theme theme={theme}>
-      <DatePortal />
-      {children}
-    </Theme>
-  );
+  return <Theme theme={theme}>{children}</Theme>;
 };
