@@ -31,8 +31,8 @@ export const Input: React.FC<TInputDefaultProps> = ({
       onChange={handleChangeEvent}
       placeholder={placeholder}
       className={classNames(
-        "focus:ring-primary-800 focus:ring-1",
-        style !== "none" && "w-full p-2 rounded-md",
+        style !== "none" &&
+          "w-full p-2 rounded-md focus:ring-primary-800 focus:ring-1",
         "focus:outline-none appearance-none",
         className,
         STYLE_INPUT_DEFAULT[style],
