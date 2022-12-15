@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
 import { assertArray, assertNotArray } from "@/utils/services/common-service";
@@ -169,6 +169,8 @@ export function Select<T, E extends Primitive>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
+  const testRef = useRef();
+
   return (
     <SelectBase
       {...props}
@@ -181,8 +183,21 @@ export function Select<T, E extends Primitive>({
           {list.length === 0 && renderEmptyListPlaceholder}
           <div className={classNameWrapperOptions}>
             {list.map((option, index) => {
+              const isSelectedOption = () => {
+                if (selectedOption == null) {
+                  return false;
+                }
+                if (Array.isArray(selectedOption)) {
+                  return selectedOption
+                    .map((opt) => opt.value)
+                    .includes(option.value);
+                }
+                return option.value === selectedOption.value;
+              };
               return (
                 <li
+                  className={isSelectedOption() ? "selected-select-option" : ""}
+                  ref={testRef}
                   onClick={handleSetSelectedItem(option)}
                   key={`${option.value}-${index}`}
                   role={"menuitem"}
