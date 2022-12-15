@@ -6,9 +6,7 @@ import {
 
 import { Response } from "../api-response";
 
-export type RequestCreateMemberBody = MemberCreationDto;
-export type RequestUpdateMemberBody = MemberCreationDto;
-export type RequestUploadMemberExcelFile = FileUploadedDto;
+export type RequestUploadMemberExcelFile = Response<FileUploadedDto>;
 
 export type RequestGetMembersResult = Response<MemberDto[]>;
 export type RequestCreateMembersResult = Response<MemberDto, MemberCreationDto>;

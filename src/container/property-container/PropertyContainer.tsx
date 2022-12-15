@@ -11,6 +11,7 @@ import {
 } from "@/components";
 import { TOptionProps } from "@/components/elements/select/type";
 import { useAppDispatch, useAppSelector } from "@/features";
+import { updatePropertyAsync } from "@/features/reducers";
 import {
   deletePropertyAsync,
   filterPropertyBySearchAsync,
@@ -93,9 +94,24 @@ export const PropertyContainer: React.FC = () => {
     toast.success(PROPERTY_MESSAGE.delete.error);
   });
 
-  const handleRestore = () => {
-    //TODO: Handle restore property.
-  };
+  const handleRestore = hasPermission(async (item: Property) => {
+    const result = await dispatch(
+      updatePropertyAsync({
+        payload: {
+          ...item,
+          image: undefined,
+          inChargerId: item.inCharger.id,
+        },
+        id: item.id,
+        isRestore: true,
+      })
+    );
+    if (updatePropertyAsync.rejected.match(result)) {
+      toast.error(PROPERTY_MESSAGE.update.error);
+      return;
+    }
+    toast.success(PROPERTY_MESSAGE.update.success);
+  });
 
   const handleOpenModal = () => {
     propsModal.toggle.setToggle();

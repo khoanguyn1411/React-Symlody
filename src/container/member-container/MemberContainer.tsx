@@ -85,7 +85,6 @@ export const MemberContainer: React.FC = () => {
   });
 
   const handleRestore = hasPermission(async (item: Member) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const result = await dispatch(
       updateMemberAsync({
         payload: {

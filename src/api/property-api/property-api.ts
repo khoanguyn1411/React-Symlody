@@ -1,4 +1,4 @@
-import { Property, PropertyDto } from "@/features/types";
+import { Property, PropertyCreationDto, PropertyDto } from "@/features/types";
 import { PropertyFilterParamsDto } from "@/features/types/dtos/filter-params";
 
 import { http } from "../api-core";
@@ -7,7 +7,8 @@ import * as Types from "./types";
 
 const routes = {
   getProperties: () => `property/`,
-  deleteProperty: (id: Property["id"]) => `property/${id}`,
+  deleteProperty: (id: Property["id"]) => `property/${id}/`,
+  updateProperty: (id: Property["id"]) => `property/${id}/`,
 };
 
 export const PropertyApi = {
@@ -33,6 +34,15 @@ export const PropertyApi = {
     const url = routes.deleteProperty(id);
     const method = http.delete<boolean>(url);
 
+    return composeHttpMethodResult(method);
+  },
+
+  async updateProperty(
+    id: Property["id"],
+    body: PropertyCreationDto
+  ): Promise<Types.RequestUpdatePropertyResult> {
+    const url = routes.updateProperty(id);
+    const method = http.patch<PropertyDto>(url, body);
     return composeHttpMethodResult(method);
   },
 };

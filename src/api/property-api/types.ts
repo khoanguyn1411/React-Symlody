@@ -8,3 +8,7 @@ export type RequestCreatePropertyResult = Response<
   PropertyCreationDto
 >;
 export type RequestDeletePropertyResult = Response<boolean>;
+export type RequestUpdatePropertyResult = Response<
+  PropertyDto,
+  PropertyCreationDto
+>;

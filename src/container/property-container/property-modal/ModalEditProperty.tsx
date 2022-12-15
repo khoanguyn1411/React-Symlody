@@ -1,14 +1,22 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 import { Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getUsersAsync, userSelectors } from "@/features/reducers";
-import { Property } from "@/features/types";
+import {
+  getUsersAsync,
+  updatePropertyAsync,
+  userSelectors,
+} from "@/features/reducers";
+import { Property, RolesID } from "@/features/types";
+import { withPermission } from "@/hoc";
 import { THookModalProps } from "@/hooks";
 import { FormatService, FormService } from "@/utils";
+import { generateFormErrors } from "@/utils/services/form-service";
 
+import { PROPERTY_MESSAGE } from "../constant";
 import { propertyFormMapper } from "../mapper";
 import { schema } from "../schema";
 import { PropertyForm } from "../type";
@@ -31,12 +39,36 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
   const {
     handleSubmit,
     reset,
+    setError,
     formState: { dirtyFields, isSubmitting },
   } = propsForm;
 
-  const handleEditProperty = (editValue: PropertyForm) => {
-    //TODO: Handle update property.
-  };
+  const hasPermission = withPermission([RolesID.Lead, RolesID.MemberManager]);
+
+  const handleEditProperty = hasPermission(async (editValue: PropertyForm) => {
+    const propertyModel = propertyFormMapper.toModel(editValue);
+    const res = await dispatch(
+      updatePropertyAsync({
+        payload: propertyModel,
+        id: data.id,
+        isRestore: false,
+      })
+    );
+    if (updatePropertyAsync.rejected.match(res)) {
+      const errors = res.payload;
+      if (errors) {
+        generateFormErrors({
+          errors,
+          setError,
+        });
+        return;
+      }
+      toast.error(PROPERTY_MESSAGE.create.error);
+      return;
+    }
+    toast.success(PROPERTY_MESSAGE.update.success);
+    toggle.setHidden();
+  });
 
   useEffect(() => {
     if (isShowing && userCount === 0) {
