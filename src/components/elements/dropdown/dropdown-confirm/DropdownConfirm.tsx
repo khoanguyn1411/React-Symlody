@@ -42,8 +42,8 @@ export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
       ref={dropdownRef}
       renderCustom={
         <div className="w-full px-3 py-2 space-y-4">
-          <div className="flex items-center">
-            <span className="flex items-center justify-center  mr-2">
+          <div className="flex items-start gap-1">
+            <span className="flex items-center justify-center mt-1 mr-2">
               {icon || <i className="text-red-400 fas fa-question" />}
             </span>
             <h1 className="flex-1 w-full text-sm font-medium text-black">
