@@ -59,7 +59,7 @@ export const TodoCard: React.FC<Task> = (task) => {
         onMouseOver={handleMouseEnter}
         onMouseOut={handleMouseLeave}
         className={classNames(
-          "px-3 py-3 bg-white border border-b-2 cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md",
+          "px-3 py-3 bg-white border cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md",
           {
             "border-gray-300 border-b-2": statusOfExpiredDate.is("in-future"),
             "border-yellow-500": statusOfExpiredDate.is("today"),
