@@ -57,6 +57,16 @@ const SelectListContent: FCPropsWithChildren<TProps> = ({
   });
 
   useEffect(() => {
+    const selectedOption = document.getElementsByClassName(
+      "selected-select-option"
+    );
+    if (!selectedOption || !selectedOption[0]) {
+      return;
+    }
+    selectedOption[0].scrollIntoView({ block: "center" });
+  }, []);
+
+  useEffect(() => {
     if (isShowing) {
       setPositionList();
     }
