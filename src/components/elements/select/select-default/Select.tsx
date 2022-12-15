@@ -53,18 +53,11 @@ export function Select<T, E extends Primitive>({
   renderDisplayOption,
   ...props
 }: Props<T, E>): JSX.Element {
-  let _isShowContent: boolean,
-    _setIsShowContent: GlobalTypes.ReactStateAction<boolean>;
-
-  if (isShowContent != null && setIsShowContent != null) {
-    _isShowContent = isShowContent;
-    _setIsShowContent = setIsShowContent;
-  } else {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [isShowContent, setIsShowContent] = useState<boolean>(false);
-    _isShowContent = isShowContent;
-    _setIsShowContent = setIsShowContent;
-  }
+  const [_isShowContent, _setIsShowContent] =
+    isShowContent != null && setIsShowContent != null
+      ? [isShowContent, setIsShowContent]
+      : // eslint-disable-next-line react-hooks/rules-of-hooks
+        useState<boolean>(false);
 
   const [selectedOption, setSelectedOption] =
     setSelectValueControlled != null

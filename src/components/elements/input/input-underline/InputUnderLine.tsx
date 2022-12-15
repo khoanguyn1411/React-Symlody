@@ -11,12 +11,13 @@ export const InputUnderLine: React.FC<TInputUnderLine> = ({
   otherProps,
 }) => {
   const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
     if (onInputSideEffect) {
-      const returnValue = onInputSideEffect(event);
+      const returnValue = onInputSideEffect(value);
       const newValue = returnValue.newValue;
       return onChange(newValue);
     }
-    return !event.target.value.startsWith(" ") && onChange(event.target.value);
+    return !value.startsWith(" ") && onChange(value);
   };
   return (
     <div className="w-full">

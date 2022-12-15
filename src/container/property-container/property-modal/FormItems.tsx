@@ -24,10 +24,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
     formState: { errors },
   } = formProps;
 
-  const handleInputPriceSideEffect = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value;
+  const handleInputPriceSideEffect = (value: string) => {
     const splitValue = FormatService.removeFormatCurrency(value);
     if (value) {
       if (isNaN(FormatService.toNumber(splitValue))) {
@@ -41,16 +38,11 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
     return { newValue: value };
   };
 
-  const handleQuantityChangeSideEffect = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (
-      FormatService.toNumber(event.target.value) &&
-      FormatService.toNumber(event.target.value) < 1
-    ) {
+  const handleQuantityChangeSideEffect = (value: string) => {
+    if (FormatService.toNumber(value) && FormatService.toNumber(value) < 1) {
       return { newValue: "1" };
     }
-    return { newValue: event.target.value };
+    return { newValue: value };
   };
 
   return (
