@@ -17,6 +17,8 @@ import { ChangePassword } from "@/features/types/models/change-password";
 import { GlobalTypes, TokenService } from "@/utils";
 import { catchHttpError } from "@/utils/services/error-handler-service";
 
+import { getUsersAsync } from "../user-reducer";
+
 export type AuthState = {
   pending: boolean;
   user: Profile;
@@ -89,10 +91,11 @@ export const updateProfileAsync = createAsyncThunk<
   Profile,
   ProfileCreation,
   GlobalTypes.ReduxThunkRejectValue<HttpError<ProfileCreationDto> | null>
->("auth/update-profile", async (param, { rejectWithValue }) => {
+>("auth/update-profile", async (param, { rejectWithValue, dispatch }) => {
   const paramDto = profileMapper.toFormData(param);
   const result = await AuthApi.updateProfile(paramDto);
   if (result.kind === "ok") {
+    dispatch(getUsersAsync());
     return profileMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {
