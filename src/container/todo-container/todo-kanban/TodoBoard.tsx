@@ -118,7 +118,7 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
           return (
             <div
               key={index}
-              className="bg-gray-300 rounded-lg dark:bg-gray-200 animate-skeleton h-[calc(100vh_-_160px)] min-w-[200px]"
+              className="bg-gray-300 rounded-lg dark:bg-gray-200 animate-skeleton h-[calc(100vh_-_160px)] min-w-[275px]"
             />
           );
         })}
