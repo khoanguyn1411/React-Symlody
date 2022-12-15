@@ -108,7 +108,7 @@ export const AppDatePicker: React.FC<TProps> = ({
         value={_value}
         popperPlacement="top-end"
         className={classNames(
-          "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
+          "w-full p-2 border-gray-200 focus:ring-primary-800 focus:ring-1 pr-8 text-black outline-none rounded-md",
           STYLE_MAP[style]
         )}
         dayClassName={() => {
