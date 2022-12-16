@@ -4,7 +4,7 @@ import { DeleteAndEditField, Table } from "@/components";
 import { useAppSelector } from "@/features";
 import { departmentSelectors } from "@/features/reducers";
 import { Department } from "@/features/types";
-import { FormatService } from "@/utils";
+import { DateService } from "@/utils/funcs/date-service";
 
 import { DEPARTMENT_MESSAGE } from "./constants";
 
@@ -46,7 +46,7 @@ export const TabDepartmentTableContent: React.FC<TProps> = ({
               {item.memberCount}
             </Table.Cell>
             <Table.Cell width="8rem" textAlign="right">
-              {FormatService.toDateString(item.createdDate, "VN")}
+              {DateService.toFormat(item.createdDate, "VN")}
             </Table.Cell>
             <Table.CellAction>
               <DeleteAndEditField

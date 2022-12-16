@@ -1,6 +1,6 @@
 import { TOptionProps } from "@/components/elements/select/type";
 import { provinces } from "@/constants";
-import { generateStatusMessageFor } from "@/utils/services/generate-service";
+import { generateStatusMessageFor } from "@/utils/funcs/generate-app-status-messages";
 
 export const PERSONAL_INFO_MESSAGES = generateStatusMessageFor("thông tin");
 

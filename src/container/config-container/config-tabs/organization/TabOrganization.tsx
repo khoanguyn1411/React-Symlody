@@ -10,8 +10,7 @@ import { updateOrganizationAsync } from "@/features/reducers";
 import { Organization, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useEffectSkipFirstRender } from "@/hooks";
-import { FormService } from "@/utils";
-import { generateFormErrors } from "@/utils/services/form-service";
+import { FormService } from "@/utils/funcs/form-service";
 
 import {
   ConfigSplitColumn,
@@ -71,7 +70,7 @@ export const _TabOrganization: React.FC = () => {
       if (updateOrganizationAsync.rejected.match(result)) {
         const errors = result.payload;
         if (errors) {
-          generateFormErrors({ errors, setError });
+          FormService.generateErrors({ errors, setError });
           return;
         }
         toast.error(ORGANIZATION_MESSAGES.update.error);

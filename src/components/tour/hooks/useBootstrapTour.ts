@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 import { BREAKPOINTS } from "@/constants";
 import useWindowSize from "@/hooks/useWindowSize";
-import { DelayService } from "@/utils";
+import { delay } from "@/utils/funcs/delay";
 
 import { ITourStepType } from "../types";
 
@@ -34,7 +34,7 @@ export const useBootstrapTour = ({
         tour.setSteps(steps);
         tour.setCurrentStep(currentStep);
 
-        await DelayService.delay(openDelay);
+        await delay(openDelay);
 
         tour.setIsOpen(true);
         onOpen && onOpen();

@@ -1,4 +1,4 @@
-import { generateReverseRecord } from "@/utils/services/generate-service";
+import { reverseRecord } from "@/utils/funcs/reverse-record";
 
 import { PriorityDto, TaskCreationDto, TaskDto, TaskStatusDto } from "../dtos";
 import { Task, TaskCreation, TodoStatusId } from "../models";
@@ -24,7 +24,7 @@ export const TASK_STATUS_FROM_DTO: Readonly<
   [TaskStatusDto.Done]: TodoStatusId.Done,
 };
 
-export const TASK_STATUS_TO_DTO = generateReverseRecord(TASK_STATUS_FROM_DTO);
+export const TASK_STATUS_TO_DTO = reverseRecord(TASK_STATUS_FROM_DTO);
 
 export class TaskMapper
   implements

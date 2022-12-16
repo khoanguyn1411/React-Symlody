@@ -5,8 +5,8 @@ import {
   TodoStatus,
   TodoStatusId,
 } from "@/features/types/models/task";
-import { FormatService } from "@/utils";
-import { generatePlaceholderEmptyValue } from "@/utils/services/generate-service";
+import { DateService } from "@/utils/funcs/date-service";
+import { generatePlaceholderEmptyValue } from "@/utils/funcs/generate-place-holder";
 
 import { UNASSIGNED_TEXT } from "./constant";
 import { ITodoTable, TodoForm } from "./type";
@@ -53,7 +53,7 @@ class TodoViewMapper {
       isUnassigned,
       title: generatePlaceholderEmptyValue(model.title),
       expiredDate: model.endDate
-        ? FormatService.toDateString(model.endDate, "VN")
+        ? DateService.toFormat(model.endDate, "VN")
         : generatePlaceholderEmptyValue(model.endDate),
     };
   }

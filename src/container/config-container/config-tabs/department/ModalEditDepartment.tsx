@@ -8,8 +8,7 @@ import { useAppDispatch } from "@/features";
 import { updateDepartmentAsync } from "@/features/reducers";
 import { Department } from "@/features/types";
 import { THookModalProps } from "@/hooks";
-import { FormService } from "@/utils";
-import { generateFormErrors } from "@/utils/services/form-service";
+import { FormService } from "@/utils/funcs/form-service";
 
 import { DEPARTMENT_MESSAGE } from "./constants";
 import { FormItems } from "./FormItems";
@@ -39,7 +38,7 @@ export const ModalEditDepartment: React.FC<THookModalProps<Department>> = ({
     if (updateDepartmentAsync.rejected.match(result)) {
       if (result.payload) {
         const errors = result.payload;
-        generateFormErrors({ errors, setError });
+        FormService.generateErrors({ errors, setError });
         return;
       }
       toast.error(DEPARTMENT_MESSAGE.update.error);

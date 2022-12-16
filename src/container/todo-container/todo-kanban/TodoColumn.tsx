@@ -3,7 +3,7 @@ import { useLayoutEffect, useMemo, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
 import { Task } from "@/features/types";
-import { FormatService, SortService } from "@/utils";
+import { mapOrder } from "@/utils/funcs/map-order";
 
 import { TODO_DATA } from "../constant";
 import { TODO_STATUS_MAP_FROM_ID } from "../mapper";
@@ -25,7 +25,7 @@ export const TodoColumn: React.FC<TProps> = ({
   const [listCard, setListCard] = useState<Task[]>(columnData.cards);
 
   useLayoutEffect(() => {
-    const sortedCardList = SortService.mapOrder<Task>(
+    const sortedCardList = mapOrder<Task>(
       columnData.cards,
       columnData.cardOrder,
       "id"
@@ -130,12 +130,12 @@ export const TodoColumn: React.FC<TProps> = ({
                     <Draggable
                       key={cardProps.id}
                       index={index}
-                      draggableId={FormatService.toString(cardProps.id)}
+                      draggableId={cardProps.id.toString()}
                     >
                       {(provided) => (
                         <div
                           className={
-                            FormatService.toString(cardProps.id) !==
+                            cardProps.id.toString() !==
                               snapshot.draggingFromThisWith &&
                             draggingCard.isCardDragging &&
                             isColumnNotInDragging

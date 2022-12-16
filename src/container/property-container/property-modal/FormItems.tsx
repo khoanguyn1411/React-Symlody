@@ -9,7 +9,7 @@ import {
   SelectUser,
   TextArea,
 } from "@/components";
-import { FormatService } from "@/utils";
+import { CurrencyService } from "@/utils/funcs/currency-service";
 
 import { PropertyForm } from "../type";
 
@@ -25,21 +25,19 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
   } = formProps;
 
   const handleInputPriceSideEffect = (value: string) => {
-    const splitValue = FormatService.removeFormatCurrency(value);
+    const splitValue = CurrencyService.removeFormatCurrency(value);
     if (value) {
-      if (isNaN(FormatService.toNumber(splitValue))) {
+      if (isNaN(Number(splitValue))) {
         return { newValue: "" };
       }
-      const valueFormatted = FormatService.toCurrency(
-        FormatService.toNumber(splitValue)
-      );
+      const valueFormatted = CurrencyService.toCurrency(Number(splitValue));
       return { newValue: valueFormatted };
     }
     return { newValue: value };
   };
 
   const handleQuantityChangeSideEffect = (value: string) => {
-    if (FormatService.toNumber(value) && FormatService.toNumber(value) < 1) {
+    if (Number(value) && Number(value) < 1) {
       return { newValue: "1" };
     }
     return { newValue: value };

@@ -3,8 +3,8 @@ import {
   OrganizationCreationDto,
   OrganizationDto,
 } from "@/features/types";
-import { FormDataService } from "@/utils";
-import { extractErrorMessage } from "@/utils/services/error-handler-service";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
+import { repairFormData } from "@/utils/funcs/repair-form-data";
 
 import { HttpError, Organization, OrganizationCreation } from "../models";
 import {
@@ -32,13 +32,13 @@ export class OrganizationMapper
       logo,
     } = errorDto;
     return {
-      name: extractErrorMessage(name),
-      abbreviationName: extractErrorMessage(abbreviation_name),
-      email: extractErrorMessage(email),
-      phoneNumber: extractErrorMessage(phone_number),
-      school: extractErrorMessage(school),
-      address: extractErrorMessage(address),
-      logo: extractErrorMessage(logo),
+      name: ErrorHandler.extractErrorMessage(name),
+      abbreviationName: ErrorHandler.extractErrorMessage(abbreviation_name),
+      email: ErrorHandler.extractErrorMessage(email),
+      phoneNumber: ErrorHandler.extractErrorMessage(phone_number),
+      school: ErrorHandler.extractErrorMessage(school),
+      address: ErrorHandler.extractErrorMessage(address),
+      logo: ErrorHandler.extractErrorMessage(logo),
     };
   }
   public fromDto(dto: OrganizationDto): Organization {
@@ -68,7 +68,7 @@ export class OrganizationMapper
 
   public toFormData(model: OrganizationCreation): FormData {
     const dataDto = this.toCreationDto(model);
-    return FormDataService.repairFormData(dataDto);
+    return repairFormData(dataDto);
   }
 }
 

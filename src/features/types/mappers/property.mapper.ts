@@ -1,5 +1,5 @@
-import { FormDataService } from "@/utils";
-import { extractErrorMessage } from "@/utils/services/error-handler-service";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
+import { repairFormData } from "@/utils/funcs/repair-form-data";
 
 import { HttpErrorDto, PropertyCreationDto, PropertyDto } from "../dtos";
 import { HttpError, Property, PropertyCreation } from "../models";
@@ -32,15 +32,15 @@ export class PropertyMapper
       non_field_errors,
     } = errorDto;
     return {
-      name: extractErrorMessage(name),
-      isClubProperty: extractErrorMessage(is_club_property),
-      note: extractErrorMessage(note),
-      propOwner: extractErrorMessage(prop_owner),
-      inChargerId: extractErrorMessage(incharger_id),
-      image: extractErrorMessage(image),
-      price: extractErrorMessage(price),
-      quantity: extractErrorMessage(quantity),
-      non_field_errors: extractErrorMessage(non_field_errors),
+      name: ErrorHandler.extractErrorMessage(name),
+      isClubProperty: ErrorHandler.extractErrorMessage(is_club_property),
+      note: ErrorHandler.extractErrorMessage(note),
+      propOwner: ErrorHandler.extractErrorMessage(prop_owner),
+      inChargerId: ErrorHandler.extractErrorMessage(incharger_id),
+      image: ErrorHandler.extractErrorMessage(image),
+      price: ErrorHandler.extractErrorMessage(price),
+      quantity: ErrorHandler.extractErrorMessage(quantity),
+      non_field_errors: ErrorHandler.extractErrorMessage(non_field_errors),
     };
   }
   public fromDto(dto: PropertyDto): Property {
@@ -80,7 +80,7 @@ export class PropertyMapper
 
   public toFormData(model: PropertyCreation): FormData {
     const dataDto = this.toCreationDto(model);
-    return FormDataService.repairFormData(dataDto);
+    return repairFormData(dataDto);
   }
 }
 export const propertyMapper = new PropertyMapper();

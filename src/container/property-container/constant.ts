@@ -1,7 +1,7 @@
 import { images } from "@/assets/images";
 import { TNodataConfig } from "@/components";
 import { TOptionProps } from "@/components/elements/select/type";
-import { GeneratorService } from "@/utils";
+import { generateStatusMessageFor } from "@/utils/funcs/generate-app-status-messages";
 
 export const PROPERTY_NO_DATA_CONFIG: TNodataConfig = {
   title: "Thêm tài sản mới",
@@ -32,5 +32,4 @@ export const PROPERTY_FILTER_OPTIONS: TOptionProps[] = [
   },
 ];
 
-export const PROPERTY_MESSAGE =
-  GeneratorService.generateStatusMessageFor("tài sản");
+export const PROPERTY_MESSAGE = generateStatusMessageFor("tài sản");

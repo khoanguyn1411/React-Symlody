@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { createPropertyAsync } from "@/features/reducers/property-reducer";
 import { THookModalProps } from "@/hooks";
-import { generateFormErrors } from "@/utils/services/form-service";
+import { FormService } from "@/utils/funcs/form-service";
 
 import { PROPERTY_MESSAGE } from "../constant";
 import { propertyFormMapper } from "../mapper";
@@ -65,7 +65,7 @@ const TabCreateAProperty: React.FC = () => {
     const result = await dispatch(createPropertyAsync(propertyModel));
     if (createPropertyAsync.rejected.match(result)) {
       if (result.payload) {
-        generateFormErrors({ setError, errors: result.payload });
+        FormService.generateErrors({ setError, errors: result.payload });
         return;
       }
       toast.error(PROPERTY_MESSAGE.create.error);

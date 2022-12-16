@@ -13,8 +13,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateProfileAsync } from "@/features/reducers";
 import { Gender } from "@/features/types/models/gender";
-import { FormService } from "@/utils";
-import { generateFormErrors } from "@/utils/services/form-service";
+import { FormService } from "@/utils/funcs/form-service";
 
 import {
   ConfigSubmitButton,
@@ -50,7 +49,7 @@ export const TabPersonalInfo: React.FC = () => {
     );
     if (updateProfileAsync.rejected.match(result)) {
       if (result.payload) {
-        generateFormErrors({ errors: result.payload, setError });
+        FormService.generateErrors({ errors: result.payload, setError });
         return;
       }
       toast.error(PERSONAL_INFO_MESSAGES.update.error);

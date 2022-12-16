@@ -1,4 +1,4 @@
-import { TokenService } from "@/utils";
+import { TokenService } from "@/utils/funcs/token-service";
 
 import { TokenDto, TokenRefreshCreationDto, TokenRefreshDto } from "../dtos";
 import { Token } from "../models";

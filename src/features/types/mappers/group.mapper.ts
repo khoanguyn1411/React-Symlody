@@ -1,4 +1,4 @@
-import { GeneratorService } from "@/utils";
+import { reverseRecord } from "@/utils/funcs/reverse-record";
 
 import { GroupDto, RolesDto } from "../dtos";
 import { Group, Roles, RolesID, RolesManagerSortName } from "../models";
@@ -14,8 +14,7 @@ export const ROLE_MAP_FROM_DTO: Readonly<Record<RolesDto, Roles>> = {
   [RolesDto.Lead]: Roles.Lead,
 };
 
-export const ROLE_MAP_TO_DTO =
-  GeneratorService.generateReverseRecord(ROLE_MAP_FROM_DTO);
+export const ROLE_MAP_TO_DTO = reverseRecord(ROLE_MAP_FROM_DTO);
 
 export const ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL: Readonly<
   Record<RolesManagerSortName, Roles>
@@ -24,8 +23,9 @@ export const ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL: Readonly<
   [RolesManagerSortName.PropertyManager]: Roles.PropertyManager,
 };
 
-export const ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME =
-  GeneratorService.generateReverseRecord(ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL);
+export const ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME = reverseRecord(
+  ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL
+);
 
 export const ROLE_MAP_TO_ID: Readonly<Record<Roles, RolesID>> = {
   [Roles.EventManager]: RolesID.EventManager,

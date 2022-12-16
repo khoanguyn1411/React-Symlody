@@ -14,8 +14,9 @@ import { changePasswordMapper } from "@/features/types/mappers/change-password.m
 import { loginMapper } from "@/features/types/mappers/login.mapper";
 import { tokenMapper } from "@/features/types/mappers/token.mapper";
 import { ChangePassword } from "@/features/types/models/change-password";
-import { GlobalTypes, TokenService } from "@/utils";
-import { catchHttpError } from "@/utils/services/error-handler-service";
+import { GlobalTypes } from "@/utils";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
+import { TokenService } from "@/utils/funcs/token-service";
 
 import { getUsersAsync } from "../user-reducer";
 
@@ -57,7 +58,12 @@ export const changePasswordAsync = createAsyncThunk<
   if (result.kind === "ok") {
     return true;
   }
-  return catchHttpError(changePasswordMapper, result, rejectWithValue, false);
+  return ErrorHandler.catchHttpError(
+    changePasswordMapper,
+    result,
+    rejectWithValue,
+    false
+  );
 });
 
 export const getMeAsync = createAsyncThunk<

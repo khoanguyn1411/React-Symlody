@@ -1,4 +1,4 @@
-import { toCleanedString } from "./format-service";
+import { toCleanedString } from "./clean-string";
 
 /**
  * Check if current text includes searching text.
