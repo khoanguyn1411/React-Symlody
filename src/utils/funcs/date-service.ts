@@ -38,6 +38,10 @@ export namespace DateService {
     return "in-future";
   }
 
+  /**
+   * Get date after a week compare with today.
+   * @returns Date string with "US" formatted.
+   */
   export function getDayAfterWeek(): string {
     const today = new Date();
     today.setDate(today.getDate() + 7);
