@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import React from "react";
 
-import { FormatService, GlobalTypes } from "@/utils";
+import { FCPropsWithChildren } from "@/utils/types";
 
 import { BLOCK, SIZE_MAPS, STYLE_MAPS, TPropsButton } from "./types";
 
-export const Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
+export const Button: FCPropsWithChildren<TPropsButton> = ({
   onClick,
   className = "",
   children,
@@ -39,7 +39,7 @@ export const Button: GlobalTypes.FCPropsWithChildren<TPropsButton> = ({
           (disable || isShowLoading) && style !== "none" ? "disable" : style
         ],
         SIZE_MAPS[size],
-        BLOCK[FormatService.toString(block)],
+        BLOCK[block.toString()],
         {
           "px-3": !isIconOnly,
           "cursor-not-allowed": disable,

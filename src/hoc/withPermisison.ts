@@ -2,7 +2,7 @@
 import { toast } from "react-toastify";
 
 import { RolesID } from "@/features/types";
-import { hasElementOfArray } from "@/utils/services/common-service";
+import { hasElementOfArray } from "@/utils/funcs/has-element-of-array";
 
 import { useAppSelector } from "./../features/hooks";
 

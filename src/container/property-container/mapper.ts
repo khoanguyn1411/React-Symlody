@@ -1,5 +1,5 @@
 import { Property, PropertyCreation } from "@/features/types";
-import { FormatService } from "@/utils";
+import { CurrencyService } from "@/utils/funcs/currency-service";
 
 import { IPropertyTable, PropertyForm } from "./type";
 
@@ -7,8 +7,8 @@ export class PropertyFormMapper {
   public fromModel(model: Property): PropertyForm {
     return {
       name: model.name,
-      quantity: FormatService.toString(model.quantity),
-      price: model.price !== 0 ? FormatService.toCurrency(model.price) : "",
+      quantity: model.quantity.toString(),
+      price: model.price !== 0 ? CurrencyService.toCurrency(model.price) : "",
       inChargerId: model.inCharger.id,
       propOwner: model.propOwner,
       note: model.note,
@@ -20,7 +20,9 @@ export class PropertyFormMapper {
     return {
       name: propertyFormData.name,
       quantity: Number(propertyFormData.quantity),
-      price: Number(FormatService.removeFormatCurrency(propertyFormData.price)),
+      price: Number(
+        CurrencyService.removeFormatCurrency(propertyFormData.price)
+      ),
       propOwner: propertyFormData.propOwner,
       note: propertyFormData.note,
       inChargerId: propertyFormData.inChargerId,
@@ -35,7 +37,7 @@ export class PropertyTableMapper {
     return {
       assetName: model.name,
       quantity: model.quantity,
-      price: model.price !== 0 ? FormatService.toCurrency(model.price) : "--",
+      price: model.price !== 0 ? CurrencyService.toCurrency(model.price) : "--",
       inCharge: model.inCharger.fullName,
       owner: model.propOwner,
     };

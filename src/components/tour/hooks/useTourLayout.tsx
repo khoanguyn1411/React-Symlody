@@ -2,7 +2,7 @@ import { useTour } from "@reactour/tour";
 
 import { images } from "@/assets/images";
 import { APP_LOCAL_STORAGE_KEYS } from "@/constants";
-import { LocalStorageService } from "@/utils";
+import { LocalStorageService } from "@/utils/funcs/local-storage-service";
 
 import { ModalTour } from "../components";
 import { ITourStepType } from "../types";

@@ -6,7 +6,7 @@ import { getConfigManager } from "@/features/reducers";
 import { RolesID, UserShort } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
-import { lazyImport } from "@/utils/services/lazyImport";
+import { lazyImport } from "@/utils/funcs/lazy-import";
 
 import { TabRolePermissionTable } from "./TabRolePermissionTable";
 

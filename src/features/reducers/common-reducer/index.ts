@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { APP_LOCAL_STORAGE_KEYS } from "@/constants";
 import { RootState } from "@/features/store";
-import { LocalStorageService } from "@/utils";
+import { LocalStorageService } from "@/utils/funcs/local-storage-service";
 
 export type CommonState = {
   isCompactSidebar: boolean;

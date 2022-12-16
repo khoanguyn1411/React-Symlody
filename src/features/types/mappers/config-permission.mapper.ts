@@ -1,4 +1,4 @@
-import { extractErrorMessage } from "@/utils/services/error-handler-service";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
 
 import { HttpErrorDto } from "../dtos";
 import {
@@ -55,8 +55,8 @@ export class UserPermissionConfigMapper
   ): HttpError<UserPermissionConfigCreation> {
     const { groups, non_field_errors } = errorDto;
     return {
-      groups: extractErrorMessage(groups),
-      non_field_errors: extractErrorMessage(non_field_errors),
+      groups: ErrorHandler.extractErrorMessage(groups),
+      non_field_errors: ErrorHandler.extractErrorMessage(non_field_errors),
     };
   }
 }

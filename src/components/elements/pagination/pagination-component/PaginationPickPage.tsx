@@ -1,7 +1,5 @@
 import React, { useMemo } from "react";
 
-import { FormatService } from "@/utils";
-
 import { usePaginationContext } from "../context";
 
 export const PaginationPickPage: React.FC = () => {
@@ -14,7 +12,7 @@ export const PaginationPickPage: React.FC = () => {
         return;
       }
       target.value = "";
-      const page = FormatService.toNumber(_value);
+      const page = Number(_value);
       if (page > totalPages) {
         setActivePage(totalPages);
         onPaginationChange(totalPages, limit);

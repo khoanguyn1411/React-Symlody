@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
 import { Gender } from "@/features/types";
-import { generateArrayFromEnum } from "@/utils/services/generate-service";
+import { enumToArray } from "@/utils/funcs/enum-to-array";
 import { YupValidation } from "@/utils/types";
 
 import { PersonalInfoForm } from "./type";
@@ -20,7 +20,7 @@ export const schema = yup.object().shape<YupValidation<PersonalInfoForm>>({
     .max(150, APP_ERROR_MESSAGE.MAX(150, "Họ")),
   gender: yup
     .mixed<Gender>()
-    .oneOf(generateArrayFromEnum(Gender))
+    .oneOf(enumToArray(Gender))
     .required(APP_ERROR_MESSAGE.REQUIRED),
   dob: yup.string().required(APP_ERROR_MESSAGE.REQUIRED).nullable(),
   className: yup

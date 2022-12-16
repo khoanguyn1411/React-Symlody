@@ -5,7 +5,8 @@ import { Avatar, Checkbox, Search, Select } from "@/components";
 import { TOptionProps } from "@/components/elements/select/type";
 import { User } from "@/features/types";
 import { useDebounce, useEffectSkipFirstRender } from "@/hooks";
-import { FilterService, GlobalTypes } from "@/utils";
+import { GlobalTypes } from "@/utils";
+import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
 
 import {
   DEFAULT_SHOULD_SHOW_SEARCH_QUANTITY,
@@ -47,7 +48,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
   useEffectSkipFirstRender(() => {
     _setMemberList(
       memberList.filter((item) =>
-        FilterService.isTextIncludedIn(item.fullName, debounceValue)
+        isTextIncludedIn(item.fullName, debounceValue)
       )
     );
   }, [debounceValue]);

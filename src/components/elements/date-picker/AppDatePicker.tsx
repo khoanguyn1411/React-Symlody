@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 
 import { Icon } from "@/assets/icons";
-import { FormatService } from "@/utils";
+import { DateService } from "@/utils/funcs/date-service";
 
 import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
 import { WEEK_DAY_ENG } from "./constant";
@@ -61,15 +61,15 @@ export const AppDatePicker: React.FC<TProps> = ({
   onChange,
 }) => {
   const handleChangeDate = (date: Date): void => {
-    _setValue(FormatService.toDateString(date, "VN"));
+    _setValue(DateService.toFormat(date, "VN"));
     onChange(date);
   };
 
   const [_value, _setValue] = useState(() => {
     if (isDefault1990) {
-      return !value ? "" : FormatService.toDateString(value, "VN");
+      return !value ? "" : DateService.toFormat(value, "VN");
     }
-    return value && FormatService.toDateString(value, "VN");
+    return value && DateService.toFormat(value, "VN");
   });
 
   const getSelectedDate = () => {

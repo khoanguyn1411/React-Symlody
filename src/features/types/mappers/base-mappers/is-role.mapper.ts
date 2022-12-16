@@ -1,4 +1,4 @@
-import { hasElementOfArray } from "@/utils/services/common-service";
+import { hasElementOfArray } from "@/utils/funcs/has-element-of-array";
 
 import { Group, Roles } from "../../models";
 

@@ -1,7 +1,7 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 import { tokenMapper } from "@/features/types/mappers/token.mapper";
-import { TokenService } from "@/utils";
+import { TokenService } from "@/utils/funcs/token-service";
 
 import { http } from "./api-core";
 import { AuthApi } from "./auth-api";

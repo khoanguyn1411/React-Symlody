@@ -1,4 +1,4 @@
-import { extractErrorMessage } from "@/utils/services/error-handler-service";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
 
 import { HttpErrorDto, MemberCreationDto, MemberDto } from "../dtos";
 import { HttpError, Member, MemberCreation } from "../models";
@@ -55,18 +55,18 @@ export class MemberMapper
       non_field_errors,
     } = errorDto;
     return {
-      className: extractErrorMessage(class_name),
-      studentId: extractErrorMessage(student_id),
-      address: extractErrorMessage(address),
-      phoneNumber: extractErrorMessage(phone_number),
-      homeTown: extractErrorMessage(home_town),
-      isArchived: extractErrorMessage(is_archived),
+      className: ErrorHandler.extractErrorMessage(class_name),
+      studentId: ErrorHandler.extractErrorMessage(student_id),
+      address: ErrorHandler.extractErrorMessage(address),
+      phoneNumber: ErrorHandler.extractErrorMessage(phone_number),
+      homeTown: ErrorHandler.extractErrorMessage(home_town),
+      isArchived: ErrorHandler.extractErrorMessage(is_archived),
       authAccount:
         authAccountMapper.validationHttpDetailErrorFromDto(auth_account),
-      dob: extractErrorMessage(dob),
-      gender: extractErrorMessage(gender),
-      department: extractErrorMessage(department_id),
-      non_field_errors: extractErrorMessage(non_field_errors),
+      dob: ErrorHandler.extractErrorMessage(dob),
+      gender: ErrorHandler.extractErrorMessage(gender),
+      department: ErrorHandler.extractErrorMessage(department_id),
+      non_field_errors: ErrorHandler.extractErrorMessage(non_field_errors),
     };
   }
 

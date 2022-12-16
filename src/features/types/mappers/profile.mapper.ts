@@ -1,5 +1,5 @@
-import { FormDataService } from "@/utils";
-import { extractErrorMessage } from "@/utils/services/error-handler-service";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
+import { repairFormData } from "@/utils/funcs/repair-form-data";
 
 import { HttpErrorDto, ProfileCreationDto, ProfileDto } from "../dtos";
 import { HttpError, Member, Profile, ProfileCreation } from "../models";
@@ -58,18 +58,18 @@ export class ProfileMapper
       class_name,
     } = errorDto;
     return {
-      email: extractErrorMessage(email),
-      firstName: extractErrorMessage(first_name),
-      studentId: extractErrorMessage(student_id),
-      phoneNumber: extractErrorMessage(phone_number),
-      address: extractErrorMessage(address),
-      homeTown: extractErrorMessage(home_town),
-      lastName: extractErrorMessage(last_name),
-      avatar: extractErrorMessage(avatar),
-      gender: extractErrorMessage(gender),
-      dob: extractErrorMessage(dob),
-      className: extractErrorMessage(class_name),
-      non_field_errors: extractErrorMessage(non_field_errors),
+      email: ErrorHandler.extractErrorMessage(email),
+      firstName: ErrorHandler.extractErrorMessage(first_name),
+      studentId: ErrorHandler.extractErrorMessage(student_id),
+      phoneNumber: ErrorHandler.extractErrorMessage(phone_number),
+      address: ErrorHandler.extractErrorMessage(address),
+      homeTown: ErrorHandler.extractErrorMessage(home_town),
+      lastName: ErrorHandler.extractErrorMessage(last_name),
+      avatar: ErrorHandler.extractErrorMessage(avatar),
+      gender: ErrorHandler.extractErrorMessage(gender),
+      dob: ErrorHandler.extractErrorMessage(dob),
+      className: ErrorHandler.extractErrorMessage(class_name),
+      non_field_errors: ErrorHandler.extractErrorMessage(non_field_errors),
     };
   }
 
@@ -112,7 +112,7 @@ export class ProfileMapper
 
   public toFormData(model: ProfileCreation): FormData {
     const dataDto = this.toCreationDto(model);
-    return FormDataService.repairFormData(dataDto);
+    return repairFormData(dataDto);
   }
 }
 

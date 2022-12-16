@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { Property } from "@/features/types";
 import { THookModalProps } from "@/hooks";
-import { FormatService, FormService } from "@/utils";
+import { FormService } from "@/utils/funcs/form-service";
 
 import { propertyFormMapper } from "../mapper";
 import { schema } from "../schema";
@@ -54,7 +54,7 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
       if (!defaultInChargeId) {
         return null;
       }
-      const inChargeIdAsNumber = FormatService.toNumber(defaultInChargeId);
+      const inChargeIdAsNumber = Number(defaultInChargeId);
       if (!userIds.includes(inChargeIdAsNumber)) {
         return null;
       }

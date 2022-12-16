@@ -1,9 +1,7 @@
 import { TOptionProps } from "@/components/elements/select/type";
 import { RolesManagerSortName } from "@/features/types";
-import {
-  generateArrayFromEnum,
-  generateStatusMessageFor,
-} from "@/utils/services/generate-service";
+import { enumToArray } from "@/utils/funcs/enum-to-array";
+import { generateStatusMessageFor } from "@/utils/funcs/generate-app-status-messages";
 
 export enum EPermissionOptions {
   Lead = "Quản lý chung",
@@ -11,11 +9,11 @@ export enum EPermissionOptions {
   Member = "Thành viên",
 }
 
-export const PERMISSION_OPTIONS: TOptionProps[] = generateArrayFromEnum(
+export const PERMISSION_OPTIONS: TOptionProps[] = enumToArray(
   EPermissionOptions
 ).map((item) => ({ value: item, label: item }));
 
-export const MANAGE_OPTIONS: TOptionProps[] = generateArrayFromEnum(
+export const MANAGE_OPTIONS: TOptionProps[] = enumToArray(
   RolesManagerSortName
 ).map((item) => ({ value: item, label: item }));
 
@@ -41,4 +39,4 @@ export const ROLE_PERMISSION_TO_NOTE: Readonly<
   [EPermissionOptions.Member]: "Chỉ được cấp quyền xem dữ liệu",
 };
 
-export const PERMISSION_LIST = generateArrayFromEnum(EPermissionOptions);
+export const PERMISSION_LIST = enumToArray(EPermissionOptions);

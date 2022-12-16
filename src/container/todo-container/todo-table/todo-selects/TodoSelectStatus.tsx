@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Select } from "@/components";
 import { TOptionProps } from "@/components/elements/select/type";
 import { Task, TodoStatusId } from "@/features/types";
-import { generateArrayFromEnum } from "@/utils/services/generate-service";
+import { enumToArray } from "@/utils/funcs/enum-to-array";
 
 import { TODO_STATUS_MAP_FROM_ID } from "../../mapper";
 import { COLOR_MAP } from "./type";
@@ -36,7 +36,7 @@ export const TodoSelectStatus: React.FC<TProps> = ({
       classNameList="w-24 bg-white"
       style="none"
       isShowArrow
-      list={generateArrayFromEnum(TodoStatusId).map((item) => ({
+      list={enumToArray(TodoStatusId).map((item) => ({
         value: item,
         label: TODO_STATUS_MAP_FROM_ID[item],
       }))}

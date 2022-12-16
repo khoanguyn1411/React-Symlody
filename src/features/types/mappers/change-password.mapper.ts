@@ -1,4 +1,4 @@
-import { extractErrorMessage } from "@/utils/services/error-handler-service";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
 
 import { HttpErrorDto } from "../dtos";
 import { ChangePasswordDto } from "../dtos/change-password.dto";
@@ -16,9 +16,9 @@ export class ChangePasswordMapper
   ): HttpError<ChangePassword, undefined> {
     return {
       oldPassword:
-        extractErrorMessage(errorDto.old_password) ??
-        extractErrorMessage(errorDto.non_field_errors),
-      newPassword: extractErrorMessage(errorDto.new_password),
+        ErrorHandler.extractErrorMessage(errorDto.old_password) ??
+        ErrorHandler.extractErrorMessage(errorDto.non_field_errors),
+      newPassword: ErrorHandler.extractErrorMessage(errorDto.new_password),
     };
   }
   public toDto(model: ChangePassword): ChangePasswordDto {

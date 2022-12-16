@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
-import { assertArray, assertNotArray } from "@/utils/services/common-service";
+import { CommonAssertion } from "@/utils/funcs/common-assertion";
 import { Primitive } from "@/utils/types";
 
 import { SelectBase } from "../select-base/SelectBase";
@@ -65,7 +65,7 @@ export function Select<T, E extends Primitive>({
       : // eslint-disable-next-line react-hooks/rules-of-hooks
         useState<TOptionProps<T, E> | TOptionProps<T, E>[]>(() => {
           if (isMultiple) {
-            assertArray(value);
+            CommonAssertion.assertArray(value);
             return value
               ? list.filter((item) => value.includes(item.value))
               : [];
@@ -82,7 +82,7 @@ export function Select<T, E extends Primitive>({
       _setIsShowContent(false);
       return;
     }
-    assertArray(selectedOption);
+    CommonAssertion.assertArray(selectedOption);
     const optionValues = selectedOption.map((option) => option.value);
     if (optionValues.includes(option.value)) {
       const newSelectedList = selectedOption.filter(
@@ -101,7 +101,7 @@ export function Select<T, E extends Primitive>({
     if (renderOption) {
       let isChosen: boolean;
       if (isMultiple) {
-        assertArray(selectedOption);
+        CommonAssertion.assertArray(selectedOption);
         isChosen = selectedOption
           .map((option) => option.value)
           .includes(option.value);
@@ -111,12 +111,12 @@ export function Select<T, E extends Primitive>({
       return renderOption(option, isChosen);
     }
     if (!isMultiple) {
-      assertNotArray<TOptionProps<T, E>>(selectedOption);
+      CommonAssertion.assertNotArray<TOptionProps<T, E>>(selectedOption);
       return (
         <SelectDefaultOption {...option} selectedOption={selectedOption} />
       );
     }
-    assertArray(selectedOption);
+    CommonAssertion.assertArray(selectedOption);
     return <SelectMultipleOption selectedOption={selectedOption} {...option} />;
   };
 
@@ -125,7 +125,7 @@ export function Select<T, E extends Primitive>({
       return children;
     }
     if (!isMultiple) {
-      assertNotArray<TOptionProps<T, E>>(selectedOption);
+      CommonAssertion.assertNotArray<TOptionProps<T, E>>(selectedOption);
       return (
         <SelectDefaultDisplay
           selectedOption={selectedOption}
@@ -134,7 +134,7 @@ export function Select<T, E extends Primitive>({
         />
       );
     }
-    assertArray(selectedOption);
+    CommonAssertion.assertArray(selectedOption);
     return (
       <SelectMultipleDisplay
         selectedOption={selectedOption}
@@ -151,7 +151,7 @@ export function Select<T, E extends Primitive>({
       return;
     }
     if (isMultiple) {
-      assertArray(selectedOption);
+      CommonAssertion.assertArray(selectedOption);
       const newSelectedList = selectedOption.filter(
         (_option) => _option.value !== value
       );

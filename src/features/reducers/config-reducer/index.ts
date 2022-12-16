@@ -16,8 +16,8 @@ import {
   userPermissionConfigMapper,
 } from "@/features/types/mappers/config-permission.mapper";
 import { GlobalTypes } from "@/utils";
-import { validateSimpleRequestResult } from "@/utils/services/error-handler-service";
-import { generateArrayWithNoDuplicate } from "@/utils/services/generate-service";
+import { generateArrayWithNoDuplicate } from "@/utils/funcs/generate-array-with-no-duplicate";
+import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 
 import { organizationMapper } from "../../types/mappers/organization.mapper";
 import { getUsersAsync, userSelectors } from "../user-reducer";

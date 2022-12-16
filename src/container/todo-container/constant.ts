@@ -1,7 +1,7 @@
 import { images } from "@/assets/images";
 import { TNodataConfig } from "@/components";
 import { TodoStatusId } from "@/features/types";
-import { generateStatusMessageFor } from "@/utils/services/generate-service";
+import { generateStatusMessageFor } from "@/utils/funcs/generate-app-status-messages";
 
 import { TODO_STATUS_MAP_FROM_ID } from "./mapper";
 import { TTodo } from "./type";

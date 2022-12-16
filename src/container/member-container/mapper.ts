@@ -1,5 +1,5 @@
 import { Department, Member, MemberCreation, Roles } from "@/features/types";
-import { FormatService } from "@/utils";
+import { DateService } from "@/utils/funcs/date-service";
 
 import { IMemberTable, MemberForm } from "./type";
 
@@ -59,7 +59,7 @@ class MemberTableMapper {
       firstName: model.authAccount.firstName,
       email: model.authAccount.email,
       department: model.department.name,
-      birthday: FormatService.toDateString(model.dob, "VN"),
+      birthday: DateService.toFormat(model.dob, "VN"),
       roles: shouldReturnMemberText
         ? Roles.Member
         : model.authAccount.groups

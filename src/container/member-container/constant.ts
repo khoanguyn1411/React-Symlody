@@ -1,7 +1,7 @@
 import { images } from "@/assets/images";
 import { TNodataConfig } from "@/components";
 import { TOptionProps } from "@/components/elements/select/type";
-import { GeneratorService } from "@/utils";
+import { generateStatusMessageFor } from "@/utils/funcs/generate-app-status-messages";
 
 export const MEMBER_FILTER_VALUE = {
   isArchived: "is-archived",
@@ -32,5 +32,4 @@ export const MEMBER_NO_DATA_CONFIG: TNodataConfig = {
   imageSrc: images.noData.member,
 };
 
-export const MEMBER_MESSAGE =
-  GeneratorService.generateStatusMessageFor("thành viên");
+export const MEMBER_MESSAGE = generateStatusMessageFor("thành viên");

@@ -9,7 +9,7 @@ import {
   HttpError,
 } from "@/features/types";
 import { GlobalTypes } from "@/utils";
-import { validateSimpleRequestResult } from "@/utils/services/error-handler-service";
+import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 
 import { departmentAdapter, initialState } from "./state";
 
