@@ -1,16 +1,15 @@
-import "react-image-crop/dist/ReactCrop.css";
-import "react-toastify/dist/ReactToastify.min.css";
-import "./assets/FontAwesomePro/css/fontawesome.min.css";
-import "./assets/FontAwesomePro/css/regular.min.css";
-import "./assets/FontAwesomePro/css/solid.min.css";
 import "./styles/index.css";
 import "./styles/tailwind.css";
+import "react-toastify/dist/ReactToastify.min.css";
+import "./assets/FontAwesomePro/css/fontawesome.min.css";
+import "./assets/FontAwesomePro/css/solid.min.css";
+import "./assets/FontAwesomePro/css/regular.min.css";
+import "react-image-crop/dist/ReactCrop.css";
 
 // import "rc-drawer/assets/index.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { ToastContainer } from "react-toastify";
 
 import { store } from "@/features";
 
@@ -24,12 +23,6 @@ root.render(
   <React.Fragment>
     <Provider store={store}>
       <App />
-      <ToastContainer
-        limit={3}
-        position="top-right"
-        autoClose={1800}
-        pauseOnHover
-      />
     </Provider>
   </React.Fragment>
 );
