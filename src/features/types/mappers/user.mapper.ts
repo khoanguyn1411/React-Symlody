@@ -1,4 +1,4 @@
-import { GlobalTypes } from "@/utils";
+import { StrictOmit } from "@/utils/types";
 
 import { UserDto, UserShortDto } from "../dtos";
 import {
@@ -33,7 +33,7 @@ export class UserMapper implements IMapperFromDto<UserDto, User> {
     };
   }
 
-  public fromMember(model: Member): GlobalTypes.StrictOmit<User, "id"> {
+  public fromMember(model: Member): StrictOmit<User, "id"> {
     return {
       ...authAccountMapper.fromInheritance(model.authAccount),
       avatarUrl: model.avatarUrl,

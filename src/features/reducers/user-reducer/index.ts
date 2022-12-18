@@ -3,8 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { UserApi } from "@/api";
 import { RootState } from "@/features/store";
 import { User, userMapper } from "@/features/types";
-import { GlobalTypes } from "@/utils";
-import { StrictOmit } from "@/utils/types";
+import { ReduxThunk, StrictOmit } from "@/utils/types";
 
 import { initialState, userAdapter } from "./state";
 
@@ -21,7 +20,7 @@ export const removeUser = createAsyncThunk(
 export const getUsersAsync = createAsyncThunk<
   User[],
   null,
-  GlobalTypes.ReduxThunkRejectValue<[]>
+  ReduxThunk.RejectValue<[]>
 >("user/get-list", async (_, { rejectWithValue }) => {
   const result = await UserApi.getUsers();
   if (result.kind === "ok") {

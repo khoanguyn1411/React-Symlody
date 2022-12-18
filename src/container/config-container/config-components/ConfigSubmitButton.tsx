@@ -2,13 +2,13 @@ import React from "react";
 
 import { Button } from "@/components";
 import { TPropsButton } from "@/components/elements/button/types";
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 interface TProps extends TPropsButton {
   onSubmit?: () => void;
 }
 
-export const ConfigSubmitButton: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const ConfigSubmitButton: AppReact.FC.PropsWithChildren<TProps> = ({
   children,
   onSubmit,
   ...props

@@ -8,15 +8,15 @@ import {
   departmentMapper,
   HttpError,
 } from "@/features/types";
-import { GlobalTypes } from "@/utils";
 import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
+import { ReduxThunk } from "@/utils/types";
 
 import { departmentAdapter, initialState } from "./state";
 
 export const getDepartmentAsync = createAsyncThunk<
   Department[],
   null,
-  GlobalTypes.ReduxThunkRejectValue<[]>
+  ReduxThunk.RejectValue<[]>
 >("department/get-list", async (_, { rejectWithValue }) => {
   const result = await DepartmentApi.getDepartments();
   if (result.kind === "ok") {
@@ -29,7 +29,7 @@ export const getDepartmentAsync = createAsyncThunk<
 export const createDepartmentAsync = createAsyncThunk<
   Department,
   DepartmentCreation,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<DepartmentCreation>>
+  ReduxThunk.RejectValue<HttpError<DepartmentCreation>>
 >("department/create", async (payload, { rejectWithValue }) => {
   const departmentCreationDto = departmentMapper.toCreationDto(payload);
   const result = await DepartmentApi.createDepartment(departmentCreationDto);
@@ -43,7 +43,7 @@ export const createDepartmentAsync = createAsyncThunk<
 export const updateDepartmentAsync = createAsyncThunk<
   Department,
   { id: number; body: DepartmentCreation },
-  GlobalTypes.ReduxThunkRejectValue<HttpError<DepartmentCreation>>
+  ReduxThunk.RejectValue<HttpError<DepartmentCreation>>
 >("department/update", async (payload, { rejectWithValue }) => {
   const departmentCreationDto = departmentMapper.toCreationDto(payload.body);
   const result = await DepartmentApi.updateDepartment(
@@ -60,7 +60,7 @@ export const updateDepartmentAsync = createAsyncThunk<
 export const deleteDepartmentAsync = createAsyncThunk<
   Department["id"],
   Department["id"],
-  GlobalTypes.ReduxThunkRejectValue<boolean>
+  ReduxThunk.RejectValue<boolean>
 >("department/delete", async (id, { rejectWithValue }) => {
   const result = await DepartmentApi.deleteDepartment(id);
   if (result.kind === "ok") {

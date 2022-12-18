@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import React from "react";
 
-import { FCPropsWithChildren } from "@/utils/types";
+import { AppReact } from "@/utils/types";
 
 import { BLOCK, SIZE_MAPS, STYLE_MAPS, TPropsButton } from "./types";
 
-export const Button: FCPropsWithChildren<TPropsButton> = ({
+export const Button: AppReact.FC.PropsWithChildren<TPropsButton> = ({
   onClick,
   className = "",
   children,

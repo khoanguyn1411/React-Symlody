@@ -1,4 +1,4 @@
-import { StrictOmit, StrictPick } from "@/utils/types";
+import { StrictOmit } from "@/utils/types";
 
 import { AuthAccountCreationDto, AuthAccountDto } from "./auth-account.dto";
 import { DepartmentDto } from "./department.dto";
@@ -7,7 +7,7 @@ export interface MemberDto {
   auth_account: AuthAccountDto;
   id: number;
   last_modified_date: string;
-  created_by: StrictPick<AuthAccountDto, "first_name" | "last_name">;
+  created_by: Pick<AuthAccountDto, "first_name" | "last_name">;
   avatar_url: string;
   department: DepartmentDto;
 

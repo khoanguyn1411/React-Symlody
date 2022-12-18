@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { AlignedPlacement, TPosition } from "@/components/elements/portal/type";
+import { RecordObject } from "@/utils/types";
 
 type THookPositionPortal = {
   coords: TPosition;
@@ -112,7 +113,7 @@ export const usePositionPortal = <T extends HTMLElement>({
   return { coords, position: getPosition(), setPositionList };
 };
 
-function getPositionFromPlacement<T extends Record<string, any>>(
+function getPositionFromPlacement<T extends RecordObject>(
   coords: TPosition,
   position: T
 ) {

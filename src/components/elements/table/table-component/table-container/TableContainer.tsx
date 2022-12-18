@@ -1,10 +1,10 @@
 import classNames from "classnames";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 import { TableProvider, TPropsTable, useTableContext } from "./context";
 
-export const TableContainerContent: GlobalTypes.FCChildren = ({ children }) => {
+export const TableContainerContent: AppReact.FC.Children = ({ children }) => {
   const { isFullHeight } = useTableContext();
   return (
     <div
@@ -31,7 +31,7 @@ export const TableContainerContent: GlobalTypes.FCChildren = ({ children }) => {
   );
 };
 
-export const TableContainer: GlobalTypes.FCPropsWithChildren<TPropsTable> = ({
+export const TableContainer: AppReact.FC.PropsWithChildren<TPropsTable> = ({
   children,
   ...props
 }) => {

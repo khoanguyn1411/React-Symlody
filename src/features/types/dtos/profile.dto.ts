@@ -1,5 +1,3 @@
-import { StrictPick } from "@/utils/types";
-
 import { AuthAccountCreationDto, AuthAccountDto } from "./auth-account.dto";
 import { DepartmentDto } from "./department.dto";
 import { GenderDto } from "./gender.dto";
@@ -22,7 +20,7 @@ export interface ProfileDto extends AuthAccountDto {
 
 export type ProfileCreationDto = AuthAccountCreationDto & {
   avatar: File;
-} & StrictPick<
+} & Pick<
     ProfileDto,
     | "gender"
     | "dob"

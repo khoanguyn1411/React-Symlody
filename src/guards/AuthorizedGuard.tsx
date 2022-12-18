@@ -1,13 +1,13 @@
 import { Navigate, useLocation } from "react-router-dom";
 
 import { APP_DEFAULT_PAGE, EPagePath } from "@/routes";
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 type TProps = {
   isAuth: boolean;
 };
 
-export const AuthorizedGuard: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const AuthorizedGuard: AppReact.FC.PropsWithChildren<TProps> = ({
   children,
   isAuth,
 }) => {

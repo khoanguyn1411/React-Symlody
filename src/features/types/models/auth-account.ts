@@ -1,4 +1,4 @@
-import { GlobalTypes } from "@/utils";
+import { StrictOmit } from "@/utils/types";
 
 import { Group } from "./group";
 
@@ -10,7 +10,7 @@ export interface AuthAccount {
   fullName: string;
 }
 
-export type AuthAccountCreation = GlobalTypes.StrictOmit<
+export type AuthAccountCreation = StrictOmit<
   AuthAccount,
   "groups" | "fullName"
 >;

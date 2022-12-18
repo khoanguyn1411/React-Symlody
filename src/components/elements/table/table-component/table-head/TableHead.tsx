@@ -1,6 +1,6 @@
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
-export const TableHead: GlobalTypes.FCChildren = ({ children }) => {
+export const TableHead: AppReact.FC.Children = ({ children }) => {
   return (
     <thead className="sticky top-0 z-[1] bg-primary-50">
       <tr>{children}</tr>

@@ -1,4 +1,4 @@
-import { StrictOmit, StrictPick } from "@/utils/types";
+import { StrictOmit } from "@/utils/types";
 
 import { AuthAccount, AuthAccountCreation } from "./auth-account";
 import { Department } from "./department";
@@ -9,7 +9,7 @@ export interface Member {
   authAccount: AuthAccount;
   lastModifiedDate: string;
   avatarUrl: string;
-  createdBy: StrictPick<AuthAccount, "firstName" | "lastName">;
+  createdBy: Pick<AuthAccount, "firstName" | "lastName">;
   department: Department;
 
   gender: Gender;

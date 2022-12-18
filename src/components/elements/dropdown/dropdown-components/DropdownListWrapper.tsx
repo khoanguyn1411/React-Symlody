@@ -2,8 +2,7 @@ import classNames from "classnames";
 import { useEffect, useRef } from "react";
 
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
-import { GlobalTypes } from "@/utils";
-import { FCPropsWithChildren, ReactStateAction } from "@/utils/types";
+import { AppReact } from "@/utils/types";
 
 import { AnimationCustom } from "../../animation-custom";
 import { AlignedPlacement } from "../../portal/type";
@@ -14,10 +13,10 @@ type TProps = {
   widthContainer?: string;
   placement: AlignedPlacement;
   displayRef: React.MutableRefObject<HTMLDivElement>;
-  setIsContent: ReactStateAction<boolean>;
+  setIsContent: AppReact.State.Dispatch<boolean>;
 };
 
-export const DropdownListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const DropdownListWrapper: AppReact.FC.PropsWithChildren<TProps> = ({
   children,
   ...props
 }) => {
@@ -31,7 +30,7 @@ export const DropdownListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
   );
 };
 
-const DropdownListContent: FCPropsWithChildren<TProps> = ({
+const DropdownListContent: AppReact.FC.PropsWithChildren<TProps> = ({
   isShowContent,
   children,
   widthContainer = "320px",

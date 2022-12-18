@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 export type TOrdering = "asc" | "des";
 
@@ -18,7 +18,7 @@ export type TPropsTable = {
 };
 const TableContext = createContext<TPropsTableContext>(null);
 
-const TableProvider: GlobalTypes.FCPropsWithChildren<TPropsTable> = ({
+const TableProvider: AppReact.FC.PropsWithChildren<TPropsTable> = ({
   children,
   defaultSortActive,
   defaultOrderActive,

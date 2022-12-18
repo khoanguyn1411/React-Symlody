@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useLayoutEffect, useRef } from "react";
 
 import { usePositionPortal } from "@/hooks";
-import { ReactStateAction } from "@/utils/types";
+import { AppReact } from "@/utils/types";
 
 import { AlignedPlacement } from "../portal/type";
 
@@ -11,7 +11,7 @@ type TProps = {
   placement: AlignedPlacement;
   isActive: boolean;
   space: number;
-  setIsActive: ReactStateAction<boolean>;
+  setIsActive: AppReact.State.Dispatch<boolean>;
   content: string;
 };
 

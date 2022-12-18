@@ -6,7 +6,7 @@ import { Task, taskMapper, User } from "@/features/types";
 import { taskFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import { TaskFilterParams } from "@/features/types/models/filter-params";
 import { TaskCreation } from "@/features/types/models/task";
-import { GlobalTypes } from "@/utils";
+import { ReduxThunk } from "@/utils/types";
 
 import { userSelectors } from "../user-reducer";
 import { initialState, taskAdapter } from "./state";
@@ -14,7 +14,7 @@ import { initialState, taskAdapter } from "./state";
 export const getTasksAsync = createAsyncThunk<
   Task[],
   TaskFilterParams,
-  GlobalTypes.ReduxThunkRejectValue<[]>
+  ReduxThunk.RejectValue<[]>
 >("task/get-list", async (param, { rejectWithValue }) => {
   const paramDto = taskFilterParamsMapper.toDto(param);
   const result = await TaskApi.getTasks(paramDto);
@@ -27,7 +27,7 @@ export const getTasksAsync = createAsyncThunk<
 export const deleteTaskAsync = createAsyncThunk<
   Task["id"],
   Task["id"],
-  GlobalTypes.ReduxThunkRejectValue<null>
+  ReduxThunk.RejectValue<null>
 >("task/delete", async (id, { rejectWithValue }) => {
   const result = await TaskApi.deleteTask(id);
   if (result.kind === "ok") {
@@ -39,7 +39,7 @@ export const deleteTaskAsync = createAsyncThunk<
 export const createTaskAsync = createAsyncThunk<
   { task: Task; shouldAddOne: boolean },
   { task: TaskCreation },
-  GlobalTypes.ReduxThunkRejectValue<null>
+  ReduxThunk.RejectValue<null>
 >("task/create", async (body, { rejectWithValue }) => {
   const reduxStore = store.getState();
   const userList = userSelectors.selectAll(reduxStore);
@@ -68,7 +68,7 @@ export const updateTaskAsync = createAsyncThunk<
     id: Task["id"];
     payload: TaskCreation;
   },
-  GlobalTypes.ReduxThunkRejectValue<null>
+  ReduxThunk.RejectValue<null>
 >("task/update", async ({ id, payload }, { rejectWithValue }) => {
   const taskDto = taskMapper.toCreationDto(payload);
   const result = await TaskApi.updateTask(id, taskDto);
@@ -91,7 +91,7 @@ export const updateTaskAsync = createAsyncThunk<
 export const filterTaskByAssignee = createAsyncThunk<
   void,
   null,
-  GlobalTypes.ReduxThunkRejectValue<null>
+  ReduxThunk.RejectValue<null>
 >("task/filter-by-assignee", async (_, { dispatch }) => {
   const reduxStore = store.getState();
   const taskList = taskSelectors.selectAll(reduxStore);

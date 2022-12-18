@@ -15,9 +15,9 @@ import {
   leadersAndManagersMapper,
   userPermissionConfigMapper,
 } from "@/features/types/mappers/config-permission.mapper";
-import { GlobalTypes } from "@/utils";
 import { generateArrayWithNoDuplicate } from "@/utils/funcs/generate-array-with-no-duplicate";
 import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
+import { ReduxThunk } from "@/utils/types";
 
 import { organizationMapper } from "../../types/mappers/organization.mapper";
 import { getUsersAsync, userSelectors } from "../user-reducer";
@@ -26,7 +26,7 @@ import { configInfoAdapter, initialState } from "./state";
 export const getOrganizationAsync = createAsyncThunk<
   Organization,
   null,
-  GlobalTypes.ReduxThunkRejectValue<null>
+  ReduxThunk.RejectValue<null>
 >("organization/get", async (_, { rejectWithValue }) => {
   const result = await ConfigApi.getOrganization();
   if (result.kind === "ok") {
@@ -38,7 +38,7 @@ export const getOrganizationAsync = createAsyncThunk<
 export const getConfigManager = createAsyncThunk<
   UserShort[],
   null,
-  GlobalTypes.ReduxThunkRejectValue<UserShort[]>
+  ReduxThunk.RejectValue<UserShort[]>
 >("organization/get-managers", async (_, { rejectWithValue, dispatch }) => {
   const reduxStore = store.getState();
   const hasUser = userSelectors.selectTotal(reduxStore) > 0;
@@ -78,7 +78,7 @@ export const getConfigManager = createAsyncThunk<
 export const updateOrganizationAsync = createAsyncThunk<
   Organization,
   { id: number; body: OrganizationCreation },
-  GlobalTypes.ReduxThunkRejectValue<HttpError<OrganizationCreation>>
+  ReduxThunk.RejectValue<HttpError<OrganizationCreation>>
 >("organization/update", async (payload, { rejectWithValue }) => {
   const paramDto = organizationMapper.toFormData(payload.body);
   const result = await ConfigApi.updateOrganization(payload.id, paramDto);
@@ -92,7 +92,7 @@ export const updateOrganizationAsync = createAsyncThunk<
 export const updateConfigRoleUserAsync = createAsyncThunk<
   UserShort,
   { body: UserPermissionConfigCreation; id: UserShort["id"] },
-  GlobalTypes.ReduxThunkRejectValue<HttpError<UserPermissionConfigCreationDto>>
+  ReduxThunk.RejectValue<HttpError<UserPermissionConfigCreationDto>>
 >("user-role/update", async ({ body, id }, { rejectWithValue }) => {
   const paramDto = userPermissionConfigMapper.toCreationDto(body);
   const result = await ConfigApi.updateConfigRoleUser(paramDto, id);

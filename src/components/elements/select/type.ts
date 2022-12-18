@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 
-import { GlobalTypes } from "@/utils";
-import { Primitive } from "@/utils/types";
+import { AppReact, Primitive, RecordObject } from "@/utils/types";
 
 import { AlignedPlacement } from "../portal/type";
 
@@ -25,7 +24,7 @@ export const STYLE_LIST_WRAPPER_MAPS = {
 } as const;
 
 export type TOptionProps<
-  T extends Record<string, any> = undefined,
+  T extends RecordObject = undefined,
   E extends Primitive = string
 > = {
   label: string;
@@ -51,5 +50,5 @@ export type TSelectCustomProps = {
   renderListItem?: ReactNode;
   isShowContent?: boolean;
   wrapperSelectRef?: React.MutableRefObject<HTMLDivElement>;
-  setIsShowContent?: GlobalTypes.ReactStateAction<boolean>;
+  setIsShowContent?: AppReact.State.Dispatch<boolean>;
 };

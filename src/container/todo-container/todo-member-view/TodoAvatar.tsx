@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Avatar, Tooltip } from "@/components";
 import { useAppSelector } from "@/features";
 import { User } from "@/features/types";
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 import { DEFAULT_DISPLAY_MEMBER_COUNT, ZINDEX_SETTING } from "./constant";
 import { TodoCircleBorderWrapper } from "./TodoCircleBorderWrapper";
@@ -13,7 +13,7 @@ type TProps = {
   user: User;
   index: number;
   selectedMembers: User[];
-  setSelectedMembers: GlobalTypes.ReactStateAction<User[]>;
+  setSelectedMembers: AppReact.State.Dispatch<User[]>;
 };
 
 export const TodoAvatar: React.FC<TProps> = ({

@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import { APP_PAGINATION } from "@/constants";
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 const PaginationContext = createContext<TPropsPaginationContext>({
   activePage: undefined,
@@ -38,7 +38,7 @@ export type TPropsPagination = {
     callback: (limit: number) => void;
   };
 };
-const PaginationProvider: GlobalTypes.FCPropsWithChildren<TPropsPagination> = ({
+const PaginationProvider: AppReact.FC.PropsWithChildren<TPropsPagination> = ({
   children,
   pageStep = 2,
   quantityDisplay = ["5", "10", "15"],

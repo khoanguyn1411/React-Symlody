@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useEffect } from "react";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 import { Tooltip } from "../../../tooltip";
 import { TEXT_ALIGN_MAP } from "../../type";
@@ -15,7 +15,7 @@ type TProps = {
   keySorting?: string;
   onSort?: (ordering: TOrdering) => void;
 };
-export const TableCellHead: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const TableCellHead: AppReact.FC.PropsWithChildren<TProps> = ({
   children,
   textAlign = "left",
   width = "auto",

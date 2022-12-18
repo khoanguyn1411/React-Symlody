@@ -1,6 +1,6 @@
 import classNames from "classnames";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 import { TEXT_ALIGN_MAP } from "../../type";
 import { useTableRowContext } from "../table-row/context";
@@ -12,7 +12,7 @@ type TProps = {
   isLast?: boolean;
   keySorting?: string;
 };
-export const TableCell: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const TableCell: AppReact.FC.PropsWithChildren<TProps> = ({
   textAlign = "left",
   width = "auto",
   children,

@@ -1,10 +1,10 @@
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 import { Tooltip } from "../tooltip";
 import { Button } from "./Button";
 import { TPropsButton } from "./types";
 
-export const ButtonCreate: GlobalTypes.FCPropsWithChildren<TPropsButton> = (
+export const ButtonCreate: AppReact.FC.PropsWithChildren<TPropsButton> = (
   props
 ) => {
   return (

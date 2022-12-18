@@ -2,8 +2,7 @@ import classNames from "classnames";
 import React, { useEffect, useRef } from "react";
 
 import { useHideOnClickOutside, usePositionPortal } from "@/hooks";
-import { GlobalTypes } from "@/utils";
-import { FCPropsWithChildren, ReactStateAction } from "@/utils/types";
+import { AppReact } from "@/utils/types";
 
 import { AnimationCustom } from "../../animation-custom";
 import { AlignedPlacement } from "../../portal/type";
@@ -13,13 +12,13 @@ type TProps = {
   isPortal: boolean;
   placement: AlignedPlacement;
   isShowing: boolean;
-  setIsShowing: ReactStateAction<boolean>;
+  setIsShowing: AppReact.State.Dispatch<boolean>;
   maxHeight: number;
   classNameList: string;
   isNoPaddingY: boolean;
 };
 
-export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const SelectListWrapper: AppReact.FC.PropsWithChildren<TProps> = ({
   children,
   ...props
 }) => {
@@ -33,7 +32,7 @@ export const SelectListWrapper: GlobalTypes.FCPropsWithChildren<TProps> = ({
   );
 };
 
-const SelectListContent: FCPropsWithChildren<TProps> = ({
+const SelectListContent: AppReact.FC.PropsWithChildren<TProps> = ({
   children,
   displayRef,
   isPortal,

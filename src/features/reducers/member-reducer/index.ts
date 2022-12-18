@@ -15,10 +15,10 @@ import {
   MemberCreation,
 } from "@/features/types/models";
 import { MemberFilterParams } from "@/features/types/models/filter-params";
-import { GlobalTypes } from "@/utils";
 import { ErrorHandler } from "@/utils/funcs/error-handler";
 import { generateArrayWithNoDuplicate } from "@/utils/funcs/generate-array-with-no-duplicate";
 import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
+import { ReduxThunk } from "@/utils/types";
 
 import { updateCurrentUser } from "../auth-reducer";
 import { getUsersAsync, removeUser, userSelectors } from "../user-reducer";
@@ -27,7 +27,7 @@ import { initialState, memberAdapter } from "./state";
 export const uploadMemberExcelFileAsync = createAsyncThunk<
   any,
   FileUploaded,
-  GlobalTypes.ReduxThunkRejectValue<false>
+  ReduxThunk.RejectValue<false>
 >("member/create-multiple", async (payload, { rejectWithValue, dispatch }) => {
   const formData = fileUploadedMapper.toFormData(payload);
   const result = await MemberApi.uploadMemberExcelFile(formData);
@@ -41,7 +41,7 @@ export const uploadMemberExcelFileAsync = createAsyncThunk<
 export const createMemberAsync = createAsyncThunk<
   Member,
   MemberCreation,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<MemberCreation, "authAccount">>
+  ReduxThunk.RejectValue<HttpError<MemberCreation, "authAccount">>
 >("member/create", async (payload, { rejectWithValue, dispatch }) => {
   const memberDto = memberMapper.toCreationDto(payload);
   const result = await MemberApi.createMember(memberDto);
@@ -55,7 +55,7 @@ export const createMemberAsync = createAsyncThunk<
 export const deleteMemberAsync = createAsyncThunk<
   Member["id"],
   Member["id"],
-  GlobalTypes.ReduxThunkRejectValue<null>
+  ReduxThunk.RejectValue<null>
 >("member/archive", async (id, { rejectWithValue, dispatch }) => {
   const result = await MemberApi.deleteMember(id);
   if (result.kind === "ok") {
@@ -78,7 +78,7 @@ export const deleteMemberAsync = createAsyncThunk<
 export const getMembersAsync = createAsyncThunk<
   Member[],
   MemberFilterParams,
-  GlobalTypes.ReduxThunkRejectValue<[]>
+  ReduxThunk.RejectValue<[]>
 >("member/get-list", async (param, { rejectWithValue, dispatch }) => {
   const filterParamsDto = memberFilterParamsMapper.toDto(param);
   const result = await MemberApi.getMembers(filterParamsDto);
@@ -91,9 +91,9 @@ export const getMembersAsync = createAsyncThunk<
 });
 
 export const updateMemberAsync = createAsyncThunk<
-  GlobalTypes.ReduxThunkRestoreResult<Member>,
-  GlobalTypes.ReduxThunkRestorePayload<MemberCreation, Member>,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<MemberCreation, "authAccount">>
+  ReduxThunk.RestoreResult<Member>,
+  ReduxThunk.RestorePayload<MemberCreation, Member>,
+  ReduxThunk.RejectValue<HttpError<MemberCreation, "authAccount">>
 >(
   "member/update",
   async ({ payload, id, isRestore }, { rejectWithValue, dispatch }) => {

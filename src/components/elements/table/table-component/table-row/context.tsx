@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 type TPropsTableRowContext = {
   index?: number;
@@ -11,7 +11,7 @@ export type TPropsTableRow = TPropsTableRowContext;
 
 const TableRowContext = createContext<TPropsTableRowContext>(null);
 
-const TableRowProvider: GlobalTypes.FCPropsWithChildren<TPropsTableRow> = ({
+const TableRowProvider: AppReact.FC.PropsWithChildren<TPropsTableRow> = ({
   children,
   isSkeleton = false,
   index,

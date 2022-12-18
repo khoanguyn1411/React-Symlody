@@ -1,11 +1,11 @@
 import React from "react";
 
-import { GlobalTypes } from "@/utils";
+import { StrictOmit } from "@/utils/types";
 
 import { Pagination as AppPagination } from "../../../elements/pagination";
 import { TPropsPagination } from "../../../elements/pagination/context";
 
-type TProps = GlobalTypes.StrictOmit<TPropsPagination, "pageStep">;
+type TProps = StrictOmit<TPropsPagination, "pageStep">;
 
 export const Pagination: React.FC<TProps> = (props) => {
   const onLimitChange = (page: number, limit: number) => {
