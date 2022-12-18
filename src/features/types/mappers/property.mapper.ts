@@ -73,6 +73,7 @@ export class PropertyMapper
       prop_owner: model.propOwner,
       incharger_id: model.inChargerId,
       image: model.image,
+      is_archived: model.isArchived,
       price: model.price,
       quantity: model.quantity,
     };

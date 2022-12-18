@@ -1,5 +1,3 @@
-import { StrictPick } from "@/utils/types";
-
 import { User } from "./user";
 
 export interface Property {
@@ -22,7 +20,13 @@ export interface Property {
   archivedBy: number;
 }
 
-export type PropertyCreation = StrictPick<
+export type PropertyCreation = Pick<
   Property,
-  "name" | "quantity" | "price" | "propOwner" | "note" | "isClubProperty"
+  | "name"
+  | "quantity"
+  | "price"
+  | "propOwner"
+  | "note"
+  | "isClubProperty"
+  | "isArchived"
 > & { inChargerId: User["id"]; image: File | null };

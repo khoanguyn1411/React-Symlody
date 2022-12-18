@@ -1,5 +1,3 @@
-import { GlobalTypes } from "@/utils";
-
 import { UserDto } from "./user.dto";
 
 export interface PropertyDto {
@@ -22,7 +20,13 @@ export interface PropertyDto {
   archived_by: number;
 }
 
-export type PropertyCreationDto = GlobalTypes.StrictPick<
+export type PropertyCreationDto = Pick<
   PropertyDto,
-  "name" | "quantity" | "price" | "prop_owner" | "note" | "is_club_property"
+  | "name"
+  | "quantity"
+  | "price"
+  | "prop_owner"
+  | "note"
+  | "is_club_property"
+  | "is_archived"
 > & { incharger_id: UserDto["id"]; image?: File };
