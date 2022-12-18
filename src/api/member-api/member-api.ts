@@ -1,4 +1,4 @@
-import { Member, MemberDto } from "@/features/types";
+import { Member, MemberCreationDto, MemberDto } from "@/features/types";
 import { MemberFilterParamsDto } from "@/features/types/dtos/filter-params";
 
 import { http } from "../api-core";
@@ -30,7 +30,7 @@ export const MemberApi = {
   },
 
   async createMember(
-    body: Types.RequestCreateMemberBody
+    body: MemberCreationDto
   ): Promise<Types.RequestCreateMembersResult> {
     const url = routes.createMember();
     const method = http.post<MemberDto>(url, body);
@@ -39,7 +39,7 @@ export const MemberApi = {
 
   async updateMember(
     id: Member["id"],
-    body: Types.RequestUpdateMemberBody
+    body: MemberCreationDto
   ): Promise<Types.RequestUpdateMembersResult> {
     const url = routes.updateMember(id);
     const method = http.patch<MemberDto>(url, body);

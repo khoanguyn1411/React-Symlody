@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { EFile } from "@/constants";
 
@@ -67,7 +67,7 @@ export const usePickImage = ({
     element.value = null;
   };
 
-  useEffect(() => {
+  useEffectSkipFirstRender(() => {
     setFile(undefined);
     setFileData({ url: defaultImageLink, type: EFile.Image });
   }, [defaultImageLink, handleRemoveFile, setFile]);

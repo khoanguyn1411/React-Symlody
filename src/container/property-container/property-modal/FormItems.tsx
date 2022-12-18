@@ -135,13 +135,15 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
         <Controller
           control={control}
           name="image"
-          render={({ field: { value, onChange } }) => (
-            <PickImage
-              file={value}
-              defaultImageLink={getValues().imageLink}
-              setFile={onChange}
-            />
-          )}
+          render={({ field: { value, onChange } }) => {
+            return (
+              <PickImage
+                file={value}
+                defaultImageLink={getValues().imageLink}
+                setFile={onChange}
+              />
+            );
+          }}
         />
       </FormItem>
       <FormItem label="Ghi chú">

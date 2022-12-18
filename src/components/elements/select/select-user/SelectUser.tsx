@@ -6,7 +6,7 @@ import { useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import { User } from "@/features/types";
 import { useDebounce } from "@/hooks";
-import { toCleanedString } from "@/utils/funcs/clean-string";
+import { cleanString } from "@/utils/funcs/clean-string";
 
 import { Avatar } from "../../avatar";
 import { Button } from "../../button";
@@ -79,7 +79,7 @@ export const SelectUser: React.FC<Props> = ({
     }
 
     const newUserFilterList = userList.filter((item) =>
-      toCleanedString(item.fullName).includes(toCleanedString(searchValue))
+      cleanString(item.fullName).includes(cleanString(searchValue))
     );
     setCurrentUserList(newUserFilterList);
     // eslint-disable-next-line react-hooks/exhaustive-deps

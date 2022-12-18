@@ -14,7 +14,7 @@ type InputFormError<T> = {
   errors: T;
 
   /** Please do not use this key because it's only for generating recursive function purpose. */
-  previousKey?: string;
+  accumulateKey?: string;
 
   /** Custom message if you need to override current backend error. */
   customMessage?: CustomMessage<T>;
@@ -84,7 +84,7 @@ export namespace FormService {
    */
   export function generateErrors<T extends HttpError<any>["detail"]>({
     errors,
-    previousKey = null,
+    accumulateKey = null,
     customMessage,
     setError,
   }: InputFormError<T>): void {
@@ -95,8 +95,8 @@ export namespace FormService {
           return;
         }
 
-        if (previousKey) {
-          const newKey = `${previousKey}.${key}`;
+        if (accumulateKey) {
+          const newKey = `${accumulateKey}.${key}`;
           if (customMessage && customMessage[newKey] != null) {
             setError(newKey, { message: customMessage[newKey] });
             return;
@@ -112,15 +112,15 @@ export namespace FormService {
         setError(key, { message: value });
         return;
       }
-      let newPreviousKey: string;
-      if (previousKey) {
-        newPreviousKey = `${previousKey}.${key}`;
+      let currentKey: string;
+      if (accumulateKey) {
+        currentKey = `${accumulateKey}.${key}`;
       } else {
-        newPreviousKey = key;
+        currentKey = key;
       }
       generateErrors({
         errors: errors[key] as T,
-        previousKey: newPreviousKey,
+        accumulateKey: currentKey,
         customMessage: customMessage,
         setError,
       });

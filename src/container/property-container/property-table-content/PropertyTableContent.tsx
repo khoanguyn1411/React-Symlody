@@ -37,10 +37,11 @@ export const PropertyTableContent: React.FC<TProps> = ({
     onEdit(item);
   };
   const handleDelete = (item: Property) => () => {
-    onDelete(item);
     setCurrentInteractiveId(item.id);
+    onDelete(item);
   };
   const handleRestore = (item: Property) => () => {
+    setCurrentInteractiveId(item.id);
     onRestore(item);
   };
 

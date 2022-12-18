@@ -11,6 +11,7 @@ import {
 import { propertyFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import { PropertyFilterParams } from "@/features/types/models/filter-params";
 import { GlobalTypes } from "@/utils";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
 import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
 import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 
@@ -47,6 +48,26 @@ export const createPropertyAsync = createAsyncThunk<
     rejectWithValue,
   });
 });
+
+export const updatePropertyAsync = createAsyncThunk<
+  GlobalTypes.ReduxThunkRestoreResult<Property>,
+  GlobalTypes.ReduxThunkRestorePayload<PropertyCreation, Property>,
+  GlobalTypes.ReduxThunkRejectValue<HttpError<PropertyCreation>>
+>(
+  "property/update",
+  async ({ payload, id, isRestore }, { rejectWithValue }) => {
+    const propertyDto = propertyMapper.toFormData(payload);
+    const result = await PropertyApi.updateProperty(id, propertyDto);
+    if (result.kind === "ok") {
+      const propertyUpdatedInfo = propertyMapper.fromDto(result.result);
+      return {
+        result: propertyUpdatedInfo,
+        isRestore,
+      };
+    }
+    return ErrorHandler.catchHttpError(propertyMapper, result, rejectWithValue);
+  }
+);
 
 export const deletePropertyAsync = createAsyncThunk<
   Property["id"],
@@ -137,6 +158,29 @@ export const propertySlice = createSlice({
       .addCase(createPropertyAsync.fulfilled, (state, action) => {
         state.pending = false;
         propertyAdapter.addOne(state, action.payload);
+      })
+
+      .addCase(updatePropertyAsync.rejected, (state) => {
+        state.pendingRestoreProperty = false;
+      })
+      .addCase(updatePropertyAsync.pending, (state) => {
+        state.pendingRestoreProperty = true;
+      })
+      .addCase(updatePropertyAsync.fulfilled, (state, action) => {
+        state.pendingRestoreProperty = false;
+        const newProperty = action.payload.result;
+        const shouldRemoveOne =
+          action.payload.isRestore &&
+          state.filterParamsProperty.isArchived != null;
+        if (shouldRemoveOne) {
+          propertyAdapter.removeOne(state, newProperty.id);
+          return;
+        }
+
+        propertyAdapter.updateOne(state, {
+          id: newProperty.id,
+          changes: newProperty,
+        });
       })
 
       .addCase(deletePropertyAsync.pending, (state) => {
