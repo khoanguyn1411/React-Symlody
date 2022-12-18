@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { EFile } from "@/constants";
 
@@ -66,8 +66,6 @@ export const usePickImage = ({
     const element = event.target as HTMLInputElement;
     element.value = null;
   };
-
-  console.log(file);
 
   useEffectSkipFirstRender(() => {
     setFile(undefined);

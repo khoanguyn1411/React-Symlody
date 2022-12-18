@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { STYLE_INPUT_TEXT_AREA, TInputTextAreaProps } from "../type";
 
@@ -15,12 +15,13 @@ export const TextArea: React.FC<TInputTextAreaProps> = ({
   onInputSideEffect,
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>();
+
+  const [height, setHeight] = useState<string>(initialHeight);
   useEffect(() => {
     if (!textAreaRef?.current) {
       return;
     }
-    textAreaRef.current.style.height = initialHeight;
-    textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
+    setHeight(textAreaRef.current.scrollHeight + "px");
   }, [initialHeight, value]);
 
   const handleChangeEvent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -33,10 +34,12 @@ export const TextArea: React.FC<TInputTextAreaProps> = ({
     return !value.startsWith(" ") && onChange(value);
   };
 
+  console.log(height);
   return (
     <textarea
       ref={textAreaRef}
       value={value}
+      style={{ height: height }}
       placeholder={placeholder}
       onChange={handleChangeEvent}
       disabled={disable}

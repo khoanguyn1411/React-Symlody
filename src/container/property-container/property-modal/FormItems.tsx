@@ -21,7 +21,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
   const {
     control,
     getValues,
-    formState: { errors, dirtyFields },
+    formState: { errors },
   } = formProps;
 
   const handleInputPriceSideEffect = (value: string) => {
@@ -136,7 +136,6 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
           control={control}
           name="image"
           render={({ field: { value, onChange } }) => {
-            console.log(value);
             return (
               <PickImage
                 file={value}
