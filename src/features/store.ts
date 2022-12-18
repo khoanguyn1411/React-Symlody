@@ -42,6 +42,13 @@ const reducerProxy: Reducer<
 
 export const store = configureStore({
   reducer: reducerProxy,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      // We need to disable this check to allow File data in Redux.
+      // You can find more info about this middleware in docs:
+      // https://redux-toolkit.js.org/api/serializabilityMiddleware
+      serializableCheck: false,
+    }),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

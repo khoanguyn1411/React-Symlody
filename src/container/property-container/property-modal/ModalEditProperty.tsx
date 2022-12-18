@@ -79,6 +79,7 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
     if (!data) {
       return;
     }
+    console.log(data);
     const formData = propertyFormMapper.fromModel(data);
     const getInChargeIdDefaultValue = () => {
       const defaultInChargeId = formData.inChargerId;

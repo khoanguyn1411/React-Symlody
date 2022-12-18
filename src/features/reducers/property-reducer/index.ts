@@ -56,7 +56,7 @@ export const updatePropertyAsync = createAsyncThunk<
 >(
   "property/update",
   async ({ payload, id, isRestore }, { rejectWithValue }) => {
-    const propertyDto = propertyMapper.toCreationDto(payload);
+    const propertyDto = propertyMapper.toFormData(payload);
     const result = await PropertyApi.updateProperty(id, propertyDto);
     if (result.kind === "ok") {
       const propertyUpdatedInfo = propertyMapper.fromDto(result.result);

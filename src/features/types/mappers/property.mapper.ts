@@ -72,7 +72,7 @@ export class PropertyMapper
       note: model.note,
       prop_owner: model.propOwner,
       incharger_id: model.inChargerId,
-      image: model.image ?? undefined,
+      image: model.image,
       price: model.price,
       quantity: model.quantity,
     };

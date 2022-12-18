@@ -1,4 +1,4 @@
-import { Property, PropertyCreationDto, PropertyDto } from "@/features/types";
+import { Property, PropertyDto } from "@/features/types";
 import { PropertyFilterParamsDto } from "@/features/types/dtos/filter-params";
 
 import { http } from "../api-core";
@@ -39,7 +39,7 @@ export const PropertyApi = {
 
   async updateProperty(
     id: Property["id"],
-    body: PropertyCreationDto
+    body: FormData
   ): Promise<Types.RequestUpdatePropertyResult> {
     const url = routes.updateProperty(id);
     const method = http.patch<PropertyDto>(url, body);

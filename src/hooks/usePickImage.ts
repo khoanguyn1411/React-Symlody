@@ -67,7 +67,9 @@ export const usePickImage = ({
     element.value = null;
   };
 
-  useEffect(() => {
+  console.log(file);
+
+  useEffectSkipFirstRender(() => {
     setFile(undefined);
     setFileData({ url: defaultImageLink, type: EFile.Image });
   }, [defaultImageLink, handleRemoveFile, setFile]);

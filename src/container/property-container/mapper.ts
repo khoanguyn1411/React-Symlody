@@ -13,7 +13,7 @@ export class PropertyFormMapper {
       propOwner: model.propOwner,
       note: model.note,
       imageLink: model.image,
-      image: null,
+      image: undefined,
     };
   }
   public toModel(propertyFormData: PropertyForm): PropertyCreation {
