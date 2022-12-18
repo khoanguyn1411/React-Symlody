@@ -1,5 +1,3 @@
-import { StrictPick } from "@/utils/types";
-
 import { AuthAccount, AuthAccountCreation } from "./auth-account";
 import { Department } from "./department";
 import { Gender } from "./gender";
@@ -22,7 +20,7 @@ export interface Profile extends AuthAccount, IsRole {
 
 export type ProfileCreation = AuthAccountCreation & {
   avatar: File;
-} & StrictPick<
+} & Pick<
     Profile,
     | "gender"
     | "dob"

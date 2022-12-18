@@ -5,7 +5,7 @@ import { useTourLayout } from "@/components/tour";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { toggleCompactSidebar } from "@/features/reducers";
 import { PageKey } from "@/routes";
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 import { Header } from "../header";
 import { SidebarDesktop } from "../sidebar";
@@ -14,7 +14,7 @@ type TProps = {
   pageKey: PageKey;
 };
 
-export const MainLayout: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const MainLayout: AppReact.FC.PropsWithChildren<TProps> = ({
   children,
   pageKey,
 }) => {

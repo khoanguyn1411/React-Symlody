@@ -1,7 +1,6 @@
-import { GlobalTypes } from "@/utils";
 import { CSSVarService } from "@/utils/funcs/css-var-service";
-
-export const HeaderForTabHost: GlobalTypes.FCChildren = ({ children }) => {
+import { AppReact } from "@/utils/types";
+export const HeaderForTabHost: AppReact.FC.Children = ({ children }) => {
   return (
     <div
       style={{ top: CSSVarService.get("header-height") }}

@@ -14,9 +14,9 @@ import { changePasswordMapper } from "@/features/types/mappers/change-password.m
 import { loginMapper } from "@/features/types/mappers/login.mapper";
 import { tokenMapper } from "@/features/types/mappers/token.mapper";
 import { ChangePassword } from "@/features/types/models/change-password";
-import { GlobalTypes } from "@/utils";
 import { ErrorHandler } from "@/utils/funcs/error-handler";
 import { TokenService } from "@/utils/funcs/token-service";
+import { ReduxThunk } from "@/utils/types";
 
 import { getUsersAsync } from "../user-reducer";
 
@@ -37,7 +37,7 @@ const initialState: AuthState = {
 export const loginAsync = createAsyncThunk<
   boolean,
   Login,
-  GlobalTypes.ReduxThunkRejectValue<false>
+  ReduxThunk.RejectValue<false>
 >("auth/login", async (payload, { rejectWithValue }) => {
   const loginInfoDto = loginMapper.toDto(payload);
   const result = await AuthApi.login(loginInfoDto);
@@ -51,7 +51,7 @@ export const loginAsync = createAsyncThunk<
 export const changePasswordAsync = createAsyncThunk<
   true,
   ChangePassword,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<ChangePassword>>
+  ReduxThunk.RejectValue<HttpError<ChangePassword>>
 >("auth/change-password", async (payload, { rejectWithValue }) => {
   const changePasswordDto = changePasswordMapper.toDto(payload);
   const result = await AuthApi.changePassword(changePasswordDto);
@@ -69,7 +69,7 @@ export const changePasswordAsync = createAsyncThunk<
 export const getMeAsync = createAsyncThunk<
   Profile,
   null,
-  GlobalTypes.ReduxThunkRejectValue<null>
+  ReduxThunk.RejectValue<null>
 >("auth/get-me", async (_, { rejectWithValue }) => {
   const result = await AuthApi.getProfile();
   if (result.kind === "ok") {
@@ -96,7 +96,7 @@ export const logoutAsync = createAsyncThunk(
 export const updateProfileAsync = createAsyncThunk<
   Profile,
   ProfileCreation,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<ProfileCreationDto> | null>
+  ReduxThunk.RejectValue<HttpError<ProfileCreationDto> | null>
 >("auth/update-profile", async (param, { rejectWithValue, dispatch }) => {
   const paramDto = profileMapper.toFormData(param);
   const result = await AuthApi.updateProfile(paramDto);

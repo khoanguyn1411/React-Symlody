@@ -1,16 +1,14 @@
 import classNames from "classnames";
 import React, { useRef, useState } from "react";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 import { Portal } from "../../portal";
 import { SelectDisplayWrapper } from "../select-components";
 import { SelectListWrapper } from "../select-components/SelectListWrapper";
 import { TSelectCustomProps } from "../type";
 
-export const SelectBase: GlobalTypes.FCPropsWithChildren<
-  TSelectCustomProps
-> = ({
+export const SelectBase: AppReact.FC.PropsWithChildren<TSelectCustomProps> = ({
   classNameDisplay,
   classNameList,
   renderListItem,
@@ -27,7 +25,7 @@ export const SelectBase: GlobalTypes.FCPropsWithChildren<
   setIsShowContent,
 }) => {
   let _isShowContent: boolean,
-    _setIsShowContent: GlobalTypes.ReactStateAction<boolean>;
+    _setIsShowContent: AppReact.State.Dispatch<boolean>;
 
   if (isShowContent != null && setIsShowContent != null) {
     _isShowContent = isShowContent;

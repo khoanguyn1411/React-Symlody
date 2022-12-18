@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { ReactNode } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import { FCPropsWithChildren } from "@/utils/types";
+import { AppReact } from "@/utils/types";
 
 import { AnimationCustom } from "../animation-custom";
 import { Button } from "../button";
@@ -17,7 +17,7 @@ type Props = {
   title: ReactNode;
 };
 
-export const Dialog: FCPropsWithChildren<Props> = ({
+export const Dialog: AppReact.FC.PropsWithChildren<Props> = ({
   closeWhenClickOutside = true,
   toggle,
   title,

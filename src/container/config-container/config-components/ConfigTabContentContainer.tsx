@@ -1,12 +1,12 @@
 import React from "react";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 type TProps = {
   onSubmit?: React.FormEventHandler<HTMLFormElement>;
 };
 
-export const ConfigTabContentContainer: GlobalTypes.FCPropsWithChildren<
+export const ConfigTabContentContainer: AppReact.FC.PropsWithChildren<
   TProps
 > = ({ children, onSubmit }) => {
   return (

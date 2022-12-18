@@ -1,6 +1,6 @@
 import classNames from "classnames";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 import {
   TableRowProvider,
@@ -8,7 +8,7 @@ import {
   useTableRowContext,
 } from "./context";
 
-const TableRowContent: GlobalTypes.FCChildren = ({ children }) => {
+const TableRowContent: AppReact.FC.Children = ({ children }) => {
   const { isSkeleton } = useTableRowContext();
   return (
     <tr
@@ -22,7 +22,7 @@ const TableRowContent: GlobalTypes.FCChildren = ({ children }) => {
   );
 };
 
-export const TableRow: GlobalTypes.FCPropsWithChildren<TPropsTableRow> = ({
+export const TableRow: AppReact.FC.PropsWithChildren<TPropsTableRow> = ({
   children,
   ...props
 }) => {

@@ -5,8 +5,8 @@ import { Avatar, Checkbox, Search, Select } from "@/components";
 import { TOptionProps } from "@/components/elements/select/type";
 import { User } from "@/features/types";
 import { useDebounce, useEffectSkipFirstRender } from "@/hooks";
-import { GlobalTypes } from "@/utils";
 import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
+import { AppReact } from "@/utils/types";
 
 import {
   DEFAULT_SHOULD_SHOW_SEARCH_QUANTITY,
@@ -17,7 +17,7 @@ import { TodoCircleBorderWrapper } from "./TodoCircleBorderWrapper";
 type TProps = {
   memberList: User[];
   selectedMembers: User[];
-  setSelectedMembers: GlobalTypes.ReactStateAction<User[]>;
+  setSelectedMembers: AppReact.State.Dispatch<User[]>;
 };
 
 export const TodoNumberHolder: React.FC<TProps> = ({

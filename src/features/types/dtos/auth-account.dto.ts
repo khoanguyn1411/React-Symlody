@@ -1,4 +1,4 @@
-import { GlobalTypes } from "@/utils";
+import { StrictOmit } from "@/utils/types";
 
 import { GroupDto } from "./group.dto";
 
@@ -9,7 +9,4 @@ export interface AuthAccountDto {
   last_name: string;
 }
 
-export type AuthAccountCreationDto = GlobalTypes.StrictOmit<
-  AuthAccountDto,
-  "groups"
->;
+export type AuthAccountCreationDto = StrictOmit<AuthAccountDto, "groups">;

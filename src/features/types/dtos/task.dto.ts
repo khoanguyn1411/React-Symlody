@@ -1,4 +1,4 @@
-import { StrictOmit, StrictPick } from "@/utils/types";
+import { StrictOmit } from "@/utils/types";
 
 import { UserDto } from "./user.dto";
 
@@ -36,10 +36,7 @@ export interface TaskDto {
   sent_email: boolean;
 }
 
-export type TaskCreationDto = StrictPick<
-  TaskDto,
-  "title" | "assignee" | "reporter"
-> &
+export type TaskCreationDto = Pick<TaskDto, "title" | "assignee" | "reporter"> &
   Partial<
     StrictOmit<
       TaskDto,

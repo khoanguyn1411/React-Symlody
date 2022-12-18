@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 export const STYLE_MAPS = {
   none: "h-[fit-content]",
@@ -33,6 +33,6 @@ export type TPropsButton = {
   size?: keyof typeof SIZE_MAPS;
   disable?: boolean;
   block?: boolean;
-  otherProps?: GlobalTypes.ReactButtonProps;
+  otherProps?: AppReact.Button.Props;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };

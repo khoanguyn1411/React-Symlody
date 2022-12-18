@@ -1,6 +1,6 @@
 import { memo, useRef, useState } from "react";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 import { AnimationCustom } from "../animation-custom";
 import { Portal } from "../portal";
@@ -14,7 +14,7 @@ type TProps = {
   space?: number;
 };
 
-const _Tooltip: GlobalTypes.FCPropsWithChildren<TProps> = ({
+const _Tooltip: AppReact.FC.PropsWithChildren<TProps> = ({
   children,
   content,
   className,

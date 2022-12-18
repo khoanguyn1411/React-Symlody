@@ -5,11 +5,10 @@ import { Route } from "react-router-dom";
 
 import { Icon } from "./assets/icons";
 import { MainLayout } from "./components";
-import { MediaContextProvider } from "./components/media";
 import { AuthorizedGuard, UnauthorizedGuard } from "./guards";
 import { useAuth } from "./hooks";
-import { AppProvider, ThemeProvider } from "./provider";
-import { CustomRoute, routesConfigs } from "./routes";
+import { AppProvider } from "./provider";
+import { routesConfigs } from "./routes";
 
 export const App: React.FC = () => {
   const { isLoading, isAuth } = useAuth();
@@ -23,41 +22,35 @@ export const App: React.FC = () => {
 
   return (
     <AppProvider>
-      <MediaContextProvider>
-        <ThemeProvider>
-          <CustomRoute>
-            {routesConfigs.privateRoutes.map((route) => {
-              return (
-                <Route
-                  path={route.path}
-                  key={route.pageKey}
-                  element={
-                    <AuthorizedGuard isAuth={isAuth}>
-                      <MainLayout pageKey={route.pageKey}>
-                        {route.component}
-                      </MainLayout>
-                    </AuthorizedGuard>
-                  }
-                />
-              );
-            })}
+      {routesConfigs.privateRoutes.map((route) => {
+        return (
+          <Route
+            path={route.path}
+            key={route.pageKey}
+            element={
+              <AuthorizedGuard isAuth={isAuth}>
+                <MainLayout pageKey={route.pageKey}>
+                  {route.component}
+                </MainLayout>
+              </AuthorizedGuard>
+            }
+          />
+        );
+      })}
 
-            {routesConfigs.publicRoutes.map((route) => {
-              return (
-                <Route
-                  path={route.path}
-                  key={route.pageKey}
-                  element={
-                    <UnauthorizedGuard isAuth={isAuth}>
-                      {route.component}
-                    </UnauthorizedGuard>
-                  }
-                />
-              );
-            })}
-          </CustomRoute>
-        </ThemeProvider>
-      </MediaContextProvider>
+      {routesConfigs.publicRoutes.map((route) => {
+        return (
+          <Route
+            path={route.path}
+            key={route.pageKey}
+            element={
+              <UnauthorizedGuard isAuth={isAuth}>
+                {route.component}
+              </UnauthorizedGuard>
+            }
+          />
+        );
+      })}
     </AppProvider>
   );
 };

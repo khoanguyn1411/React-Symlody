@@ -2,6 +2,7 @@ import { FieldError, Path, UseFormSetError } from "react-hook-form";
 
 import { HttpError } from "@/features/types";
 
+import { RecordObject } from "../types";
 import { CommonAssertion } from "./common-assertion";
 import { isObject } from "./is-object";
 
@@ -29,7 +30,7 @@ export namespace FormService {
    * -- DEPRECATED --
    * @param data Default values of form.
    */
-  export function getDefaultValues<T extends Record<string, any>>(data: T) {
+  export function getDefaultValues<T extends RecordObject>(data: T) {
     return {
       /**
        * Get value by key in default value object (with suggestion).
@@ -57,7 +58,7 @@ export namespace FormService {
    * @param dirtyFields `dirtyFields` from `formState` of `useForm` hook.
    * @returns Return `true` when the quantity of keys in dirtyFields = 0, otherwise `false`.
    */
-  export function isDirtyFields<T extends Record<string, any>>(
+  export function isDirtyFields<T extends RecordObject>(
     dirtyFields: T
   ): boolean {
     return Object.keys(dirtyFields).length > 0;

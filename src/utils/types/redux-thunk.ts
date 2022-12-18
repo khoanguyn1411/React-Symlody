@@ -1,15 +1,21 @@
-export type ReduxThunkRejectValue<T> = { rejectValue: T };
+/** Redux common type in application. */
+export namespace ReduxThunk {
+  /** Rejected value type of redux thunk. */
+  export type RejectValue<T> = { rejectValue: T };
 
-export type ReduxThunkRestorePayload<T, K extends { id: number | string }> = {
-  payload: T;
-  isRestore: boolean;
-  id: K["id"];
-};
-export type ReduxThunkRestoreResult<T> = {
-  result: T;
-  isRestore: boolean;
-};
+  /** Payload type specialize for entity updating feature included restore handler (entity included `is_archived` key). */
+  export type RestorePayload<T, K extends { id: number | string }> = {
+    payload: T;
+    isRestore: boolean;
+    id: K["id"];
+  };
 
-export type ReduxThunkRestoreRejected<T> = ReduxThunkRejectValue<
-  ReduxThunkRestoreResult<T>
->;
+  /** Result type specialize for entity updating feature included restore handler (entity included `is_archived` key). */
+  export type RestoreResult<T> = {
+    result: T;
+    isRestore: boolean;
+  };
+
+  /** Rejected type specialize for entity updating feature included restore handler (entity included `is_archived` key). */
+  export type RestoreRejected<T> = RejectValue<RestoreResult<T>>;
+}

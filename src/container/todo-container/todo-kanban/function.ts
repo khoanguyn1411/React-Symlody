@@ -1,6 +1,6 @@
 import { DropResult } from "react-beautiful-dnd";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 import { TTodoColumn } from "../type";
 
@@ -13,7 +13,7 @@ import { TTodoColumn } from "../type";
 export const onDragEnd = (
   dropResult: DropResult,
   columnList: TTodoColumn[],
-  setColumnList: GlobalTypes.ReactStateAction<TTodoColumn[]>
+  setColumnList: AppReact.State.Dispatch<TTodoColumn[]>
 ): void => {
   const { destination, source } = dropResult;
   const sourceColumn = columnList.find((col) => col.id === source.droppableId);

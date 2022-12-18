@@ -4,6 +4,8 @@ import { Response } from "@/api";
 import { DetailErrorDto, HttpError } from "@/features/types";
 import { IMapperToHttpError } from "@/features/types/mappers/base-mappers/mapper";
 
+import { RecordObject } from "../types";
+
 export type RejectWithValue<T, E extends keyof T = undefined> = BaseThunkAPI<
   any,
   any,
@@ -63,7 +65,7 @@ export namespace ErrorHandler {
   export function catchHttpError<
     TDto,
     TCreation,
-    TCreationDto extends Record<string, any>,
+    TCreationDto extends RecordObject,
     TKeyOfTCreation extends keyof TCreation = undefined
   >(
     mapper: IMapperToHttpError<TCreationDto, TCreation>,

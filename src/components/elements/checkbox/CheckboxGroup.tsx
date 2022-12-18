@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { useEffectSkipFirstRender } from "@/hooks";
-import { ReactStateAction } from "@/utils/types";
+import { AppReact } from "@/utils/types";
 
 import { Checkbox } from "./Checkbox";
 
@@ -14,7 +14,7 @@ type TProps = {
   list?: TCheckboxGroupListItem[];
   isOnlyOne?: boolean;
   selectedItems: TCheckboxGroupListItem[] | boolean;
-  setSelectedItems: ReactStateAction<TCheckboxGroupListItem[] | boolean>;
+  setSelectedItems: AppReact.State.Dispatch<TCheckboxGroupListItem[] | boolean>;
 };
 
 export const CheckboxGroup: React.FC<TProps> = ({

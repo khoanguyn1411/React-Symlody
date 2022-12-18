@@ -1,3 +1,5 @@
+import { RecordObject } from "@/utils/types";
+
 export type EntityValidationErrors<T, K = undefined> = {
   [P in keyof T]?: K extends P ? PropValidationMessage<T[P]> : string;
 };
@@ -8,7 +10,7 @@ export type EntityValidationErrors<T, K = undefined> = {
  */
 export type PropValidationMessage<T> = T extends unknown[]
   ? string
-  : T extends Record<string, any>
+  : T extends RecordObject
   ? EntityValidationErrors<T>
   : string;
 

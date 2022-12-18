@@ -1,10 +1,9 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 
-// import { Icon } from "@/assets/icons";
 import { useAppSelector } from "@/features";
+import { Media } from "@/provider/MediaContextProvider";
 
-import { Media } from "../../media";
 import { SidebarMobile } from "../sidebar";
 import { UserDropdown } from "./UserDropdown";
 

@@ -10,17 +10,17 @@ import {
 } from "@/features/types";
 import { propertyFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import { PropertyFilterParams } from "@/features/types/models/filter-params";
-import { GlobalTypes } from "@/utils";
 import { ErrorHandler } from "@/utils/funcs/error-handler";
 import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
 import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
+import { ReduxThunk } from "@/utils/types";
 
 import { initialState, propertyAdapter } from "./state";
 
 export const getPropertyAsync = createAsyncThunk<
   Property[],
   PropertyFilterParams,
-  GlobalTypes.ReduxThunkRejectValue<[]>
+  ReduxThunk.RejectValue<[]>
 >("property/get-list", async (param, { rejectWithValue, dispatch }) => {
   const paramDto = propertyFilterParamsMapper.toDto(param);
   const result = await PropertyApi.getProperties(paramDto);
@@ -37,7 +37,7 @@ export const getPropertyAsync = createAsyncThunk<
 export const createPropertyAsync = createAsyncThunk<
   Property,
   PropertyCreation,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<PropertyCreation>>
+  ReduxThunk.RejectValue<HttpError<PropertyCreation>>
 >("property/create", async (payload, { rejectWithValue }) => {
   const result = await PropertyApi.createProperty(
     propertyMapper.toFormData(payload)
@@ -50,9 +50,9 @@ export const createPropertyAsync = createAsyncThunk<
 });
 
 export const updatePropertyAsync = createAsyncThunk<
-  GlobalTypes.ReduxThunkRestoreResult<Property>,
-  GlobalTypes.ReduxThunkRestorePayload<PropertyCreation, Property>,
-  GlobalTypes.ReduxThunkRejectValue<HttpError<PropertyCreation>>
+  ReduxThunk.RestoreResult<Property>,
+  ReduxThunk.RestorePayload<PropertyCreation, Property>,
+  ReduxThunk.RejectValue<HttpError<PropertyCreation>>
 >(
   "property/update",
   async ({ payload, id, isRestore }, { rejectWithValue }) => {
@@ -72,7 +72,7 @@ export const updatePropertyAsync = createAsyncThunk<
 export const deletePropertyAsync = createAsyncThunk<
   Property["id"],
   Property["id"],
-  GlobalTypes.ReduxThunkRejectValue<null>
+  ReduxThunk.RejectValue<null>
 >("property/delete", async (id, { rejectWithValue }) => {
   const result = await PropertyApi.deleteProperty(id);
   if (result.kind === "ok") {

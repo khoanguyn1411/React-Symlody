@@ -1,7 +1,5 @@
-import React from "react";
+import { AppReact } from "@/utils/types";
 
-import { GlobalTypes } from "@/utils";
-
-export const ConfigSplitColumn: GlobalTypes.FCChildren = ({ children }) => {
+export const ConfigSplitColumn: AppReact.FC.Children = ({ children }) => {
   return <div className="mt-8 grid grid-cols-2 gap-4">{children}</div>;
 };

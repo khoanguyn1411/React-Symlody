@@ -1,5 +1,5 @@
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
-export const TableBody: GlobalTypes.FCChildren = ({ children }) => {
+export const TableBody: AppReact.FC.Children = ({ children }) => {
   return <tbody>{children}</tbody>;
 };

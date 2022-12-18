@@ -1,3 +1,4 @@
+import { RecordObject } from "../types";
 import { isObject } from "./is-object";
 
 /**
@@ -24,7 +25,7 @@ function appendFormWith(formData: FormData, key: string, value: any): void {
  * @param accumulateKey Please do not provide this param, it must only be used for recursive purpose.
  * @returns Form data appended with entity provided.
  */
-export function repairFormData<T extends Record<string, any>>(
+export function repairFormData<T extends RecordObject>(
   entity: T,
   accumulateKey?: string
 ): FormData {

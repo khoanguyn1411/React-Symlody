@@ -4,6 +4,7 @@ import {
   IMapperToHttpError,
 } from "@/features/types/mappers/base-mappers/mapper";
 
+import { RecordObject } from "../types";
 import { ErrorHandler, RejectWithValue } from "./error-handler";
 
 type InputRequest<TDto, TModel, TCreation, TCreationDto> = {
@@ -27,10 +28,10 @@ type InputRequest<TDto, TModel, TCreation, TCreationDto> = {
  * - `fromDtoMapperSupport`: Mapper supported fromDto.
  */
 export function validateSimpleRequestResult<
-  TDto extends Record<string, any>,
-  TModel extends Record<string, any>,
-  TCreation extends Record<string, any>,
-  TCreationDto extends Record<string, any>,
+  TDto extends RecordObject,
+  TModel extends RecordObject,
+  TCreation extends RecordObject,
+  TCreationDto extends RecordObject,
   TKeyOfTCreation extends keyof TCreation = undefined
 >({
   result,

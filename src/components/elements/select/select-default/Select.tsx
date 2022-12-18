@@ -1,8 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 
-import { GlobalTypes } from "@/utils";
 import { CommonAssertion } from "@/utils/funcs/common-assertion";
-import { Primitive } from "@/utils/types";
+import { AppReact, Primitive } from "@/utils/types";
 
 import { SelectBase } from "../select-base/SelectBase";
 import { SelectMultipleDisplay } from "../select-components/select-multiple/SelectMultipleDisplay";
@@ -22,9 +21,9 @@ type Props<T, E extends Primitive> = TSelectCustomProps & {
     removeOptionFn?: () => void
   ) => ReactNode;
   onChangeSideEffect?: (option: TOptionProps<T, E>) => void;
-  onChange?: GlobalTypes.ReactStateAction<Primitive | Primitive[]>;
+  onChange?: AppReact.State.Dispatch<Primitive | Primitive[]>;
   selectValueControlled?: TOptionProps<T, E> | TOptionProps<T, E>[];
-  setSelectValueControlled?: GlobalTypes.ReactStateAction<
+  setSelectValueControlled?: AppReact.State.Dispatch<
     TOptionProps<T, E> | TOptionProps<T, E>[]
   >;
   renderBeforeList?: ReactNode;

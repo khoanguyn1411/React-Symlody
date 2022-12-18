@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
-import { YupValidation } from "@/utils/types";
+import { YupValidation } from "@/utils/types/yup";
 
 import { ChangePasswordForm } from "./type";
 

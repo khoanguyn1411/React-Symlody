@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Routes, useLocation } from "react-router-dom";
 import TopBarProgress from "react-topbar-progress-indicator";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 TopBarProgress.config({
   barColors: {
@@ -12,7 +12,7 @@ TopBarProgress.config({
   shadowBlur: 5,
 });
 
-export const CustomRoute: GlobalTypes.FCChildren = ({ children }) => {
+export const CustomRoute: AppReact.FC.Children = ({ children }) => {
   const [progress, setProgress] = useState(false);
   const [prevLoc, setPrevLoc] = useState("");
   const location = useLocation();

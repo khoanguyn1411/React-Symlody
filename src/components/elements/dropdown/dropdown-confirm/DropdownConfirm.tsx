@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 import { Button } from "../../button";
 import { AlignedPlacement } from "../../portal/type";
@@ -18,7 +18,7 @@ type TProps = {
   disableSubmit?: boolean;
 };
 
-export const DropdownConfirm: GlobalTypes.FCPropsWithChildren<TProps> = ({
+export const DropdownConfirm: AppReact.FC.PropsWithChildren<TProps> = ({
   children,
   handleEvent,
   title,

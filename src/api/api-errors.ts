@@ -1,6 +1,7 @@
 import { ApiErrorResponse } from "apisauce";
 
 import { DetailErrorDto, HttpErrorDto } from "@/features/types";
+import { RecordObject } from "@/utils/types";
 
 import { getGeneralApiProblem, Kind, Response } from "./api-response";
 
@@ -12,14 +13,14 @@ export function isAxiosError(error: any): error is ApiErrorResponse<any> {
 }
 
 export function validateHttpError<T>(
-  _error: Record<string, any>,
+  _error: RecordObject,
   kind: Kind
 ): _error is HttpErrorDto<T> {
   return kind === "bad-data";
 }
 
 export function isErrorWithDetail<T>(
-  error: Record<string, any>
+  error: RecordObject
 ): error is { error: string; details: DetailErrorDto<T> } {
   const isNotExceedKey = Object.keys(error).length < 3;
   const hasDetails = error.details != null;
@@ -28,7 +29,7 @@ export function isErrorWithDetail<T>(
 }
 
 export function isErrorWithError(
-  error: Record<string, any>
+  error: RecordObject
 ): error is { error: string } {
   const isNotExceedKey = Object.keys(error).length === 1;
   const hasError = error.error != null;
@@ -36,7 +37,7 @@ export function isErrorWithError(
 }
 
 export function isErrorWithArrayDetails(
-  error: Record<string, any>
+  error: RecordObject
 ): error is { details: string[] } {
   const isNotExceedKey = Object.keys(error).length === 1;
   const hasDetails = error.details != null;

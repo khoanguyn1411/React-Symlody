@@ -3,19 +3,24 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import classNames from "classnames";
 
-import { GlobalTypes } from "@/utils";
+import { AppReact } from "@/utils/types";
 
 type TProps = {
   zIndex: number;
   className?: string;
-  onClick?: GlobalTypes.ReactButtonCommonEvents;
-  onMouseOver?: GlobalTypes.ReactButtonCommonEvents;
-  onMouseOut?: GlobalTypes.ReactButtonCommonEvents;
+  onClick?: AppReact.Button.EventHandler;
+  onMouseOver?: AppReact.Button.EventHandler;
+  onMouseOut?: AppReact.Button.EventHandler;
 };
 
-export const TodoCircleBorderWrapper: GlobalTypes.FCPropsWithChildren<
-  TProps
-> = ({ children, zIndex, onClick, onMouseOver, onMouseOut, className }) => {
+export const TodoCircleBorderWrapper: AppReact.FC.PropsWithChildren<TProps> = ({
+  children,
+  zIndex,
+  onClick,
+  onMouseOver,
+  onMouseOut,
+  className,
+}) => {
   return (
     <div className="group" style={{ zIndex: zIndex }}>
       <button

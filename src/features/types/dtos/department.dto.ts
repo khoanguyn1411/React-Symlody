@@ -1,5 +1,3 @@
-import { GlobalTypes } from "@/utils";
-
 export interface DepartmentDto {
   id: number;
   name: string;
@@ -8,7 +6,7 @@ export interface DepartmentDto {
   created_date: string;
 }
 
-export type DepartmentCreationDto = GlobalTypes.StrictPick<
+export type DepartmentCreationDto = Pick<
   DepartmentDto,
   "name" | "abbreviation_name"
 >;

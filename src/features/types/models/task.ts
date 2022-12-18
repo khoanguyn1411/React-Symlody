@@ -1,4 +1,4 @@
-import { StrictOmit, StrictPick } from "@/utils/types";
+import { StrictOmit } from "@/utils/types";
 
 import { User } from "./user";
 
@@ -43,7 +43,7 @@ export interface Task {
   isSentEmail: boolean;
 }
 
-export type TaskCreation = StrictPick<Task, "title" | "assignee" | "reporter"> &
+export type TaskCreation = Pick<Task, "title" | "assignee" | "reporter"> &
   Partial<
     StrictOmit<
       Task,
