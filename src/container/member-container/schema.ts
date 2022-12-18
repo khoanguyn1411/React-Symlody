@@ -27,26 +27,11 @@ export const schema = yup.object().shape<YupValidation<MemberForm>>({
     .mixed<Gender>()
     .oneOf(generateArrayFromEnum(Gender))
     .required(APP_ERROR_MESSAGE.REQUIRED),
-  dob: yup.string().required(APP_ERROR_MESSAGE.REQUIRED).nullable(),
+  dob: yup.string().nullable(),
   department: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
-  className: yup
-    .string()
-    .required(APP_ERROR_MESSAGE.REQUIRED)
-    .max(8, APP_ERROR_MESSAGE.MAX(8, "Mã lớp")),
-  studentId: yup
-    .string()
-    .required(APP_ERROR_MESSAGE.REQUIRED)
-    .max(10, APP_ERROR_MESSAGE.MAX(10, "MSSV")),
-  phoneNumber: yup
-    .string()
-    .required(APP_ERROR_MESSAGE.REQUIRED)
-    .max(11, APP_ERROR_MESSAGE.MAX(11, "Số điện thoại")),
-  address: yup
-    .string()
-    .required(APP_ERROR_MESSAGE.REQUIRED)
-    .max(300, APP_ERROR_MESSAGE.MAX(300, "Địa chỉ")),
-  homeTown: yup
-    .string()
-    .required(APP_ERROR_MESSAGE.REQUIRED)
-    .max(100, APP_ERROR_MESSAGE.MAX(100, "Quê quán")),
+  className: yup.string().max(8, APP_ERROR_MESSAGE.MAX(8, "Mã lớp")),
+  studentId: yup.string().max(10, APP_ERROR_MESSAGE.MAX(10, "MSSV")),
+  phoneNumber: yup.string().max(11, APP_ERROR_MESSAGE.MAX(11, "Số điện thoại")),
+  address: yup.string().max(300, APP_ERROR_MESSAGE.MAX(300, "Địa chỉ")),
+  homeTown: yup.string().max(100, APP_ERROR_MESSAGE.MAX(100, "Quê quán")),
 });
