@@ -17,7 +17,15 @@ type InputRequest<TDto, TModel, TCreation, TCreationDto> = {
   error?: any;
 };
 
-/** Validate simple request result. */
+/**
+ * Validate simple request result.
+ * @param data Included such keys:
+ * - `result`: Result of request.
+ * - `rejectWithValue`: rejectWithValue function of redux thunk.
+   - `mapper`: Mapper supported function of entity.
+ * - `error`: Returned value when error is not "bad-data"
+ * - `fromDtoMapperSupport`: Mapper supported fromDto.
+ */
 export function validateSimpleRequestResult<
   TDto extends Record<string, any>,
   TModel extends Record<string, any>,

@@ -80,7 +80,11 @@ export namespace FormService {
    * - Provide solutions for custom errors.
    * - Provide strict type for validation.
    * ----------------------------------
-   * @param input Input object, please see docs in this type for more detail.
+   * @param input Input object, included following keys:
+   * - `httpError`: HttpError (`error.detail` of request's result).
+   * - `accumulateKey`: Please do not use this key because it's only for generating recursive function purpose.
+   * - `customMessage`: Custom message if you need to override current backend error.
+   * - `setError`: `setError` function of `useForm` hook.
    */
   export function generateErrors<T extends HttpError<any>["detail"]>({
     errors,

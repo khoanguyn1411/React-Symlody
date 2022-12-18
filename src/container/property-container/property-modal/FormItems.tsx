@@ -30,7 +30,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
       if (isNaN(Number(splitValue))) {
         return { newValue: "" };
       }
-      const valueFormatted = CurrencyService.toCurrency(Number(splitValue));
+      const valueFormatted = CurrencyService.toVNDFormat(Number(splitValue));
       return { newValue: valueFormatted };
     }
     return { newValue: value };
