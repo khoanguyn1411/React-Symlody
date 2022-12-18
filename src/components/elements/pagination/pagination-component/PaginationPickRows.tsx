@@ -1,5 +1,3 @@
-import { FormatService } from "@/utils";
-
 import { Select } from "../../select";
 import { usePaginationContext } from "../context";
 
@@ -8,7 +6,7 @@ export const PaginationPickRows: React.FC = () => {
     usePaginationContext();
 
   const handleRowsChange = (_limit: string) => {
-    const limitAsNumber = FormatService.toNumber(_limit);
+    const limitAsNumber = Number(_limit);
     setLimit(limitAsNumber);
     if (limit !== limitAsNumber) {
       onLimitChange && onLimitChange(activePage, limitAsNumber);
@@ -25,7 +23,7 @@ export const PaginationPickRows: React.FC = () => {
           value: item,
           label: `${item} hàng`,
         }))}
-        value={FormatService.toString(limit)}
+        value={limit.toString()}
         onChange={handleRowsChange}
       />
     </div>

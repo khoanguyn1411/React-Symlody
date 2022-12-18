@@ -24,12 +24,13 @@ export const TextArea: React.FC<TInputTextAreaProps> = ({
   }, [initialHeight, value]);
 
   const handleChangeEvent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = event.target;
     if (onInputSideEffect) {
-      const returnValue = onInputSideEffect(event);
+      const returnValue = onInputSideEffect(value);
       const newValue = returnValue.newValue;
       return onChange(newValue);
     }
-    return !event.target.value.startsWith(" ") && onChange(event.target.value);
+    return !value.startsWith(" ") && onChange(value);
   };
 
   return (
@@ -40,7 +41,7 @@ export const TextArea: React.FC<TInputTextAreaProps> = ({
       onChange={handleChangeEvent}
       disabled={disable}
       className={classNames(
-        "w-full p-2 border-gray-200 max-h-72 resize-none text-black outline-none rounded-md",
+        "w-full p-2 focus:ring-primary-800 focus:ring-1 border-gray-200 max-h-72 resize-none text-black outline-none rounded-md",
         className,
         STYLE_INPUT_TEXT_AREA[style]
       )}

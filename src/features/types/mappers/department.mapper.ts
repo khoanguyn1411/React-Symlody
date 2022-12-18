@@ -1,4 +1,4 @@
-import { extractErrorMessage } from "@/utils/services/error-handler-service";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
 
 import { DepartmentCreationDto, DepartmentDto, HttpErrorDto } from "../dtos";
 import { Department, DepartmentCreation, HttpError } from "../models";
@@ -20,9 +20,11 @@ export class DepartmentMapper
   ): HttpError<DepartmentCreation> {
     return {
       name:
-        extractErrorMessage(errorDto.name) ??
-        extractErrorMessage(errorDto.non_field_errors),
-      abbreviationName: extractErrorMessage(errorDto.abbreviation_name),
+        ErrorHandler.extractErrorMessage(errorDto.name) ??
+        ErrorHandler.extractErrorMessage(errorDto.non_field_errors),
+      abbreviationName: ErrorHandler.extractErrorMessage(
+        errorDto.abbreviation_name
+      ),
     };
   }
 

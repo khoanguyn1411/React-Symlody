@@ -1,12 +1,12 @@
-import { FormatService } from "@/utils/services";
+import { DateService } from "@/utils/funcs/date-service";
 
 export class DateMapper {
   public fromDto(dto: string | undefined): string {
-    return dto ? FormatService.toDateString(dto, "US") : "";
+    return dto ? DateService.toFormat(dto, "US") : "";
   }
 
   public toDto(model: string | null | undefined): string {
-    return model ? FormatService.toDateString(model, "API") : undefined;
+    return model ? DateService.toFormat(model, "API") : undefined;
   }
 }
 

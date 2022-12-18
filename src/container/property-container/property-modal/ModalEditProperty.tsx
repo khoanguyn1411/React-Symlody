@@ -13,8 +13,7 @@ import {
 import { Property, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { THookModalProps } from "@/hooks";
-import { FormatService, FormService } from "@/utils";
-import { generateFormErrors } from "@/utils/services/form-service";
+import { FormService } from "@/utils/funcs/form-service";
 
 import { PROPERTY_MESSAGE } from "../constant";
 import { propertyFormMapper } from "../mapper";
@@ -57,7 +56,7 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
     if (updatePropertyAsync.rejected.match(res)) {
       const errors = res.payload;
       if (errors) {
-        generateFormErrors({
+        FormService.generateErrors({
           errors,
           setError,
         });
@@ -86,7 +85,7 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
       if (!defaultInChargeId) {
         return null;
       }
-      const inChargeIdAsNumber = FormatService.toNumber(defaultInChargeId);
+      const inChargeIdAsNumber = Number(defaultInChargeId);
       if (!userIds.includes(inChargeIdAsNumber)) {
         return null;
       }

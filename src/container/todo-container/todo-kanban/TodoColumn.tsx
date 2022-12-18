@@ -3,7 +3,7 @@ import { useLayoutEffect, useMemo, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
 import { Task } from "@/features/types";
-import { FormatService, SortService } from "@/utils";
+import { mapOrder } from "@/utils/funcs/map-order";
 
 import { TODO_DATA } from "../constant";
 import { TODO_STATUS_MAP_FROM_ID } from "../mapper";
@@ -25,7 +25,7 @@ export const TodoColumn: React.FC<TProps> = ({
   const [listCard, setListCard] = useState<Task[]>(columnData.cards);
 
   useLayoutEffect(() => {
-    const sortedCardList = SortService.mapOrder<Task>(
+    const sortedCardList = mapOrder<Task>(
       columnData.cards,
       columnData.cardOrder,
       "id"
@@ -60,7 +60,7 @@ export const TodoColumn: React.FC<TProps> = ({
   const isColumnNotInDragging = draggingCard.columnId !== columnData.id;
 
   return (
-    <div className="bg-gray-100 rounded-lg h-[calc(100%_-_15px)] min-w-[250px]">
+    <div className="bg-gray-100 rounded-lg h-[calc(100%_-_15px)] min-w-[275px]">
       <div className="sticky top-0 z-[2] bg-gray-50">
         <h1 className="px-3 py-4 font-medium bg-gray-100 rounded-t-lg">
           {columnData.title} {hasTasks && `${taskQuantity} công việc`}
@@ -72,23 +72,29 @@ export const TodoColumn: React.FC<TProps> = ({
               !isColumnDraggingFrom,
           })}
         >
-          <div className="flex flex-wrap items-start w-full p-2">
+          <div className="flex flex-wrap items-start justify-center w-full">
             <span
-              className={classNames("font-medium px-2 mb-2 py-1 rounded-lg", {
-                "bg-green-300 text-green-800": shouldHaveColor("green"),
-                "bg-primary-100 text-primary-800": shouldHaveColor("blue"),
-              })}
+              className={classNames(
+                "font-medium text-sm px-1 mb-2 py-[0.5px] rounded-sm",
+                {
+                  "bg-green-50 text-green-800": shouldHaveColor("green"),
+                  "bg-gray-50 text-primary-800": shouldHaveColor("blue"),
+                }
+              )}
             >
               {TODO_STATUS_MAP_FROM_ID[draggingCard.columnId]}
             </span>
-            <span className="mx-2 mt-1">
+            <span className="mx-2 mt-1 text-xs">
               <i className="fas fa-arrow-right" />
             </span>
             <span
-              className={classNames("font-medium px-2 py-1 rounded-lg", {
-                "bg-green-300 text-green-800": columnData.color === "green",
-                "bg-primary-100 text-primary-800": columnData.color === "blue",
-              })}
+              className={classNames(
+                "font-medium text-sm px-1 py-[0.5px] rounded-sm",
+                {
+                  "bg-green-50 text-green-800": columnData.color === "green",
+                  "bg-gray-50 text-primary-800": columnData.color === "blue",
+                }
+              )}
             >
               {columnData.title}
             </span>
@@ -112,7 +118,7 @@ export const TodoColumn: React.FC<TProps> = ({
                     {
                       "border-primary-800 bg-primary-50 border-dashed":
                         snapshot.isDraggingOver,
-                      "bg-gray-200 border-gray-500  border-dashed":
+                      "bg-gray-200 border-gray-500 border-dashed":
                         draggingCard.isCardDragging && !snapshot.isDraggingOver,
                       "border-transparent": !draggingCard.isCardDragging,
                     }
@@ -124,12 +130,12 @@ export const TodoColumn: React.FC<TProps> = ({
                     <Draggable
                       key={cardProps.id}
                       index={index}
-                      draggableId={FormatService.toString(cardProps.id)}
+                      draggableId={cardProps.id.toString()}
                     >
                       {(provided) => (
                         <div
                           className={
-                            FormatService.toString(cardProps.id) !==
+                            cardProps.id.toString() !==
                               snapshot.draggingFromThisWith &&
                             draggingCard.isCardDragging &&
                             isColumnNotInDragging

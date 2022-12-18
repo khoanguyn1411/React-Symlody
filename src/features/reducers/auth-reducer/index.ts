@@ -14,8 +14,11 @@ import { changePasswordMapper } from "@/features/types/mappers/change-password.m
 import { loginMapper } from "@/features/types/mappers/login.mapper";
 import { tokenMapper } from "@/features/types/mappers/token.mapper";
 import { ChangePassword } from "@/features/types/models/change-password";
-import { GlobalTypes, TokenService } from "@/utils";
-import { catchHttpError } from "@/utils/services/error-handler-service";
+import { GlobalTypes } from "@/utils";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
+import { TokenService } from "@/utils/funcs/token-service";
+
+import { getUsersAsync } from "../user-reducer";
 
 export type AuthState = {
   pending: boolean;
@@ -55,7 +58,12 @@ export const changePasswordAsync = createAsyncThunk<
   if (result.kind === "ok") {
     return true;
   }
-  return catchHttpError(changePasswordMapper, result, rejectWithValue, false);
+  return ErrorHandler.catchHttpError(
+    changePasswordMapper,
+    result,
+    rejectWithValue,
+    false
+  );
 });
 
 export const getMeAsync = createAsyncThunk<
@@ -74,9 +82,14 @@ export const getMeAsync = createAsyncThunk<
 export const logoutAsync = createAsyncThunk(
   "auth/logout",
   async function (_, { dispatch }) {
-    await AuthApi.logout();
-    dispatch({ type: "auth/logout" });
-    dispatch(logout());
+    try {
+      await AuthApi.logout();
+    } catch (e) {
+      throw new Error(e);
+    } finally {
+      dispatch({ type: "auth/logout" });
+      dispatch(logout());
+    }
   }
 );
 
@@ -84,10 +97,11 @@ export const updateProfileAsync = createAsyncThunk<
   Profile,
   ProfileCreation,
   GlobalTypes.ReduxThunkRejectValue<HttpError<ProfileCreationDto> | null>
->("auth/update-profile", async (param, { rejectWithValue }) => {
+>("auth/update-profile", async (param, { rejectWithValue, dispatch }) => {
   const paramDto = profileMapper.toFormData(param);
   const result = await AuthApi.updateProfile(paramDto);
   if (result.kind === "ok") {
+    dispatch(getUsersAsync());
     return profileMapper.fromDto(result.result);
   }
   if (result.kind === "bad-data") {

@@ -9,6 +9,7 @@ export * from "./gear";
 export * from "./hambuger2";
 export * from "./home";
 export * from "./list";
+export * from "./logoName";
 export * from "./money";
 export * from "./question";
 export * from "./spin";

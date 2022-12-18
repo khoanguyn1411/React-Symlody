@@ -21,7 +21,7 @@ import { setFilterParamsTask } from "@/features/reducers/task-reducer";
 import { Department, Roles } from "@/features/types";
 import { useModal } from "@/hooks";
 import { EPagePath } from "@/routes";
-import { generateArrayFromEnum } from "@/utils/services/generate-service";
+import { enumToArray } from "@/utils/funcs/enum-to-array";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
 import { TodoBoard } from "./todo-kanban";
@@ -98,8 +98,7 @@ export const TodoContainer: React.FC = () => {
   const [filterDepartment, setFilterDepartment] = useState<string>();
 
   const isNoData = false;
-  const isInvalidUrl =
-    !generateArrayFromEnum(ETodoTabKey).includes(_tab) && tab != null;
+  const isInvalidUrl = !enumToArray(ETodoTabKey).includes(_tab) && tab != null;
   const isShowSelect = currentUser.isRole([Roles.Lead]);
 
   const handleOpenCreateTodoModal = () => {

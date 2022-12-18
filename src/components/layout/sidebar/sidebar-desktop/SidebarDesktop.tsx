@@ -3,6 +3,7 @@ import classNames from "classnames";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import { Icon } from "@/assets/icons";
 import { images } from "@/assets/images";
 import { APP_NAME } from "@/constants";
 
@@ -51,35 +52,36 @@ export const SidebarDesktop: React.FC<TProps> = ({
     >
       <div
         className={classNames(
-          "h-screen flex flex-col items-center px-3 py-2 overflow-auto",
+          "h-screen flex flex-col gap-8 pt-8 items-center py-2 overflow-hidden",
           {
-            "pr-4": !isCompactSidebar,
+            "px-5": !isCompactSidebar,
+            "px-3": isCompactSidebar,
           }
         )}
       >
         <div
           className={classNames(
-            "flex items-center justify-center w-full mt-4 mb-3",
-            !isCompactSidebar && "space-x-3"
+            "flex items-center w-full",
+            !isCompactSidebar ? "space-x-3" : "ml-1"
           )}
         >
           <img
             src={images.Logo}
-            alt="logo"
-            width={40}
-            height={40}
+            alt="Logo App"
+            width={35}
+            height={35}
             className="ml-1"
           />
-          <h1
+          <span
             className={classNames(
-              "transition-opacity overflow-hidden text-xl font-medium duration-300",
-              isCompactSidebar && "opacity-0 invisible"
+              "transition-opacity",
+              isCompactSidebar ? "opacity-0 invisible" : "h-6"
             )}
           >
-            {APP_NAME}
-          </h1>
+            <Icon.LogoName size="large" />
+          </span>
         </div>
-        <div className="flex-1 w-full mt-4">
+        <div className="flex flex-col flex-1 w-full gap-2">
           {tabsSidebar.map((tab) => (
             <SidebarItem
               key={tab.pageActive}

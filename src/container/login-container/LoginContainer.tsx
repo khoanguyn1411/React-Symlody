@@ -7,9 +7,9 @@ import { images } from "@/assets/images";
 import { Button, FormItem, Input } from "@/components";
 import { useAppDispatch } from "@/features";
 import { loginAsync, setIsAuth } from "@/features/reducers";
+import { Login } from "@/features/types";
 
 import { schema } from "./schema";
-import { IFormLoginValue } from "./type";
 
 export const LoginContainer: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -18,11 +18,11 @@ export const LoginContainer: React.FC = () => {
     control,
     formState: { errors, isSubmitting },
     handleSubmit,
-  } = useForm<IFormLoginValue>({ resolver: yupResolver(schema) });
+  } = useForm<Login>({ resolver: yupResolver(schema) });
 
-  const onSubmit = async (data: IFormLoginValue) => {
+  const onSubmit = async (data: Login) => {
     const res = await dispatch(
-      loginAsync({ username: data.username, password: data.password })
+      loginAsync({ email: data.email, password: data.password })
     );
     if (loginAsync.rejected.match(res)) {
       toast.error("Đăng nhập thất bại");
@@ -55,19 +55,15 @@ export const LoginContainer: React.FC = () => {
             className="flex flex-col mt-6"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <FormItem
-              label="Username"
-              isRequired
-              error={errors.username?.message}
-            >
+            <FormItem label="Email" isRequired error={errors.email?.message}>
               <Controller
                 control={control}
-                name="username"
+                name="email"
                 render={({ field: { value, onChange } }) => (
                   <Input
                     value={value}
                     onChange={onChange}
-                    placeholder="Username"
+                    placeholder="Vd: abc@gmail.com"
                   />
                 )}
               />

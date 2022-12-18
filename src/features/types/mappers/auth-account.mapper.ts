@@ -1,4 +1,4 @@
-import { extractErrorMessage } from "@/utils/services/error-handler-service";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
 import { StrictOmit } from "@/utils/types";
 
 import {
@@ -62,9 +62,9 @@ export class AuthAccountMapper
   ): EntityValidationErrors<AuthAccountCreation> {
     const { email, last_name, first_name } = errorDto;
     return {
-      email: extractErrorMessage(email),
-      lastName: extractErrorMessage(last_name),
-      firstName: extractErrorMessage(first_name),
+      email: ErrorHandler.extractErrorMessage(email),
+      lastName: ErrorHandler.extractErrorMessage(last_name),
+      firstName: ErrorHandler.extractErrorMessage(first_name),
     };
   }
 }

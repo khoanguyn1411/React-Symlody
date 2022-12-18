@@ -1,4 +1,4 @@
-import { FormDataService } from "@/utils";
+import { repairFormData } from "@/utils/funcs/repair-form-data";
 
 import { FileUploadedDto } from "../dtos";
 import { FileUploaded } from "../models";
@@ -12,7 +12,7 @@ export class FileUploadedMapper
   }
 
   public toFormData(model: FileUploaded): FormData {
-    return FormDataService.repairFormData(this.toDto(model));
+    return repairFormData(this.toDto(model));
   }
 }
 

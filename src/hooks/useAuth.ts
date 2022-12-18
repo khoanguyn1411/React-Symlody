@@ -11,8 +11,8 @@ import {
   setIsCompactSidebar,
   userSelectors,
 } from "@/features/reducers";
-import { LocalStorageService, TokenService } from "@/utils";
-
+import { LocalStorageService } from "@/utils/funcs/local-storage-service";
+import { TokenService } from "@/utils/funcs/token-service";
 export const useAuth = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.auth);

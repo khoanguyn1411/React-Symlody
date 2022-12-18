@@ -10,11 +10,10 @@ import {
 } from "@/features/types";
 import { propertyFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import { PropertyFilterParams } from "@/features/types/models/filter-params";
-import { FilterService, GlobalTypes } from "@/utils";
-import {
-  catchHttpError,
-  validateSimpleRequestResult,
-} from "@/utils/services/error-handler-service";
+import { GlobalTypes } from "@/utils";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
+import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
+import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 
 import { initialState, propertyAdapter } from "./state";
 
@@ -66,7 +65,7 @@ export const updatePropertyAsync = createAsyncThunk<
         isRestore,
       };
     }
-    return catchHttpError(propertyMapper, result, rejectWithValue);
+    return ErrorHandler.catchHttpError(propertyMapper, result, rejectWithValue);
   }
 );
 
@@ -119,7 +118,7 @@ export const filterPropertyBySearchAsync = createAsyncThunk<void, string>(
       return;
     }
     const newListProperty = currentPropertyList.filter((item) =>
-      FilterService.isTextIncludedIn(item.name, search)
+      isTextIncludedIn(item.name, search)
     );
 
     dispatch(setCurrentPropertyList(newListProperty));

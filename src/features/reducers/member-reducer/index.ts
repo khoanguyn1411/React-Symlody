@@ -15,8 +15,10 @@ import {
   MemberCreation,
 } from "@/features/types/models";
 import { MemberFilterParams } from "@/features/types/models/filter-params";
-import { FilterService, GeneratorService, GlobalTypes } from "@/utils";
-import { catchHttpError } from "@/utils/services/error-handler-service";
+import { GlobalTypes } from "@/utils";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
+import { generateArrayWithNoDuplicate } from "@/utils/funcs/generate-array-with-no-duplicate";
+import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
 
 import { updateCurrentUser } from "../auth-reducer";
 import { getUsersAsync, removeUser, userSelectors } from "../user-reducer";
@@ -47,7 +49,7 @@ export const createMemberAsync = createAsyncThunk<
     dispatch(getUsersAsync());
     return memberMapper.fromDto(result.result);
   }
-  return catchHttpError(memberMapper, result, rejectWithValue);
+  return ErrorHandler.catchHttpError(memberMapper, result, rejectWithValue);
 });
 
 export const deleteMemberAsync = createAsyncThunk<
@@ -114,7 +116,7 @@ export const updateMemberAsync = createAsyncThunk<
         isRestore,
       };
     }
-    return catchHttpError(memberMapper, result, rejectWithValue);
+    return ErrorHandler.catchHttpError(memberMapper, result, rejectWithValue);
   }
 );
 
@@ -146,13 +148,13 @@ export const filterMemberBySearchAsync = createAsyncThunk<void, string>(
       return;
     }
     const listMemberAfterFilterByName = currentMemberList.filter((item) =>
-      FilterService.isTextIncludedIn(item.authAccount.fullName, search)
+      isTextIncludedIn(item.authAccount.fullName, search)
     );
     const listMemberAfterFilterByEmail = currentMemberList.filter((item) =>
-      FilterService.isTextIncludedIn(item.authAccount.email, search)
+      isTextIncludedIn(item.authAccount.email, search)
     );
 
-    const newMemberList = GeneratorService.generateArrayWithNoDuplicate(
+    const newMemberList = generateArrayWithNoDuplicate(
       listMemberAfterFilterByName.concat(listMemberAfterFilterByEmail)
     );
     dispatch(setCurrentMemberList(newMemberList));

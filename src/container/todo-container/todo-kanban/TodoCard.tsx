@@ -61,7 +61,7 @@ export const TodoCard: React.FC<Task> = (task) => {
         className={classNames(
           "px-3 py-3 bg-white border cursor-pointer hover:bg-gray-50 transition-colors duration-100 rounded-md",
           {
-            "border-gray-300": statusOfExpiredDate.is("in-future"),
+            "border-gray-300 border-b-2": statusOfExpiredDate.is("in-future"),
             "border-yellow-500": statusOfExpiredDate.is("today"),
             "border-red-400": statusOfExpiredDate.is("in-past"),
           }

@@ -46,6 +46,7 @@ const DropdownListContent: FCPropsWithChildren<TProps> = ({
 
   const { setPositionList, position } = usePositionPortal<HTMLDivElement>({
     displayRef,
+    spaceAdditionalTop: 10,
     isPortal: true,
     placement,
     toggleRef: listRef,

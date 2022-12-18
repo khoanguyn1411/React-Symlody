@@ -1,7 +1,7 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { GlobalTypes } from "@/utils";
-import { assertArray, assertNotArray } from "@/utils/services/common-service";
+import { CommonAssertion } from "@/utils/funcs/common-assertion";
 import { Primitive } from "@/utils/types";
 
 import { SelectBase } from "../select-base/SelectBase";
@@ -53,18 +53,11 @@ export function Select<T, E extends Primitive>({
   renderDisplayOption,
   ...props
 }: Props<T, E>): JSX.Element {
-  let _isShowContent: boolean,
-    _setIsShowContent: GlobalTypes.ReactStateAction<boolean>;
-
-  if (isShowContent != null && setIsShowContent != null) {
-    _isShowContent = isShowContent;
-    _setIsShowContent = setIsShowContent;
-  } else {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [isShowContent, setIsShowContent] = useState<boolean>(false);
-    _isShowContent = isShowContent;
-    _setIsShowContent = setIsShowContent;
-  }
+  const [_isShowContent, _setIsShowContent] =
+    isShowContent != null && setIsShowContent != null
+      ? [isShowContent, setIsShowContent]
+      : // eslint-disable-next-line react-hooks/rules-of-hooks
+        useState<boolean>(false);
 
   const [selectedOption, setSelectedOption] =
     setSelectValueControlled != null
@@ -72,7 +65,7 @@ export function Select<T, E extends Primitive>({
       : // eslint-disable-next-line react-hooks/rules-of-hooks
         useState<TOptionProps<T, E> | TOptionProps<T, E>[]>(() => {
           if (isMultiple) {
-            assertArray(value);
+            CommonAssertion.assertArray(value);
             return value
               ? list.filter((item) => value.includes(item.value))
               : [];
@@ -89,7 +82,7 @@ export function Select<T, E extends Primitive>({
       _setIsShowContent(false);
       return;
     }
-    assertArray(selectedOption);
+    CommonAssertion.assertArray(selectedOption);
     const optionValues = selectedOption.map((option) => option.value);
     if (optionValues.includes(option.value)) {
       const newSelectedList = selectedOption.filter(
@@ -108,7 +101,7 @@ export function Select<T, E extends Primitive>({
     if (renderOption) {
       let isChosen: boolean;
       if (isMultiple) {
-        assertArray(selectedOption);
+        CommonAssertion.assertArray(selectedOption);
         isChosen = selectedOption
           .map((option) => option.value)
           .includes(option.value);
@@ -118,12 +111,12 @@ export function Select<T, E extends Primitive>({
       return renderOption(option, isChosen);
     }
     if (!isMultiple) {
-      assertNotArray<TOptionProps<T, E>>(selectedOption);
+      CommonAssertion.assertNotArray<TOptionProps<T, E>>(selectedOption);
       return (
         <SelectDefaultOption {...option} selectedOption={selectedOption} />
       );
     }
-    assertArray(selectedOption);
+    CommonAssertion.assertArray(selectedOption);
     return <SelectMultipleOption selectedOption={selectedOption} {...option} />;
   };
 
@@ -132,7 +125,7 @@ export function Select<T, E extends Primitive>({
       return children;
     }
     if (!isMultiple) {
-      assertNotArray<TOptionProps<T, E>>(selectedOption);
+      CommonAssertion.assertNotArray<TOptionProps<T, E>>(selectedOption);
       return (
         <SelectDefaultDisplay
           selectedOption={selectedOption}
@@ -141,7 +134,7 @@ export function Select<T, E extends Primitive>({
         />
       );
     }
-    assertArray(selectedOption);
+    CommonAssertion.assertArray(selectedOption);
     return (
       <SelectMultipleDisplay
         selectedOption={selectedOption}
@@ -158,7 +151,7 @@ export function Select<T, E extends Primitive>({
       return;
     }
     if (isMultiple) {
-      assertArray(selectedOption);
+      CommonAssertion.assertArray(selectedOption);
       const newSelectedList = selectedOption.filter(
         (_option) => _option.value !== value
       );
@@ -168,6 +161,8 @@ export function Select<T, E extends Primitive>({
     setSelectedOption(list.find((option) => option.value === value));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
+
+  const testRef = useRef();
 
   return (
     <SelectBase
@@ -181,8 +176,21 @@ export function Select<T, E extends Primitive>({
           {list.length === 0 && renderEmptyListPlaceholder}
           <div className={classNameWrapperOptions}>
             {list.map((option, index) => {
+              const isSelectedOption = () => {
+                if (selectedOption == null) {
+                  return false;
+                }
+                if (Array.isArray(selectedOption)) {
+                  return selectedOption
+                    .map((opt) => opt.value)
+                    .includes(option.value);
+                }
+                return option.value === selectedOption.value;
+              };
               return (
                 <li
+                  className={isSelectedOption() ? "selected-select-option" : ""}
+                  ref={testRef}
                   onClick={handleSetSelectedItem(option)}
                   key={`${option.value}-${index}`}
                   role={"menuitem"}

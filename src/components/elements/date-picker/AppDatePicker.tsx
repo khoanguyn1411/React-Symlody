@@ -1,20 +1,16 @@
 import "react-datepicker/dist/react-datepicker.css";
 
 import styled from "@emotion/styled";
-import classNames from "classnames";
 import React, { useState } from "react";
-import DatePicker, { ReactDatePickerCustomHeaderProps } from "react-datepicker";
+import DatePicker from "react-datepicker";
 
 import { Icon } from "@/assets/icons";
-import { FormatService } from "@/utils";
-import { Primitive } from "@/utils/types";
+import { DateService } from "@/utils/funcs/date-service";
 
 import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
-import { Portal } from "../portal";
-import { Select } from "../select";
-import { TOptionProps } from "../select/type";
-import { MONTH_LIST, WEEK_DAY_ENG, YEAR_LIST } from "./constant";
-import { STYLE_MAP } from "./type";
+import { WEEK_DAY_ENG } from "./constant";
+import { AppDatePickerHeaderCustom } from "./date-picker-components/AppDatePickerHeader";
+import { CustomInput } from "./date-picker-components/AppDatePickerInput";
 
 type TProps = {
   style?: "modal" | "default";
@@ -57,14 +53,6 @@ const getMaxDate = () => {
   return new Date(`${mm}/${dd}/${yyyy + 10}`);
 };
 
-export const DatePortal: React.FC = () => {
-  return (
-    <Portal>
-      <WrapperModule id="portal-date" />
-    </Portal>
-  );
-};
-
 export const AppDatePicker: React.FC<TProps> = ({
   isTimePicker = false,
   style = "default",
@@ -73,15 +61,15 @@ export const AppDatePicker: React.FC<TProps> = ({
   onChange,
 }) => {
   const handleChangeDate = (date: Date): void => {
-    _setValue(value);
+    _setValue(DateService.toFormat(date, "VN"));
     onChange(date);
   };
 
   const [_value, _setValue] = useState(() => {
     if (isDefault1990) {
-      return !value ? "" : FormatService.toDateString(value, "VN");
+      return !value ? "" : DateService.toFormat(value, "VN");
     }
-    return value && FormatService.toDateString(value, "VN");
+    return value && DateService.toFormat(value, "VN");
   });
 
   const getSelectedDate = () => {
@@ -101,21 +89,25 @@ export const AppDatePicker: React.FC<TProps> = ({
         renderCustomHeader={(param) => {
           return <AppDatePickerHeaderCustom {...param} />;
         }}
+        portalId={"portal-root"}
         formatWeekDay={(weekDay) => {
           return (
             <h1 className="mt-2 font-semibold">{WEEK_DAY_ENG[weekDay]}</h1>
           );
         }}
+        popperContainer={({ children }) => (
+          <WrapperModule>{children}</WrapperModule>
+        )}
         onChange={handleChangeDate}
-        placeholderText={!isTimePicker ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm aa"}
-        portalId="portal-date"
         popperClassName="!z-30"
         value={_value}
         popperPlacement="top-end"
-        className={classNames(
-          "w-full p-2 border-gray-200 pr-8 text-black outline-none rounded-md",
-          STYLE_MAP[style]
-        )}
+        customInput={
+          <CustomInput
+            placeHolder={!isTimePicker ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm aa"}
+            style={style}
+          />
+        }
         dayClassName={() => {
           return "transition-all duration-100";
         }}
@@ -126,56 +118,5 @@ export const AppDatePicker: React.FC<TProps> = ({
         <Icon.Calendar size="small" customColor="gray" />
       </div>
     </WrapperModule>
-  );
-};
-
-export const AppDatePickerHeaderCustom: React.FC<
-  ReactDatePickerCustomHeaderProps
-> = (param) => {
-  const [selectedMonth, setSelectedMonth] = useState<
-    TOptionProps<undefined, Primitive>
-  >(() => ({
-    value: param.date.getMonth() + 1,
-    label: MONTH_LIST.find((month) => month.value === param.date.getMonth() + 1)
-      .label,
-  }));
-
-  const [selectedYear, setSelectedYear] = useState<
-    TOptionProps<undefined, Primitive>
-  >(() => ({
-    value: param.date.getFullYear(),
-    label: YEAR_LIST.find((year) => year.value === param.date.getFullYear())
-      .label,
-  }));
-
-  const handleChangeMonth = (option: TOptionProps<undefined, Primitive>) => {
-    setSelectedMonth(option);
-    param.changeMonth(Number(option.value) - 1);
-  };
-
-  const handleChangeYear = (option: TOptionProps<undefined, Primitive>) => {
-    setSelectedYear(option);
-    param.changeYear(Number(option.value));
-  };
-
-  return (
-    <div className="flex px-3 gap-3">
-      <div className="flex-1">
-        <Select
-          list={MONTH_LIST}
-          isPortal={false}
-          selectValueControlled={selectedMonth}
-          setSelectValueControlled={handleChangeMonth}
-        />
-      </div>
-      <div className="flex-1">
-        <Select
-          isPortal={false}
-          list={YEAR_LIST}
-          selectValueControlled={selectedYear}
-          setSelectValueControlled={handleChangeYear}
-        />
-      </div>
-    </div>
   );
 };

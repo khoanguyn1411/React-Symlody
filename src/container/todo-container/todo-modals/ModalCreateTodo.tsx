@@ -11,19 +11,13 @@ import {
   filterTaskByAssignee,
 } from "@/features/reducers/task-reducer";
 import { THookModalProps } from "@/hooks";
-import { FormatService } from "@/utils";
+import { DateService } from "@/utils/funcs/date-service";
 
 import { TODO_MESSAGES } from "../constant";
 import { todoFormMapper } from "../mapper";
 import { schema } from "../shema";
 import { TodoForm } from "../type";
 import { FormItems } from "./FormItems";
-
-const getDayAfterWeek = (): string => {
-  const today = new Date();
-  today.setDate(today.getDate() + 7);
-  return FormatService.toDateString(today, "US");
-};
 
 export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
   isShowing,
@@ -63,7 +57,7 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
   useEffect(() => {
     reset({
       isPriority: false,
-      endDate: getDayAfterWeek(),
+      endDate: DateService.getDayAfterWeek(),
       reporter: currentUserStore.user.id,
       isSentEmail: false,
     });

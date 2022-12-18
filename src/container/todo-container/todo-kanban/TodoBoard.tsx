@@ -12,7 +12,6 @@ import {
 } from "@/features/reducers/task-reducer";
 import { Task } from "@/features/types";
 import { useModal } from "@/hooks";
-import { FormatService } from "@/utils";
 
 import { TODO_DATA, TODO_MESSAGES } from "../constant";
 import { ModalEditTodo } from "../todo-modals";
@@ -54,11 +53,11 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
       return;
     }
     const currentTask = taskList.find(
-      (task) => task.id === FormatService.toNumber(dropResult.draggableId)
+      (task) => task.id === Number(dropResult.draggableId)
     );
     const result = await dispatch(
       updateTaskAsync({
-        id: FormatService.toNumber(dropResult.draggableId),
+        id: Number(dropResult.draggableId),
         payload: {
           ...currentTask,
           status: destination.droppableId as Task["status"],
@@ -118,7 +117,7 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
           return (
             <div
               key={index}
-              className="bg-gray-300 rounded-lg dark:bg-gray-200 animate-skeleton h-[calc(100vh_-_160px)] min-w-[200px]"
+              className="bg-gray-300 rounded-lg dark:bg-gray-200 animate-skeleton h-[calc(100vh_-_160px)] min-w-[275px]"
             />
           );
         })}

@@ -9,7 +9,7 @@ import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { updateTaskAsync } from "@/features/reducers/task-reducer";
 import { Task } from "@/features/types";
 import { THookModalProps } from "@/hooks";
-import { FormService } from "@/utils";
+import { FormService } from "@/utils/funcs/form-service";
 
 import { TODO_MESSAGES } from "../constant";
 import { todoFormMapper } from "../mapper";

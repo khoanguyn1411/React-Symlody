@@ -9,7 +9,7 @@ import {
   SelectUser,
   TextArea,
 } from "@/components";
-import { FormatService } from "@/utils";
+import { CurrencyService } from "@/utils/funcs/currency-service";
 
 import { PropertyForm } from "../type";
 
@@ -24,33 +24,23 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
     formState: { errors },
   } = formProps;
 
-  const handleInputPriceSideEffect = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-    const splitValue = FormatService.removeFormatCurrency(value);
+  const handleInputPriceSideEffect = (value: string) => {
+    const splitValue = CurrencyService.removeFormatCurrency(value);
     if (value) {
-      if (isNaN(FormatService.toNumber(splitValue))) {
+      if (isNaN(Number(splitValue))) {
         return { newValue: "" };
       }
-      const valueFormatted = FormatService.toCurrency(
-        FormatService.toNumber(splitValue)
-      );
+      const valueFormatted = CurrencyService.toCurrency(Number(splitValue));
       return { newValue: valueFormatted };
     }
     return { newValue: value };
   };
 
-  const handleQuantityChangeSideEffect = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (
-      FormatService.toNumber(event.target.value) &&
-      FormatService.toNumber(event.target.value) < 1
-    ) {
+  const handleQuantityChangeSideEffect = (value: string) => {
+    if (Number(value) && Number(value) < 1) {
       return { newValue: "1" };
     }
-    return { newValue: event.target.value };
+    return { newValue: value };
   };
 
   return (

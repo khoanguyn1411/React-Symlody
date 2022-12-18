@@ -4,7 +4,6 @@ import { Icon } from "@/assets/icons";
 import { images } from "@/assets/images";
 import { EFile } from "@/constants";
 import { useModal, usePickImage } from "@/hooks";
-import { FormatService } from "@/utils";
 
 import { Avatar } from "../../avatar";
 import { Dialog } from "../../dialog";
@@ -75,7 +74,7 @@ export const UploadedAvatar: React.FC<TProps> = ({
       >
         {isUserAvatar ? (
           <Avatar
-            src={isHasImage ? FormatService.toString(fileData.url) : ""}
+            src={isHasImage ? fileData.url.toString() : ""}
             size="avatar"
             fullName={fullName}
           />
@@ -83,9 +82,7 @@ export const UploadedAvatar: React.FC<TProps> = ({
           <img
             alt={alt}
             className="object-cover object-left w-full h-full rounded-full"
-            src={
-              isHasImage ? FormatService.toString(fileData.url) : images.Logo
-            }
+            src={isHasImage ? fileData.url.toString() : images.Logo}
           />
         )}
       </button>

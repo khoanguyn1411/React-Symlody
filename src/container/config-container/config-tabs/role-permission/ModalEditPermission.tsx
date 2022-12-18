@@ -8,11 +8,7 @@ import { TToggleModal } from "@/components/elements/modal/types";
 import { useAppDispatch } from "@/features";
 import { updateConfigRoleUserAsync } from "@/features/reducers";
 import { UserShort } from "@/features/types";
-import { FormService } from "@/utils";
-import {
-  assertErrorField,
-  generateFormErrors,
-} from "@/utils/services/form-service";
+import { FormService } from "@/utils/funcs/form-service";
 
 import {
   EPermissionOptions,
@@ -80,7 +76,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
       toast.error(ROLE_PERMISSION_MESSAGE.update.error);
       return;
     }
-    generateFormErrors({
+    FormService.generateErrors({
       setError,
       errors: rolePermissionFormMapper.fromHttpError(result.payload),
     });
@@ -131,7 +127,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
         <FormItem
           label="Tính năng"
           isRequired
-          error={assertErrorField(errors.roleManager)?.message}
+          error={FormService.assertErrorField(errors.roleManager)?.message}
         >
           <Controller
             control={control}

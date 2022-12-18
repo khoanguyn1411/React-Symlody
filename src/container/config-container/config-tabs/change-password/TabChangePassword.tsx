@@ -6,8 +6,7 @@ import { toast } from "react-toastify";
 import { FormItem, InputPassword } from "@/components";
 import { useAppDispatch } from "@/features";
 import { changePasswordAsync } from "@/features/reducers";
-import { FormService } from "@/utils";
-import { generateFormErrors } from "@/utils/services/form-service";
+import { FormService } from "@/utils/funcs/form-service";
 
 import {
   ConfigSubmitButton,
@@ -34,7 +33,7 @@ export const TabChangePassword: React.FC = () => {
     const result = await dispatch(changePasswordAsync(data));
     if (changePasswordAsync.rejected.match(result)) {
       if (result.payload) {
-        generateFormErrors({ errors: result.payload, setError });
+        FormService.generateErrors({ errors: result.payload, setError });
         return;
       }
       toast.error(CHANGE_PASSWORD_MESSAGE.error);

@@ -3,7 +3,6 @@ import React, { useRef, useState } from "react";
 import { Icon } from "@/assets/icons";
 import { EFile } from "@/constants";
 import { usePickImage } from "@/hooks";
-import { FormatService } from "@/utils";
 
 import { Button } from "../../elements";
 import { PICK_IMAGE_MESSAGE } from "./contants";
@@ -78,7 +77,7 @@ export const PickImage: React.FC<TProps> = ({
                 <img
                   alt="img-preview"
                   className="object-cover object-left h-full rounded-md"
-                  src={FormatService.toString(fileData.url)}
+                  src={fileData.url.toString()}
                 />
                 <button
                   onClick={handleRemoveFile}

@@ -1,4 +1,4 @@
-import { isObject } from "./common-service";
+import { isObject } from "./is-object";
 
 export function repairFormData<T extends Record<string, any>>(
   entity: T

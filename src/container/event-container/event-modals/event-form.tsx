@@ -2,7 +2,7 @@ import React from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 import { AppDatePicker, FormItem, Input, Select } from "@/components";
-import { generateArrayFromEnum } from "@/utils/services/generate-service";
+import { enumToArray } from "@/utils/funcs/enum-to-array";
 
 import { EEventStatus } from "../constant";
 import { TFormEventInfo } from "../type";
@@ -101,7 +101,7 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
               value={value}
               style="modal"
               onChange={onChange}
-              list={generateArrayFromEnum(EEventStatus).map((item) => ({
+              list={enumToArray(EEventStatus).map((item) => ({
                 value: item,
                 label: item,
               }))}

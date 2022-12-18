@@ -13,7 +13,7 @@ import {
 import { Department, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
-import { generateFormErrors } from "@/utils/services/form-service";
+import { FormService } from "@/utils/funcs/form-service";
 
 import { DEPARTMENT_MESSAGE } from "./constants";
 import { FormItems } from "./FormItems";
@@ -103,7 +103,7 @@ export const ActionConfigDepartment: React.FC = () => {
     if (createDepartmentAsync.rejected.match(result)) {
       if (result.payload) {
         const errors = result.payload;
-        generateFormErrors({ errors, setError });
+        FormService.generateErrors({ errors, setError });
         return;
       }
       toast.error(DEPARTMENT_MESSAGE.create.error);
