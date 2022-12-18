@@ -1,9 +1,13 @@
 import * as yup from "yup";
 
 import { APP_ERROR_MESSAGE } from "@/constants";
+import { Login } from "@/features/types";
+import { YupValidation } from "@/utils/types";
 
-import { IFormLoginValue } from "./type";
-export const schema: yup.SchemaOf<IFormLoginValue> = yup.object().shape({
-  username: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+export const schema = yup.object().shape<YupValidation<Login>>({
+  email: yup
+    .string()
+    .required(APP_ERROR_MESSAGE.REQUIRED)
+    .email(APP_ERROR_MESSAGE.EMAIL),
   password: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
 });
