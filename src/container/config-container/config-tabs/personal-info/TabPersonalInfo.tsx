@@ -128,7 +128,7 @@ export const TabPersonalInfo: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-3 gap-3">
-        <FormItem label="Ngày sinh" isRequired error={errors.dob?.message}>
+        <FormItem label="Ngày sinh" error={errors.dob?.message}>
           <Controller
             control={control}
             name="dob"
@@ -143,7 +143,7 @@ export const TabPersonalInfo: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem label="Lớp" isRequired error={errors.className?.message}>
+        <FormItem label="Lớp" error={errors.className?.message}>
           <Controller
             control={control}
             name="className"
@@ -158,7 +158,7 @@ export const TabPersonalInfo: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem label="MSSV" isRequired error={errors.studentId?.message}>
+        <FormItem label="MSSV" error={errors.studentId?.message}>
           <Controller
             control={control}
             name="studentId"
@@ -194,11 +194,7 @@ export const TabPersonalInfo: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem
-          label="Số điện thoại"
-          isRequired
-          error={errors.phoneNumber?.message}
-        >
+        <FormItem label="Số điện thoại" error={errors.phoneNumber?.message}>
           <Controller
             control={control}
             name="phoneNumber"
@@ -213,7 +209,7 @@ export const TabPersonalInfo: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem label="Địa chỉ" isRequired error={errors.address?.message}>
+        <FormItem label="Địa chỉ" error={errors.address?.message}>
           <Controller
             control={control}
             name="address"
@@ -228,7 +224,7 @@ export const TabPersonalInfo: React.FC = () => {
           />
         </FormItem>
 
-        <FormItem label="Quê quán" isRequired error={errors.homeTown?.message}>
+        <FormItem label="Quê quán" error={errors.homeTown?.message}>
           <Controller
             control={control}
             name="homeTown"

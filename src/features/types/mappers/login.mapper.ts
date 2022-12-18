@@ -5,7 +5,7 @@ import { IMapperToDto } from "./base-mappers/mapper";
 export class LoginMapper implements IMapperToDto<LoginDto, Login> {
   public toDto(model: Login): LoginDto {
     return {
-      username: model.email.split("@")[0],
+      username: model.email,
       password: model.password,
     };
   }

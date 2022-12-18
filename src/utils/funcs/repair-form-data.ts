@@ -7,8 +7,12 @@ import { isObject } from "./is-object";
  * @param value Value of corresponding key.
  */
 function appendFormWith(formData: FormData, key: string, value: any): void {
-  if (value === null) {
-    formData.append(key, "");
+  if (value instanceof File) {
+    if (value === null) {
+      formData.append(key, "");
+      return;
+    }
+    formData.append(key, value);
     return;
   }
   formData.append(key, value);
@@ -28,13 +32,13 @@ export function repairFormData<T extends Record<string, any>>(
   Object.entries(entity).forEach(([key, value]) => {
     if (value !== undefined) {
       if (isObject(value)) {
-        let keyName: string;
+        let currentKey: string;
         if (accumulateKey) {
-          keyName = `${accumulateKey}[${key}]`;
+          currentKey = `${accumulateKey}[${key}]`;
         } else {
-          keyName = key;
+          currentKey = key;
         }
-        repairFormData(value, keyName);
+        repairFormData(value, currentKey);
         return;
       }
       appendFormWith(formData, key, value);
