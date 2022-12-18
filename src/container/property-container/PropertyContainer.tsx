@@ -101,6 +101,7 @@ export const PropertyContainer: React.FC = () => {
           ...item,
           image: undefined,
           inChargerId: item.inCharger.id,
+          isArchived: false,
         },
         id: item.id,
         isRestore: true,

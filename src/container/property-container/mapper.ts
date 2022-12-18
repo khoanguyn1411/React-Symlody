@@ -16,7 +16,10 @@ export class PropertyFormMapper {
       image: undefined,
     };
   }
-  public toModel(propertyFormData: PropertyForm): PropertyCreation {
+  public toModel(
+    propertyFormData: PropertyForm,
+    isArchived = false
+  ): PropertyCreation {
     return {
       name: propertyFormData.name,
       quantity: Number(propertyFormData.quantity),
@@ -25,6 +28,7 @@ export class PropertyFormMapper {
       ),
       propOwner: propertyFormData.propOwner,
       note: propertyFormData.note,
+      isArchived: isArchived,
       inChargerId: propertyFormData.inChargerId,
       image: propertyFormData.image,
       isClubProperty: propertyFormData.propOwner === "CLB",

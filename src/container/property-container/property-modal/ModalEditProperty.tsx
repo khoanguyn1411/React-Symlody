@@ -45,7 +45,10 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
   const hasPermission = withPermission([RolesID.Lead, RolesID.MemberManager]);
 
   const handleEditProperty = hasPermission(async (editValue: PropertyForm) => {
-    const propertyModel = propertyFormMapper.toModel(editValue);
+    const propertyModel = propertyFormMapper.toModel(
+      editValue,
+      data.isArchived
+    );
     const res = await dispatch(
       updatePropertyAsync({
         payload: propertyModel,
