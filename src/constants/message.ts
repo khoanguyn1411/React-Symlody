@@ -11,4 +11,10 @@ export const APP_ERROR_MESSAGE = {
     `Vui lòng nhập một số nhỏ hơn ${maxValue.toString()}.`,
   MIN_NUMBER: (minValue: number) =>
     `Vui lòng nhập một số lớn hơn ${minValue.toString()}.`,
+  FILE_ERROR: {
+    OVERSIZE: (size: string) =>
+      `File bạn chọn có dung lượng vượt quá ${size}. Vui lòng chọn file khác.`,
+    NOT_IMAGE:
+      "Vui lòng chọn tập tin hình ảnh (file có đuôi là .jpg, .png, .jpeg, ...)",
+  },
 } as const;
