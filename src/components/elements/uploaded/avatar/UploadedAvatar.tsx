@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, { useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
@@ -14,6 +15,7 @@ type TProps = {
   alt: string;
   isUserAvatar?: boolean;
   fullName?: string;
+  isDisable?: boolean;
   setFile: (file: File) => void;
 };
 
@@ -28,6 +30,7 @@ export const UploadedAvatar: React.FC<TProps> = ({
   file,
   defaultImageLink,
   alt = "",
+  isDisable = false,
   isUserAvatar = false,
   fullName = "",
   setFile,
@@ -60,6 +63,7 @@ export const UploadedAvatar: React.FC<TProps> = ({
     file,
     defaultImageLink,
     inputFileRef,
+    isDisable,
     setFile,
     onNotImageType: handleWrongFileFormat,
     onImageOverSize: handleOversizeImage,
@@ -68,7 +72,9 @@ export const UploadedAvatar: React.FC<TProps> = ({
   return (
     <div className="relative w-full group w-[fit-content]">
       <button
-        className="w-32 h-32 rounded-full"
+        className={classNames("w-32 h-32 rounded-full", {
+          "cursor-default": isDisable,
+        })}
         type="button"
         onClick={handleOpenSelectFile}
       >
@@ -94,11 +100,17 @@ export const UploadedAvatar: React.FC<TProps> = ({
         onClick={handleResetInput}
         onChange={handleUploadFile}
       />
-      <div className="absolute top-0 left-0 w-32 h-32 bg-gray-200 rounded-full opacity-0 pointer-events-none transition-opacity group-hover:opacity-40" />
+      <div
+        hidden={isDisable}
+        className={classNames(
+          "absolute top-0 left-0 w-32 h-32 bg-gray-200 rounded-full opacity-0 pointer-events-none transition-opacity group-hover:opacity-40"
+        )}
+      />
 
       <button
         onClick={handleOpenSelectFile}
         type="button"
+        hidden={isDisable}
         className="absolute bottom-0 text-gray-600 bg-white p-1.5 rounded-md left-[88px]"
       >
         <Icon.Camera customColor="gray" />

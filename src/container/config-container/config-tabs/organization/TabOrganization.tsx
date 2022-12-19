@@ -6,9 +6,8 @@ import { toast } from "react-toastify";
 import { FormItem, Input, Loading } from "@/components";
 import { UploadedAvatar } from "@/components/elements/uploaded/avatar/UploadedAvatar";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { updateOrganizationAsync, userSelectors } from "@/features/reducers";
-import { Organization, Roles, RolesID } from "@/features/types";
-import { withPermission } from "@/hoc";
+import { updateOrganizationAsync } from "@/features/reducers";
+import { Organization, Roles } from "@/features/types";
 import { useEffectSkipFirstRender } from "@/hooks";
 import { FormService } from "@/utils/funcs/form-service";
 
@@ -99,6 +98,7 @@ export const _TabOrganization: React.FC = () => {
           name="logo"
           render={({ field: { value, onChange } }) => (
             <UploadedAvatar
+              isDisable={shouldPreventEdit}
               alt="Logo tổ chức"
               defaultImageLink={defaultImageLink}
               file={value}
