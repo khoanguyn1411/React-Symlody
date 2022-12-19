@@ -69,7 +69,7 @@ export class ProfileMapper
       gender: ErrorHandler.extractErrorMessage(gender),
       dob: ErrorHandler.extractErrorMessage(dob),
       className: ErrorHandler.extractErrorMessage(class_name),
-      non_field_errors: ErrorHandler.extractErrorMessage(non_field_errors),
+      nonFieldErrors: ErrorHandler.extractErrorMessage(non_field_errors),
     };
   }
 

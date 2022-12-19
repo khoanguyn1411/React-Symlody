@@ -66,7 +66,7 @@ export class MemberMapper
       dob: ErrorHandler.extractErrorMessage(dob),
       gender: ErrorHandler.extractErrorMessage(gender),
       department: ErrorHandler.extractErrorMessage(department_id),
-      non_field_errors: ErrorHandler.extractErrorMessage(non_field_errors),
+      nonFieldErrors: ErrorHandler.extractErrorMessage(non_field_errors),
     };
   }
 

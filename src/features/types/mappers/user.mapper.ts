@@ -45,11 +45,16 @@ export class UserMapper implements IMapperFromDto<UserDto, User> {
 export class UserShortMapper
   implements IMapperFromDto<UserShortDto, UserShort>
 {
+  private readonly avatarUrl: UserShort["avatarUrl"];
+
+  constructor(avatarUrl?: UserShort["avatarUrl"]) {
+    this.avatarUrl = avatarUrl;
+  }
   public fromDto(dto: UserShortDto): UserShort {
     const authAccount = authAccountMapper.fromDto(dto);
     return {
       ...authAccount,
-      avatarUrl: dto.avatar_url,
+      avatarUrl: dto.avatar_url ?? this.avatarUrl,
       isRole: isRoleMapper.fromGroupModel(authAccount.groups),
       id: dto.id,
     };

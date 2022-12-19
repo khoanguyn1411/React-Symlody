@@ -17,4 +17,4 @@ export type PropValidationMessage<T> = T extends unknown[]
 export type HttpError<
   T,
   P extends keyof T = undefined
-> = EntityValidationErrors<T, P> & { non_field_errors?: string };
+> = EntityValidationErrors<T, P> & { nonFieldErrors?: string };

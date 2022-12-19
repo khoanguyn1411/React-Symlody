@@ -40,7 +40,7 @@ export class PropertyMapper
       image: ErrorHandler.extractErrorMessage(image),
       price: ErrorHandler.extractErrorMessage(price),
       quantity: ErrorHandler.extractErrorMessage(quantity),
-      non_field_errors: ErrorHandler.extractErrorMessage(non_field_errors),
+      nonFieldErrors: ErrorHandler.extractErrorMessage(non_field_errors),
     };
   }
   public fromDto(dto: PropertyDto): Property {
