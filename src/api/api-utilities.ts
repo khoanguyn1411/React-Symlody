@@ -1,6 +1,6 @@
 import { ApiResponse } from "apisauce";
 
-import { composeErrors } from "./api-errors";
+import { apiError } from "./api-errors";
 import { Response } from "./api-response";
 
 export async function composeHttpMethodResult<TResult, TError>(
@@ -9,7 +9,7 @@ export async function composeHttpMethodResult<TResult, TError>(
   try {
     const response = await method;
     if (!response.ok) {
-      return composeErrors<TResult, TError>(response);
+      return apiError.composeErrors<TResult, TError>(response);
     }
     return {
       kind: "ok",
@@ -18,6 +18,6 @@ export async function composeHttpMethodResult<TResult, TError>(
       httpError: null,
     };
   } catch (error: unknown) {
-    return composeErrors(error);
+    return apiError.composeErrors(error);
   }
 }
