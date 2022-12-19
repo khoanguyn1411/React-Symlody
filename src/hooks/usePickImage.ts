@@ -12,6 +12,7 @@ type TFileData = {
 type THookPickImage = {
   defaultImageLink?: string;
   file: File;
+  isDisable?: boolean;
   setFile: (file: File) => void;
   inputFileRef: React.MutableRefObject<HTMLInputElement>;
   onImageOverSize?: () => void;
@@ -22,6 +23,7 @@ type THookPickImage = {
 export const usePickImage = ({
   defaultImageLink,
   file,
+  isDisable = false,
   inputFileRef,
   setFile,
   onImageOverSize,
@@ -34,6 +36,9 @@ export const usePickImage = ({
   });
 
   const handleOpenSelectFile = () => {
+    if (isDisable) {
+      return;
+    }
     if (!inputFileRef.current) {
       return;
     }
@@ -46,6 +51,9 @@ export const usePickImage = ({
   }, [setFile]);
 
   const handleUploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (isDisable) {
+      return;
+    }
     const file = event.target.files[0];
     if (file.size > DEFAULT_LIMIT_FILE_SIZE) {
       onImageOverSize?.();
