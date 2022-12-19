@@ -44,7 +44,9 @@ export namespace CommonAssertion {
       typeof entity !== "number" &&
       entity != null
     ) {
-      throw new Error(`Suppose to be string but got ${typeof entity}.`);
+      throw new Error(
+        `Suppose to be string || boolean || number but got ${typeof entity}.`
+      );
     }
   }
 }
