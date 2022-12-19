@@ -2,7 +2,11 @@ import React, { useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { images } from "@/assets/images";
-import { EFile } from "@/constants";
+import {
+  APP_ERROR_MESSAGE,
+  DEFAULT_LIMIT_FILE_SIZE_READABLE,
+  EFile,
+} from "@/constants";
 import { useModal, usePickImage } from "@/hooks";
 
 import { Avatar } from "../../avatar";
@@ -15,13 +19,6 @@ type TProps = {
   isUserAvatar?: boolean;
   fullName?: string;
   setFile: (file: File) => void;
-};
-
-const ERROR_UPLOAD_AVATAR_MESSAGE = {
-  wrongFormatType:
-    "Vui lòng chọn tập tin hình ảnh (file có đuôi là .jpg, .png, .jpeg, ...)",
-  oversize: (size: string) =>
-    `File bạn chọn có dung lượng vượt quá ${size}. Vui lòng chọn file khác.`,
 };
 
 export const UploadedAvatar: React.FC<TProps> = ({
@@ -42,12 +39,14 @@ export const UploadedAvatar: React.FC<TProps> = ({
 
   const handleWrongFileFormat = () => {
     handleOpenDialog();
-    setMessage(ERROR_UPLOAD_AVATAR_MESSAGE.wrongFormatType);
+    setMessage(APP_ERROR_MESSAGE.FILE_ERROR.NOT_IMAGE);
   };
 
   const handleOversizeImage = () => {
     handleOpenDialog();
-    setMessage(ERROR_UPLOAD_AVATAR_MESSAGE.oversize("1024MB"));
+    setMessage(
+      APP_ERROR_MESSAGE.FILE_ERROR.OVERSIZE(DEFAULT_LIMIT_FILE_SIZE_READABLE)
+    );
   };
 
   const {

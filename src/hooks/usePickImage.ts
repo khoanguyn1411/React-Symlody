@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { EFile } from "@/constants";
+import { DEFAULT_LIMIT_FILE_SIZE, EFile } from "@/constants";
 
 import { useEffectSkipFirstRender } from "./useEffectSkipFirstRender";
 
@@ -47,7 +47,7 @@ export const usePickImage = ({
 
   const handleUploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
-    if (file.size > 10e6) {
+    if (file.size > DEFAULT_LIMIT_FILE_SIZE) {
       onImageOverSize?.();
       return;
     }
