@@ -4,6 +4,8 @@ import TopBarProgress from "react-topbar-progress-indicator";
 
 import { AppReact } from "@/utils/types";
 
+import { buildRoutePaths } from "../build-route-path";
+
 TopBarProgress.config({
   barColors: {
     "0": "#60a5fa",
@@ -35,3 +37,19 @@ export const CustomRoute: AppReact.FC.Children = ({ children }) => {
     </>
   );
 };
+
+const authPath = buildRoutePaths({
+  home: {
+    path: "home",
+    children: {
+      test: {
+        path: "sdas",
+      },
+    },
+  },
+  second: {
+    path: "second",
+  },
+});
+
+console.log(authPath);
