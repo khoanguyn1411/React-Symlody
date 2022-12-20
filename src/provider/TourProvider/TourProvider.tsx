@@ -1,9 +1,9 @@
 import { TourProvider } from "@reactour/tour";
 
 import {
-  customTourClickMask,
-  customTourNextButton,
-  customTourPrevButton,
+  CustomTourNextButton,
+  CustomTourPrevButton,
+  onClickTourMask,
   tourProviderStyles,
 } from "@/components";
 import { AppReact } from "@/utils/types";
@@ -23,9 +23,9 @@ export const AppTourProvider: AppReact.FC.Children = ({ children }) => {
       disableInteraction
       disableDotsNavigation
       disableKeyboardNavigation
-      onClickMask={customTourClickMask}
-      prevButton={customTourPrevButton}
-      nextButton={customTourNextButton}
+      onClickMask={onClickTourMask}
+      prevButton={CustomTourPrevButton}
+      nextButton={CustomTourNextButton}
     >
       {children}
     </TourProvider>

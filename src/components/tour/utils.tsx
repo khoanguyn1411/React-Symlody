@@ -1,17 +1,17 @@
 import { Button } from "../elements";
 import { ITourBtnProps, ITourClickMaskProps } from "./types";
 
-export const customTourPrevButton = () => {
+export const CustomTourPrevButton: React.FC = () => {
   return null;
 };
 
-export const customTourNextButton = ({
+export const CustomTourNextButton: React.FC<ITourBtnProps> = ({
   stepsLength,
   currentStep,
   setIsOpen,
   setCurrentStep,
   steps,
-}: ITourBtnProps) => {
+}) => {
   const step = steps[currentStep];
 
   if (step?.disableActions) {
@@ -59,12 +59,12 @@ export const customTourNextButton = ({
   );
 };
 
-export const customTourClickMask = ({
+export const onClickTourMask = ({
   steps,
   currentStep,
   setIsOpen,
   setCurrentStep,
-}: ITourClickMaskProps) => {
+}: ITourClickMaskProps): void => {
   const step = steps?.[currentStep];
 
   if (typeof step?.onMaskClick === "function") {
