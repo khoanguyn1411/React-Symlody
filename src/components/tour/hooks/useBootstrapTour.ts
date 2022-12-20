@@ -1,7 +1,7 @@
 import { useTour } from "@reactour/tour";
 import { useEffect } from "react";
 
-import { BREAKPOINTS } from "@/constants";
+import { BREAKPOINTS } from "@/constants/breakpoints";
 import useWindowSize from "@/hooks/useWindowSize";
 import { delay } from "@/utils/funcs/delay";
 

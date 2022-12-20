@@ -3,7 +3,7 @@ import UploadPreview, { PreviewItem } from "@rpldy/upload-preview";
 import Uploady from "@rpldy/uploady";
 import React, { useRef } from "react";
 
-import { EFile } from "@/constants";
+import { EFile } from "@/features/types/models/base-models/file";
 
 import { ButtonUpload } from "./UploadButton";
 import { ItemPreviewWithCrop } from "./UploadCrop";

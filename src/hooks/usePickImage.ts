@@ -1,6 +1,9 @@
 import { useCallback, useState } from "react";
 
-import { DEFAULT_LIMIT_FILE_SIZE, EFile } from "@/constants";
+import {
+  DEFAULT_LIMIT_FILE_SIZE,
+  EFile,
+} from "@/features/types/models/base-models/file";
 
 import { useEffectSkipFirstRender } from "./useEffectSkipFirstRender";
 

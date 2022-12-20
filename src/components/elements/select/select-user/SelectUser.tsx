@@ -105,7 +105,7 @@ export const SelectUser: React.FC<Props> = ({
   const hasOption = selectedUser != null;
   const isShowFullNameImage =
     hasOption && searchValue === selectedUser.fullName;
-  const avatar = !isShowFullNameImage
+  const avatarUrl = !isShowFullNameImage
     ? PLACEHOLDER_IMAGE
     : selectedUser.avatarUrl;
 
@@ -128,7 +128,11 @@ export const SelectUser: React.FC<Props> = ({
                 "flex p-2 w-full space-x-3 items-center bg-primary-50"
               )}
             >
-              <Avatar size="default" fullName={selectedUser.fullName} src="" />
+              <Avatar
+                size="default"
+                fullName={selectedUser.fullName}
+                src={selectedUser.avatarUrl}
+              />
               <div className="flex flex-col">
                 <h1
                   className={classNames(
@@ -170,7 +174,7 @@ export const SelectUser: React.FC<Props> = ({
           <Avatar
             size="small"
             fullName={isShowFullNameImage && selectedUser.fullName}
-            src={avatar}
+            src={avatarUrl}
           />
           <Input
             style="none"

@@ -2,7 +2,7 @@ import classNames from "classnames";
 import ReactDrawer from "rc-drawer";
 import { useMemo } from "react";
 
-import { BREAKPOINTS } from "@/constants";
+import { BREAKPOINTS } from "@/constants/breakpoints";
 import useWindowSize from "@/hooks/useWindowSize";
 
 import { DrawerWrapperModule } from "./DrawerWrapperModule";

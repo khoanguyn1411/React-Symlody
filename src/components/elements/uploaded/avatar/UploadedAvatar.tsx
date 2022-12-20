@@ -3,11 +3,11 @@ import React, { useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { images } from "@/assets/images";
+import { APP_ERROR_MESSAGE } from "@/constants";
 import {
-  APP_ERROR_MESSAGE,
   DEFAULT_LIMIT_FILE_SIZE_READABLE,
   EFile,
-} from "@/constants";
+} from "@/features/types/models/base-models/file";
 import { useModal, usePickImage } from "@/hooks";
 
 import { Avatar } from "../../avatar";
