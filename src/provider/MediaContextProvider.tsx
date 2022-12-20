@@ -1,6 +1,6 @@
 import { createMedia } from "@artsy/fresnel";
 
-import { BREAKPOINTS } from "@/constants";
+import { BREAKPOINTS } from "@/constants/breakpoints";
 
 const AppMedia = createMedia({
   breakpoints: BREAKPOINTS,

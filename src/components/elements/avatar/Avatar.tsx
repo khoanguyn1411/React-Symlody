@@ -31,7 +31,7 @@ type IProps = {
 
 export const Avatar: React.FC<IProps> = ({
   isFullText = false,
-  fullName = "Simplamo®",
+  fullName = "Symlody",
   src,
   size = "default",
   className,
@@ -49,7 +49,7 @@ export const Avatar: React.FC<IProps> = ({
   //   typeof fullName === "string"
   //     ? fullName.trim().slice(0, 1).toUpperCase()
   //     : "T";
-  const text = getAvatarText(fullName || "Symphony", avatarTextLength);
+  const text = getAvatarText(fullName || "Symlody", avatarTextLength);
   const getBackgroundColor = (): string => {
     if (isSkeletonLoading) {
       return "rgb(229 231 235)";

@@ -16,7 +16,7 @@ const TOUR_STEPS_SELECTOR = {
 export const useTourLayout = () => {
   const tour = useTour();
   const isOpen = !LocalStorageService.getValue<boolean>(
-    APP_LOCAL_STORAGE_KEYS.REACT_TOUR
+    APP_LOCAL_STORAGE_KEYS.TOUR
   );
 
   const handleCloseClick = () => {
@@ -123,7 +123,7 @@ export const useTourLayout = () => {
     currentStep: 0,
     steps,
     onOpen: () => {
-      LocalStorageService.setValue(APP_LOCAL_STORAGE_KEYS.REACT_TOUR, true);
+      LocalStorageService.setValue(APP_LOCAL_STORAGE_KEYS.TOUR, true);
     },
   });
 };

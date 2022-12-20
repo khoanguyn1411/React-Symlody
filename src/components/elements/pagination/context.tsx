@@ -8,8 +8,9 @@ import {
   useState,
 } from "react";
 
-import { APP_PAGINATION } from "@/constants";
 import { AppReact } from "@/utils/types";
+
+import { APP_PAGINATION } from "./constants";
 
 const PaginationContext = createContext<TPropsPaginationContext>({
   activePage: undefined,
