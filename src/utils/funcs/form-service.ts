@@ -2,7 +2,7 @@ import { FieldError, Path, UseFormSetError } from "react-hook-form";
 
 import { HttpError } from "@/features/types";
 
-import { RecordObject } from "../types";
+import { RecordObject, StrictOmit } from "../types";
 import { CommonAssertion } from "./common-assertion";
 import { isObject } from "./is-object";
 
@@ -23,6 +23,52 @@ type InputFormError<T> = {
   /** setError function of `useForm` hook. */
   setError: UseFormSetError<any>;
 };
+
+/** Recursive function for `generateErrors` function.*/
+function generateErrorsRecursive<T extends HttpError<any>["detail"]>({
+  errors,
+  accumulateKey = null,
+  customMessage,
+  setError,
+}: InputFormError<T>): void {
+  Object.entries(errors).forEach(([key, value]) => {
+    if (!isObject(errors[key])) {
+      CommonAssertion.assertString(value);
+      if (value == null) {
+        return;
+      }
+
+      if (accumulateKey) {
+        const newKey = `${accumulateKey}.${key}`;
+        if (customMessage && customMessage[newKey] != null) {
+          setError(newKey, { message: customMessage[newKey] });
+          return;
+        }
+        setError(newKey, { message: value });
+        return;
+      }
+
+      if (customMessage && customMessage[key] != null) {
+        setError(key, { message: customMessage[key] });
+        return;
+      }
+      setError(key, { message: value });
+      return;
+    }
+    let currentKey: string;
+    if (accumulateKey) {
+      currentKey = `${accumulateKey}.${key}`;
+    } else {
+      currentKey = key;
+    }
+    generateErrorsRecursive({
+      errors: errors[key] as T,
+      accumulateKey: currentKey,
+      customMessage: customMessage,
+      setError,
+    });
+  });
+}
 
 export namespace FormService {
   /**
@@ -87,48 +133,9 @@ export namespace FormService {
    * - `customMessage`: Custom message if you need to override current backend error.
    * - `setError`: `setError` function of `useForm` hook.
    */
-  export function generateErrors<T extends HttpError<any>["detail"]>({
-    errors,
-    accumulateKey = null,
-    customMessage,
-    setError,
-  }: InputFormError<T>): void {
-    Object.entries(errors).forEach(([key, value]) => {
-      if (!isObject(errors[key])) {
-        CommonAssertion.assertString(value);
-        if (value == null) {
-          return;
-        }
-
-        if (accumulateKey) {
-          const newKey = `${accumulateKey}.${key}`;
-          if (customMessage && customMessage[newKey] != null) {
-            setError(newKey, { message: customMessage[newKey] });
-            return;
-          }
-          setError(newKey, { message: value });
-          return;
-        }
-
-        if (customMessage && customMessage[key] != null) {
-          setError(key, { message: customMessage[key] });
-          return;
-        }
-        setError(key, { message: value });
-        return;
-      }
-      let currentKey: string;
-      if (accumulateKey) {
-        currentKey = `${accumulateKey}.${key}`;
-      } else {
-        currentKey = key;
-      }
-      generateErrors({
-        errors: errors[key] as T,
-        accumulateKey: currentKey,
-        customMessage: customMessage,
-        setError,
-      });
-    });
+  export function generateErrors<T extends HttpError<any>["detail"]>(
+    inputValue: StrictOmit<InputFormError<T>, "accumulateKey">
+  ): void {
+    return generateErrorsRecursive(inputValue);
   }
 }
