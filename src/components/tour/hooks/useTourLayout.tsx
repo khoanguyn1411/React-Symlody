@@ -14,9 +14,8 @@ const TOUR_STEPS_SELECTOR = {
 };
 
 export const useTourLayout = () => {
-  // const { user } = useAppSelector((state) => state.user);
   const tour = useTour();
-  const isOpen = !LocalStorageService.getValue(
+  const isOpen = !LocalStorageService.getValue<boolean>(
     APP_LOCAL_STORAGE_KEYS.REACT_TOUR
   );
 
@@ -126,6 +125,5 @@ export const useTourLayout = () => {
     onOpen: () => {
       LocalStorageService.setValue(APP_LOCAL_STORAGE_KEYS.REACT_TOUR, true);
     },
-    //
   });
 };
