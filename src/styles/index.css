@@ -19,10 +19,3 @@ body {
   -webkit-box-orient: vertical;
 }
 
-.Symlody-tour.rt-mask {
-  opacity: 0.3 !important;
-}
-
-.Symlody-tour.rt-popover {
-  padding: 24px 32px;
-}

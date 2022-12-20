@@ -73,12 +73,14 @@ export const ModalTour: React.FC<Props> = ({
       )}
 
       {type === "image" && imageProps?.src && (
-        <div>
+        <div
+          className="flex justify-center w-full"
+          style={{ height: imageHeight }}
+        >
           <img
             src={imageProps?.src}
             alt={imageProps?.title}
-            className="w-full rounded-t-md"
-            style={{ height: imageHeight }}
+            className="h-full rounded-t-md"
             {...imageProps}
           />
         </div>

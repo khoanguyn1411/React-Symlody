@@ -8,13 +8,14 @@ import {
 } from "@/components";
 import { AppReact } from "@/utils/types";
 
+import style from "./TourProvider.module.css";
+
 export const AppTourProvider: AppReact.FC.Children = ({ children }) => {
   return (
     <TourProvider
       steps={[]}
-      maskClassName="Symlody-tour rt-mask"
-      className="Symlody-tour rt-popover"
-      highlightedMaskClassName="Symlody-tour rt-highlighted-mask"
+      maskClassName={style["rt-mask"]}
+      className={style["rt-popover"]}
       position="left"
       padding={{ mask: 0 }}
       styles={tourProviderStyles}
