@@ -9,11 +9,11 @@ import { isObject } from "./is-object";
  */
 function appendFormWith(formData: FormData, key: string, value: any): void {
   if (value instanceof File) {
-    if (value === null) {
-      formData.append(key, "");
-      return;
-    }
     formData.append(key, value);
+    return;
+  }
+  if (value === null) {
+    formData.append(key, "");
     return;
   }
   formData.append(key, value);

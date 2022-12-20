@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -8,7 +8,6 @@ import { UploadedAvatar } from "@/components/elements/uploaded/avatar/UploadedAv
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateOrganizationAsync } from "@/features/reducers";
 import { Organization, Roles } from "@/features/types";
-import { useEffectSkipFirstRender } from "@/hooks";
 import { FormService } from "@/utils/funcs/form-service";
 
 import {
@@ -84,7 +83,7 @@ export const _TabOrganization: React.FC = () => {
     reset(getDefaultValue(result.payload));
   };
 
-  useEffectSkipFirstRender(() => {
+  useEffect(() => {
     if (organization) {
       setDefaultImageLink(organization.logo);
     }

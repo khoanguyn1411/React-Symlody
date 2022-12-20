@@ -1,10 +1,10 @@
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Avatar, Checkbox, Search, Select } from "@/components";
 import { TOptionProps } from "@/components/elements/select/type";
 import { User } from "@/features/types";
-import { useDebounce, useEffectSkipFirstRender } from "@/hooks";
+import { useDebounce } from "@/hooks";
 import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
 import { AppReact } from "@/utils/types";
 
@@ -45,12 +45,13 @@ export const TodoNumberHolder: React.FC<TProps> = ({
   const { inputValue, setInputValue, debounceValue } = useDebounce();
   const INITIAL_TASK_QUANTITY = memberList.length;
 
-  useEffectSkipFirstRender(() => {
+  useEffect(() => {
     _setMemberList(
       memberList.filter((item) =>
         isTextIncludedIn(item.fullName, debounceValue)
       )
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceValue]);
 
   const MEMBER_LIST: TOptionProps<User>[] = _memberList.map((option) => ({

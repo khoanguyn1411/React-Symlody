@@ -1,11 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   DEFAULT_LIMIT_FILE_SIZE,
   EFile,
 } from "@/features/types/models/base-models/file";
-
-import { useEffectSkipFirstRender } from "./useEffectSkipFirstRender";
 
 type TFileData = {
   url: string | ArrayBuffer;
@@ -78,12 +76,12 @@ export const usePickImage = ({
     element.value = null;
   };
 
-  useEffectSkipFirstRender(() => {
+  useEffect(() => {
     setFile(undefined);
     setFileData({ url: defaultImageLink, type: EFile.Image });
   }, [defaultImageLink, handleRemoveFile, setFile]);
 
-  useEffectSkipFirstRender(() => {
+  useEffect(() => {
     let fileReader: FileReader = null,
       isCancel = false;
     if (!file) {
