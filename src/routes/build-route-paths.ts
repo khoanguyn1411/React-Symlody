@@ -66,39 +66,37 @@ function isRoutePathsRootConfig(
 /**
  * Build route object from config.
  * @param config Route paths config.
- * @param parentRoutePath Parent route path (first route of path).
+ * @param parentRouteUrl Parent route path (first route of path).
  * @returns Routes path object with url and type validation support.
  */
 export function buildRoutePaths<T extends RoutePathsConfig>(
   config: T,
-  parentRoutePath = ""
+  parentRouteUrl = "/"
 ): RoutePaths<T> {
   return Object.keys(config).reduce((acc, key: keyof T) => {
     const value = config[key];
-    if (parentRoutePath) {
-      const newUrl = `${parentRoutePath}/${value.path}`;
-
+    const fullUrl = `${parentRouteUrl}${value.path}`;
+    if (!value.children) {
       return {
         ...acc,
         [key]: {
           title: isRoutePathsRootConfig(value) ? value.title : undefined,
           path: value.path,
-          url: newUrl,
+          url: fullUrl,
           children: value.children
-            ? buildRoutePaths(value.children as T, newUrl)
+            ? buildRoutePaths(value.children, fullUrl)
             : undefined,
         },
       };
     }
-    const newUrl = `/${value.path}`;
     return {
       ...acc,
       [key]: {
         title: isRoutePathsRootConfig(value) ? value.title : undefined,
         path: value.path,
-        url: newUrl,
+        url: fullUrl,
         children: value.children
-          ? buildRoutePaths(value.children as T, newUrl)
+          ? buildRoutePaths(value.children, `${fullUrl}/`)
           : undefined,
       },
     };
