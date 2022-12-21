@@ -9,7 +9,7 @@ const baseRoutePaths = buildRoutePaths({
     path: "*",
     title: "Không tìm thấy",
   },
-});
+} as const);
 
 const appRoutePaths = buildRoutePaths({
   login: { path: "login", title: "Đăng nhập" },
@@ -37,6 +37,6 @@ const appRoutePaths = buildRoutePaths({
       tab: { path: ":tab" },
     },
   },
-});
+} as const);
 
-export const routePaths = { ...baseRoutePaths, ...appRoutePaths } as const;
+export const routePaths = { ...baseRoutePaths, ...appRoutePaths };
