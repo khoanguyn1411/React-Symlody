@@ -2,7 +2,6 @@ import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
-import { EConfigTabKey } from "@/container/config-container/type";
 import { useAppDispatch } from "@/features";
 import { logoutAsync } from "@/features/reducers";
 import { Organization, Profile } from "@/features/types";
@@ -25,11 +24,6 @@ const MENUS: TItemListSelect[] = [
   },
 ];
 
-const getTabUrl = (url: string): string => {
-  const BASE_URL = routePaths.config.path;
-  return `${BASE_URL}/${url}`;
-};
-
 type TProps = {
   user: Profile;
   organization: Organization;
@@ -44,11 +38,11 @@ export const UserDropdown: React.FC<TProps> = ({ user, organization }) => {
       return;
     }
     if (item.key === "PROFILE") {
-      navigate(getTabUrl(EConfigTabKey.PersonalInfo));
+      navigate(routePaths.config.children.personalInfo.url);
       return;
     }
     if (item.key === "CHANGE_PASSWORD") {
-      navigate(getTabUrl(EConfigTabKey.ChangePassword));
+      navigate(routePaths.config.children.changePassword.url);
       return;
     }
   };

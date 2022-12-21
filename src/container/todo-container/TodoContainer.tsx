@@ -51,11 +51,12 @@ const initializeTabContent = (key: PageKey, isLoading: boolean): ContentTab => {
   }
 };
 
+const MAP_PATH_TO_PAGE_KEY: Record<string, PageKey> = {
+  [routePaths.todo.children.kanban.path]: "todo.kanban",
+  [routePaths.todo.children.table.path]: "todo.table",
+};
+
 export const TodoContainer: React.FC = () => {
-  const MAP_PATH_TO_PAGE_KEY: Record<string, PageKey> = {
-    [routePaths.todo.children.kanban.path]: "todo.kanban",
-    [routePaths.todo.children.table.path]: "todo.table",
-  };
   const dispatch = useAppDispatch();
   const taskStore = useAppSelector((state) => state.task);
   const userCount = useAppSelector(userSelectors.selectTotal);

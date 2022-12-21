@@ -2,8 +2,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Container, NotificationImg, TabHost } from "@/components";
-import { routePaths } from "@/routes";
-import { enumToArray } from "@/utils/funcs/enum-to-array";
+import { PageKey, routePaths } from "@/routes";
 
 import {
   ActionConfigDepartment,
@@ -20,26 +19,26 @@ type ContentTab = {
   rightSide?: ReactNode;
 };
 
-const getContentTab = (key: EConfigTabKey): ContentTab => {
+const initializeTabContents = (key: PageKey): ContentTab => {
   switch (key) {
-    case EConfigTabKey.Organization:
+    case "config.organization":
       return {
         content: <TabOrganization />,
       };
-    case EConfigTabKey.PersonalInfo:
+    case "config.personalInfo":
       return {
         content: <TabPersonalInfo />,
       };
-    case EConfigTabKey.ChangePassword:
+    case "config.changePassword":
       return {
         content: <TabChangePassword />,
       };
-    case EConfigTabKey.Department:
+    case "config.department":
       return {
         content: <TabConfigDepartment />,
         rightSide: <ActionConfigDepartment />,
       };
-    case EConfigTabKey.RolePermission:
+    case "config.rolePermission":
       return {
         content: <TabRolePermission />,
       };
@@ -50,20 +49,28 @@ const getContentTab = (key: EConfigTabKey): ContentTab => {
   }
 };
 
+const MAP_PATH_TO_PAGE_KEY: Record<string, PageKey> = {
+  [routePaths.config.children.department.path]: "config.department",
+  [routePaths.config.children.organization.path]: "config.organization",
+  [routePaths.config.children.rolePermission.path]: "config.rolePermission",
+  [routePaths.config.children.changePassword.path]: "config.changePassword",
+  [routePaths.config.children.personalInfo.path]: "config.personalInfo",
+};
+
 export const ConfigContainer: React.FC = () => {
   const { tab } = useParams();
-  const _tab = tab as EConfigTabKey;
   const navigate = useNavigate();
-  const [content, setContent] = useState<ContentTab>(getContentTab(_tab));
+  const [content, setContent] = useState<ContentTab>(
+    initializeTabContents(MAP_PATH_TO_PAGE_KEY[tab])
+  );
 
   const tabUrls = routePaths.config.children;
 
-  const isInvalidUrl =
-    !enumToArray(EConfigTabKey).includes(_tab) && tab != null;
+  const isInvalidUrl = MAP_PATH_TO_PAGE_KEY[tab] == null && tab != null;
 
   useEffect(() => {
-    setContent(getContentTab(_tab));
-  }, [navigate, _tab]);
+    setContent(initializeTabContents(MAP_PATH_TO_PAGE_KEY[tab]));
+  }, [navigate, tab]);
 
   if (isInvalidUrl) {
     return (
