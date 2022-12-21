@@ -63,40 +63,6 @@ export function buildRoutePaths<T extends RoutePathsConfig>(
   config: T,
   parentRoutePath = ""
 ): RoutePaths<T> {
-  return buildRoutePathSupport(
-    config,
-    parentRoutePath,
-    buildRoutePathsForChildren
-  );
-}
-
-/**
- * Build route object from config for children of route.
- * @param config Route paths config.
- * @param parentRoutePath Parent route path (first route of path).
- */
-function buildRoutePathsForChildren<T extends RoutePathsConfig>(
-  config: T,
-  parentRoutePath = ""
-): RoutePaths<T> {
-  return buildRoutePathSupport(
-    config,
-    parentRoutePath,
-    buildRoutePathsForChildren
-  );
-}
-
-/**
- * Support function to build route path.
- * @param config Route paths config.
- * @param parentRoutePath Parent route path (first route of path).
- * @param recursiveFunc Recursive function to build route for children.
- */
-function buildRoutePathSupport<T extends RoutePathsConfig>(
-  config: T,
-  parentRoutePath: string,
-  recursiveFunc: (config: T, parentRoutePath: string) => RoutePaths<T>
-) {
   return Object.keys(config).reduce((acc, key: keyof T) => {
     const value = config[key];
     if (parentRoutePath) {
@@ -109,7 +75,7 @@ function buildRoutePathSupport<T extends RoutePathsConfig>(
           path: value.path,
           url: newUrl,
           children: value.children
-            ? recursiveFunc(value.children as T, newUrl)
+            ? buildRoutePaths(value.children as T, newUrl)
             : undefined,
         },
       };
@@ -122,7 +88,7 @@ function buildRoutePathSupport<T extends RoutePathsConfig>(
         path: value.path,
         url: newUrl,
         children: value.children
-          ? recursiveFunc(value.children as T, newUrl)
+          ? buildRoutePaths(value.children as T, newUrl)
           : undefined,
       },
     };
