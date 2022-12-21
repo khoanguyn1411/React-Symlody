@@ -1,157 +1,139 @@
 import { NotificationImg } from "@/components/notification-image";
 import {
   ConfigContainer,
-  EventContainer,
-  HomeContainer,
   LoginContainer,
   MemberContainer,
   PropertyContainer,
-  TargetContainer,
   TodoContainer,
 } from "@/container";
 
-export type PageKey = EPageKey;
+import { buildRoutePaths, ExtractPageKey } from "./build-route-path";
 
 export interface IRoutes {
   path: string;
-  component: React.ReactNode | JSX.Element;
+  component: React.ReactNode;
   pageKey: PageKey;
-  pageTitle: string;
-  // layout?: React.FC;
+  pageTitle?: string;
+  layout?: React.ReactNode;
 }
 
-export enum EPageKey {
-  Login = "Login",
-  Home = "Home",
-  Member = "Member",
-  Property = "Property",
-  Config = "Config",
-  Event = "Event",
-  Target = "Target",
-  Todo = "Todo",
-  NotFound = "NotFound",
-}
+export type PageKey = ExtractPageKey<typeof routePaths>;
 
-export enum EPageTitle {
-  Login = "Đăng nhập",
-  Home = "Trang chủ",
-  Member = "Trang thành viên",
-  Property = "Trang tài sản",
-  Config = "Trang cấu hình",
-  Event = "Trang sự kiện",
-  Todo = "Trang công việc",
-  Target = "Trang mục tiêu",
-  NotFound = "Không tìm thấy",
-}
+const baseRoutePaths = buildRoutePaths({
+  root: {
+    path: "",
+    title: "Trang chủ",
+  },
+  rest: {
+    path: "*",
+    title: "Không tìm thấy",
+  },
+});
 
-export enum EPagePath {
-  Home = "/",
-  Login = "/login",
-  Member = "/member",
-  Property = "/property",
-  ConfigWithTab = "/config/:tab",
-  Config = "/config",
-  Event = "/event",
-  Target = "/target",
-  Todo = "/todo",
-  NotFound = "/*",
-}
+const appRoutePaths = buildRoutePaths({
+  login: { path: "login", title: "Đăng nhập" },
+  member: { path: "member", title: "Trang thành viên" },
+  property: { path: "property", title: "Trang tài sản" },
+  config: {
+    path: "config",
+    title: "Trang cấu hình",
+    children: {
+      tab: { path: ":tab" },
+      changePassword: { path: "change-password", title: "Mật khẩu" },
+      department: { path: "department", title: "Phòng ban" },
+      organization: { path: "organization", title: "Tổ chức" },
+      personalInfo: { path: "personal-info", title: "Thông tin cá nhân" },
+      rolePermission: { path: "role-permission", title: "Phân quyền" },
+    },
+  },
+  event: { path: "event", title: "Trang sự kiện" },
+  todo: {
+    path: "todo",
+    title: "Trang công việc",
+    children: {
+      kanban: { path: "kanban", title: "Kanban" },
+      table: { path: "table", title: "Bảng" },
+      tab: { path: ":tab" },
+    },
+  },
+});
 
-export const PageComponent = {
-  Home: <HomeContainer />,
-  Member: <MemberContainer />,
-  Property: <PropertyContainer />,
-  Config: <ConfigContainer />,
-  ConfigWithTab: <ConfigContainer />,
-  Event: <EventContainer />,
-  Target: <TargetContainer />,
-  Todo: <TodoContainer />,
-  Login: <LoginContainer />,
-  NotFound: (
-    <NotificationImg
-      title="Trang bạn đang truy cập không tồn tại"
-      description="Vui lòng kiểm tra lại đường dẫn hoặc liên hệ trung tâm hỗ trợ"
-    />
-  ),
-} as const;
+export const routePaths = { ...baseRoutePaths, ...appRoutePaths };
+export const APP_DEFAULT_PAGE = routePaths.config.url;
 
-export const APP_DEFAULT_PAGE = EPagePath.Todo;
 const privateRoutes: IRoutes[] = [
   // {
   //   path: "/",
   //   component: <HomeContainer />,
-  //   pageKey: EPageKey.Home,
+  //   pageKey: PageKey.Home,
   //   pageTitle: "Trang chủ",
   // },
   {
-    path: "/todo",
+    path: routePaths.todo.url,
     component: <TodoContainer />,
-    pageKey: EPageKey.Todo,
-    pageTitle: "Trang công việc",
+    pageKey: "todo",
+    pageTitle: routePaths.todo.title,
   },
   {
-    path: "/todo/:tab",
+    path: routePaths.todo.children.tab.url,
     component: <TodoContainer />,
-    pageKey: EPageKey.Todo,
-    pageTitle: "Trang công việc",
+    pageKey: "todo",
   },
   {
-    path: "/member",
+    path: routePaths.member.url,
     component: <MemberContainer />,
-    pageKey: EPageKey.Member,
-    pageTitle: "Trang thành viên",
+    pageKey: "member",
+    pageTitle: routePaths.member.title,
   },
   {
-    path: "/property",
+    path: routePaths.property.url,
     component: <PropertyContainer />,
-    pageKey: EPageKey.Property,
-    pageTitle: "Trang tài sản",
+    pageKey: "property",
+    pageTitle: routePaths.property.title,
   },
   {
-    path: "/config",
+    path: routePaths.config.url,
     component: <ConfigContainer />,
-    pageKey: EPageKey.Config,
-    pageTitle: "Trang cấu hình",
+    pageKey: "config",
+    pageTitle: routePaths.config.title,
   },
   {
-    path: "/config/:tab",
+    path: routePaths.config.children.tab.url,
     component: <ConfigContainer />,
-    pageKey: EPageKey.Config,
-    pageTitle: "Trang cấu hình",
+    pageKey: "config",
   },
 
   // {
   //   path: "/event",
   //   component: <EventContainer />,
-  //   pageKey: EPageKey.Event,
+  //   pageKey: PageKey.Event,
   //   pageTitle: "Trang sự kiện",
   // },
   // {
   //   path: "/target",
   //   component: <TargetContainer />,
-  //   pageKey: EPageKey.Target,
+  //   pageKey: PageKey.Target,
   //   pageTitle: "Trang mục tiêu",
   // },
   {
-    path: "/*",
+    path: routePaths.rest.url,
     component: (
       <NotificationImg
         title="Trang bạn đang truy cập không tồn tại"
         description="Vui lòng kiểm tra lại đường dẫn hoặc liên hệ trung tâm hỗ trợ"
       />
     ),
-    pageKey: null,
-    pageTitle: "Không tìm thấy",
+    pageKey: "rest",
+    pageTitle: routePaths.rest.title,
   },
 ];
 
 const publicRoutes: IRoutes[] = [
   {
-    path: "/login",
+    path: routePaths.login.url,
     component: <LoginContainer />,
-    // layout: null,
-    pageKey: null,
-    pageTitle: "Đăng nhập",
+    pageKey: "login",
+    pageTitle: routePaths.login.title,
   },
 ];
 

@@ -20,7 +20,7 @@ import {
 import { setFilterParamsTask } from "@/features/reducers/task-reducer";
 import { Department, Roles } from "@/features/types";
 import { useModal } from "@/hooks";
-import { EPagePath } from "@/routes";
+import { routePaths } from "@/routes";
 import { enumToArray } from "@/utils/funcs/enum-to-array";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
@@ -28,16 +28,11 @@ import { TodoBoard } from "./todo-kanban";
 import { TodoMemberView } from "./todo-member-view";
 import { ModalCreateTodo } from "./todo-modals";
 import { TodoTable } from "./todo-table";
-import { ETodoTabKey, ETodoTabReadableString } from "./type";
+import { ETodoTabKey } from "./type";
 
 type ContentTab = {
   content: ReactNode;
   rightSide?: ReactNode;
-};
-
-const getTabUrl = (url: string): string => {
-  const BASE_URL = EPagePath.Todo;
-  return `${BASE_URL}/${url}`;
 };
 
 const getContentTab = (key: ETodoTabKey, isLoading: boolean): ContentTab => {
@@ -182,13 +177,13 @@ export const TodoContainer: React.FC = () => {
             listTabs={[
               {
                 key: ETodoTabKey.Kanban,
-                title: ETodoTabReadableString.Kanban,
-                to: getTabUrl(ETodoTabKey.Kanban),
+                title: routePaths.todo.children.kanban.title,
+                to: routePaths.todo.children.kanban.url,
               },
               {
                 key: ETodoTabKey.Table,
-                title: ETodoTabReadableString.Table,
-                to: getTabUrl(ETodoTabKey.Table),
+                title: routePaths.todo.children.table.title,
+                to: routePaths.todo.children.table.url,
               },
             ]}
           />

@@ -1,27 +1,57 @@
-/** Config */
-interface RoutePathOptions {
+import { IsInclude, RecordObject, StrictOmit } from "@/utils/types";
+
+export type ExtractPageKey<T extends RoutePaths<RecordObject>> =
+  | keyof T
+  | keyof {
+      [Key in keyof T as T[Key] extends {
+        children: RecordObject;
+      }
+        ? // Using `Extract` type to transfer keyof T to string type for usage of Template Literal Types.
+          `${Extract<Key, string>}-${Extract<
+            ExtractPageKey<T[Key]["children"]>,
+            string
+          >}`
+        : never]: never;
+    };
+
+/** Config types. */
+interface RoutePathBaseOptions {
   path: string;
   children?: RoutePathsConfig;
+}
+interface RoutePathOptions extends RoutePathBaseOptions {
+  title?: string;
 }
 
 type RoutePathsConfig = Record<string, RoutePathOptions>;
 
-/** Returned */
+/** Returned types. */
 interface RoutePathBaseReturned {
   path: string;
   url: string;
+  title?: string;
 }
 
-interface RoutePathWithChildren<T extends RoutePathsConfig>
-  extends RoutePathBaseReturned {
+type RoutePathWithChildren<
+  T extends RoutePathsConfig,
+  HasTitle extends boolean
+> = {
   children: RoutePaths<T>;
-}
+} & ShouldReturnRoutePathBaseWithTitle<HasTitle>;
+
+type ShouldReturnRoutePathBaseWithTitle<T extends boolean> = T extends false
+  ? StrictOmit<RoutePathBaseReturned, "title">
+  : Required<RoutePathBaseReturned>;
 
 type RoutePaths<InputConfig extends RoutePathsConfig> = {
   [Key in keyof InputConfig]: InputConfig[Key]["children"] extends RoutePathsConfig
-    ? RoutePathWithChildren<InputConfig[Key]["children"]>
-    : RoutePathBaseReturned;
-} & { root: RoutePathBaseReturned };
+    ? IsInclude<InputConfig[Key], "title"> extends true
+      ? RoutePathWithChildren<InputConfig[Key]["children"], true>
+      : RoutePathWithChildren<InputConfig[Key]["children"], false>
+    : IsInclude<InputConfig[Key], "title"> extends true
+    ? Required<RoutePathBaseReturned>
+    : StrictOmit<RoutePathBaseReturned, "title">;
+};
 
 /**
  * Build route object from config.
@@ -33,42 +63,78 @@ export function buildRoutePaths<T extends RoutePathsConfig>(
   config: T,
   parentRoutePath = ""
 ): RoutePaths<T> {
+  return buildRoutePathSupport(
+    config,
+    parentRoutePath,
+    buildRoutePathsForChildren
+  );
+}
+
+/**
+ * Build route object from config for children of route.
+ * @param config Route paths config.
+ * @param parentRoutePath Parent route path (first route of path).
+ */
+function buildRoutePathsForChildren<T extends RoutePathsConfig>(
+  config: T,
+  parentRoutePath = ""
+): RoutePaths<T> {
+  return buildRoutePathSupport(
+    config,
+    parentRoutePath,
+    buildRoutePathsForChildren
+  );
+}
+
+/**
+ * Support function to build route path.
+ * @param config Route paths config.
+ * @param parentRoutePath Parent route path (first route of path).
+ * @param recursiveFunc Recursive function to build route for children.
+ */
+function buildRoutePathSupport<T extends RoutePathsConfig>(
+  config: T,
+  parentRoutePath: string,
+  recursiveFunc: (config: T, parentRoutePath: string) => RoutePaths<T>
+) {
   return Object.keys(config).reduce((acc, key: keyof T) => {
-    const baseRoutePath: RoutePaths<T> = {
-      root: {
-        path: "",
-      },
-      ...acc,
-    };
     const value = config[key];
-    if (value.path === "") {
-      throw new Error(
-        "Please do not provide an empty string for the value of `path` key."
-      );
-    }
     if (parentRoutePath) {
       const newUrl = `${parentRoutePath}/${value.path}`;
+
       return {
-        ...baseRoutePath,
+        ...acc,
         [key]: {
+          title: isRoutePathsRootConfig(value) ? value.title : undefined,
           path: value.path,
           url: newUrl,
           children: value.children
-            ? buildRoutePaths(value.children, newUrl)
+            ? recursiveFunc(value.children as T, newUrl)
             : undefined,
         },
       };
     }
     const newUrl = `/${value.path}`;
     return {
-      ...baseRoutePath,
+      ...acc,
       [key]: {
+        title: isRoutePathsRootConfig(value) ? value.title : undefined,
         path: value.path,
         url: newUrl,
         children: value.children
-          ? buildRoutePaths(value.children, newUrl)
+          ? recursiveFunc(value.children as T, newUrl)
           : undefined,
       },
     };
   }, {} as RoutePaths<T>);
+}
+
+/**
+ * Check if entity is RoutePathOptions or not.
+ * @param entity Entity need to be checked.
+ */
+function isRoutePathsRootConfig(
+  entity: RoutePathBaseOptions
+): entity is RoutePathOptions {
+  return !!(entity as RoutePathOptions).title;
 }

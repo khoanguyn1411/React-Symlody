@@ -6,7 +6,7 @@ import { EConfigTabKey } from "@/container/config-container/type";
 import { useAppDispatch } from "@/features";
 import { logoutAsync } from "@/features/reducers";
 import { Organization, Profile } from "@/features/types";
-import { EPagePath } from "@/routes";
+import { routePaths } from "@/routes";
 
 import { Avatar, Dropdown, TItemListSelect } from "../../elements";
 
@@ -26,7 +26,7 @@ const MENUS: TItemListSelect[] = [
 ];
 
 const getTabUrl = (url: string): string => {
-  const BASE_URL = EPagePath.Config;
+  const BASE_URL = routePaths.config.path;
   return `${BASE_URL}/${url}`;
 };
 
