@@ -20,8 +20,7 @@ import {
 import { setFilterParamsTask } from "@/features/reducers/task-reducer";
 import { Department, Roles } from "@/features/types";
 import { useModal } from "@/hooks";
-import { routePaths } from "@/routes";
-import { enumToArray } from "@/utils/funcs/enum-to-array";
+import { PageKey, routePaths } from "@/routes";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
 import { TodoBoard } from "./todo-kanban";
@@ -35,13 +34,13 @@ type ContentTab = {
   rightSide?: ReactNode;
 };
 
-const getContentTab = (key: ETodoTabKey, isLoading: boolean): ContentTab => {
+const initializeTabContent = (key: PageKey, isLoading: boolean): ContentTab => {
   switch (key) {
-    case ETodoTabKey.Kanban:
+    case "todo.kanban":
       return {
         content: <TodoBoard isLoading={isLoading} />,
       };
-    case ETodoTabKey.Table:
+    case "todo.table":
       return {
         content: <TodoTable isLoading={isLoading} />,
       };
@@ -53,6 +52,10 @@ const getContentTab = (key: ETodoTabKey, isLoading: boolean): ContentTab => {
 };
 
 export const TodoContainer: React.FC = () => {
+  const MAP_PATH_TO_PAGE_KEY: Record<string, PageKey> = {
+    [routePaths.todo.children.kanban.path]: "todo.kanban",
+    [routePaths.todo.children.table.path]: "todo.table",
+  };
   const dispatch = useAppDispatch();
   const taskStore = useAppSelector((state) => state.task);
   const userCount = useAppSelector(userSelectors.selectTotal);
@@ -61,13 +64,12 @@ export const TodoContainer: React.FC = () => {
   const departmentCount = useAppSelector(departmentSelectors.selectTotal);
 
   const { tab } = useParams();
-  const _tab = tab as ETodoTabKey;
   const propsModal = useModal({ isHotkeyOpen: true });
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [content, setContent] = useState<ContentTab>(
-    getContentTab(_tab, isLoading)
+    initializeTabContent(MAP_PATH_TO_PAGE_KEY[tab], isLoading)
   );
 
   const getDepartmentId = (departmentText: string): Department["id"] | null => {
@@ -93,7 +95,7 @@ export const TodoContainer: React.FC = () => {
   const [filterDepartment, setFilterDepartment] = useState<string>();
 
   const isNoData = false;
-  const isInvalidUrl = !enumToArray(ETodoTabKey).includes(_tab) && tab != null;
+  const isInvalidUrl = MAP_PATH_TO_PAGE_KEY[tab] == null && tab != null;
   const isShowSelect = currentUser.isRole([Roles.Lead]);
 
   const handleOpenCreateTodoModal = () => {
@@ -111,8 +113,9 @@ export const TodoContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    setContent(getContentTab(_tab, isLoading));
-  }, [isLoading, navigate, _tab]);
+    setContent(initializeTabContent(MAP_PATH_TO_PAGE_KEY[tab], isLoading));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, navigate, tab]);
 
   useLayoutEffect(() => {
     setFilterDepartment(getInitialDepartmentText());

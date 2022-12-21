@@ -4,8 +4,6 @@ import TopBarProgress from "react-topbar-progress-indicator";
 
 import { AppReact } from "@/utils/types";
 
-import { routePaths } from "../routes-config";
-
 TopBarProgress.config({
   barColors: {
     "0": "#60a5fa",
@@ -37,5 +35,3 @@ export const CustomRoute: AppReact.FC.Children = ({ children }) => {
     </>
   );
 };
-
-console.log(routePaths);

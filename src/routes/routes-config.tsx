@@ -59,6 +59,7 @@ const appRoutePaths = buildRoutePaths({
 });
 
 export const routePaths = { ...baseRoutePaths, ...appRoutePaths };
+
 export const APP_DEFAULT_PAGE = routePaths.config.url;
 
 const privateRoutes: IRoutes[] = [

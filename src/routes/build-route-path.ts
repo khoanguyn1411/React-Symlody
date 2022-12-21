@@ -7,7 +7,7 @@ export type ExtractPageKey<T extends RoutePaths<RecordObject>> =
         children: RecordObject;
       }
         ? // Using `Extract` type to transfer keyof T to string type for usage of Template Literal Types.
-          `${Extract<Key, string>}-${Extract<
+          `${Extract<Key, string>}.${Extract<
             ExtractPageKey<T[Key]["children"]>,
             string
           >}`
@@ -54,6 +54,16 @@ type RoutePaths<InputConfig extends RoutePathsConfig> = {
 };
 
 /**
+ * Check if entity is RoutePathOptions or not.
+ * @param entity Entity need to be checked.
+ */
+function isRoutePathsRootConfig(
+  entity: RoutePathBaseOptions
+): entity is RoutePathOptions {
+  return !!(entity as RoutePathOptions).title;
+}
+
+/**
  * Build route object from config.
  * @param config Route paths config.
  * @param parentRoutePath Parent route path (first route of path).
@@ -93,14 +103,4 @@ export function buildRoutePaths<T extends RoutePathsConfig>(
       },
     };
   }, {} as RoutePaths<T>);
-}
-
-/**
- * Check if entity is RoutePathOptions or not.
- * @param entity Entity need to be checked.
- */
-function isRoutePathsRootConfig(
-  entity: RoutePathBaseOptions
-): entity is RoutePathOptions {
-  return !!(entity as RoutePathOptions).title;
 }
