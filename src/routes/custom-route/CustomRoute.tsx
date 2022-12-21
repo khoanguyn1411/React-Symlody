@@ -38,4 +38,4 @@ export const CustomRoute: AppReact.FC.Children = ({ children }) => {
   );
 };
 
-console.log(routePaths);
+console.log(routePaths.config);

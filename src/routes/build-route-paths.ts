@@ -43,14 +43,29 @@ type ShouldReturnRoutePathBaseWithTitle<T extends boolean> = T extends false
   ? StrictOmit<RoutePathBaseReturned, "title">
   : Required<RoutePathBaseReturned>;
 
-type RoutePaths<InputConfig extends RoutePathsConfig> = {
-  [Key in keyof InputConfig]: InputConfig[Key]["children"] extends RoutePathsConfig
-    ? IsInclude<InputConfig[Key], "title"> extends true
-      ? RoutePathWithChildren<InputConfig[Key]["children"], true>
-      : RoutePathWithChildren<InputConfig[Key]["children"], false>
-    : IsInclude<InputConfig[Key], "title"> extends true
+type NormalRoute<InputConfig extends RoutePathBaseOptions> =
+  InputConfig["children"] extends RoutePathsConfig
+    ? IsInclude<InputConfig, "title"> extends true
+      ? RoutePathWithChildren<InputConfig["children"], true>
+      : RoutePathWithChildren<InputConfig["children"], false>
+    : IsInclude<InputConfig, "title"> extends true
     ? Required<RoutePathBaseReturned>
     : StrictOmit<RoutePathBaseReturned, "title">;
+
+type DynamicRoute<
+  InputConfig extends RoutePathBaseOptions,
+  Param extends string
+> = Required<RoutePathBaseReturned>;
+
+type ExtractToRoutePathOption<T extends RoutePathBaseOptions> = Extract<
+  T,
+  RoutePathBaseOptions
+>;
+
+type RoutePaths<InputConfig extends RoutePathsConfig> = {
+  [Key in keyof InputConfig]: InputConfig[Key]["path"] extends `:${infer Param}`
+    ? DynamicRoute<ExtractToRoutePathOption<InputConfig[Key]>, Param>
+    : NormalRoute<ExtractToRoutePathOption<InputConfig[Key]>>;
 };
 
 /**
