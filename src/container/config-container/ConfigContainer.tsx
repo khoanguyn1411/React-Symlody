@@ -13,7 +13,7 @@ import {
   TabPersonalInfo,
 } from "./config-tabs";
 import { TabRolePermission } from "./config-tabs/role-permission";
-import { EConfigTabKey, EConfigTabReadableString } from "./type";
+import { EConfigTabKey } from "./type";
 
 type ContentTab = {
   content: ReactNode;
@@ -84,27 +84,27 @@ export const ConfigContainer: React.FC = () => {
           listTabs={[
             {
               key: EConfigTabKey.Organization,
-              title: EConfigTabReadableString.Organization,
+              title: tabUrls.organization.title,
               to: tabUrls.organization.url,
             },
             {
               key: EConfigTabKey.Department,
-              title: EConfigTabReadableString.Department,
+              title: tabUrls.department.title,
               to: tabUrls.department.url,
             },
             {
               key: EConfigTabKey.RolePermission,
-              title: EConfigTabReadableString.RolePermission,
+              title: tabUrls.rolePermission.title,
               to: tabUrls.rolePermission.url,
             },
             {
               key: EConfigTabKey.PersonalInfo,
-              title: EConfigTabReadableString.PersonalInfo,
+              title: tabUrls.personalInfo.title,
               to: tabUrls.personalInfo.url,
             },
             {
               key: EConfigTabKey.ChangePassword,
-              title: EConfigTabReadableString.ChangePassword,
+              title: tabUrls.changePassword.title,
               to: tabUrls.changePassword.url,
             },
           ]}
