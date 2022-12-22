@@ -17,10 +17,10 @@ export type Kind =
   | "payment-required";
 
 export type Response<TResult, TError = TResult> = {
-  kind: Kind;
-  result: TResult;
-  unknownError: unknown;
-  httpError: HttpErrorDto<TError>;
+  readonly kind: Kind;
+  readonly result: TResult;
+  readonly unknownError: unknown;
+  readonly httpError: HttpErrorDto<TError>;
 };
 
 /**
