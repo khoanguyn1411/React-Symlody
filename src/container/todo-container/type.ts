@@ -33,11 +33,6 @@ export type TodoForm = Pick<
   reporter: TaskCreation["reporter"]["id"];
 };
 
-export enum ETodoTabReadableString {
-  Kanban = "Kanban",
-  Table = "Bảng",
-}
-
 export enum ETodoTabKey {
   Kanban = "kanban",
   Table = "table",
