@@ -20,7 +20,7 @@ export interface IRoutes {
 
 export type PageKey = ExtractPageKey<typeof routePaths>;
 
-export const APP_DEFAULT_PAGE = routePaths.config.url;
+export const APP_DEFAULT_PAGE = routePaths.todo.url;
 
 const privateRoutes: IRoutes[] = [
   // {
