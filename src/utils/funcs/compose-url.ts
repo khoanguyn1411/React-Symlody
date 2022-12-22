@@ -10,7 +10,7 @@ export class ComposeUrlService {
     return `${url}/`;
   }
 
-  public constructUrlWithId(id: Primitive) {
+  private constructUrlWithId(id: Primitive) {
     return `${this.baseUrl}/${id}/`;
   }
 
