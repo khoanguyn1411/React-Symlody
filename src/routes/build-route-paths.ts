@@ -52,10 +52,22 @@ type NormalRoute<InputConfig extends RoutePathBaseOptions> =
     ? Required<RoutePathBaseReturned>
     : StrictOmit<RoutePathBaseReturned, "title">;
 
+type FunctionalChildren<
+  InputConfig extends RoutePathBaseOptions,
+  Start extends string
+> = (
+  param: Record<Start, string>
+) => InputConfig["children"] extends RoutePathsConfig
+  ? RoutePaths<InputConfig["children"]>
+  : ShouldReturnRoutePathBaseWithTitle<false>;
+
 type DynamicRoute<
   InputConfig extends RoutePathBaseOptions,
   Param extends string
-> = Required<RoutePathBaseReturned>;
+> = StrictOmit<RoutePathBaseReturned, "title"> & {
+  dynamicUrl: (param: Record<Param, string>) => string;
+  children: FunctionalChildren<InputConfig, Param>;
+};
 
 type ExtractToRoutePathOption<T extends RoutePathBaseOptions> = Extract<
   T,
@@ -91,6 +103,28 @@ export function buildRoutePaths<T extends RoutePathsConfig>(
   return Object.keys(config).reduce((acc, key: keyof T) => {
     const value = config[key];
     const fullUrl = `${parentRouteUrl}${value.path}`;
+    const paramFromPath = value.path.match(/:(\w+)/g);
+    if (paramFromPath?.length) {
+      return {
+        ...acc,
+        [key]: {
+          title: isRoutePathsRootConfig(value) ? value.title : undefined,
+          path: value.path,
+          url: fullUrl,
+          dynamicUrl: (param: Record<string, string>) =>
+            `${parentRouteUrl + buildNavigateUrl(value.path, param)}/`,
+          children: (param: Record<string, string>) => {
+            if (value.children) {
+              return buildRoutePaths(
+                value.children,
+                `${parentRouteUrl + buildNavigateUrl(value.path, param)}/`
+              );
+            }
+            return undefined;
+          },
+        },
+      };
+    }
     if (!value.children) {
       return {
         ...acc,
@@ -116,4 +150,24 @@ export function buildRoutePaths<T extends RoutePathsConfig>(
       },
     };
   }, {} as RoutePaths<T>);
+}
+
+/**
+ * Build an url with a path and its parameters.
+ * @example
+ * buildNavigateUrl(
+ *   '/a/:first/:last',
+ *   { first: 'p', last: 'q' },
+ * ) // returns '/a/p/q'
+ * @param path Target path.
+ * @param params Parameters.
+ */
+function buildNavigateUrl<P extends string>(
+  path: P,
+  params: Record<string, string>
+): string {
+  return Object.keys(params).reduce(
+    (acc, key) => acc.replace(`:${key}`, params[key]),
+    path
+  );
 }
