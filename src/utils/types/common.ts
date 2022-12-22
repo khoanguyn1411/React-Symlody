@@ -2,8 +2,8 @@
 export type StrictOmit<T, K extends keyof T> = Omit<T, K>;
 
 /**
- *  Object type.
- *  The main benefit of Record<string, any> is idexable types, compare with pure `object` type.
+ * Object type.
+ * The main benefit of Record<string, any> is idexable types, compare with pure `object` type.
  */
 export type RecordObject = Record<string, any>;
 
