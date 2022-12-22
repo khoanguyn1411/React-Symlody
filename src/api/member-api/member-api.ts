@@ -53,7 +53,7 @@ export const MemberApi = {
   async uploadMemberExcelFile(
     body: FormData
   ): Promise<Types.RequestUploadMemberExcelFileResult> {
-    const url = memberUrls.uploadMemberExcelFile();
+    const url = memberUrls.uploadMemberExcelFile;
     const method = http.post<boolean>(url, body);
     return composeHttpMethodResult(method);
   },
