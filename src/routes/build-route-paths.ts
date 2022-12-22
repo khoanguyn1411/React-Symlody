@@ -108,9 +108,31 @@ function isRoutePathsRootConfig(
 
 /**
  * Build route object from config.
+ * @tutorial
+ * - Provide config for new route paths, then cast it with `as const` to provide
+ *   readonly and literal string type for config object.
+ * - For config object, it is required to provide `path` for route key.
+ *  `children` and `title` are optional.
+ * @example
+    const configRoutePaths = buildRoutePaths({
+      config: {
+        path: "config",
+        title: "Trang cấu hình",
+        children: {
+          tab: { path: ":tab" },
+          rolePermission: { path: "role-permission", title: "Phân quyền" },
+        },
+      },
+    } as const);
  * @param config Route paths config.
  * @param parentRouteUrl Parent route path (first route of path).
  * @returns Routes path object with url and type validation support.
+ * - Get Config route path (config): `configRoutePaths.path` 
+ * - Get Config route url (config): `configRoutePaths.url` 
+ * - Get RolePermission route url (config/role-permission): `configRoutePaths.children.rolePermission.url` 
+ * - Navigate with dynamic route (config/[tab]): `configRoutePaths.children.tab.dynamicUrl({tab: "someId"})` 
+ * - Get url of route after dynamic route (config/[tab]/otherPath):  
+ * `configRoutePaths.children.tab.children({tab: "someID"}).otherPath.url`
  */
 export function buildRoutePaths<T extends RoutePathsConfig>(
   config: T,

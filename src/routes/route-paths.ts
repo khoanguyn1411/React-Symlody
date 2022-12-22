@@ -11,10 +11,19 @@ const baseRoutePaths = buildRoutePaths({
   },
 } as const);
 
-const appRoutePaths = buildRoutePaths({
+const loginRoutePaths = buildRoutePaths({
   login: { path: "login", title: "Đăng nhập" },
+} as const);
+
+const memberRoutePaths = buildRoutePaths({
   member: { path: "member", title: "Trang thành viên" },
+} as const);
+
+const propertyRoutePaths = buildRoutePaths({
   property: { path: "property", title: "Trang tài sản" },
+} as const);
+
+const configRoutePaths = buildRoutePaths({
   config: {
     path: "config",
     title: "Trang cấu hình",
@@ -27,7 +36,13 @@ const appRoutePaths = buildRoutePaths({
       rolePermission: { path: "role-permission", title: "Phân quyền" },
     },
   },
+} as const);
+
+const eventRoutePaths = buildRoutePaths({
   event: { path: "event", title: "Trang sự kiện" },
+} as const);
+
+const todoRoutePaths = buildRoutePaths({
   todo: {
     path: "todo",
     title: "Trang công việc",
@@ -39,4 +54,17 @@ const appRoutePaths = buildRoutePaths({
   },
 } as const);
 
-export const routePaths = { ...baseRoutePaths, ...appRoutePaths };
+//** Add new module route path here. */
+const appRoutePaths = {
+  ...loginRoutePaths,
+  ...memberRoutePaths,
+  ...propertyRoutePaths,
+  ...eventRoutePaths,
+  ...configRoutePaths,
+  ...todoRoutePaths,
+};
+
+export const routePaths = {
+  ...baseRoutePaths,
+  ...appRoutePaths,
+};
