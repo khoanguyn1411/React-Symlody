@@ -1,29 +1,29 @@
 import { Primitive } from "../types";
 
 export class ComposeUrlService {
-  private baseUrl = "";
-  constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
+  private basePath = "";
+  constructor(basePath: string) {
+    this.basePath = basePath;
   }
 
   public composeUrl(url: Primitive) {
     return `${url}/`;
   }
 
-  private constructUrlWithId(id: Primitive) {
-    return `${this.baseUrl}/${id}/`;
+  public constructUrlWithId(id: Primitive) {
+    return `${this.basePath}/${id}/`;
   }
 
   public composeWith(urls: string[]) {
     return urls.reduce((acc, cur) => {
       return this.composeUrl(`${acc}${cur}`);
-    }, this.composeUrl(this.baseUrl));
+    }, this.composeUrl(this.basePath));
   }
 
   public composeCommonAPIMethodUrls() {
     return {
-      create: this.composeUrl(this.baseUrl),
-      get: this.composeUrl(this.baseUrl),
+      create: this.composeUrl(this.basePath),
+      get: this.composeUrl(this.basePath),
       update: (id: Primitive) => this.constructUrlWithId(id),
       delete: (id: Primitive) => this.constructUrlWithId(id),
     };
