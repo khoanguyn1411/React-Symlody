@@ -10,7 +10,7 @@ export type RecordObject = Record<string, any>;
 /** Chain of primitive and simple types. */
 export type Primitive = string | number | boolean;
 
-/** Check if type is include key. */
+/** Check if type is include provided key or not. */
 export type IsInclude<
   T extends RecordObject,
   P extends string
