@@ -73,8 +73,8 @@ function generateErrorsRecursive<T extends HttpError<any>["detail"]>({
 export namespace FormService {
   /**
    * Closure interaction function for form default values (values from api).
-   * -- DEPRECATED --
    * @param data Default values of form.
+   * @deprecated
    */
   export function getDefaultValues<T extends RecordObject>(data: T) {
     return {
