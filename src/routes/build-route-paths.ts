@@ -61,13 +61,23 @@ type FunctionalChildren<
   ? RoutePaths<InputConfig["children"]>
   : ShouldReturnRoutePathBaseWithTitle<false>;
 
+type DynamicRouteParam<
+  InputConfig extends RoutePathBaseOptions,
+  Param extends string
+> = InputConfig["children"] extends RoutePathsConfig
+  ? DynamicUrl<Param> & { children: FunctionalChildren<InputConfig, Param> }
+  : DynamicUrl<Param>;
+
+interface DynamicUrl<Param extends string> {
+  dynamicUrl: (param: Record<Param, string>) => string;
+}
+
+/** Main config. */
 type DynamicRoute<
   InputConfig extends RoutePathBaseOptions,
   Param extends string
-> = StrictOmit<RoutePathBaseReturned, "title"> & {
-  dynamicUrl: (param: Record<Param, string>) => string;
-  children: FunctionalChildren<InputConfig, Param>;
-};
+> = StrictOmit<RoutePathBaseReturned, "title"> &
+  DynamicRouteParam<InputConfig, Param>;
 
 type ExtractToRoutePathOption<T extends RoutePathBaseOptions> = Extract<
   T,
