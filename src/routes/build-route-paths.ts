@@ -16,27 +16,27 @@ export type ExtractPageKey<T extends RoutePaths<RecordObject>> =
 
 /** Config types. */
 interface RoutePathBaseOptions {
-  path: string;
-  children?: RoutePathsConfig;
+  readonly path: string;
+  readonly children?: RoutePathsConfig;
 }
 interface RoutePathOptions extends RoutePathBaseOptions {
-  title?: string;
+  readonly title?: string;
 }
 
 type RoutePathsConfig = Record<string, RoutePathOptions>;
 
 /** Returned types. */
 interface RoutePathBaseReturned {
-  path: string;
-  url: string;
-  title?: string;
+  readonly path: string;
+  readonly url: string;
+  readonly title?: string;
 }
 
 type RoutePathWithChildren<
   T extends RoutePathsConfig,
   HasTitle extends boolean
 > = {
-  children: RoutePaths<T>;
+  readonly children: RoutePaths<T>;
 } & ShouldReturnRoutePathBaseWithTitle<HasTitle>;
 
 type ShouldReturnRoutePathBaseWithTitle<T extends boolean> = T extends false
@@ -65,7 +65,7 @@ interface DynamicUrlWithChildren<
   InputConfig extends RoutePathBaseOptions,
   Param extends string
 > extends DynamicUrl<Param> {
-  children: FunctionalChildren<InputConfig, Param>;
+  readonly children: FunctionalChildren<InputConfig, Param>;
 }
 
 type DynamicRouteParam<
@@ -76,7 +76,7 @@ type DynamicRouteParam<
   : DynamicUrl<Param>;
 
 interface DynamicUrl<Param extends string> {
-  dynamicUrl: (param: Record<Param, string>) => string;
+  readonly dynamicUrl: (param: Record<Param, string>) => string;
 }
 
 type DynamicRoute<
