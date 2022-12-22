@@ -34,7 +34,7 @@ const appRoutePaths = buildRoutePaths({
     children: {
       kanban: { path: "kanban", title: "Kanban" },
       table: { path: "table", title: "Bảng" },
-      tab: { path: ":tab", children: { test: { path: "Test", title: "asd" } } },
+      tab: { path: ":tab" },
     },
   },
 } as const);

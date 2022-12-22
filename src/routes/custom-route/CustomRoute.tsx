@@ -4,8 +4,6 @@ import TopBarProgress from "react-topbar-progress-indicator";
 
 import { AppReact } from "@/utils/types";
 
-import { routePaths } from "../route-paths";
-
 TopBarProgress.config({
   barColors: {
     "0": "#60a5fa",
