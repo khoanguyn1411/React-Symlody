@@ -15,7 +15,7 @@ type InputFormError<T> = {
   errors: T;
 
   /** Please do not use this key because it's only for generating recursive function purpose. */
-  accumulateKey?: string;
+  accumulativeKey?: string;
 
   /** Custom message if you need to override current backend error. */
   customMessage?: CustomMessage<T>;
@@ -27,7 +27,7 @@ type InputFormError<T> = {
 /** Recursive function for `generateErrors` function.*/
 function generateErrorsRecursive<T extends HttpError<any>["detail"]>({
   errors,
-  accumulateKey = null,
+  accumulativeKey = null,
   customMessage,
   setError,
 }: InputFormError<T>): void {
@@ -38,8 +38,8 @@ function generateErrorsRecursive<T extends HttpError<any>["detail"]>({
         return;
       }
 
-      if (accumulateKey) {
-        const newKey = `${accumulateKey}.${key}`;
+      if (accumulativeKey) {
+        const newKey = `${accumulativeKey}.${key}`;
         if (customMessage && customMessage[newKey] != null) {
           setError(newKey, { message: customMessage[newKey] });
           return;
@@ -56,14 +56,14 @@ function generateErrorsRecursive<T extends HttpError<any>["detail"]>({
       return;
     }
     let currentKey: string;
-    if (accumulateKey) {
-      currentKey = `${accumulateKey}.${key}`;
+    if (accumulativeKey) {
+      currentKey = `${accumulativeKey}.${key}`;
     } else {
       currentKey = key;
     }
     generateErrorsRecursive({
       errors: errors[key] as T,
-      accumulateKey: currentKey,
+      accumulativeKey: currentKey,
       customMessage: customMessage,
       setError,
     });
@@ -129,12 +129,12 @@ export namespace FormService {
    * ----------------------------------
    * @param input Input object, included following keys:
    * - `httpError`: HttpError (`error.detail` of request's result).
-   * - `accumulateKey`: Please do not use this key because it's only for generating recursive function purpose.
+   * - `accumulativeKey`: Please do not use this key because it's only for generating recursive function purpose.
    * - `customMessage`: Custom message if you need to override current backend error.
    * - `setError`: `setError` function of `useForm` hook.
    */
   export function generateErrors<T extends HttpError<any>["detail"]>(
-    inputValue: StrictOmit<InputFormError<T>, "accumulateKey">
+    inputValue: StrictOmit<InputFormError<T>, "accumulativeKey">
   ): void {
     return generateErrorsRecursive(inputValue);
   }

@@ -22,15 +22,15 @@ function appendFormWith(formData: FormData, key: string, value: any): void {
 /** Recursive function for `repairFormData`. */
 function repairFormDataRecursive<T extends RecordObject>(
   entity: T,
-  accumulateKey?: string
+  accumulativeKey?: string
 ): FormData {
   const formData = new FormData();
   Object.entries(entity).forEach(([key, value]) => {
     if (value !== undefined) {
       if (isObject(value)) {
         let currentKey: string;
-        if (accumulateKey) {
-          currentKey = `${accumulateKey}[${key}]`;
+        if (accumulativeKey) {
+          currentKey = `${accumulativeKey}[${key}]`;
         } else {
           currentKey = key;
         }
