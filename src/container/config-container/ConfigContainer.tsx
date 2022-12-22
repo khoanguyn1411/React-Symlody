@@ -2,8 +2,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Container, NotificationImg, TabHost } from "@/components";
-import { EPagePath } from "@/routes";
-import { enumToArray } from "@/utils/funcs/enum-to-array";
+import { PageKey, routePaths } from "@/routes";
 
 import {
   ActionConfigDepartment,
@@ -13,33 +12,33 @@ import {
   TabPersonalInfo,
 } from "./config-tabs";
 import { TabRolePermission } from "./config-tabs/role-permission";
-import { EConfigTabKey, EConfigTabReadableString } from "./type";
+import { EConfigTabKey } from "./type";
 
 type ContentTab = {
   content: ReactNode;
   rightSide?: ReactNode;
 };
 
-const getContentTab = (key: EConfigTabKey): ContentTab => {
+const initializeTabContents = (key: PageKey): ContentTab => {
   switch (key) {
-    case EConfigTabKey.Organization:
+    case "config.organization":
       return {
         content: <TabOrganization />,
       };
-    case EConfigTabKey.PersonalInfo:
+    case "config.personalInfo":
       return {
         content: <TabPersonalInfo />,
       };
-    case EConfigTabKey.ChangePassword:
+    case "config.changePassword":
       return {
         content: <TabChangePassword />,
       };
-    case EConfigTabKey.Department:
+    case "config.department":
       return {
         content: <TabConfigDepartment />,
         rightSide: <ActionConfigDepartment />,
       };
-    case EConfigTabKey.RolePermission:
+    case "config.rolePermission":
       return {
         content: <TabRolePermission />,
       };
@@ -50,23 +49,28 @@ const getContentTab = (key: EConfigTabKey): ContentTab => {
   }
 };
 
-const getTabUrl = (url: string): string => {
-  const BASE_URL = EPagePath.Config;
-  return `${BASE_URL}/${url}`;
+const MAP_PATH_TO_PAGE_KEY: Record<string, PageKey> = {
+  [routePaths.config.children.department.path]: "config.department",
+  [routePaths.config.children.organization.path]: "config.organization",
+  [routePaths.config.children.rolePermission.path]: "config.rolePermission",
+  [routePaths.config.children.changePassword.path]: "config.changePassword",
+  [routePaths.config.children.personalInfo.path]: "config.personalInfo",
 };
 
 export const ConfigContainer: React.FC = () => {
   const { tab } = useParams();
-  const _tab = tab as EConfigTabKey;
   const navigate = useNavigate();
-  const [content, setContent] = useState<ContentTab>(getContentTab(_tab));
+  const [content, setContent] = useState<ContentTab>(
+    initializeTabContents(MAP_PATH_TO_PAGE_KEY[tab])
+  );
 
-  const isInvalidUrl =
-    !enumToArray(EConfigTabKey).includes(_tab) && tab != null;
+  const tabUrls = routePaths.config.children;
+
+  const isInvalidUrl = MAP_PATH_TO_PAGE_KEY[tab] == null && tab != null;
 
   useEffect(() => {
-    setContent(getContentTab(_tab));
-  }, [navigate, _tab]);
+    setContent(initializeTabContents(MAP_PATH_TO_PAGE_KEY[tab]));
+  }, [navigate, tab]);
 
   if (isInvalidUrl) {
     return (
@@ -87,28 +91,28 @@ export const ConfigContainer: React.FC = () => {
           listTabs={[
             {
               key: EConfigTabKey.Organization,
-              title: EConfigTabReadableString.Organization,
-              to: getTabUrl(EConfigTabKey.Organization),
+              title: tabUrls.organization.title,
+              to: tabUrls.organization.url,
             },
             {
               key: EConfigTabKey.Department,
-              title: EConfigTabReadableString.Department,
-              to: getTabUrl(EConfigTabKey.Department),
+              title: tabUrls.department.title,
+              to: tabUrls.department.url,
             },
             {
               key: EConfigTabKey.RolePermission,
-              title: EConfigTabReadableString.RolePermission,
-              to: getTabUrl(EConfigTabKey.RolePermission),
+              title: tabUrls.rolePermission.title,
+              to: tabUrls.rolePermission.url,
             },
             {
               key: EConfigTabKey.PersonalInfo,
-              title: EConfigTabReadableString.PersonalInfo,
-              to: getTabUrl(EConfigTabKey.PersonalInfo),
+              title: tabUrls.personalInfo.title,
+              to: tabUrls.personalInfo.url,
             },
             {
               key: EConfigTabKey.ChangePassword,
-              title: EConfigTabReadableString.ChangePassword,
-              to: getTabUrl(EConfigTabKey.ChangePassword),
+              title: tabUrls.changePassword.title,
+              to: tabUrls.changePassword.url,
             },
           ]}
         />

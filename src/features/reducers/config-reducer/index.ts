@@ -8,6 +8,7 @@ import {
   OrganizationCreation,
   UserPermissionConfigCreation,
   UserShort,
+  UserShortMapper,
   userShortMapper,
 } from "@/features/types";
 import { UserPermissionConfigCreationDto } from "@/features/types/dtos/config-permission.dto";
@@ -91,16 +92,20 @@ export const updateOrganizationAsync = createAsyncThunk<
 
 export const updateConfigRoleUserAsync = createAsyncThunk<
   UserShort,
-  { body: UserPermissionConfigCreation; id: UserShort["id"] },
+  {
+    body: UserPermissionConfigCreation;
+    id: UserShort["id"];
+    avatarUrl: UserShort["avatarUrl"];
+  },
   ReduxThunk.RejectValue<HttpError<UserPermissionConfigCreationDto>>
->("user-role/update", async ({ body, id }, { rejectWithValue }) => {
+>("user-role/update", async ({ body, id, avatarUrl }, { rejectWithValue }) => {
   const paramDto = userPermissionConfigMapper.toCreationDto(body);
   const result = await ConfigApi.updateConfigRoleUser(paramDto, id);
   return validateSimpleRequestResult({
     rejectWithValue,
     result,
     mapper: userPermissionConfigMapper,
-    fromDtoMapperSupport: userShortMapper,
+    fromDtoMapperSupport: new UserShortMapper(avatarUrl),
   });
 });
 

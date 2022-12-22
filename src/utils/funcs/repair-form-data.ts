@@ -9,37 +9,32 @@ import { isObject } from "./is-object";
  */
 function appendFormWith(formData: FormData, key: string, value: any): void {
   if (value instanceof File) {
-    if (value === null) {
-      formData.append(key, "");
-      return;
-    }
     formData.append(key, value);
+    return;
+  }
+  if (value === null) {
+    formData.append(key, "");
     return;
   }
   formData.append(key, value);
 }
 
-/**
- * Repair form data.
- * @param entity Entity that need form data to append.
- * @param accumulateKey Please do not provide this param, it must only be used for recursive purpose.
- * @returns Form data appended with entity provided.
- */
-export function repairFormData<T extends RecordObject>(
+/** Recursive function for `repairFormData`. */
+function repairFormDataRecursive<T extends RecordObject>(
   entity: T,
-  accumulateKey?: string
+  accumulativeKey?: string
 ): FormData {
   const formData = new FormData();
   Object.entries(entity).forEach(([key, value]) => {
     if (value !== undefined) {
       if (isObject(value)) {
         let currentKey: string;
-        if (accumulateKey) {
-          currentKey = `${accumulateKey}[${key}]`;
+        if (accumulativeKey) {
+          currentKey = `${accumulativeKey}[${key}]`;
         } else {
           currentKey = key;
         }
-        repairFormData(value, currentKey);
+        repairFormDataRecursive(value, currentKey);
         return;
       }
       appendFormWith(formData, key, value);
@@ -47,4 +42,13 @@ export function repairFormData<T extends RecordObject>(
     }
   });
   return formData;
+}
+
+/**
+ * Repair form data.
+ * @param entity Entity that need form data to append.
+ * @returns Form data appended with entity provided.
+ */
+export function repairFormData<T extends RecordObject>(entity: T): FormData {
+  return repairFormDataRecursive(entity);
 }

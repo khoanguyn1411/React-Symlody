@@ -25,13 +25,13 @@ export class ProfileMapper
     return {
       ...authAccountModel,
       id: dto.id,
-      phoneNumber: dto.phone_number,
-      studentId: dto.student_id,
-      homeTown: dto.home_town,
-      dob: dto.dob,
-      className: dto.class_name,
+      phoneNumber: dto.phone_number ?? "",
+      studentId: dto.student_id ?? "",
+      homeTown: dto.home_town ?? "",
+      dob: dto.dob ?? "",
+      className: dto.class_name ?? "",
       avatarUrl: dto.avatar_url,
-      address: dto.address,
+      address: dto.address ?? "",
       memberId: dto.profile_id,
       organization: organizationMapper.fromDto(dto.organization),
       gender: genderMapper.fromDto(dto.gender),
@@ -69,7 +69,7 @@ export class ProfileMapper
       gender: ErrorHandler.extractErrorMessage(gender),
       dob: ErrorHandler.extractErrorMessage(dob),
       className: ErrorHandler.extractErrorMessage(class_name),
-      non_field_errors: ErrorHandler.extractErrorMessage(non_field_errors),
+      nonFieldErrors: ErrorHandler.extractErrorMessage(non_field_errors),
     };
   }
 

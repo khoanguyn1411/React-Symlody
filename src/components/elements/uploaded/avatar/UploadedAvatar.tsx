@@ -1,8 +1,13 @@
+import classNames from "classnames";
 import React, { useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
 import { images } from "@/assets/images";
-import { EFile } from "@/constants";
+import { APP_ERROR_MESSAGE } from "@/constants";
+import {
+  DEFAULT_LIMIT_FILE_SIZE_READABLE,
+  EFile,
+} from "@/features/types/models/base-models/file";
 import { useModal, usePickImage } from "@/hooks";
 
 import { Avatar } from "../../avatar";
@@ -14,20 +19,15 @@ type TProps = {
   alt: string;
   isUserAvatar?: boolean;
   fullName?: string;
+  isDisable?: boolean;
   setFile: (file: File) => void;
-};
-
-const ERROR_UPLOAD_AVATAR_MESSAGE = {
-  wrongFormatType:
-    "Vui lòng chọn tập tin hình ảnh (file có đuôi là .jpg, .png, .jpeg, ...)",
-  oversize: (size: string) =>
-    `File bạn chọn có dung lượng vượt quá ${size}. Vui lòng chọn file khác.`,
 };
 
 export const UploadedAvatar: React.FC<TProps> = ({
   file,
   defaultImageLink,
   alt = "",
+  isDisable = false,
   isUserAvatar = false,
   fullName = "",
   setFile,
@@ -42,12 +42,14 @@ export const UploadedAvatar: React.FC<TProps> = ({
 
   const handleWrongFileFormat = () => {
     handleOpenDialog();
-    setMessage(ERROR_UPLOAD_AVATAR_MESSAGE.wrongFormatType);
+    setMessage(APP_ERROR_MESSAGE.FILE_ERROR.NOT_IMAGE);
   };
 
   const handleOversizeImage = () => {
     handleOpenDialog();
-    setMessage(ERROR_UPLOAD_AVATAR_MESSAGE.oversize("1024MB"));
+    setMessage(
+      APP_ERROR_MESSAGE.FILE_ERROR.OVERSIZE(DEFAULT_LIMIT_FILE_SIZE_READABLE)
+    );
   };
 
   const {
@@ -60,6 +62,7 @@ export const UploadedAvatar: React.FC<TProps> = ({
     file,
     defaultImageLink,
     inputFileRef,
+    isDisable,
     setFile,
     onNotImageType: handleWrongFileFormat,
     onImageOverSize: handleOversizeImage,
@@ -68,7 +71,9 @@ export const UploadedAvatar: React.FC<TProps> = ({
   return (
     <div className="relative w-full group w-[fit-content]">
       <button
-        className="w-32 h-32 rounded-full"
+        className={classNames("w-32 h-32 rounded-full", {
+          "cursor-default": isDisable,
+        })}
         type="button"
         onClick={handleOpenSelectFile}
       >
@@ -94,11 +99,17 @@ export const UploadedAvatar: React.FC<TProps> = ({
         onClick={handleResetInput}
         onChange={handleUploadFile}
       />
-      <div className="absolute top-0 left-0 w-32 h-32 bg-gray-200 rounded-full opacity-0 pointer-events-none transition-opacity group-hover:opacity-40" />
+      <div
+        hidden={isDisable}
+        className={classNames(
+          "absolute top-0 left-0 w-32 h-32 bg-gray-200 rounded-full opacity-0 pointer-events-none transition-opacity group-hover:opacity-40"
+        )}
+      />
 
       <button
         onClick={handleOpenSelectFile}
         type="button"
+        hidden={isDisable}
         className="absolute bottom-0 text-gray-600 bg-white p-1.5 rounded-md left-[88px]"
       >
         <Icon.Camera customColor="gray" />

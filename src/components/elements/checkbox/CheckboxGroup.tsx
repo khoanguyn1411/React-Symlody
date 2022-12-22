@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { useEffectSkipFirstRender } from "@/hooks";
 import { AppReact } from "@/utils/types";
 
 import { Checkbox } from "./Checkbox";
@@ -48,7 +47,7 @@ export const CheckboxGroup: React.FC<TProps> = ({
     });
   };
 
-  useEffectSkipFirstRender(() => {
+  useEffect(() => {
     setSelectedItems(_selectedItems);
   }, [_selectedItems, setSelectedItems]);
   return (

@@ -42,7 +42,7 @@ class RolePermissionFormMapper {
     error: HttpError<UserPermissionConfigCreation>
   ): HttpError<RolePermissionForm> {
     return {
-      type: error.groups ?? error.non_field_errors,
+      type: error.groups ?? error.nonFieldErrors,
     };
   }
 

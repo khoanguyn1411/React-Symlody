@@ -64,7 +64,11 @@ export const ModalEditPermission: React.FC<TProps> = ({
   const handleUpdate = async (body: RolePermissionForm) => {
     const bodyModel = rolePermissionFormMapper.toModel(body);
     const result = await dispatch(
-      updateConfigRoleUserAsync({ body: bodyModel, id: data.id })
+      updateConfigRoleUserAsync({
+        body: bodyModel,
+        id: data.id,
+        avatarUrl: data.avatarUrl,
+      })
     );
     if (updateConfigRoleUserAsync.fulfilled.match(result)) {
       toast.success(ROLE_PERMISSION_MESSAGE.update.success);
@@ -100,7 +104,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
       toggle={toggle}
     >
       <div className="flex items-center mb-4 space-x-2">
-        <Avatar src={""} fullName={data.fullName} />
+        <Avatar src={data.avatarUrl} fullName={data.fullName} />
         <div className="flex flex-col">
           <span className="font-medium">{data.fullName}</span>
           <span className="text-xs text-gray-400">{data.email}</span>

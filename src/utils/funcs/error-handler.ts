@@ -64,7 +64,7 @@ export namespace ErrorHandler {
    */
   export function catchHttpError<
     TDto,
-    TCreation,
+    TCreation extends RecordObject,
     TCreationDto extends RecordObject,
     TKeyOfTCreation extends keyof TCreation = undefined
   >(

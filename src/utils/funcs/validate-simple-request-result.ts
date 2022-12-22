@@ -28,7 +28,7 @@ type InputRequest<TDto, TModel, TCreation, TCreationDto> = {
  * - `fromDtoMapperSupport`: Mapper supported fromDto.
  */
 export function validateSimpleRequestResult<
-  TDto extends RecordObject,
+  TDto,
   TModel extends RecordObject,
   TCreation extends RecordObject,
   TCreationDto extends RecordObject,

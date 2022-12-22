@@ -56,7 +56,7 @@ export class UserPermissionConfigMapper
     const { groups, non_field_errors } = errorDto;
     return {
       groups: ErrorHandler.extractErrorMessage(groups),
-      non_field_errors: ErrorHandler.extractErrorMessage(non_field_errors),
+      nonFieldErrors: ErrorHandler.extractErrorMessage(non_field_errors),
     };
   }
 }

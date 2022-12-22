@@ -1,11 +1,14 @@
 import React, { useRef, useState } from "react";
 
 import { Icon } from "@/assets/icons";
-import { EFile } from "@/constants";
+import { APP_ERROR_MESSAGE } from "@/constants";
+import {
+  DEFAULT_LIMIT_FILE_SIZE_READABLE,
+  EFile,
+} from "@/features/types/models/base-models/file";
 import { usePickImage } from "@/hooks";
 
 import { Button } from "../../elements";
-import { PICK_IMAGE_MESSAGE } from "./contants";
 
 type TProps = {
   defaultImageLink?: string;
@@ -22,7 +25,9 @@ export const PickImage: React.FC<TProps> = ({
   const inputFileRef = useRef<HTMLInputElement>();
 
   const handleSetOverSizeMessage = () => {
-    setMessage(PICK_IMAGE_MESSAGE.overSize);
+    setMessage(
+      APP_ERROR_MESSAGE.FILE_ERROR.OVERSIZE(DEFAULT_LIMIT_FILE_SIZE_READABLE)
+    );
   };
 
   const handleResetMessage = () => {
@@ -43,6 +48,7 @@ export const PickImage: React.FC<TProps> = ({
     onPreviewSuccess: handleResetMessage,
     setFile,
   });
+
   return (
     <div className="flex flex-col">
       <input
@@ -64,7 +70,7 @@ export const PickImage: React.FC<TProps> = ({
             Thêm file
           </Button>
           <span className="mt-2 italic text-gray-400">
-            Cho phép upload file dưới 10kB
+            Cho phép upload file dưới {DEFAULT_LIMIT_FILE_SIZE_READABLE}
           </span>
         </>
       )}
@@ -87,13 +93,11 @@ export const PickImage: React.FC<TProps> = ({
                   <i className="far fa-times"></i>
                 </button>
               </div>
-              {message && (
-                <h1 className="mt-3 italic text-alert-300">{message}</h1>
-              )}
             </>
           )}
         </div>
       )}
+      {message && <h1 className="mt-3 italic text-alert-300">{message}</h1>}
     </div>
   );
 };

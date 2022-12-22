@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -7,9 +7,7 @@ import { FormItem, Input, Loading } from "@/components";
 import { UploadedAvatar } from "@/components/elements/uploaded/avatar/UploadedAvatar";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateOrganizationAsync } from "@/features/reducers";
-import { Organization, RolesID } from "@/features/types";
-import { withPermission } from "@/hoc";
-import { useEffectSkipFirstRender } from "@/hooks";
+import { Organization, Roles } from "@/features/types";
 import { FormService } from "@/utils/funcs/form-service";
 
 import {
@@ -33,6 +31,7 @@ export const TabOrganization: React.FC = () => {
 
 export const _TabOrganization: React.FC = () => {
   const { organization } = useAppSelector((state) => state.config);
+  const currentUser = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
   const [defaultImageLink, setDefaultImageLink] = useState<string>(
@@ -62,26 +61,29 @@ export const _TabOrganization: React.FC = () => {
     defaultValues: getDefaultValue(organization),
   });
 
-  const handleEditOrgInfo = withPermission([RolesID.Lead, RolesID.SystemAdmin])(
-    async (data: OrganizationForm) => {
-      const result = await dispatch(
-        updateOrganizationAsync({ id: organization.id, body: data })
-      );
-      if (updateOrganizationAsync.rejected.match(result)) {
-        const errors = result.payload;
-        if (errors) {
-          FormService.generateErrors({ errors, setError });
-          return;
-        }
-        toast.error(ORGANIZATION_MESSAGES.update.error);
+  const shouldPreventEdit = !currentUser.isRole([
+    Roles.Lead,
+    Roles.SystemAdmin,
+  ]);
+
+  const handleEditOrgInfo = async (data: OrganizationForm) => {
+    const result = await dispatch(
+      updateOrganizationAsync({ id: organization.id, body: data })
+    );
+    if (updateOrganizationAsync.rejected.match(result)) {
+      const errors = result.payload;
+      if (errors) {
+        FormService.generateErrors({ errors, setError });
         return;
       }
-      toast.success(ORGANIZATION_MESSAGES.update.success);
-      reset(getDefaultValue(result.payload));
+      toast.error(ORGANIZATION_MESSAGES.update.error);
+      return;
     }
-  );
+    toast.success(ORGANIZATION_MESSAGES.update.success);
+    reset(getDefaultValue(result.payload));
+  };
 
-  useEffectSkipFirstRender(() => {
+  useEffect(() => {
     if (organization) {
       setDefaultImageLink(organization.logo);
     }
@@ -95,6 +97,7 @@ export const _TabOrganization: React.FC = () => {
           name="logo"
           render={({ field: { value, onChange } }) => (
             <UploadedAvatar
+              isDisable={shouldPreventEdit}
               alt="Logo tổ chức"
               defaultImageLink={defaultImageLink}
               file={value}
@@ -110,6 +113,7 @@ export const _TabOrganization: React.FC = () => {
             name="name"
             render={({ field: { value, onChange } }) => (
               <Input
+                disable={shouldPreventEdit}
                 placeholder="Tên tổ chức"
                 value={value}
                 onChange={onChange}
@@ -128,6 +132,7 @@ export const _TabOrganization: React.FC = () => {
             name="abbreviationName"
             render={({ field: { value, onChange } }) => (
               <Input
+                disable={shouldPreventEdit}
                 placeholder="Tên viết tẳt"
                 value={value}
                 onChange={onChange}
@@ -142,6 +147,7 @@ export const _TabOrganization: React.FC = () => {
             name="email"
             render={({ field: { value, onChange } }) => (
               <Input
+                disable={shouldPreventEdit}
                 placeholder="Địa chỉ mail"
                 value={value}
                 onChange={onChange}
@@ -156,6 +162,7 @@ export const _TabOrganization: React.FC = () => {
             name="phoneNumber"
             render={({ field: { value, onChange } }) => (
               <Input
+                disable={shouldPreventEdit}
                 placeholder="Số điện thoại"
                 value={value}
                 onChange={onChange}
@@ -170,6 +177,7 @@ export const _TabOrganization: React.FC = () => {
             name="school"
             render={({ field: { value, onChange } }) => (
               <Input
+                disable={shouldPreventEdit}
                 placeholder="Trực thuộc trường"
                 value={value}
                 onChange={onChange}
@@ -183,7 +191,12 @@ export const _TabOrganization: React.FC = () => {
             control={control}
             name="address"
             render={({ field: { value, onChange } }) => (
-              <Input placeholder="Địa chỉ" value={value} onChange={onChange} />
+              <Input
+                disable={shouldPreventEdit}
+                placeholder="Địa chỉ"
+                value={value}
+                onChange={onChange}
+              />
             )}
           />
         </FormItem>

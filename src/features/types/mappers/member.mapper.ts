@@ -22,13 +22,13 @@ export class MemberMapper
   public fromDto(dto: MemberDto): Member {
     return {
       id: dto.id,
-      className: dto.class_name,
-      avatarUrl: dto.avatar_url,
-      studentId: dto.student_id,
-      address: dto.address,
+      className: dto.class_name ?? "",
+      avatarUrl: dto.avatar_url ?? "",
+      studentId: dto.student_id ?? "",
+      address: dto.address ?? "",
       isArchived: dto.is_archived,
-      homeTown: dto.home_town,
-      phoneNumber: dto.phone_number,
+      homeTown: dto.home_town ?? "",
+      phoneNumber: dto.phone_number ?? "",
       createdBy: nameMapper.fromDto(dto.created_by),
       gender: genderMapper.fromDto(dto.gender),
       dob: dateMapper.fromDto(dto.dob),
@@ -66,7 +66,7 @@ export class MemberMapper
       dob: ErrorHandler.extractErrorMessage(dob),
       gender: ErrorHandler.extractErrorMessage(gender),
       department: ErrorHandler.extractErrorMessage(department_id),
-      non_field_errors: ErrorHandler.extractErrorMessage(non_field_errors),
+      nonFieldErrors: ErrorHandler.extractErrorMessage(non_field_errors),
     };
   }
 

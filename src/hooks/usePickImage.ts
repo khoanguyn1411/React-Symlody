@@ -1,8 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import { EFile } from "@/constants";
-
-import { useEffectSkipFirstRender } from "./useEffectSkipFirstRender";
+import {
+  DEFAULT_LIMIT_FILE_SIZE,
+  EFile,
+} from "@/features/types/models/base-models/file";
 
 type TFileData = {
   url: string | ArrayBuffer;
@@ -12,6 +13,7 @@ type TFileData = {
 type THookPickImage = {
   defaultImageLink?: string;
   file: File;
+  isDisable?: boolean;
   setFile: (file: File) => void;
   inputFileRef: React.MutableRefObject<HTMLInputElement>;
   onImageOverSize?: () => void;
@@ -22,6 +24,7 @@ type THookPickImage = {
 export const usePickImage = ({
   defaultImageLink,
   file,
+  isDisable = false,
   inputFileRef,
   setFile,
   onImageOverSize,
@@ -34,6 +37,9 @@ export const usePickImage = ({
   });
 
   const handleOpenSelectFile = () => {
+    if (isDisable) {
+      return;
+    }
     if (!inputFileRef.current) {
       return;
     }
@@ -46,8 +52,11 @@ export const usePickImage = ({
   }, [setFile]);
 
   const handleUploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (isDisable) {
+      return;
+    }
     const file = event.target.files[0];
-    if (file.size > 10e6) {
+    if (file.size > DEFAULT_LIMIT_FILE_SIZE) {
       onImageOverSize?.();
       return;
     }
@@ -67,12 +76,12 @@ export const usePickImage = ({
     element.value = null;
   };
 
-  useEffectSkipFirstRender(() => {
+  useEffect(() => {
     setFile(undefined);
     setFileData({ url: defaultImageLink, type: EFile.Image });
   }, [defaultImageLink, handleRemoveFile, setFile]);
 
-  useEffectSkipFirstRender(() => {
+  useEffect(() => {
     let fileReader: FileReader = null,
       isCancel = false;
     if (!file) {

@@ -1,6 +1,6 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
-import { APP_PAGINATION } from "@/constants";
+import { APP_PAGINATION } from "@/components/elements/pagination/constants";
 import { Property } from "@/features/types";
 import { PropertyFilterParams } from "@/features/types/models/filter-params";
 
