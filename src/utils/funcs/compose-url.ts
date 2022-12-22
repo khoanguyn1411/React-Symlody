@@ -6,6 +6,10 @@ export class ComposeUrlService {
     this.basePath = basePath;
   }
 
+  private getBaseUrl() {
+    return this.composeUrl(this.basePath);
+  }
+
   public composeUrl(url: Primitive) {
     return `${url}/`;
   }
@@ -17,13 +21,13 @@ export class ComposeUrlService {
   public composeWith(urls: string[]) {
     return urls.reduce((acc, cur) => {
       return this.composeUrl(`${acc}${cur}`);
-    }, this.composeUrl(this.basePath));
+    }, this.getBaseUrl());
   }
 
   public composeCommonAPIMethodUrls() {
     return {
-      create: this.composeUrl(this.basePath),
-      get: this.composeUrl(this.basePath),
+      create: this.getBaseUrl(),
+      get: this.getBaseUrl(),
       update: (id: Primitive) => this.constructUrlWithId(id),
       delete: (id: Primitive) => this.constructUrlWithId(id),
     };
