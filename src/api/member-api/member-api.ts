@@ -12,7 +12,7 @@ const url = new ComposeUrlService(BASE_URL);
 const memberUrls = {
   ...url.composeCommonAPIMethodUrls(),
   delete: (id: Member["id"]) => url.composeWith(["archive", `${id}`]),
-  uploadMemberExcelFile: () => url.composeWith(["bulk"]),
+  uploadMemberExcelFile: url.composeWith(["bulk"]),
 };
 
 export const MemberApi = {
