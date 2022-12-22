@@ -54,7 +54,7 @@ const todoRoutePaths = buildRoutePaths({
   },
 } as const);
 
-//** Add new module route path here. */
+// Add new module route path here.
 const appRoutePaths = {
   ...loginRoutePaths,
   ...memberRoutePaths,
