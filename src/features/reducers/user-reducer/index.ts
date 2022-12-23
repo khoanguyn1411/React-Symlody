@@ -2,9 +2,21 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { UserApi } from "@/api";
 import { RootState } from "@/features/store";
-import { User, userMapper } from "@/features/types";
+import {
+  HttpError,
+  Profile,
+  ProfileCreation,
+  ProfileCreationDto,
+  profileMapper,
+  User,
+  userMapper,
+} from "@/features/types";
+import { changePasswordMapper } from "@/features/types/mappers/change-password.mapper";
+import { ChangePassword } from "@/features/types/models/change-password";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
 import { ReduxThunk, StrictOmit } from "@/utils/types";
 
+import { updateCurrentUser } from "../auth-reducer";
 import { initialState, userAdapter } from "./state";
 
 export const addUser = createAsyncThunk("user/add", (user: User) => user);
@@ -27,6 +39,45 @@ export const getUsersAsync = createAsyncThunk<
     return result.result.map((item) => userMapper.fromDto(item));
   }
   return rejectWithValue([]);
+});
+
+export const updateProfileAsync = createAsyncThunk<
+  Profile,
+  ProfileCreation,
+  ReduxThunk.RejectValue<HttpError<ProfileCreationDto> | null>
+>("auth/update-profile", async (param, { rejectWithValue, dispatch }) => {
+  const paramDto = profileMapper.toFormData(param);
+  const result = await UserApi.updateProfile(paramDto);
+  if (result.kind === "ok") {
+    dispatch(getUsersAsync());
+    const profileModel = profileMapper.fromDto(result.result);
+    dispatch(updateCurrentUser(profileModel));
+    return profileModel;
+  }
+  if (result.kind === "bad-data") {
+    const errorBadData = profileMapper.httpErrorFromDto(result.httpError);
+    return rejectWithValue(errorBadData);
+  }
+
+  return rejectWithValue(null);
+});
+
+export const changePasswordAsync = createAsyncThunk<
+  true,
+  ChangePassword,
+  ReduxThunk.RejectValue<HttpError<ChangePassword>>
+>("auth/change-password", async (payload, { rejectWithValue }) => {
+  const changePasswordDto = changePasswordMapper.toDto(payload);
+  const result = await UserApi.changePassword(changePasswordDto);
+  if (result.kind === "ok") {
+    return true;
+  }
+  return ErrorHandler.catchHttpError(
+    changePasswordMapper,
+    result,
+    rejectWithValue,
+    false
+  );
 });
 
 export const userSlice = createSlice({

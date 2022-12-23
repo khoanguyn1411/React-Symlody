@@ -72,29 +72,6 @@ function generateErrorsRecursive<T extends HttpError<T>>({
 
 export namespace FormService {
   /**
-   * Closure interaction function for form default values (values from api).
-   * @param data Default values of form.
-   * @deprecated
-   */
-  export function getDefaultValues<T extends RecordObject>(data: T) {
-    return {
-      /**
-       * Get value by key in default value object (with suggestion).
-       * @param key Key of value need to get.
-       * @param defaultValue Value returned when the value of key need to get is undefined or null.
-       * @returns Return value of key if value != `null`, otherwise, return `defaultValue` and if there is
-       * no `defaultValue`, return `undefined`.
-       */
-      get<P extends keyof T = keyof T>(key: P, defaultValue?: any): T[P] {
-        if (data) {
-          return data[key] as T[P];
-        }
-        return defaultValue ?? undefined;
-      },
-    };
-  }
-
-  /**
    * Check if value is changed or not on edit modal view.
    * - Why not using `isDirty` prop from `formState` directly but through this function?
    * - Because `isDirty` prop keep its state when reset form values (or closing edit modal).

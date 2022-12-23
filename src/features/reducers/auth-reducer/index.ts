@@ -2,23 +2,11 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AuthApi } from "@/api";
 import { RootState } from "@/features/store";
-import {
-  HttpError,
-  Login,
-  Profile,
-  ProfileCreation,
-  ProfileCreationDto,
-  profileMapper,
-} from "@/features/types";
-import { changePasswordMapper } from "@/features/types/mappers/change-password.mapper";
+import { Login, Profile, profileMapper } from "@/features/types";
 import { loginMapper } from "@/features/types/mappers/login.mapper";
 import { tokenMapper } from "@/features/types/mappers/token.mapper";
-import { ChangePassword } from "@/features/types/models/change-password";
-import { ErrorHandler } from "@/utils/funcs/error-handler";
 import { TokenService } from "@/utils/funcs/token-service";
 import { ReduxThunk } from "@/utils/types";
-
-import { getUsersAsync } from "../user-reducer";
 
 export type AuthState = {
   pending: boolean;
@@ -48,24 +36,6 @@ export const loginAsync = createAsyncThunk<
   return rejectWithValue(false);
 });
 
-export const changePasswordAsync = createAsyncThunk<
-  true,
-  ChangePassword,
-  ReduxThunk.RejectValue<HttpError<ChangePassword>>
->("auth/change-password", async (payload, { rejectWithValue }) => {
-  const changePasswordDto = changePasswordMapper.toDto(payload);
-  const result = await AuthApi.changePassword(changePasswordDto);
-  if (result.kind === "ok") {
-    return true;
-  }
-  return ErrorHandler.catchHttpError(
-    changePasswordMapper,
-    result,
-    rejectWithValue,
-    false
-  );
-});
-
 export const getMeAsync = createAsyncThunk<
   Profile,
   null,
@@ -92,25 +62,6 @@ export const logoutAsync = createAsyncThunk(
     }
   }
 );
-
-export const updateProfileAsync = createAsyncThunk<
-  Profile,
-  ProfileCreation,
-  ReduxThunk.RejectValue<HttpError<ProfileCreationDto> | null>
->("auth/update-profile", async (param, { rejectWithValue, dispatch }) => {
-  const paramDto = profileMapper.toFormData(param);
-  const result = await AuthApi.updateProfile(paramDto);
-  if (result.kind === "ok") {
-    dispatch(getUsersAsync());
-    return profileMapper.fromDto(result.result);
-  }
-  if (result.kind === "bad-data") {
-    const errorBadData = profileMapper.httpErrorFromDto(result.httpError);
-    return rejectWithValue(errorBadData);
-  }
-
-  return rejectWithValue(null);
-});
 
 export const authSlice = createSlice({
   name: "auth",
@@ -147,10 +98,6 @@ export const authSlice = createSlice({
       .addCase(getMeAsync.rejected, (state) => {
         state.pending = false;
         state.user = null;
-      })
-
-      .addCase(updateProfileAsync.fulfilled, (state, action) => {
-        state.user = action.payload;
       });
   },
 });
