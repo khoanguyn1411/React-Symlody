@@ -27,7 +27,6 @@ import { TodoBoard } from "./todo-kanban";
 import { TodoMemberView } from "./todo-member-view";
 import { ModalCreateTodo } from "./todo-modals";
 import { TodoTable } from "./todo-table";
-import { ETodoTabKey } from "./type";
 
 type ContentTab = {
   content: ReactNode;
@@ -180,12 +179,12 @@ export const TodoContainer: React.FC = () => {
             isHeaderTabHost
             listTabs={[
               {
-                key: ETodoTabKey.Kanban,
+                key: routePaths.todo.children.kanban.path,
                 title: routePaths.todo.children.kanban.title,
                 to: routePaths.todo.children.kanban.url,
               },
               {
-                key: ETodoTabKey.Table,
+                key: routePaths.todo.children.table.path,
                 title: routePaths.todo.children.table.title,
                 to: routePaths.todo.children.table.url,
               },

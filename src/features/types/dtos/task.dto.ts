@@ -2,16 +2,17 @@ import { StrictOmit } from "@/utils/types";
 
 import { UserDto } from "./user.dto";
 
-export enum PriorityDto {
-  Default = 1,
-  High = 2,
-}
-
-export enum TaskStatusDto {
-  Todo = 1,
-  InProgress = 2,
-  Review = 3,
-  Done = 4,
+export namespace TaskDto {
+  export enum PriorityDto {
+    Default = 1,
+    High = 2,
+  }
+  export enum StatusIdsDto {
+    Todo = 1,
+    InProgress = 2,
+    Review = 3,
+    Done = 4,
+  }
 }
 
 export interface TaskDto {
@@ -31,8 +32,8 @@ export interface TaskDto {
   start_date: string;
   end_date: string;
   estimation: null | string;
-  priority: PriorityDto;
-  status: TaskStatusDto;
+  priority: TaskDto.PriorityDto;
+  status: TaskDto.StatusIdsDto;
   sent_email: boolean;
 }
 

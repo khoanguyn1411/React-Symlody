@@ -22,10 +22,6 @@ export const AvatarUpload: React.FC<Props> = ({ onResponse, avatar, char }) => {
 
   return (
     <Uploady
-      listeners={{
-        onResponse: (props) => console.log(props),
-        onprogress: (props) => console.log(props),
-      }}
       formatServerResponse={null}
       accept={EFile.Image}
       destination={{

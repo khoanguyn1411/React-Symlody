@@ -12,7 +12,6 @@ import {
   TabPersonalInfo,
 } from "./config-tabs";
 import { TabRolePermission } from "./config-tabs/role-permission";
-import { EConfigTabKey } from "./type";
 
 type ContentTab = {
   content: ReactNode;
@@ -90,27 +89,27 @@ export const ConfigContainer: React.FC = () => {
           isUrlInteraction
           listTabs={[
             {
-              key: EConfigTabKey.Organization,
+              key: tabUrls.organization.path,
               title: tabUrls.organization.title,
               to: tabUrls.organization.url,
             },
             {
-              key: EConfigTabKey.Department,
+              key: tabUrls.department.path,
               title: tabUrls.department.title,
               to: tabUrls.department.url,
             },
             {
-              key: EConfigTabKey.RolePermission,
+              key: tabUrls.rolePermission.path,
               title: tabUrls.rolePermission.title,
               to: tabUrls.rolePermission.url,
             },
             {
-              key: EConfigTabKey.PersonalInfo,
+              key: tabUrls.personalInfo.path,
               title: tabUrls.personalInfo.title,
               to: tabUrls.personalInfo.url,
             },
             {
-              key: EConfigTabKey.ChangePassword,
+              key: tabUrls.changePassword.path,
               title: tabUrls.changePassword.title,
               to: tabUrls.changePassword.url,
             },

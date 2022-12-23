@@ -1,9 +1,4 @@
-import { Task, TaskCreation, TodoStatus, TodoStatusId } from "@/features/types";
-
-export enum Priority {
-  High = "Cao",
-  Normal = "Bình thường",
-}
+import { Task, TaskCreation } from "@/features/types";
 
 export type TTodoCard = {
   id: string;
@@ -13,9 +8,9 @@ export type TTodoCard = {
 
 export type TTodoColumn = {
   color?: "green" | "blue";
-  id: TodoStatusId;
+  id: Task.StatusIds;
   boardId: TTodo["id"];
-  title: TodoStatus;
+  title: Task.ReadableStatuses;
   cardOrder: number[];
   cards: Task[];
 };
@@ -32,11 +27,6 @@ export type TodoForm = Pick<
   assignee: TaskCreation["assignee"]["id"];
   reporter: TaskCreation["reporter"]["id"];
 };
-
-export enum ETodoTabKey {
-  Kanban = "kanban",
-  Table = "table",
-}
 
 export interface ITodoTable {
   fullName: string;

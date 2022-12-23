@@ -10,7 +10,7 @@ import { ComposeUrlService } from "@/utils/funcs/compose-url";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
-import * as Types from "./types";
+import { AuthApiResponse } from "./types";
 
 const BASE_URL_LOGIN = "login";
 const BASE_URL_LOGOUT = "logout";
@@ -24,27 +24,30 @@ const loginUrls = {
   getProfile: loginUrlService.getBaseUrl(),
 };
 
-export const AuthApi = {
-  async login(loginInfo: LoginDto): Promise<Types.RequestLoginResult> {
+export namespace AuthApi {
+  export async function login(
+    loginInfo: LoginDto
+  ): Promise<AuthApiResponse.Login> {
     const url = loginUrls.login;
     return composeHttpMethodResult(http.post<TokenDto>(url, loginInfo));
-  },
+  }
 
-  async getProfile(): Promise<Types.RequestGetProfileResult> {
+  export async function getProfile(): Promise<AuthApiResponse.GetProfile> {
     const url = loginUrls.getProfile;
     return composeHttpMethodResult(http.get<ProfileDto>(url));
-  },
-
-  async logout(): Promise<Types.RequestLogoutResult> {
+  }
+  export async function logout(): Promise<AuthApiResponse.Logout> {
     const url = loginUrls.logout;
     return composeHttpMethodResult(http.post<boolean>(url));
-  },
+  }
 
-  async refreshToken(token: Token): Promise<Types.RequestRefreshResult> {
+  export async function refreshToken(
+    token: Token
+  ): Promise<AuthApiResponse.Refresh> {
     const tokenRefreshDto = tokenMapper.toTokenRefreshCreationDto(token);
     const url = loginUrls.refreshToken;
     return composeHttpMethodResult(
       http.post<TokenRefreshDto>(url, tokenRefreshDto)
     );
-  },
-};
+  }
+}

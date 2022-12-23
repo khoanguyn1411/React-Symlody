@@ -4,42 +4,44 @@ import { ComposeUrlService } from "@/utils/funcs/compose-url";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
-import * as Types from "./types";
+import { TaskApiResponse } from ".";
 
 const BASE_URL = "task";
 const taskUrlService = new ComposeUrlService(BASE_URL);
 
 const taskUrls = taskUrlService.composeCommonAPIMethodUrls();
 
-export const TaskApi = {
-  async getTasks(
+export namespace TaskApi {
+  export async function getTasks(
     param: TaskFilterParamsDto
-  ): Promise<Types.RequestGetTasksResult> {
+  ): Promise<TaskApiResponse.Get> {
     const url = taskUrls.getAndCreate;
     const method = http.get<TaskDto[]>(url, param);
     return composeHttpMethodResult(method);
-  },
+  }
 
-  async deleteTask(id: Task["id"]): Promise<Types.RequestDeleteTasksResult> {
+  export async function deleteTask(
+    id: Task["id"]
+  ): Promise<TaskApiResponse.Delete> {
     const url = taskUrls.updateAndDeleteWithId(id);
     const method = http.delete<boolean>(url);
     return composeHttpMethodResult(method);
-  },
+  }
 
-  async createTask(
+  export async function createTask(
     body: TaskCreationDto
-  ): Promise<Types.RequestCreateTasksResult> {
+  ): Promise<TaskApiResponse.Create> {
     const url = taskUrls.getAndCreate;
     const method = http.post<TaskDto>(url, body);
     return composeHttpMethodResult(method);
-  },
+  }
 
-  async updateTask(
+  export async function updateTask(
     id: Task["id"],
     body: TaskCreationDto
-  ): Promise<Types.RequestUpdateTasksResult> {
+  ): Promise<TaskApiResponse.Update> {
     const url = taskUrls.updateAndDeleteWithId(id);
     const method = http.patch<TaskDto>(url, body);
     return composeHttpMethodResult(method);
-  },
-};
+  }
+}

@@ -10,18 +10,17 @@ import {
 
 import { Response } from "../api-response";
 
-export type RequestGetOrganizationResult = Response<OrganizationDto>;
-export type RequestUpdateOrganizationResult = Response<
-  OrganizationDto,
-  OrganizationCreationDto
->;
+export namespace ConfigApiResponse {
+  export type GetOrganization = Response<OrganizationDto>;
+  export type UpdateOrganization = Response<
+    OrganizationDto,
+    OrganizationCreationDto
+  >;
 
-export type RequestGetConfigManagerResult = Response<LeadersAndManagersDto>;
-export type RequestUpdateConfigManagerResult = Response<LeadersAndManagersDto>;
-export type RequestUpdateConfigRoleUserResult = Response<
-  UserShortDto,
-  UserPermissionConfigCreationDto
->;
-
-export type RequestUpdateOrganizationBody = OrganizationCreationDto;
-export type RequestParamsConfigRoleUser = UserPermissionConfigCreationDto;
+  export type GetConfigManager = Response<LeadersAndManagersDto>;
+  export type UpdateConfigManager = Response<LeadersAndManagersDto>;
+  export type UpdateConfigRoleUser = Response<
+    UserShortDto,
+    UserPermissionConfigCreationDto
+  >;
+}

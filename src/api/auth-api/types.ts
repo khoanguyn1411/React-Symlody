@@ -2,8 +2,9 @@ import { ProfileDto, TokenDto, TokenRefreshDto } from "@/features/types";
 
 import { Response } from "../api-response";
 
-export type RequestLoginResult = Response<TokenDto>;
-export type RequestGetProfileResult = Response<ProfileDto>;
-export type RequestLogoutResult = Response<boolean>;
-
-export type RequestRefreshResult = Response<TokenRefreshDto>;
+export namespace AuthApiResponse {
+  export type Login = Response<TokenDto>;
+  export type GetProfile = Response<ProfileDto>;
+  export type Logout = Response<boolean>;
+  export type Refresh = Response<TokenRefreshDto>;
+}

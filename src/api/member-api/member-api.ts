@@ -4,7 +4,7 @@ import { ComposeUrlService } from "@/utils/funcs/compose-url";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
-import * as Types from "./types";
+import { MemberApiResponse } from "./types";
 
 const BASE_URL = "member";
 const memberUrlService = new ComposeUrlService(BASE_URL);
@@ -16,45 +16,45 @@ const memberUrls = {
   uploadMemberExcelFile: memberUrlService.composeWith(["bulk"]),
 };
 
-export const MemberApi = {
-  async getMembers(
+export namespace MemberApi {
+  export async function getMembers(
     param: MemberFilterParamsDto
-  ): Promise<Types.RequestGetMembersResult> {
+  ): Promise<MemberApiResponse.GetMembers> {
     const url = memberUrls.getAndCreate;
     const method = http.get<MemberDto[]>(url, param);
     return composeHttpMethodResult(method);
-  },
+  }
 
-  async deleteMember(
+  export async function deleteMember(
     id: Member["id"]
-  ): Promise<Types.RequestDeleteMembersResult> {
+  ): Promise<MemberApiResponse.DeleteMember> {
     const url = memberUrls.delete(id);
     const method = http.delete<boolean>(url);
     return composeHttpMethodResult(method);
-  },
+  }
 
-  async createMember(
+  export async function createMember(
     body: MemberCreationDto
-  ): Promise<Types.RequestCreateMembersResult> {
+  ): Promise<MemberApiResponse.CreateMember> {
     const url = memberUrls.getAndCreate;
     const method = http.post<MemberDto>(url, body);
     return composeHttpMethodResult(method);
-  },
+  }
 
-  async updateMember(
+  export async function updateMember(
     id: Member["id"],
     body: MemberCreationDto
-  ): Promise<Types.RequestUpdateMembersResult> {
+  ): Promise<MemberApiResponse.UpdateMember> {
     const url = memberUrls.updateAndDeleteWithId(id);
     const method = http.patch<MemberDto>(url, body);
     return composeHttpMethodResult(method);
-  },
+  }
 
-  async uploadMemberExcelFile(
+  export async function uploadMemberExcelFile(
     body: FormData
-  ): Promise<Types.RequestUploadMemberExcelFileResult> {
+  ): Promise<MemberApiResponse.UploadExcel> {
     const url = memberUrls.uploadMemberExcelFile;
     const method = http.post<boolean>(url, body);
     return composeHttpMethodResult(method);
-  },
-};
+  }
+}

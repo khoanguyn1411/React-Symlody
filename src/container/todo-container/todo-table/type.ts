@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 
-import { TodoStatusId } from "@/features/types";
+import { Task } from "@/features/types";
 
 export interface ITodoTable {
   id: number;
   job: string;
-  status: TodoStatusId;
+  status: Task.StatusIds;
   expiredDate: string;
   isPriority: boolean;
   assignee: string;

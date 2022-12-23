@@ -1,30 +1,30 @@
 import { reverseRecord } from "@/utils/funcs/reverse-record";
 
-import { PriorityDto, TaskCreationDto, TaskDto, TaskStatusDto } from "../dtos";
-import { Task, TaskCreation, TodoStatusId } from "../models";
+import { TaskCreationDto, TaskDto } from "../dtos";
+import { Task, TaskCreation } from "../models";
 import { dateMapper } from "./base-mappers/date.mapper";
 import { IMapperFromDto, IMapperToCreationDto } from "./base-mappers/mapper";
 import { userMapper } from "./user.mapper";
 
-export const TASK_STATUS_TO_MODEL: Readonly<
-  Record<TaskStatusDto, TodoStatusId>
-> = {
-  [TaskStatusDto.Todo]: TodoStatusId.Todo,
-  [TaskStatusDto.InProgress]: TodoStatusId.InProgress,
-  [TaskStatusDto.Review]: TodoStatusId.Review,
-  [TaskStatusDto.Done]: TodoStatusId.Done,
-};
-
 export const TASK_STATUS_FROM_DTO: Readonly<
-  Record<TaskStatusDto, TodoStatusId>
+  Record<TaskDto.StatusIdsDto, Task.StatusIds>
 > = {
-  [TaskStatusDto.Todo]: TodoStatusId.Todo,
-  [TaskStatusDto.InProgress]: TodoStatusId.InProgress,
-  [TaskStatusDto.Review]: TodoStatusId.Review,
-  [TaskStatusDto.Done]: TodoStatusId.Done,
+  [TaskDto.StatusIdsDto.Todo]: Task.StatusIds.Todo,
+  [TaskDto.StatusIdsDto.InProgress]: Task.StatusIds.InProgress,
+  [TaskDto.StatusIdsDto.Review]: Task.StatusIds.Review,
+  [TaskDto.StatusIdsDto.Done]: Task.StatusIds.Done,
 };
 
 export const TASK_STATUS_TO_DTO = reverseRecord(TASK_STATUS_FROM_DTO);
+
+export const TASK_STATUS_FROM_ID_TO_READABLE: Readonly<
+  Record<Task.StatusIds, Task.ReadableStatuses>
+> = {
+  [Task.StatusIds.Todo]: Task.ReadableStatuses.Todo,
+  [Task.StatusIds.InProgress]: Task.ReadableStatuses.InProgress,
+  [Task.StatusIds.Review]: Task.ReadableStatuses.Review,
+  [Task.StatusIds.Done]: Task.ReadableStatuses.Done,
+};
 
 export class TaskMapper
   implements
@@ -48,12 +48,12 @@ export class TaskMapper
       startDate: dateMapper.fromDto(dto.start_date),
       endDate: dateMapper.fromDto(dto.end_date),
       lastModifiedDate: dateMapper.fromDto(dto.last_modified_date),
-      isPriority: dto.priority === PriorityDto.High,
+      isPriority: dto.priority === TaskDto.PriorityDto.High,
       createdBy: userMapper.fromDto(dto.created_by),
       lastModifiedBy: dto.last_modified_by
         ? userMapper.fromDto(dto.last_modified_by)
         : null,
-      status: TASK_STATUS_TO_MODEL[dto.status],
+      status: TASK_STATUS_FROM_DTO[dto.status],
     };
   }
 
@@ -64,7 +64,9 @@ export class TaskMapper
       reporter: model.reporter,
       title: model.title,
       label: model.label,
-      priority: model.isPriority ? PriorityDto.High : PriorityDto.Default,
+      priority: model.isPriority
+        ? TaskDto.PriorityDto.High
+        : TaskDto.PriorityDto.Default,
       description: model.description,
       start_date: dateMapper.toDto(model.startDate),
       end_date: dateMapper.toDto(model.endDate),
