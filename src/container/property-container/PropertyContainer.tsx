@@ -14,11 +14,9 @@ import { useAppDispatch, useAppSelector } from "@/features";
 import { updatePropertyAsync } from "@/features/reducers";
 import {
   deletePropertyAsync,
-  filterPropertyBySearchAsync,
   getPropertyAsync,
-  paginatePropertyAsync,
   propertySelectors,
-  setFilterParamsPropertyAsync,
+  setPropertyFilterParams,
 } from "@/features/reducers/property-reducer";
 import { Property, Roles, RolesID } from "@/features/types";
 import { withPermission } from "@/hoc";
@@ -32,6 +30,7 @@ import {
 } from "./constant";
 import { ModalCreateProperty, ModalEditProperty } from "./property-modal";
 import { PropertyPagination } from "./property-pagination";
+import { usePropertyPagination } from "./property-pagination/usePropertyPagination";
 import { PropertyTableContent } from "./property-table-content";
 
 const getFilterValue = (value: string) => {
@@ -47,6 +46,7 @@ export const PropertyContainer: React.FC = () => {
   const propsModal = useModal({ isHotkeyOpen: true });
   const propsModalEdit = useModal<Property>();
   const propsSearch = useDebounce(propertyStore.filterParamsProperty.search);
+  const { paginate, filterBySearch } = usePropertyPagination();
 
   const isPropertyManager = currentUser.isRole([
     Roles.Lead,
@@ -69,13 +69,13 @@ export const PropertyContainer: React.FC = () => {
   const handleSetFilter = (item: TOptionProps) => {
     switch (item.value) {
       case PROPERTY_FILTER_VALUE.all:
-        dispatch(setFilterParamsPropertyAsync({ isArchived: null }));
+        dispatch(setPropertyFilterParams({ isArchived: null }));
         break;
       case PROPERTY_FILTER_VALUE.isArchived:
-        dispatch(setFilterParamsPropertyAsync({ isArchived: true }));
+        dispatch(setPropertyFilterParams({ isArchived: true }));
         break;
       case PROPERTY_FILTER_VALUE.inUse:
-        dispatch(setFilterParamsPropertyAsync({ isArchived: false }));
+        dispatch(setPropertyFilterParams({ isArchived: false }));
         break;
     }
   };
@@ -121,16 +121,17 @@ export const PropertyContainer: React.FC = () => {
   useEffect(() => {
     dispatch(getPropertyAsync(propertyStore.filterParamsProperty));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, propertyStore.filterParamsProperty.isArchived]);
+  }, [propertyStore.filterParamsProperty.isArchived]);
 
   useEffect(() => {
-    dispatch(filterPropertyBySearchAsync(propsSearch.debounceValue));
-  }, [dispatch, propsSearch.debounceValue, propertyList]);
+    filterBySearch(propsSearch.debounceValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [propsSearch.debounceValue, propertyList]);
 
   useEffect(() => {
-    dispatch(paginatePropertyAsync());
+    paginate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    dispatch,
     propertyStore.filterParamsProperty.page,
     propertyStore.filterParamsProperty.limit,
     propertyStore.currentPropertyList,

@@ -33,5 +33,4 @@ export type MemberCreation = StrictOmit<
 > & {
   authAccount: AuthAccountCreation;
   department?: Department;
-  avatar?: File;
 };

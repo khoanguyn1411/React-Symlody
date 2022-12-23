@@ -8,22 +8,19 @@ import {
   useState,
 } from "react";
 
+import { CommonFilterParams } from "@/features/types/models/filter-params";
 import { AppReact } from "@/utils/types";
 
 import { APP_PAGINATION } from "./constants";
 
 const PaginationContext = createContext<TPropsPaginationContext>({
-  activePage: undefined,
-  limit: undefined,
-  setActivePage: undefined,
-  setLimit: undefined,
+  config: undefined,
+  setConfig: undefined,
 });
 
 type TPropsPaginationContext = {
-  activePage: number;
-  limit: number;
-  setActivePage: (activePage: number) => void;
-  setLimit: (rowsQuantity: number) => void;
+  config: CommonFilterParams.Pagination;
+  setConfig: (config: Partial<CommonFilterParams.Pagination>) => void;
 } & TPropsPagination;
 
 export type TPropsPagination = {
@@ -31,62 +28,63 @@ export type TPropsPagination = {
   count?: number;
   pageStep?: number;
   totalPages?: number;
-  quantityDisplay?: string[];
-  onPaginationChange?: (activePage: number, limit: number) => void;
-  onLimitChange?: (activePage: number, limit: number) => void;
-  onResetPagination?: {
-    changeListener: DependencyList;
-    callback: (limit: number) => void;
-  };
+  quantityDisplay?: number[];
+  onChange?: (config: CommonFilterParams.Pagination) => void;
+  onResetListeners?: DependencyList;
 };
 const PaginationProvider: AppReact.FC.PropsWithChildren<TPropsPagination> = ({
   children,
   pageStep = 2,
-  quantityDisplay = ["5", "10", "15"],
-  onResetPagination,
+  quantityDisplay = [5, 10, 15],
+  onResetListeners,
   defaultLimit,
   ...props
 }) => {
-  const [activePage, setActivePage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(
-    defaultLimit ?? APP_PAGINATION.DEFAULT_PAGINATION_LIMIT
-  );
+  const [config, _setConfig] = useState<CommonFilterParams.Pagination>(() => ({
+    page: 1,
+    limit: defaultLimit ?? APP_PAGINATION.DEFAULT_PAGINATION_LIMIT,
+  }));
+
+  const setConfig = (partialConfig: Partial<CommonFilterParams.Pagination>) => {
+    return _setConfig((prev) => ({ ...prev, ...partialConfig }));
+  };
 
   const _totalPage = useMemo(() => {
     if (props.totalPages) {
       return props.totalPages;
     }
-    if (limit && props.count) {
-      return Math.ceil(props.count / limit);
+    if (config.limit && props.count) {
+      return Math.ceil(props.count / config.limit);
     }
-    return undefined;
-  }, [limit, props.count, props.totalPages]);
+    return null;
+  }, [config.limit, props.count, props.totalPages]);
 
   useEffect(() => {
-    if (activePage > _totalPage) {
-      setActivePage(1);
-      onResetPagination?.callback(limit);
+    if (config.page > _totalPage) {
+      setConfig({ page: 1 });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [_totalPage, activePage]);
+  }, [_totalPage, config.page]);
 
   useLayoutEffect(
     () => {
-      setActivePage(1);
-      onResetPagination?.callback(limit);
+      setConfig({ page: 1 });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    onResetPagination ? onResetPagination.changeListener : []
+    onResetListeners ?? []
   );
 
+  useEffect(() => {
+    props.onChange(config);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config]);
+
   const value = {
-    limit,
     pageStep,
-    activePage,
     quantityDisplay,
     totalPages: _totalPage,
-    setLimit,
-    setActivePage,
+    config,
+    setConfig,
     ...props,
   };
   return (

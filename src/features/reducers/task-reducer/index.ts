@@ -88,44 +88,24 @@ export const updateTaskAsync = createAsyncThunk<
   return rejectWithValue(null);
 });
 
-export const filterTaskByAssignee = createAsyncThunk<
+export const setTaskFilterParams = createAsyncThunk<
   void,
-  null,
-  ReduxThunk.RejectValue<null>
->("task/filter-by-assignee", async (_, { dispatch }) => {
+  Partial<TaskFilterParams>
+>("task/set-filter-params", async (params, { dispatch }) => {
   const reduxStore = store.getState();
-  const taskList = taskSelectors.selectAll(reduxStore);
-  const userList = userSelectors.selectAll(reduxStore);
-  const taskStore = reduxStore.task;
-
-  const selectedMemberIdsList =
-    taskStore.filterParamsTask.selectedMemberList.map((member) => member.id);
-
-  if (selectedMemberIdsList.length === 0) {
-    dispatch(setCurrentListTask(taskList));
-    return;
-  }
-  const newTaskList = taskList.filter((task) => {
-    const taskInfo = userList.find((user) => user.id === task.assignee.id);
-    if (taskInfo) {
-      return selectedMemberIdsList.includes(taskInfo.id);
-    }
-  });
-  dispatch(setCurrentListTask(newTaskList));
+  const currentMemberParams = reduxStore.task.filterParamsTask;
+  dispatch(_setTaskFilterParams({ ...currentMemberParams, ...params }));
 });
 
 export const taskSlice = createSlice({
   name: "task",
   initialState,
   reducers: {
-    setFilterParamsTask(
-      state,
-      action: PayloadAction<Partial<TaskFilterParams>>
-    ) {
-      state.filterParamsTask = { ...state.filterParamsTask, ...action.payload };
+    _setTaskFilterParams(state, action: PayloadAction<TaskFilterParams>) {
+      state.filterParamsTask = action.payload;
     },
 
-    setCurrentListTask(state, action: PayloadAction<Task[]>) {
+    setCurrentTaskList(state, action: PayloadAction<Task[]>) {
       state.currentListTask = action.payload;
     },
     getTasksByAssignee(
@@ -199,6 +179,6 @@ export const taskSelectors = taskAdapter.getSelectors(
   (state: RootState) => state.task
 );
 export const taskStore = (state: RootState) => state.task;
-export const { setFilterParamsTask, setCurrentListTask } = taskSlice.actions;
+export const { _setTaskFilterParams, setCurrentTaskList } = taskSlice.actions;
 
 export default taskSlice.reducer;

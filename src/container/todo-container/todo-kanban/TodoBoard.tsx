@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import {
-  filterTaskByAssignee,
   getTasksAsync,
   taskSelectors,
   updateTaskAsync,
@@ -16,6 +15,7 @@ import { useModal } from "@/hooks";
 import { TODO_DATA, TODO_MESSAGES } from "../constant";
 import { ModalEditTodo } from "../todo-modals";
 import { TTodoColumn } from "../type";
+import { useTodoFilter } from "../useTodoFilter";
 import { onDragEnd } from "./function";
 import { TodoColumn } from "./TodoColumn";
 import { TCardHiddenStatus } from "./type";
@@ -29,6 +29,8 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
   const taskStore = useAppSelector((state) => state.task);
   const taskList = useAppSelector(taskSelectors.selectAll);
   const userList = useAppSelector(userSelectors.selectAll);
+
+  const { filterByAssignee } = useTodoFilter();
 
   const [columnList, setColumnList] = useState<TTodoColumn[]>(
     TODO_DATA.columns
@@ -99,16 +101,12 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
     }
     dispatch(getTasksAsync(taskStore.filterParamsTask));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, taskStore.filterParamsTask.departmentId]);
+  }, [taskStore.filterParamsTask.departmentId]);
 
   useEffect(() => {
-    dispatch(filterTaskByAssignee());
-  }, [
-    dispatch,
-    taskList,
-    taskStore.filterParamsTask.selectedMemberList,
-    userList,
-  ]);
+    filterByAssignee();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskList, taskStore.filterParamsTask.selectedMemberList, userList]);
 
   if (isLoading || taskStore.pending) {
     return (

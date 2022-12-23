@@ -16,8 +16,6 @@ import {
 } from "@/features/types/models";
 import { MemberFilterParams } from "@/features/types/models/filter-params";
 import { ErrorHandler } from "@/utils/funcs/error-handler";
-import { generateArrayWithNoDuplicate } from "@/utils/funcs/generate-array-with-no-duplicate";
-import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
 import { ReduxThunk } from "@/utils/types";
 
 import { updateCurrentUser } from "../auth-reducer";
@@ -120,61 +118,20 @@ export const updateMemberAsync = createAsyncThunk<
   }
 );
 
-export const paginateMemberAsync = createAsyncThunk<void, undefined>(
-  "member/paginate",
-  async (_, { dispatch }) => {
-    const reduxStore = store.getState();
-    const memberState = reduxStore.member;
-    const { currentMemberList } = memberState;
-    const { page, limit } = memberState.filterParamsMember;
-    const memberListPagination = currentMemberList.slice(
-      (page - 1) * limit,
-      page * limit
-    );
-    dispatch(setMemberListWithPagination(memberListPagination));
-  }
-);
-
-export const filterMemberBySearchAsync = createAsyncThunk<void, string>(
-  "member/filter-by-search",
-  async (search, { dispatch }) => {
-    const reduxStore = store.getState();
-    const memberState = reduxStore.member;
-    const memberList = memberSelectors.selectAll(reduxStore);
-    const { currentMemberList } = memberState;
-    dispatch(setFilterParamsMemberAsync({ search: search }));
-    if (!search) {
-      dispatch(setCurrentMemberList(memberList));
-      return;
-    }
-    const listMemberAfterFilterByName = currentMemberList.filter((item) =>
-      isTextIncludedIn(item.authAccount.fullName, search)
-    );
-    const listMemberAfterFilterByEmail = currentMemberList.filter((item) =>
-      isTextIncludedIn(item.authAccount.email, search)
-    );
-
-    const newMemberList = generateArrayWithNoDuplicate(
-      listMemberAfterFilterByName.concat(listMemberAfterFilterByEmail)
-    );
-    dispatch(setCurrentMemberList(newMemberList));
-  }
-);
-
-export const setFilterParamsMemberAsync = createAsyncThunk<
+export const setMemberFilterParams = createAsyncThunk<
   void,
   Partial<MemberFilterParams>
 >("member/set-filter-params", async (params, { dispatch }) => {
   const reduxStore = store.getState();
   const currentMemberParams = reduxStore.member.filterParamsMember;
-  dispatch(setFilterParamsMember({ ...currentMemberParams, ...params }));
+  dispatch(_setMemberFilterParams({ ...currentMemberParams, ...params }));
 });
 
 export const memberSlice = createSlice({
   name: "member",
   initialState,
   reducers: {
-    setFilterParamsMember(state, action: PayloadAction<MemberFilterParams>) {
+    _setMemberFilterParams(state, action: PayloadAction<MemberFilterParams>) {
       state.filterParamsMember = action.payload;
     },
     setCurrentMemberList(state, action: PayloadAction<Member[]>) {
@@ -263,7 +220,7 @@ export const memberSelectors = memberAdapter.getSelectors(
   (state: RootState) => state.member
 );
 export const {
-  setFilterParamsMember,
+  _setMemberFilterParams,
   setMemberListWithPagination,
   setCurrentMemberList,
 } = memberSlice.actions;

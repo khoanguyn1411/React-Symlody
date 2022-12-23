@@ -32,5 +32,4 @@ export type MemberCreationDto = StrictOmit<
 > & {
   auth_account: AuthAccountCreationDto;
   department_id?: number;
-  avatar?: File;
 };

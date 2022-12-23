@@ -3,8 +3,8 @@ import React, { useMemo } from "react";
 import { usePaginationContext } from "../context";
 
 export const PaginationPickPage: React.FC = () => {
-  const { totalPages, setActivePage, onPaginationChange, limit } =
-    usePaginationContext();
+  const { totalPages, setConfig, config } = usePaginationContext();
+
   const adjustPagination = useMemo(
     () => (target: HTMLInputElement) => {
       const _value = target.value;
@@ -14,19 +14,17 @@ export const PaginationPickPage: React.FC = () => {
       target.value = "";
       const page = Number(_value);
       if (page > totalPages) {
-        setActivePage(totalPages);
-        onPaginationChange(totalPages, limit);
+        setConfig({ page: totalPages });
         return;
       }
       if (page < 1) {
-        setActivePage(1);
-        onPaginationChange(1, limit);
+        setConfig({ page: 1 });
         return;
       }
-      setActivePage(page);
-      onPaginationChange(page, limit);
+      setConfig({ page });
     },
-    [limit, onPaginationChange, setActivePage, totalPages]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [config.limit, totalPages]
   );
 
   const handlePickPageOnBlur = (

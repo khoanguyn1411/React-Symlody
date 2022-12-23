@@ -6,7 +6,6 @@ import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
 import {
-  filterTaskByAssignee,
   getTasksAsync,
   taskSelectors,
   updateTaskAsync,
@@ -16,6 +15,7 @@ import { Task, TodoStatusId } from "@/features/types";
 import { TODO_MESSAGES } from "../constant";
 import { checkStatusOfExpiredDate } from "../function";
 import { todoViewMapper } from "../mapper";
+import { useTodoFilter } from "../useTodoFilter";
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
 type TProps = {
@@ -34,6 +34,8 @@ export const TodoTableContent: React.FC<TProps> = ({
   const taskStore = useAppSelector((state) => state.task);
   const taskList = useAppSelector(taskSelectors.selectAll);
   const currentUser = useAppSelector((state) => state.auth.user);
+
+  const { filterByAssignee } = useTodoFilter();
 
   const [currentInteractiveTask, setCurrentInteractiveTask] =
     useState<Task["id"]>();
@@ -73,13 +75,9 @@ export const TodoTableContent: React.FC<TProps> = ({
   };
 
   useEffect(() => {
-    dispatch(filterTaskByAssignee());
-  }, [
-    dispatch,
-    taskList,
-    taskStore.filterParamsTask.selectedMemberList,
-    userList,
-  ]);
+    filterByAssignee();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskList, taskStore.filterParamsTask.selectedMemberList, userList]);
 
   useLayoutEffect(() => {
     const { departmentId } = taskStore.filterParamsTask;

@@ -9,26 +9,27 @@ type TProps = {
 };
 
 export const PaginationList: React.FC = () => {
-  const { totalPages, pageStep, activePage } = usePaginationContext();
+  const {
+    totalPages,
+    pageStep,
+    config: { page },
+  } = usePaginationContext();
   const isPageRangeOverTotal = pageStep * 2 + 1 >= totalPages;
   return (
     <ul className="flex items-baseline">
       <PaginationFirstPage isPageRangeOverTotal={isPageRangeOverTotal} />
 
       {[...Array(isPageRangeOverTotal ? totalPages : pageStep * 2 + 1)].map(
-        (item, index) => {
-          if (activePage <= pageStep || isPageRangeOverTotal) {
+        (_, index) => {
+          if (page <= pageStep || isPageRangeOverTotal) {
             return <PaginationItem key={index} pageIndex={index + 1} />;
           }
-          if (activePage > pageStep && activePage < totalPages - pageStep) {
+          if (page > pageStep && page < totalPages - pageStep) {
             return (
-              <PaginationItem
-                key={index}
-                pageIndex={activePage + index - pageStep}
-              />
+              <PaginationItem key={index} pageIndex={page + index - pageStep} />
             );
           }
-          if (activePage >= totalPages - pageStep) {
+          if (page >= totalPages - pageStep) {
             return (
               <PaginationItem
                 key={index}
@@ -44,12 +45,16 @@ export const PaginationList: React.FC = () => {
 };
 
 const PaginationFirstPage: React.FC<TProps> = ({ isPageRangeOverTotal }) => {
-  const { activePage, pageStep, totalPages } = usePaginationContext();
+  const {
+    config: { page },
+    pageStep,
+    totalPages,
+  } = usePaginationContext();
   if (isPageRangeOverTotal) {
     return;
   }
-  if (activePage > pageStep + 1) {
-    if (activePage > pageStep + 2 && totalPages - 2 * pageStep !== 2) {
+  if (page > pageStep + 1) {
+    if (page > pageStep + 2 && totalPages - 2 * pageStep !== 2) {
       return (
         <>
           <PaginationItem pageIndex={1} />
@@ -62,15 +67,16 @@ const PaginationFirstPage: React.FC<TProps> = ({ isPageRangeOverTotal }) => {
 };
 
 const PaginationLastNumber: React.FC<TProps> = ({ isPageRangeOverTotal }) => {
-  const { activePage, totalPages, pageStep } = usePaginationContext();
+  const {
+    config: { page },
+    totalPages,
+    pageStep,
+  } = usePaginationContext();
   if (isPageRangeOverTotal) {
     return;
   }
-  if (activePage <= totalPages - pageStep - 1) {
-    if (
-      activePage <= totalPages - pageStep - 2 &&
-      totalPages - 2 * pageStep !== 2
-    ) {
+  if (page <= totalPages - pageStep - 1) {
+    if (page <= totalPages - pageStep - 2 && totalPages - 2 * pageStep !== 2) {
       return (
         <>
           <PaginationDot />

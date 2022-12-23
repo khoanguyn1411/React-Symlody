@@ -5,7 +5,7 @@ export type AuthAccountForm = AuthAccountCreation;
 
 export type MemberForm = StrictOmit<
   MemberCreation,
-  "department" | "avatar" | "isArchived"
+  "department" | "isArchived"
 > & {
   department: string;
 };

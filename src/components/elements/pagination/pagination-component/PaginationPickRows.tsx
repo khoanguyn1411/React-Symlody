@@ -2,15 +2,10 @@ import { Select } from "../../select";
 import { usePaginationContext } from "../context";
 
 export const PaginationPickRows: React.FC = () => {
-  const { quantityDisplay, limit, activePage, setLimit, onLimitChange } =
-    usePaginationContext();
+  const { quantityDisplay, setConfig, config } = usePaginationContext();
 
-  const handleRowsChange = (_limit: string) => {
-    const limitAsNumber = Number(_limit);
-    setLimit(limitAsNumber);
-    if (limit !== limitAsNumber) {
-      onLimitChange && onLimitChange(activePage, limitAsNumber);
-    }
+  const handleRowsChange = (limit: number) => {
+    setConfig({ limit });
   };
 
   return (
@@ -23,7 +18,7 @@ export const PaginationPickRows: React.FC = () => {
           value: item,
           label: `${item} hàng`,
         }))}
-        value={limit.toString()}
+        value={config.limit}
         onChange={handleRowsChange}
       />
     </div>

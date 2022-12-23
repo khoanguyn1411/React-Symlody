@@ -17,7 +17,7 @@ import {
   getUsersAsync,
   userSelectors,
 } from "@/features/reducers";
-import { setFilterParamsTask } from "@/features/reducers/task-reducer";
+import { setTaskFilterParams } from "@/features/reducers/task-reducer";
 import { Department, Roles } from "@/features/types";
 import { useModal } from "@/hooks";
 import { PageKey, routePaths } from "@/routes";
@@ -106,7 +106,7 @@ export const TodoContainer: React.FC = () => {
   const handleSetFilter = (item: TOptionProps) => {
     const departmentID = getDepartmentId(item.value);
     dispatch(
-      setFilterParamsTask({
+      setTaskFilterParams({
         departmentId: departmentID,
         selectedMemberList: [],
       })
@@ -122,7 +122,7 @@ export const TodoContainer: React.FC = () => {
     setFilterDepartment(getInitialDepartmentText());
     const { departmentId } = taskStore.filterParamsTask;
     dispatch(
-      setFilterParamsTask({
+      setTaskFilterParams({
         departmentId: departmentId ?? currentUser.department.id,
       })
     );

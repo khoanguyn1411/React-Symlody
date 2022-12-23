@@ -8,10 +8,6 @@ import { TPropsPagination } from "../../../elements/pagination/context";
 type TProps = StrictOmit<TPropsPagination, "pageStep">;
 
 export const Pagination: React.FC<TProps> = (props) => {
-  const onLimitChange = (page: number, limit: number) => {
-    props.onLimitChange?.(page, limit);
-  };
-
   if (!props.totalPages && !props.count) {
     return;
   }
@@ -23,8 +19,7 @@ export const Pagination: React.FC<TProps> = (props) => {
     <div className="flex justify-end w-full mt-5">
       <AppPagination
         {...props}
-        onLimitChange={onLimitChange}
-        quantityDisplay={["10", "20", "30", "40", "50"]}
+        quantityDisplay={[10, 20, 30, 40, 50]}
         pageStep={1}
       />
     </div>

@@ -6,10 +6,7 @@ import { toast } from "react-toastify";
 import { Loading, Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getUsersAsync, userSelectors } from "@/features/reducers";
-import {
-  createTaskAsync,
-  filterTaskByAssignee,
-} from "@/features/reducers/task-reducer";
+import { createTaskAsync } from "@/features/reducers/task-reducer";
 import { THookModalProps } from "@/hooks";
 import { DateService } from "@/utils/funcs/date-service";
 
@@ -17,6 +14,7 @@ import { TODO_MESSAGES } from "../constant";
 import { todoFormMapper } from "../mapper";
 import { schema } from "../shema";
 import { TodoForm } from "../type";
+import { useTodoFilter } from "../useTodoFilter";
 import { FormItems } from "./FormItems";
 
 export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
@@ -27,6 +25,8 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
   const userCount = useAppSelector(userSelectors.selectTotal);
   const userStore = useAppSelector((state) => state.user);
   const currentUserStore = useAppSelector((state) => state.auth);
+
+  const { filterByAssignee } = useTodoFilter();
 
   useEffect(() => {
     if (userCount === 0 && isShowing) {
@@ -47,7 +47,7 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
     if (createTaskAsync.fulfilled.match(result)) {
       toast.success(TODO_MESSAGES.create.success);
       reset();
-      dispatch(filterTaskByAssignee());
+      filterByAssignee();
       toggle.setHidden();
       return;
     }
