@@ -12,7 +12,7 @@ export const departmentAdapter = createEntityAdapter<Department>({
 
 export const initialState =
   departmentAdapter.getInitialState<DepartmentStateInner>({
-    pending: false,
+    pending: true,
   });
 
 export type DepartmentState = typeof initialState;

@@ -16,7 +16,7 @@ export type AuthState = {
 };
 
 const initialState: AuthState = {
-  pending: false,
+  pending: true,
   user: null,
   isAuth: false,
   isAlreadyGetMe: false,
