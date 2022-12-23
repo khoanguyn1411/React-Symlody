@@ -1,21 +1,21 @@
 import { Property, PropertyDto } from "@/features/types";
 import { PropertyFilterParamsDto } from "@/features/types/dtos/filter-params";
+import { ComposeUrlService } from "@/utils/funcs/compose-url";
 
 import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
-const routes = {
-  getProperties: () => `property/`,
-  deleteProperty: (id: Property["id"]) => `property/${id}/`,
-  updateProperty: (id: Property["id"]) => `property/${id}/`,
-};
+const BASE_URL = "property";
+const propertyUrls = new ComposeUrlService(BASE_URL);
+
+const apiModuleUrls = propertyUrls.composeCommonAPIMethodUrls();
 
 export const PropertyApi = {
   async getProperties(
     param: PropertyFilterParamsDto
   ): Promise<Types.RequestGetPropertiesResult> {
-    const url = routes.getProperties();
+    const url = apiModuleUrls.getAndCreate;
     const method = http.get<PropertyDto[]>(url, param);
     return composeHttpMethodResult(method);
   },
@@ -23,7 +23,7 @@ export const PropertyApi = {
   async createProperty(
     body: FormData
   ): Promise<Types.RequestCreatePropertyResult> {
-    const url = routes.getProperties();
+    const url = apiModuleUrls.getAndCreate;
     const method = http.post<PropertyDto>(url, body);
     return composeHttpMethodResult(method);
   },
@@ -31,7 +31,7 @@ export const PropertyApi = {
   async deleteProperty(
     id: Property["id"]
   ): Promise<Types.RequestDeletePropertyResult> {
-    const url = routes.deleteProperty(id);
+    const url = apiModuleUrls.updateAndDeleteWithId(id);
     const method = http.delete<boolean>(url);
 
     return composeHttpMethodResult(method);
@@ -41,7 +41,7 @@ export const PropertyApi = {
     id: Property["id"],
     body: FormData
   ): Promise<Types.RequestUpdatePropertyResult> {
-    const url = routes.updateProperty(id);
+    const url = apiModuleUrls.updateAndDeleteWithId(id);
     const method = http.patch<PropertyDto>(url, body);
     return composeHttpMethodResult(method);
   },
