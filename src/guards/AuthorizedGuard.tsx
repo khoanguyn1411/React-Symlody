@@ -12,6 +12,7 @@ export const AuthorizedGuard: AppReact.FC.PropsWithChildren<TProps> = ({
   isAuth,
 }) => {
   const location = useLocation();
+  console.log(isAuth);
   if (isAuth) {
     return location.pathname === routePaths.root.url ? (
       <Navigate
