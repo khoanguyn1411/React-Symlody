@@ -1,9 +1,8 @@
 import { images } from "@/assets/images";
 import { TNodataConfig } from "@/components";
-import { TodoStatusId } from "@/features/types";
+import { Task, TASK_STATUS_FROM_ID_TO_READABLE } from "@/features/types";
 import { generateStatusMessageFor } from "@/utils/funcs/generate-app-status-messages";
 
-import { TODO_STATUS_MAP_FROM_ID } from "./mapper";
 import { TTodo } from "./type";
 
 export const TODO_NO_DATA_CONFIG: TNodataConfig = {
@@ -23,32 +22,32 @@ export const TODO_DATA: TTodo = {
     {
       color: "blue",
       boardId: "board-1",
-      id: TodoStatusId.Todo,
-      title: TODO_STATUS_MAP_FROM_ID[TodoStatusId.Todo],
+      id: Task.StatusIds.Todo,
+      title: TASK_STATUS_FROM_ID_TO_READABLE[Task.StatusIds.Todo],
       cardOrder: [],
       cards: [],
     },
     {
       color: "blue",
       boardId: "board-1",
-      id: TodoStatusId.InProgress,
-      title: TODO_STATUS_MAP_FROM_ID[TodoStatusId.InProgress],
+      id: Task.StatusIds.InProgress,
+      title: TASK_STATUS_FROM_ID_TO_READABLE[Task.StatusIds.InProgress],
       cardOrder: [],
       cards: [],
     },
     {
       color: "blue",
       boardId: "board-1",
-      id: TodoStatusId.Review,
-      title: TODO_STATUS_MAP_FROM_ID[TodoStatusId.Review],
+      id: Task.StatusIds.Review,
+      title: TASK_STATUS_FROM_ID_TO_READABLE[Task.StatusIds.Review],
       cardOrder: [],
       cards: [],
     },
     {
       color: "green",
       boardId: "board-1",
-      id: TodoStatusId.Done,
-      title: TODO_STATUS_MAP_FROM_ID[TodoStatusId.Done],
+      id: Task.StatusIds.Done,
+      title: TASK_STATUS_FROM_ID_TO_READABLE[Task.StatusIds.Done],
       cardOrder: [],
       cards: [],
     },

@@ -1,8 +1,8 @@
-import { TodoStatusId } from "@/features/types";
+import { Task } from "@/features/types";
 
 export const COLOR_MAP = {
-  [TodoStatusId.InProgress]: "text-blue-500",
-  [TodoStatusId.Done]: "text-green-500",
-  [TodoStatusId.Review]: "text-yellow-500",
-  [TodoStatusId.Todo]: "text-red-400",
+  [Task.StatusIds.InProgress]: "text-blue-500",
+  [Task.StatusIds.Done]: "text-green-500",
+  [Task.StatusIds.Review]: "text-yellow-500",
+  [Task.StatusIds.Todo]: "text-red-400",
 } as const;

@@ -3,7 +3,8 @@ import { ChangePasswordDto } from "@/features/types/dtos/change-password.dto";
 
 import { Response } from "../api-response";
 
-export type RequestGetUsersResult = Response<UserDto[]>;
-
-export type RequestUpdateProfileResult = Response<ProfileDto>;
-export type RequestChangePasswordResult = Response<boolean, ChangePasswordDto>;
+export namespace UserApiResponse {
+  export type GetUsers = Response<UserDto[]>;
+  export type UpdateProfile = Response<ProfileDto>;
+  export type ChangePassword = Response<boolean, ChangePasswordDto>;
+}

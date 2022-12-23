@@ -1,24 +1,10 @@
 import { User } from "@/features/types";
-import {
-  Task,
-  TaskCreation,
-  TodoStatus,
-  TodoStatusId,
-} from "@/features/types/models/task";
+import { Task, TaskCreation } from "@/features/types/models/task";
 import { DateService } from "@/utils/funcs/date-service";
 import { generatePlaceholderEmptyValue } from "@/utils/funcs/generate-place-holder";
 
 import { UNASSIGNED_TEXT } from "./constant";
 import { ITodoTable, TodoForm } from "./type";
-
-export const TODO_STATUS_MAP_FROM_ID: Readonly<
-  Record<TodoStatusId, TodoStatus>
-> = {
-  [TodoStatusId.Todo]: TodoStatus.Todo,
-  [TodoStatusId.InProgress]: TodoStatus.InProgress,
-  [TodoStatusId.Review]: TodoStatus.Review,
-  [TodoStatusId.Done]: TodoStatus.Done,
-};
 
 class TodoFormMapper {
   public toModel(formData: TodoForm): TaskCreation {

@@ -11,9 +11,10 @@ import {
   SelectUser,
   TextArea,
 } from "@/components";
+import { Task } from "@/features/types";
 
 import { TodoPriorityIcon } from "../TodoPriorityIcon";
-import { Priority, TodoForm } from "../type";
+import { TodoForm } from "../type";
 
 type TProps = {
   mode: "edit" | "create";
@@ -84,11 +85,11 @@ export const FormItems: React.FC<TProps> = ({ mode, formProps }) => {
                       {
                         prefix: <TodoPriorityIcon isPriority={false} />,
                         value: false,
-                        label: Priority.Normal,
+                        label: Task.Priority.Normal,
                       },
                       {
                         prefix: <TodoPriorityIcon isPriority />,
-                        label: Priority.High,
+                        label: Task.Priority.High,
                         value: true,
                       },
                     ]}

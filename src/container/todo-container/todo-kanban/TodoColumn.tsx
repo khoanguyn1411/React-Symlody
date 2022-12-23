@@ -2,11 +2,10 @@ import classNames from "classnames";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
-import { Task } from "@/features/types";
+import { Task, TASK_STATUS_FROM_ID_TO_READABLE } from "@/features/types";
 import { mapOrder } from "@/utils/funcs/map-order";
 
 import { TODO_DATA } from "../constant";
-import { TODO_STATUS_MAP_FROM_ID } from "../mapper";
 import { TTodoColumn } from "../type";
 import { TodoCard } from "./TodoCard";
 import { TCardHiddenStatus } from "./type";
@@ -82,7 +81,7 @@ export const TodoColumn: React.FC<TProps> = ({
                 }
               )}
             >
-              {TODO_STATUS_MAP_FROM_ID[draggingCard.columnId]}
+              {TASK_STATUS_FROM_ID_TO_READABLE[draggingCard.columnId]}
             </span>
             <span className="mx-2 mt-1 text-xs">
               <i className="fas fa-arrow-right" />

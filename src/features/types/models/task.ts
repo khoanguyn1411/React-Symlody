@@ -2,23 +2,25 @@ import { StrictOmit } from "@/utils/types";
 
 import { User } from "./user";
 
-export enum TodoStatusId {
-  Todo = "todo",
-  InProgress = "in-progress",
-  Review = "review",
-  Done = "done",
-}
+export namespace Task {
+  export enum StatusIds {
+    Todo = "todo",
+    InProgress = "in-progress",
+    Review = "review",
+    Done = "done",
+  }
 
-export enum TodoStatus {
-  Todo = "Cần thực hiện",
-  InProgress = "Đang thực hiện",
-  Review = "Kiểm tra",
-  Done = "Hoàn thành",
-}
+  export enum ReadableStatuses {
+    Todo = "Cần thực hiện",
+    InProgress = "Đang thực hiện",
+    Review = "Kiểm tra",
+    Done = "Hoàn thành",
+  }
 
-export enum Priority {
-  High = "Cao",
-  Normal = "Bình thường",
+  export enum Priority {
+    High = "Cao",
+    Normal = "Bình thường",
+  }
 }
 
 export interface Task {
@@ -39,7 +41,7 @@ export interface Task {
   endDate: string;
   estimation: null | string;
   isPriority: boolean;
-  status: TodoStatusId;
+  status: Task.StatusIds;
   isSentEmail: boolean;
 }
 

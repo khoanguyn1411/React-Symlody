@@ -10,7 +10,7 @@ import {
   taskSelectors,
   updateTaskAsync,
 } from "@/features/reducers/task-reducer";
-import { Task, TodoStatusId } from "@/features/types";
+import { Task } from "@/features/types";
 
 import { TODO_MESSAGES } from "../constant";
 import { checkStatusOfExpiredDate } from "../function";
@@ -48,7 +48,7 @@ export const TodoTableContent: React.FC<TProps> = ({
     onDelete(item);
   };
 
-  const handleChangeStatus = async (status: TodoStatusId, task: Task) => {
+  const handleChangeStatus = async (status: Task.StatusIds, task: Task) => {
     const result = await dispatch(
       updateTaskAsync({
         id: task.id,

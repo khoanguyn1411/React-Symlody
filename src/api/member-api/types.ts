@@ -1,15 +1,11 @@
-import {
-  FileUploadedDto,
-  MemberCreationDto,
-  MemberDto,
-} from "@/features/types/dtos";
+import { MemberCreationDto, MemberDto } from "@/features/types/dtos";
 
 import { Response } from "../api-response";
 
-export type RequestUploadMemberExcelFile = Response<FileUploadedDto>;
-
-export type RequestGetMembersResult = Response<MemberDto[]>;
-export type RequestCreateMembersResult = Response<MemberDto, MemberCreationDto>;
-export type RequestDeleteMembersResult = Response<boolean>;
-export type RequestUpdateMembersResult = Response<MemberDto, MemberCreationDto>;
-export type RequestUploadMemberExcelFileResult = Response<boolean>;
+export namespace MemberApiResponse {
+  export type GetMembers = Response<MemberDto[]>;
+  export type CreateMember = Response<MemberDto, MemberCreationDto>;
+  export type DeleteMember = Response<boolean>;
+  export type UpdateMember = Response<MemberDto, MemberCreationDto>;
+  export type UploadExcel = Response<boolean>;
+}

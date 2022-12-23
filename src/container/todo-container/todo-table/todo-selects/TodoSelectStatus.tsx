@@ -3,27 +3,26 @@ import React, { useState } from "react";
 
 import { Select } from "@/components";
 import { TOptionProps } from "@/components/elements/select/type";
-import { Task, TodoStatusId } from "@/features/types";
+import { Task, TASK_STATUS_FROM_ID_TO_READABLE } from "@/features/types";
 import { enumToArray } from "@/utils/funcs/enum-to-array";
 
-import { TODO_STATUS_MAP_FROM_ID } from "../../mapper";
 import { COLOR_MAP } from "./type";
 
 type TProps = {
   task: Task;
-  onStatusChange: (status: TodoStatusId, task: Task) => void;
+  onStatusChange: (status: Task.StatusIds, task: Task) => void;
 };
 
 export const TodoSelectStatus: React.FC<TProps> = ({
   task,
   onStatusChange,
 }) => {
-  const [_status, _setStatus] = useState<TOptionProps<null, TodoStatusId>>({
-    label: TODO_STATUS_MAP_FROM_ID[task.status],
+  const [_status, _setStatus] = useState<TOptionProps<null, Task.StatusIds>>({
+    label: TASK_STATUS_FROM_ID_TO_READABLE[task.status],
     value: task.status,
   });
 
-  const handleChangeStatus = (status: TOptionProps<null, TodoStatusId>) => {
+  const handleChangeStatus = (status: TOptionProps<null, Task.StatusIds>) => {
     onStatusChange(status.value, task);
   };
   return (
@@ -36,9 +35,9 @@ export const TodoSelectStatus: React.FC<TProps> = ({
       classNameList="w-24 bg-white"
       style="none"
       isShowArrow
-      list={enumToArray(TodoStatusId).map((item) => ({
+      list={enumToArray(Task.StatusIds).map((item) => ({
         value: item,
-        label: TODO_STATUS_MAP_FROM_ID[item],
+        label: TASK_STATUS_FROM_ID_TO_READABLE[item],
       }))}
       renderOption={(option, isChosen) => (
         <button
