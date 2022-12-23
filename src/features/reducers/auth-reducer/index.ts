@@ -54,11 +54,12 @@ export const logoutAsync = createAsyncThunk(
   async function (_, { dispatch }) {
     try {
       await AuthApi.logout();
+      TokenService.clearToken();
+      dispatch(setIsAuth(false));
     } catch (e) {
       throw new Error(e);
     } finally {
       dispatch({ type: "auth/logout" });
-      dispatch(logout());
     }
   }
 );
@@ -72,10 +73,6 @@ export const authSlice = createSlice({
     },
     setIsAlreadyGetMe: (state, action: PayloadAction<boolean>) => {
       state.isAlreadyGetMe = action.payload;
-    },
-    logout: (state) => {
-      state.isAuth = false;
-      TokenService.clearToken();
     },
     updateCurrentUser: (state, action: PayloadAction<Profile>) => {
       const { avatarUrl, ...rest } = action.payload;
@@ -103,7 +100,7 @@ export const authSlice = createSlice({
 });
 export const authStore = (state: RootState) => state.user;
 
-export const { setIsAuth, logout, setIsAlreadyGetMe, updateCurrentUser } =
+export const { setIsAuth, setIsAlreadyGetMe, updateCurrentUser } =
   authSlice.actions;
 
 export default authSlice.reducer;
