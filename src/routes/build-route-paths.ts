@@ -131,8 +131,7 @@ function isRoutePathsRootConfig(
  * - Get Config route url (config): `configRoutePaths.url` 
  * - Get RolePermission route url (config/role-permission): `configRoutePaths.children.rolePermission.url` 
  * - Navigate with dynamic route (config/[tab]): `configRoutePaths.children.tab.dynamicUrl({tab: "someId"})` 
- * - Get url of route after dynamic route (config/[tab]/otherPath):  
- * `configRoutePaths.children.tab.children({tab: "someID"}).otherPath.url`
+ * - Get url of route after dynamic route (config/[tab]/otherPath): `configRoutePaths.children.tab.children({tab: "someID"}).otherPath.url`
  */
 export function buildRoutePaths<T extends RoutePathsConfig>(
   config: T,
