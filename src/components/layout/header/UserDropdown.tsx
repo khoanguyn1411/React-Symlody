@@ -1,9 +1,10 @@
 import classNames from "classnames";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
 import { useAppDispatch } from "@/features";
-import { logoutAsync } from "@/features/reducers";
+import { getOrganizationAsync, logoutAsync } from "@/features/reducers";
 import { Organization, Profile } from "@/features/types";
 import { routePaths } from "@/routes";
 
@@ -31,6 +32,11 @@ type TProps = {
 export const UserDropdown: React.FC<TProps> = ({ user, organization }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getOrganizationAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChangeMenu = (item: TItemListSelect) => {
     if (item.key === "LOGOUT") {
