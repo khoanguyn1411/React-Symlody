@@ -14,8 +14,8 @@ export const configInfoAdapter = createEntityAdapter<UserShort>({
 
 export const initialState = configInfoAdapter.getInitialState<ConfigInfosInner>(
   {
-    pendingConfigManager: false,
-    pendingOrganization: false,
+    pendingConfigManager: true,
+    pendingOrganization: true,
     organization: null,
   }
 );
