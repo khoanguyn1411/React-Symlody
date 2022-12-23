@@ -1,6 +1,7 @@
 import { Container } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { setFilterParamsPropertyAsync } from "@/features/reducers";
+import { setPropertyFilterParams } from "@/features/reducers";
+import { CommonFilterParams } from "@/features/types/models/filter-params";
 
 export const PropertyPagination: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -10,42 +11,19 @@ export const PropertyPagination: React.FC = () => {
   const propertyStore = useAppSelector((state) => state.property);
   const propertyCount = propertyStore.currentPropertyList.length;
 
-  const handlePaginationChange = (page: number) => {
-    dispatch(
-      setFilterParamsPropertyAsync({
-        page,
-      })
-    );
-  };
-  const handleResetPagination = () => {
-    dispatch(
-      setFilterParamsPropertyAsync({
-        page: 1,
-      })
-    );
-  };
-  const handleLimitChange = (_page: number, limit: number) => {
-    dispatch(
-      setFilterParamsPropertyAsync({
-        page: 1,
-        limit,
-      })
-    );
+  const handlePaginationChange = (config: CommonFilterParams.Pagination) => {
+    dispatch(setPropertyFilterParams(config));
   };
 
   return (
     <Container.Pagination
       count={propertyCount}
       defaultLimit={propertyStore.filterParamsProperty.limit}
-      onResetPagination={{
-        changeListener: [
-          propertyStore.filterParamsProperty.isArchived,
-          propertyStore.filterParamsProperty.search,
-        ],
-        callback: handleResetPagination,
-      }}
-      onLimitChange={handleLimitChange}
-      onPaginationChange={handlePaginationChange}
+      onResetListeners={[
+        propertyStore.filterParamsProperty.isArchived,
+        propertyStore.filterParamsProperty.search,
+      ]}
+      onChange={handlePaginationChange}
     />
   );
 };

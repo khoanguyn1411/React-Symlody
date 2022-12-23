@@ -8,11 +8,9 @@ type TProps = {
 };
 
 export const PaginationItem: React.FC<TProps> = ({ pageIndex }) => {
-  const { activePage, setActivePage, onPaginationChange, limit } =
-    usePaginationContext();
+  const { setConfig, config } = usePaginationContext();
   const handleChangeActivePage = () => {
-    setActivePage(pageIndex);
-    onPaginationChange && onPaginationChange(pageIndex, limit);
+    setConfig({ page: pageIndex });
   };
 
   return (
@@ -22,7 +20,7 @@ export const PaginationItem: React.FC<TProps> = ({ pageIndex }) => {
         "min-w-[32px] px-2 hover:bg-primary-50 hover:transition-colors hover:duration-200 h-8 flex items-center justify-center cursor-pointer",
         {
           "bg-primary-800 text-white hover:bg-primary-800 font-semibold":
-            activePage === pageIndex,
+            config.page === pageIndex,
           "rounded-l-[5px]": pageIndex === 1,
         }
       )}

@@ -7,7 +7,7 @@ import React, {
 
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
-import { setFilterParamsTask } from "@/features/reducers/task-reducer";
+import { setTaskFilterParams } from "@/features/reducers/task-reducer";
 import { User, userMapper } from "@/features/types";
 
 import { DEFAULT_DISPLAY_MEMBER_COUNT } from "./constant";
@@ -56,7 +56,7 @@ export const TodoMemberView: React.FC<TProps> = ({ isLoading }) => {
   ]);
 
   useLayoutEffect(() => {
-    dispatch(setFilterParamsTask({ selectedMemberList: selectedMembers }));
+    dispatch(setTaskFilterParams({ selectedMemberList: selectedMembers }));
   }, [dispatch, selectedMembers]);
 
   return (

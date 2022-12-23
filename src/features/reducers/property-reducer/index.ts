@@ -11,7 +11,6 @@ import {
 import { propertyFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import { PropertyFilterParams } from "@/features/types/models/filter-params";
 import { ErrorHandler } from "@/utils/funcs/error-handler";
-import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
 import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 import { ReduxThunk } from "@/utils/types";
 
@@ -81,55 +80,20 @@ export const deletePropertyAsync = createAsyncThunk<
   return rejectWithValue(null);
 });
 
-export const paginatePropertyAsync = createAsyncThunk<void, undefined>(
-  "property/paginate",
-  async (_, { dispatch }) => {
-    const reduxStore = store.getState();
-    const propertyState = reduxStore.property;
-    const { currentPropertyList } = propertyState;
-    const { page, limit } = propertyState.filterParamsProperty;
-    const propertyListPagination = currentPropertyList.slice(
-      (page - 1) * limit,
-      page * limit
-    );
-    dispatch(setPropertyListWithPagination(propertyListPagination));
-  }
-);
-
-export const setFilterParamsPropertyAsync = createAsyncThunk<
+export const setPropertyFilterParams = createAsyncThunk<
   void,
   Partial<PropertyFilterParams>
 >("property/set-filter-params", async (params, { dispatch }) => {
   const reduxStore = store.getState();
   const currentPropertyParams = reduxStore.property.filterParamsProperty;
-  dispatch(setFilterParamsProperty({ ...currentPropertyParams, ...params }));
+  dispatch(_setPropertyFilterParams({ ...currentPropertyParams, ...params }));
 });
-
-export const filterPropertyBySearchAsync = createAsyncThunk<void, string>(
-  "property/filter-by-search",
-  async (search, { dispatch }) => {
-    const reduxStore = store.getState();
-    const propertyState = reduxStore.property;
-    const propertyList = propertySelectors.selectAll(reduxStore);
-    const { currentPropertyList } = propertyState;
-    dispatch(setFilterParamsPropertyAsync({ search: search }));
-    if (!search) {
-      dispatch(setCurrentPropertyList(propertyList));
-      return;
-    }
-    const newListProperty = currentPropertyList.filter((item) =>
-      isTextIncludedIn(item.name, search)
-    );
-
-    dispatch(setCurrentPropertyList(newListProperty));
-  }
-);
 
 export const propertySlice = createSlice({
   name: "property",
   initialState,
   reducers: {
-    setFilterParamsProperty(
+    _setPropertyFilterParams(
       state,
       action: PayloadAction<PropertyFilterParams>
     ) {
@@ -207,7 +171,7 @@ export const propertySelectors = propertyAdapter.getSelectors(
 );
 export const propertyStore = (state: RootState) => state.property;
 export const {
-  setFilterParamsProperty,
+  _setPropertyFilterParams,
   setCurrentPropertyList,
   setPropertyListWithPagination,
 } = propertySlice.actions;

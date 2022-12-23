@@ -13,11 +13,9 @@ import { TOptionProps } from "@/components/elements/select/type";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deleteMemberAsync,
-  filterMemberBySearchAsync,
   getMembersAsync,
   memberSelectors,
-  paginateMemberAsync,
-  setFilterParamsMemberAsync,
+  setMemberFilterParams,
   updateMemberAsync,
 } from "@/features/reducers";
 import { Member, Roles, RolesID } from "@/features/types";
@@ -32,6 +30,7 @@ import {
 } from "./constant";
 import { ModalCreateMember, ModalEditMember } from "./member-modal";
 import { MemberPagination } from "./member-pagination";
+import { useMemberPagination } from "./member-pagination/useMemberPagination";
 import { MemberTableContent } from "./member-table-content";
 
 const getFilterValue = (value: string) => {
@@ -46,6 +45,7 @@ export const MemberContainer: React.FC = () => {
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<Member>();
   const propsSearch = useDebounce(memberStore.filterParamsMember.search);
+  const { paginate, filterBySearch } = useMemberPagination();
 
   const isMemberManager = currentUser.isRole([Roles.Lead, Roles.MemberManager]);
 
@@ -65,13 +65,13 @@ export const MemberContainer: React.FC = () => {
   const handleSetFilter = (item: TOptionProps) => {
     switch (item.value) {
       case MEMBER_FILTER_VALUE.all:
-        dispatch(setFilterParamsMemberAsync({ isArchived: null }));
+        dispatch(setMemberFilterParams({ isArchived: null }));
         break;
       case MEMBER_FILTER_VALUE.isArchived:
-        dispatch(setFilterParamsMemberAsync({ isArchived: true }));
+        dispatch(setMemberFilterParams({ isArchived: true }));
         break;
       case MEMBER_FILTER_VALUE.active:
-        dispatch(setFilterParamsMemberAsync({ isArchived: false }));
+        dispatch(setMemberFilterParams({ isArchived: false }));
         break;
     }
   };
@@ -89,7 +89,6 @@ export const MemberContainer: React.FC = () => {
       updateMemberAsync({
         payload: {
           ...item,
-          avatar: undefined,
           authAccount: {
             ...item.authAccount,
             email: undefined,
@@ -115,16 +114,17 @@ export const MemberContainer: React.FC = () => {
   useEffect(() => {
     dispatch(getMembersAsync(memberStore.filterParamsMember));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, memberStore.filterParamsMember.isArchived]);
+  }, [memberStore.filterParamsMember.isArchived]);
 
   useEffect(() => {
-    dispatch(filterMemberBySearchAsync(propsSearch.debounceValue));
-  }, [dispatch, propsSearch.debounceValue, memberList]);
+    filterBySearch(propsSearch.debounceValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [propsSearch.debounceValue, memberList]);
 
   useEffect(() => {
-    dispatch(paginateMemberAsync());
+    paginate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    dispatch,
     memberStore.filterParamsMember.page,
     memberStore.filterParamsMember.limit,
     memberStore.currentMemberList,
