@@ -7,17 +7,17 @@ import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const BASE_URL = "user";
-const userUrls = new ComposeUrlService(BASE_URL);
+const userUrlService = new ComposeUrlService(BASE_URL);
 
-const apiModuleUrls = {
-  getUsers: userUrls.getBaseUrl(),
-  updateProfile: userUrls.composeWith(["update_profile"]),
-  changePassword: userUrls.composeWith(["change_password"]),
+const userUrls = {
+  getUsers: userUrlService.getBaseUrl(),
+  updateProfile: userUrlService.composeWith(["update_profile"]),
+  changePassword: userUrlService.composeWith(["change_password"]),
 };
 
 export const UserApi = {
   async getUsers(): Promise<Types.RequestGetUsersResult> {
-    const url = apiModuleUrls.getUsers;
+    const url = userUrls.getUsers;
     const method = http.get<UserDto[]>(url);
     return composeHttpMethodResult(method);
   },
@@ -25,14 +25,14 @@ export const UserApi = {
   async updateProfile(
     profile: FormData
   ): Promise<Types.RequestUpdateProfileResult> {
-    const url = apiModuleUrls.updateProfile;
+    const url = userUrls.updateProfile;
     return composeHttpMethodResult(http.patch<ProfileDto>(url, profile));
   },
 
   async changePassword(
     body: ChangePasswordDto
   ): Promise<Types.RequestChangePasswordResult> {
-    const url = apiModuleUrls.changePassword;
+    const url = userUrls.changePassword;
     return composeHttpMethodResult(http.post<boolean>(url, body));
   },
 };

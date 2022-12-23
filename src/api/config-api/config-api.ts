@@ -12,20 +12,20 @@ import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const BASE_URL = "config";
-const configUrls = new ComposeUrlService(BASE_URL);
+const configUrlService = new ComposeUrlService(BASE_URL);
 
-const apiModuleUrls = {
-  getOrganization: configUrls.getBaseUrl(),
+const configUrls = {
+  getOrganization: configUrlService.getBaseUrl(),
   updateOrganization: (id: Organization["id"]) =>
-    configUrls.constructUrlWithId(id),
-  getConfigManager: configUrls.composeWith(["managers"]),
+    configUrlService.constructUrlWithId(id),
+  getConfigManager: configUrlService.composeWith(["managers"]),
   updateConfigRoleUser: (userId: User["id"]) =>
-    configUrls.composeWith(["roles", `${userId}`]),
+    configUrlService.composeWith(["roles", `${userId}`]),
 };
 
 export const ConfigApi = {
   async getOrganization(): Promise<Types.RequestGetOrganizationResult> {
-    const url = apiModuleUrls.getOrganization;
+    const url = configUrls.getOrganization;
     const method = http.get<OrganizationDto>(url);
     return composeHttpMethodResult(method);
   },
@@ -34,12 +34,12 @@ export const ConfigApi = {
     id: number,
     body: FormData
   ): Promise<Types.RequestUpdateOrganizationResult> {
-    const url = apiModuleUrls.updateOrganization(id);
+    const url = configUrls.updateOrganization(id);
     return composeHttpMethodResult(http.patch<OrganizationDto>(url, body));
   },
 
   async getConfigManager(): Promise<Types.RequestGetConfigManagerResult> {
-    const url = apiModuleUrls.getConfigManager;
+    const url = configUrls.getConfigManager;
     const method = http.get<LeadersAndManagersDto>(url);
     return composeHttpMethodResult(method);
   },
@@ -48,7 +48,7 @@ export const ConfigApi = {
     params: Types.RequestParamsConfigRoleUser,
     id: UserShortDto["id"]
   ): Promise<Types.RequestUpdateConfigRoleUserResult> {
-    const url = apiModuleUrls.updateConfigRoleUser(id);
+    const url = configUrls.updateConfigRoleUser(id);
     const method = http.patch<UserShortDto>(url, params);
     return composeHttpMethodResult(method);
   },

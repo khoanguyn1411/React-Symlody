@@ -14,35 +14,35 @@ import * as Types from "./types";
 
 const BASE_URL_LOGIN = "login";
 const BASE_URL_LOGOUT = "logout";
-const loginUrls = new ComposeUrlService(BASE_URL_LOGIN);
-const logoutUrls = new ComposeUrlService(BASE_URL_LOGOUT);
+const loginUrlService = new ComposeUrlService(BASE_URL_LOGIN);
+const logoutUrlService = new ComposeUrlService(BASE_URL_LOGOUT);
 
-const apiModuleUrls = {
-  login: loginUrls.getBaseUrl(),
-  logout: logoutUrls.getBaseUrl(),
-  refreshToken: loginUrls.composeWith(["refresh"]),
-  getProfile: loginUrls.getBaseUrl(),
+const loginUrls = {
+  login: loginUrlService.getBaseUrl(),
+  logout: logoutUrlService.getBaseUrl(),
+  refreshToken: loginUrlService.composeWith(["refresh"]),
+  getProfile: loginUrlService.getBaseUrl(),
 };
 
 export const AuthApi = {
   async login(loginInfo: LoginDto): Promise<Types.RequestLoginResult> {
-    const url = apiModuleUrls.login;
+    const url = loginUrls.login;
     return composeHttpMethodResult(http.post<TokenDto>(url, loginInfo));
   },
 
   async getProfile(): Promise<Types.RequestGetProfileResult> {
-    const url = apiModuleUrls.getProfile;
+    const url = loginUrls.getProfile;
     return composeHttpMethodResult(http.get<ProfileDto>(url));
   },
 
   async logout(): Promise<Types.RequestLogoutResult> {
-    const url = apiModuleUrls.logout;
+    const url = loginUrls.logout;
     return composeHttpMethodResult(http.post<boolean>(url));
   },
 
   async refreshToken(token: Token): Promise<Types.RequestRefreshResult> {
     const tokenRefreshDto = tokenMapper.toTokenRefreshCreationDto(token);
-    const url = apiModuleUrls.refreshToken;
+    const url = loginUrls.refreshToken;
     return composeHttpMethodResult(
       http.post<TokenRefreshDto>(url, tokenRefreshDto)
     );

@@ -7,19 +7,20 @@ import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const BASE_URL = "member";
-const memberUrl = new ComposeUrlService(BASE_URL);
+const memberUrlService = new ComposeUrlService(BASE_URL);
 
-const apiModuleUrls = {
-  ...memberUrl.composeCommonAPIMethodUrls(),
-  delete: (id: Member["id"]) => memberUrl.composeWith(["archive", `${id}`]),
-  uploadMemberExcelFile: memberUrl.composeWith(["bulk"]),
+const memberUrls = {
+  ...memberUrlService.composeCommonAPIMethodUrls(),
+  delete: (id: Member["id"]) =>
+    memberUrlService.composeWith(["archive", `${id}`]),
+  uploadMemberExcelFile: memberUrlService.composeWith(["bulk"]),
 };
 
 export const MemberApi = {
   async getMembers(
     param: MemberFilterParamsDto
   ): Promise<Types.RequestGetMembersResult> {
-    const url = apiModuleUrls.getAndCreate;
+    const url = memberUrls.getAndCreate;
     const method = http.get<MemberDto[]>(url, param);
     return composeHttpMethodResult(method);
   },
@@ -27,7 +28,7 @@ export const MemberApi = {
   async deleteMember(
     id: Member["id"]
   ): Promise<Types.RequestDeleteMembersResult> {
-    const url = apiModuleUrls.delete(id);
+    const url = memberUrls.delete(id);
     const method = http.delete<boolean>(url);
     return composeHttpMethodResult(method);
   },
@@ -35,7 +36,7 @@ export const MemberApi = {
   async createMember(
     body: MemberCreationDto
   ): Promise<Types.RequestCreateMembersResult> {
-    const url = apiModuleUrls.getAndCreate;
+    const url = memberUrls.getAndCreate;
     const method = http.post<MemberDto>(url, body);
     return composeHttpMethodResult(method);
   },
@@ -44,7 +45,7 @@ export const MemberApi = {
     id: Member["id"],
     body: MemberCreationDto
   ): Promise<Types.RequestUpdateMembersResult> {
-    const url = apiModuleUrls.updateAndDeleteWithId(id);
+    const url = memberUrls.updateAndDeleteWithId(id);
     const method = http.patch<MemberDto>(url, body);
     return composeHttpMethodResult(method);
   },
@@ -52,7 +53,7 @@ export const MemberApi = {
   async uploadMemberExcelFile(
     body: FormData
   ): Promise<Types.RequestUploadMemberExcelFileResult> {
-    const url = apiModuleUrls.uploadMemberExcelFile;
+    const url = memberUrls.uploadMemberExcelFile;
     const method = http.post<boolean>(url, body);
     return composeHttpMethodResult(method);
   },

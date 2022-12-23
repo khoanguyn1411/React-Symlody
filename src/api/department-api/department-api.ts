@@ -6,20 +6,20 @@ import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const BASE_URL = "department";
-const departmentUrls = new ComposeUrlService(BASE_URL);
+const departmentUrlService = new ComposeUrlService(BASE_URL);
 
-const apiModuleUrls = departmentUrls.composeCommonAPIMethodUrls();
+const departmentUrls = departmentUrlService.composeCommonAPIMethodUrls();
 
 export const DepartmentApi = {
   async getDepartments(): Promise<Types.RequestGetDepartmentResult> {
-    const url = apiModuleUrls.getAndCreate;
+    const url = departmentUrls.getAndCreate;
     return composeHttpMethodResult(http.get<DepartmentDto[]>(url));
   },
 
   async createDepartment(
     body: Types.RequestCreateDepartmentBody
   ): Promise<Types.RequestCreateDepartmentResult> {
-    const url = apiModuleUrls.getAndCreate;
+    const url = departmentUrls.getAndCreate;
     return composeHttpMethodResult(http.post<DepartmentDto>(url, body));
   },
 
@@ -27,14 +27,14 @@ export const DepartmentApi = {
     id: number,
     body: Types.RequestUpdateDepartmentBody
   ): Promise<Types.RequestUpdateDepartmentResult> {
-    const url = apiModuleUrls.updateAndDeleteWithId(id);
+    const url = departmentUrls.updateAndDeleteWithId(id);
     return composeHttpMethodResult(http.patch<DepartmentDto>(url, body));
   },
 
   async deleteDepartment(
     id: number
   ): Promise<Types.RequestDeleteDepartmentResult> {
-    const url = apiModuleUrls.updateAndDeleteWithId(id);
+    const url = departmentUrls.updateAndDeleteWithId(id);
     return composeHttpMethodResult(http.delete<boolean>(url));
   },
 };

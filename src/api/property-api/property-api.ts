@@ -7,15 +7,15 @@ import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const BASE_URL = "property";
-const propertyUrls = new ComposeUrlService(BASE_URL);
+const propertyUrlService = new ComposeUrlService(BASE_URL);
 
-const apiModuleUrls = propertyUrls.composeCommonAPIMethodUrls();
+const propertyUrls = propertyUrlService.composeCommonAPIMethodUrls();
 
 export const PropertyApi = {
   async getProperties(
     param: PropertyFilterParamsDto
   ): Promise<Types.RequestGetPropertiesResult> {
-    const url = apiModuleUrls.getAndCreate;
+    const url = propertyUrls.getAndCreate;
     const method = http.get<PropertyDto[]>(url, param);
     return composeHttpMethodResult(method);
   },
@@ -23,7 +23,7 @@ export const PropertyApi = {
   async createProperty(
     body: FormData
   ): Promise<Types.RequestCreatePropertyResult> {
-    const url = apiModuleUrls.getAndCreate;
+    const url = propertyUrls.getAndCreate;
     const method = http.post<PropertyDto>(url, body);
     return composeHttpMethodResult(method);
   },
@@ -31,7 +31,7 @@ export const PropertyApi = {
   async deleteProperty(
     id: Property["id"]
   ): Promise<Types.RequestDeletePropertyResult> {
-    const url = apiModuleUrls.updateAndDeleteWithId(id);
+    const url = propertyUrls.updateAndDeleteWithId(id);
     const method = http.delete<boolean>(url);
 
     return composeHttpMethodResult(method);
@@ -41,7 +41,7 @@ export const PropertyApi = {
     id: Property["id"],
     body: FormData
   ): Promise<Types.RequestUpdatePropertyResult> {
-    const url = apiModuleUrls.updateAndDeleteWithId(id);
+    const url = propertyUrls.updateAndDeleteWithId(id);
     const method = http.patch<PropertyDto>(url, body);
     return composeHttpMethodResult(method);
   },

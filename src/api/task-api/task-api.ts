@@ -7,21 +7,21 @@ import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const BASE_URL = "task";
-const taskUrls = new ComposeUrlService(BASE_URL);
+const taskUrlService = new ComposeUrlService(BASE_URL);
 
-const apiModuleUrls = taskUrls.composeCommonAPIMethodUrls();
+const taskUrls = taskUrlService.composeCommonAPIMethodUrls();
 
 export const TaskApi = {
   async getTasks(
     param: TaskFilterParamsDto
   ): Promise<Types.RequestGetTasksResult> {
-    const url = apiModuleUrls.getAndCreate;
+    const url = taskUrls.getAndCreate;
     const method = http.get<TaskDto[]>(url, param);
     return composeHttpMethodResult(method);
   },
 
   async deleteTask(id: Task["id"]): Promise<Types.RequestDeleteTasksResult> {
-    const url = apiModuleUrls.updateAndDeleteWithId(id);
+    const url = taskUrls.updateAndDeleteWithId(id);
     const method = http.delete<boolean>(url);
     return composeHttpMethodResult(method);
   },
@@ -29,7 +29,7 @@ export const TaskApi = {
   async createTask(
     body: TaskCreationDto
   ): Promise<Types.RequestCreateTasksResult> {
-    const url = apiModuleUrls.getAndCreate;
+    const url = taskUrls.getAndCreate;
     const method = http.post<TaskDto>(url, body);
     return composeHttpMethodResult(method);
   },
@@ -38,7 +38,7 @@ export const TaskApi = {
     id: Task["id"],
     body: TaskCreationDto
   ): Promise<Types.RequestUpdateTasksResult> {
-    const url = apiModuleUrls.updateAndDeleteWithId(id);
+    const url = taskUrls.updateAndDeleteWithId(id);
     const method = http.patch<TaskDto>(url, body);
     return composeHttpMethodResult(method);
   },

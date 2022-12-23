@@ -6,13 +6,13 @@ import { composeHttpMethodResult } from "../api-utilities";
 import * as Types from "./types";
 
 const BASE_URL = "event";
-const eventUrls = new ComposeUrlService(BASE_URL);
+const eventUrlService = new ComposeUrlService(BASE_URL);
 
-const apiModuleUrls = eventUrls.composeCommonAPIMethodUrls();
+const eventUrls = eventUrlService.composeCommonAPIMethodUrls();
 
 export const EventApi = {
   async getEvents(): Promise<Types.RequestGetEventResult> {
-    const url = apiModuleUrls.getAndCreate;
+    const url = eventUrls.getAndCreate;
     return composeHttpMethodResult(http.get<IEventDto[]>(url));
   },
 };
