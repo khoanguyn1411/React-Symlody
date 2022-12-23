@@ -6,5 +6,5 @@ export namespace AuthApiResponse {
   export type Login = Response<TokenDto>;
   export type GetProfile = Response<ProfileDto>;
   export type Logout = Response<boolean>;
-  export type Refresh = Response<TokenRefreshDto>;
+  export type RefreshToken = Response<TokenRefreshDto>;
 }

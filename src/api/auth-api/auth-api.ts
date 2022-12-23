@@ -43,7 +43,7 @@ export namespace AuthApi {
 
   export async function refreshToken(
     token: Token
-  ): Promise<AuthApiResponse.Refresh> {
+  ): Promise<AuthApiResponse.RefreshToken> {
     const tokenRefreshDto = tokenMapper.toTokenRefreshCreationDto(token);
     const url = loginUrls.refreshToken;
     return composeHttpMethodResult(
