@@ -139,7 +139,7 @@ export const TodoColumn: React.FC<TProps> = ({
                               snapshot.draggingFromThisWith &&
                             draggingCard.isCardDragging &&
                             isColumnNotInDragging
-                              ? "hidden"
+                              ? "opacity-0"
                               : undefined
                           }
                           aria-hidden
