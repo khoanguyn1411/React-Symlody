@@ -1,9 +1,10 @@
 import { ApiErrorResponse } from "apisauce";
 
 import { DetailErrorDto, HttpErrorDto } from "@/features/types";
+import { AppResponseDto } from "@/features/types/dtos/app-response.dto";
 import { RecordObject } from "@/utils/types";
 
-import { getGeneralApiProblem, Kind, Response } from "./api-response";
+import { getGeneralApiProblem, Kind } from "./api-response";
 
 class ApiError {
   private isAxiosError(error: any): error is ApiErrorResponse<any> {
@@ -44,49 +45,51 @@ class ApiError {
     return hasDetails && isArray && isNotExceedKey;
   }
 
-  public composeErrors<TResult, TError>(
+  public composeErrors<TResultDto, TErrorDto>(
     error: unknown
-  ): Response<TResult, TError> {
+  ): AppResponseDto<TResultDto, TErrorDto> {
     if (!this.isAxiosError(error)) {
       return {
         kind: "unknown",
-        result: null,
-        unknownError: error,
-        httpError: null,
+        result_dto: null,
+        unknown_error_dto: error,
+        http_error_dto: null,
       };
     }
     const kind = getGeneralApiProblem(error);
     const isHttpError = this.validateHttpError(error.data, kind);
     if (isHttpError) {
       const rootHttpError = error.data;
-      let httpError: Response<TResult, TError>["httpError"];
+      let httpError: AppResponseDto<TResultDto, TErrorDto>["http_error_dto"];
       if (Array.isArray(rootHttpError)) {
-        httpError = { non_field_errors: rootHttpError } as HttpErrorDto<TError>;
-      } else if (this.isErrorWithDetail<TError>(rootHttpError)) {
+        httpError = {
+          non_field_errors: rootHttpError,
+        } as HttpErrorDto<TErrorDto>;
+      } else if (this.isErrorWithDetail<TErrorDto>(rootHttpError)) {
         httpError = rootHttpError.details;
       } else if (this.isErrorWithError(rootHttpError)) {
         httpError = {
           non_field_errors: [rootHttpError.error],
-        } as HttpErrorDto<TError>;
+        } as HttpErrorDto<TErrorDto>;
       } else if (this.isErrorWithArrayDetails(rootHttpError)) {
         httpError = {
           non_field_errors: rootHttpError.details,
-        } as HttpErrorDto<TError>;
+        } as HttpErrorDto<TErrorDto>;
       } else {
-        httpError = rootHttpError as HttpErrorDto<TError>;
+        httpError = rootHttpError as HttpErrorDto<TErrorDto>;
       }
       return {
         kind: kind,
-        result: null,
-        unknownError: null,
-        httpError: httpError,
+        result_dto: null,
+        unknown_error_dto: null,
+        http_error_dto: httpError,
       };
     }
     return {
       kind: kind,
-      result: null,
-      unknownError: error.data,
-      httpError: null,
+      result_dto: null,
+      unknown_error_dto: error.data,
+      http_error_dto: null,
     };
   }
 }

@@ -19,7 +19,7 @@ export const getTasksAsync = createAsyncThunk<
   const paramDto = taskFilterParamsMapper.toDto(param);
   const result = await TaskApi.getTasks(paramDto);
   if (result.kind === "ok") {
-    return result.result.map((item) => taskMapper.fromDto(item));
+    return result.result_dto.map((item) => taskMapper.fromDto(item));
   }
   return rejectWithValue([]);
 });
@@ -52,7 +52,7 @@ export const createTaskAsync = createAsyncThunk<
   const result = await TaskApi.createTask(taskDto);
   if (result.kind === "ok") {
     return {
-      task: taskMapper.fromDto(result.result),
+      task: taskMapper.fromDto(result.result_dto),
       shouldAddOne: isInSelectedDepartment,
     };
   }
@@ -81,7 +81,7 @@ export const updateTaskAsync = createAsyncThunk<
     assignee.departmentId !== currentDepartmentId;
   if (result.kind === "ok") {
     return {
-      task: taskMapper.fromDto(result.result),
+      task: taskMapper.fromDto(result.result_dto),
       shouldRemoveOne: isNotInSelectedDepartment,
     };
   }

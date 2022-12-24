@@ -51,7 +51,7 @@ const TabCreateAMember: React.FC = () => {
     });
     const res = await dispatch(createMemberAsync(memberModel));
     if (createMemberAsync.rejected.match(res)) {
-      const errors = res.payload;
+      const errors = res.payload.httpError;
       if (errors) {
         FormService.generateErrors({
           errors,

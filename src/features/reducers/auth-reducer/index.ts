@@ -30,7 +30,7 @@ export const loginAsync = createAsyncThunk<
   const loginInfoDto = loginMapper.toDto(payload);
   const result = await AuthApi.login(loginInfoDto);
   if (result.kind === "ok") {
-    TokenService.setToken(tokenMapper.fromDto(result.result));
+    TokenService.setToken(tokenMapper.fromDto(result.result_dto));
     return true;
   }
   return rejectWithValue(false);
@@ -43,7 +43,7 @@ export const getMeAsync = createAsyncThunk<
 >("auth/get-me", async (_, { rejectWithValue }) => {
   const result = await AuthApi.getProfile();
   if (result.kind === "ok") {
-    return profileMapper.fromDto(result.result);
+    return profileMapper.fromDto(result.result_dto);
   }
 
   return rejectWithValue(null);

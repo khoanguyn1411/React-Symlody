@@ -1,11 +1,20 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
-import { Organization, UserShort } from "@/features/types";
+import {
+  ErrorResponse,
+  HttpError,
+  Organization,
+  OrganizationCreation,
+  UserPermissionConfigCreation,
+  UserShort,
+} from "@/features/types";
 
 export interface ConfigInfosInner {
   pendingConfigManager: boolean;
   pendingOrganization: boolean;
   organization: Organization;
+  errorsUserPermissionConfig: HttpError<UserPermissionConfigCreation>;
+  errorsOrganization: HttpError<OrganizationCreation>;
 }
 
 export const configInfoAdapter = createEntityAdapter<UserShort>({
@@ -17,6 +26,8 @@ export const initialState = configInfoAdapter.getInitialState<ConfigInfosInner>(
     pendingConfigManager: true,
     pendingOrganization: true,
     organization: null,
+    errorsUserPermissionConfig: null,
+    errorsOrganization: null,
   }
 );
 

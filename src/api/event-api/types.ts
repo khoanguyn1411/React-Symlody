@@ -1,7 +1,5 @@
-import { IEventDto } from "@/features/types";
-
-import { Response } from "../api-response";
+import { AppResponseDto, IEventDto } from "@/features/types";
 
 export namespace EventApiResponse {
-  export type GetEvents = Response<IEventDto[]>;
+  export type GetEvents = AppResponseDto<IEventDto[]>;
 }

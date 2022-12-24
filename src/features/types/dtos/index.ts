@@ -1,3 +1,4 @@
+export * from "./app-response.dto";
 export * from "./auth-account.dto";
 export * from "./config-permission.dto";
 export * from "./department.dto";

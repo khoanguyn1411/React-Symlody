@@ -10,7 +10,7 @@ type CustomMessage<T> = {
   [P in Path<T>]?: string;
 };
 
-type InputFormError<T> = {
+interface InputFormError<T> {
   /** HttpError (`error.detail` of request's result) */
   errors: T;
 
@@ -22,7 +22,7 @@ type InputFormError<T> = {
 
   /** setError function of `useForm` hook. */
   setError: UseFormSetError<any>;
-};
+}
 
 /** Recursive function for `generateErrors` function.*/
 function generateErrorsRecursive<T extends HttpError<T>>({
@@ -113,6 +113,9 @@ export namespace FormService {
   export function generateErrors<T extends HttpError<T>>(
     inputValue: StrictOmit<InputFormError<T>, "accumulativeKey">
   ): void {
+    if (inputValue.errors == null) {
+      return;
+    }
     return generateErrorsRecursive(inputValue);
   }
 }

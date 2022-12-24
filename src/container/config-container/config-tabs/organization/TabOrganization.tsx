@@ -30,7 +30,9 @@ export const TabOrganization: React.FC = () => {
 };
 
 export const _TabOrganization: React.FC = () => {
-  const { organization } = useAppSelector((state) => state.config);
+  const { organization, errorsOrganization } = useAppSelector(
+    (state) => state.config
+  );
   const currentUser = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
@@ -70,17 +72,17 @@ export const _TabOrganization: React.FC = () => {
     const result = await dispatch(
       updateOrganizationAsync({ id: organization.id, body: data })
     );
-    if (updateOrganizationAsync.rejected.match(result)) {
-      const errors = result.payload;
-      if (errors) {
-        FormService.generateErrors({ errors, setError });
-        return;
-      }
-      toast.error(ORGANIZATION_MESSAGES.update.error);
+    if (updateOrganizationAsync.fulfilled.match(result)) {
+      toast.success(ORGANIZATION_MESSAGES.update.success);
+      reset(getDefaultValue(result.payload));
       return;
     }
-    toast.success(ORGANIZATION_MESSAGES.update.success);
-    reset(getDefaultValue(result.payload));
+    if (errorsOrganization) {
+      FormService.generateErrors({ errors: errorsOrganization, setError });
+      return;
+    }
+    toast.error(ORGANIZATION_MESSAGES.update.error);
+    return;
   };
 
   useEffect(() => {

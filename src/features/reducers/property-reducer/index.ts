@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PropertyApi } from "@/api/property-api";
 import { RootState, store } from "@/features/store";
 import {
-  HttpError,
+  ErrorResponse,
   Property,
   PropertyCreation,
   propertyMapper,
@@ -24,7 +24,7 @@ export const getPropertyAsync = createAsyncThunk<
   const paramDto = propertyFilterParamsMapper.toDto(param);
   const result = await PropertyApi.getProperties(paramDto);
   if (result.kind === "ok") {
-    const propertyList = result.result.map((item) =>
+    const propertyList = result.result_dto.map((item) =>
       propertyMapper.fromDto(item)
     );
     dispatch(setCurrentPropertyList(propertyList));
@@ -36,7 +36,7 @@ export const getPropertyAsync = createAsyncThunk<
 export const createPropertyAsync = createAsyncThunk<
   Property,
   PropertyCreation,
-  ReduxThunk.RejectValue<HttpError<PropertyCreation>>
+  ReduxThunk.RejectValue<ErrorResponse<PropertyCreation>>
 >("property/create", async (payload, { rejectWithValue }) => {
   const result = await PropertyApi.createProperty(
     propertyMapper.toFormData(payload)
@@ -51,20 +51,24 @@ export const createPropertyAsync = createAsyncThunk<
 export const updatePropertyAsync = createAsyncThunk<
   ReduxThunk.RestoreResult<Property>,
   ReduxThunk.RestorePayload<PropertyCreation, Property>,
-  ReduxThunk.RejectValue<HttpError<PropertyCreation>>
+  ReduxThunk.RejectValue<ErrorResponse<PropertyCreation>>
 >(
   "property/update",
   async ({ payload, id, isRestore }, { rejectWithValue }) => {
     const propertyDto = propertyMapper.toFormData(payload);
     const result = await PropertyApi.updateProperty(id, propertyDto);
     if (result.kind === "ok") {
-      const propertyUpdatedInfo = propertyMapper.fromDto(result.result);
+      const propertyUpdatedInfo = propertyMapper.fromDto(result.result_dto);
       return {
         result: propertyUpdatedInfo,
         isRestore,
       };
     }
-    return ErrorHandler.catchHttpError(propertyMapper, result, rejectWithValue);
+    return ErrorHandler.catchErrors({
+      rejectWithValue,
+      mapper: propertyMapper,
+      result,
+    });
   }
 );
 

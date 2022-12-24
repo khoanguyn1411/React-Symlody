@@ -82,7 +82,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
     }
     FormService.generateErrors({
       setError,
-      errors: rolePermissionFormMapper.fromHttpError(result.payload),
+      errors: result.payload.httpError,
     });
     return;
   };
