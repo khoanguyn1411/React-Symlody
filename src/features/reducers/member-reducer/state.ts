@@ -1,7 +1,7 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
 import { APP_PAGINATION } from "@/components/elements/pagination/constants";
-import { Member } from "@/features/types";
+import { ErrorResponse, Member, MemberCreation } from "@/features/types";
 import { MemberFilterParams } from "@/features/types/models/filter-params";
 
 export interface MemberStateInner {
@@ -10,6 +10,8 @@ export interface MemberStateInner {
   pendingDeleteMember: boolean;
   pendingUploadFileMember: boolean;
   filterParamsMember: MemberFilterParams;
+
+  errors: ErrorResponse<MemberCreation, "authAccount">;
 
   // Used for pagination and searching in front-end.
   currentMemberList: Member[];
@@ -31,6 +33,8 @@ export const initialState = memberAdapter.getInitialState<MemberStateInner>({
     limit: APP_PAGINATION.DEFAULT_PAGINATION_LIMIT,
     search: "",
   },
+
+  errors: null,
 
   // Used for pagination and searching in front-end.
   currentMemberList: [],

@@ -5,7 +5,6 @@ import { useModalMultipleTabsContext } from "./context";
 export const ModalTab: React.FC<TPropsModalTab> = ({
   handleEvent,
   children,
-  otherActions,
 }) => {
   const { toggle, reset } = useModalMultipleTabsContext();
 
@@ -18,7 +17,6 @@ export const ModalTab: React.FC<TPropsModalTab> = ({
     <form
       onSubmit={handleSubmit}
       className="flex flex-col max-h-[calc(100vh-10rem)]"
-      {...otherActions}
     >
       <ModalBody>{children}</ModalBody>
       <ModalFooter
