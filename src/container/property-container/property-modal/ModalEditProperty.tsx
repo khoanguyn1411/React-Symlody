@@ -57,7 +57,7 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
       })
     );
     if (updatePropertyAsync.rejected.match(res)) {
-      const errors = res.payload;
+      const errors = res.payload.httpError;
       if (errors) {
         FormService.generateErrors({
           errors,

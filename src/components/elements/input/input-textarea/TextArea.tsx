@@ -16,7 +16,7 @@ export const TextArea: React.FC<TInputTextAreaProps> = ({
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>();
   useEffect(() => {
-    if (!textAreaRef?.current) {
+    if (textAreaRef?.current == null) {
       return;
     }
     if (textAreaRef.current.scrollHeight === 0) {

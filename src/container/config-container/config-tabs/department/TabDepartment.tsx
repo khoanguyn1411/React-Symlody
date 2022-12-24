@@ -102,7 +102,7 @@ export const ActionConfigDepartment: React.FC = () => {
     const result = await dispatch(createDepartmentAsync(data));
     if (createDepartmentAsync.rejected.match(result)) {
       if (result.payload) {
-        const errors = result.payload;
+        const errors = result.payload.httpError;
         FormService.generateErrors({ errors, setError });
         return;
       }

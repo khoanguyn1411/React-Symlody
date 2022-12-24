@@ -37,7 +37,7 @@ export const ModalEditDepartment: React.FC<THookModalProps<Department>> = ({
     const result = await dispatch(updateDepartmentAsync({ id: data.id, body }));
     if (updateDepartmentAsync.rejected.match(result)) {
       if (result.payload) {
-        const errors = result.payload;
+        const errors = result.payload.httpError;
         FormService.generateErrors({ errors, setError });
         return;
       }

@@ -44,7 +44,7 @@ export const SelectBase: AppReact.FC.PropsWithChildren<TSelectCustomProps> = ({
   const handleToggleContent = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    if (!wrapperSelectRef || !wrapperSelectRef.current) {
+    if (wrapperSelectRef != null || wrapperSelectRef.current != null) {
       const elementDisplay = displayRef?.current;
       const elementIcon = iconRef?.current;
       if (elementIcon) {

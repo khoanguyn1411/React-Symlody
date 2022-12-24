@@ -1,4 +1,5 @@
 export * from "./animation-custom";
+export * from "./app-form";
 export * from "./avatar";
 export * from "./button";
 export * from "./checkbox";

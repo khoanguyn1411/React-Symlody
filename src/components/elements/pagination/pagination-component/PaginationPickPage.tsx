@@ -8,7 +8,7 @@ export const PaginationPickPage: React.FC = () => {
   const adjustPagination = useMemo(
     () => (target: HTMLInputElement) => {
       const _value = target.value;
-      if (!_value) {
+      if (_value == null) {
         return;
       }
       target.value = "";

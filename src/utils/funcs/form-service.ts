@@ -25,7 +25,7 @@ interface InputFormError<T> {
 }
 
 /** Recursive function for `generateErrors` function.*/
-function generateErrorsRecursive<T extends HttpError<T>>({
+function generateErrorsRecursive<T extends HttpError<RecordObject>>({
   errors,
   accumulativeKey = null,
   customMessage,
@@ -110,7 +110,7 @@ export namespace FormService {
    * - `customMessage`: Custom message if you need to override current backend error.
    * - `setError`: `setError` function of `useForm` hook.
    */
-  export function generateErrors<T extends HttpError<T>>(
+  export function generateErrors<T extends HttpError<RecordObject>>(
     inputValue: StrictOmit<InputFormError<T>, "accumulativeKey">
   ): void {
     if (inputValue.errors == null) {
