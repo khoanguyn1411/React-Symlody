@@ -1,7 +1,5 @@
 import { ApiResponse } from "apisauce";
 
-import { HttpErrorDto } from "@/features/types";
-
 export type Kind =
   | "ok"
   | "timeout" // Times up.
@@ -15,13 +13,6 @@ export type Kind =
   | "unknown" // Something truly unexpected happened. Most likely can try again. This is a catch all.
   | "bad-data" // The data we received is not in the expected format.
   | "payment-required";
-
-export type Response<TResult, TError = TResult> = {
-  readonly kind: Kind;
-  readonly result: TResult;
-  readonly unknownError: unknown;
-  readonly httpError: HttpErrorDto<TError>;
-};
 
 /**
  * Attempts to get a common cause of problems from an api response.

@@ -30,7 +30,7 @@ export function SelectDefaultDisplay<T, E extends Primitive>({
     <>
       <h1
         className={classNames("pr-3 flex gap-3", {
-          "text-gray-400": !selectedOption,
+          "text-gray-400": selectedOption == null,
         })}
       >
         {selectedOption?.prefix && (

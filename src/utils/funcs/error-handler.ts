@@ -1,16 +1,24 @@
 import { BaseThunkAPI } from "@reduxjs/toolkit/dist/createAsyncThunk";
 
-import { Response } from "@/api";
-import { DetailErrorDto, HttpError } from "@/features/types";
+import { AppResponseDto, DetailErrorDto } from "@/features/types";
 import { IMapperToHttpError } from "@/features/types/mappers/base-mappers/mapper";
+import { errorMapper } from "@/features/types/mappers/error.mapper";
+import { ErrorResponse } from "@/features/types/models/error-response";
 
 import { RecordObject } from "../types";
 
-export type RejectWithValue<T, E extends keyof T = undefined> = BaseThunkAPI<
+export interface InputRequest<TDto, TCreation, TCreationDto> {
+  rejectWithValue: RejectWithValue<TCreation>;
+  result: AppResponseDto<TDto, TCreationDto>;
+  mapper: IMapperToHttpError<TCreationDto, TCreation>;
+  error?: any;
+}
+
+export type RejectWithValue<T> = BaseThunkAPI<
   any,
   any,
   any,
-  HttpError<T, E>
+  ErrorResponse<T>
 >["rejectWithValue"];
 
 export namespace ErrorHandler {
@@ -62,21 +70,21 @@ export namespace ErrorHandler {
    * @param error Returned value when error is not "bad-data"
    * @return Returned value of rejectWithValue function of Redux toolkit.
    */
-  export function catchHttpError<
+  export function catchErrors<
     TDto,
     TCreation extends RecordObject,
-    TCreationDto extends RecordObject,
-    TKeyOfTCreation extends keyof TCreation = undefined
+    TCreationDto extends RecordObject
   >(
-    mapper: IMapperToHttpError<TCreationDto, TCreation>,
-    result: Response<TDto, TCreationDto>,
-    rejectWithValue: RejectWithValue<TCreation, TKeyOfTCreation>,
-    error = null
-  ): ReturnType<RejectWithValue<TCreation, TKeyOfTCreation>> {
-    if (result.kind === "bad-data") {
-      const httpError = mapper.httpErrorFromDto(result.httpError);
-      return rejectWithValue(httpError);
+    config: InputRequest<TDto, TCreation, TCreationDto>
+  ): ReturnType<RejectWithValue<TCreation>> {
+    const { result, mapper, rejectWithValue, error = null } = config;
+    if (error) {
+      return error;
     }
-    return rejectWithValue(error);
+    const errors = errorMapper.fromDto({
+      errorDto: result,
+      httpErrorFromDtoMapper: mapper.httpErrorFromDto,
+    });
+    return rejectWithValue(errors);
   }
 }

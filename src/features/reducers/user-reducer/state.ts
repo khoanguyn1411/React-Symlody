@@ -13,5 +13,3 @@ export const userAdapter = createEntityAdapter<User>({
 export const initialState = userAdapter.getInitialState<UserStateInner>({
   pending: true,
 });
-
-export type UserState = typeof initialState;

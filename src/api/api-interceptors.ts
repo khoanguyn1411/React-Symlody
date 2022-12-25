@@ -41,7 +41,7 @@ export function refreshToken() {
         TokenService.clearToken();
         return Promise.reject(error);
       }
-      const newTokenModel = tokenMapper.fromRefreshTokenDto(result.result);
+      const newTokenModel = tokenMapper.fromRefreshTokenDto(result.result_dto);
       TokenService.setToken(newTokenModel);
       config.headers["Authorization"] = `Bearer ${newTokenModel.access}`;
       return http.axiosInstance.request(config);

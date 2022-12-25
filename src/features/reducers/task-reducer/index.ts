@@ -2,10 +2,11 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
 import { RootState, store } from "@/features/store";
-import { Task, taskMapper, User } from "@/features/types";
+import { ErrorResponse, Task, taskMapper, User } from "@/features/types";
 import { taskFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import { TaskFilterParams } from "@/features/types/models/filter-params";
 import { TaskCreation } from "@/features/types/models/task";
+import { ErrorHandler } from "@/utils/funcs/error-handler";
 import { ReduxThunk } from "@/utils/types";
 
 import { userSelectors } from "../user-reducer";
@@ -19,7 +20,7 @@ export const getTasksAsync = createAsyncThunk<
   const paramDto = taskFilterParamsMapper.toDto(param);
   const result = await TaskApi.getTasks(paramDto);
   if (result.kind === "ok") {
-    return result.result.map((item) => taskMapper.fromDto(item));
+    return result.result_dto.map((item) => taskMapper.fromDto(item));
   }
   return rejectWithValue([]);
 });
@@ -39,7 +40,7 @@ export const deleteTaskAsync = createAsyncThunk<
 export const createTaskAsync = createAsyncThunk<
   { task: Task; shouldAddOne: boolean },
   { task: TaskCreation },
-  ReduxThunk.RejectValue<null>
+  ReduxThunk.RejectValue<ErrorResponse<TaskCreation>>
 >("task/create", async (body, { rejectWithValue }) => {
   const reduxStore = store.getState();
   const userList = userSelectors.selectAll(reduxStore);
@@ -52,11 +53,15 @@ export const createTaskAsync = createAsyncThunk<
   const result = await TaskApi.createTask(taskDto);
   if (result.kind === "ok") {
     return {
-      task: taskMapper.fromDto(result.result),
+      task: taskMapper.fromDto(result.result_dto),
       shouldAddOne: isInSelectedDepartment,
     };
   }
-  return rejectWithValue(null);
+  return ErrorHandler.catchErrors({
+    rejectWithValue,
+    result,
+    mapper: taskMapper,
+  });
 });
 
 export const updateTaskAsync = createAsyncThunk<
@@ -68,7 +73,7 @@ export const updateTaskAsync = createAsyncThunk<
     id: Task["id"];
     payload: TaskCreation;
   },
-  ReduxThunk.RejectValue<null>
+  ReduxThunk.RejectValue<ErrorResponse<TaskCreation>>
 >("task/update", async ({ id, payload }, { rejectWithValue }) => {
   const taskDto = taskMapper.toCreationDto(payload);
   const result = await TaskApi.updateTask(id, taskDto);
@@ -81,11 +86,15 @@ export const updateTaskAsync = createAsyncThunk<
     assignee.departmentId !== currentDepartmentId;
   if (result.kind === "ok") {
     return {
-      task: taskMapper.fromDto(result.result),
+      task: taskMapper.fromDto(result.result_dto),
       shouldRemoveOne: isNotInSelectedDepartment,
     };
   }
-  return rejectWithValue(null);
+  return ErrorHandler.catchErrors({
+    rejectWithValue,
+    result,
+    mapper: taskMapper,
+  });
 });
 
 export const setTaskFilterParams = createAsyncThunk<

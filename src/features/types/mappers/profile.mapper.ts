@@ -4,6 +4,7 @@ import { repairFormData } from "@/utils/funcs/repair-form-data";
 import { HttpErrorDto, ProfileCreationDto, ProfileDto } from "../dtos";
 import { HttpError, Member, Profile, ProfileCreation } from "../models";
 import { authAccountMapper } from "./auth-account.mapper";
+import { dateMapper } from "./base-mappers/date.mapper";
 import { genderMapper } from "./base-mappers/gender.mapper";
 import { isRoleMapper } from "./base-mappers/is-role.mapper";
 import {
@@ -28,7 +29,7 @@ export class ProfileMapper
       phoneNumber: dto.phone_number ?? "",
       studentId: dto.student_id ?? "",
       homeTown: dto.home_town ?? "",
-      dob: dto.dob ?? "",
+      dob: dateMapper.fromDto(dto.dob) ?? "",
       className: dto.class_name ?? "",
       avatarUrl: dto.avatar_url,
       address: dto.address ?? "",
@@ -100,7 +101,7 @@ export class ProfileMapper
     return {
       ...authAccountDto,
       avatar: model.avatar,
-      dob: model.dob,
+      dob: dateMapper.toDto(model.dob),
       class_name: model.className,
       student_id: model.studentId,
       address: model.address,

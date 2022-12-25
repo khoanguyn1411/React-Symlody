@@ -59,7 +59,7 @@ const SelectListContent: AppReact.FC.PropsWithChildren<TProps> = ({
     const selectedOption = document.getElementsByClassName(
       "selected-select-option"
     );
-    if (!selectedOption || !selectedOption[0]) {
+    if (selectedOption == null || selectedOption[0] == null) {
       return;
     }
     selectedOption[0].scrollIntoView({ block: "center" });

@@ -41,7 +41,6 @@ export type TTabs = {
 export type TPropsModalTab = {
   handleEvent: TEventModal;
   children: ReactNode;
-  otherActions?: React.DOMAttributes<HTMLFormElement>;
 };
 
 // Types of modal default.

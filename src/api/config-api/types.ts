@@ -1,4 +1,5 @@
 import {
+  AppResponseDto,
   OrganizationCreationDto,
   OrganizationDto,
   UserShortDto,
@@ -8,18 +9,16 @@ import {
   UserPermissionConfigCreationDto,
 } from "@/features/types/dtos/config-permission.dto";
 
-import { Response } from "../api-response";
-
 export namespace ConfigApiResponse {
-  export type GetOrganization = Response<OrganizationDto>;
-  export type UpdateOrganization = Response<
+  export type GetOrganization = AppResponseDto<OrganizationDto>;
+  export type UpdateOrganization = AppResponseDto<
     OrganizationDto,
     OrganizationCreationDto
   >;
 
-  export type GetConfigManager = Response<LeadersAndManagersDto>;
-  export type UpdateConfigManager = Response<LeadersAndManagersDto>;
-  export type UpdateConfigRoleUser = Response<
+  export type GetConfigManager = AppResponseDto<LeadersAndManagersDto>;
+  export type UpdateConfigManager = AppResponseDto<LeadersAndManagersDto>;
+  export type UpdateConfigRoleUser = AppResponseDto<
     UserShortDto,
     UserPermissionConfigCreationDto
   >;

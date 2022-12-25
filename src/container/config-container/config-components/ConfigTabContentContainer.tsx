@@ -10,8 +10,11 @@ export const ConfigTabContentContainer: AppReact.FC.PropsWithChildren<
   TProps
 > = ({ children, onSubmit }) => {
   return (
-    <div className="p-5 bg-white border border-gray-200 rounded-md">
-      <form onSubmit={onSubmit}>{children}</form>
-    </div>
+    <form
+      onSubmit={onSubmit}
+      className="p-5 bg-white border border-gray-200 rounded-md"
+    >
+      {children}
+    </form>
   );
 };

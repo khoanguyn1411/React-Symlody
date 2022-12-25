@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 import { Loading, Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
@@ -9,6 +8,7 @@ import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { createTaskAsync } from "@/features/reducers/task-reducer";
 import { THookModalProps } from "@/hooks";
 import { DateService } from "@/utils/funcs/date-service";
+import { FormService } from "@/utils/funcs/form-service";
 
 import { TODO_MESSAGES } from "../constant";
 import { todoFormMapper } from "../mapper";
@@ -43,15 +43,19 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
 
   const handleCreateTask = async (data: TodoForm) => {
     const taskModel = todoFormMapper.toModel(data);
-    const result = await dispatch(createTaskAsync({ task: taskModel }));
-    if (createTaskAsync.fulfilled.match(result)) {
-      toast.success(TODO_MESSAGES.create.success);
-      reset();
-      filterByAssignee();
-      toggle.setHidden();
-      return;
-    }
-    toast.error(TODO_MESSAGES.create.error);
+    const response = await dispatch(createTaskAsync({ task: taskModel }));
+    FormService.validateResponse({
+      asyncThunk: createTaskAsync,
+      response,
+      successMessage: TODO_MESSAGES.create.success,
+      errorMessage: TODO_MESSAGES.create.error,
+      onSuccess: () => {
+        reset();
+        filterByAssignee();
+        toggle.setHidden();
+      },
+      setError: propsForm.setError,
+    });
   };
 
   useEffect(() => {

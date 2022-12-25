@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 import { Avatar, FormItem, Modal, Select, TItemListSelect } from "@/components";
 import { TToggleModal } from "@/components/elements/modal/types";
@@ -63,28 +62,24 @@ export const ModalEditPermission: React.FC<TProps> = ({
 
   const handleUpdate = async (body: RolePermissionForm) => {
     const bodyModel = rolePermissionFormMapper.toModel(body);
-    const result = await dispatch(
+    const response = await dispatch(
       updateConfigRoleUserAsync({
         body: bodyModel,
         id: data.id,
         avatarUrl: data.avatarUrl,
       })
     );
-    if (updateConfigRoleUserAsync.fulfilled.match(result)) {
-      toast.success(ROLE_PERMISSION_MESSAGE.update.success);
-      toggle.setHidden();
-      reset();
-      return;
-    }
-    if (result.payload == null) {
-      toast.error(ROLE_PERMISSION_MESSAGE.update.error);
-      return;
-    }
-    FormService.generateErrors({
+    FormService.validateResponse({
+      asyncThunk: updateConfigRoleUserAsync,
+      response,
+      successMessage: ROLE_PERMISSION_MESSAGE.update.success,
+      errorMessage: ROLE_PERMISSION_MESSAGE.update.error,
+      onSuccess: () => {
+        toggle.setHidden();
+        reset();
+      },
       setError,
-      errors: rolePermissionFormMapper.fromHttpError(result.payload),
     });
-    return;
   };
 
   if (data == null) {

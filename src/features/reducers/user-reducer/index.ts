@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { UserApi } from "@/api";
 import { RootState } from "@/features/store";
 import {
-  HttpError,
+  ErrorResponse,
   Profile,
   ProfileCreation,
   ProfileCreationDto,
@@ -14,6 +14,7 @@ import {
 import { changePasswordMapper } from "@/features/types/mappers/change-password.mapper";
 import { ChangePassword } from "@/features/types/models/change-password";
 import { ErrorHandler } from "@/utils/funcs/error-handler";
+import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 import { ReduxThunk, StrictOmit } from "@/utils/types";
 
 import { updateCurrentUser } from "../auth-reducer";
@@ -36,7 +37,7 @@ export const getUsersAsync = createAsyncThunk<
 >("user/get-list", async (_, { rejectWithValue }) => {
   const result = await UserApi.getUsers();
   if (result.kind === "ok") {
-    return result.result.map((item) => userMapper.fromDto(item));
+    return result.result_dto.map((item) => userMapper.fromDto(item));
   }
   return rejectWithValue([]);
 });
@@ -44,40 +45,35 @@ export const getUsersAsync = createAsyncThunk<
 export const updateProfileAsync = createAsyncThunk<
   Profile,
   ProfileCreation,
-  ReduxThunk.RejectValue<HttpError<ProfileCreationDto> | null>
+  ReduxThunk.RejectValue<ErrorResponse<ProfileCreationDto> | null>
 >("auth/update-profile", async (param, { rejectWithValue, dispatch }) => {
   const paramDto = profileMapper.toFormData(param);
   const result = await UserApi.updateProfile(paramDto);
   if (result.kind === "ok") {
     dispatch(getUsersAsync());
-    const profileModel = profileMapper.fromDto(result.result);
+    const profileModel = profileMapper.fromDto(result.result_dto);
     dispatch(updateCurrentUser(profileModel));
     return profileModel;
   }
-  if (result.kind === "bad-data") {
-    const errorBadData = profileMapper.httpErrorFromDto(result.httpError);
-    return rejectWithValue(errorBadData);
-  }
-
-  return rejectWithValue(null);
+  return ErrorHandler.catchErrors({
+    rejectWithValue,
+    mapper: profileMapper,
+    result,
+  });
 });
 
 export const changePasswordAsync = createAsyncThunk<
-  true,
+  unknown,
   ChangePassword,
-  ReduxThunk.RejectValue<HttpError<ChangePassword>>
+  ReduxThunk.RejectValue<ErrorResponse<ChangePassword>>
 >("auth/change-password", async (payload, { rejectWithValue }) => {
   const changePasswordDto = changePasswordMapper.toDto(payload);
   const result = await UserApi.changePassword(changePasswordDto);
-  if (result.kind === "ok") {
-    return true;
-  }
-  return ErrorHandler.catchHttpError(
-    changePasswordMapper,
-    result,
+  return validateSimpleRequestResult({
     rejectWithValue,
-    false
-  );
+    mapper: changePasswordMapper,
+    result,
+  });
 });
 
 export const userSlice = createSlice({

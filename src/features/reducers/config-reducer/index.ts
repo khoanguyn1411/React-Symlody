@@ -3,7 +3,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ConfigApi } from "@/api";
 import { RootState, store } from "@/features/store";
 import {
-  HttpError,
   Organization,
   OrganizationCreation,
   UserPermissionConfigCreation,
@@ -11,11 +10,11 @@ import {
   UserShortMapper,
   userShortMapper,
 } from "@/features/types";
-import { UserPermissionConfigCreationDto } from "@/features/types/dtos/config-permission.dto";
 import {
   leadersAndManagersMapper,
   userPermissionConfigMapper,
 } from "@/features/types/mappers/config-permission.mapper";
+import { ErrorResponse } from "@/features/types/models/error-response";
 import { generateArrayWithNoDuplicate } from "@/utils/funcs/generate-array-with-no-duplicate";
 import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 import { ReduxThunk } from "@/utils/types";
@@ -31,7 +30,7 @@ export const getOrganizationAsync = createAsyncThunk<
 >("organization/get", async (_, { rejectWithValue }) => {
   const result = await ConfigApi.getOrganization();
   if (result.kind === "ok") {
-    return organizationMapper.fromDto(result.result);
+    return organizationMapper.fromDto(result.result_dto);
   }
   return rejectWithValue(null);
 });
@@ -60,7 +59,7 @@ export const getConfigManager = createAsyncThunk<
     return rejectWithValue([]);
   }
   const configManagerModel = leadersAndManagersMapper.fromDto(
-    resultConfigManager.result
+    resultConfigManager.result_dto
   );
   const combinedLeaderManagerList = generateArrayWithNoDuplicate(
     configManagerModel.leaders.concat(configManagerModel.managers)
@@ -79,7 +78,7 @@ export const getConfigManager = createAsyncThunk<
 export const updateOrganizationAsync = createAsyncThunk<
   Organization,
   { id: number; body: OrganizationCreation },
-  ReduxThunk.RejectValue<HttpError<OrganizationCreation>>
+  ReduxThunk.RejectValue<ErrorResponse<OrganizationCreation>>
 >("organization/update", async (payload, { rejectWithValue }) => {
   const paramDto = organizationMapper.toFormData(payload.body);
   const result = await ConfigApi.updateOrganization(payload.id, paramDto);
@@ -97,7 +96,7 @@ export const updateConfigRoleUserAsync = createAsyncThunk<
     id: UserShort["id"];
     avatarUrl: UserShort["avatarUrl"];
   },
-  ReduxThunk.RejectValue<HttpError<UserPermissionConfigCreationDto>>
+  ReduxThunk.RejectValue<ErrorResponse<UserPermissionConfigCreation>>
 >("user-role/update", async ({ body, id, avatarUrl }, { rejectWithValue }) => {
   const paramDto = userPermissionConfigMapper.toCreationDto(body);
   const result = await ConfigApi.updateConfigRoleUser(paramDto, id);

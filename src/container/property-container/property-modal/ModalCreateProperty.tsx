@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 import { Loading, ModalMultipleTabs, ModalTab } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
@@ -63,16 +62,17 @@ const TabCreateAProperty: React.FC = () => {
   const handleCreateAProperty = async (propertyData: PropertyForm) => {
     const propertyModel = propertyFormMapper.toModel(propertyData);
     const result = await dispatch(createPropertyAsync(propertyModel));
-    if (createPropertyAsync.rejected.match(result)) {
-      if (result.payload) {
-        FormService.generateErrors({ setError, errors: result.payload });
-        return;
-      }
-      toast.error(PROPERTY_MESSAGE.create.error);
-      return;
-    }
-    toast.success(PROPERTY_MESSAGE.create.success);
-    reset();
+
+    FormService.validateResponse({
+      asyncThunk: createPropertyAsync,
+      response: result,
+      successMessage: PROPERTY_MESSAGE.create.success,
+      errorMessage: PROPERTY_MESSAGE.create.error,
+      onSuccess: () => {
+        reset();
+      },
+      setError,
+    });
   };
   return (
     <ModalTab

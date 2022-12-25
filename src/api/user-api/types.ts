@@ -1,10 +1,8 @@
-import { ProfileDto, UserDto } from "@/features/types/dtos";
+import { AppResponseDto, ProfileDto, UserDto } from "@/features/types/dtos";
 import { ChangePasswordDto } from "@/features/types/dtos/change-password.dto";
 
-import { Response } from "../api-response";
-
 export namespace UserApiResponse {
-  export type GetUsers = Response<UserDto[]>;
-  export type UpdateProfile = Response<ProfileDto>;
-  export type ChangePassword = Response<boolean, ChangePasswordDto>;
+  export type GetUsers = AppResponseDto<UserDto[]>;
+  export type UpdateProfile = AppResponseDto<ProfileDto>;
+  export type ChangePassword = AppResponseDto<boolean, ChangePasswordDto>;
 }

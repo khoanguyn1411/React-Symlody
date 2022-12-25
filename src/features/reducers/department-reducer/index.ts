@@ -6,8 +6,8 @@ import {
   Department,
   DepartmentCreation,
   departmentMapper,
-  HttpError,
 } from "@/features/types";
+import { ErrorResponse } from "@/features/types/models/error-response";
 import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 import { ReduxThunk } from "@/utils/types";
 
@@ -20,7 +20,7 @@ export const getDepartmentAsync = createAsyncThunk<
 >("department/get-list", async (_, { rejectWithValue }) => {
   const result = await DepartmentApi.getDepartments();
   if (result.kind === "ok") {
-    return result.result.map((item) => departmentMapper.fromDto(item));
+    return result.result_dto.map((item) => departmentMapper.fromDto(item));
   }
 
   return rejectWithValue([]);
@@ -29,7 +29,7 @@ export const getDepartmentAsync = createAsyncThunk<
 export const createDepartmentAsync = createAsyncThunk<
   Department,
   DepartmentCreation,
-  ReduxThunk.RejectValue<HttpError<DepartmentCreation>>
+  ReduxThunk.RejectValue<ErrorResponse<DepartmentCreation>>
 >("department/create", async (payload, { rejectWithValue }) => {
   const departmentCreationDto = departmentMapper.toCreationDto(payload);
   const result = await DepartmentApi.createDepartment(departmentCreationDto);
@@ -43,7 +43,7 @@ export const createDepartmentAsync = createAsyncThunk<
 export const updateDepartmentAsync = createAsyncThunk<
   Department,
   { id: number; body: DepartmentCreation },
-  ReduxThunk.RejectValue<HttpError<DepartmentCreation>>
+  ReduxThunk.RejectValue<ErrorResponse<DepartmentCreation>>
 >("department/update", async (payload, { rejectWithValue }) => {
   const departmentCreationDto = departmentMapper.toCreationDto(payload.body);
   const result = await DepartmentApi.updateDepartment(

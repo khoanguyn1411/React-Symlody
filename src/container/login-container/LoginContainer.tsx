@@ -1,13 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import { images } from "@/assets/images";
 import { Button, FormItem, Input } from "@/components";
 import { useAppDispatch } from "@/features";
 import { loginAsync, setIsAuth } from "@/features/reducers";
 import { Login } from "@/features/types";
+import { FormService } from "@/utils/funcs/form-service";
+import { TokenService } from "@/utils/funcs/token-service";
 
 import { schema } from "./schema";
 
@@ -16,20 +17,27 @@ export const LoginContainer: React.FC = () => {
 
   const {
     control,
+    setError,
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<Login>({ resolver: yupResolver(schema) });
 
   const onSubmit = async (data: Login) => {
-    const res = await dispatch(
+    const response = await dispatch(
       loginAsync({ email: data.email, password: data.password })
     );
-    if (loginAsync.rejected.match(res)) {
-      toast.error("Đăng nhập thất bại");
-      return;
-    }
-    dispatch(setIsAuth(true));
-    toast.success("Đăng nhập thành công");
+
+    FormService.validateResponse({
+      asyncThunk: loginAsync,
+      response,
+      errorMessage: "Đăng nhập thất bại",
+      successMessage: "Đăng nhập thành công",
+      setError,
+      onSuccess: (token) => {
+        TokenService.setToken(token);
+        dispatch(setIsAuth(true));
+      },
+    });
   };
 
   return (

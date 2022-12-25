@@ -18,4 +18,16 @@ export namespace ReduxThunk {
 
   /** Rejected type specialize for entity updating feature included restore handler (entity included `is_archived` key). */
   export type RestoreRejected<T> = RejectValue<RestoreResult<T>>;
+
+  export interface FulfilledRequest<TInput> {
+    arg: TInput;
+    requestId: string;
+    requestStatus: "fulfilled";
+  }
+
+  export interface RejectedRequest<TInput> {
+    arg: TInput;
+    requestId: string;
+    requestStatus: "rejected";
+  }
 }

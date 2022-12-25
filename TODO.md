@@ -1,0 +1,1 @@
+Add reset state in first render to features.

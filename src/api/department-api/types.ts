@@ -1,10 +1,18 @@
-import { DepartmentCreationDto, DepartmentDto } from "@/features/types";
-
-import { Response } from "../api-response";
+import {
+  AppResponseDto,
+  DepartmentCreationDto,
+  DepartmentDto,
+} from "@/features/types";
 
 export namespace DepartmentApiResponse {
-  export type GetDepartments = Response<DepartmentDto[]>;
-  export type CreateDepartment = Response<DepartmentDto, DepartmentCreationDto>;
-  export type UpdateDepartment = Response<DepartmentDto, DepartmentCreationDto>;
-  export type DeleteDepartment = Response<boolean>;
+  export type GetDepartments = AppResponseDto<DepartmentDto[]>;
+  export type CreateDepartment = AppResponseDto<
+    DepartmentDto,
+    DepartmentCreationDto
+  >;
+  export type UpdateDepartment = AppResponseDto<
+    DepartmentDto,
+    DepartmentCreationDto
+  >;
+  export type DeleteDepartment = AppResponseDto<boolean>;
 }

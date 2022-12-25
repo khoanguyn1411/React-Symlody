@@ -1,10 +1,12 @@
-import { PropertyCreationDto, PropertyDto } from "@/features/types/dtos";
-
-import { Response } from "../api-response";
+import {
+  AppResponseDto,
+  PropertyCreationDto,
+  PropertyDto,
+} from "@/features/types/dtos";
 
 export namespace PropertyApiResponse {
-  export type GetProperties = Response<PropertyDto[]>;
-  export type CreateProperty = Response<PropertyDto, PropertyCreationDto>;
-  export type DeleteProperty = Response<boolean>;
-  export type UpdateProperty = Response<PropertyDto, PropertyCreationDto>;
+  export type GetProperties = AppResponseDto<PropertyDto[]>;
+  export type CreateProperty = AppResponseDto<PropertyDto, PropertyCreationDto>;
+  export type DeleteProperty = AppResponseDto<boolean>;
+  export type UpdateProperty = AppResponseDto<PropertyDto, PropertyCreationDto>;
 }

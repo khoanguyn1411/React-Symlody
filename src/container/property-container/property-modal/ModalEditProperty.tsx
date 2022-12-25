@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 import { Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
@@ -56,20 +55,16 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
         isRestore: false,
       })
     );
-    if (updatePropertyAsync.rejected.match(res)) {
-      const errors = res.payload;
-      if (errors) {
-        FormService.generateErrors({
-          errors,
-          setError,
-        });
-        return;
-      }
-      toast.error(PROPERTY_MESSAGE.create.error);
-      return;
-    }
-    toast.success(PROPERTY_MESSAGE.update.success);
-    toggle.setHidden();
+    FormService.validateResponse({
+      asyncThunk: updatePropertyAsync,
+      response: res,
+      successMessage: PROPERTY_MESSAGE.create.success,
+      errorMessage: PROPERTY_MESSAGE.create.error,
+      onSuccess: () => {
+        toggle.setHidden();
+      },
+      setError,
+    });
   });
 
   useEffect(() => {

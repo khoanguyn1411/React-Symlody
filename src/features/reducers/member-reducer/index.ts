@@ -9,8 +9,8 @@ import {
 } from "@/features/types/mappers";
 import { memberFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import {
+  ErrorResponse,
   FileUploaded,
-  HttpError,
   Member,
   MemberCreation,
 } from "@/features/types/models";
@@ -39,15 +39,19 @@ export const uploadMemberExcelFileAsync = createAsyncThunk<
 export const createMemberAsync = createAsyncThunk<
   Member,
   MemberCreation,
-  ReduxThunk.RejectValue<HttpError<MemberCreation, "authAccount">>
+  ReduxThunk.RejectValue<ErrorResponse<MemberCreation, "authAccount">>
 >("member/create", async (payload, { rejectWithValue, dispatch }) => {
   const memberDto = memberMapper.toCreationDto(payload);
   const result = await MemberApi.createMember(memberDto);
   if (result.kind === "ok") {
     dispatch(getUsersAsync());
-    return memberMapper.fromDto(result.result);
+    return memberMapper.fromDto(result.result_dto);
   }
-  return ErrorHandler.catchHttpError(memberMapper, result, rejectWithValue);
+  return ErrorHandler.catchErrors({
+    rejectWithValue,
+    mapper: memberMapper,
+    result,
+  });
 });
 
 export const deleteMemberAsync = createAsyncThunk<
@@ -81,7 +85,9 @@ export const getMembersAsync = createAsyncThunk<
   const filterParamsDto = memberFilterParamsMapper.toDto(param);
   const result = await MemberApi.getMembers(filterParamsDto);
   if (result.kind === "ok") {
-    const memberList = result.result.map((item) => memberMapper.fromDto(item));
+    const memberList = result.result_dto.map((item) =>
+      memberMapper.fromDto(item)
+    );
     dispatch(setCurrentMemberList(memberList));
     return memberList;
   }
@@ -91,14 +97,14 @@ export const getMembersAsync = createAsyncThunk<
 export const updateMemberAsync = createAsyncThunk<
   ReduxThunk.RestoreResult<Member>,
   ReduxThunk.RestorePayload<MemberCreation, Member>,
-  ReduxThunk.RejectValue<HttpError<MemberCreation, "authAccount">>
+  ReduxThunk.RejectValue<ErrorResponse<MemberCreation, "authAccount">>
 >(
   "member/update",
   async ({ payload, id, isRestore }, { rejectWithValue, dispatch }) => {
     const memberDto = memberMapper.toCreationDto(payload);
     const result = await MemberApi.updateMember(id, memberDto);
     if (result.kind === "ok") {
-      const memberUpdatedInfo = memberMapper.fromDto(result.result);
+      const memberUpdatedInfo = memberMapper.fromDto(result.result_dto);
       dispatch(getUsersAsync());
       const reduxStore = store.getState();
       const currentUser = reduxStore.auth.user;
@@ -114,7 +120,11 @@ export const updateMemberAsync = createAsyncThunk<
         isRestore,
       };
     }
-    return ErrorHandler.catchHttpError(memberMapper, result, rejectWithValue);
+    return ErrorHandler.catchErrors({
+      rejectWithValue,
+      mapper: memberMapper,
+      result,
+    });
   }
 );
 

@@ -1,9 +1,14 @@
+import { ErrorHandler } from "@/utils/funcs/error-handler";
 import { reverseRecord } from "@/utils/funcs/reverse-record";
 
-import { TaskCreationDto, TaskDto } from "../dtos";
-import { Task, TaskCreation } from "../models";
+import { HttpErrorDto, TaskCreationDto, TaskDto } from "../dtos";
+import { HttpError, Task, TaskCreation } from "../models";
 import { dateMapper } from "./base-mappers/date.mapper";
-import { IMapperFromDto, IMapperToCreationDto } from "./base-mappers/mapper";
+import {
+  IMapperFromDto,
+  IMapperToCreationDto,
+  IMapperToHttpError,
+} from "./base-mappers/mapper";
 import { userMapper } from "./user.mapper";
 
 export const TASK_STATUS_FROM_DTO: Readonly<
@@ -29,8 +34,30 @@ export const TASK_STATUS_FROM_ID_TO_READABLE: Readonly<
 export class TaskMapper
   implements
     IMapperFromDto<TaskDto, Task>,
-    IMapperToCreationDto<TaskCreationDto, TaskCreation>
+    IMapperToCreationDto<TaskCreationDto, TaskCreation>,
+    IMapperToHttpError<TaskCreationDto, TaskCreation>
 {
+  public httpErrorFromDto(
+    errorDto: HttpErrorDto<TaskCreationDto>
+  ): HttpError<TaskCreation> {
+    return {
+      title: ErrorHandler.extractErrorMessage(errorDto.title),
+      assignee: {
+        id: ErrorHandler.extractErrorMessage(errorDto.assignee.id),
+      },
+      reporter: { id: ErrorHandler.extractErrorMessage(errorDto.reporter.id) },
+      isSentEmail: ErrorHandler.extractErrorMessage(errorDto.sent_email),
+      label: ErrorHandler.extractErrorMessage(errorDto.label),
+      isPriority: ErrorHandler.extractErrorMessage(errorDto.priority),
+      description: ErrorHandler.extractErrorMessage(errorDto.description),
+      startDate: ErrorHandler.extractErrorMessage(errorDto.start_date),
+      endDate: ErrorHandler.extractErrorMessage(errorDto.end_date),
+      status: ErrorHandler.extractErrorMessage(errorDto.status),
+      nonFieldErrors: ErrorHandler.extractErrorMessage(
+        errorDto.non_field_errors
+      ),
+    };
+  }
   public fromDto(dto: TaskDto): Task {
     return {
       id: dto.id,
