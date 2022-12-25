@@ -127,7 +127,7 @@ export namespace FormService {
    */
   export function validateResponse<
     TResult,
-    TInput extends RecordObject,
+    TInput,
     TAsynThunk extends AsyncThunk<
       TResult,
       TInput,

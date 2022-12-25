@@ -2,13 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TaskApi } from "@/api";
 import { RootState, store } from "@/features/store";
-import {
-  ErrorResponse,
-  Task,
-  TaskCreationDto,
-  taskMapper,
-  User,
-} from "@/features/types";
+import { ErrorResponse, Task, taskMapper, User } from "@/features/types";
 import { taskFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers";
 import { TaskFilterParams } from "@/features/types/models/filter-params";
 import { TaskCreation } from "@/features/types/models/task";
@@ -46,7 +40,7 @@ export const deleteTaskAsync = createAsyncThunk<
 export const createTaskAsync = createAsyncThunk<
   { task: Task; shouldAddOne: boolean },
   { task: TaskCreation },
-  ReduxThunk.RejectValue<ErrorResponse<TaskCreationDto>>
+  ReduxThunk.RejectValue<ErrorResponse<TaskCreation>>
 >("task/create", async (body, { rejectWithValue }) => {
   const reduxStore = store.getState();
   const userList = userSelectors.selectAll(reduxStore);
@@ -79,7 +73,7 @@ export const updateTaskAsync = createAsyncThunk<
     id: Task["id"];
     payload: TaskCreation;
   },
-  ReduxThunk.RejectValue<ErrorResponse<TaskCreationDto>>
+  ReduxThunk.RejectValue<ErrorResponse<TaskCreation>>
 >("task/update", async ({ id, payload }, { rejectWithValue }) => {
   const taskDto = taskMapper.toCreationDto(payload);
   const result = await TaskApi.updateTask(id, taskDto);

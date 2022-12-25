@@ -53,6 +53,9 @@ export class TaskMapper
       startDate: ErrorHandler.extractErrorMessage(errorDto.start_date),
       endDate: ErrorHandler.extractErrorMessage(errorDto.end_date),
       status: ErrorHandler.extractErrorMessage(errorDto.status),
+      nonFieldErrors: ErrorHandler.extractErrorMessage(
+        errorDto.non_field_errors
+      ),
     };
   }
   public fromDto(dto: TaskDto): Task {
