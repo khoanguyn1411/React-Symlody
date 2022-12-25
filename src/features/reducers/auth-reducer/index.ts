@@ -36,7 +36,6 @@ export const loginAsync = createAsyncThunk<
 >("auth/login", async (payload, { rejectWithValue }) => {
   const loginInfoDto = loginMapper.toDto(payload);
   const result = await AuthApi.login(loginInfoDto);
-
   return validateSimpleRequestResult({
     rejectWithValue,
     result,

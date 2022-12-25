@@ -29,7 +29,7 @@ interface InputRequestFullResponse<TDto, TModel, TCreation, TCreationDto>
  */
 export function validateSimpleRequestResult<
   TDto,
-  TModel extends RecordObject,
+  TModel,
   TCreation extends RecordObject,
   TCreationDto extends RecordObject
 >(

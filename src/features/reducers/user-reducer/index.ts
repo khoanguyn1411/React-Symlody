@@ -14,6 +14,7 @@ import {
 import { changePasswordMapper } from "@/features/types/mappers/change-password.mapper";
 import { ChangePassword } from "@/features/types/models/change-password";
 import { ErrorHandler } from "@/utils/funcs/error-handler";
+import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 import { ReduxThunk, StrictOmit } from "@/utils/types";
 
 import { updateCurrentUser } from "../auth-reducer";
@@ -62,20 +63,16 @@ export const updateProfileAsync = createAsyncThunk<
 });
 
 export const changePasswordAsync = createAsyncThunk<
-  true,
+  unknown,
   ChangePassword,
   ReduxThunk.RejectValue<ErrorResponse<ChangePassword>>
 >("auth/change-password", async (payload, { rejectWithValue }) => {
   const changePasswordDto = changePasswordMapper.toDto(payload);
   const result = await UserApi.changePassword(changePasswordDto);
-  if (result.kind === "ok") {
-    return true;
-  }
-  return ErrorHandler.catchErrors({
+  return validateSimpleRequestResult({
     rejectWithValue,
     mapper: changePasswordMapper,
     result,
-    error: false,
   });
 });
 

@@ -127,14 +127,14 @@ export namespace FormService {
    */
   export function validateResponse<
     TResult,
-    TInput,
+    TInput extends RecordObject,
     TAsynThunk extends AsyncThunk<
       TResult,
       TInput,
       ReduxThunk.RejectValue<ErrorResponse<TError, TKeyOfError>>
     >,
     TFormError extends RecordObject,
-    TError,
+    TError extends RecordObject,
     TKeyOfError extends keyof TError = undefined
   >(config: {
     /** AsyncThunk function. */
