@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { AppForm, Modal } from "@/components";
-import { useAppDispatch, useAppSelector } from "@/features";
+import { Modal } from "@/components";
+import { useAppDispatch } from "@/features";
 import { updateDepartmentAsync } from "@/features/reducers";
 import { Department } from "@/features/types";
 import { THookModalProps } from "@/hooks";
@@ -21,7 +21,6 @@ export const ModalEditDepartment: React.FC<THookModalProps<Department>> = ({
   data,
 }) => {
   const dispatch = useAppDispatch();
-  const { errors } = useAppSelector((state) => state.member);
 
   const propsForm = useForm<DepartmentForm>({
     resolver: yupResolver(schema),

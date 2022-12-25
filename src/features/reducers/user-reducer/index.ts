@@ -98,10 +98,6 @@ export const userSlice = createSlice({
         });
       })
 
-      .addCase(updateProfileAsync.rejected, (state, action) => {
-        state.errorsUpdateProfile = action.payload;
-      })
-
       .addCase(getUsersAsync.pending, (state) => {
         state.pending = true;
       })

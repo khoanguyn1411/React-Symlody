@@ -1,12 +1,9 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 
-import { ErrorResponse, ProfileCreation, User } from "@/features/types";
-import { ChangePassword } from "@/features/types/models/change-password";
+import { User } from "@/features/types";
 
 export interface UserStateInner {
   pending: boolean;
-  errorsUpdateProfile: ErrorResponse<ProfileCreation>;
-  errorsChangePassword: ErrorResponse<ChangePassword>;
 }
 
 export const userAdapter = createEntityAdapter<User>({
@@ -15,6 +12,4 @@ export const userAdapter = createEntityAdapter<User>({
 
 export const initialState = userAdapter.getInitialState<UserStateInner>({
   pending: true,
-  errorsUpdateProfile: null,
-  errorsChangePassword: null,
 });

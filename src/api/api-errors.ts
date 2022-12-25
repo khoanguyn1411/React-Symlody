@@ -88,7 +88,7 @@ class ApiError {
     return {
       kind: kind,
       result_dto: null,
-      unknown_error_dto: error.data,
+      unknown_error_dto: error.data ?? error.originalError,
       http_error_dto: null,
     };
   }

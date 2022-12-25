@@ -129,10 +129,6 @@ export const configSlice = createSlice({
         state.organization = action.payload;
       })
 
-      .addCase(updateOrganizationAsync.rejected, (state, action) => {
-        state.errorsOrganization = action.payload;
-      })
-
       .addCase(getConfigManager.pending, (state) => {
         state.pendingConfigManager = true;
       })

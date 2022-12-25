@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { AppForm, FormItem, Input, Loading } from "@/components";
+import { FormItem, Input, Loading } from "@/components";
 import { UploadedAvatar } from "@/components/elements/uploaded/avatar/UploadedAvatar";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateOrganizationAsync } from "@/features/reducers";
@@ -30,9 +30,7 @@ export const TabOrganization: React.FC = () => {
 };
 
 export const _TabOrganization: React.FC = () => {
-  const { organization, errorsOrganization } = useAppSelector(
-    (state) => state.config
-  );
+  const { organization } = useAppSelector((state) => state.config);
   const currentUser = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
@@ -73,6 +71,12 @@ export const _TabOrganization: React.FC = () => {
       updateOrganizationAsync({ id: organization.id, body: data })
     );
     if (updateOrganizationAsync.rejected.match(result)) {
+      const errors = result.payload.httpError;
+      if (errors) {
+        FormService.generateErrors({ errors, setError });
+        return;
+      }
+      toast.error(ORGANIZATION_MESSAGES.update.error);
       return;
     }
     toast.success(ORGANIZATION_MESSAGES.update.success);
@@ -87,129 +91,123 @@ export const _TabOrganization: React.FC = () => {
 
   return (
     <ConfigTabContentContainer>
-      <AppForm
-        toastErrorMessage={ORGANIZATION_MESSAGES.update.error}
-        errors={errorsOrganization}
-        setError={setError}
-      >
-        <FormItem label="Ảnh đại diện tổ chức" error={errors.logo?.message}>
+      <FormItem label="Ảnh đại diện tổ chức" error={errors.logo?.message}>
+        <Controller
+          control={control}
+          name="logo"
+          render={({ field: { value, onChange } }) => (
+            <UploadedAvatar
+              isDisable={shouldPreventEdit}
+              alt="Logo tổ chức"
+              defaultImageLink={defaultImageLink}
+              file={value}
+              setFile={onChange}
+            />
+          )}
+        />
+      </FormItem>
+      <ConfigSplitColumn>
+        <FormItem label="Tên tổ chức" isRequired error={errors.name?.message}>
           <Controller
             control={control}
-            name="logo"
+            name="name"
             render={({ field: { value, onChange } }) => (
-              <UploadedAvatar
-                isDisable={shouldPreventEdit}
-                alt="Logo tổ chức"
-                defaultImageLink={defaultImageLink}
-                file={value}
-                setFile={onChange}
+              <Input
+                disable={shouldPreventEdit}
+                placeholder="Tên tổ chức"
+                value={value}
+                onChange={onChange}
               />
             )}
           />
         </FormItem>
-        <ConfigSplitColumn>
-          <FormItem label="Tên tổ chức" isRequired error={errors.name?.message}>
-            <Controller
-              control={control}
-              name="name"
-              render={({ field: { value, onChange } }) => (
-                <Input
-                  disable={shouldPreventEdit}
-                  placeholder="Tên tổ chức"
-                  value={value}
-                  onChange={onChange}
-                />
-              )}
-            />
-          </FormItem>
 
-          <FormItem
-            label="Tên viết tắt"
-            isRequired
-            error={errors.abbreviationName?.message}
-          >
-            <Controller
-              control={control}
-              name="abbreviationName"
-              render={({ field: { value, onChange } }) => (
-                <Input
-                  disable={shouldPreventEdit}
-                  placeholder="Tên viết tẳt"
-                  value={value}
-                  onChange={onChange}
-                />
-              )}
-            />
-          </FormItem>
-
-          <FormItem label="Địa chỉ mail" error={errors.email?.message}>
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { value, onChange } }) => (
-                <Input
-                  disable={shouldPreventEdit}
-                  placeholder="Địa chỉ mail"
-                  value={value}
-                  onChange={onChange}
-                />
-              )}
-            />
-          </FormItem>
-
-          <FormItem label="Số điện thoại" error={errors.phoneNumber?.message}>
-            <Controller
-              control={control}
-              name="phoneNumber"
-              render={({ field: { value, onChange } }) => (
-                <Input
-                  disable={shouldPreventEdit}
-                  placeholder="Số điện thoại"
-                  value={value}
-                  onChange={onChange}
-                />
-              )}
-            />
-          </FormItem>
-
-          <FormItem label="Trực thuộc trường" error={errors.school?.message}>
-            <Controller
-              control={control}
-              name="school"
-              render={({ field: { value, onChange } }) => (
-                <Input
-                  disable={shouldPreventEdit}
-                  placeholder="Trực thuộc trường"
-                  value={value}
-                  onChange={onChange}
-                />
-              )}
-            />
-          </FormItem>
-
-          <FormItem label="Địa chỉ" error={errors.address?.message}>
-            <Controller
-              control={control}
-              name="address"
-              render={({ field: { value, onChange } }) => (
-                <Input
-                  disable={shouldPreventEdit}
-                  placeholder="Địa chỉ"
-                  value={value}
-                  onChange={onChange}
-                />
-              )}
-            />
-          </FormItem>
-        </ConfigSplitColumn>
-        <ConfigSubmitButton
-          isShowLoading={isSubmitting}
-          disable={!FormService.isDirtyFields(dirtyFields)}
-          onSubmit={handleSubmit(handleEditOrgInfo)}
+        <FormItem
+          label="Tên viết tắt"
+          isRequired
+          error={errors.abbreviationName?.message}
         >
-          Lưu
-        </ConfigSubmitButton>
-      </AppForm>
+          <Controller
+            control={control}
+            name="abbreviationName"
+            render={({ field: { value, onChange } }) => (
+              <Input
+                disable={shouldPreventEdit}
+                placeholder="Tên viết tẳt"
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          />
+        </FormItem>
+
+        <FormItem label="Địa chỉ mail" error={errors.email?.message}>
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { value, onChange } }) => (
+              <Input
+                disable={shouldPreventEdit}
+                placeholder="Địa chỉ mail"
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          />
+        </FormItem>
+
+        <FormItem label="Số điện thoại" error={errors.phoneNumber?.message}>
+          <Controller
+            control={control}
+            name="phoneNumber"
+            render={({ field: { value, onChange } }) => (
+              <Input
+                disable={shouldPreventEdit}
+                placeholder="Số điện thoại"
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          />
+        </FormItem>
+
+        <FormItem label="Trực thuộc trường" error={errors.school?.message}>
+          <Controller
+            control={control}
+            name="school"
+            render={({ field: { value, onChange } }) => (
+              <Input
+                disable={shouldPreventEdit}
+                placeholder="Trực thuộc trường"
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          />
+        </FormItem>
+
+        <FormItem label="Địa chỉ" error={errors.address?.message}>
+          <Controller
+            control={control}
+            name="address"
+            render={({ field: { value, onChange } }) => (
+              <Input
+                disable={shouldPreventEdit}
+                placeholder="Địa chỉ"
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          />
+        </FormItem>
+      </ConfigSplitColumn>
+      <ConfigSubmitButton
+        isShowLoading={isSubmitting}
+        disable={!FormService.isDirtyFields(dirtyFields)}
+        onSubmit={handleSubmit(handleEditOrgInfo)}
+      >
+        Lưu
+      </ConfigSubmitButton>
     </ConfigTabContentContainer>
   );
 };

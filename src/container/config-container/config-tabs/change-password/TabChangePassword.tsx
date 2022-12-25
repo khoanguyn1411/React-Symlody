@@ -3,8 +3,8 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-import { AppForm, FormItem, InputPassword } from "@/components";
-import { useAppDispatch, useAppSelector } from "@/features";
+import { FormItem, InputPassword } from "@/components";
+import { useAppDispatch } from "@/features";
 import { changePasswordAsync } from "@/features/reducers";
 import { FormService } from "@/utils/funcs/form-service";
 
@@ -18,7 +18,6 @@ import { ChangePasswordForm } from "./type";
 
 export const TabChangePassword: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { errorsChangePassword } = useAppSelector((state) => state.user);
   const {
     control,
     setError,
@@ -33,6 +32,14 @@ export const TabChangePassword: React.FC = () => {
   const handleChangePassword = async (data: ChangePasswordForm) => {
     const result = await dispatch(changePasswordAsync(data));
     if (changePasswordAsync.rejected.match(result)) {
+      if (result.payload) {
+        FormService.generateErrors({
+          errors: result.payload.httpError,
+          setError,
+        });
+        return;
+      }
+      toast.error(CHANGE_PASSWORD_MESSAGE.error);
       return;
     }
     toast.success(CHANGE_PASSWORD_MESSAGE.success);
@@ -40,72 +47,65 @@ export const TabChangePassword: React.FC = () => {
   };
 
   return (
-    <ConfigTabContentContainer>
-      <AppForm
-        setError={setError}
-        errors={errorsChangePassword}
-        toastErrorMessage={CHANGE_PASSWORD_MESSAGE.error}
+    <ConfigTabContentContainer onSubmit={handleSubmit(handleChangePassword)}>
+      <FormItem
+        label="Mật khẩu hiện tại"
+        isRequired
+        error={errors.oldPassword?.message}
       >
-        <FormItem
-          label="Mật khẩu hiện tại"
-          isRequired
-          error={errors.oldPassword?.message}
-        >
-          <Controller
-            control={control}
-            name="oldPassword"
-            render={({ field: { value, onChange } }) => (
-              <InputPassword
-                placeholder="Mật khẩu hiện tại"
-                value={value}
-                onChange={onChange}
-              />
-            )}
-          />
-        </FormItem>
-        <FormItem
-          label="Mật khẩu mới"
-          isRequired
-          error={errors.newPassword?.message}
-        >
-          <Controller
-            control={control}
-            name="newPassword"
-            render={({ field: { value, onChange } }) => (
-              <InputPassword
-                placeholder="Mật khẩu mới"
-                value={value}
-                onChange={onChange}
-              />
-            )}
-          />
-        </FormItem>
-        <FormItem
-          label="Xác nhận mật khẩu"
-          isRequired
-          error={errors.confirmPassword?.message}
-        >
-          <Controller
-            control={control}
-            name="confirmPassword"
-            render={({ field: { value, onChange } }) => (
-              <InputPassword
-                placeholder="Xác nhận mật khẩu"
-                value={value}
-                onChange={onChange}
-              />
-            )}
-          />
-        </FormItem>
-        <ConfigSubmitButton
-          type="submit"
-          onSubmit={handleSubmit(handleChangePassword)}
-          disable={!FormService.isDirtyFields(dirtyFields)}
-          isShowLoading={isSubmitting}
-        >
-          Cập nhật
-        </ConfigSubmitButton>
-      </AppForm>
+        <Controller
+          control={control}
+          name="oldPassword"
+          render={({ field: { value, onChange } }) => (
+            <InputPassword
+              placeholder="Mật khẩu hiện tại"
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
+      </FormItem>
+      <FormItem
+        label="Mật khẩu mới"
+        isRequired
+        error={errors.newPassword?.message}
+      >
+        <Controller
+          control={control}
+          name="newPassword"
+          render={({ field: { value, onChange } }) => (
+            <InputPassword
+              placeholder="Mật khẩu mới"
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
+      </FormItem>
+      <FormItem
+        label="Xác nhận mật khẩu"
+        isRequired
+        error={errors.confirmPassword?.message}
+      >
+        <Controller
+          control={control}
+          name="confirmPassword"
+          render={({ field: { value, onChange } }) => (
+            <InputPassword
+              placeholder="Xác nhận mật khẩu"
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
+      </FormItem>
+      <ConfigSubmitButton
+        type="submit"
+        disable={!FormService.isDirtyFields(dirtyFields)}
+        isShowLoading={isSubmitting}
+      >
+        Cập nhật
+      </ConfigSubmitButton>
     </ConfigTabContentContainer>
   );
 };

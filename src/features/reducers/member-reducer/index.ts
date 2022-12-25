@@ -171,10 +171,6 @@ export const memberSlice = createSlice({
         }
       })
 
-      .addCase(createMemberAsync.rejected, (state, action) => {
-        state.errors = action.payload;
-      })
-
       .addCase(deleteMemberAsync.pending, (state) => {
         state.pendingDeleteMember = true;
       })
@@ -194,9 +190,8 @@ export const memberSlice = createSlice({
       .addCase(deleteMemberAsync.rejected, (state) => {
         state.pendingDeleteMember = false;
       })
-      .addCase(updateMemberAsync.rejected, (state, action) => {
+      .addCase(updateMemberAsync.rejected, (state) => {
         state.pendingRestoreMember = false;
-        state.errors = action.payload;
       })
       .addCase(updateMemberAsync.pending, (state) => {
         state.pendingRestoreMember = true;
