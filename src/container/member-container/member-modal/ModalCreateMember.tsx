@@ -49,22 +49,15 @@ const TabCreateAMember: React.FC = () => {
       formData: data,
       isArchived: false,
     });
-    const res = await dispatch(createMemberAsync(memberModel));
-    if (createMemberAsync.rejected.match(res)) {
-      const errors = res.payload.httpError;
-      if (errors) {
-        FormService.generateErrors({
-          errors,
-          customMessage: { "authAccount.email": "Email này đã được đăng ký." },
-          setError,
-        });
-        return;
-      }
-      toast.error(MEMBER_MESSAGE.create.error);
-      return;
-    }
-    toast.success(MEMBER_MESSAGE.create.success);
-    reset();
+    const response = await dispatch(createMemberAsync(memberModel));
+    FormService.validateResponse({
+      asyncThunk: createMemberAsync,
+      response,
+      successMessage: MEMBER_MESSAGE.create.success,
+      errorMessage: MEMBER_MESSAGE.create.error,
+      onSuccess: () => reset(),
+      setError,
+    });
   };
 
   return (

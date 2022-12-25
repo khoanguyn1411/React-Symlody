@@ -1,8 +1,10 @@
+import { AsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { FieldError, Path, UseFormSetError } from "react-hook-form";
+import { toast } from "react-toastify";
 
-import { HttpError } from "@/features/types";
+import { ErrorResponse, HttpError } from "@/features/types";
 
-import { RecordObject, StrictOmit } from "../types";
+import { RecordObject, ReduxThunk, StrictOmit } from "../types";
 import { CommonAssertion } from "./common-assertion";
 import { isObject } from "./is-object";
 
@@ -117,5 +119,72 @@ export namespace FormService {
       return;
     }
     return generateErrorsRecursive(inputValue);
+  }
+
+  /**
+   * Validate response from asyncThunk.
+   * @param config Config to validate.
+   */
+  export function validateResponse<
+    TResult,
+    TInput extends RecordObject,
+    TAsynThunk extends AsyncThunk<
+      TResult,
+      TInput,
+      ReduxThunk.RejectValue<ErrorResponse<TError, TKeyOfError>>
+    >,
+    TFormError extends RecordObject,
+    TError,
+    TKeyOfError extends keyof TError = undefined
+  >(config: {
+    /** AsyncThunk function. */
+    asyncThunk: TAsynThunk;
+
+    /** Response of request. */
+    response:
+      | PayloadAction<TResult, string, ReduxThunk.FulfilledRequest<TInput>>
+      | PayloadAction<
+          ErrorResponse<TError, TKeyOfError>,
+          string,
+          ReduxThunk.RejectedRequest<TInput>
+        >;
+
+    /** Success message to display on toast. */
+    successMessage: string;
+
+    /** Error message to display on toast. */
+    errorMessage: string;
+
+    /** Set error function of react-hook-form. */
+    setError: UseFormSetError<TFormError>;
+
+    /** On success response. */
+    onSuccess?: (result: TResult) => void;
+
+    /** On error response. */
+    onError?: (errors: ErrorResponse<TError, TKeyOfError>) => void;
+  }): void {
+    const {
+      asyncThunk,
+      response,
+      onSuccess,
+      onError,
+      successMessage,
+      errorMessage,
+      setError,
+    } = config;
+
+    if (asyncThunk.fulfilled.match(response)) {
+      onSuccess?.(response.payload);
+      toast.success(successMessage);
+      return;
+    }
+    onError?.(response.payload);
+    const errors = response.payload;
+    if (errors && errors.kind === "bad-data") {
+      generateErrors({ errors: errors.httpError, setError });
+      return;
+    }
+    toast.error(errorMessage);
   }
 }

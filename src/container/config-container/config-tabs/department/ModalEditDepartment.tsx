@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 import { Modal } from "@/components";
 import { useAppDispatch } from "@/features";
@@ -34,18 +33,19 @@ export const ModalEditDepartment: React.FC<THookModalProps<Department>> = ({
   } = propsForm;
 
   const handleUpdateDepartment = async (body: DepartmentForm) => {
-    const result = await dispatch(updateDepartmentAsync({ id: data.id, body }));
-    if (updateDepartmentAsync.rejected.match(result)) {
-      if (result.payload) {
-        const errors = result.payload.httpError;
-        FormService.generateErrors({ errors, setError });
-        return;
-      }
-      toast.error(DEPARTMENT_MESSAGE.update.error);
-      return;
-    }
-    toast.success(DEPARTMENT_MESSAGE.update.success);
-    toggle.setHidden();
+    const response = await dispatch(
+      updateDepartmentAsync({ id: data.id, body })
+    );
+    FormService.validateResponse({
+      asyncThunk: updateDepartmentAsync,
+      response,
+      successMessage: DEPARTMENT_MESSAGE.update.success,
+      errorMessage: DEPARTMENT_MESSAGE.update.error,
+      onSuccess: () => {
+        toggle.setHidden();
+      },
+      setError,
+    });
   };
 
   useEffect(() => {

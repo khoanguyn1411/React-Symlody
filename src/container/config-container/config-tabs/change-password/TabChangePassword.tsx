@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 import { FormItem, InputPassword } from "@/components";
 import { useAppDispatch } from "@/features";
@@ -30,20 +29,17 @@ export const TabChangePassword: React.FC = () => {
   });
 
   const handleChangePassword = async (data: ChangePasswordForm) => {
-    const result = await dispatch(changePasswordAsync(data));
-    if (changePasswordAsync.rejected.match(result)) {
-      if (result.payload) {
-        FormService.generateErrors({
-          errors: result.payload.httpError,
-          setError,
-        });
-        return;
-      }
-      toast.error(CHANGE_PASSWORD_MESSAGE.error);
-      return;
-    }
-    toast.success(CHANGE_PASSWORD_MESSAGE.success);
-    reset();
+    const response = await dispatch(changePasswordAsync(data));
+    FormService.validateResponse({
+      asyncThunk: changePasswordAsync,
+      response,
+      successMessage: CHANGE_PASSWORD_MESSAGE.success,
+      errorMessage: CHANGE_PASSWORD_MESSAGE.error,
+      onSuccess: () => {
+        reset();
+      },
+      setError,
+    });
   };
 
   return (

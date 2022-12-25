@@ -99,19 +99,18 @@ export const ActionConfigDepartment: React.FC = () => {
   };
 
   const handleCreateDepartment = async (data: DepartmentForm) => {
-    const result = await dispatch(createDepartmentAsync(data));
-    if (createDepartmentAsync.rejected.match(result)) {
-      if (result.payload) {
-        const errors = result.payload.httpError;
-        FormService.generateErrors({ errors, setError });
-        return;
-      }
-      toast.error(DEPARTMENT_MESSAGE.create.error);
-      return;
-    }
-    toast.success(DEPARTMENT_MESSAGE.create.success);
-    reset();
-    toggle.setHidden();
+    const response = await dispatch(createDepartmentAsync(data));
+    FormService.validateResponse({
+      asyncThunk: createDepartmentAsync,
+      response,
+      successMessage: DEPARTMENT_MESSAGE.create.success,
+      errorMessage: DEPARTMENT_MESSAGE.create.error,
+      onSuccess: () => {
+        reset();
+        toggle.setHidden();
+      },
+      setError: setError,
+    });
   };
 
   return (

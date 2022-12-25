@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 import { Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
@@ -62,28 +61,24 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
       _memberModel = memberModel;
     }
 
-    const res = await dispatch(
+    const response = await dispatch(
       updateMemberAsync({
         payload: _memberModel,
         id: data.id,
         isRestore: false,
       })
     );
-    if (updateMemberAsync.rejected.match(res)) {
-      const errors = res.payload.httpError;
-      if (errors) {
-        FormService.generateErrors({
-          errors,
-          customMessage: { "authAccount.email": "Email này đã được đăng ký." },
-          setError,
-        });
-        return;
-      }
-      toast.error(MEMBER_MESSAGE.create.error);
-      return;
-    }
-    toast.success(MEMBER_MESSAGE.update.success);
-    toggle.setHidden();
+    FormService.validateResponse({
+      asyncThunk: updateMemberAsync,
+      response,
+      successMessage: MEMBER_MESSAGE.update.success,
+      errorMessage: MEMBER_MESSAGE.update.error,
+      onSuccess: () => {
+        reset();
+        toggle.setHidden();
+      },
+      setError,
+    });
   });
 
   useEffect(() => {

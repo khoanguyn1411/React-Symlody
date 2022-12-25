@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 import { Loading, Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
@@ -40,23 +39,28 @@ export const ModalEditTodo: React.FC<THookModalProps<Task>> = ({
   const {
     handleSubmit,
     reset,
+    setError,
     formState: { isSubmitting, dirtyFields },
   } = propsForm;
 
   const handleEditTask = async (task: TodoForm) => {
     const taskModel = todoFormMapper.toModel(task);
-    const result = await dispatch(
+    const response = await dispatch(
       updateTaskAsync({
         id: data.id,
         payload: taskModel,
       })
     );
-    if (updateTaskAsync.rejected.match(result)) {
-      toast.error(TODO_MESSAGES.update.error);
-      return;
-    }
-    toast.success(TODO_MESSAGES.update.success);
-    toggle.setHidden();
+    FormService.validateResponse({
+      asyncThunk: updateTaskAsync,
+      response,
+      successMessage: TODO_MESSAGES.update.success,
+      errorMessage: TODO_MESSAGES.update.error,
+      onSuccess: () => {
+        toggle.setHidden();
+      },
+      setError,
+    });
   };
 
   useEffect(() => {

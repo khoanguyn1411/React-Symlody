@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 import { FormItem, Input, Loading } from "@/components";
 import { UploadedAvatar } from "@/components/elements/uploaded/avatar/UploadedAvatar";
@@ -67,20 +66,19 @@ export const _TabOrganization: React.FC = () => {
   ]);
 
   const handleEditOrgInfo = async (data: OrganizationForm) => {
-    const result = await dispatch(
+    const response = await dispatch(
       updateOrganizationAsync({ id: organization.id, body: data })
     );
-    if (updateOrganizationAsync.rejected.match(result)) {
-      const errors = result.payload.httpError;
-      if (errors) {
-        FormService.generateErrors({ errors, setError });
-        return;
-      }
-      toast.error(ORGANIZATION_MESSAGES.update.error);
-      return;
-    }
-    toast.success(ORGANIZATION_MESSAGES.update.success);
-    reset(getDefaultValue(result.payload));
+    FormService.validateResponse({
+      asyncThunk: updateOrganizationAsync,
+      response,
+      successMessage: ORGANIZATION_MESSAGES.update.success,
+      errorMessage: ORGANIZATION_MESSAGES.update.error,
+      onSuccess: (result) => {
+        reset(getDefaultValue(result));
+      },
+      setError,
+    });
   };
 
   useEffect(() => {

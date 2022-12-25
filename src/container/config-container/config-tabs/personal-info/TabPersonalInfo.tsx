@@ -1,7 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 import {
   AppDatePicker,
@@ -44,25 +43,22 @@ export const TabPersonalInfo: React.FC = () => {
   });
 
   const handleEditPersonalInfo = async (data: PersonalInfoForm) => {
-    const result = await dispatch(
+    const response = await dispatch(
       updateProfileAsync(personalInfoFormMapper.toModel(data))
     );
-    if (updateProfileAsync.rejected.match(result)) {
-      if (result.payload) {
-        FormService.generateErrors({
-          errors: result.payload.httpError,
-          setError,
-        });
-        return;
-      }
-      toast.error(PERSONAL_INFO_MESSAGES.update.error);
-      return;
-    }
-    toast.success(PERSONAL_INFO_MESSAGES.update.success);
-    const formData = personalInfoFormMapper.fromModel(result.payload);
-    reset({ ...formData, avatar: undefined });
-    return;
+    FormService.validateResponse({
+      asyncThunk: updateProfileAsync,
+      response,
+      successMessage: PERSONAL_INFO_MESSAGES.update.success,
+      errorMessage: PERSONAL_INFO_MESSAGES.update.error,
+      onSuccess: (result) => {
+        const formData = personalInfoFormMapper.fromModel(result);
+        reset({ ...formData, avatar: undefined });
+      },
+      setError,
+    });
   };
+
   useEffect(() => {
     setDefaultImageLink(currentUser.avatarUrl);
   }, [currentUser]);
