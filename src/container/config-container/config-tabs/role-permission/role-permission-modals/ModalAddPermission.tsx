@@ -36,7 +36,6 @@ export const ModalAddPermission: React.FC<TProps> = ({ isShowing, toggle }) => {
   const userList = useAppSelector(userSelectors.selectAll);
 
   const handleAddPermission = async (body: RolePermissionForm) => {
-    console.log(body);
     const bodyModel = rolePermissionFormMapper.toModel(body);
 
     const response = await dispatch(

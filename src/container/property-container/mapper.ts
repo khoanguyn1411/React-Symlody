@@ -23,9 +23,9 @@ export class PropertyFormMapper {
     return {
       name: propertyFormData.name,
       quantity: Number(propertyFormData.quantity),
-      price: Number(
-        CurrencyService.removeFormatCurrency(propertyFormData.price)
-      ),
+      price: propertyFormData.price
+        ? Number(CurrencyService.removeFormatCurrency(propertyFormData.price))
+        : undefined,
       propOwner: propertyFormData.propOwner,
       note: propertyFormData.note,
       isArchived: isArchived,
