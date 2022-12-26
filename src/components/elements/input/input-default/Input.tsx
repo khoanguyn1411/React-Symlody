@@ -34,9 +34,9 @@ export const Input: React.FC<TInputDefaultProps> = ({
         style !== "none" &&
           "w-full p-2 rounded-md focus:ring-primary-800 focus:ring-1",
         "focus:outline-none appearance-none",
-        className,
         STYLE_INPUT_DEFAULT[style],
-        disable && "cursor-not-allowed"
+        disable && "cursor-not-allowed",
+        className
       )}
       {...otherProps}
     />

@@ -133,7 +133,7 @@ export const TabPersonalInfo: React.FC = () => {
             name="dob"
             render={({ field: { value, onChange } }) => (
               <AppDatePicker
-                isDefault1990
+                isDefault2000
                 value={value}
                 style="modal"
                 onChange={onChange}
