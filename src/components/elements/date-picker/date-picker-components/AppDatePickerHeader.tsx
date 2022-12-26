@@ -12,11 +12,14 @@ export const AppDatePickerHeaderCustom: React.FC<
 > = (param) => {
   const [selectedMonth, setSelectedMonth] = useState<
     TOptionProps<undefined, Primitive>
-  >(() => ({
-    value: param.date.getMonth() + 1,
-    label: MONTH_LIST.find((month) => month.value === param.date.getMonth() + 1)
-      .label,
-  }));
+  >(() => {
+    return {
+      value: param.date.getMonth() + 1,
+      label: MONTH_LIST.find(
+        (month) => month.value === param.date.getMonth() + 1
+      ).label,
+    };
+  });
 
   const [selectedYear, setSelectedYear] = useState<
     TOptionProps<undefined, Primitive>

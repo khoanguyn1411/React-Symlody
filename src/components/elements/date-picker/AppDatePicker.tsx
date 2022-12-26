@@ -1,6 +1,7 @@
 import "react-datepicker/dist/react-datepicker.css";
 
 import styled from "@emotion/styled";
+import classNames from "classnames";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 
@@ -10,14 +11,14 @@ import { DateService } from "@/utils/funcs/date-service";
 import { ANIMATION_DEFAULT_TIME } from "../animation-custom/constants";
 import { WEEK_DAY_ENG } from "./constant";
 import { AppDatePickerHeaderCustom } from "./date-picker-components/AppDatePickerHeader";
-import { CustomInput } from "./date-picker-components/AppDatePickerInput";
+import { STYLE_MAP } from "./type";
 
 type TProps = {
   style?: "modal" | "default";
   value: string;
   isTimePicker?: boolean;
   onChange: (param: Date) => void;
-  isDefault1990?: boolean;
+  isDefault2000?: boolean;
 };
 
 const WrapperModule = styled.div`
@@ -57,24 +58,24 @@ export const AppDatePicker: React.FC<TProps> = ({
   isTimePicker = false,
   style = "default",
   value,
-  isDefault1990 = false,
+  isDefault2000 = false,
   onChange,
 }) => {
   const handleChangeDate = (date: Date): void => {
-    _setValue(DateService.toFormat(date, "VN"));
+    _setValue(value);
     onChange(date);
   };
 
   const [_value, _setValue] = useState(() => {
-    if (isDefault1990) {
+    if (isDefault2000) {
       return !value ? "" : DateService.toFormat(value, "VN");
     }
     return value && DateService.toFormat(value, "VN");
   });
 
   const getSelectedDate = () => {
-    if (isDefault1990) {
-      return !value ? new Date("01/01/1990") : new Date(value);
+    if (isDefault2000) {
+      return !value ? new Date("01/01/2000") : new Date(value);
     }
     return value && new Date(value);
   };
@@ -99,15 +100,14 @@ export const AppDatePicker: React.FC<TProps> = ({
           <WrapperModule>{children}</WrapperModule>
         )}
         onChange={handleChangeDate}
+        placeholderText={!isTimePicker ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm aa"}
         popperClassName="!z-30"
         value={_value}
         popperPlacement="top-end"
-        customInput={
-          <CustomInput
-            placeHolder={!isTimePicker ? "DD/MM/YYYY" : "DD/MM/YYYY hh:mm aa"}
-            style={style}
-          />
-        }
+        className={classNames(
+          "w-full p-2 border-gray-200 focus:ring-primary-800 focus:ring-1 pr-8 text-black outline-none rounded-md",
+          STYLE_MAP[style]
+        )}
         dayClassName={() => {
           return "transition-all duration-100";
         }}

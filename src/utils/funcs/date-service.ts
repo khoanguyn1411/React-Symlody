@@ -47,4 +47,16 @@ export namespace DateService {
     today.setDate(today.getDate() + 7);
     return DateService.toFormat(today, "US");
   }
+
+  /**
+   * Whether date is valid or not.
+   * @param date Date.
+   */
+  export function isValidDate(date: Date): boolean {
+    dayjs.isDayjs;
+    return (
+      Object.prototype.toString.call(date) === "[object Date]" &&
+      !Number.isNaN(date.getTime())
+    );
+  }
 }
