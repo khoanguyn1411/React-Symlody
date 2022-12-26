@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
@@ -6,14 +6,9 @@ import { getConfigManager } from "@/features/reducers";
 import { RolesID, UserShort } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
-import { lazyImport } from "@/utils/funcs/lazy-import";
 
+import { ModalEditPermission } from "../role-permission-modals/ModalEditPermission";
 import { TabRolePermissionTable } from "./TabRolePermissionTable";
-
-const { ModalEditPermission } = lazyImport(
-  () => import("./ModalEditPermission"),
-  "ModalEditPermission"
-);
 
 export const TabRolePermission: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -58,13 +53,11 @@ export const TabRolePermission: React.FC = () => {
         />
       </Table.Container>
 
-      <Suspense fallback={<div>Loading...</div>}>
-        <ModalEditPermission
-          isShowing={propsModalEditPermission.isShowing}
-          data={propsModalEditPermission.data}
-          toggle={propsModalEditPermission.toggle}
-        />
-      </Suspense>
+      <ModalEditPermission
+        isShowing={propsModalEditPermission.isShowing}
+        data={propsModalEditPermission.data}
+        toggle={propsModalEditPermission.toggle}
+      />
     </>
   );
 };

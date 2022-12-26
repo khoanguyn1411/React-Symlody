@@ -8,6 +8,7 @@ import { RolePermissionForm } from "./types";
 
 export const schema = yup.object().shape<YupValidation<RolePermissionForm>>({
   type: yup.string().required(APP_ERROR_MESSAGE.REQUIRED),
+  userId: yup.number().required(APP_ERROR_MESSAGE.REQUIRED),
   roleManager: yup
     .array()
     .of(yup.string())

@@ -3,7 +3,7 @@ import { useAppSelector } from "@/features";
 import { configSelectors } from "@/features/reducers";
 import { Roles, UserShort } from "@/features/types";
 
-import { CheckDone } from "./CheckDone";
+import { CheckDone } from "../role-permission-components/CheckDone";
 
 type TProps = {
   onOpenEdit: (data: UserShort) => void;

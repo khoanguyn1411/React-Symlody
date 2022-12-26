@@ -2,8 +2,8 @@ import classNames from "classnames";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 
 import { PLACEHOLDER_IMAGE } from "@/constants";
-import { useAppSelector } from "@/features";
-import { userSelectors } from "@/features/reducers";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { getUsersAsync, userSelectors } from "@/features/reducers";
 import { User } from "@/features/types";
 import { useDebounce } from "@/hooks";
 import { cleanString } from "@/utils/funcs/clean-string";
@@ -17,15 +17,20 @@ import { TOptionProps } from "../type";
 type Props = {
   placeholder?: string;
   selectedUserId: User["id"];
+  initialUserList?: User[];
   setSelectedUserId: (value: User["id"]) => void;
 };
 
 export const SelectUser: React.FC<Props> = ({
   placeholder,
   selectedUserId,
+  initialUserList,
   setSelectedUserId,
 }) => {
-  const userList = useAppSelector(userSelectors.selectAll);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const userList = initialUserList ?? useAppSelector(userSelectors.selectAll);
+  const userCount = useAppSelector(userSelectors.selectTotal);
+  const dispatch = useAppDispatch();
 
   const [currentUserList, setCurrentUserList] = useState<User[]>(userList);
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -101,6 +106,13 @@ export const SelectUser: React.FC<Props> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isShowContent]);
+
+  useEffect(() => {
+    if (userCount === 0 && initialUserList == null) {
+      dispatch(getUsersAsync());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const hasOption = selectedUser != null;
   const isShowFullNameImage =

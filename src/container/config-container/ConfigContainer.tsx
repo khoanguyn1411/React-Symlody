@@ -12,6 +12,7 @@ import {
   TabPersonalInfo,
 } from "./config-tabs";
 import { TabRolePermission } from "./config-tabs/role-permission";
+import { ActionConfigRolePermission } from "./config-tabs/role-permission/role-permission-components/ActionConfigRolePermission";
 
 type ContentTab = {
   content: ReactNode;
@@ -40,6 +41,7 @@ const initializeTabContents = (key: PageKey): ContentTab => {
     case "config.rolePermission":
       return {
         content: <TabRolePermission />,
+        rightSide: <ActionConfigRolePermission />,
       };
     default:
       return {

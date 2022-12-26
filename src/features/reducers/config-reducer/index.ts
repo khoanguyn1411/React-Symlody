@@ -1,26 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { ConfigApi } from "@/api";
-import { RootState, store } from "@/features/store";
+import { RootState } from "@/features/store";
 import {
   Organization,
   OrganizationCreation,
   UserPermissionConfigCreation,
   UserShort,
   UserShortMapper,
-  userShortMapper,
 } from "@/features/types";
 import {
   leadersAndManagersMapper,
   userPermissionConfigMapper,
 } from "@/features/types/mappers/config-permission.mapper";
 import { ErrorResponse } from "@/features/types/models/error-response";
-import { generateArrayWithNoDuplicate } from "@/utils/funcs/generate-array-with-no-duplicate";
 import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 import { ReduxThunk } from "@/utils/types";
 
 import { organizationMapper } from "../../types/mappers/organization.mapper";
-import { getUsersAsync, userSelectors } from "../user-reducer";
 import { configInfoAdapter, initialState } from "./state";
 
 export const getOrganizationAsync = createAsyncThunk<
@@ -39,40 +36,18 @@ export const getConfigManager = createAsyncThunk<
   UserShort[],
   null,
   ReduxThunk.RejectValue<UserShort[]>
->("organization/get-managers", async (_, { rejectWithValue, dispatch }) => {
-  const reduxStore = store.getState();
-  const hasUser = userSelectors.selectTotal(reduxStore) > 0;
-
-  const combinedPromise = hasUser
-    ? Promise.all([ConfigApi.getConfigManager()])
-    : Promise.all([ConfigApi.getConfigManager(), dispatch(getUsersAsync())]);
-
-  const res = await combinedPromise;
-  const resultConfigManager = res[0];
-  const userListAfterPromise = res[1];
-
-  if (!hasUser && getConfigManager.rejected.match(userListAfterPromise)) {
-    return rejectWithValue([]);
-  }
-
-  if (resultConfigManager.kind !== "ok") {
-    return rejectWithValue([]);
-  }
-  const configManagerModel = leadersAndManagersMapper.fromDto(
-    resultConfigManager.result_dto
-  );
-  const combinedLeaderManagerList = generateArrayWithNoDuplicate(
-    configManagerModel.leaders.concat(configManagerModel.managers)
-  );
-
-  const userListCurrent = userSelectors.selectAll(reduxStore);
-  const userList = hasUser ? userListCurrent : userListAfterPromise.payload;
-  return userList.map((user) => {
-    const userWithRole = combinedLeaderManagerList.find(
-      (r) => r.id === user.id
+>("organization/get-managers", async (_, { rejectWithValue }) => {
+  const result = await ConfigApi.getConfigManager();
+  if (result.kind === "ok") {
+    const leadersAndManagersObj = leadersAndManagersMapper.fromDto(
+      result.result_dto
     );
-    return userWithRole ?? userShortMapper.fromUser(user);
-  });
+
+    return Object.keys(leadersAndManagersObj).reduce((acc, cur) => {
+      return [...acc, ...leadersAndManagersObj[cur]];
+    }, []);
+  }
+  return rejectWithValue([]);
 });
 
 export const updateOrganizationAsync = createAsyncThunk<
@@ -143,6 +118,14 @@ export const configSlice = createSlice({
 
       // Config role
       .addCase(updateConfigRoleUserAsync.fulfilled, (state, action) => {
+        if (action.payload.isRole("member")) {
+          configInfoAdapter.removeOne(state, action.payload.id);
+          return;
+        }
+        if (!state.ids.includes(action.payload.id)) {
+          configInfoAdapter.addOne(state, action.payload);
+          return;
+        }
         configInfoAdapter.updateOne(state, {
           id: action.payload.id,
           changes: action.payload,

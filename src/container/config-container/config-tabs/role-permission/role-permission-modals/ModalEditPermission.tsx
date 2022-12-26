@@ -1,25 +1,19 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
-import { Avatar, FormItem, Modal, Select, TItemListSelect } from "@/components";
+import { Avatar, Modal } from "@/components";
 import { TToggleModal } from "@/components/elements/modal/types";
 import { useAppDispatch } from "@/features";
 import { updateConfigRoleUserAsync } from "@/features/reducers";
 import { UserShort } from "@/features/types";
 import { FormService } from "@/utils/funcs/form-service";
 
-import {
-  EPermissionOptions,
-  MANAGE_OPTIONS,
-  PERMISSION_LIST,
-  PERMISSION_OPTIONS,
-  ROLE_PERMISSION_MESSAGE,
-  ROLE_PERMISSION_TO_NOTE,
-} from "./constants";
-import { rolePermissionFormMapper } from "./mapper";
-import { schema } from "./schema";
-import { RolePermissionForm } from "./types";
+import { ROLE_PERMISSION_MESSAGE } from "../constants";
+import { rolePermissionFormMapper } from "../mapper";
+import { FormItems } from "../role-permission-form/FormItems";
+import { schema } from "../schema";
+import { RolePermissionForm } from "../types";
 
 type TProps = {
   isShowing: boolean;
@@ -33,32 +27,23 @@ export const ModalEditPermission: React.FC<TProps> = ({
   data,
 }) => {
   const dispatch = useAppDispatch();
-  const [type, setType] = useState<string>("");
   const propsForm = useForm<RolePermissionForm>({
     resolver: yupResolver(schema),
     shouldUnregister: true,
   });
   const {
-    control,
     setError,
-    formState: { isSubmitting, dirtyFields, errors },
+    formState: { isSubmitting, dirtyFields },
     handleSubmit,
     reset,
   } = propsForm;
 
-  const isManager = type === EPermissionOptions.Manager;
-
   useEffect(() => {
     if (data) {
       const formData = rolePermissionFormMapper.fromModel(data);
-      setType(formData.type);
       reset(formData);
     }
   }, [data, reset, isShowing]);
-
-  const handleSetType = (item: TItemListSelect) => {
-    setType(item.value);
-  };
 
   const handleUpdate = async (body: RolePermissionForm) => {
     const bodyModel = rolePermissionFormMapper.toModel(body);
@@ -105,56 +90,7 @@ export const ModalEditPermission: React.FC<TProps> = ({
           <span className="text-xs text-gray-400">{data.email}</span>
         </div>
       </div>
-
-      <FormItem label="Chức vụ" isRequired>
-        <Controller
-          control={control}
-          name="type"
-          render={({ field: { value, onChange } }) => (
-            <Select
-              style="modal"
-              value={value}
-              onChange={onChange}
-              onChangeSideEffect={handleSetType}
-              list={PERMISSION_OPTIONS}
-            />
-          )}
-        />
-      </FormItem>
-
-      {isManager && (
-        <FormItem
-          label="Tính năng"
-          isRequired
-          error={FormService.assertErrorField(errors.roleManager)?.message}
-        >
-          <Controller
-            control={control}
-            name="roleManager"
-            render={({ field: { value, onChange } }) => {
-              return (
-                <Select
-                  isMultiple
-                  isShowArrow
-                  placeHolder="Chọn tính năng"
-                  list={MANAGE_OPTIONS}
-                  value={value}
-                  style="modal"
-                  onChange={onChange}
-                />
-              );
-            }}
-          />
-        </FormItem>
-      )}
-      <ul>
-        {PERMISSION_LIST.map((permission) => (
-          <li className="ml-5 text-gray-500 list-disc" key={permission}>
-            <span className="font-semibold">{permission}:</span>{" "}
-            {ROLE_PERMISSION_TO_NOTE[permission]}.
-          </li>
-        ))}
-      </ul>
+      <FormItems mode="edit" formProps={propsForm} />
     </Modal>
   );
 };

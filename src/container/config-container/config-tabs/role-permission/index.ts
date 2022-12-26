@@ -1,1 +1,1 @@
-export * from "./TabRolePermission";
+export * from "./role-permission-tables/TabRolePermission";

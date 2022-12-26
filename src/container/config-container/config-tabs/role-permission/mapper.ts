@@ -16,9 +16,9 @@ const getModelGroup = ({ type, roleManager }: RolePermissionForm): Roles[] => {
     return [Roles.Lead];
   }
   if (type === EPermissionOptions.Manager) {
-    return roleManager.map(
-      (role) => ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL[role]
-    );
+    return roleManager
+      ? roleManager.map((role) => ROLE_MANAGER_FROM_SORT_NAME_TO_MODEL[role])
+      : [];
   }
   if (type === EPermissionOptions.Member) {
     return [];
@@ -48,14 +48,18 @@ class RolePermissionFormMapper {
 
   public fromModel(model: UserShort): RolePermissionForm {
     return {
+      userId: model.id,
       type: getFormType(model),
-      roleManager: model.groups.reduce((acc: RolesManagerSortName[], cur) => {
-        const sortNameManager = ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME[cur.name];
-        if (sortNameManager) {
-          return [...acc, sortNameManager];
-        }
-        return acc;
-      }, []),
+      roleManager: model.groups
+        ? model.groups.reduce((acc: RolesManagerSortName[], cur) => {
+            const sortNameManager =
+              ROLE_MANAGER_FROM_MODEL_TO_SORT_NAME[cur.name];
+            if (sortNameManager) {
+              return [...acc, sortNameManager];
+            }
+            return acc;
+          }, [])
+        : [],
     };
   }
 
