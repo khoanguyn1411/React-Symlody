@@ -1,11 +1,9 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { DragDropContext, DragStart, DropResult } from "react-beautiful-dnd";
 import { toast } from "react-toastify";
 
 import { useAppDispatch, useAppSelector } from "@/features";
-import { userSelectors } from "@/features/reducers";
 import {
-  getTasksAsync,
   taskSelectors,
   updateTaskAsync,
 } from "@/features/reducers/task-reducer";
@@ -28,9 +26,8 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
   const dispatch = useAppDispatch();
   const taskStore = useAppSelector((state) => state.task);
   const taskList = useAppSelector(taskSelectors.selectAll);
-  const userList = useAppSelector(userSelectors.selectAll);
 
-  const { filterByAssignee } = useTodoFilter();
+  useTodoFilter();
 
   const [columnList, setColumnList] = useState<TTodoColumn[]>(
     TODO_DATA.columns
@@ -94,19 +91,6 @@ export const TodoBoard: React.FC<TProps> = ({ isLoading }) => {
     setColumnList(columnWithTasks);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskStore.currentListTask]);
-
-  useLayoutEffect(() => {
-    if (!taskStore.filterParamsTask.departmentId) {
-      return;
-    }
-    dispatch(getTasksAsync(taskStore.filterParamsTask));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taskStore.filterParamsTask.departmentId]);
-
-  useEffect(() => {
-    filterByAssignee();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taskList, taskStore.filterParamsTask.selectedMemberList, userList]);
 
   if (isLoading || taskStore.pending) {
     return (

@@ -1,15 +1,11 @@
 import classNames from "classnames";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 import { Avatar, DeleteAndEditField, Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { userSelectors } from "@/features/reducers";
-import {
-  getTasksAsync,
-  taskSelectors,
-  updateTaskAsync,
-} from "@/features/reducers/task-reducer";
+import { updateTaskAsync } from "@/features/reducers/task-reducer";
 import { Task } from "@/features/types";
 
 import { TODO_MESSAGES } from "../constant";
@@ -32,10 +28,8 @@ export const TodoTableContent: React.FC<TProps> = ({
   const dispatch = useAppDispatch();
   const userList = useAppSelector(userSelectors.selectAll);
   const taskStore = useAppSelector((state) => state.task);
-  const taskList = useAppSelector(taskSelectors.selectAll);
-  const currentUser = useAppSelector((state) => state.auth.user);
 
-  const { filterByAssignee } = useTodoFilter();
+  useTodoFilter();
 
   const [currentInteractiveTask, setCurrentInteractiveTask] =
     useState<Task["id"]>();
@@ -73,25 +67,6 @@ export const TodoTableContent: React.FC<TProps> = ({
       return;
     }
   };
-
-  useEffect(() => {
-    filterByAssignee();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taskList, taskStore.filterParamsTask.selectedMemberList, userList]);
-
-  useLayoutEffect(() => {
-    const { departmentId } = taskStore.filterParamsTask;
-    if (!departmentId) {
-      return;
-    }
-    dispatch(
-      getTasksAsync({
-        ...taskStore.filterParamsTask,
-        departmentId: departmentId ?? currentUser.department.id,
-      })
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, taskStore.filterParamsTask.departmentId]);
 
   if (isLoading || taskStore.pending) {
     return <Table.Skeleton colsNumber={6} />;

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   memberSelectors,
@@ -43,8 +45,14 @@ export const useMemberPagination = () => {
     dispatch(setCurrentMemberList(newMemberList));
   };
 
-  return {
-    paginate,
-    filterBySearch,
-  };
+  useEffect(() => {
+    paginate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    memberStore.filterParamsMember.page,
+    memberStore.filterParamsMember.limit,
+    memberStore.currentMemberList,
+  ]);
+
+  return { filterBySearch };
 };

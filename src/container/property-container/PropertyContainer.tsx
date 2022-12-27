@@ -46,7 +46,7 @@ export const PropertyContainer: React.FC = () => {
   const propsModal = useModal({ isHotkeyOpen: true });
   const propsModalEdit = useModal<Property>();
   const propsSearch = useDebounce(propertyStore.filterParamsProperty.search);
-  const { paginate, filterBySearch } = usePropertyPagination();
+  const { filterBySearch } = usePropertyPagination();
 
   const isPropertyManager = currentUser.isRole([
     Roles.Lead,
@@ -127,15 +127,6 @@ export const PropertyContainer: React.FC = () => {
     filterBySearch(propsSearch.debounceValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propsSearch.debounceValue, propertyList]);
-
-  useEffect(() => {
-    paginate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    propertyStore.filterParamsProperty.page,
-    propertyStore.filterParamsProperty.limit,
-    propertyStore.currentPropertyList,
-  ]);
 
   const isNodata = false;
   if (isNodata) {

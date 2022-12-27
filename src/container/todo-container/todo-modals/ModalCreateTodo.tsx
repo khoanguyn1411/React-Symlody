@@ -14,7 +14,6 @@ import { TODO_MESSAGES } from "../constant";
 import { todoFormMapper } from "../mapper";
 import { schema } from "../shema";
 import { TodoForm } from "../type";
-import { useTodoFilter } from "../useTodoFilter";
 import { FormItems } from "./FormItems";
 
 export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
@@ -25,8 +24,6 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
   const userCount = useAppSelector(userSelectors.selectTotal);
   const userStore = useAppSelector((state) => state.user);
   const currentUserStore = useAppSelector((state) => state.auth);
-
-  const { filterByAssignee } = useTodoFilter();
 
   useEffect(() => {
     if (userCount === 0 && isShowing) {
@@ -51,7 +48,6 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
       errorMessage: TODO_MESSAGES.create.error,
       onSuccess: () => {
         reset();
-        filterByAssignee();
         toggle.setHidden();
       },
       setError: propsForm.setError,

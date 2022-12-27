@@ -45,7 +45,7 @@ export const MemberContainer: React.FC = () => {
   const propsModalCreateMember = useModal({ isHotkeyOpen: true });
   const propsModalEditMember = useModal<Member>();
   const propsSearch = useDebounce(memberStore.filterParamsMember.search);
-  const { paginate, filterBySearch } = useMemberPagination();
+  const { filterBySearch } = useMemberPagination();
 
   const isMemberManager = currentUser.isRole([Roles.Lead, Roles.MemberManager]);
 
@@ -120,15 +120,6 @@ export const MemberContainer: React.FC = () => {
     filterBySearch(propsSearch.debounceValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propsSearch.debounceValue, memberList]);
-
-  useEffect(() => {
-    paginate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    memberStore.filterParamsMember.page,
-    memberStore.filterParamsMember.limit,
-    memberStore.currentMemberList,
-  ]);
 
   const showNoData = false;
   if (showNoData) {

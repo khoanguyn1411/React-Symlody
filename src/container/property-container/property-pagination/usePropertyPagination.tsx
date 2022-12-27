@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   propertySelectors,
@@ -35,5 +37,14 @@ export const usePropertyPagination = () => {
     dispatch(setPropertyListWithPagination(propertyListPagination));
   };
 
-  return { paginate, filterBySearch };
+  useEffect(() => {
+    paginate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    propertyStore.filterParamsProperty.page,
+    propertyStore.filterParamsProperty.limit,
+    propertyStore.currentPropertyList,
+  ]);
+
+  return { filterBySearch };
 };
