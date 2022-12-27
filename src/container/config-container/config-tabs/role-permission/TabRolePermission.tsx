@@ -7,8 +7,8 @@ import { RolesID, UserShort } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
 
-import { ModalEditPermission } from "../role-permission-modals/ModalEditPermission";
-import { TabRolePermissionTable } from "./TabRolePermissionTable";
+import { ModalEditPermission } from "./role-permission-modals/ModalEditPermission";
+import { TabRolePermissionTable } from "./role-permission-tables/TabRolePermissionTable";
 
 export const TabRolePermission: React.FC = () => {
   const dispatch = useAppDispatch();

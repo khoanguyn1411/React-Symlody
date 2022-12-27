@@ -1,10 +1,16 @@
 import { User } from "@/features/types";
 import { Task, TaskCreation } from "@/features/types/models/task";
+import { PageKey, routePaths } from "@/routes";
 import { DateService } from "@/utils/funcs/date-service";
 import { generatePlaceholderEmptyValue } from "@/utils/funcs/generate-place-holder";
 
 import { UNASSIGNED_TEXT } from "./constant";
 import { ITodoTable, TodoForm } from "./type";
+
+export const MAP_PATH_TO_PAGE_KEY: Record<string, PageKey> = {
+  [routePaths.todo.children.kanban.path]: "todo.kanban",
+  [routePaths.todo.children.table.path]: "todo.table",
+};
 
 class TodoFormMapper {
   public toModel(formData: TodoForm): TaskCreation {

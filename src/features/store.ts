@@ -9,6 +9,7 @@ import {
 import { Reducer } from "react";
 
 import authReducer from "./reducers/auth-reducer";
+import commonReducer from "./reducers/common-reducer";
 import configReducer from "./reducers/config-reducer";
 import departmentReducer from "./reducers/department-reducer";
 import memberReducer from "./reducers/member-reducer";
@@ -24,6 +25,7 @@ const reducers = {
   property: propertyReducer,
   task: taskReducer,
   config: configReducer,
+  common: commonReducer,
 };
 
 const rootReducer = combineReducers(reducers);

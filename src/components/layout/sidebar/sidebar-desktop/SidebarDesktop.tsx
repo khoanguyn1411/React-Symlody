@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import classNames from "classnames";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/assets/icons";
 import { images } from "@/assets/images";
 import { APP_NAME } from "@/constants";
+import { useNavigateWithTransition } from "@/hooks";
 
 import { CompactSidebar } from "../compact";
 import { SidebarItem } from "../sidebar-item";
@@ -34,11 +34,12 @@ export const SidebarDesktop: React.FC<TProps> = ({
   isCompactSidebar,
   onToggleCompactSidebar,
 }) => {
-  const navigate = useNavigate();
   const tabsSidebar = getTabsSidebar();
+  const { navigate } = useNavigateWithTransition();
   const handleSwitchTab = (path: string) => () => {
     navigate(path);
   };
+
   return (
     <S4SidebarDesktop
       data-tour-id="layout__sidebar"

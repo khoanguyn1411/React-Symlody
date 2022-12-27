@@ -1,8 +1,7 @@
 import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
 
+import { Icon } from "@/assets/icons";
 import { images } from "@/assets/images";
-import { APP_NAME } from "@/constants";
 
 import { Drawer } from "../../../elements";
 import { SidebarItem } from "../sidebar-item";
@@ -19,8 +18,8 @@ export const SidebarMobile: React.FC<TProps> = ({
   visible = false,
   onClose,
 }) => {
-  const navigate = useNavigate();
   const tabsSidebar = getTabsSidebar();
+  const { navigate } = useNavigateWithTransition();
   const handleSwitchTab = (path: string) => () => {
     navigate(path);
   };
@@ -33,31 +32,37 @@ export const SidebarMobile: React.FC<TProps> = ({
       visible={visible}
       onClose={onClose}
     >
-      <>
-        <div
-          className={classNames(
-            "flex items-center justify-center w-full mt-4 mb-3 space-x-4"
-          )}
-        >
-          <img src={images.Logo} alt="logo" width={40} height={40} />
-          <h1
-            className={classNames(
-              "transition-width overflow-hidden text-xl font-medium duration-200"
-            )}
-          >
-            {APP_NAME}
-          </h1>
-        </div>
-
-        {tabsSidebar.map((tab) => (
-          <SidebarItem
-            key={tab.pageActive}
-            tab={tab}
-            isActive={pageKey === tab.pageActive}
-            onClick={handleSwitchTab(tab.to)}
+      <div
+        className={classNames(
+          "flex flex-col gap-8 pt-8 items-center py-2 overflow-hidden"
+        )}
+      >
+        <div className={classNames("flex space-x-3 items-center w-full")}>
+          <img
+            src={images.Logo}
+            alt="Logo App"
+            width={35}
+            height={35}
+            className="mb-1"
           />
-        ))}
-      </>
+          <span className={classNames("transition-opacity")}>
+            <Icon.LogoName size="large" />
+          </span>
+        </div>
+        <div className="flex flex-col flex-1 w-full gap-2">
+          {tabsSidebar.map((tab) => (
+            <SidebarItem
+              key={tab.pageActive}
+              tab={tab}
+              isActive={pageKey === tab.pageActive}
+              onClick={handleSwitchTab(tab.to)}
+            />
+          ))}
+        </div>
+      </div>
     </Drawer>
   );
 };
+function useNavigateWithTransition(): { navigate: any } {
+  throw new Error("Function not implemented.");
+}

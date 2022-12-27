@@ -1,12 +1,18 @@
 import React from "react";
-export function lazyImport<
-  T extends React.ComponentType<any>,
-  I extends { [K2 in K]: T },
-  K extends keyof I
->(factory: () => Promise<I>, name: K): I {
+
+import { RecordObject } from "../types";
+import { delay } from "./delay";
+const DEFAULT_DELAY_IMPORT = 1000;
+
+export function lazyImport<I extends RecordObject, K extends keyof I>(
+  factory: () => Promise<I>,
+  name: K
+): I {
   return Object.create({
     [name]: React.lazy(() =>
-      factory().then((module) => ({ default: module[name] }))
+      delay(DEFAULT_DELAY_IMPORT).then(() =>
+        factory().then((module) => ({ default: module[name] }))
+      )
     ),
   });
 }

@@ -1,5 +1,5 @@
-import React, { ReactNode, useEffect, useLayoutEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { Suspense, useLayoutEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import {
   ButtonCreate,
@@ -20,40 +20,13 @@ import {
 import { setTaskFilterParams } from "@/features/reducers/task-reducer";
 import { Department, Roles } from "@/features/types";
 import { useModal } from "@/hooks";
-import { PageKey, routePaths } from "@/routes";
+import { routePaths } from "@/routes";
 
 import { TODO_NO_DATA_CONFIG } from "./constant";
-import { TodoBoard } from "./todo-kanban";
+import { MAP_PATH_TO_PAGE_KEY } from "./mapper";
 import { TodoMemberView } from "./todo-member-view";
 import { ModalCreateTodo } from "./todo-modals";
-import { TodoTable } from "./todo-table";
-
-type ContentTab = {
-  content: ReactNode;
-  rightSide?: ReactNode;
-};
-
-const initializeTabContent = (key: PageKey, isLoading: boolean): ContentTab => {
-  switch (key) {
-    case "todo.kanban":
-      return {
-        content: <TodoBoard isLoading={isLoading} />,
-      };
-    case "todo.table":
-      return {
-        content: <TodoTable isLoading={isLoading} />,
-      };
-    default:
-      return {
-        content: <TodoBoard isLoading={isLoading} />,
-      };
-  }
-};
-
-const MAP_PATH_TO_PAGE_KEY: Record<string, PageKey> = {
-  [routePaths.todo.children.kanban.path]: "todo.kanban",
-  [routePaths.todo.children.table.path]: "todo.table",
-};
+import { TodoTabContents } from "./TodoTabContents";
 
 export const TodoContainer: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -65,12 +38,8 @@ export const TodoContainer: React.FC = () => {
 
   const { tab } = useParams();
   const propsModal = useModal({ isHotkeyOpen: true });
-  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [content, setContent] = useState<ContentTab>(
-    initializeTabContent(MAP_PATH_TO_PAGE_KEY[tab], isLoading)
-  );
 
   const getDepartmentId = (departmentText: string): Department["id"] | null => {
     const department = departmentList.find(
@@ -111,11 +80,6 @@ export const TodoContainer: React.FC = () => {
       })
     );
   };
-
-  useEffect(() => {
-    setContent(initializeTabContent(MAP_PATH_TO_PAGE_KEY[tab], isLoading));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading, navigate, tab]);
 
   useLayoutEffect(() => {
     setFilterDepartment(getInitialDepartmentText());
@@ -159,14 +123,12 @@ export const TodoContainer: React.FC = () => {
 
   if (isNoData)
     return (
-      <>
-        <NoData
-          data={TODO_NO_DATA_CONFIG}
-          onCreateNew={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      </>
+      <NoData
+        data={TODO_NO_DATA_CONFIG}
+        onCreateNew={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
     );
   return (
     <>
@@ -211,7 +173,9 @@ export const TodoContainer: React.FC = () => {
           </ButtonCreate>
         </Container.HeaderRight>
       </Container.HeaderForTabHost>
-      {content.content}
+      <Suspense fallback={<h1 className="p-default">Đang tải...</h1>}>
+        <TodoTabContents isLoading={isLoading} />
+      </Suspense>
       <ModalCreateTodo {...propsModal} />
     </>
   );

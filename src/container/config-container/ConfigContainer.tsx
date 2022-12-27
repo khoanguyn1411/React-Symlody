@@ -1,77 +1,17 @@
-import React, { ReactNode, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { Suspense } from "react";
+import { useParams } from "react-router-dom";
 
 import { Container, NotificationImg, TabHost } from "@/components";
-import { PageKey, routePaths } from "@/routes";
+import { routePaths } from "@/routes";
 
-import {
-  ActionConfigDepartment,
-  TabChangePassword,
-  TabConfigDepartment,
-  TabOrganization,
-  TabPersonalInfo,
-} from "./config-tabs";
-import { TabRolePermission } from "./config-tabs/role-permission";
-import { ActionConfigRolePermission } from "./config-tabs/role-permission/role-permission-components/ActionConfigRolePermission";
-
-type ContentTab = {
-  content: ReactNode;
-  rightSide?: ReactNode;
-};
-
-const initializeTabContents = (key: PageKey): ContentTab => {
-  switch (key) {
-    case "config.organization":
-      return {
-        content: <TabOrganization />,
-      };
-    case "config.personalInfo":
-      return {
-        content: <TabPersonalInfo />,
-      };
-    case "config.changePassword":
-      return {
-        content: <TabChangePassword />,
-      };
-    case "config.department":
-      return {
-        content: <TabConfigDepartment />,
-        rightSide: <ActionConfigDepartment />,
-      };
-    case "config.rolePermission":
-      return {
-        content: <TabRolePermission />,
-        rightSide: <ActionConfigRolePermission />,
-      };
-    default:
-      return {
-        content: <TabOrganization />,
-      };
-  }
-};
-
-const MAP_PATH_TO_PAGE_KEY: Record<string, PageKey> = {
-  [routePaths.config.children.department.path]: "config.department",
-  [routePaths.config.children.organization.path]: "config.organization",
-  [routePaths.config.children.rolePermission.path]: "config.rolePermission",
-  [routePaths.config.children.changePassword.path]: "config.changePassword",
-  [routePaths.config.children.personalInfo.path]: "config.personalInfo",
-};
+import { ConfigActions } from "./ConfigActions";
+import { ConfigTabContents } from "./ConfigTabContents";
+import { MAP_PATH_TO_PAGE_KEY } from "./mapper";
 
 export const ConfigContainer: React.FC = () => {
   const { tab } = useParams();
-  const navigate = useNavigate();
-  const [content, setContent] = useState<ContentTab>(
-    initializeTabContents(MAP_PATH_TO_PAGE_KEY[tab])
-  );
-
   const tabUrls = routePaths.config.children;
-
   const isInvalidUrl = MAP_PATH_TO_PAGE_KEY[tab] == null && tab != null;
-
-  useEffect(() => {
-    setContent(initializeTabContents(MAP_PATH_TO_PAGE_KEY[tab]));
-  }, [navigate, tab]);
 
   if (isInvalidUrl) {
     return (
@@ -117,9 +57,15 @@ export const ConfigContainer: React.FC = () => {
             },
           ]}
         />
-        <Container.HeaderRight>{content.rightSide}</Container.HeaderRight>
+        <Container.HeaderRight>
+          <ConfigActions />
+        </Container.HeaderRight>
       </Container.HeaderForTabHost>
-      <Container.Body>{content.content}</Container.Body>
+      <Container.Body>
+        <Suspense fallback={<h1>Đang tải...</h1>}>
+          <ConfigTabContents />
+        </Suspense>
+      </Container.Body>
     </>
   );
 };

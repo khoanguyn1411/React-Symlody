@@ -36,6 +36,7 @@ import { MemberTableContent } from "./member-table-content";
 const getFilterValue = (value: string) => {
   return MEMBER_FILTER_OPTIONS.find((item) => item.value === value).value;
 };
+
 export const MemberContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const memberStore = useAppSelector((state) => state.member);

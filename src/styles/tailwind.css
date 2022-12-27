@@ -49,13 +49,6 @@
     src: url("../assets/fonts/Inter-Black.ttf") format("truetype");
   }
 
-  html {
-    --header-height: 56px;
-    --sidebar-width: 256px;
-    --sidebar-compact-width: 72px;
-    --modal-min-width: 360px;
-  }
-
   body {
     @apply text-base;
   }

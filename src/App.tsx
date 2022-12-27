@@ -4,6 +4,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 
 import { Icon } from "./assets/icons";
+import { images } from "./assets/images";
 import { MainLayout } from "./components";
 import { AuthorizedGuard, UnauthorizedGuard } from "./guards";
 import { useAuth } from "./hooks";
@@ -14,8 +15,9 @@ export const App: React.FC = () => {
   const { isLoading, isAuth } = useAuth();
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center w-screen h-screen">
-        <Icon.Spin size="medium" />
+      <div className="flex flex-col items-center justify-center w-screen h-screen gap-5">
+        <img src={images.Logo} width={40} height={40} alt="Symlody logo" />
+        <Icon.LogoName />
       </div>
     );
   }

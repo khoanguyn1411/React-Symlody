@@ -1,4 +1,5 @@
 export * from "./auth-reducer";
+export * from "./common-reducer";
 export * from "./config-reducer";
 export * from "./department-reducer";
 export * from "./member-reducer";

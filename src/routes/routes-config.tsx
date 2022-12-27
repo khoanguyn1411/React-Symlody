@@ -1,13 +1,5 @@
-import { NotificationImg } from "@/components/notification-image";
-import {
-  ConfigContainer,
-  LoginContainer,
-  MemberContainer,
-  PropertyContainer,
-  TodoContainer,
-} from "@/container";
-
 import { ExtractPageKey } from "./build-route-paths";
+import { LazyContainer } from "./lazy-containers";
 import { routePaths } from "./route-paths";
 
 export interface IRoutes {
@@ -23,67 +15,43 @@ export type PageKey = ExtractPageKey<typeof routePaths>;
 export const APP_DEFAULT_PAGE = routePaths.todo.url;
 
 const privateRoutes: IRoutes[] = [
-  // {
-  //   path: "/",
-  //   component: <HomeContainer />,
-  //   pageKey: PageKey.Home,
-  //   pageTitle: "Trang chủ",
-  // },
   {
     path: routePaths.todo.url,
-    component: <TodoContainer />,
+    component: <LazyContainer.TodoContainer />,
     pageKey: "todo",
     pageTitle: routePaths.todo.title,
   },
   {
     path: routePaths.todo.children.tab.url,
-    component: <TodoContainer />,
+    component: <LazyContainer.TodoContainer />,
     pageKey: "todo",
   },
   {
     path: routePaths.member.url,
-    component: <MemberContainer />,
+    component: <LazyContainer.MemberContainer />,
     pageKey: "member",
     pageTitle: routePaths.member.title,
   },
   {
     path: routePaths.property.url,
-    component: <PropertyContainer />,
+    component: <LazyContainer.PropertyContainer />,
     pageKey: "property",
     pageTitle: routePaths.property.title,
   },
   {
     path: routePaths.config.url,
-    component: <ConfigContainer />,
+    component: <LazyContainer.ConfigContainer />,
     pageKey: "config",
     pageTitle: routePaths.config.title,
   },
   {
     path: routePaths.config.children.tab.url,
-    component: <ConfigContainer />,
+    component: <LazyContainer.ConfigContainer />,
     pageKey: "config",
   },
-
-  // {
-  //   path: "/event",
-  //   component: <EventContainer />,
-  //   pageKey: PageKey.Event,
-  //   pageTitle: "Trang sự kiện",
-  // },
-  // {
-  //   path: "/target",
-  //   component: <TargetContainer />,
-  //   pageKey: PageKey.Target,
-  //   pageTitle: "Trang mục tiêu",
-  // },
   {
     path: routePaths.rest.url,
-    component: (
-      <NotificationImg
-        title="Trang bạn đang truy cập không tồn tại"
-        description="Vui lòng kiểm tra lại đường dẫn hoặc liên hệ trung tâm hỗ trợ"
-      />
-    ),
+    component: <LazyContainer.NoDataContainer />,
     pageKey: "rest",
     pageTitle: routePaths.rest.title,
   },
@@ -92,7 +60,7 @@ const privateRoutes: IRoutes[] = [
 const publicRoutes: IRoutes[] = [
   {
     path: routePaths.login.url,
-    component: <LoginContainer />,
+    component: <LazyContainer.LoginContainer />,
     pageKey: "login",
     pageTitle: routePaths.login.title,
   },

@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { images } from "@/assets/images";
 import { useAppDispatch } from "@/features";
 import { getOrganizationAsync, logoutAsync } from "@/features/reducers";
 import { Organization, Profile } from "@/features/types";
+import { useNavigateWithTransition } from "@/hooks";
 import { routePaths } from "@/routes";
 
 import { Avatar, Dropdown, TItemListSelect } from "../../elements";
@@ -31,12 +31,11 @@ type TProps = {
 };
 export const UserDropdown: React.FC<TProps> = ({ user, organization }) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const { navigate } = useNavigateWithTransition();
 
   useEffect(() => {
     dispatch(getOrganizationAsync());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   const handleChangeMenu = (item: TItemListSelect) => {
     if (item.key === "LOGOUT") {
@@ -45,7 +44,6 @@ export const UserDropdown: React.FC<TProps> = ({ user, organization }) => {
     }
     if (item.key === "PROFILE") {
       navigate(routePaths.config.children.personalInfo.url);
-      return;
     }
     if (item.key === "CHANGE_PASSWORD") {
       navigate(routePaths.config.children.changePassword.url);

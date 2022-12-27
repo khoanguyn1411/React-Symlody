@@ -11,6 +11,13 @@ body {
   box-sizing: border-box;
 }
 
+html {
+  --header-height: 56px;
+  --sidebar-width: 256px;
+  --sidebar-compact-width: 72px;
+  --modal-min-width: 360px;
+}
+
 .ellipsis-text-1 {
   text-overflow: ellipsis;
   -webkit-line-clamp: 1;

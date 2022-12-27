@@ -10,7 +10,7 @@ export const RouterProvider: AppReact.FC.Children = ({ children }) => {
     <React.Suspense
       fallback={
         <div className="flex items-center justify-center w-screen h-screen">
-          <Icon.Spin size="large" />
+          <Icon.Spin size="small" />
         </div>
       }
     >

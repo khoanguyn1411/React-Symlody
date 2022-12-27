@@ -13,21 +13,10 @@ export const AuthorizedGuard: AppReact.FC.PropsWithChildren<TProps> = ({
 }) => {
   const location = useLocation();
   if (isAuth) {
-    return location.pathname === routePaths.root.url ? (
-      <Navigate
-        to={APP_DEFAULT_PAGE}
-        replace
-        state={{ path: location.pathname }}
-      />
-    ) : (
-      <>{children}</>
-    );
+    if (location.pathname === routePaths.root.url) {
+      return <Navigate to={APP_DEFAULT_PAGE} replace />;
+    }
+    return <>{children}</>;
   }
-  return (
-    <Navigate
-      to={routePaths.login.url}
-      replace
-      state={{ path: location.pathname }}
-    />
-  );
+  return <Navigate to={routePaths.login.url} replace />;
 };
