@@ -16,7 +16,7 @@ export const taskAdapter = createEntityAdapter<Task>({
 
 export const initialState = taskAdapter.getInitialState<TaskStateInner>({
   pending: true,
-  pendingDeleteTask: true,
+  pendingDeleteTask: false,
   filterParamsTask: { departmentId: null, selectedMemberList: [] },
   currentListTask: [],
 });

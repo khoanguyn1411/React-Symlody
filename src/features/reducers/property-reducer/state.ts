@@ -22,8 +22,8 @@ export const propertyAdapter = createEntityAdapter<Property>({
 export const initialState =
   propertyAdapter.getInitialState<PropertiesStateInner>({
     pending: true,
-    pendingRestoreProperty: true,
-    pendingDeleteProperty: true,
+    pendingRestoreProperty: false,
+    pendingDeleteProperty: false,
     filterParamsProperty: {
       isArchived: false,
       page: 1,

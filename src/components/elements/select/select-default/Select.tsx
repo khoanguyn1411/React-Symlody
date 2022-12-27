@@ -153,8 +153,7 @@ export function Select<T, E extends Primitive>({
   };
 
   useEffect(() => {
-    if (!value && !selectedOption) {
-      setSelectedOption(null);
+    if (!value) {
       return;
     }
     if (isMultiple) {

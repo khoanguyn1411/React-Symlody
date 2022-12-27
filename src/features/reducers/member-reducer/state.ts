@@ -22,8 +22,8 @@ export const memberAdapter = createEntityAdapter<Member>({
 
 export const initialState = memberAdapter.getInitialState<MemberStateInner>({
   pending: true,
-  pendingDeleteMember: true,
-  pendingRestoreMember: true,
+  pendingDeleteMember: false,
+  pendingRestoreMember: false,
   pendingUploadFileMember: true,
   filterParamsMember: {
     isArchived: false,

@@ -127,7 +127,7 @@ export function SelectSearch<T, E extends Primitive>({
           {children && children(InputComponent)}
           {!children && InputComponent}
         </div>
-        <div className="h-10 rounded-md" />
+        <div className="h-10 bg-gray-100 rounded-md" />
       </div>
     </Select>
   );
