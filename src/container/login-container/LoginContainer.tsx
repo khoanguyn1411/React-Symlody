@@ -63,7 +63,7 @@ export const LoginContainer: React.FC = () => {
             className="flex flex-col mt-6"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <FormItem label="Username" isRequired error={errors.email?.message}>
+            <FormItem label="Email" isRequired error={errors.email?.message}>
               <Controller
                 control={control}
                 name="email"
@@ -71,7 +71,7 @@ export const LoginContainer: React.FC = () => {
                   <Input
                     value={value}
                     onChange={onChange}
-                    placeholder="Username"
+                    placeholder="Email"
                   />
                 )}
               />
