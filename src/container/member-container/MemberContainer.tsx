@@ -163,7 +163,7 @@ export const MemberContainer: React.FC = () => {
               STT
             </Table.CellHead>
             <Table.CellHead>Họ và tên</Table.CellHead>
-            <Table.CellHead width="10rem">Ban</Table.CellHead>
+            <Table.CellHead width="12rem">Ban</Table.CellHead>
             <Table.CellHead width="12rem">Vị trí</Table.CellHead>
             <Table.CellHeadAction />
           </Table.Head>
