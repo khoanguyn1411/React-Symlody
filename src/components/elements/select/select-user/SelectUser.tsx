@@ -70,7 +70,7 @@ export const SelectUser: React.FC<Props> = ({
         );
         setCurrentList(newUserFilterList);
       }}
-      onChange={(value) => setSelectedUserId(Number(value))}
+      onChange={(value) => setSelectedUserId(value ? Number(value) : null)}
       isLoading={isLoading}
       renderEmptyListPlaceholder={
         <div className="p-2">Không có dữ liệu thành viên</div>
