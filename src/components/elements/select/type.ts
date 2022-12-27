@@ -24,7 +24,7 @@ export const STYLE_LIST_WRAPPER_MAPS = {
 } as const;
 
 export type TOptionProps<
-  T extends RecordObject = undefined,
+  T extends RecordObject = null,
   E extends Primitive = string
 > = {
   label: string;
@@ -34,7 +34,7 @@ export type TOptionProps<
   prefix?: string | JSX.Element;
 };
 
-export type TSelectCustomProps = {
+export type TSelectBaseProps = {
   placeHolder?: ReactNode;
   style?: TStyle;
   maxHeight?: number;

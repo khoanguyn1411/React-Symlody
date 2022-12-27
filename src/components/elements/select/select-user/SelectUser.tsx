@@ -1,17 +1,14 @@
 import classNames from "classnames";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { PLACEHOLDER_IMAGE } from "@/constants";
-import { useAppDispatch, useAppSelector } from "@/features";
-import { getUsersAsync, userSelectors } from "@/features/reducers";
+import { useAppSelector } from "@/features";
+import { userSelectors } from "@/features/reducers";
 import { User } from "@/features/types";
-import { useDebounce } from "@/hooks";
 import { cleanString } from "@/utils/funcs/clean-string";
 
 import { Avatar } from "../../avatar";
-import { Button } from "../../button";
-import { Input } from "../../input";
-import { Select } from "../select-default";
+import { SelectSearch } from "../select-search";
 import { TOptionProps } from "../type";
 
 type Props = {
@@ -29,12 +26,10 @@ export const SelectUser: React.FC<Props> = ({
 }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const userList = initialUserList ?? useAppSelector(userSelectors.selectAll);
-  const userCount = useAppSelector(userSelectors.selectTotal);
-  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector((state) => state.user.pending);
 
   const [currentUserList, setCurrentUserList] = useState<User[]>(userList);
-  const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [isShowContent, setIsShowContent] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   const LIST_OPTIONS: TOptionProps<User, User["id"]>[] = currentUserList.map(
     (user) => ({
@@ -43,76 +38,8 @@ export const SelectUser: React.FC<Props> = ({
       label: user.fullName,
     })
   );
-  const {
-    inputValue: searchValue,
-    setInputValue: setSearchValue,
-    debounceValue: debounceSearchValue,
-  } = useDebounce();
-
-  const isShowClearSearch = searchValue !== "" || selectedUserId != null;
-
-  const handleClearSelectedUserId = () => {
-    setSelectedUserId(null);
-    setSearchValue("");
-  };
-
-  const handleSearchValueChange = (value: string): void => {
-    setIsShowContent(true);
-    setSearchValue(value);
-    setIsSearching(true);
-  };
 
   const selectedUser = userList.find((user) => user.id === selectedUserId);
-
-  useEffect(() => {
-    setCurrentUserList(userList);
-  }, [userList]);
-
-  useEffect(() => {
-    if (!isSearching) {
-      return;
-    }
-    if (!searchValue) {
-      if (selectedUserId) {
-        setCurrentUserList(
-          userList.filter((item) => item.id !== Number(selectedUserId))
-        );
-        return;
-      }
-      setCurrentUserList(userList);
-      return;
-    }
-
-    const newUserFilterList = userList.filter((item) =>
-      cleanString(item.fullName).includes(cleanString(searchValue))
-    );
-    setCurrentUserList(newUserFilterList);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounceSearchValue]);
-
-  useLayoutEffect(() => {
-    if (!isShowContent && selectedUserId) {
-      if (selectedUser) {
-        setSearchValue(selectedUser.fullName);
-      }
-      setIsSearching(false);
-    }
-    if (!isShowContent && !selectedUserId) {
-      setSearchValue("");
-      setIsSearching(false);
-    }
-    if (isShowContent && !isSearching) {
-      setCurrentUserList(userList);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isShowContent]);
-
-  useEffect(() => {
-    if (userCount === 0 && initialUserList == null) {
-      dispatch(getUsersAsync());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const hasOption = selectedUser != null;
   const isShowFullNameImage =
@@ -121,20 +48,58 @@ export const SelectUser: React.FC<Props> = ({
     ? PLACEHOLDER_IMAGE
     : selectedUser.avatarUrl;
 
+  useEffect(() => {
+    setCurrentUserList(userList);
+  }, [userList]);
+
   return (
-    <Select
-      isShowContent={isShowContent}
-      setIsShowContent={setIsShowContent}
+    <SelectSearch
+      list={LIST_OPTIONS}
       isNonePadding
       value={selectedUserId}
+      onOptionChange={(_, _setSearchValue) => {
+        if (selectedUser) {
+          _setSearchValue(selectedUser.fullName);
+          setSearchValue(selectedUser.fullName);
+        }
+      }}
+      onSearchChange={(value, setCurrentList) => {
+        setSearchValue(value);
+        const newUserFilterList = LIST_OPTIONS.filter((item) =>
+          cleanString(item.objectValue.fullName).includes(cleanString(value))
+        );
+        setCurrentList(newUserFilterList);
+      }}
       onChange={(value) => setSelectedUserId(Number(value))}
-      list={LIST_OPTIONS}
+      isLoading={isLoading}
       renderEmptyListPlaceholder={
         <div className="p-2">Không có dữ liệu thành viên</div>
       }
+      renderOption={({ objectValue: { fullName, avatarUrl } }, isChosen) => (
+        <div
+          className={classNames(
+            "flex items-center w-full px-3 py-2 cursor-pointer space-x-3 transition-colors duration-200",
+            isChosen ? "bg-primary-800" : "hover:bg-primary-50",
+            !searchValue && isChosen ? "hidden" : "block"
+          )}
+        >
+          <Avatar size="default" fullName={fullName} src={avatarUrl} />
+          <div className="flex flex-col">
+            <h1
+              className={classNames(
+                "text-left",
+                isChosen && "text-white font-medium"
+              )}
+            >
+              {fullName}
+            </h1>
+          </div>
+        </div>
+      )}
+      searchPlaceholder={placeholder}
       renderBeforeList={
         <>
-          {selectedUser && !debounceSearchValue && (
+          {selectedUser && !searchValue && (
             <button
               className={classNames(
                 "flex p-2 w-full space-x-3 items-center bg-primary-50"
@@ -159,50 +124,19 @@ export const SelectUser: React.FC<Props> = ({
           )}
         </>
       }
-      renderOption={({ objectValue: { fullName, avatarUrl } }, isChosen) => (
-        <div
-          className={classNames(
-            "flex items-center w-full px-3 py-2 cursor-pointer space-x-3 transition-colors duration-200",
-            isChosen ? "bg-primary-800" : "hover:bg-primary-50 "
-          )}
-        >
-          <Avatar size="default" fullName={fullName} src={avatarUrl} />
-          <div className="flex flex-col">
-            <h1
-              className={classNames(
-                "text-left",
-                isChosen && "text-white font-medium"
-              )}
-            >
-              {fullName}
-            </h1>
-          </div>
-        </div>
-      )}
-      placeHolder={placeholder}
     >
-      <div className="relative w-full">
-        <div className="absolute top-0 bottom-0 left-0 flex items-center w-full px-3">
-          <Avatar
-            size="small"
-            fullName={isShowFullNameImage && selectedUser.fullName}
-            src={avatarUrl}
-          />
-          <Input
-            style="none"
-            placeholder={placeholder}
-            value={searchValue}
-            onChange={handleSearchValueChange}
-            className="flex-1 ml-2 box-border"
-          />
-          {isShowClearSearch && (
-            <Button isIconOnly style="none" onClick={handleClearSelectedUserId}>
-              <i className="text-gray-400 fas fa-times" />
-            </Button>
-          )}
-        </div>
-        <div className="h-10 bg-gray-100 rounded-md" />
-      </div>
-    </Select>
+      {(InputComponent) => (
+        <>
+          <div className="mr-2">
+            <Avatar
+              size="small"
+              fullName={isShowFullNameImage && selectedUser.fullName}
+              src={avatarUrl}
+            />
+          </div>
+          {InputComponent}
+        </>
+      )}
+    </SelectSearch>
   );
 };

@@ -1,17 +1,19 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import { CommonAssertion } from "@/utils/funcs/common-assertion";
 import { AppReact, Primitive } from "@/utils/types";
 
+import { Loading } from "../../loading";
 import { SelectBase } from "../select-base/SelectBase";
 import { SelectMultipleDisplay } from "../select-components/select-multiple/SelectMultipleDisplay";
 import { SelectMultipleOption } from "../select-components/select-multiple/SelectMultipleOption";
 import { SelectDefaultDisplay } from "../select-components/select-single/SelectSingleDisplay";
 import { SelectDefaultOption } from "../select-components/select-single/SelectSingleOption";
-import { TOptionProps, TSelectCustomProps } from "../type";
+import { TOptionProps, TSelectBaseProps } from "../type";
 
-type Props<T, E extends Primitive> = TSelectCustomProps & {
+export interface TPropsSelect<T, E extends Primitive> extends TSelectBaseProps {
   list: TOptionProps<T, E>[];
+  isLoading?: boolean;
   value?: Primitive | Primitive[];
   isMultiple?: boolean;
   children?: ReactNode;
@@ -21,6 +23,8 @@ type Props<T, E extends Primitive> = TSelectCustomProps & {
     removeOptionFn?: () => void
   ) => ReactNode;
   onChangeSideEffect?: (option: TOptionProps<T, E>) => void;
+  onListHide?: (option: TOptionProps<T, E> | TOptionProps<T, E>[]) => void;
+  onListOpen?: (option: TOptionProps<T, E> | TOptionProps<T, E>[]) => void;
   onChange?: AppReact.State.Dispatch<Primitive | Primitive[]>;
   selectValueControlled?: TOptionProps<T, E> | TOptionProps<T, E>[];
   setSelectValueControlled?: AppReact.State.Dispatch<
@@ -30,12 +34,13 @@ type Props<T, E extends Primitive> = TSelectCustomProps & {
   renderAfterList?: ReactNode;
   renderEmptyListPlaceholder?: ReactNode;
   classNameWrapperOptions?: string;
-};
+}
 
 export function Select<T, E extends Primitive>({
   list,
   value,
   isShowContent,
+  isLoading = false,
   isMultiple = false,
   renderBeforeList,
   renderAfterList,
@@ -46,12 +51,14 @@ export function Select<T, E extends Primitive>({
   setSelectValueControlled,
   setIsShowContent,
   onChange,
+  onListOpen,
   onChangeSideEffect,
+  onListHide,
   children,
   renderOption,
   renderDisplayOption,
   ...props
-}: Props<T, E>): JSX.Element {
+}: TPropsSelect<T, E>): JSX.Element {
   const [_isShowContent, _setIsShowContent] =
     isShowContent != null && setIsShowContent != null
       ? [isShowContent, setIsShowContent]
@@ -146,7 +153,8 @@ export function Select<T, E extends Primitive>({
   };
 
   useEffect(() => {
-    if (!value) {
+    if (!value && !selectedOption) {
+      setSelectedOption(null);
       return;
     }
     if (isMultiple) {
@@ -161,7 +169,20 @@ export function Select<T, E extends Primitive>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  const testRef = useRef();
+  useEffect(() => {
+    if (!selectedOption) {
+      return;
+    }
+    if (!isShowContent) {
+      onListHide?.(selectedOption);
+      return;
+    }
+    if (isShowContent) {
+      onListOpen?.(selectedOption);
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isShowContent, selectedOption]);
 
   return (
     <SelectBase
@@ -171,6 +192,7 @@ export function Select<T, E extends Primitive>({
       setIsShowContent={_setIsShowContent}
       renderListItem={
         <>
+          {isLoading && <Loading />}
           {renderBeforeList}
           {list.length === 0 && renderEmptyListPlaceholder}
           <div className={classNameWrapperOptions}>
@@ -189,7 +211,6 @@ export function Select<T, E extends Primitive>({
               return (
                 <li
                   className={isSelectedOption() ? "selected-select-option" : ""}
-                  ref={testRef}
                   onClick={handleSetSelectedItem(option)}
                   key={`${option.value}-${index}`}
                   role={"menuitem"}

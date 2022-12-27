@@ -1,11 +1,18 @@
 import React from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
-import { AppDatePicker, FormItem, Input, Select } from "@/components";
+import {
+  AppDatePicker,
+  FormItem,
+  Input,
+  Select,
+  SelectSearch,
+} from "@/components";
 import { PROVINCES_LIST } from "@/container/config-container/config-tabs/personal-info/constants";
 import { useAppSelector } from "@/features";
 import { departmentSelectors } from "@/features/reducers/department-reducer";
 import { Gender } from "@/features/types/models/gender";
+import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
 
 import { MemberForm } from "../type";
 
@@ -198,12 +205,22 @@ export const FormItems: React.FC<TProps> = ({ formProps }) => {
           control={control}
           name="homeTown"
           render={({ field: { value, onChange } }) => (
-            <Select
+            <SelectSearch
+              onSearchChange={(searchValue, setCurrentList) =>
+                setCurrentList(
+                  PROVINCES_LIST.filter((item) =>
+                    isTextIncludedIn(item.label, searchValue)
+                  )
+                )
+              }
               list={PROVINCES_LIST}
               style="modal"
               value={value}
+              onOptionChange={(option, setInputValue) => {
+                setInputValue(option.label);
+              }}
               onChange={onChange}
-              placeHolder="Vị trí"
+              searchPlaceholder="Vị trí"
             />
           )}
         />

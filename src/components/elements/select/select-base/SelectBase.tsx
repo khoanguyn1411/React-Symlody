@@ -6,9 +6,9 @@ import { AppReact } from "@/utils/types";
 import { Portal } from "../../portal";
 import { SelectDisplayWrapper } from "../select-components";
 import { SelectListWrapper } from "../select-components/SelectListWrapper";
-import { TSelectCustomProps } from "../type";
+import { TSelectBaseProps } from "../type";
 
-export const SelectBase: AppReact.FC.PropsWithChildren<TSelectCustomProps> = ({
+export const SelectBase: AppReact.FC.PropsWithChildren<TSelectBaseProps> = ({
   classNameDisplay,
   classNameList,
   renderListItem,

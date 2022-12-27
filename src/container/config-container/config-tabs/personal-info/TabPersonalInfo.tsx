@@ -7,12 +7,14 @@ import {
   FormItem,
   Input,
   Select,
+  SelectSearch,
   UploadedAvatar,
 } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updateProfileAsync } from "@/features/reducers";
 import { Gender } from "@/features/types/models/gender";
 import { FormService } from "@/utils/funcs/form-service";
+import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
 
 import {
   ConfigSubmitButton,
@@ -228,12 +230,22 @@ export const TabPersonalInfo: React.FC = () => {
             control={control}
             name="homeTown"
             render={({ field: { value, onChange } }) => (
-              <Select
+              <SelectSearch
+                onSearchChange={(searchValue, setCurrentList) =>
+                  setCurrentList(
+                    PROVINCES_LIST.filter((item) =>
+                      isTextIncludedIn(item.label, searchValue)
+                    )
+                  )
+                }
+                onOptionChange={(option, setInputValue) => {
+                  setInputValue(option.label);
+                }}
                 list={PROVINCES_LIST}
                 style="modal"
                 value={value}
                 onChange={onChange}
-                placeHolder="Vị trí"
+                searchPlaceholder="Vị trí"
               />
             )}
           />
