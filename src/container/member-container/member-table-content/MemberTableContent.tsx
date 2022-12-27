@@ -11,6 +11,7 @@ type TProps = {
   onDelete: (member: Member) => void;
   onRestore: (member: Member) => void;
 };
+const TABLE_COLUMNS_NUMBER = 5;
 
 export const MemberTableContent: React.FC<TProps> = ({
   onEdit,
@@ -48,11 +49,11 @@ export const MemberTableContent: React.FC<TProps> = ({
   };
 
   if (memberStore.pending) {
-    return <Table.Skeleton colsNumber={6} />;
+    return <Table.Skeleton colsNumber={TABLE_COLUMNS_NUMBER} />;
   }
 
   if (memberCount === 0) {
-    return <Table.NoData colsNumber={6} />;
+    return <Table.NoData colsNumber={TABLE_COLUMNS_NUMBER} />;
   }
 
   return (
@@ -84,7 +85,6 @@ export const MemberTableContent: React.FC<TProps> = ({
             <Table.Cell keySorting="department">
               {memberTableItem.department}
             </Table.Cell>
-            <Table.Cell>{memberTableItem.birthday}</Table.Cell>
             <Table.Cell>{memberTableItem.roles}</Table.Cell>
 
             <Table.CellAction>
