@@ -2,7 +2,7 @@ import React from "react";
 
 import { RecordObject } from "../types";
 import { delay } from "./delay";
-const DEFAULT_DELAY_IMPORT = 0;
+const DEFAULT_DELAY_IMPORT = 300;
 
 export function lazyImport<I extends RecordObject, K extends keyof I>(
   factory: () => Promise<I>,
