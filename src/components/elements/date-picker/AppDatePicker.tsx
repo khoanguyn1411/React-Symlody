@@ -62,7 +62,7 @@ export const AppDatePicker: React.FC<TProps> = ({
   onChange,
 }) => {
   const handleChangeDate = (date: Date): void => {
-    _setValue(value);
+    _setValue(DateService.toFormat(date, "VN"));
     onChange(date);
   };
 
