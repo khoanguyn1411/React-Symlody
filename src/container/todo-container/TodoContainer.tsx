@@ -125,9 +125,7 @@ export const TodoContainer: React.FC = () => {
     return (
       <NoData
         data={TODO_NO_DATA_CONFIG}
-        onCreateNew={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        onCreateNew={() => propsModal.toggle.setShow()}
       />
     );
   return (
