@@ -2,6 +2,7 @@ import classNames from "classnames";
 
 import { Icon } from "@/assets/icons";
 import { images } from "@/assets/images";
+import { useNavigateWithTransition } from "@/hooks";
 
 import { Drawer } from "../../../elements";
 import { SidebarItem } from "../sidebar-item";
@@ -63,6 +64,3 @@ export const SidebarMobile: React.FC<TProps> = ({
     </Drawer>
   );
 };
-function useNavigateWithTransition(): { navigate: any } {
-  throw new Error("Function not implemented.");
-}
