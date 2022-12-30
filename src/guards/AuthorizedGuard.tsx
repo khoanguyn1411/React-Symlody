@@ -1,22 +1,18 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import { APP_DEFAULT_PAGE, routePaths } from "@/routes";
-import { AppReact } from "@/utils/types";
 
 type TProps = {
   isAuth: boolean;
 };
 
-export const AuthorizedGuard: AppReact.FC.PropsWithChildren<TProps> = ({
-  children,
-  isAuth,
-}) => {
+export const AuthorizedGuard: React.FC<TProps> = ({ isAuth }) => {
   const location = useLocation();
   if (isAuth) {
     if (location.pathname === routePaths.root.url) {
       return <Navigate to={APP_DEFAULT_PAGE} replace />;
     }
-    return <>{children}</>;
+    return <Outlet />;
   }
   return <Navigate to={routePaths.login.url} replace />;
 };

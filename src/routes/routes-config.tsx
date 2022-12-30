@@ -2,19 +2,18 @@ import { ExtractPageKey } from "./build-route-paths";
 import { LazyContainer } from "./lazy-containers";
 import { routePaths } from "./route-paths";
 
-export interface IRoutes {
+export interface Routes {
   path: string;
   component: React.ReactNode;
   pageKey: PageKey;
   pageTitle?: string;
-  layout?: React.ReactNode;
 }
 
 export type PageKey = ExtractPageKey<typeof routePaths>;
 
 export const APP_DEFAULT_PAGE = routePaths.todo.url;
 
-const privateRoutes: IRoutes[] = [
+const privateRoutes: Routes[] = [
   {
     path: routePaths.todo.url,
     component: <LazyContainer.TodoContainer />,
@@ -57,7 +56,7 @@ const privateRoutes: IRoutes[] = [
   },
 ];
 
-const publicRoutes: IRoutes[] = [
+const publicRoutes: Routes[] = [
   {
     path: routePaths.login.url,
     component: <LazyContainer.LoginContainer />,

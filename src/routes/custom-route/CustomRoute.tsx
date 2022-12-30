@@ -1,4 +1,3 @@
-import { Routes } from "react-router-dom";
 import TopBarProgress from "react-topbar-progress-indicator";
 
 import { useAppSelector } from "@/features";
@@ -18,7 +17,7 @@ export const CustomRoute: AppReact.FC.Children = ({ children }) => {
   return (
     <>
       {isRouteLoading && <TopBarProgress />}
-      <Routes>{children}</Routes>
+      {children}
     </>
   );
 };
