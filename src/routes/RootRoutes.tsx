@@ -27,6 +27,5 @@ export const RootRoutes: React.FC = () => {
     },
   ];
 
-  const _RootRoutes = () => useRoutes(routes);
-  return <_RootRoutes />;
+  return useRoutes(routes);
 };
