@@ -24,7 +24,7 @@ export const TodoColumn: React.FC<TProps> = ({
   const [listCard, setListCard] = useState<Task[]>(columnData.cards);
 
   useLayoutEffect(() => {
-    const sortedCardList = mapOrder<Task>(
+    const sortedCardList = mapOrder(
       columnData.cards,
       columnData.cardOrder,
       "id"
