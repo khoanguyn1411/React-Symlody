@@ -8,6 +8,10 @@ type THookSearch = {
 
 const DEBOUNCE_TIME = 0;
 
+/**
+ * Add debounce time to input.
+ * @param initialValue Initial value of input.
+ */
 export const useDebounce = (initialValue?: string): THookSearch => {
   const [inputValue, setInputValue] = useState<string>(initialValue ?? "");
   const [debounceValue, setDebounceValue] = useState<string>(inputValue);

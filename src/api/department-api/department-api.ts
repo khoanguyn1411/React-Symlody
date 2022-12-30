@@ -5,8 +5,8 @@ import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
 import { DepartmentApiResponse } from "./types";
 
-const BASE_URL = "department";
-const departmentUrlService = new ComposeUrlService(BASE_URL);
+const BASE_PATH = "department";
+const departmentUrlService = new ComposeUrlService(BASE_PATH);
 
 const departmentUrls = departmentUrlService.composeCommonAPIMethodUrls();
 

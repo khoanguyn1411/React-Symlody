@@ -6,8 +6,8 @@ import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
 import { PropertyApiResponse } from "./types";
 
-const BASE_URL = "property";
-const propertyUrlService = new ComposeUrlService(BASE_URL);
+const BASE_PATH = "property";
+const propertyUrlService = new ComposeUrlService(BASE_PATH);
 
 const propertyUrls = propertyUrlService.composeCommonAPIMethodUrls();
 

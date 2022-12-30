@@ -12,15 +12,15 @@ import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
 import { AuthApiResponse } from "./types";
 
-const BASE_URL_LOGIN = "login";
-const BASE_URL_LOGOUT = "logout";
-const loginUrlService = new ComposeUrlService(BASE_URL_LOGIN);
-const logoutUrlService = new ComposeUrlService(BASE_URL_LOGOUT);
+const BASE_PATH_LOGIN = "login";
+const BASE_PATH_LOGOUT = "logout";
+const loginUrlService = new ComposeUrlService(BASE_PATH_LOGIN);
+const logoutUrlService = new ComposeUrlService(BASE_PATH_LOGOUT);
 
 const loginUrls = {
   login: loginUrlService.getBaseUrl(),
   logout: logoutUrlService.getBaseUrl(),
-  refreshToken: loginUrlService.composeWith(["refresh"]),
+  refreshToken: loginUrlService.concatWith(["refresh"]),
   getProfile: loginUrlService.getBaseUrl(),
 };
 

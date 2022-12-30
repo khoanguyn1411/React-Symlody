@@ -6,13 +6,13 @@ import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
 import { UserApiResponse } from "./types";
 
-const BASE_URL = "user";
-const userUrlService = new ComposeUrlService(BASE_URL);
+const BASE_PATH = "user";
+const userUrlService = new ComposeUrlService(BASE_PATH);
 
 const userUrls = {
   getUsers: userUrlService.getBaseUrl(),
-  updateProfile: userUrlService.composeWith(["update_profile"]),
-  changePassword: userUrlService.composeWith(["change_password"]),
+  updateProfile: userUrlService.concatWith(["update_profile"]),
+  changePassword: userUrlService.concatWith(["change_password"]),
 };
 
 export namespace UserApi {

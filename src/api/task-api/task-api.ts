@@ -6,8 +6,8 @@ import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
 import { TaskApiResponse } from ".";
 
-const BASE_URL = "task";
-const taskUrlService = new ComposeUrlService(BASE_URL);
+const BASE_PATH = "task";
+const taskUrlService = new ComposeUrlService(BASE_PATH);
 
 const taskUrls = taskUrlService.composeCommonAPIMethodUrls();
 

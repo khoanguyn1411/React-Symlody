@@ -14,16 +14,16 @@ import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
 import { ConfigApiResponse } from "./types";
 
-const BASE_URL = "config";
-const configUrlService = new ComposeUrlService(BASE_URL);
+const BASE_PATH = "config";
+const configUrlService = new ComposeUrlService(BASE_PATH);
 
 const configUrls = {
   getOrganization: configUrlService.getBaseUrl(),
   updateOrganization: (id: Organization["id"]) =>
-    configUrlService.constructUrlWithId(id),
-  getConfigManager: configUrlService.composeWith(["managers"]),
+    configUrlService.constructUrlWithParam(id),
+  getConfigManager: configUrlService.concatWith(["managers"]),
   updateConfigRoleUser: (userId: User["id"]) =>
-    configUrlService.composeWith(["roles", `${userId}`]),
+    configUrlService.concatWith(["roles", `${userId}`]),
 };
 
 export namespace ConfigApi {

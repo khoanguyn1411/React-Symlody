@@ -6,14 +6,14 @@ import { http } from "../api-core";
 import { composeHttpMethodResult } from "../api-utilities";
 import { MemberApiResponse } from "./types";
 
-const BASE_URL = "member";
-const memberUrlService = new ComposeUrlService(BASE_URL);
+const BASE_PATH = "member";
+const memberUrlService = new ComposeUrlService(BASE_PATH);
 
 const memberUrls = {
   ...memberUrlService.composeCommonAPIMethodUrls(),
   delete: (id: Member["id"]) =>
-    memberUrlService.composeWith(["archive", `${id}`]),
-  uploadMemberExcelFile: memberUrlService.composeWith(["bulk"]),
+    memberUrlService.concatWith(["archive", `${id}`]),
+  uploadMemberExcelFile: memberUrlService.concatWith(["bulk"]),
 };
 
 export namespace MemberApi {

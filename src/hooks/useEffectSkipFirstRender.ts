@@ -1,5 +1,10 @@
 import { DependencyList, useEffect, useRef } from "react";
 
+/**
+ * Skip first render of useEffect.
+ * @param callback Callback to perform.
+ * @param deps Dependencies to watch.
+ */
 export const useEffectSkipFirstRender = (
   callback: () => void,
   deps: DependencyList
