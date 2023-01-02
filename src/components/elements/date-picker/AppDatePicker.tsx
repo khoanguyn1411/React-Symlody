@@ -85,7 +85,7 @@ export const AppDatePicker: React.FC<TProps> = ({
       <DatePicker
         dateFormat={!isTimePicker ? "dd/MM/yyyy" : "dd/MM/yyyy hh:mm aa"}
         selected={getSelectedDate()}
-        minDate={new Date("01/01/1990")}
+        minDate={new Date("01/01/2000")}
         maxDate={getMaxDate()}
         renderCustomHeader={(param) => {
           return <AppDatePickerHeaderCustom {...param} />;
