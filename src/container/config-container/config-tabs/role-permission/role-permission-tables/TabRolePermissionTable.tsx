@@ -5,6 +5,8 @@ import { Roles, UserShort } from "@/features/types";
 
 import { CheckDone } from "../role-permission-components/CheckDone";
 
+const TABLE_COLUMNS_NUMBER = 5;
+
 type TProps = {
   onOpenEdit: (data: UserShort) => void;
   isRendered: boolean;
@@ -17,10 +19,10 @@ export const TabRolePermissionTable: React.FC<TProps> = ({
   const configUsersList = useAppSelector(configSelectors.selectAll);
 
   if (!isRendered) {
-    return <Table.Skeleton colsNumber={5} />;
+    return <Table.Skeleton colsNumber={TABLE_COLUMNS_NUMBER} />;
   }
   if (configUsersCount === 0) {
-    return <Table.NoData colsNumber={5} />;
+    return <Table.NoData colsNumber={TABLE_COLUMNS_NUMBER} />;
   }
 
   return (

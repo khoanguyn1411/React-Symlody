@@ -14,6 +14,8 @@ import { todoViewMapper } from "../mapper";
 import { useTodoFilter } from "../useTodoFilter";
 import { TodoSelectPriority, TodoSelectStatus } from "./todo-selects";
 
+const TABLE_COLUMNS_NUMBER = 6;
+
 type TProps = {
   onEdit: (task: Task) => void;
   onDelete: (task: Task) => void;
@@ -69,11 +71,11 @@ export const TodoTableContent: React.FC<TProps> = ({
   };
 
   if (isLoading || taskStore.pending) {
-    return <Table.Skeleton colsNumber={6} />;
+    return <Table.Skeleton colsNumber={TABLE_COLUMNS_NUMBER} />;
   }
 
   if (taskStore.currentListTask.length === 0) {
-    return <Table.NoData colsNumber={6} />;
+    return <Table.NoData colsNumber={TABLE_COLUMNS_NUMBER} />;
   }
 
   return (

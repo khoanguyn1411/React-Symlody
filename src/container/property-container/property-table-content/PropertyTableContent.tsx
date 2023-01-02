@@ -6,6 +6,8 @@ import { Property } from "@/features/types";
 
 import { propertyTableMapper } from "../mapper";
 
+const TABLE_COLUMNS_NUMBER = 7;
+
 type TProps = {
   onEdit: (property: Property) => void;
   onDelete: (property: Property) => void;
@@ -46,11 +48,11 @@ export const PropertyTableContent: React.FC<TProps> = ({
   };
 
   if (propertyStore.pending) {
-    return <Table.Skeleton colsNumber={7} />;
+    return <Table.Skeleton colsNumber={TABLE_COLUMNS_NUMBER} />;
   }
 
   if (propertyCount === 0) {
-    return <Table.NoData colsNumber={7} />;
+    return <Table.NoData colsNumber={TABLE_COLUMNS_NUMBER} />;
   }
   return (
     <Table.Body>

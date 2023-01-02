@@ -3,10 +3,11 @@ import React, { useEffect } from "react";
 import { Table } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { getConfigManager } from "@/features/reducers";
-import { RolesID, UserShort } from "@/features/types";
+import { RolesID, RolesManagerSortName, UserShort } from "@/features/types";
 import { withPermission } from "@/hoc";
 import { useModal } from "@/hooks";
 
+import { EPermissionOptions } from "./constants";
 import { ModalEditPermission } from "./role-permission-modals/ModalEditPermission";
 import { TabRolePermissionTable } from "./role-permission-tables/TabRolePermissionTable";
 
@@ -32,16 +33,16 @@ export const TabRolePermission: React.FC = () => {
       <Table.Container isFullHeight>
         <Table.Head>
           <Table.CellHead isFirst textAlign="left">
-            Thành viên
+            {EPermissionOptions.Member}
           </Table.CellHead>
           <Table.CellHead width="4rem" textAlign="left">
-            Lead
+            {EPermissionOptions.Lead}
           </Table.CellHead>
           <Table.CellHead width="4rem" textAlign="left">
-            Quản lý thành viên
+            {EPermissionOptions.Manager} {RolesManagerSortName.MemberManager}
           </Table.CellHead>
           <Table.CellHead width="4rem" textAlign="left">
-            Quản lý tài sản
+            {EPermissionOptions.Manager} {RolesManagerSortName.PropertyManager}
           </Table.CellHead>
 
           <Table.CellHeadAction />
