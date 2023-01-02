@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 
 import { Avatar, Checkbox, Search, Select } from "@/components";
-import { TOptionProps } from "@/components/elements/select/type";
+import { Option } from "@/components/elements/select/type";
 import { User } from "@/features/types";
 import { useDebounce } from "@/hooks";
 import { isTextIncludedIn } from "@/utils/funcs/is-text-included-in";
@@ -28,7 +28,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
   const [_memberList, _setMemberList] = useState<User[]>(memberList);
 
   const [selectedListOptions, setSelectedListOptions] = useState<
-    TOptionProps<User>[]
+    Option<User>[]
   >(
     selectedMembers.map((user) => ({
       value: user.id.toString(),
@@ -37,7 +37,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
     }))
   );
 
-  const handleSetList = (options: TOptionProps<User>[]) => {
+  const handleSetList = (options: Option<User>[]) => {
     setSelectedListOptions(options);
     setSelectedMembers(options.map((item) => item.objectValue));
   };
@@ -54,7 +54,7 @@ export const TodoNumberHolder: React.FC<TProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceValue]);
 
-  const MEMBER_LIST: TOptionProps<User>[] = _memberList.map((option) => ({
+  const MEMBER_LIST: Option<User>[] = _memberList.map((option) => ({
     label: option.fullName,
     value: option.id.toString(),
     objectValue: option,

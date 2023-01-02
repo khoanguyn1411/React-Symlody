@@ -1,6 +1,6 @@
 import { images } from "@/assets/images";
 import { TNodataConfig } from "@/components";
-import { TOptionProps } from "@/components/elements/select/type";
+import { Option } from "@/components/elements/select/type";
 import { enumToArray } from "@/utils/funcs/enum-to-array";
 
 import { TEventTable } from "./type";
@@ -36,7 +36,7 @@ export const EVENT_NO_DATA_CONFIG: TNodataConfig = {
   imageSrc: images.noData.event,
 };
 
-export const EVENT_STATUS_LIST_OPTIONS: TOptionProps[] = [
+export const EVENT_STATUS_LIST_OPTIONS: Option[] = [
   "Tất cả sự kiện",
   ...enumToArray(EEventStatus),
 ].map((item) => ({ value: item, label: item }));

@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useState } from "react";
 
 import { Select } from "@/components";
-import { TOptionProps } from "@/components/elements/select/type";
+import { Option } from "@/components/elements/select/type";
 import { Task, TASK_STATUS_FROM_ID_TO_READABLE } from "@/features/types";
 import { enumToArray } from "@/utils/funcs/enum-to-array";
 
@@ -17,12 +17,12 @@ export const TodoSelectStatus: React.FC<TProps> = ({
   task,
   onStatusChange,
 }) => {
-  const [_status, _setStatus] = useState<TOptionProps<null, Task.StatusIds>>({
+  const [_status, _setStatus] = useState<Option<null, Task.StatusIds>>({
     label: TASK_STATUS_FROM_ID_TO_READABLE[task.status],
     value: task.status,
   });
 
-  const handleChangeStatus = (status: TOptionProps<null, Task.StatusIds>) => {
+  const handleChangeStatus = (status: Option<null, Task.StatusIds>) => {
     onStatusChange(status.value, task);
   };
   return (

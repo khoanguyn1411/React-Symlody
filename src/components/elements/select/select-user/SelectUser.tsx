@@ -9,7 +9,7 @@ import { cleanString } from "@/utils/funcs/clean-string";
 
 import { Avatar } from "../../avatar";
 import { SelectSearch } from "../select-search";
-import { TOptionProps } from "../type";
+import { Option } from "../type";
 
 type Props = {
   placeholder?: string;
@@ -31,7 +31,7 @@ export const SelectUser: React.FC<Props> = ({
   const [currentUserList, setCurrentUserList] = useState<User[]>(userList);
   const [searchValue, setSearchValue] = useState<string>("");
 
-  const LIST_OPTIONS: TOptionProps<User, User["id"]>[] = currentUserList.map(
+  const LIST_OPTIONS: Option<User, User["id"]>[] = currentUserList.map(
     (user) => ({
       value: user.id,
       objectValue: user,

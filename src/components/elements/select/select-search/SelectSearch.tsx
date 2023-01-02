@@ -5,17 +5,17 @@ import { AppReact, Primitive, StrictOmit } from "@/utils/types";
 
 import { Button, Input } from "../..";
 import { Select, TPropsSelect } from "..";
-import { TOptionProps } from "../type";
+import { Option } from "../type";
 interface Props<T, E extends Primitive>
   extends StrictOmit<TPropsSelect<T, E>, "children"> {
   children?: (InputComponent: JSX.Element) => ReactNode;
   searchPlaceholder?: string;
   onSearchChange?: (
     inputValue: string,
-    setCurrentList: AppReact.State.Dispatch<TOptionProps<T, E>[]>
+    setCurrentList: AppReact.State.Dispatch<Option<T, E>[]>
   ) => void;
   onOptionChange?: (
-    option: TOptionProps<T, E>,
+    option: Option<T, E>,
     setInputValue: AppReact.State.Dispatch<string>
   ) => void;
 }
@@ -30,9 +30,7 @@ export function SelectSearch<T, E extends Primitive>({
   const { inputValue, debounceValue, setInputValue } = useDebounce(
     props.value ? props.value.toString() : ""
   );
-  const [currentList, setCurrentList] = useState<TOptionProps<T, E>[]>(
-    props.list
-  );
+  const [currentList, setCurrentList] = useState<Option<T, E>[]>(props.list);
 
   const [isShowContent, setIsShowContent] = useState<boolean>(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -49,14 +47,12 @@ export function SelectSearch<T, E extends Primitive>({
     setIsSearching(true);
   };
 
-  const handleOnChangeSideEffect = (option: TOptionProps<T, E>): void => {
+  const handleOnChangeSideEffect = (option: Option<T, E>): void => {
     onOptionChange?.(option, setInputValue);
     props.onChangeSideEffect?.(option);
   };
 
-  const handleOnListHide = (
-    option: TOptionProps<T, E> | TOptionProps<T, E>[]
-  ) => {
+  const handleOnListHide = (option: Option<T, E> | Option<T, E>[]) => {
     if (Array.isArray(option)) {
       return;
     }

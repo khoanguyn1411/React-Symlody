@@ -3,10 +3,10 @@ import React, { ReactNode } from "react";
 
 import { Primitive } from "@/utils/types";
 
-import { TOptionProps } from "../../type";
+import { Option } from "../../type";
 
 type Props<T, E extends Primitive> = {
-  selectedOption: TOptionProps<T, E>;
+  selectedOption: Option<T, E>;
   isShowContent: boolean;
   placeholder: ReactNode;
 };

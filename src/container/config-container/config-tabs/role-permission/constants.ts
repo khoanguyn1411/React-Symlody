@@ -1,4 +1,4 @@
-import { TOptionProps } from "@/components/elements/select/type";
+import { Option } from "@/components/elements/select/type";
 import { RolesManagerSortName } from "@/features/types";
 import { enumToArray } from "@/utils/funcs/enum-to-array";
 import { generateStatusMessageFor } from "@/utils/funcs/generate-app-status-messages";
@@ -9,13 +9,13 @@ export enum EPermissionOptions {
   Member = "Thành viên",
 }
 
-export const PERMISSION_OPTIONS: TOptionProps[] = enumToArray(
-  EPermissionOptions
-).map((item) => ({ value: item, label: item }));
+export const PERMISSION_OPTIONS: Option[] = enumToArray(EPermissionOptions).map(
+  (item) => ({ value: item, label: item })
+);
 
-export const MANAGE_OPTIONS: TOptionProps[] = enumToArray(
-  RolesManagerSortName
-).map((item) => ({ value: item, label: item }));
+export const MANAGE_OPTIONS: Option[] = enumToArray(RolesManagerSortName).map(
+  (item) => ({ value: item, label: item })
+);
 
 export const ROLE_PERMISSION_MESSAGE = generateStatusMessageFor("quyền");
 

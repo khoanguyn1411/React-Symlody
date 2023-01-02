@@ -9,7 +9,7 @@ import {
   Select,
   Table,
 } from "@/components";
-import { TOptionProps } from "@/components/elements/select/type";
+import { Option } from "@/components/elements/select/type";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   deleteMemberAsync,
@@ -63,7 +63,7 @@ export const MemberContainer: React.FC = () => {
     }
   });
 
-  const handleSetFilter = (item: TOptionProps) => {
+  const handleSetFilter = (item: Option) => {
     switch (item.value) {
       case MEMBER_FILTER_VALUE.all:
         dispatch(setMemberFilterParams({ isArchived: null }));

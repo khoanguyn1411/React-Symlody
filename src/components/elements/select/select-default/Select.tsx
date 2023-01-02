@@ -9,26 +9,26 @@ import { SelectMultipleDisplay } from "../select-components/select-multiple/Sele
 import { SelectMultipleOption } from "../select-components/select-multiple/SelectMultipleOption";
 import { SelectDefaultDisplay } from "../select-components/select-single/SelectSingleDisplay";
 import { SelectDefaultOption } from "../select-components/select-single/SelectSingleOption";
-import { TOptionProps, TSelectBaseProps } from "../type";
+import { Option, TSelectBaseProps } from "../type";
 
 export interface TPropsSelect<T, E extends Primitive> extends TSelectBaseProps {
-  list: TOptionProps<T, E>[];
+  list: Option<T, E>[];
   isLoading?: boolean;
   value?: Primitive | Primitive[];
   isMultiple?: boolean;
   children?: ReactNode;
-  renderOption?: (option: TOptionProps<T, E>, isChosen?: boolean) => ReactNode;
+  renderOption?: (option: Option<T, E>, isChosen?: boolean) => ReactNode;
   renderDisplayOption?: (
-    option: TOptionProps<T, E>,
+    option: Option<T, E>,
     removeOptionFn?: () => void
   ) => ReactNode;
-  onChangeSideEffect?: (option: TOptionProps<T, E>) => void;
-  onListHide?: (option: TOptionProps<T, E> | TOptionProps<T, E>[]) => void;
-  onListOpen?: (option: TOptionProps<T, E> | TOptionProps<T, E>[]) => void;
+  onChangeSideEffect?: (option: Option<T, E>) => void;
+  onListHide?: (option: Option<T, E> | Option<T, E>[]) => void;
+  onListOpen?: (option: Option<T, E> | Option<T, E>[]) => void;
   onChange?: AppReact.State.Dispatch<Primitive | Primitive[]>;
-  selectValueControlled?: TOptionProps<T, E> | TOptionProps<T, E>[];
+  selectValueControlled?: Option<T, E> | Option<T, E>[];
   setSelectValueControlled?: AppReact.State.Dispatch<
-    TOptionProps<T, E> | TOptionProps<T, E>[]
+    Option<T, E> | Option<T, E>[]
   >;
   renderBeforeList?: ReactNode;
   renderAfterList?: ReactNode;
@@ -69,7 +69,7 @@ export function Select<T, E extends Primitive>({
     setSelectValueControlled != null
       ? [selectValueControlled, setSelectValueControlled]
       : // eslint-disable-next-line react-hooks/rules-of-hooks
-        useState<TOptionProps<T, E> | TOptionProps<T, E>[]>(() => {
+        useState<Option<T, E> | Option<T, E>[]>(() => {
           if (isMultiple) {
             CommonAssertion.assertArray(value);
             return value
@@ -79,7 +79,7 @@ export function Select<T, E extends Primitive>({
           return list.find((item) => item.value === value) ?? null;
         });
 
-  const handleSetSelectedItem = (option: TOptionProps<T, E>) => () => {
+  const handleSetSelectedItem = (option: Option<T, E>) => () => {
     onChangeSideEffect?.(option);
     if (!isMultiple) {
       onChange?.(option.value);
@@ -103,7 +103,7 @@ export function Select<T, E extends Primitive>({
     onChange?.(newSelectedList.map((option) => option.value));
   };
 
-  const getOptionUI = (option: TOptionProps<T, E>) => {
+  const getOptionUI = (option: Option<T, E>) => {
     if (renderOption) {
       let isChosen: boolean;
       if (isMultiple) {
@@ -117,7 +117,7 @@ export function Select<T, E extends Primitive>({
       return renderOption(option, isChosen);
     }
     if (!isMultiple) {
-      CommonAssertion.assertNotArray<TOptionProps<T, E>>(selectedOption);
+      CommonAssertion.assertNotArray<Option<T, E>>(selectedOption);
       return (
         <SelectDefaultOption {...option} selectedOption={selectedOption} />
       );
@@ -131,7 +131,7 @@ export function Select<T, E extends Primitive>({
       return children;
     }
     if (!isMultiple) {
-      CommonAssertion.assertNotArray<TOptionProps<T, E>>(selectedOption);
+      CommonAssertion.assertNotArray<Option<T, E>>(selectedOption);
       return (
         <SelectDefaultDisplay
           selectedOption={selectedOption}

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { Select } from "@/components";
-import { TOptionProps } from "@/components/elements/select/type";
+import { Option } from "@/components/elements/select/type";
 import { Task } from "@/features/types";
 
 import { TodoPriorityIcon } from "../../TodoPriorityIcon";
@@ -16,17 +16,17 @@ export const TodoSelectPriority: React.FC<TProps> = ({
   task,
   onPriorityChange,
 }) => {
-  const getPriorityTask = useCallback((): TOptionProps<null, boolean> => {
+  const getPriorityTask = useCallback((): Option<null, boolean> => {
     return {
       label: task.isPriority.toString(),
       value: task.isPriority,
     };
   }, [task.isPriority]);
-  const [_isPriority, _setIsPriority] = useState<TOptionProps<null, boolean>>(
-    () => getPriorityTask()
+  const [_isPriority, _setIsPriority] = useState<Option<null, boolean>>(() =>
+    getPriorityTask()
   );
 
-  const handlePriorityChange = (option: TOptionProps<null, boolean>) => {
+  const handlePriorityChange = (option: Option<null, boolean>) => {
     onPriorityChange(option.value, task);
   };
 

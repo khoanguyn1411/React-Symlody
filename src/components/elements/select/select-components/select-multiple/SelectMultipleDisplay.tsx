@@ -4,15 +4,15 @@ import React, { Fragment, ReactNode } from "react";
 import { TStyle } from "@/components/elements/input/type";
 import { Primitive } from "@/utils/types";
 
-import { TOptionProps } from "../../type";
+import { Option } from "../../type";
 
 type Props<T, E extends Primitive> = {
-  selectedOption: TOptionProps<T, E>[];
+  selectedOption: Option<T, E>[];
   style: TStyle;
   placeholder: ReactNode;
-  handleSetSelectedItem: (option: TOptionProps<T, E>) => () => void;
+  handleSetSelectedItem: (option: Option<T, E>) => () => void;
   renderDisplayOption: (
-    option: TOptionProps<T, E>,
+    option: Option<T, E>,
     removeOptionFn: () => void
   ) => ReactNode;
 };

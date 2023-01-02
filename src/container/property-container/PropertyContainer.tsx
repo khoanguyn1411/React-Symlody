@@ -9,7 +9,7 @@ import {
   Select,
   Table,
 } from "@/components";
-import { TOptionProps } from "@/components/elements/select/type";
+import { Option } from "@/components/elements/select/type";
 import { useAppDispatch, useAppSelector } from "@/features";
 import { updatePropertyAsync } from "@/features/reducers";
 import {
@@ -66,7 +66,7 @@ export const PropertyContainer: React.FC = () => {
     }
   });
 
-  const handleSetFilter = (item: TOptionProps) => {
+  const handleSetFilter = (item: Option) => {
     switch (item.value) {
       case PROPERTY_FILTER_VALUE.all:
         dispatch(setPropertyFilterParams({ isArchived: null }));

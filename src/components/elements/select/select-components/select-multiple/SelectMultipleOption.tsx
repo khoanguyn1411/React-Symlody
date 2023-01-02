@@ -3,10 +3,10 @@ import classNames from "classnames";
 import { Checkbox } from "@/components/elements/checkbox";
 import { Primitive } from "@/utils/types";
 
-import { TOptionProps } from "../../type";
+import { Option } from "../../type";
 
-type Props<T, E extends Primitive> = TOptionProps<T, E> & {
-  selectedOption: TOptionProps<T, E>[];
+type Props<T, E extends Primitive> = Option<T, E> & {
+  selectedOption: Option<T, E>[];
 };
 
 export function SelectMultipleOption<T, E extends Primitive>({

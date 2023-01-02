@@ -4,14 +4,14 @@ import { ReactDatePickerCustomHeaderProps } from "react-datepicker";
 import { Primitive } from "@/utils/types";
 
 import { Select } from "../../select";
-import { TOptionProps } from "../../select/type";
+import { Option } from "../../select/type";
 import { MONTH_LIST, YEAR_LIST } from "../constant";
 
 export const AppDatePickerHeaderCustom: React.FC<
   ReactDatePickerCustomHeaderProps
 > = (param) => {
   const [selectedMonth, setSelectedMonth] = useState<
-    TOptionProps<undefined, Primitive>
+    Option<undefined, Primitive>
   >(() => {
     return {
       value: param.date.getMonth() + 1,
@@ -22,19 +22,19 @@ export const AppDatePickerHeaderCustom: React.FC<
   });
 
   const [selectedYear, setSelectedYear] = useState<
-    TOptionProps<undefined, Primitive>
+    Option<undefined, Primitive>
   >(() => ({
     value: param.date.getFullYear(),
     label: YEAR_LIST.find((year) => year.value === param.date.getFullYear())
       .label,
   }));
 
-  const handleChangeMonth = (option: TOptionProps<undefined, Primitive>) => {
+  const handleChangeMonth = (option: Option<undefined, Primitive>) => {
     setSelectedMonth(option);
     param.changeMonth(Number(option.value) - 1);
   };
 
-  const handleChangeYear = (option: TOptionProps<undefined, Primitive>) => {
+  const handleChangeYear = (option: Option<undefined, Primitive>) => {
     setSelectedYear(option);
     param.changeYear(Number(option.value));
   };

@@ -23,7 +23,7 @@ export const STYLE_LIST_WRAPPER_MAPS = {
   [STYLE.modal]: "bg-gray-50",
 } as const;
 
-export type TOptionProps<
+export type Option<
   T extends RecordObject = null,
   E extends Primitive = string
 > = {

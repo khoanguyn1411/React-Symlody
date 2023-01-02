@@ -2,9 +2,9 @@ import classNames from "classnames";
 
 import { Primitive } from "@/utils/types";
 
-import { TOptionProps } from "../../type";
-type Props<T, E extends Primitive> = TOptionProps<T, E> & {
-  selectedOption: TOptionProps<T, E>;
+import { Option } from "../../type";
+type Props<T, E extends Primitive> = Option<T, E> & {
+  selectedOption: Option<T, E>;
 };
 
 export function SelectDefaultOption<T, E extends Primitive>({

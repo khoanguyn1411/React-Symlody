@@ -1,6 +1,6 @@
 import { images } from "@/assets/images";
 import { TNodataConfig } from "@/components";
-import { TOptionProps } from "@/components/elements/select/type";
+import { Option } from "@/components/elements/select/type";
 import { generateStatusMessageFor } from "@/utils/funcs/generate-app-status-messages";
 
 export const MEMBER_FILTER_VALUE = {
@@ -9,7 +9,7 @@ export const MEMBER_FILTER_VALUE = {
   active: "active",
 } as const;
 
-export const MEMBER_FILTER_OPTIONS: TOptionProps[] = [
+export const MEMBER_FILTER_OPTIONS: Option[] = [
   {
     value: MEMBER_FILTER_VALUE.active,
     label: "Đang hoạt động",

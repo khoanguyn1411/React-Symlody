@@ -9,7 +9,7 @@ import {
   Select,
   TabHost,
 } from "@/components";
-import { TOptionProps } from "@/components/elements/select/type";
+import { Option } from "@/components/elements/select/type";
 import { useAppDispatch, useAppSelector } from "@/features";
 import {
   departmentSelectors,
@@ -71,7 +71,7 @@ export const TodoContainer: React.FC = () => {
     propsModal.toggle.setShow();
   };
 
-  const handleSetFilter = (item: TOptionProps) => {
+  const handleSetFilter = (item: Option) => {
     const departmentID = getDepartmentId(item.value);
     dispatch(
       setTaskFilterParams({

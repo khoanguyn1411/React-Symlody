@@ -1,6 +1,6 @@
 import { images } from "@/assets/images";
 import { TNodataConfig } from "@/components";
-import { TOptionProps } from "@/components/elements/select/type";
+import { Option } from "@/components/elements/select/type";
 import { generateStatusMessageFor } from "@/utils/funcs/generate-app-status-messages";
 
 export const PROPERTY_NO_DATA_CONFIG: TNodataConfig = {
@@ -17,7 +17,7 @@ export const PROPERTY_FILTER_VALUE = {
   inUse: "in-use",
 } as const;
 
-export const PROPERTY_FILTER_OPTIONS: TOptionProps[] = [
+export const PROPERTY_FILTER_OPTIONS: Option[] = [
   {
     value: PROPERTY_FILTER_VALUE.inUse,
     label: "Đang sử dụng",
