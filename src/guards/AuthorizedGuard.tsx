@@ -6,7 +6,6 @@ type TProps = {
   isAuth: boolean;
 };
 
-// Test
 export const AuthorizedGuard: React.FC<TProps> = ({ isAuth }) => {
   const location = useLocation();
   if (isAuth) {
