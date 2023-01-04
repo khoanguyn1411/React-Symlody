@@ -42,6 +42,8 @@ export const FormItems: React.FC<TProps> = ({ formProps, mode }) => {
   const initializeAvailableUserSelectedList = () => {
     const managerListAsUser: User[] = managerList.map((manager) => ({
       ...manager,
+      isRole: manager.isRole,
+      fullName: manager.fullName,
       departmentId: currentUser.department.id,
     }));
 

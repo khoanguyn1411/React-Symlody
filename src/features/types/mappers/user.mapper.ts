@@ -2,6 +2,7 @@ import { StrictOmit } from "@/utils/types";
 
 import { UserDto, UserShortDto } from "../dtos";
 import {
+  AuthAccount,
   Group,
   Member,
   Profile,
@@ -11,13 +12,13 @@ import {
   UserShort,
 } from "../models";
 import { authAccountMapper } from "./auth-account.mapper";
-import { isRoleMapper } from "./base-mappers/is-role.mapper";
 import { IMapperFromDto } from "./base-mappers/mapper";
 
 export class UserMapper implements IMapperFromDto<UserDto, User> {
   public fromDto(dto: UserDto): User {
+    const authAccount = authAccountMapper.fromDtoWithOutGroups(dto);
     return {
-      ...authAccountMapper.fromDtoWithOutGroups(dto),
+      ...authAccount,
       id: dto.id,
       departmentId: dto.department_id,
       avatarUrl: dto.avatar_url,
@@ -55,22 +56,22 @@ export class UserShortMapper
     return {
       ...authAccount,
       avatarUrl: dto.avatar_url ?? this.avatarUrl,
-      isRole: isRoleMapper.fromGroupModel(authAccount.groups),
       id: dto.id,
     };
   }
 
   public fromUser(user: User): UserShort {
     const memberGroup: Group[] = [{ id: RolesID.Member, name: Roles.Member }];
-    return {
-      id: user.id,
-      avatarUrl: user.avatarUrl,
+    const authAccount = new AuthAccount({
       firstName: user.firstName,
       lastName: user.lastName,
-      fullName: user.fullName,
       email: user.email,
       groups: memberGroup,
-      isRole: isRoleMapper.fromGroupModel(memberGroup),
+    });
+    return {
+      ...authAccount,
+      id: user.id,
+      avatarUrl: user.avatarUrl,
     };
   }
 }
