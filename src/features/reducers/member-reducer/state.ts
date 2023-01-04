@@ -24,7 +24,7 @@ export const initialState = memberAdapter.getInitialState<MemberStateInner>({
   pending: true,
   pendingDeleteMember: false,
   pendingRestoreMember: false,
-  pendingUploadFileMember: true,
+  pendingUploadFileMember: false,
   filterParamsMember: {
     isArchived: false,
     page: 1,

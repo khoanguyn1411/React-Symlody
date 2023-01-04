@@ -4,8 +4,9 @@ import { useForm } from "react-hook-form";
 
 import { Loading, Modal } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getUsersAsync, userSelectors } from "@/features/reducers";
+import { getUsersAsync } from "@/features/reducers";
 import { createTaskAsync } from "@/features/reducers/task-reducer";
+import { UserTargetView } from "@/features/types/models/user-view";
 import { THookModalProps } from "@/hooks";
 import { DateService } from "@/utils/funcs/date-service";
 import { FormService } from "@/utils/funcs/form-service";
@@ -21,15 +22,14 @@ export const ModalCreateTodo: React.FC<THookModalProps<undefined>> = ({
   toggle,
 }) => {
   const dispatch = useAppDispatch();
-  const userCount = useAppSelector(userSelectors.selectTotal);
   const userStore = useAppSelector((state) => state.user);
   const currentUserStore = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    if (userCount === 0 && isShowing) {
-      dispatch(getUsersAsync());
+    if (isShowing) {
+      dispatch(getUsersAsync({ target: UserTargetView.Task }));
     }
-  }, [dispatch, isShowing, userCount]);
+  }, [dispatch, isShowing]);
 
   const propsForm = useForm<TodoForm>({
     resolver: yupResolver(schema),

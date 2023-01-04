@@ -19,18 +19,17 @@ import { ErrorHandler } from "@/utils/funcs/error-handler";
 import { ReduxThunk } from "@/utils/types";
 
 import { updateCurrentUser } from "../auth-reducer";
-import { getUsersAsync, removeUser, userSelectors } from "../user-reducer";
+import { removeUser, userSelectors } from "../user-reducer";
 import { initialState, memberAdapter } from "./state";
 
 export const uploadMemberExcelFileAsync = createAsyncThunk<
   any,
   FileUploaded,
   ReduxThunk.RejectValue<false>
->("member/create-multiple", async (payload, { rejectWithValue, dispatch }) => {
+>("member/create-multiple", async (payload, { rejectWithValue }) => {
   const formData = fileUploadedMapper.toFormData(payload);
   const result = await MemberApi.uploadMemberExcelFile(formData);
   if (result.kind === "ok") {
-    dispatch(getUsersAsync());
     return true;
   }
   return rejectWithValue(false);
@@ -40,11 +39,10 @@ export const createMemberAsync = createAsyncThunk<
   Member,
   MemberCreation,
   ReduxThunk.RejectValue<ErrorResponse<MemberCreation, "authAccount">>
->("member/create", async (payload, { rejectWithValue, dispatch }) => {
+>("member/create", async (payload, { rejectWithValue }) => {
   const memberDto = memberMapper.toCreationDto(payload);
   const result = await MemberApi.createMember(memberDto);
   if (result.kind === "ok") {
-    dispatch(getUsersAsync());
     return memberMapper.fromDto(result.result_dto);
   }
   return ErrorHandler.catchErrors({
@@ -105,7 +103,6 @@ export const updateMemberAsync = createAsyncThunk<
     const result = await MemberApi.updateMember(id, memberDto);
     if (result.kind === "ok") {
       const memberUpdatedInfo = memberMapper.fromDto(result.result_dto);
-      dispatch(getUsersAsync());
       const reduxStore = store.getState();
       const currentUser = reduxStore.auth.user;
       if (reduxStore.auth.user.memberId === id) {

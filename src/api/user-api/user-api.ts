@@ -1,5 +1,6 @@
 import { ProfileDto, UserDto } from "@/features/types";
 import { ChangePasswordDto } from "@/features/types/dtos/change-password.dto";
+import { UserFilterParamsDto } from "@/features/types/dtos/filter-params/user-filter-param.dto";
 import { ComposeUrlService } from "@/utils/funcs/compose-url";
 
 import { http } from "../api-core";
@@ -16,9 +17,11 @@ const userUrls = {
 };
 
 export namespace UserApi {
-  export async function getUsers(): Promise<UserApiResponse.GetUsers> {
+  export async function getUsers(
+    params: UserFilterParamsDto | null
+  ): Promise<UserApiResponse.GetUsers> {
     const url = userUrls.getUsers;
-    const method = http.get<UserDto[]>(url);
+    const method = http.get<UserDto[]>(url, params);
     return composeHttpMethodResult(method);
   }
 
@@ -26,13 +29,15 @@ export namespace UserApi {
     profile: FormData
   ): Promise<UserApiResponse.UpdateProfile> {
     const url = userUrls.updateProfile;
-    return composeHttpMethodResult(http.patch<ProfileDto>(url, profile));
+    const method = http.patch<ProfileDto>(url, profile);
+    return composeHttpMethodResult(method);
   }
 
   export async function changePassword(
     body: ChangePasswordDto
   ): Promise<UserApiResponse.ChangePassword> {
     const url = userUrls.changePassword;
-    return composeHttpMethodResult(http.post<boolean>(url, body));
+    const method = http.post<boolean>(url, body);
+    return composeHttpMethodResult(method);
   }
 }

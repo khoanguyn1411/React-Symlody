@@ -19,6 +19,7 @@ import {
 } from "@/features/reducers";
 import { setTaskFilterParams } from "@/features/reducers/task-reducer";
 import { Department, Roles } from "@/features/types";
+import { UserTargetView } from "@/features/types/models/user-view";
 import { useModal } from "@/hooks";
 import { routePaths } from "@/routes";
 
@@ -102,12 +103,14 @@ export const TodoContainer: React.FC = () => {
       return;
     }
     if (!hasUser && hasDepartment) {
-      dispatch(getUsersAsync()).finally(() => setIsLoading(false));
+      dispatch(getUsersAsync({ target: UserTargetView.Task })).finally(() =>
+        setIsLoading(false)
+      );
       return;
     }
     Promise.all([
       dispatch(getDepartmentAsync()),
-      dispatch(getUsersAsync()),
+      dispatch(getUsersAsync({ target: UserTargetView.Task })),
     ]).finally(() => setIsLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
