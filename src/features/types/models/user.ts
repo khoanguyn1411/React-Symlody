@@ -2,7 +2,6 @@ import { StrictOmit } from "@/utils/types";
 
 import { AuthAccount } from "./auth-account";
 import { Department } from "./department";
-import { IsRole } from "./is-role";
 
 export interface User extends StrictOmit<AuthAccount, "groups"> {
   id: number;
@@ -10,7 +9,7 @@ export interface User extends StrictOmit<AuthAccount, "groups"> {
   avatarUrl: string | null;
 }
 
-export interface UserShort extends AuthAccount, IsRole {
+export interface UserShort extends AuthAccount {
   avatarUrl: string | null;
   id: number;
 }

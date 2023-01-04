@@ -22,31 +22,32 @@ export class AuthAccountMapper
     IMapperToCreationDto<AuthAccountCreationDto, AuthAccount>
 {
   public fromDto(dto: AuthAccountDto): AuthAccount {
-    return {
+    return new AuthAccount({
       ...nameMapper.fromDto(dto),
       email: dto.email,
       groups: dto.groups.map((item: GroupDto) => groupMapper.fromDto(item)),
-    };
+    });
   }
 
   public fromInheritance<T extends AuthAccount>(
     model: T
   ): StrictOmit<AuthAccount, "groups"> {
-    return {
+    return new AuthAccount({
       email: model.email,
       firstName: model.firstName,
       lastName: model.lastName,
-      fullName: model.fullName,
-    };
+      groups: [],
+    });
   }
 
   public fromDtoWithOutGroups(
     dto: StrictOmit<AuthAccountDto, "groups">
   ): StrictOmit<AuthAccount, "groups"> {
-    return {
-      email: dto.email,
+    return new AuthAccount({
       ...nameMapper.fromDto(dto),
-    };
+      email: dto.email,
+      groups: [],
+    });
   }
 
   public toCreationDto(model: AuthAccountCreation): AuthAccountCreationDto {

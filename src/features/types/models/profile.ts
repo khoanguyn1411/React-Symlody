@@ -1,9 +1,8 @@
 import { AuthAccount, AuthAccountCreation } from "./auth-account";
 import { Department } from "./department";
 import { Gender } from "./gender";
-import { IsRole } from "./is-role";
 import { Organization } from "./organization";
-export interface Profile extends AuthAccount, IsRole {
+export interface Profile extends AuthAccount {
   id: number;
   gender: Gender;
   phoneNumber: string;

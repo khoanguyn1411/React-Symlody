@@ -6,7 +6,6 @@ import { HttpError, Member, Profile, ProfileCreation } from "../models";
 import { authAccountMapper } from "./auth-account.mapper";
 import { dateMapper } from "./base-mappers/date.mapper";
 import { genderMapper } from "./base-mappers/gender.mapper";
-import { isRoleMapper } from "./base-mappers/is-role.mapper";
 import {
   IMapperFromDto,
   IMapperToCreationDto,
@@ -37,7 +36,6 @@ export class ProfileMapper
       organization: organizationMapper.fromDto(dto.organization),
       gender: genderMapper.fromDto(dto.gender),
       department: departmentMapper.fromDto(dto.department),
-      isRole: isRoleMapper.fromGroupModel(authAccountModel.groups),
     };
   }
 
@@ -93,7 +91,6 @@ export class ProfileMapper
       department: model.department,
       organization: currentUser.organization,
       memberId: model.id,
-      isRole: isRoleMapper.fromGroupModel(model.authAccount.groups),
     };
   }
   public toCreationDto(model: ProfileCreation): ProfileCreationDto {

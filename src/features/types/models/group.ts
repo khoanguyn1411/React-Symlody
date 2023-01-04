@@ -23,6 +23,13 @@ export enum RolesManagerSortName {
   PropertyManager = "Tài sản",
 }
 
+export const MANAGER_ROLES = [
+  Roles.EventManager,
+  Roles.MemberManager,
+  Roles.NotificationManager,
+  Roles.PropertyManager,
+];
+
 export interface Group {
   id: number;
   name: Roles;
