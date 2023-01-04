@@ -91,7 +91,6 @@ export class ProfileMapper
       department: model.department,
       organization: currentUser.organization,
       memberId: model.id,
-      isRole: authAccountModel.isRole,
     };
   }
   public toCreationDto(model: ProfileCreation): ProfileCreationDto {
