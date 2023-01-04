@@ -60,7 +60,7 @@ export const FormItems: React.FC<TProps> = ({ formProps, mode }) => {
   }, [getValues().type]);
 
   useEffect(() => {
-    dispatch(getUsersAsync(null));
+    dispatch(getUsersAsync({ target: null }));
     mode === "edit" && setValue("userId", getValues().userId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

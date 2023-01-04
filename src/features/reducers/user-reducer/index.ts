@@ -37,7 +37,7 @@ export const getUsersAsync = createAsyncThunk<
   UserFilterParams | null,
   ReduxThunk.RejectValue<[]>
 >("user/get-list", async (params, { rejectWithValue }) => {
-  const paramDto = params ? userFilterParamsMapper.toDto(params) : null;
+  const paramDto = userFilterParamsMapper.toDto(params);
   const result = await UserApi.getUsers(paramDto);
   if (result.kind === "ok") {
     return result.result_dto.map((item) => userMapper.fromDto(item));

@@ -14,7 +14,7 @@ export class UserFilterParamsMapper
 {
   public toDto(data: UserFilterParams): UserFilterParamsDto {
     return {
-      target: USER_VIEW_TO_DTO[data.target],
+      target: data.target === null ? undefined : USER_VIEW_TO_DTO[data.target],
     };
   }
 }
