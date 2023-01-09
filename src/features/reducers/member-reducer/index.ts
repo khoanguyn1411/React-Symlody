@@ -16,6 +16,7 @@ import {
 } from "@/features/types/models";
 import { MemberFilterParams } from "@/features/types/models/filter-params";
 import { ErrorHandler } from "@/utils/funcs/error-handler";
+import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 import { ReduxThunk } from "@/utils/types";
 
 import { updateCurrentUser } from "../auth-reducer";
@@ -42,13 +43,10 @@ export const createMemberAsync = createAsyncThunk<
 >("member/create", async (payload, { rejectWithValue }) => {
   const memberDto = memberMapper.toCreationDto(payload);
   const result = await MemberApi.createMember(memberDto);
-  if (result.kind === "ok") {
-    return memberMapper.fromDto(result.result_dto);
-  }
-  return ErrorHandler.catchErrors({
+  return validateSimpleRequestResult({
     rejectWithValue,
-    mapper: memberMapper,
     result,
+    mapper: memberMapper,
   });
 });
 
