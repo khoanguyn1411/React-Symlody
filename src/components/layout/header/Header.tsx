@@ -1,14 +1,20 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import classNames from "classnames";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Modal } from "@/components/elements";
-import { useAppSelector } from "@/features";
+import { useAppDispatch, useAppSelector } from "@/features";
+import { sendQuestionAsync } from "@/features/reducers/help-desk-reducer";
+import { HelpDesk } from "@/features/types";
 import { useModal } from "@/hooks";
 import { Media } from "@/provider/MediaContextProvider";
+import { FormService } from "@/utils/funcs/form-service";
 
 import { SidebarMobile } from "../sidebar";
-import { QuestionForm } from "./header-forms/QuestionForm";
+import { HelpDeskForm } from "./help-desk/HelpDeskForm";
+import { HELP_DESK_MESSAGE } from "./help-desk/message";
+import { schema } from "./help-desk/schema";
 import { UserDropdown } from "./UserDropdown";
 
 type TProps = {
@@ -19,9 +25,18 @@ type TProps = {
 
 export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
   const authStore = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   const { organization } = useAppSelector((state) => state.config);
   const questionModalProps = useModal();
-  const questionModalForm = useForm();
+  const questionModalForm = useForm<HelpDesk>({
+    shouldUnregister: true,
+    resolver: yupResolver(schema),
+  });
+  const {
+    handleSubmit,
+    setError,
+    formState: { isSubmitting, isDirty },
+  } = questionModalForm;
 
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const toggleSidebar = () => {
@@ -30,6 +45,20 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
 
   const handleOpenQuestionModal = () => {
     questionModalProps.toggle.setShow();
+  };
+
+  const handleSendQuestion = async (data: HelpDesk) => {
+    const response = await dispatch(sendQuestionAsync(data));
+    FormService.validateResponse({
+      asyncThunk: sendQuestionAsync,
+      response,
+      successMessage: HELP_DESK_MESSAGE.success,
+      errorMessage: HELP_DESK_MESSAGE.failed,
+      onSuccess: () => {
+        questionModalProps.toggle.setHidden();
+      },
+      setError,
+    });
   };
 
   return (
@@ -75,17 +104,15 @@ export const Header: React.FC<TProps> = ({ isCompactSidebar, pageKey }) => {
       </header>
       <Modal
         handleEvent={{
-          title: "",
-          isLoading: false,
-          isDisable: false,
-          event: function (): void {
-            throw new Error("Function not implemented.");
-          },
+          title: "Gửi góp ý",
+          isLoading: isSubmitting,
+          isDisable: !isDirty,
+          event: handleSubmit(handleSendQuestion),
         }}
-        title={""}
+        title={"Hộp thư nhận góp ý"}
         {...questionModalProps}
       >
-        <QuestionForm />
+        <HelpDeskForm formProps={questionModalForm} />
       </Modal>
     </>
   );

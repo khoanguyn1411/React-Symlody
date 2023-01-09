@@ -1,5 +1,5 @@
-import { AppResponseDto } from "@/features/types";
+import { AppResponseDto, HelpDeskDto } from "@/features/types";
 
 export namespace HelpDeskResponse {
-  export type PostQuestion = AppResponseDto<boolean>;
+  export type PostQuestion = AppResponseDto<boolean, HelpDeskDto>;
 }
