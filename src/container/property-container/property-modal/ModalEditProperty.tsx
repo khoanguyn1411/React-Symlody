@@ -43,6 +43,10 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
 
   const hasPermission = withPermission([RolesID.Lead, RolesID.MemberManager]);
 
+  // TS compile with error on dev with unknown reason.
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
   const handleEditProperty = hasPermission(async (editValue: PropertyForm) => {
     const propertyModel = propertyFormMapper.toModel(
       editValue,

@@ -12,6 +12,7 @@ import authReducer from "./reducers/auth-reducer";
 import commonReducer from "./reducers/common-reducer";
 import configReducer from "./reducers/config-reducer";
 import departmentReducer from "./reducers/department-reducer";
+import helpDeskReducer from "./reducers/help-desk-reducer";
 import memberReducer from "./reducers/member-reducer";
 import propertyReducer from "./reducers/property-reducer";
 import taskReducer from "./reducers/task-reducer";
@@ -26,6 +27,7 @@ const reducers = {
   task: taskReducer,
   config: configReducer,
   common: commonReducer,
+  helpDesk: helpDeskReducer,
 };
 
 const rootReducer = combineReducers(reducers);

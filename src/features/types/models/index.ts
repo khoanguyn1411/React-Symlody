@@ -5,6 +5,7 @@ export * from "./error-response";
 export * from "./file-uploaded";
 export * from "./gender";
 export * from "./group";
+export * from "./help-desk";
 export * from "./http-error";
 export * from "./is-role";
 export * from "./login";

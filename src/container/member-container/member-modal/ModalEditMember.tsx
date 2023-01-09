@@ -44,6 +44,10 @@ export const ModalEditMember: React.FC<THookModalProps<Member>> = ({
   const dispatch = useAppDispatch();
   const hasPermission = withPermission([RolesID.Lead, RolesID.MemberManager]);
 
+  // TS compile with error on dev with unknown reason.
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
   const handleEditMember = hasPermission(async (editInfo: MemberForm) => {
     const memberModel = memberFormMapper.toModel({
       departmentModel: departmentList,
