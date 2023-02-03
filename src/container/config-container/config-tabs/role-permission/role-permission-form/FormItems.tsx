@@ -34,7 +34,6 @@ export const FormItems: React.FC<TProps> = ({ formProps, mode }) => {
   } = formProps;
   const [type, setType] = useState<string>("");
   const userList = useAppSelector(userSelectors.selectAll);
-  const userCount = useAppSelector(userSelectors.selectTotal);
   const currentUser = useAppSelector((state) => state.auth.user);
   const managerList = useAppSelector(configSelectors.selectAll);
   const dispatch = useAppDispatch();
@@ -61,9 +60,7 @@ export const FormItems: React.FC<TProps> = ({ formProps, mode }) => {
   }, [getValues().type]);
 
   useEffect(() => {
-    if (userCount === 0) {
-      dispatch(getUsersAsync());
-    }
+    dispatch(getUsersAsync({ target: null }));
     mode === "edit" && setValue("userId", getValues().userId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

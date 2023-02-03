@@ -10,6 +10,7 @@ import {
   userSelectors,
 } from "@/features/reducers";
 import { Property, RolesID } from "@/features/types";
+import { UserTargetView } from "@/features/types/models/user-view";
 import { withPermission } from "@/hoc";
 import { THookModalProps } from "@/hooks";
 import { FormService } from "@/utils/funcs/form-service";
@@ -26,7 +27,6 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
   toggle,
 }) => {
   const dispatch = useAppDispatch();
-  const userCount = useAppSelector(userSelectors.selectTotal);
   const userStore = useAppSelector((state) => state.user);
   const userIds = useAppSelector(userSelectors.selectIds);
 
@@ -68,10 +68,10 @@ export const ModalEditProperty: React.FC<THookModalProps<Property>> = ({
   });
 
   useEffect(() => {
-    if (isShowing && userCount === 0) {
-      dispatch(getUsersAsync());
+    if (isShowing) {
+      dispatch(getUsersAsync({ target: UserTargetView.Property }));
     }
-  }, [dispatch, isShowing, userCount]);
+  }, [dispatch, isShowing]);
 
   useEffect(() => {
     if (!data) {

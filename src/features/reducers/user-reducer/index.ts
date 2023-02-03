@@ -12,7 +12,9 @@ import {
   userMapper,
 } from "@/features/types";
 import { changePasswordMapper } from "@/features/types/mappers/change-password.mapper";
+import { userFilterParamsMapper } from "@/features/types/mappers/filter-params-mappers/user-filter-params.mapper";
 import { ChangePassword } from "@/features/types/models/change-password";
+import { UserFilterParams } from "@/features/types/models/filter-params/user-filter-param";
 import { ErrorHandler } from "@/utils/funcs/error-handler";
 import { validateSimpleRequestResult } from "@/utils/funcs/validate-simple-request-result";
 import { ReduxThunk, StrictOmit } from "@/utils/types";
@@ -32,10 +34,11 @@ export const removeUser = createAsyncThunk(
 
 export const getUsersAsync = createAsyncThunk<
   User[],
-  null,
+  UserFilterParams | null,
   ReduxThunk.RejectValue<[]>
->("user/get-list", async (_, { rejectWithValue }) => {
-  const result = await UserApi.getUsers();
+>("user/get-list", async (params, { rejectWithValue }) => {
+  const paramDto = userFilterParamsMapper.toDto(params);
+  const result = await UserApi.getUsers(paramDto);
   if (result.kind === "ok") {
     return result.result_dto.map((item) => userMapper.fromDto(item));
   }
@@ -50,7 +53,6 @@ export const updateProfileAsync = createAsyncThunk<
   const paramDto = profileMapper.toFormData(param);
   const result = await UserApi.updateProfile(paramDto);
   if (result.kind === "ok") {
-    dispatch(getUsersAsync());
     const profileModel = profileMapper.fromDto(result.result_dto);
     dispatch(updateCurrentUser(profileModel));
     return profileModel;

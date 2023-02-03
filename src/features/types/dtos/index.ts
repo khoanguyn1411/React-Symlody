@@ -6,6 +6,7 @@ export * from "./event.dto";
 export * from "./file-uploaded.dto";
 export * from "./gender.dto";
 export * from "./group.dto";
+export * from "./help-desk.dto";
 export * from "./http-error.dto";
 export * from "./login.dto";
 export * from "./member.dto";

@@ -4,8 +4,9 @@ import { useForm } from "react-hook-form";
 
 import { Loading, ModalMultipleTabs, ModalTab } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/features";
-import { getUsersAsync, userSelectors } from "@/features/reducers";
+import { getUsersAsync } from "@/features/reducers";
 import { createPropertyAsync } from "@/features/reducers/property-reducer";
+import { UserTargetView } from "@/features/types/models/user-view";
 import { THookModalProps } from "@/hooks";
 import { FormService } from "@/utils/funcs/form-service";
 
@@ -51,13 +52,10 @@ const TabCreateAProperty: React.FC = () => {
     formState: { isSubmitting },
   } = propsForm;
   const dispatch = useAppDispatch();
-  const userCount = useAppSelector(userSelectors.selectTotal);
   const userStore = useAppSelector((state) => state.user);
   useEffect(() => {
-    if (userCount === 0) {
-      dispatch(getUsersAsync());
-    }
-  }, [dispatch, userCount]);
+    dispatch(getUsersAsync({ target: UserTargetView.Property }));
+  }, [dispatch]);
 
   const handleCreateAProperty = async (propertyData: PropertyForm) => {
     const propertyModel = propertyFormMapper.toModel(propertyData);
